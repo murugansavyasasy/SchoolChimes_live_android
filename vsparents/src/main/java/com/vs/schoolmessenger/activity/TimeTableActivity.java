@@ -1,0 +1,247 @@
+package com.vs.schoolmessenger.activity;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.adapter.TimeTableClassAdapter;
+import com.vs.schoolmessenger.adapter.TimeTableDayAdapter;
+import com.vs.schoolmessenger.assignment.PrincipalAssignmentList;
+import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
+import com.vs.schoolmessenger.interfaces.TimeTableDayListener;
+import com.vs.schoolmessenger.model.DayClass;
+import com.vs.schoolmessenger.model.KnowledgeEnhancementModel;
+import com.vs.schoolmessenger.model.TimeTableClass;
+import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_SharedPreference;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class TimeTableActivity extends AppCompatActivity {
+
+    public ArrayList<TimeTableClass> classList = new ArrayList<>();
+    public ArrayList<DayClass> DayList = new ArrayList<>();
+    RecyclerView recycleviewDay, recyclerClass;
+    TimeTableClassAdapter timeTableclassAdapter;
+    TimeTableDayAdapter dayAdapter;
+
+    String DayID;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_parent_timetable);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Time table");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
+
+        ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        DayMethod();
+
+        recycleviewDay = (RecyclerView) findViewById(R.id.recycleViewDay);
+        recyclerClass = (RecyclerView) findViewById(R.id.rcyclass);
+
+        dayAdapter = new TimeTableDayAdapter(this, DayList, new TimeTableDayListener() {
+
+            @Override
+            public void onDayClick(Integer position,DayClass item) {
+
+                Log.d("DayIDtestActivitty", item.getId());
+                DayID=item.getId();
+
+                getTimeTableApi();
+
+                timeTableclassAdapter = new TimeTableClassAdapter(TimeTableActivity.this, classList);
+                recyclerClass.setAdapter(timeTableclassAdapter);
+                recyclerClass.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                recyclerClass.setNestedScrollingEnabled(false);
+                recyclerClass.setHasFixedSize(true);
+                recyclerClass.setItemAnimator(new DefaultItemAnimator());
+                timeTableclassAdapter.notifyDataSetChanged();
+
+
+            }
+        });
+        recycleviewDay.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+        recycleviewDay.setHasFixedSize(true);
+        recycleviewDay.setItemAnimator(new DefaultItemAnimator());
+        recycleviewDay.setAdapter(dayAdapter);
+
+    }
+
+    private void DayMethod() {
+
+        DayClass day = new DayClass("Mon", "1");
+        DayList.add(day);
+
+        day = new DayClass("Tue", "2");
+        DayList.add(day);
+
+        day = new DayClass("Wed", "3");
+        DayList.add(day);
+
+        day = new DayClass("Thurs", "4");
+        DayList.add(day);
+
+        day = new DayClass("Fri", "5");
+        DayList.add(day);
+
+        day = new DayClass("Sat", "6");
+        DayList.add(day);
+        day = new DayClass("Sun", "7");
+        DayList.add(day);
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        getTimeTableApi();
+
+    }
+
+
+    private void getTimeTableApi() {
+
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
+        Log.d("isNewVersionn",isNewVersionn);
+        if (isNewVersionn.equals("1")) {
+
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+
+        }
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
+        if (!this.isFinishing())
+            mProgressDialog.show();
+
+        String strChildID = Util_SharedPreference.getChildIdFromSP(this);
+        String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(this);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("SchoolId", strSchoolID);
+        jsonObject.addProperty("ChildId", strChildID);
+        jsonObject.addProperty("DayId", DayID);
+
+        Log.d("TimeTableRequest", jsonObject.toString());
+
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        Call<JsonObject> call = apiService.GetTimetable(jsonObject);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+
+                Log.d("Timetable:Code", response.code() + " - " + response.toString());
+                if (response.code() == 200 || response.code() == 201)
+                    Log.d("Timetable:Res", response.body().toString());
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    int status = jsonObject.getInt("Status");
+                    String message = jsonObject.getString("Message");
+
+                    if (status==1) {
+                        classList.clear();
+                        JSONArray data = jsonObject.getJSONArray("data");
+                        if(data.length()!= 0) {
+                            TimeTableClass timetabledata;
+                            for (int i = 0; i < data.length(); i++) {
+                                jsonObject = data.getJSONObject(i);
+
+                                timetabledata = new TimeTableClass(jsonObject.getString("name"),
+                                        jsonObject.getString("fromTime"),
+                                        jsonObject.getString("toTime"),
+                                        jsonObject.getString("duration"),
+                                        jsonObject.getString("hourType"),
+                                        jsonObject.getString("subjectName"),
+                                        jsonObject.getString("staffName")
+                                );
+                                classList.add(timetabledata);
+                            }
+                            timeTableclassAdapter.notifyDataSetChanged();
+                        }
+                        else{
+                            timeTableclassAdapter.notifyDataSetChanged();
+
+                            //alert("No TimeTable Assigned");
+                            alert(message);
+
+                        }
+                    } else {
+                        alert(message);
+                    }
+
+                } catch (Exception e) {
+                    Log.e("TextMsg:Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+                showToast(getResources().getString(R.string.check_internet));
+                Log.d("Knowledge:Failure", t.toString());
+            }
+        });
+    }
+
+    private void alert(String message) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(TimeTableActivity.this);
+        alertDialog.setTitle(R.string.alert);
+        alertDialog.setMessage(message);
+        alertDialog.setCancelable(false);
+        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+
+    }
+}

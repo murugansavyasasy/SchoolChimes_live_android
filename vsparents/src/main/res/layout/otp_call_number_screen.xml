@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:background="@drawable/teacher_img_app_bg"
+    tools:context=".activity.TeacherSignInScreen"
+    tools:ignore="MissingPrefix">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/lblNoteMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OTP has been sent to your registered mobile number."
+            android:textStyle="normal"
+            android:textColor="@color/clr_black"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="15dp"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_your_otp"
+            android:textSize="20dp"
+            android:textColor="@color/clr_chimes_blue"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtOtp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rect_chimes_stroke"
+            android:inputType="number"
+            android:paddingLeft="5dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/btnResendOTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/teacher_colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:textStyle="normal"
+                android:textSize="15dp"
+                android:text="@string/resend_otp" />
+
+
+            <Button
+                android:id="@+id/btnSubmitOtp"
+                style="@style/btn_chimes_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Verify OTP" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/lblNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="If you did not get OTP through SMS..Please call any of the below numbers to get OTP"
+            android:layout_gravity="center"
+            android:textStyle="normal"
+            android:textColor="@color/clr_black"
+            android:layout_marginTop="20dp"
+            android:textSize="15dp"></TextView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleNumbers"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+
+
+    </LinearLayout>
+</RelativeLayout>
