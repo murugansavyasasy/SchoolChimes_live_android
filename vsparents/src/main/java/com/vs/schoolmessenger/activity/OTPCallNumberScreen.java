@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +28,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.OTP.AppSignatureHelper;
+import com.vs.schoolmessenger.OTP.SmsBroadcastReceiver;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.ForgetPaswordDialinNumbers;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -51,7 +60,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobile
  * Created by voicesnap on 4/26/2018.
  */
 
-public class OTPCallNumberScreen extends AppCompatActivity {
+public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadcastReceiver.OTPReceiveListener {
     Button btnSubmitOtp;
     EditText txtOtp;
     TextView btnResendOTP,lblNote;
@@ -66,6 +75,9 @@ public class OTPCallNumberScreen extends AppCompatActivity {
     String forgot="";
 
     RecyclerView recycleNumbers;
+    Button btnBackToLogin;
+
+    SmsBroadcastReceiver mSmsBroadcastReceiver;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -78,6 +90,11 @@ public class OTPCallNumberScreen extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.otp_call_number_screen);
+
+        AppSignatureHelper appSignatureHashHelper = new AppSignatureHelper(this);
+        // This code requires one time to get Hash keys do comment and share key
+        Log.d("HashKey: ", appSignatureHashHelper.getAppSignatures().get(0));
+        startSMSListener();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -94,18 +111,14 @@ public class OTPCallNumberScreen extends AppCompatActivity {
 
         if(forgot.equals("forget")){
             TeacherUtil_SharedPreference.putForgetPasswordOTP(OTPCallNumberScreen.this, "1");
-
         }
         else {
             TeacherUtil_SharedPreference.putForgetPasswordOTP(OTPCallNumberScreen.this, "0");
-
         }
 
         if(!DialNumbers.equals("")) {
             final Dialog dialog = new Dialog(OTPCallNumberScreen.this);
-
             String[] separated = DialNumbers.split(",");
-
             ForgetPaswordDialinNumbers mAdapter = new ForgetPaswordDialinNumbers(Arrays.asList(separated), OTPCallNumberScreen.this, dialog );
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             recycleNumbers.setLayoutManager(mLayoutManager);
@@ -121,6 +134,16 @@ public class OTPCallNumberScreen extends AppCompatActivity {
         otp_Timer=TeacherUtil_SharedPreference.getOTpTimer(OTPCallNumberScreen.this);
         otpHandler(otp_Timer);
 
+        btnBackToLogin = (Button) findViewById(R.id.btnBackToLogin);
+
+        btnBackToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stophandler();
+                Intent intent = new Intent(OTPCallNumberScreen.this, TeacherSignInScreen.class);
+                startActivity(intent);
+            }
+        });
 
         btnSubmitOtp = (Button) findViewById(R.id.btnSubmitOtp);
         btnResendOTP = (TextView) findViewById(R.id.btnResendOTP);
@@ -137,8 +160,6 @@ public class OTPCallNumberScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TeacherUtil_SharedPreference.putOTPNum(OTPCallNumberScreen.this, "");
-
-
                     if (!txtOtp.getText().toString().equals("")) {
                         verifyOTP();
 
@@ -146,37 +167,64 @@ public class OTPCallNumberScreen extends AppCompatActivity {
                         String msg = getResources().getString(R.string.enter_your_otp);
                         showAlert(msg);
                     }
-
-
-
-
             }
         });
+    }
+
+    private void startSMSListener() {
+        try {
+            mSmsBroadcastReceiver = new SmsBroadcastReceiver();
+            mSmsBroadcastReceiver.setOTPListener(this);
+
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(SmsRetriever.SMS_RETRIEVED_ACTION);
+            registerReceiver(mSmsBroadcastReceiver, intentFilter);
+
+            SmsRetrieverClient client = SmsRetriever.getClient(this);
+
+            Task<Void> task = client.startSmsRetriever();
+            task.addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                }
+            });
+
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+
+
+        } catch (Exception e) {
+            Log.d("Exception", e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        if (mSmsBroadcastReceiver != null) {
+//            unregisterReceiver(mSmsBroadcastReceiver);
+//        }
     }
 
 
     @Override
     public void onResume() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("otp"));
         super.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-    }
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equalsIgnoreCase("otp")) {
 
-                final String message = intent.getStringExtra("message");
-                Log.d("OTPMessage",message);
-                txtOtp.setText(message);
-            }
+        if (mSmsBroadcastReceiver != null) {
+            unregisterReceiver(mSmsBroadcastReceiver);
         }
-    };
+    }
+
 
     private void otpHandler(final String otp_timer) {
         handler = new Handler();
@@ -205,6 +253,7 @@ public class OTPCallNumberScreen extends AppCompatActivity {
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("MobileNumber",mobilenumber);
         jsonObject.addProperty("CountryID",CountryID);
+        Log.d("Req",jsonObject.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         // Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePassword(mobilenumber);
@@ -296,6 +345,8 @@ public class OTPCallNumberScreen extends AppCompatActivity {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("OTP", otp);
         jsonObject.addProperty("MobileNumber", number);
+        Log.d("Req",jsonObject.toString());
+
         Call<JsonArray> call = apiService.ValidateOTP(jsonObject);
 
         call.enqueue(new Callback<JsonArray>() {
@@ -476,4 +527,25 @@ public class OTPCallNumberScreen extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onOTPReceived(String otp) {
+        Log.d("OTP Received",otp);
+        txtOtp.setText("");
+        txtOtp.setText(otp);
+        if (mSmsBroadcastReceiver != null) {
+            unregisterReceiver(mSmsBroadcastReceiver);
+            mSmsBroadcastReceiver = null;
+        }
+        verifyOTP();
+    }
+
+    @Override
+    public void onOTPTimeOut() {
+
+    }
+
+    @Override
+    public void onOTPReceivedError(String error) {
+
+    }
 }

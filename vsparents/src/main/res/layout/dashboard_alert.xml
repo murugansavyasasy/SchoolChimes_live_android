@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/bpTransparent_black"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/lblWarning"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/warning"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textColor="@color/clr_yellow"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Info"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:visibility="visible"
+            android:gravity="left"
+            android:textColor="@color/clr_chimes_blue"/>
+
+        <TextView
+            android:id="@+id/lblHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:layout_marginTop="3dp"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:visibility="visible"
+            android:gravity="left"
+            android:textColor="@color/clr_black"/>
+
+        <Button
+            android:id="@+id/btnAgree"
+            android:layout_width="80dp"
+            style="@style/btn_chimes_login"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:padding="5dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+</RelativeLayout>

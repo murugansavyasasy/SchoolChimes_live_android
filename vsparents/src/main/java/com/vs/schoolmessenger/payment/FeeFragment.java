@@ -95,10 +95,10 @@ public class FeeFragment extends Fragment {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 Log.d("CallbackURl", url);
-                if (url.contains("https://vs8.voicesnapforschools.com/#/paymentsucccess/success")) {
+                if (url.contains("/#/paymentsucccess/success")) {
                     showAlert("Payment Done!!", "Your payment has been done successfully..Thank You");
                 }
-                else if(url.contains("https://vs8.voicesnapforschools.com/#/paymentsucccess/failed")){
+                else if(url.contains("/#/paymentsucccess/failed")){
                     showAlert("Payment failed..", "Please try again later!!");
 
                 }
