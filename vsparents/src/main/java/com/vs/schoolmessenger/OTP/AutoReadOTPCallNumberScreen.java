@@ -123,9 +123,9 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
         setContentView(R.layout.otp_call_number_screen);
 
 
-        AppSignatureHelper appSignatureHashHelper = new AppSignatureHelper(this);
-        // This code requires one time to get Hash keys do comment and share key
-        Log.d("HashKey: ", appSignatureHashHelper.getAppSignatures().get(0));
+//        AppSignatureHelper appSignatureHashHelper = new AppSignatureHelper(this);
+//        // This code requires one time to get Hash keys do comment and share key
+//        Log.d("HashKey: ", appSignatureHashHelper.getAppSignatures().get(0));
 
 
 

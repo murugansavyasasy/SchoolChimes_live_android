@@ -2,7 +2,6 @@ package com.vs.schoolmessenger.activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,15 +10,12 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -35,7 +31,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.vs.schoolmessenger.OTP.AppSignatureHelper;
 import com.vs.schoolmessenger.OTP.SmsBroadcastReceiver;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.ForgetPaswordDialinNumbers;
@@ -52,7 +47,6 @@ import java.util.Arrays;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobileNum;
 
@@ -91,9 +85,10 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.otp_call_number_screen);
 
-        AppSignatureHelper appSignatureHashHelper = new AppSignatureHelper(this);
-        // This code requires one time to get Hash keys do comment and share key
-        Log.d("HashKey: ", appSignatureHashHelper.getAppSignatures().get(0));
+//        AppSignatureHelper appSignatureHashHelper = new AppSignatureHelper(this);
+//        // This code requires one time to get Hash keys do comment and share key
+//        Log.d("HashKey: ", appSignatureHashHelper.getAppSignatures().get(0));
+
         startSMSListener();
 
         Bundle extras = getIntent().getExtras();
