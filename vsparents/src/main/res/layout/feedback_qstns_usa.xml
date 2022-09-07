@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/teacher_img_app_bg"
+    android:layout_height="match_parent">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/lblQuestion1"
+            android:layout_marginLeft="10dp"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/feed_Back_Details"
+            android:textStyle="normal"
+            android:text="@string/_1_question_1"
+            />
+            <RadioGroup
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+                android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/radioLessThanMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RadioButton1"
+
+            />
+        <RadioButton
+            android:id="@+id/radioMonths"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RadioButton2"
+
+            />
+
+        <RadioButton
+            android:id="@+id/radioyears"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RadioButton2"
+
+            />
+        <RadioButton
+            android:id="@+id/radiogreatethan3years"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RadioButton2"
+            />
+    </RadioGroup>
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblQuestion2"
+                android:layout_marginLeft="10dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/feed_Back_Details"
+                android:textStyle="normal"
+                android:text="@string/_1_question_2"
+                />
+
+
+            <RadioGroup
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <RadioButton
+                    android:id="@+id/radioEveryDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton1"
+
+                    />
+                <RadioButton
+
+                    android:id="@+id/radioOnceweek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/radio2or3times"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+                <RadioButton
+                    android:id="@+id/radioOneceMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioOnNeedBasis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+                    />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblQuestion3"
+                android:layout_marginLeft="10dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                style="@style/feed_Back_Details"
+                android:textStyle="normal"
+                android:text="@string/_1_question_3"
+                />
+
+
+            <RadioGroup
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <RadioButton
+                    android:id="@+id/radioVoiceMostLiked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton1"
+
+                    />
+                <RadioButton
+                    android:id="@+id/radioVoiceLiked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioVoiceNuatral"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+                <RadioButton
+                    android:id="@+id/radioVoiceNeedImprove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+                    />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblQuestion4"
+                style="@style/feed_Back_Details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/_1_question_4"
+                android:textSize="20sp"
+                android:textStyle="normal" />
+
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/smsMostLiked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton1"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/smsLiked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/smsNuatral"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/smsNeedImprove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2" />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblQuestion5"
+                android:layout_marginLeft="10dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/_1_question_5"
+                style="@style/feed_Back_Details"
+                android:textStyle="normal"
+                />
+
+
+            <RadioGroup
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <RadioButton
+                    android:id="@+id/MobileMostLiked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton1"
+
+                    />
+                <RadioButton
+                    android:id="@+id/MobileLiked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/MobileNeutral"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+                <RadioButton
+                    android:id="@+id/MobileImprove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+                    />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblQuestion6"
+                android:layout_marginLeft="10dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/_1_question_6"
+                style="@style/feed_Back_Details"
+                android:textStyle="normal"
+                />
+
+
+            <RadioGroup
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <RadioButton
+                    android:id="@+id/ThroughAC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton1"
+
+                    />
+                <RadioButton
+                    android:id="@+id/ThroughEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/ThroughSupport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+                <RadioButton
+                    android:id="@+id/others"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+                    />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblQuestion7"
+                android:layout_marginLeft="10dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                style="@style/feed_Back_Details"
+                android:textStyle="normal"
+                android:text="@string/_1_question_7"
+                />
+
+
+            <RadioGroup
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <RadioButton
+                    android:id="@+id/Exellent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton1"
+
+                    />
+                <RadioButton
+                    android:id="@+id/VeryGood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/Good"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+                <RadioButton
+                    android:id="@+id/NotGood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+                    />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblQuestion8"
+                android:layout_marginLeft="10dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                style="@style/feed_Back_Details"
+                android:textStyle="normal"
+                android:text="@string/_1_question_8"
+                />
+
+
+            <RadioGroup
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <RadioButton
+                    android:id="@+id/Quality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton1"
+
+                    />
+                <RadioButton
+                    android:id="@+id/Price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/FirstUse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+                <RadioButton
+                    android:id="@+id/Usability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+                    />
+                <RadioButton
+                    android:id="@+id/CustomerService"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+                    />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblQuestion9"
+                style="@style/feed_Back_Details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+
+                android:text="@string/_1_question_9"
+                android:textSize="20sp"
+                android:textStyle="normal" />
+
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/Quality9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton1"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/Price9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/FirstUse9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/Usability9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2" />
+
+                <RadioButton
+                    android:id="@+id/CustomerService9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2" />
+
+                <RadioButton
+                    android:id="@+id/Nill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton2" />
+            </RadioGroup>
+        </LinearLayout>
+<TextView
+    android:layout_marginTop="10dp"
+    android:layout_width="wrap_content"
+    android:text="@string/other_comments"
+    style="@style/feed_Back_Details"
+    android:textSize="20sp"
+    android:textStyle="normal"
+    android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:id="@+id/othercomments"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_stroke_grey"
+            android:layout_height="wrap_content" />
+        <Button
+
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/btnSubmit"
+            android:layout_marginBottom="10dp"
+            style="@style/Teacher_btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback_submit"/>
+
+    </LinearLayout>
+
+
+</ScrollView>
+
+
+
+
+
+
+
+</LinearLayout>

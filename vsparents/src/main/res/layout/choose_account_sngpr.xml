@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_black_trans_50"
+    android:padding="25dp">
+
+    <LinearLayout
+      android:id="@+id/popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/clr_white"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="30dp"
+            android:textColor="@color/bpblack"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="Choose your account"/>
+
+
+        <TextView
+            android:id="@+id/txtTeacherAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Teacher "
+            android:textColor="@color/bpblack"
+            android:textSize="20dp" />
+
+
+
+        <TextView
+            android:id="@+id/txtParentAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Parent "
+            android:textColor="@color/bpblack"
+            android:textSize="20dp" />
+
+        <!--<RadioGroup-->
+            <!--android:id="@+id/radioGroup1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_centerVertical="true" >-->
+
+            <!--<RadioButton-->
+                <!--android:id="@+id/txtTeacherAccount"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:checked="true"-->
+                <!--android:textSize="20dp"-->
+                <!--android:text="Teacher" />-->
+
+            <!--<RadioButton-->
+                <!--android:id="@+id/txtParentAccount"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:textSize="20dp"-->
+                <!--android:text="Parent" />-->
+
+        <!--</RadioGroup>-->
+
+    </LinearLayout>
+    </RelativeLayout>

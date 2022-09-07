@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/actBarDate_ivBack"
+        android:layout_width="wrap_content"
+        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="7dp"
+        app:srcCompat="@drawable/ic_arrow_back" />
+    <TextView
+        android:id="@+id/actBar_acTitle"
+        style="@style/Teacher_actionbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/actBarDate_ivBack"
+        android:text=""
+        android:layout_toRightOf="@+id/actBarDate_ivBack" />
+
+    <TextView
+        android:id="@+id/actBar_acSubTitle"
+        style="@style/Teacher_actionbar_subtitle"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/actBar_acTitle"
+        android:layout_alignBottom="@+id/actBar_acTitle"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/actBar_acTitle"
+        android:layout_toRightOf="@+id/actBar_acTitle"
+        android:text="" />
+
+
+
+
+    <ImageView
+        android:id="@+id/imgVoiceSnap"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:layout_toRightOf="@+id/actBar_acSubTitle"
+        android:layout_toEndOf="@+id/actBar_acSubTitle"
+        android:layout_centerVertical="true"
+        android:src="@drawable/teacher_ic_voice_snap"/>
+
+</RelativeLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/teacher_clr_white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/princiSchool_tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/princiSchool_ivRight"
+        android:layout_toStartOf="@+id/princiSchool_ivRight"
+        android:textColor="@color/teacher_clr_black"
+        android:textSize="14sp"
+        tools:text="Voicesnap public school" />
+
+    <ImageView
+        android:id="@+id/princiSchool_ivRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/teacher_btn_ok"
+        app:srcCompat="@drawable/teacher_ic_right" />
+
+</RelativeLayout>
+
+
+    <!--android:button="@drawable/teacher_bg_checkbox1"-->

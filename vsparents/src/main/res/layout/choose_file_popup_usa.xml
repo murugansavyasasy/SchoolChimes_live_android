@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teacher_clr_black_trans_80">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/popupRemove_tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/teacher_colorPrimaryDark"
+            android:gravity="center"
+            android:padding="7dp"
+            android:text="@string/choose"
+            android:textColor="@color/teacher_clr_white"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/teacher_clr_grey_light" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teacher_clr_white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblChooseGallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/choose_image"
+                android:textColor="@color/clr_black1"
+                android:textSize="20dp"
+                android:textStyle="normal" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/clr_grey">
+
+            </View>
+
+            <LinearLayout
+                android:id="@+id/lnrGalleryOrCamera"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:padding="15dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/imgGallery"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/f_gallery"
+                        />
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/imgGallery"
+                        android:id="@+id/lblGallery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/from_gallery"
+                        android:textColor="@color/clr_black1"
+                        android:textSize="20dp"
+                        android:textStyle="normal" />
+
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/bpWhite">
+                </View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:padding="15dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/imgCamera"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/camera"
+                        />
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/imgCamera"
+                        android:id="@+id/lblCamera"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/from_camera"
+                        android:textColor="@color/clr_black1"
+                        android:textSize="20dp"
+                        android:textStyle="normal" />
+
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/clr_grey">
+
+                </View>
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/lblChoosePdfFile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/choose_pdf"
+                android:textColor="@color/clr_black1"
+                android:textSize="20dp"
+                android:textStyle="normal" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

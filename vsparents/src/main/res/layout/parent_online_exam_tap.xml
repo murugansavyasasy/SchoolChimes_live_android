@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/img_app_bg"
+    tools:context="com.vs.schoolmessenger.activity.EventsTapScreen">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/clr_white"
+        app:tabIndicatorColor="@color/clr_white"
+        app:tabTextColor="@color/clr_white"
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        app:tabMode="fixed" />
+    <FrameLayout
+        android:layout_below="@+id/tabs"
+        android:layout_above="@+id/lnrBottom"
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</RelativeLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/teacher_clr_card_grey"
+    android:orientation="vertical">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/clr_black_trans_80"/>
+    <RelativeLayout
+        android:id="@+id/rytExamSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/lblSubject"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_centerVertical="true"
+            android:background="@color/teacher_clr_card_grey"
+            android:ems="10"
+            android:hint="@string/enter_subject_name"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/SelectedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sub_date"
+            android:onClick="onDate"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:textSize="14dp"
+            />
+
+        <!--<ImageView-->
+            <!--android:id="@+id/imgSelectDate"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:onClick="onDelete"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:src="@drawable/library_image"-->
+            <!--android:layout_height="30dp" />-->
+
+    </RelativeLayout>
+
+
+</LinearLayout>

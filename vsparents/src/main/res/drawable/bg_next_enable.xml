@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+    <shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid
+        android:color="#281A6C" />
+
+    <size
+        android:width="150dp"
+        android:height="150dp"/>
+
+
+
+<!--        <bitmap android:src="ic_arrow_back" android:gravity="center">-->
+
+<!--        </bitmap>-->
+    </shape>
+    </item>
+    <item android:drawable="@drawable/rotate_arrow">
+
+    </item>
+</layer-list>

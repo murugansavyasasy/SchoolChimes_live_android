@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_height="wrap_content">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_height="40dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/lblSno"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/clr_black"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textStyle="normal"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:text="S.No"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/lblFeeName"-->
+            <!--android:textStyle="normal"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+          <!--android:layout_toRightOf="@+id/lblSno"-->
+            <!--android:textSize="16sp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="60dp"-->
+            <!--android:textColor="@color/clr_black"-->
+            <!--android:text="FeeName"/>-->
+
+
+
+        <!--<TextView-->
+            <!--android:id="@+id/lblPaidAmount"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/clr_black"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:textStyle="normal"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:textSize="16sp"-->
+            <!--android:text="8000"/>-->
+    <!--</RelativeLayout>-->
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:id="@+id/lblSno"
+                 android:layout_width="70dp"
+                android:gravity="center"
+                android:background="@drawable/table_back"
+                android:text="Row 2 column"
+                android:textStyle="normal"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/lblFeeName"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_back"
+                android:gravity="center"
+                android:textStyle="normal"
+                android:text="Row 2 column 2"
+                android:textColor="#000000" />
+
+
+
+            <TextView
+                android:id="@+id/lblPaidAmount"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_back"
+                android:gravity="center"
+                android:textStyle="normal"
+                android:text="Row 2 column 3"
+                android:textColor="#000000" />
+
+
+        </TableRow>
+
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/clr_grey"-->
+            <!--/>-->
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <group android:enabled="true">
+        <item
+            android:id="@+id/bm_monitor"
+            android:enabled="true"
+            android:icon="@drawable/ic_visibility_off_24dp"
+            android:title="help"
+            app:showAsAction="always" />
+
+        <!--
+        <item
+            android:id="@+id/bm_contacts"
+            android:enabled="true"
+            android:icon="@drawable/ic_bm_contacts"
+            android:title="@string/bm_txt_contacts"
+            app:showAsAction="always" />
+            -->
+
+        <item
+            android:id="@+id/bm_calls"
+            android:enabled="true"
+            android:icon="@drawable/ic_visibility_off_24dp"
+            android:title="feedback"
+            app:showAsAction="always" />
+
+
+        <item
+            android:id="@+id/bm_settings"
+            android:enabled="true"
+            android:icon="@drawable/ic_visibility_off_24dp"
+            android:title="more"
+            app:showAsAction="always" >
+
+        <menu>
+
+
+            <item
+                android:id="@+id/menu_homeChangePassword"
+                android:icon="@drawable/teacher_menu_change_password"
+                android:title="@string/teacher_txt_menu_change_password" />
+
+            <item
+                android:id="@+id/menu_homeLogout"
+                android:icon="@drawable/teacher_menu_logout"
+                android:title="@string/teacher_txt_menu_logout" />
+        </menu>
+        </item>
+
+    </group>
+</menu>
+
+    <!--
+         app:actionLayout="@layout/menu_call_action_layout"
+         android:icon="@drawable/ic_bm_calls"
+      tools:ignore="MenuTitle"-->

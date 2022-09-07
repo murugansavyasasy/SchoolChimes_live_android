@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+   <RelativeLayout
+       android:background="@drawable/bg_layout_grey"
+       android:padding="10dp"
+       android:id="@+id/rytParentHeader"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/ivCategory"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:visibility="visible"/>
+
+
+
+
+            <TextView
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/ivCategory"
+                android:layout_toLeftOf="@id/cbMainCategory"
+                android:id="@+id/tvMainCategoryName"
+                android:layout_width="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:text="Term 1"
+                android:textSize="15dp"
+                android:textColor="@color/bpBlue"/>
+
+
+
+
+            <CheckBox
+                android:layout_alignParentRight="true"
+                android:id="@+id/cbMainCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:scaleX="0.80"
+                android:scaleY="0.80"
+                android:focusable="false"
+                android:layout_centerVertical="true"
+                android:button="@drawable/custom_checkbox_theme" />
+
+
+   </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_black"
+    android:orientation="vertical"
+    tools:context=".assignment.AssignmentActivity">
+    <ImageView
+        android:id="@+id/imgBack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_arrow_back" />
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/assignTablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabTextColor="@color/clr_white"
+        app:tabSelectedTextColor="@color/clr_black"
+        app:tabIndicatorColor="@color/teacher_clr_btn_login"
+        app:tabPaddingStart="0dp"
+        app:tabPaddingEnd="0dp"
+        app:tabPaddingTop="0dp"
+        app:tabPaddingBottom="0dp"
+        android:layout_margin="3dp"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        android:background="@drawable/img_app_bg"
+       />
+    <LinearLayout
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
+        android:orientation="vertical"
+        />
+
+
+</LinearLayout>

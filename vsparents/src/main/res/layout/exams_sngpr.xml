@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/rytExams"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/exam_list_bg"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/Exam_Name"
+            android:textColor="@color/clr_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            android:layout_alignParentLeft="true"
+            android:text="@string/exam_names"/>
+
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_centerVertical="true"
+            android:layout_width="30dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_right"
+            android:layout_height="30dp" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

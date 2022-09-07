@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/teacher_bg_stroke_window_grey"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/cardDates_ivDate"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/teacher_ic_date" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/widget_margin_small"
+                android:layout_marginStart="@dimen/widget_margin_small"
+                android:layout_toEndOf="@+id/cardDates_ivDate"
+                android:layout_toLeftOf="@+id/linearLayout2"
+                android:layout_toRightOf="@+id/cardDates_ivDate"
+                android:layout_toStartOf="@+id/linearLayout2"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/widget_margin_small">
+
+                <TextView
+                    android:id="@+id/cardDates_tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="24 Jan 2017" />
+
+                <TextView
+                    android:id="@+id/cardDates_tvDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/teacher_clr_grey"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="Monday" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/widget_margin_small"
+                android:layout_marginStart="@dimen/widget_margin_small"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/widget_margin_small"
+                android:visibility="gone">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/teacher_bg_solid_primary"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/cardDates_tvTotUnreadMsgCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:text="10"
+                            android:textColor="@color/teacher_clr_white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/cardDates_tv1"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="end|top"
+                        android:background="@drawable/teacher_shape_oval_blue" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/teacher_clr_window_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:gravity="center"
+
+
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <LinearLayout
+            android:id="@+id/cardDates_llVoiceMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/widget_margin_small">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/teacher_bg_stroke_black"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/cardDates_ivVoice"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/teacher_ic_voice_snap" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/cardDates_tvUnreadVoiceMsgCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top"
+                    android:background="@drawable/teacher_shape_oval_red"
+                    android:gravity="center"
+                    android:minWidth="25dp"
+                    android:textColor="@color/teacher_clr_white"
+                    android:textSize="12sp"
+                    tools:text="1" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/cardDates_tvTotVoiceMsgCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="@string/voice_1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cardDates_llTextMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="0dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/widget_margin_small">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/teacher_bg_stroke_black"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/cardDates_ivText"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/teacher_ic_text" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/cardDates_tvUnreadTextMsgCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top"
+                    android:background="@drawable/teacher_shape_oval_red"
+                    android:gravity="center"
+                    android:minWidth="25dp"
+                    android:textColor="@color/teacher_clr_white"
+                    android:textSize="12sp"
+                    tools:text="10" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/cardDates_tvTotTextMsgCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="@string/text_1" />
+
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/cardDates_llImageMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:clickable="true"
+            android:visibility="visible"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/widget_margin_small">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/teacher_bg_stroke_black"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/cardDates_ivImage"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/teacher_ic_image" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/cardDates_tvUnreadImageMsgCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top"
+                    android:background="@drawable/teacher_shape_oval_red"
+                    android:gravity="center"
+                    android:minWidth="25dp"
+                    android:textColor="@color/teacher_clr_white"
+                    android:textSize="12sp"
+                    tools:text="10" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/cardDates_tvTotImageMsgCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="@string/image_1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cardDates_llPDFMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:visibility="visible"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/widget_margin_small">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/teacher_bg_stroke_black"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/cardDates_ivPDF"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/teacher_ic_atten" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/cardDates_tvUnreadPDFMsgCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top"
+                    android:background="@drawable/teacher_shape_oval_red"
+                    android:gravity="center"
+                    android:minWidth="25dp"
+                    android:textColor="@color/teacher_clr_white"
+                    android:textSize="12sp"
+                    tools:text="10" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/cardDates_tvTotPDFMsgCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="@string/pdf_1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

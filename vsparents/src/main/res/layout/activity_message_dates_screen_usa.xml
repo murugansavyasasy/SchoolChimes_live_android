@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@drawable/img_app_bg"
+    tools:context=".activity_USA.MessageDatesScreen_USA">
+
+    <LinearLayout
+        android:padding="15dp"
+        android:id="@+id/dates_llHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/bg_primary_stroke_top" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_white_stroke_grey"
+            android:padding="5dp">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/dates_nivThumbnailSchoolImg"
+                android:layout_width="@dimen/network_image_size_small"
+                android:layout_height="@dimen/network_image_size_small"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/widget_margin_small"
+                android:layout_marginStart="@dimen/widget_margin_small"
+                android:layout_toEndOf="@+id/dates_nivThumbnailSchoolImg"
+                android:layout_toLeftOf="@+id/linearLayout2"
+                android:layout_toRightOf="@+id/dates_nivThumbnailSchoolImg"
+                android:layout_toStartOf="@+id/linearLayout2"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="@dimen/widget_margin_small">
+
+                <TextView
+                    android:id="@+id/dates_tvSchoolName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/xxxxx"
+                    android:textColor="@color/clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dates_tvSchoolAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    tools:text="@string/yyyyy"
+                    android:textColor="@color/clr_grey"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/widget_margin_small"
+                android:layout_marginStart="@dimen/widget_margin_small"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/widget_margin_small">
+
+                <!--<TextView-->
+                <!--android:id="@+id/dates_tvMsgCount"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/oval_bg"-->
+                <!--android:padding="@dimen/widget_margin_medium"-->
+                <!--android:text="10"-->
+                <!--android:textColor="@color/clr_black" />-->
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_solid_primary"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/dates_tvMsgCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            tools:text="1"
+                            android:textColor="@color/clr_white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="end|top"
+                        android:background="@drawable/shape_oval_blue" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="@string/unread_n_messages"
+                    android:textColor="@color/clr_black"
+                    android:textSize="8sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:padding="15dp"
+        android:id="@+id/dates_rvChildList"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/lnrBottom"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/dates_llHeader"
+        android:layout_marginTop="1dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+
+    <LinearLayout
+        android:id="@+id/lnrBottom"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rytHome"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgHome"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/home_image" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgHome"
+                android:layout_centerHorizontal="true"
+                android:text="@string/home"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/rytLanguage"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgChangeLanguage1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="7dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/language_parent" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgChangeLanguage1"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txt_language"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgPassword"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="7dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/lock" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgPassword"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txt_password"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgHelppp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/help_parent" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgHelppp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/faq"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgLogout"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/logou_img" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgLogout"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txt_menu_logout"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.BaseActivity">
+    <item
+        android:id="@+id/menu_homeOption"
+        android:icon="@drawable/teacher_ic_more_vert"
+        android:title="action_notification"
+      android:visible="false"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menu_homeHelp"
+                android:icon="@drawable/teacher_menu_help"
+                android:title="@string/teacher_txt_menu_help" />
+
+            <item
+                android:id="@+id/menu_homeChangePassword"
+                android:icon="@drawable/teacher_menu_change_password"
+                android:title="@string/teacher_txt_menu_change_password" />
+
+            <item
+                android:id="@+id/menu_language_change"
+                android:icon="@drawable/translation"
+                android:title="@string/language_change" />
+
+            <item
+                android:id="@+id/menu_homeLogout"
+                android:icon="@drawable/teacher_menu_logout"
+                android:title="@string/teacher_txt_menu_logout" />
+        </menu>
+    </item>
+</menu>

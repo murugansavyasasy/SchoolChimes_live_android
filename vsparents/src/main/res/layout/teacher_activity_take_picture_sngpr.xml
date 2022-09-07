@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/voicePopup_rlToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/imagePopup_ToolBarIvBack"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/teacher_ic_close" />
+
+                <TextView
+                    android:id="@+id/voicePopup_ToolBarTvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/teacher_clr_white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:text="@string/name_pdf" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+
+                <RelativeLayout
+                    android:id="@+id/mgtText_rlHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="@color/teacher_clr_white"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/Image_view"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/teacher_ic_image" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/widget_margin_small"
+                        android:layout_marginStart="@dimen/widget_margin_small"
+                        android:layout_toEndOf="@+id/Image_view"
+                        android:layout_toRightOf="@+id/Image_view"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/widget_margin_small">
+
+                        <TextView
+                            android:id="@+id/cardImage_tvDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/teacher_txt_sendimg"
+                            android:textColor="@color/teacher_clr_black"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="Send Image" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/cardImage_tvTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="right"
+                        android:padding="3dp"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="14sp"
+                        tools:text="11.30 AM" />
+
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/teacher_clr_white_fifty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/teacher_click"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:id="@+id/cardImage_ivImage"
+                        android:layout_width="350dp"
+                        android:layout_height="250dp"
+                        android:layout_gravity="center"
+                        android:minHeight="200dp"
+                        android:minWidth="300dp" />
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/cardImage_tvchangeimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/teacher_btn_change"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/teacher_txt_chgimg"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="CHANGE IMAE" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/Image_btnnext"
+                style="@style/Teacher_btn_green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:enabled="false"
+                android:text="@string/teacher_txt_next" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:text="@string/teacher_school_msg"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Chimes " />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView3"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/textView3"
+            android:gravity="bottom"
+            android:text="@string/teacher_for_schools"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="10sp"
+            android:textStyle="bold"
+             />
+
+    </RelativeLayout>
+</RelativeLayout>

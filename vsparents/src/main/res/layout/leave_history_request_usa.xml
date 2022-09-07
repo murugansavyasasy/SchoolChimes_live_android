@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lnrParent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical">
+
+    <!--<android.support.v7.widget.CardView-->
+    <!--android:id="@+id/cv_productItems"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="center"-->
+    <!--app:cardBackgroundColor="@color/clr_card_grey"-->
+    <!--android:elevation="5dp"-->
+    <!--card_view:cardCornerRadius="5dp">-->
+    <!--</android.support.v7.widget.CardView>-->
+
+
+    <RelativeLayout
+        android:id="@+id/rytLayout"
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_layout_with_shadow">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/cardProfile_tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/child_name"
+                    android:textColor="@color/clr_grey"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lblName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  Prabaharan"
+                    android:textColor="@color/clr_black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/widget_margin_medium"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cardProfile_tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/child_class"
+                        android:layout_gravity="center"
+                        android:textColor="@color/clr_grey"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/lblStandard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="  VII"
+                            android:layout_gravity="center"
+                            android:textColor="@color/clr_black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/cardProfile_tv7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/widget_margin_small"
+                            android:layout_marginLeft="@dimen/widget_margin_small"
+                            android:text="-"
+                            android:textColor="@color/clr_black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/lblSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/widget_margin_small"
+                            android:layout_marginLeft="@dimen/widget_margin_small"
+                            android:text="B"
+                            android:layout_gravity="center"
+                            android:textColor="@color/clr_black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cardProfile_tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/appliedon"
+                        android:textColor="@color/clr_grey"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/lblAppliedOn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  80001"
+                        android:textColor="@color/clr_black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cardProfile_tv4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/leave_from_date"
+                        android:textColor="@color/clr_grey"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/lblFromDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  80001"
+                        android:textColor="@color/clr_black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cardProfile_tv5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/leave_to_date"
+                        android:textColor="@color/clr_grey"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/lblToDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  80001"
+                        android:textColor="@color/clr_black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/linearLayout3"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/linearLayout3">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_right" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_margin="1dp"
+            android:background="@drawable/bg_white_stroke_grey"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:id="@+id/lnrImages"
+                android:layout_width="50dp"
+                android:orientation="vertical"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgAprovalStatus"
+                    android:layout_width="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/green_tick"
+                    android:layout_height="25dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/lnrImages"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/clr_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/leave_reason"/>
+                <TextView
+                    android:id="@+id/lblReason"
+                    android:layout_width="wrap_content"
+                    android:text="jhcjcxjjhvjgvgjjh"
+                    android:maxLines="1"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+
+
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

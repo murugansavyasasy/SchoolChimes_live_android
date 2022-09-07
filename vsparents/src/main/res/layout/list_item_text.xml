@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/clr_white"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/cardText_ivDate"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_text" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_margin_small"
+            android:layout_marginStart="@dimen/widget_margin_small"
+            android:layout_toEndOf="@+id/cardText_ivDate"
+            android:layout_toRightOf="@+id/cardText_ivDate"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/widget_margin_small">
+
+            <TextView
+                android:id="@+id/cardText_tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/clr_black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="@string/tamil" />
+
+            <TextView
+                android:id="@+id/cardText_tvNew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_unread_red"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@string/txt_new"
+                android:textColor="@color/clr_white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!--<TextView-->
+        <!--android:id="@+id/cardText_tvTime"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:gravity="right"-->
+        <!--android:padding="3dp"-->
+        <!--android:textColor="@color/clr_black"-->
+        <!--android:textSize="14sp"-->
+        <!--tools:text="11.30 AM" />-->
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cardText_tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="3dp"
+                android:textColor="@color/clr_black"
+                android:textSize="10sp"
+                tools:text="20 Jan 2018" />
+
+            <TextView
+                android:id="@+id/cardText_tvTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="3dp"
+                android:textColor="@color/clr_black"
+                android:textSize="10sp"
+                tools:text="11.30 AM" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_description_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="@color/clr_black"
+        android:visibility="gone"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:background="@color/bpLine_background"
+        android:text="Description" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/clr_card_grey"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_toLeftOf="@+id/imageView1"
+            android:id="@+id/cardText_tvShortMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:padding="3dp"
+            android:text="@string/sample_txt_msg"
+            android:textColor="@color/clr_black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_right" />
+
+    </RelativeLayout>
+
+</LinearLayout>

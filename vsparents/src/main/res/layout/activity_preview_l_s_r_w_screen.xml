@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_app_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rytActionbar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/txtType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/imgBack"
+            android:text=""
+            android:textColor="@color/clr_white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rytTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:layout_below="@+id/rytActionbar"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Title"
+            android:textColor="@color/clr_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtText"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/txt"
+            android:text=":"
+            android:textColor="@color/clr_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt"
+            android:padding="2dp"
+            android:layout_marginLeft="@dimen/_3sdp"
+            android:text=""
+            android:textColor="@color/clr_black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rytVoiceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rytTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/color_grey"
+        android:padding="0dp"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/imgplaypause"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/teacher_ic_play" />
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/imgplaypause"-->
+        <!--            android:layout_width="40dp"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:layout_alignParentLeft="true"-->
+        <!--            android:layout_alignParentStart="true"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:padding="15dp"-->
+        <!--            android:src="@drawable/play_btn" />-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myplayerseekber"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/txtfromduration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/clr_black"
+                android:textSize="10sp"
+                tools:text="00:00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" / "
+                android:textColor="@color/teacher_clr_grey"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txttoduration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/teacher_clr_grey"
+                android:textSize="10sp"
+                android:visibility="gone"
+                tools:text="02:10" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/myplayerseekber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imgplaypause"
+            android:layout_toRightOf="@+id/imgplaypause"
+            android:indeterminate="false"
+            android:theme="@style/Widget.AppCompat.SeekBar" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rytTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_below="@+id/rytTitle"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/txtmsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/clr_card_grey"
+            android:padding="7dp"
+            android:text="You only live once, but if you do it right, once is enough."
+            android:textColor="@color/clr_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rytPdfLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:layout_below="@+id/rytTitle"
+        android:layout_above="@+id/btnNext"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/txt_description"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/clr_card_grey"
+            android:padding="5dp"
+            android:text="Description"
+            android:textColor="@color/clr_black"
+            android:visibility="gone" />
+
+        <WebView
+            android:id="@+id/pdfwebview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/txt_description"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rytImageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rytTitle"
+        android:layout_above="@+id/btnNext"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/imagePopup_tvdescrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:textColor="@color/clr_black"
+            android:background="@color/bpLine_background"
+            android:text="Description" />
+        <ImageView
+            android:id="@+id/imagePopup_ivImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
+            android:scaleType="fitCenter" />
+
+        <com.jsibbold.zoomage.ZoomageView
+            android:id="@+id/imgZoom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_voice_snap"
+            app:zoomage_restrictBounds="false"
+            app:zoomage_animateOnReset="true"
+            app:zoomage_autoResetMode="UNDER"
+            app:zoomage_autoCenter="true"
+            app:zoomage_zoomable="true"
+            app:zoomage_translatable="true"
+            app:zoomage_minScale="0.6"
+            app:zoomage_maxScale="8"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rytVideoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rytTitle"
+        android:layout_above="@+id/btnNext"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone">
+        <WebView
+            android:id="@+id/videoWebView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/clr_black"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        style="@style/btn_login"
+        android:text="next"
+        android:textColor="@color/clr_white"
+        android:textSize="16sp" />
+
+</RelativeLayout>

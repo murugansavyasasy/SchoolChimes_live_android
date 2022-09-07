@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_app_bg"
+    tools:context="com.vs.schoolmessenger.activity_SINGAPORE.StudentLibraryDetails_SNGPR">
+
+<LinearLayout
+    android:layout_above="@+id/lnrBottom"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+
+        android:id="@+id/lnrParent"
+        android:visibility="gone"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_layout_grey"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/lblText"
+                android:layout_width="80sp"
+                android:text="@string/standard"
+                android:textSize="17dp"
+                android:textStyle="normal"
+                android:textColor="@color/clr_grey"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/lblStandard"
+                android:layout_toRightOf="@+id/lblText"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:text="| "
+                android:textStyle="normal"
+                android:textColor="@color/clr_black"
+                android:layout_centerVertical="true"
+                android:textSize="16sp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/clr_grey"></View>
+
+        <RelativeLayout
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/lblText1"
+                android:layout_width="80sp"
+                android:text="@string/section"
+                android:textSize="17dp"
+                android:textStyle="normal"
+                android:textColor="@color/clr_grey"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/lblSection"
+                android:layout_toRightOf="@+id/lblText1"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:text=": 5621456"
+                android:textStyle="normal"
+                android:textColor="@color/clr_black"
+                android:layout_centerVertical="true"
+                android:textSize="16sp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/clr_grey"></View>
+
+        <RelativeLayout
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/lblText2"
+                android:layout_width="80sp"
+                android:text="@string/class_teacher"
+                android:textSize="17dp"
+                android:textStyle="normal"
+                android:textColor="@color/clr_grey"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/lblClassTeacher"
+                android:layout_toRightOf="@+id/lblText2"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:text=": 5621456"
+                android:textStyle="normal"
+                android:textColor="@color/clr_black"
+                android:layout_centerVertical="true"
+                android:textSize="16sp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/library_student_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrBottom"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rytHome"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgHome"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/home_image" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgHome"
+                android:layout_centerHorizontal="true"
+                android:text="@string/home"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/rytLanguage"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgChangeLanguage1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="7dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/language_parent" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgChangeLanguage1"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txt_language"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgPassword"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="7dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/lock" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgPassword"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txt_password"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgHelppp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/help_parent" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgHelppp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/faq"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgLogout"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/logou_img" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgLogout"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txt_menu_logout"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

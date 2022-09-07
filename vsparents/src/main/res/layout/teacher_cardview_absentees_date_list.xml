@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/linearLayout3"
+    android:layout_marginBottom="10dp"
+    android:background="@color/teacher_clr_white"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/cardAbsen_ll1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/cardAbsen_ll2"
+        android:layout_toStartOf="@+id/cardAbsen_ll2"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="@dimen/widget_margin_small">
+
+        <TextView
+            android:id="@+id/cardAbsen_tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/teacher_clr_black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="05 06 1990" />
+
+        <TextView
+            android:id="@+id/cardAbsen_tvDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Friday" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cardAbsen_ll2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:layout_toLeftOf="@+id/cardAbsen_fl1"
+        android:layout_toStartOf="@+id/cardAbsen_fl1"
+        android:background="@drawable/teacher_bg_solid_primary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/widget_margin_small">
+
+        <TextView
+            android:id="@+id/cardAbsen_tvCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/teacher_clr_white"
+            android:textSize="12sp"
+            tools:text="10" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/cardAbsen_fl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/cardAbsen_ivRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/teacher_btn_ok"
+            app:srcCompat="@drawable/teacher_ic_right" />
+    </FrameLayout>
+</RelativeLayout>

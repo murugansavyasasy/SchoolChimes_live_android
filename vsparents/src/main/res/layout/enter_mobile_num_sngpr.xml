@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/teacher_img_app_bg"
+    tools:context=".activity_SINGAPORE.TeacherSignInScreen_SNGPR"
+    tools:ignore="MissingPrefix">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/teacher_app_name"
+        app:srcCompat="@drawable/voicesnap_logo_trans" />
+
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/teacher_bg_stroke_primary"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <EditText
+                    android:id="@+id/enter_mobile"
+                    style="@style/Teacher_txt_edittext_16_bold"
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/teacher_clr_white"
+                    android:drawableLeft="@drawable/teacher_draw_mobile"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/teacher_draw_mobile"
+                    android:ems="10"
+                    android:hint="@string/teacher_hint_mobile"
+                    android:inputType="number"
+                    android:maxLength="10" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/Teacher_txt_12_bold_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/teacher_bg_solid_primary"
+                android:padding="5dp"
+                android:text="@string/teacher_txt_mobile" />
+
+        </FrameLayout>
+        <Button
+            android:id="@+id/btnNext"
+            style="@style/Teacher_btn_login"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:text="@string/btn_next" />
+
+
+
+    </LinearLayout>
+</RelativeLayout>

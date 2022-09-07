@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rytHeader">
+
+    <RelativeLayout
+        android:layout_toLeftOf="@+id/cbSubCategory"
+        android:id="@+id/rytParent"
+        android:layout_width="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_layout_grey"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/rytfeename">
+            <TextView
+                android:id="@+id/txtMonthName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Month Name"
+                android:layout_centerVertical="true"
+                android:textColor="@color/clr_black"
+                android:textSize="13dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="-"
+                android:textColor="@color/clr_black"
+                android:textSize="13dp"/>
+            <TextView
+                android:id="@+id/lblMonthName"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text=""
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="13dp"/>
+        </RelativeLayout>
+
+
+
+
+
+        <RelativeLayout
+            android:layout_below="@+id/rytfeename"
+            android:id="@+id/rytVisibleDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/lblDetails"
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:text="Details"></TextView>
+            <ImageView
+                android:id="@+id/imgHide"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/lblDetails"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/plus"></ImageView>
+        </RelativeLayout>
+
+<RelativeLayout
+    android:layout_below="@+id/rytVisibleDetails"
+    android:layout_width="match_parent"
+    android:visibility="gone"
+    android:layout_height="wrap_content"
+    android:id="@+id/rytDetails">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_margin="3dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:id="@+id/rytStatus">
+        <CheckBox
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Status"
+            android:textColor="@color/clr_black"
+            android:textSize="13dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="-"
+            android:textColor="@color/clr_black"
+            android:textSize="13dp"/>
+        <TextView
+            android:id="@+id/lblStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text=""
+            android:textColor="@color/clr_black"
+            android:textSize="13dp"/>
+    </RelativeLayout>
+
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_margin="3dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rytStatus"
+            android:id="@+id/rytDiscount">
+            <CheckBox
+                android:id="@+id/chdiscount"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/txtDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Discount"
+                android:textColor="@color/clr_black"
+                android:textSize="13dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="-"
+                android:textColor="@color/clr_black"
+                android:textSize="13dp"/>
+            <TextView
+                android:id="@+id/lblDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text=""
+                android:textColor="@color/clr_black"
+                android:textSize="13dp"/>
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_margin="3dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rytDiscount"
+        android:visibility="visible"
+        android:id="@+id/rytAmountToBePaid">
+        <TextView
+            android:id="@+id/txtAmountToBePaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="Amount to be paid"
+            android:textColor="@color/clr_black"
+            android:textSize="13dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="-"
+            android:textColor="@color/clr_black"
+            android:textSize="13dp"/>
+        <TextView
+            android:id="@+id/lblAmountTobePaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text=""
+            android:textColor="@color/clr_black"
+            android:textSize="13dp"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>
+    </RelativeLayout>
+
+    <CheckBox
+        android:layout_marginLeft="3dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/cbSubCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:scaleX="0.80"
+        android:scaleY="0.80"
+        android:focusable="false"
+        android:button="@drawable/custom_checkbox_theme" />
+    </RelativeLayout>
+</RelativeLayout>

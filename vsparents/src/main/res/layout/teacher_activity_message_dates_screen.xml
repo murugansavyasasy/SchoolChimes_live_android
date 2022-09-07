@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    android:background="@drawable/teacher_img_app_bg"
+    tools:context=".activity.TeacherMessageDatesScreen">
+
+    <RelativeLayout
+        android:layout_below="@+id/dates_llHeader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:padding="4dp"
+            android:layout_marginTop="35dp"
+            android:visibility="gone"
+            android:textSize="15dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/lblNoMessages"
+            android:textColor="@color/teacher_clr_red_red"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@id/lblNoMessages"
+            android:id="@+id/dates_rvChildList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="5dp" />
+
+        <TextView
+            android:layout_below="@+id/dates_rvChildList"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/btnSeeMore"
+            android:padding="5dp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:text="@string/SeeMore"
+            android:visibility="gone"
+            android:background="@drawable/bg_stroke_primary"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content"></TextView>
+
+    </RelativeLayout>
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/dates_rvChildList"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@+id/dates_llHeader"-->
+<!--        android:layout_marginTop="1dp" />-->
+
+
+
+</RelativeLayout>
+

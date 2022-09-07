@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "186275256449",
+    "firebase_url": "https://schoolmessengerforparents.firebaseio.com",
+    "project_id": "schoolmessengerforparents",
+    "storage_bucket": "schoolmessengerforparents.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186275256449:android:90e7a46b4348c3dd",
+        "android_client_info": {
+          "package_name": "com.vs.schoolmessenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186275256449-jcpe4o9fsipj81mnshlbhr6no7gbralm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vs.schoolmessenger",
+            "certificate_hash": "19c303a5d7dc69b10b475c133c0ab6ad4081811e"
+          }
+        },
+        {
+          "client_id": "186275256449-4nma0gavl09p51qrj7hnm8ndau39opbe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnaIS1sC3fzRmmFhIa54nkRayLI96RedE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186275256449-4nma0gavl09p51qrj7hnm8ndau39opbe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

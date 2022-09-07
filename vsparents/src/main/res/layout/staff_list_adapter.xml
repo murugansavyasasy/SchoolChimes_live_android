@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/clr_white"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblStaffName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textStyle="normal"
+            android:textColor="@color/clr_black"
+            android:layout_centerVertical="true"
+            android:text="mbncxmvnc"/>
+
+        <TextView
+            android:id="@+id/lblAuthorizedCaller"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/lblStaffName"
+            android:layout_marginLeft="2dp"
+            android:text="*"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:textColor="@color/teacher_colorPrimary"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/check_staff"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/clr_grey">
+
+    </View>
+</LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

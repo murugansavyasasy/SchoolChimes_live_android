@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/actBarDate_ivBack"
+        android:layout_width="wrap_content"
+        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="7dp"
+        app:srcCompat="@drawable/ic_arrow_back" />
+
+
+    <TextView
+        android:id="@+id/actBarDate_acTitle"
+        style="@style/actionbar_title"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/actBarDate_ivBack"
+        android:layout_toRightOf="@+id/actBarDate_ivBack" />
+
+    <TextView
+        android:id="@+id/actBarDate_acSubTitle"
+        style="@style/actionbar_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignBaseline="@+id/actBarDate_acTitle"
+        android:layout_alignBottom="@+id/actBarDate_acTitle"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/actBarDate_acTitle"
+        android:layout_toRightOf="@+id/actBarDate_acTitle"
+        android:text="@string/asdfsadfsd" />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imgHome"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:src="@drawable/home_image"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp" />-->
+
+
+</RelativeLayout>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--<android.support.v7.widget.CardView-->
+    <!--android:id="@+id/cv_productItems"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="center"-->
+    <!--app:cardBackgroundColor="@color/clr_card_grey"-->
+    <!--android:elevation="5dp"-->
+    <!--card_view:cardCornerRadius="5dp">-->
+    <!--</android.support.v7.widget.CardView>-->
+
+    <RelativeLayout
+        android:id="@+id/rytDetailsDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_layout_with_shadow">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/lblFee"
+                    android:layout_width="100sp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/fee_name"
+                    android:textColor="@color/clr_grey"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/lblFeeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5sp"
+                    android:layout_toRightOf="@+id/lblFee"
+                    android:text=": Computer fees"
+                    android:textColor="@color/clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rytTerm1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/lblterm1"
+                    android:layout_width="100sp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/term"
+                    android:textColor="@color/clr_grey"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                        android:id="@+id/lblTerm1"
+                        android:layout_marginLeft="5sp"
+                        android:layout_toRightOf="@+id/lblterm1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=": 2000"
+                        android:textColor="@color/clr_black"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/lbltermFrom"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="5sp"-->
+                        <!--android:layout_toRightOf="@+id/lblTerm1"-->
+                        <!--android:text=" zm, vcbjc xnbcbxc,  vbx"-->
+                        <!--android:textColor="@color/clr_black"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:textStyle="normal" />-->
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rytTerm2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/lblterm2"
+                    android:layout_width="100sp"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/term_2"
+                    android:textColor="@color/clr_grey"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/lblTerm2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="5sp"
+                    android:layout_toRightOf="@+id/lblterm2"
+                    android:text=": 2887"
+                    android:textColor="@color/clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <!--<TextView-->
+                    <!--android:id="@+id/lblterm2From"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+
+                    <!--android:layout_marginLeft="5sp"-->
+                    <!--android:layout_toRightOf="@+id/lblTerm2"-->
+                    <!--android:text=" From zx,cvb,mcxvbn,mcx,nbv,ckbn"-->
+                    <!--android:textColor="@color/clr_black"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textStyle="normal" />-->
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rytTerm3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/lblterm3"
+                    android:layout_width="100sp"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/term_3"
+                    android:textColor="@color/clr_grey"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/lblTerm3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="5sp"
+                    android:layout_toRightOf="@+id/lblterm3"
+                    android:text=": 200"
+                    android:textColor="@color/clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <!--<TextView-->
+                    <!--android:id="@+id/lblterm3From"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+
+                    <!--android:layout_marginLeft="5sp"-->
+                    <!--android:layout_toRightOf="@+id/lblTerm3"-->
+                    <!--android:text=" From"-->
+                    <!--android:textColor="@color/clr_black"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textStyle="normal" />-->
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rytTerm4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/lblterm4"
+                    android:layout_width="100sp"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/term_4"
+                    android:textColor="@color/clr_grey"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/lblTerm4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="5sp"
+                    android:layout_toRightOf="@+id/lblterm4"
+                    android:text=": 200"
+                    android:textColor="@color/clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <!--<TextView-->
+                    <!--android:id="@+id/lblterm4From"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+
+                    <!--android:layout_marginLeft="5sp"-->
+                    <!--android:layout_toRightOf="@+id/lblTerm4"-->
+                    <!--android:text=" From"-->
+                    <!--android:textColor="@color/clr_black"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textStyle="normal" />-->
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rytYearly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/lblYearlyName"
+                    android:layout_width="100sp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/yearly_fees"
+                    android:textColor="@color/clr_grey"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/lblYealyFees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5sp"
+                    android:layout_toRightOf="@+id/lblYearlyName"
+                    android:text=": 200"
+                    android:textColor="@color/clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rytTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/lbltotal"
+                    android:layout_width="100sp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/total"
+                    android:textColor="@color/clr_grey"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/lblTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5sp"
+                    android:layout_toRightOf="@+id/lbltotal"
+                    android:text=": 200"
+                    android:textColor="@color/clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+
+

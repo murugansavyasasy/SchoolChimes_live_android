@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    tools:context=".activity_USA.TeacherGeneralText_USA">
+
+    <RelativeLayout
+        android:id="@+id/genTextMsg_rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/genTextPopup_ToolBarIvBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:clickable="true"
+            app:srcCompat="@drawable/teacher_ic_close" />
+
+        <TextView
+            android:id="@+id/genTextPopup_ToolBarTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/teacher_clr_white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="@string/name_pdf" />
+    </RelativeLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/selectSpinner"
+        android:visibility="gone"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/genTextMsg_rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_white_primary_shadow"
+        android:layout_marginTop="5dp">
+
+        <RadioGroup
+            android:id="@+id/TextRadio"
+            android:visibility="visible"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioGeneralText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_new_msg" />
+
+            <RadioButton
+                android:layout_marginTop="3dp"
+                android:id="@+id/radioSmsHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_compose_history" />
+        </RadioGroup>
+
+
+        <Spinner
+            android:visibility="gone"
+            android:id="@+id/spinnerList"
+            android:spinnerMode="dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+    </LinearLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+
+        android:id="@+id/ComposeMessgeNested"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/genText_relativeLayoutFoot"
+        android:layout_below="@+id/selectSpinner"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:id="@+id/genText_composemsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/mgtGenText_rlHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/teacher_clr_white"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/genTextPopup_ivDate"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/teacher_ic_text" />
+
+                <TextView
+                    android:id="@+id/genTextPopup_tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/widget_margin_small"
+                    android:layout_marginLeft="@dimen/widget_margin_small"
+                    android:layout_toEndOf="@+id/genTextPopup_ivDate"
+                    android:layout_toRightOf="@+id/genTextPopup_ivDate"
+                    android:gravity="center_vertical"
+                    android:text="@string/teacher_txt_composemsg"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Compose Message" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/genText_txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@color/teacher_clr_card_grey"
+                android:ems="10"
+                android:hint="@string/teacher_txt_onwhat"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+
+            <!--<RelativeLayout-->
+            <!--android:id="@+id/rytExamSchedule"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:background="@color/teacher_clr_card_grey"-->
+            <!--android:layout_height="wrap_content">-->
+            <!--<EditText-->
+            <!--android:id="@+id/genText_txtTitle"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:background="@color/teacher_clr_card_grey"-->
+            <!--android:ems="10"-->
+            <!--android:hint="@string/teacher_txt_onwhat"-->
+            <!--android:inputType="text"-->
+            <!--android:maxLines="1"-->
+            <!--android:padding="10dp"-->
+            <!--android:textSize="14dp"-->
+            <!--android:textStyle="bold" />-->
+
+            <!--<ImageView-->
+            <!--android:id="@+id/imgAdd"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:onClick="onAddField"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:src="@drawable/add_circular_button"-->
+            <!--android:layout_height="30dp" />-->
+
+
+            <!--</RelativeLayout>-->
+
+
+            <!--<LinearLayout-->
+            <!--android:id="@+id/AddSubjectlayout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:background="@color/clr_white">-->
+            <!--</LinearLayout>-->
+
+
+            <RelativeLayout
+                android:id="@+id/Select_Exam_Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/teacher_clr_card_grey"
+                    android:ems="10"
+                    android:hint="@string/select_exam_date"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_arrow_down_grey" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/genText_txtmessage"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@color/teacher_clr_card_grey"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="@string/teacher_txt_typemsg"
+                android:inputType="textMultiLine"
+
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+
+                android:maxLines="15"
+                android:minLines="7"
+                android:padding="7dp"
+                android:textSize="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@color/teacher_clr_card_grey"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/genText_msgcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/genText_countslash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="/" />
+
+                <TextView
+                    android:id="@+id/genText_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="460"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/genText_rvSchoolsList"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/teacher_clr_window_bg" />
+
+            <Button
+                android:id="@+id/genText_btnmsg"
+                style="@style/Teacher_btn_green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:enabled="false"
+                android:text="@string/teacher_confirm" />
+
+            <Button
+                android:id="@+id/btnSelectSchool"
+                style="@style/Teacher_btn_login"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/teacher_select_school" />
+
+            <Button
+                android:id="@+id/genText_btnToSections"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/to_standard_sections" />
+
+            <Button
+                android:id="@+id/genText_btnToStudents"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/teacher_staff_to_students" />
+
+
+            <Button
+                android:id="@+id/btn_Select_School"
+                android:visibility="gone"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/teacher_select_school" />
+
+
+            <Button
+                android:id="@+id/btn_Select_receipients"
+                android:visibility="gone"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/select_reciepients" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/rytSmsHistory"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/genText_relativeLayoutFoot"
+        android:layout_below="@+id/selectSpinner"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_above="@+id/btn"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/SmsHistoryRecycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/teacher_clr_window_bg" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnHistorySlectReceipients"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+                style="@style/Teacher_btn_login"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:textColor="@color/bpWhite"
+                android:text="@string/select_reciepients"
+               />
+
+            <Button
+                android:id="@+id/btnSlectSchool"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Teacher_btn_login"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:textColor="@color/bpWhite"
+                android:text="@string/teacher_select_school"
+               >
+
+            </Button>
+
+            <Button
+                android:id="@+id/btnSmsHistoryStandard"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:text="@string/teacher_staff_to_sections" />
+
+            <Button
+                android:id="@+id/btnSmsHistorySectionOrStudents"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:text="@string/teacher_staff_to_students" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/genText_relativeLayoutFoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/genText_textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:text="@string/teacher_school_msg"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Chimes " />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/genText_textView3"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/genText_textView3"
+            android:gravity="bottom"
+            android:text="@string/teacher_for_schools"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/custom_alert_border">
+
+    <ImageView
+        android:id="@+id/imgClose"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        app:srcCompat="@drawable/ic_clear_search_holo_light">
+
+    </ImageView>
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblAmountToBePaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Amount to be Paid"
+            android:textStyle="bold"
+            android:textColor="@color/clr_black"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/lblAmountToBe"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/lblAmountToBePaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/clr_black"
+            android:textStyle="normal"
+            android:textSize="15dp"
+            android:text="200"></TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblConvenience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Online Charges"
+            android:textStyle="bold"
+            android:textColor="@color/clr_black"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/lblOtherChargeAmount"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/lblConvenience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/clr_black"
+            android:textSize="15dp"
+            android:textStyle="normal"
+            android:text="100"></TextView>
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/rytLateFee"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblLateFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Late Fee"
+            android:textStyle="bold"
+            android:textColor="@color/clr_black"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/lblLateFeeAmount"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/lblLateFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/clr_black"
+            android:textStyle="normal"
+            android:textSize="15dp"
+            android:text="200"></TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblTotalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Total"
+            android:textStyle="bold"
+            android:textColor="@color/clr_black"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/lblTotalAmount"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/lblTotalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/clr_black"
+            android:textStyle="normal"
+            android:textSize="15dp"
+            android:text="200"></TextView>
+
+    </RelativeLayout>
+
+
+    <TextView
+
+        android:background="@color/colorPrimary"
+        android:id="@+id/btnOk"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="Make Payment"
+        android:textColor="@color/bpWhite"
+        android:textSize="15dp" />
+
+</LinearLayout>

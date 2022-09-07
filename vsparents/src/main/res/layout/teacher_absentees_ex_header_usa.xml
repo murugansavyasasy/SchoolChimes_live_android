@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:background="@color/teacher_clr_white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/absExTitle_rlRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <TextView
+            android:id="@+id/absExTitle_tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/teacher_clr_white"
+            android:padding="10dp"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/teacher_clr_black" />
+
+
+        <TextView
+            android:id="@+id/absExTitle_tvCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/absExTitle_ivArrow"
+            android:background="@color/teacher_clr_green_50"
+            android:padding="10dp"
+            android:textColor="@color/teacher_clr_black" />
+
+        <ImageView
+            android:id="@+id/absExTitle_ivArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/absExTitle_vBottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/absExTitle_rlRoot"
+        android:background="@color/teacher_clr_grey"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" />
+
+</RelativeLayout>

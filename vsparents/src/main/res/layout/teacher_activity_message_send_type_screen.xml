@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.TeacherHomeScreen">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/teacher_img_app_bg"
+        android:padding="15dp">
+
+        <LinearLayout
+            android:id="@+id/dates_llHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@drawable/teacher_bg_primary_stroke_top" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/teacher_bg_white_stroke_grey"
+                        android:gravity="center"
+                        android:padding="5dp">
+
+                        <LinearLayout
+                            android:id="@+id/schoollayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <com.android.volley.toolbox.NetworkImageView
+                                android:id="@+id/home_nivSchoolLogo"
+                                android:layout_width="@dimen/network_image_size_small"
+                                android:layout_height="@dimen/network_image_size_small"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true" />
+
+                            <!--<ImageView-->
+                            <!--android:id="@+id/dates_nivThumbnailSchoolImg"-->
+                            <!--android:layout_width="@dimen/network_image_size_small"-->
+                            <!--android:layout_height="@dimen/network_image_size_small"-->
+                            <!--android:gravity="center_vertical"-->
+                            <!--android:src="@drawable/teacher_logo_school_messenger" />-->
+
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/widget_margin_small"
+                                android:layout_marginStart="@dimen/widget_margin_small"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:padding="@dimen/widget_margin_small">
+
+                                <TextView
+                                    android:id="@+id/home_tvSchoolName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/teacher_clr_black"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    tools:text="P.S.B.B Sr Secondary School" />
+
+                                <TextView
+                                    android:id="@+id/home_tvSchoolAddress"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/teacher_clr_grey"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    tools:text="Chennai,India" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/view_bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@+id/schoollayout"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/teacher_clr_grey" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/view_bottom"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/log"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Logged in as"
+                                tools:text="Logged in as " />
+
+                            <TextView
+                                android:id="@+id/home_tvLoggedInAs"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:textColor="@color/teacher_clr_black"
+                                android:textStyle="bold"
+                                tools:text="Management" />
+
+                            <Button
+                                android:id="@+id/home_btnChange"
+                                style="@style/Teacher_btn_login"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:padding="5dp"
+                                android:text="Change"
+                                android:textSize="10dp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="@string/teacher_txt_hello1"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp">
+
+                    <RelativeLayout
+                        android:id="@+id/home_rlVoice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/cardDates_ivVoice"
+                            android:layout_width="@dimen/img_dimen"
+                            android:layout_height="@dimen/img_dimen"
+                            android:layout_gravity="left"
+                            app:srcCompat="@drawable/teacher_ic_voice_snap" />
+
+                        <TextView
+                            android:id="@+id/cardDates_tvTotVoiceMsgCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/cardDates_ivVoice"
+                            android:gravity="center"
+                            android:text="@string/teacher_txt_voice"
+                            android:textColor="@color/teacher_clr_black"
+                            android:textSize="14sp"
+                            tools:text="Send voice message" />
+
+
+                        <ImageView
+                            android:id="@+id/ivarrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/teacher_ic_right" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="15dp">
+
+                    <RelativeLayout
+                        android:id="@+id/home_rlText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/ivtext"
+                            android:layout_width="@dimen/img_dimen"
+                            android:layout_height="@dimen/img_dimen"
+                            android:layout_gravity="left"
+                            android:padding="7dp"
+                            app:srcCompat="@drawable/teacher_ic_text" />
+
+                        <TextView
+                            android:id="@+id/tvtext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/ivtext"
+                            android:gravity="center"
+                            android:text="@string/teacher_txt_text"
+                            android:textColor="@color/teacher_clr_black"
+                            android:textSize="14sp"
+                            tools:text="Send text message" />
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/teacher_ic_right" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="15dp">
+
+                    <RelativeLayout
+                        android:id="@+id/home_rlImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/ivimg"
+                            android:layout_width="@dimen/img_dimen"
+                            android:layout_height="@dimen/img_dimen"
+                            android:layout_gravity="left"
+                            android:padding="7dp"
+                            app:srcCompat="@drawable/teacher_ic_image" />
+
+                        <TextView
+                            android:id="@+id/tvimg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/ivimg"
+                            android:gravity="center"
+                            android:text="@string/teacher_txt_Image"
+                            android:textColor="@color/teacher_clr_black"
+                            android:textSize="14sp"
+                            tools:text="Send image message" />
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/teacher_ic_right" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="15dp">
+
+                    <RelativeLayout
+                        android:id="@+id/home_rlAttendance"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/ivAttendance"
+                            android:layout_width="@dimen/img_dimen"
+                            android:layout_height="@dimen/img_dimen"
+                            android:layout_gravity="left"
+                            android:padding="7dp"
+                            app:srcCompat="@drawable/teacher_ic_atten" />
+
+                        <TextView
+                            android:id="@+id/tvAttendance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/ivAttendance"
+                            android:gravity="center"
+                            android:text="@string/teacher_txt_attendance"
+                            android:textColor="@color/teacher_clr_black"
+                            android:textSize="14sp" />
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/teacher_ic_right" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</ScrollView>

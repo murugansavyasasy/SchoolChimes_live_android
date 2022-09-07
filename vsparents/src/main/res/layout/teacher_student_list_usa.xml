@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/Student_id"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="3dp"
+        android:textColor="@color/teacher_clr_black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        tools:text="209345" />
+
+    <TextView
+        android:id="@+id/Student_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@+id/Student_id"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="3dp"
+        android:textColor="@color/teacher_clr_black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        tools:text="John Deo" />
+
+    <CheckBox
+        android:id="@+id/Student_cbSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:checked="true" />
+
+</RelativeLayout>
+
+
+    <!--android:button="@drawable/teacher_bg_checkbox1"-->

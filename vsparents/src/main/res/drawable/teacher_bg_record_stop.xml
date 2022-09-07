@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/teacher_clr_red" />
+            <!--<size android:width="@dimen/dim_rec_oval" android:height="@dimen/dim_rec_oval" />-->
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/teacher_clr_red" />
+            <stroke android:width="2dp" android:color="@color/teacher_clr_grey_light" />
+            <!--<size android:width="@dimen/dim_rec_oval" android:height="@dimen/dim_rec_oval" />-->
+        </shape>
+    </item>
+</selector>

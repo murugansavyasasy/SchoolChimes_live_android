@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:shrinkColumns="*"
+    android:orientation="vertical"
+    android:stretchColumns="*">
+    <!-- Row 1 with single column -->
+    <!-- Row 2 with 3 columns -->
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+
+            android:id="@+id/lbldate"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/clr_black"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:text="@string/bill_date"/>
+        <TextView
+            android:id="@+id/lblDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12-2-2018"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/lbldate"
+            android:layout_marginLeft="5dp"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblPay"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/clr_black"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:text="@string/payment_mode"/>
+        <TextView
+            android:id="@+id/lblPaymentType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cash"
+            android:textStyle="normal"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/lblPay"
+            android:layout_marginLeft="5dp"
+            />
+    </RelativeLayout>
+
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_height="match_parent"
+            android:id="@+id/TextView01"
+             android:layout_width="70dp"
+            android:background="@drawable/table_back"
+            android:gravity="center"
+            android:text="@string/s_no"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_back"
+            android:gravity="center"
+            android:text="@string/bill_fee_name"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+
+
+        <TextView
+            android:id="@+id/TextView03"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_back"
+            android:gravity="center"
+            android:text="@string/bill_payment"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </TableRow>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/paid_list_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/TextView0223"
+        android:layout_width="70dp"
+      android:layout_height="match_parent"
+            android:background="@drawable/table_back_white"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/TextView022"
+            android:layout_weight="1"
+
+            android:background="@drawable/table_back"
+            android:gravity="center"
+            android:text="@string/bill_total"
+            android:layout_height="match_parent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/lblTotalAmount"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_back"
+            android:gravity="center"
+            android:text="6450"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </TableRow>
+
+
+
+    <!-- Row 3 with 2 columns -->
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!---->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/clr_black"-->
+            <!--android:background="@drawable/table_back"-->
+            <!--android:textSize="18sp"-->
+            <!--android:text="nxvbzv"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:textColor="@color/clr_black"-->
+            <!--android:textSize="18sp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:background="@drawable/table_back"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:text="nxvbzv"/>-->
+    <!--</RelativeLayout>-->
+
+
+</LinearLayout>

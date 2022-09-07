@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.VoiceCircular">
+
+    <RelativeLayout
+        android:id="@+id/voice_rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/voice_ToolBarIvBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/voice_ToolBarTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/voice_ToolBarIvBack"
+            android:layout_toRightOf="@+id/voice_ToolBarIvBack"
+            android:textColor="@color/clr_white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="@string/text_name" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_below="@+id/voice_rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_marginTop="35dp"
+        android:padding="4dp"
+        android:visibility="gone"
+        android:textSize="15dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/lblNoMessages"
+        android:textColor="@color/bpWhite"
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/voice_rvCircularList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblNoMessages"
+        android:layout_margin="15dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+
+
+    <TextView
+        android:layout_below="@+id/voice_rvCircularList"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btnSeeMore"
+        android:padding="5dp"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:text="@string/SeeMore"
+        android:visibility="gone"
+        android:textColor="@color/teacher_clr_btn_login"
+        android:background="@drawable/bg_stroke_teacherprimary"
+        android:layout_height="wrap_content"></TextView>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

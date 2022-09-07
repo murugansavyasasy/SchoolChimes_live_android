@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/clr_black"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select the type in which you want to create the Assignment"
+        android:textSize="20dp"
+        android:textColor="@color/clr_white"
+        android:layout_margin="5dp"
+        android:gravity="center"/>
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_margin="8dp"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:background="@color/clr_white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnmessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Text"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        style="@style/Teacher_btn_login"
+        />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnvoice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Voice"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        style="@style/Teacher_btn_login"
+        />
+    <Button
+        android:id="@+id/btnImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Image"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        style="@style/Teacher_btn_login"
+        />
+    <Button
+        android:id="@+id/btnPdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Pdf"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        style="@style/Teacher_btn_login"
+        />
+
+
+</LinearLayout>

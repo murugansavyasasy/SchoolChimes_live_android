@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".activity_SINGAPORE.TeacherRecordAudio_SNGPR">
+
+    <RelativeLayout
+        android:id="@+id/voiceRec_rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:id="@+id/voiceRec_ToolBarIvBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            app:srcCompat="@drawable/teacher_ic_close" />
+
+        <TextView
+            android:id="@+id/voiceRec_ToolBarTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/voiceRec_ToolBarIvBack"
+            android:layout_toRightOf="@+id/voiceRec_ToolBarIvBack"
+            android:textColor="@color/teacher_clr_white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="name" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/voicerecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/voiceRec_rlToolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <RelativeLayout
+            android:id="@+id/mgtText_rlHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teacher_clr_white"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/voiceRec_ivDate"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/teacher_ic_voice_snap" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/widget_margin_small"
+                android:layout_marginStart="@dimen/widget_margin_small"
+                android:layout_toEndOf="@+id/voiceRec_ivDate"
+                android:layout_toRightOf="@+id/voiceRec_ivDate"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/widget_margin_small">
+
+                <TextView
+                    android:id="@+id/voiceRec_tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/teacher_txt_Recordvoice"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Record Voice Message" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teacher_clr_card_grey">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/voiceRec_tvRecTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="@string/teacher_txt_start_record"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="16sp" />
+
+
+                <ImageView
+                    android:id="@+id/voiceRec_ivRecord"
+                    android:layout_width="@dimen/dim_rec_oval"
+                    android:layout_height="@dimen/dim_rec_oval"
+                    android:layout_gravity="center"
+                    android:padding="15dp"
+                    android:clickable="true"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/teacher_bg_record_start"
+                    android:src="@drawable/teacher_ic_mic" />
+
+
+                <TextView
+                    android:id="@+id/voiceRec_tvRecDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="00:00"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/voiceRec_rlPlayPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teacher_clr_white"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/voiceRec_tvPreviewVoiceMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:padding="3dp"
+                android:text="@string/teacher_txt_PreviewVoice"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="14sp" />
+
+            <include
+                layout="@layout/teacher_my_audio_player_sngpr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/voiceRec_tvPreviewVoiceMsg"
+                android:layout_marginTop="10dp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/voiceRec_btnNext"
+            style="@style/Teacher_btn_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="@string/teacher_txt_next" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:text="@string/teacher_school_msg"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Chimes " />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView3"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/textView3"
+            android:gravity="bottom"
+            android:text="@string/teacher_for_schools"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>

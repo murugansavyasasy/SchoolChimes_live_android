@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_SINGAPORE.TeacherEventsScreen_SNGPR">
+
+    <RelativeLayout
+        android:id="@+id/eventsMsg_rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/eventsPopup_ToolBarIvBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            app:srcCompat="@drawable/teacher_ic_close" />
+
+        <TextView
+            android:id="@+id/eventsPopup_ToolBarTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/teacher_clr_white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="@string/name_pdf" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/events_composemsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/eventsMsg_rlToolbar"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/teacher_clr_white"
+            android:orientation="horizontal"
+            android:padding="7dp">
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/Teacher_txt_black_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:drawableLeft="@drawable/teacher_ic_date"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="@string/teacher_event_txt_datetime" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/events_tvDate"
+                    style="@style/Teacher_txt_black_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/teacher_ic_arrow_down_grey"
+                    android:gravity="center_vertical"
+                    tools:text="26 Jan 2017" />
+
+                <TextView
+                    android:id="@+id/events_tvTime"
+                    style="@style/Teacher_txt_black_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/teacher_ic_arrow_down_grey"
+                    android:gravity="center_vertical"
+                    tools:text="12:40 PM" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/events_txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/teacher_clr_card_grey"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="@string/teacher_events_hint_title"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/mgtevents_rlHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/teacher_clr_white"
+            android:padding="5dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/eventsPopup_ivDate"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/teacher_ic_text" />
+
+            <TextView
+                android:id="@+id/eventsPopup_tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/widget_margin_small"
+                android:layout_marginStart="@dimen/widget_margin_small"
+                android:layout_toEndOf="@+id/eventsPopup_ivDate"
+                android:layout_toRightOf="@+id/eventsPopup_ivDate"
+                android:gravity="center_vertical"
+                android:text="@string/teacher_txt_composemsg"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Compose Message" />
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/events_txtmessage"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/teacher_clr_card_grey"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="@string/teacher_events_hint_msg"
+            android:inputType="textMultiLine"
+            android:maxLength="460"
+            android:maxLines="15"
+            android:minLines="7"
+            android:padding="5dp"
+            android:textSize="12dp" />
+
+        <LinearLayout
+            android:id="@+id/event_l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teacher_clr_card_grey"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/events_msgcount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="0" />
+
+            <TextView
+                android:id="@+id/events_countslash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="/" />
+
+            <TextView
+                android:id="@+id/events_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="460"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/events_rvSchoolsList"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:background="@color/clr_window_bg" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/events_btnmsg"-->
+            <!--style="@style/teacher_btn_green"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:enabled="false"-->
+            <!--android:text="@string/txt_next" />-->
+
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/events_rvSchoolsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@id/events_composemsg"
+        android:background="@color/teacher_clr_window_bg" />
+
+
+    <RelativeLayout
+        android:id="@+id/events_relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/events_textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:text="@string/teacher_school_msg"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Chimes " />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/events_textView3"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/events_textView3"
+            android:gravity="bottom"
+            android:text="@string/teacher_for_schools"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="10sp"
+            android:textStyle="bold"
+           />
+
+    </RelativeLayout>
+
+</RelativeLayout>

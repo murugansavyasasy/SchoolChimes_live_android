@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/btnMakePayment"
+    android:fillViewport="true">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn"
+                        android:visibility="gone"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Send Data To Next Activity"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/imgBack"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="left"
+                            app:srcCompat="@drawable/ic_arrow_back"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"/>
+                    </LinearLayout>
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/payment_taplayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/colorPrimary"
+                        android:elevation="6dp"
+                        android:minHeight="0dp"
+                        style="@style/parent_taplayout"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/clr_white"
+                        android:layout_height="1dp"></View>
+
+                    <LinearLayout
+                        android:id="@+id/lnrTermFees"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="match_parent">
+
+
+                    <RelativeLayout
+                        android:id="@+id/rytTermFess"
+                        android:padding="5dp"
+                        android:background="@drawable/bg_blue_primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp">
+
+                        <TextView
+                            android:layout_alignParentLeft="true"
+                            android:id="@+id/lblTermsFees"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/clr_white"
+                            android:textSize="15dp"
+                            android:text="Term Fees"/>
+
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_arrow_down_grey"/>
+
+
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/clr_white"
+                        android:layout_height="1dp"/>
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
+
+                        <ExpandableListView
+                        android:id="@+id/lvCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:childDivider="@color/clr_black"
+                        android:divider="@null"
+                        android:dividerHeight="0dp"
+                        android:visibility="visible" />
+                    </ScrollView>
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnrOtherFees"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:id="@+id/rytOtherFess"
+                        android:padding="5dp"
+                        android:background="@drawable/bg_blue_primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp">
+
+                        <TextView
+                            android:layout_alignParentLeft="true"
+                            android:id="@+id/lblOtherFess"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:textSize="15dp"
+                            android:textColor="@color/clr_white"
+                            android:text="Other Fess"/>
+
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_arrow_down_grey"/>
+
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/clr_white"
+                        android:layout_height="1dp"/>
+
+                    <ScrollView
+                        android:layout_above="@+id/btnMakePayment"
+                        android:layout_width="match_parent"
+                        android:fillViewport="true"
+                        android:layout_height="match_parent">
+
+                    <ExpandableListView
+                        android:visibility="visible"
+                        android:id="@+id/otherExpandable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:childDivider="@color/clr_black"
+                        android:divider="@null"
+                        android:dividerHeight="0dp" />
+
+                    </ScrollView>
+                </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+</ScrollView>
+
+    <Button
+        android:id="@+id/btnMakePayment"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:text="Make Payment"
+        android:layout_marginBottom="7dp"
+        android:visibility="gone"
+        android:padding="5dp"
+        android:background="@drawable/bg_solid_primary"
+        android:layout_height="40dp"></Button>
+</RelativeLayout>

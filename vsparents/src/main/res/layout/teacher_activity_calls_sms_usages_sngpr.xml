@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@drawable/teacher_img_app_bg"
+    tools:context=".activity_SINGAPORE.TeacherCallsSmsUsages_SNGPR">
+
+    <LinearLayout
+        android:id="@+id/callsmsUsage_ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/teacher_clr_white"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <TextView
+            android:id="@+id/callsmsUsage_tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calls_used"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/callsmsUsage_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/callsmsUsage_ll2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/callsmsUsage_ll1"
+        android:layout_marginTop="10dp"
+        android:background="@color/teacher_clr_white"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <TextView
+            android:id="@+id/callsmsUsage_tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sms_used"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/callsmsUsage_tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</RelativeLayout>

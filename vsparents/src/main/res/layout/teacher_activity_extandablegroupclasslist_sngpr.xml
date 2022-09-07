@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".activity_SINGAPORE.TeacherExtandablegroupclasslist_SNGPR">
+
+    <RelativeLayout
+        android:id="@+id/extendlistPopup_rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:id="@+id/extendlist_ToolBarIvBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            app:srcCompat="@drawable/teacher_ic_close" />
+
+        <TextView
+            android:id="@+id/voicePopup_ToolBarTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/teacher_clr_white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="@string/name_pdf" />
+    </RelativeLayout>
+
+    <ExpandableListView
+        android:id="@+id/stdGrp_exListGrpStd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/Extend_layout"
+        android:layout_below="@+id/extendlistPopup_rlToolbar"
+        android:layout_marginTop="10dp"
+        android:childDivider="@color/teacher_clr_white"
+        android:divider="@color/teacher_clr_black_trans_20"
+        android:groupIndicator="@null">
+
+    </ExpandableListView>
+
+    <LinearLayout
+        android:id="@+id/Extend_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/stdGrp_btnConfirm"
+            style="@style/Teacher_btn_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:text="@string/teacher_confirm" />
+
+
+        <Button
+            android:id="@+id/stdGrp_btnRemove"
+            style="@style/Teacher_btn_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="@string/teacher_btn_remove" />
+    </LinearLayout>
+</RelativeLayout>

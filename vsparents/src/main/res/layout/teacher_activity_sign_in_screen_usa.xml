@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_app_bg"
+    tools:context=".activity_USA.TeacherSignInScreen_USA"
+    tools:ignore="MissingPrefix">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/teacher_app_name"
+        app:srcCompat="@drawable/voicesnap_logo_trans" />
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/Teacher_txt_14_normal_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/teacher_txt_signin"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/teacher_bg_stroke_primary"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <EditText
+                    android:id="@+id/login_etMobile"
+                    style="@style/Teacher_txt_edittext_16_bold"
+                    fontPath="fonts/Montserrat-Regular.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/teacher_clr_white"
+                    android:drawableLeft="@drawable/teacher_draw_mobile"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/teacher_draw_mobile"
+                    android:ems="10"
+                    android:hint="@string/teacher_hint_mobile"
+                    android:inputType="number"
+                    android:maxLength="10" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/Teacher_txt_12_bold_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/teacher_bg_solid_primary"
+                android:padding="5dp"
+                android:text="@string/teacher_txt_mobile" />
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/teacher_bg_stroke_grey">
+
+            <EditText
+                android:id="@+id/login_etPassword"
+                style="@style/Teacher_txt_edittext_16_bold"
+                fontPath="fonts/Montserrat-Regular.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="7dp"
+                android:layout_toLeftOf="@+id/view_line"
+                android:layout_toStartOf="@+id/view_line"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/teacher_draw_password"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/teacher_draw_password"
+                android:ems="10"
+                android:hint="@string/teacher_hint_password"
+                android:inputType="textPassword"
+                android:maxLength="20" />
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/login_ivEye"
+                android:layout_toStartOf="@+id/login_ivEye"
+                android:background="@color/teacher_clr_grey" />
+
+            <ImageView
+                android:id="@+id/login_ivEye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="1dp"
+                android:contentDescription="@string/teacher_app_name"
+                android:padding="10dp"
+                app:srcCompat="@drawable/teacher_ic_visibility_off_24dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/login_tvForgotPassword"
+            style="@style/Teacher_txt_14_normal_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="@string/teacher_btn_forgot_password" />
+
+        <Button
+            android:id="@+id/login_btnSignIn"
+            style="@style/Teacher_btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:text="@string/teacher_btn_login" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    android:background="@color/clr_white"
+    >
+
+    <TextView
+        android:id="@+id/lblExam"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="17dp"
+        android:layout_marginTop="5dp"
+        android:text="Exam Name"
+        android:textColor="@color/clr_black" />
+
+
+    <TextView
+        android:id="@+id/lblExamname"
+        android:layout_below="@id/lblExam"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_height="wrap_content"
+        android:text="exam name"
+        />
+
+
+    <TextView
+        android:layout_below="@+id/lblExamname"
+        android:id="@+id/lblSyllabus"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+       android:layout_marginLeft="5dp"
+        android:textSize="17dp"
+        android:text="Exam Syllabus"
+        android:textColor="@color/clr_black" />
+
+    <TextView
+        android:id="@+id/lblSyllabusName"
+        android:layout_below="@+id/lblSyllabus"
+        android:layout_marginLeft="5dp"
+        android:text="Syllabus content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+
+    <ImageView
+        android:layout_alignParentEnd="true"
+        android:id="@+id/absExTitle_ivArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="25dp" />
+
+
+    <View
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/clr_grey"
+        android:layout_below="@+id/lblSyllabusName"/>
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/layout_album_select"
+	android:layout_width="match_parent"
+	android:layout_margin="5dp"
+	android:layout_height="match_parent">
+
+
+
+	<TextView
+		android:id="@+id/text_view_error"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:text="@string/error_null_cursor"/>
+
+	<!--<GridView-->
+		<!--android:id="@+id/grid_view_album_select"-->
+		<!--android:layout_width="match_parent"-->
+		<!--android:layout_height="match_parent"-->
+		<!--android:paddingTop="1dp"-->
+		<!--android:paddingBottom="1dp"-->
+		<!--android:paddingLeft="1dp"-->
+		<!--android:paddingRight="1dp"-->
+		<!--android:stretchMode="columnWidth"/>-->
+	<GridView
+		android:id="@+id/grid_view_album_select"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingTop="5dp"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"
+		android:numColumns="auto_fit"
+		android:columnWidth="172dp"
+		android:horizontalSpacing="5dp"
+		android:verticalSpacing="5dp"
+		android:gravity="center"
+		android:stretchMode="columnWidth"
+		android:background="#ffffff">
+	</GridView>
+</RelativeLayout>

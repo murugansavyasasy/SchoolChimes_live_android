@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:background="@color/teacher_clr_white"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    grid:layout_columnWeight="1"
+    grid:layout_gravity="fill_horizontal">
+
+    <CheckBox
+        android:id="@+id/ch_section"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="I-A"
+        android:textSize="13sp" />
+
+</LinearLayout>

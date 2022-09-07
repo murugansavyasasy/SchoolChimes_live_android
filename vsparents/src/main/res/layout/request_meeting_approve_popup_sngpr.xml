@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@color/clr_black_trans_50">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/lnrApproveStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teacher_colorPrimary"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+
+            <TextView
+                android:id="@+id/lblApprovalStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="Approve"
+                android:textColor="@color/clr_white_fifty"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/imgClose"
+                android:src="@drawable/ic_close"
+                android:layout_width="30dp"
+                android:layout_gravity="right"
+                android:layout_height="30dp" />
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/clr_grey_light" />
+
+        <LinearLayout
+            android:background="@drawable/bg_white_stroke_grey"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/lnrDate"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lblDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/bpblack"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="Shedule Date"/>
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:layout_width="30dp"
+                android:src="@drawable/ic_date"
+                android:layout_height="30dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lnrTime"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/lblTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/bpblack"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Shedule Time"/>
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="30dp"
+                    android:src="@drawable/ic_date"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bpblack"
+                android:textSize="20dp"
+                android:text="Enter Your Comment"/>
+
+            <EditText
+                android:id="@+id/txtComments"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:maxLength="1500"
+                android:gravity="top"
+                android:padding="3dp"
+                android:background="@drawable/bg_layout_with_shadow"
+                android:layout_height="100dp" />
+
+
+            <Button
+                android:layout_margin="5dp"
+                android:id="@+id/btnApprove"
+                android:layout_width="wrap_content"
+
+                android:background="@drawable/teacher_bg_primary_stroke_top"
+                android:text="Approve"
+                android:padding="4dp"
+                android:visibility="visible"
+                android:layout_gravity="center"
+                android:layout_height="35dp" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

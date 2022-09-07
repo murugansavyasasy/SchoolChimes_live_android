@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <RelativeLayout
+                android:id="@+id/voicePopup_rlToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img1_ToolBarIvBack"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:clickable="true"
+                    android:contentDescription="@string/teacher_txt_Image"
+                    app:srcCompat="@drawable/teacher_ic_arrow_back" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mgtText_rlHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/teacher_clr_white"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/cardImage_ivDate"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/teacher_txt_Image"
+                    app:srcCompat="@drawable/teacher_ic_image" />
+
+
+                <TextView
+                    android:id="@+id/cardImage_tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/widget_margin_small"
+                    android:layout_marginStart="@dimen/widget_margin_small"
+                    android:layout_toEndOf="@+id/cardImage_ivDate"
+                    android:layout_toRightOf="@+id/cardImage_ivDate"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/widget_margin_small"
+                    android:text="@string/teacher_txt_sendimg"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Send Image" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/staffImage_ivImage"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:contentDescription="@string/teacher_txt_Image"
+                android:minHeight="200dp"
+                android:minWidth="300dp" />
+
+            <include
+                android:id="@+id/staffImage_llRecipient"
+                layout="@layout/teacher_sectionselected_usa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@color/teacher_clr_card_grey" />
+
+            <Button
+                android:id="@+id/staffImage_btnChoose"
+                style="@style/Teacher_btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:text="@string/teacher_choose_recipient" />
+
+            <Button
+                android:id="@+id/staffImage_btnSend"
+                style="@style/Teacher_btn_green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="@string/teacher_txt_send" />
+        </LinearLayout>
+
+
+    </ScrollView>
+</RelativeLayout>
+

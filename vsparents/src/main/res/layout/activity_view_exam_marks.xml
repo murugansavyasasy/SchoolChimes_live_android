@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:background="@color/clr_white"
+    tools:context=".activity.ViewExamMarks">
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:scrollbars="horizontal"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent">
+            <ScrollView
+                android:id="@+id/scrollexp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/card_light_grey"
+                    android:layout_margin="5dp"
+                    android:layout_height="match_parent">
+                    <ExpandableListView
+                        android:id="@+id/expSubjects"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:divider="@null"
+                        >
+                    </ExpandableListView>
+                </RelativeLayout>
+            </ScrollView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcyElements"
+                android:layout_width="match_parent"
+                android:layout_below="@id/scrollexp"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/card_light_grey"
+                android:layout_height="wrap_content">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcyGroups"
+                android:layout_width="match_parent"
+                android:layout_below="@id/rcyElements"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/card_light_grey"
+                android:layout_height="wrap_content">
+            </androidx.recyclerview.widget.RecyclerView>
+        </RelativeLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

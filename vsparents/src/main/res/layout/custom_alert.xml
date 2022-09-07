@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/custom_alert_border"
+    android:padding="10dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblAlertTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:text="Alert"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp" />
+
+    </RelativeLayout>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/lblMessages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No records Fount"
+        android:textColor="@color/clr_black"></TextView>
+    <Button
+        android:id="@+id/btnOk"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_solid_primary"
+        android:layout_marginTop="30dp"
+        android:text="OK"
+        android:textColor="@color/bpWhite"
+        android:textSize="15dp" />
+
+</LinearLayout>

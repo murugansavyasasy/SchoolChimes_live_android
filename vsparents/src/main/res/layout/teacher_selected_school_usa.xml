@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/school_li_tvSchoolName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/linearLayout3"
+                android:layout_toStartOf="@+id/linearLayout3"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="12sp"
+                tools:text="School1 " />
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true">
+
+                <!--<ImageView-->
+                <!--android:id="@+id/school_li_ivEdit"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:tint="@color/clr_grey"-->
+                <!--android:visibility="gone"-->
+                <!--app:srcCompat="@drawable/teacher_ic_edit" />-->
+
+                <Button
+                    android:id="@+id/school_li_btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/teacher_btn_edit"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:minHeight="0dp"
+                    android:minWidth="50dp"
+                    android:padding="7dp"
+                    android:text="STD/Group"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="10dp" />
+
+
+                <ImageView
+                    android:id="@+id/school_li_ivDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:tint="@color/teacher_clr_black"
+                    app:srcCompat="@drawable/teacher_ic_delete" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

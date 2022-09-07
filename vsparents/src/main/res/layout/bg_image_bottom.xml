@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ad_server_picture"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:contentDescription="@string/app_sub_title"
+    android:gravity="bottom|center_horizontal"
+    android:scaleType="fitXY"
+    android:visibility="gone"
+    android:src="@drawable/bg_skyline" />

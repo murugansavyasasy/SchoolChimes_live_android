@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Staff"
+            android:textColor="@color/bpblack"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_stroke_grey">
+
+            <Spinner
+                android:id="@+id/spnStaffList"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/mt_enter_details"
+            android:textColor="@color/bpblack"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_stroke_grey"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/txtComments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_stroke_grey"
+                android:maxLength="1500"
+                android:gravity="top"
+                android:padding="5dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+           android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_login"
+            android:padding="4dp"
+            android:text="@string/mt_request" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

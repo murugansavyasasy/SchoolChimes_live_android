@@ -1,0 +1,1433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/aHome_cvTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="2dp"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@drawable/bg_primary_stroke_top" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_white_stroke_grey"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:id="@+id/aHome_llSchoollayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <!--<com.android.volley.toolbox.NetworkImageView-->
+                    <!--android:id="@+id/aHome_nivSchoolLogo"-->
+                    <!--android:layout_width="@dimen/network_image_size_small"-->
+                    <!--android:layout_height="@dimen/network_image_size_small"-->
+                    <!--android:layout_alignParentLeft="true"-->
+                    <!--android:layout_alignParentStart="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:background="@drawable/ic_voice_snap" />-->
+
+                    <ImageView
+                        android:id="@+id/aHome_nivSchoolLogo"
+                        android:layout_width="@dimen/network_image_size_small"
+                        android:layout_height="@dimen/network_image_size_small"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/user" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/widget_margin_small"
+                        android:layout_marginLeft="@dimen/widget_margin_small"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:padding="@dimen/widget_margin_small">
+
+                        <TextView
+                            android:id="@+id/aHome_tvSchoolName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/p_s_b_b_sr_secondary_school"
+                            android:textColor="@color/clr_black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/aHome_tvSchoolAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/chennai_india"
+                            android:textColor="@color/clr_grey"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/aHome_llSchoollayout"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/clr_grey"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view_bottom"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/log"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/logged_in_as" />
+
+                    <TextView
+                        android:id="@+id/aHome_tvLoggedInAs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="@string/group_head"
+                        android:textColor="@color/clr_black"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/aHome_btnChange"
+                        style="@style/btn_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:padding="5dp"
+                        android:text="@string/change"
+                        android:textSize="10dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <!--<android.support.v7.widget.GridLayout-->
+    <!--android:id="@+id/aHome_glMenu"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@+id/aHome_cvTop"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:animateLayoutChanges="true"-->
+    <!--android:padding="0dp"-->
+    <!--grid:alignmentMode="alignBounds"-->
+    <!--grid:columnCount="3"-->
+    <!--grid:rowOrderPreserved="false"-->
+    <!--grid:useDefaultMargins="true">-->
+
+
+    <androidx.gridlayout.widget.GridLayout
+
+        android:id="@+id/aHome_glMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_above="@+id/lnrBottom"
+        android:layout_below="@+id/aHome_cvTop"
+        grid:columnCount="3">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvEmergency"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llEmergency"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadEmergency"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+
+                    android:gravity="center"
+
+                    android:text="@string/one"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_emergency" />
+
+                <TextView
+                    android:id="@+id/lblEmergencyNme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Emergency Voice"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvVoiceParents"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llVoiceParents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadvoice"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+                    android:text="@string/one_1"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_genvoice" />
+
+
+                <TextView
+                    android:id="@+id/lblGeneralVoice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="General Voice"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvTextParents"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llTextParents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadText"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/two"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_messages" />
+
+                <TextView
+                    android:id="@+id/lblTextMessages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Text Messages"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/aHome_cvNoticeBoard"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--grid:layout_columnWeight="1"-->
+        <!--grid:layout_gravity="fill_horizontal"-->
+        <!--grid:layout_rowWeight="1">-->
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/aHome_llNoticeBoard"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:clickable="true"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="3dp">-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/aHome_tvUnreadNoticeboard"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end|top"-->
+        <!--android:background="@drawable/shape_oval_red"-->
+        <!--android:gravity="center"-->
+        <!--android:minWidth="25dp"-->
+        <!--android:text="2"-->
+        <!--android:textColor="@color/clr_white"-->
+        <!--android:textSize="10sp"-->
+        <!--android:visibility="invisible" />-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="@dimen/home_menu_icon"-->
+        <!--android:layout_height="@dimen/home_menu_icon"-->
+        <!--android:layout_gravity="center"-->
+        <!--app:srcCompat="@drawable/f_news" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/home_notice_board"-->
+        <!--android:textColor="@color/clr_black"-->
+        <!--android:textSize="11sp" />-->
+        <!--</LinearLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
+
+        <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/aHome_cvEvents"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--grid:layout_columnWeight="1"-->
+        <!--grid:layout_gravity="fill_horizontal"-->
+        <!--grid:layout_rowWeight="1">-->
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/aHome_llEvents"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:clickable="true"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="3dp">-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/aHome_tvUnreadEvents"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end|top"-->
+        <!--android:background="@drawable/shape_oval_red"-->
+        <!--android:gravity="center"-->
+        <!--android:minWidth="25dp"-->
+        <!--android:text="2"-->
+        <!--android:textColor="@color/clr_white"-->
+        <!--android:textSize="10sp"-->
+        <!--android:visibility="invisible" />-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="@dimen/home_menu_icon"-->
+        <!--android:layout_height="@dimen/home_menu_icon"-->
+        <!--android:layout_gravity="center"-->
+        <!--app:srcCompat="@drawable/f_events" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/home_events"-->
+        <!--android:textColor="@color/clr_black"-->
+        <!--android:textSize="11sp" />-->
+        <!--</LinearLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvHomeWorkText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llHomeWorkText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadHW"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/four"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_homework" />
+
+                <TextView
+                    android:id="@+id/lblhomeWork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Homework"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvExam"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llExam"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadExam"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/four_1"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_exam" />
+
+                <TextView
+                    android:id="@+id/lblExamtest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Exam/Test"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_Exam"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_Exam_Marks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/ghvhj"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/four_2"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_esammark" />
+
+                <TextView
+                    android:id="@+id/lblexamMarks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Exam Marks"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvCallSmsUsage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llDocuments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreaddocuments"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+                    android:text="@string/four_3"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/file" />
+
+                <TextView
+                    android:id="@+id/lblCirculars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Circulars"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvNoticeBoard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llNoticeBoard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadNoticeboard"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/four_4"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_notice_board" />
+
+                <TextView
+                    android:id="@+id/lblNoticeBoard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Notice Board"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvEvents"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llEvents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadEvents"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/four_5"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_events" />
+
+                <TextView
+                    android:id="@+id/lblSchoolEvents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="School Events"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvAttendance"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llAttendance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadReport"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/four_5"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    app:srcCompat="@drawable/c_atteednace" />
+
+                <TextView
+                    android:id="@+id/lblAttedance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Attedance Report"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvLeaveRequest"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llLeaveRequest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadLeaveInformation"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/four_5"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    app:srcCompat="@drawable/leaverequest" />
+
+                <TextView
+                    android:id="@+id/lblleaveInformation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Leave Information"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvpayfees"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llPayfees"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadFeedBack"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/four_5"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    app:srcCompat="@drawable/c_feeshand" />
+
+                <TextView
+                    android:id="@+id/lblFeeDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Fee Details"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_cvPhotos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llPhotos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUnreadPhotos"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+
+                    android:text="@string/four_6"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/image_c" />
+
+                <TextView
+                    android:id="@+id/lblImages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Images"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/aHome_Library"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--grid:layout_columnWeight="1"-->
+        <!--grid:layout_gravity="fill_horizontal"-->
+        <!--grid:layout_rowWeight="1">-->
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/aHome_Library_Details"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:clickable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="3dp">-->
+        <!--<TextView-->
+        <!--android:id="@+id/aHome_tvUns"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end|top"-->
+        <!--android:background="@drawable/shape_oval_red"-->
+        <!--android:gravity="center"-->
+        <!--android:minWidth="25dp"-->
+        <!--android:text="10"-->
+        <!--android:textColor="@color/clr_white"-->
+        <!--android:textSize="10sp"-->
+        <!--android:visibility="invisible" />-->
+        <!---->
+
+        <!--<ImageView-->
+        <!--android:layout_width="@dimen/home_menu_icon"-->
+        <!--android:layout_height="@dimen/home_menu_icon"-->
+        <!---->
+        <!--app:srcCompat="@drawable/library_image" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:text="Library Details"-->
+        <!--android:textColor="@color/clr_black"-->
+        <!--android:textSize="11sp" />-->
+        <!--</LinearLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_Library"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_Library_Details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvUns"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+                    android:text="@string/four_7"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_library" />
+
+                <TextView
+                    android:id="@+id/lblLibraryDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Library Details"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_StaffDetails"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llStaffDetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvnsss"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+                    android:text="@string/four_8"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_staffetails" />
+
+                <TextView
+                    android:id="@+id/lblStaffDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Staff Details"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_Books"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llBooks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHome_tvns"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+                    android:text="@string/four_8"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/c_ebook" />
+
+                <TextView
+                    android:id="@+id/lblOnlineTextBook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="online Text Book"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_RequestMeeting"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llRequestMeeting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHomerequest"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+                    android:text="@string/four_8"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/meeting" />
+
+                <TextView
+                    android:id="@+id/lblRequestMeeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Request Meeting"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aHome_Videos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            grid:layout_columnWeight="1"
+            grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1">
+
+            <LinearLayout
+                android:id="@+id/aHome_llVideos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/cardview_border"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/aHomevideos"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/shape_oval_red"
+                    android:gravity="center"
+                    android:text="@string/four_8"
+                    android:textColor="@color/clr_white"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:layout_width="@dimen/home_menu_icon"
+                    android:layout_height="@dimen/home_menu_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/youtube_logo" />
+
+                <TextView
+                    android:id="@+id/lblVideos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="Videos"
+                    android:textColor="@color/clr_black"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.gridlayout.widget.GridLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lnrBottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/rytHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/imgHome"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/home_image" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgHome"
+                android:layout_centerHorizontal="true"
+                android:text="@string/home"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rytLanguage"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgChangeLanguage1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/language_parent" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgChangeLanguage1"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txt_language"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgPassword"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/lock" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgPassword"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txt_password"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgHelppp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/help_parent" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgHelppp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/faq"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgLogout"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/logou_img" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgLogout"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txt_menu_logout"
+                android:textColor="@color/bpWhite"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

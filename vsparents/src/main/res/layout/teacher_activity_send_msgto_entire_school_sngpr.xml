@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_SINGAPORE.TeacherMgtTextCircular_SNGPR">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+
+                <RelativeLayout
+                    android:id="@+id/voicePopup_rlToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp">
+
+                    <ImageView
+                        android:id="@+id/text_ToolBarIvBack"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:clickable="true"
+                        app:srcCompat="@drawable/teacher_ic_arrow_back" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+
+                    <RelativeLayout
+                        android:id="@+id/mgtText_rlHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/teacher_clr_white"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/voicePopup_ivDate"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/teacher_clr_white"
+                            android:padding="5dp"
+                            app:srcCompat="@drawable/teacher_ic_text" />
+
+
+                        <TextView
+                            android:id="@+id/voicePopup_tvTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/widget_margin_small"
+                            android:layout_marginStart="@dimen/widget_margin_small"
+                            android:layout_toEndOf="@+id/voicePopup_ivDate"
+                            android:layout_toRightOf="@+id/voicePopup_ivDate"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/widget_margin_small"
+                            android:text="@string/teacher_text_msg"
+                            android:textColor="@color/teacher_clr_black"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="Text Message" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/mgtText_tvMsg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/teacher_clr_card_grey"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:minHeight="50dp"
+                        android:padding="7dp"
+                        android:textSize="12dp" />
+
+
+                    <Button
+                        android:id="@+id/mgtText_btnSendToAllSchools"
+                        style="@style/Teacher_btn_green"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/teacher_send_entire_school" />
+
+
+                    <TextView
+                        android:id="@+id/tv_or"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mgtText_btnSendToAllSchools"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/teacher_or"
+                        android:textColor="@color/teacher_clr_grey"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="Or" />
+
+
+                    <TextView
+                        android:id="@+id/tv_choose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_or"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/teacher_choose_recipient"
+                        android:textColor="@color/teacher_clr_grey"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="Choose Recipient" />
+
+                    <include
+                        android:id="@+id/mgtText_llRecipient"
+                        layout="@layout/teacher_select_school_sngpr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/teacher_clr_card_grey" />
+
+                    <Button
+                        android:id="@+id/mgtText_btnChooseSchool"
+                        style="@style/Teacher_btn_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/teacher_Select_school"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/mgtText_btnSend"
+                        style="@style/Teacher_btn_green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:enabled="false"
+                        android:gravity="center"
+                        android:text="@string/teacher_txt_send" />
+                </LinearLayout>
+            </LinearLayout>
+            .
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

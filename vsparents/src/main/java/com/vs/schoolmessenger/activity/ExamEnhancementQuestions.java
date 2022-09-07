@@ -1,0 +1,1443 @@
+package com.vs.schoolmessenger.activity;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.jsibbold.zoomage.ZoomageView;
+import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.adapter.QuestionForQuizAdapter;
+import com.vs.schoolmessenger.assignment.ImageAssignmentActivity;
+import com.vs.schoolmessenger.assignment.ViewTypeActivity;
+import com.vs.schoolmessenger.interfaces.OnRefreshListener;
+import com.vs.schoolmessenger.interfaces.QuestionClickListener;
+import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
+import com.vs.schoolmessenger.model.ExamEnhancement;
+import com.vs.schoolmessenger.model.QuestionForQuiz;
+import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
+import com.vs.schoolmessenger.util.MyWebViewClient;
+import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_SharedPreference;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_ASSIGNMENT;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_IMAGE;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_QUIZ;
+
+public class ExamEnhancementQuestions extends AppCompatActivity implements QuestionClickListener,View.OnClickListener {
+    TextView lblStarttime, lblendtime, lblduration, lblmin, lblqueno, lblque,lblPDF,lblprev,lblnext,lblqueduration;
+    RadioGroup rgoptions;
+    RecyclerView rcyquestions;
+    FrameLayout videoview;
+    ConstraintLayout constraint;
+    //    VideoView videoview;
+    LinearLayout lnrPDFtext;
+    //    WebView myWebView;
+    ImageView imgview,imgVideo,imgplay,imgShadow,imgprev,imgnext;
+    Button btnnext, btnprevious, btnsubmit;
+    Handler handler;
+    long recTime,recquetime,curdifference,curdifferenceque=0;
+    Handler recTimerHandler = new Handler();
+    Handler recqueTimerHandler = new Handler();
+    int iMaxRecDur;
+    String child_id,ansid,answer;
+    int adapterpos = 0, nextpos = 0, previouspos = 0;
+    private ArrayList<QuestionForQuiz> msgModelList = new ArrayList<>();
+    QuestionForQuiz msgModel;
+    ExamEnhancement info;
+    ArrayList<String> answerlist=new ArrayList<>();
+    ArrayList<String> questionlist=new ArrayList<>();
+
+    public QuestionForQuizAdapter mAdapter;
+    RelativeLayout ryttime;
+    RadioButton radioButton;
+    //    SqliteDB myDb;
+    String currenttime24,pdfuri,videourl,imageurl,quetime;
+    PopupWindow popupWindow,popupimage,popuppdfWindow;
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
+        setContentView(R.layout.activity_exam_enhancement_questions);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Exam");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
+
+        ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+        btnnext = findViewById(R.id.btnnext);
+        btnprevious = findViewById(R.id.btnprevious);
+        btnsubmit = findViewById(R.id.btnsubmit);
+        imgview = findViewById(R.id.imgview);
+        imgVideo = findViewById(R.id.imgVideo);
+        imgShadow = findViewById(R.id.imgShadow);
+        imgplay = findViewById(R.id.imgplay);
+//        myWebView = findViewById(R.id.myWebView);
+        videoview = findViewById(R.id.videoview);
+        rcyquestions = findViewById(R.id.rcyquestions);
+        rgoptions = findViewById(R.id.rgoptions);
+        lblque = findViewById(R.id.lblque);
+        lblqueno = findViewById(R.id.lblqueno);
+        lblmin = findViewById(R.id.lblmin);
+        lblduration = findViewById(R.id.lblduration);
+        lblqueduration = findViewById(R.id.lblqueduration);
+        lblendtime = findViewById(R.id.lblendtime);
+        lblStarttime = findViewById(R.id.lblStarttime);
+        ryttime = findViewById(R.id.ryttime);
+        lnrPDFtext = findViewById(R.id.lnrPDFtext);
+        lblPDF = findViewById(R.id.lblPDF);
+        lblnext = findViewById(R.id.lblnext);
+        lblprev = findViewById(R.id.lblprev);
+        imgprev = findViewById(R.id.imgprev);
+        imgnext = findViewById(R.id.imgnext);
+        constraint = findViewById(R.id.constraint);
+
+        constraint.setVisibility(View.GONE);
+        ryttime.setVisibility(View.VISIBLE);
+        lblmin.setVisibility(View.VISIBLE);
+
+
+        child_id = Util_SharedPreference.getChildIdFromSP(this);
+        info = (ExamEnhancement) getIntent().getSerializableExtra("Exam");
+        quetime = getIntent().getStringExtra("quetime");
+
+
+
+        if(quetime.equals("")){
+            lblmin.setVisibility(View.GONE);
+            lblqueduration.setVisibility(View.GONE);
+            lblduration.setVisibility(View.VISIBLE);
+        }else{
+            lblqueduration.setVisibility(View.VISIBLE);
+            lblduration.setVisibility(View.GONE);
+            lblmin.setText("Time for Question Reading "+quetime+" . Students are not allowed to answer upto "+quetime);
+        }
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ExamEnhancementQuestions.this);
+        if(info.getIsAppRead().equals("0")){
+            ChangeMsgReadStatus.changeReadStatus(ExamEnhancementQuestions.this, String.valueOf(info.getDetailId()), MSG_TYPE_QUIZ,"",isNewVersion,false, new OnRefreshListener() {
+                @Override
+                public void onRefreshItem() {
+
+                }
+            });
+
+        }
+
+
+        if (adapterpos == msgModelList.size() && msgModelList.size() != 0) {
+//            btnnext.setEnabled(false);
+            imgnext.setImageResource(R.drawable.bg_next_disable);
+            lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
+        } else {
+//            btnnext.setEnabled(true);
+            imgnext.setImageResource(R.drawable.bg_next_enable);
+            lblnext.setTextColor(getResources().getColor(R.color.clr_black));
+        }
+        if (adapterpos == 0) {
+//            btnprevious.setEnabled(false);
+            imgprev.setImageResource(R.drawable.bg_prev_disable);
+            lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
+        } else {
+            btnprevious.setEnabled(true);
+            imgprev.setImageResource(R.drawable.bg_prev_enable);
+            lblprev.setTextColor(getResources().getColor(R.color.clr_black));
+        }
+        if(answerlist.size()==0){
+            btnsubmit.setEnabled(false);
+        }
+        else{
+            btnsubmit.setEnabled(true);
+        }
+        imgnext.setOnClickListener(this);
+        imgprev.setOnClickListener(this);
+        btnnext.setOnClickListener(this);
+        btnprevious.setOnClickListener(this);
+        btnsubmit.setOnClickListener(this);
+        lnrPDFtext.setOnClickListener(this);
+        videoview.setOnClickListener(this);
+        imgview.setOnClickListener(this);
+        imgVideo.setOnClickListener(this);
+        imgShadow.setOnClickListener(this);
+        imgplay.setOnClickListener(this);
+
+
+
+        Log.d("adapterpos", String.valueOf(adapterpos));
+        if(adapterpos==0) {
+            mAdapter = new QuestionForQuizAdapter(msgModelList, this, 0, this);
+
+            rcyquestions.setHasFixedSize(true);
+            rcyquestions.setLayoutManager(new LinearLayoutManager(ExamEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
+            rcyquestions.setItemAnimator(new DefaultItemAnimator());
+            rcyquestions.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        }
+        // *********** current system timing
+
+        Date currentTime = Calendar.getInstance().getTime();
+        Log.d("currenttime",currentTime.toString());
+        String date = currentTime.toString();
+        String[] parts = date.split(" ");
+
+        System.out.println("Time: " + parts[3] );
+        currenttime24=parts[3];
+
+
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = df.format(currentTime);
+        Log.d("currentdate",formattedDate);
+        // ***********compare with current time and start time
+
+        String _24HourTime11 = info.getExamStartTime()+":00";
+        Log.d("starttime",_24HourTime11);
+        Date curStart = null;
+        Date curEnd = null;
+        SimpleDateFormat cursimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+        try {
+            curStart = cursimpleDateFormat.parse(_24HourTime11);
+            curEnd = cursimpleDateFormat.parse(currenttime24);}
+        catch(ParseException e){
+            e.printStackTrace();
+        }
+
+        long curdifference = curEnd.getTime() - curStart.getTime();
+
+
+        //End Time
+
+        String _24HourTime11end = info.getExamEndTime()+":00";
+        Log.d("starttime",_24HourTime11end);
+        Date curStartend = null;
+        Date curEndend = null;
+        SimpleDateFormat cursimpleDateFormatend = new SimpleDateFormat("HH:mm:ss");
+        try {
+            curStartend = cursimpleDateFormatend.parse(currenttime24);
+            curEndend = cursimpleDateFormatend.parse(_24HourTime11end);
+        }
+        catch(ParseException e){
+            e.printStackTrace();
+        }
+
+        long curdifferenceend = curEndend.getTime() - curStartend.getTime();
+        if(!formattedDate.equals(info.ExamDate)){
+            showAlertfinish("This Exam Not Allocated for Today");
+        }
+        else if(curdifference<0){
+            showAlertfinish("Please wait! Exam Not Started yet");
+        }
+        else if(curdifferenceend<0){
+            showAlertfinish("Exam no longer exist");
+        }
+        else{
+            constraint.setVisibility(View.VISIBLE);
+            examEnhancement();
+            // *********** 24 hrs to 12 hrs conversion for textview display
+            try {
+                String _24HourTime = info.getExamStartTime();
+                String _24HourTime1= info.getExamEndTime();
+                SimpleDateFormat _24HourSDF = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat _12HourSDF = new SimpleDateFormat("hh:mm a");
+                Date _24HourDt = _24HourSDF.parse(_24HourTime);
+                Date _24HourDt1 = _24HourSDF.parse(_24HourTime1);
+                System.out.println(_24HourDt);
+                System.out.println(_12HourSDF.format(_24HourDt));
+                System.out.println(_12HourSDF.format(_24HourDt1));
+
+                lblStarttime.setText(_12HourSDF.format(_24HourDt));
+                lblendtime.setText(_12HourSDF.format(_24HourDt1));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String _24HourTime12= info.getExamEndTime()+":00";
+            String _24HourTimeque= info.getTimeForQuestionReading()+":00";
+            Date Start = null;
+            Date End = null;
+            Date Quetime = null;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            try {
+                Start = simpleDateFormat.parse(currenttime24);
+                End = simpleDateFormat.parse(_24HourTime12);
+                Quetime = simpleDateFormat.parse(_24HourTimeque);
+
+            }
+            catch(ParseException e){
+                e.printStackTrace();
+            }
+            long Endseconds = End.getTime() / 1000L;
+            long startseconds = Start.getTime() / 1000L;
+            long quereadseconds = Quetime.getTime() / 1000L;
+            long totalsec=Endseconds-startseconds;
+            long quesec=quereadseconds-startseconds;
+
+//            long difference = End.getTime() - Start.getTime();
+//            int days = (int) (difference / (1000*60*60*24));
+//            int hours = (int) ((difference - (1000*60*60*24*days)) / (1000*60*60));
+//            int min = (int) (difference - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
+//            if(hours < 0){
+//                hours+=24;
+//            }if(min < 0){
+//                float  newone = (float)min/60 ;
+//                min +=60;
+//                hours =(int) (hours +newone);}
+//            String c = hours+":"+min;
+//            Log.d("ANSWER",c);
+//            long hoursintosec=hours*60*60;
+//            long minintosec=min*60;
+//            long totalsec=hoursintosec+minintosec;
+
+
+            Log.d("totalsec", String.valueOf(totalsec));
+            iMaxRecDur = 0;
+            recTime = totalsec;
+            recquetime = quesec;
+            lblqueduration.setText("Question Reading Time : "+milliSecondsToTimer(recquetime * 1000));
+            lblduration.setText("Exam Time:"+milliSecondsToTimer(recTime * 1000));
+            if(lblduration.getText().toString().equals("Exam Time:00:00")||lblduration.getText().toString().equals("Exam Time:0:00")){
+                if(answerlist.size()!=0) {
+
+                    if(answerlist.size()==msgModelList.size()) {
+                        submitquiz();
+                    }
+                    else if(questionlist.size()!=msgModelList.size()){
+
+                        for(int i=0;i<msgModelList.size();i++){
+                            if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
+                                String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
+                                answerlist.add(emptyque);
+                            }
+                        }
+                        if(answerlist.size()==msgModelList.size()) {
+                            submitquiz();
+                        }
+                    }
+
+                }else{
+                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
+                }
+            }
+            if(lblqueduration.getText().toString().equals("Question Reading Time : 00:00")||lblqueduration.getText().toString().equals("Question Reading Time : 0:00")){
+                lblqueduration.setVisibility(View.GONE);
+                lblduration.setVisibility(View.VISIBLE);
+            }
+            recTimerHandler.postDelayed(runson, 1000);
+            recqueTimerHandler.postDelayed(querunson, 1000);
+
+        }
+
+        Log.d("curdiff", String.valueOf(curdifference));
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Date currentTime = Calendar.getInstance().getTime();
+        Log.d("currenttime0nres",currentTime.toString());
+        String date = currentTime.toString();
+        String[] parts = date.split(" ");
+
+        System.out.println("Time: " + parts[3] );
+        currenttime24=parts[3];
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Date currentTime = Calendar.getInstance().getTime();
+        Log.d("currenttime0nres",currentTime.toString());
+        String date = currentTime.toString();
+        String[] parts = date.split(" ");
+
+        System.out.println("Time: " + parts[3] );
+        currenttime24=parts[3];
+    }
+    private Runnable querunson=new Runnable() {
+        @Override
+        public void run() {
+            lblqueduration.setText("Question Reading Time : "+milliSecondsToTimer(recquetime * 1000));
+            String timing = lblqueduration.getText().toString();
+            if(lblqueduration.getText().toString().equals("Question Reading Time : 00:00")||lblqueduration.getText().toString().equals("Question Reading Time : 0:00")){
+                lblqueduration.setVisibility(View.GONE);
+                lblduration.setVisibility(View.VISIBLE);
+            }
+            recquetime = recquetime - 1;
+            if (recquetime != iMaxRecDur)
+                recqueTimerHandler.postDelayed(this, 1000);
+            else
+                lblqueduration.setText("Question Reading Time : "+milliSecondsToTimer(recquetime * 1000));
+            if(lblqueduration.getText().toString().equals("Question Reading Time : 00:00")||lblqueduration.getText().toString().equals("Question Reading Time : 0:00")){
+                lblqueduration.setVisibility(View.GONE);
+                lblduration.setVisibility(View.VISIBLE);
+            }
+        }
+
+    };
+    private Runnable runson = new Runnable() {
+        @Override
+        public void run() {
+            lblduration.setText("Exam Time:"+milliSecondsToTimer(recTime * 1000));
+            if(lblduration.getText().toString().equals("Exam Time:00:00")||lblduration.getText().toString().equals("Exam Time:0:00")){
+                if(answerlist.size()!=0) {
+                    if(answerlist.size()==msgModelList.size()) {
+                        submitquiz();
+                    }
+                    else if(questionlist.size()!=msgModelList.size()){
+
+                        for(int i=0;i<msgModelList.size();i++){
+                            if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
+                                String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
+                                answerlist.add(emptyque);
+                            }
+                        }
+                        if(answerlist.size()==msgModelList.size()) {
+                            submitquiz();
+                        }
+                    }
+
+                }else{
+                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
+                }
+            }
+            if(curdifferenceque<=0) {
+                Date currentTime = Calendar.getInstance().getTime();
+                Log.d("currenttime", currentTime.toString());
+                String date = currentTime.toString();
+                String[] parts = date.split(" ");
+
+                System.out.println("Time: " + parts[3]);
+                String currenttime24add = parts[3];
+
+                // ***********compare with current time and start time
+
+                String _24HourTime11 = info.getTimeForQuestionReading() + ":00";
+                Log.d("starttime", _24HourTime11);
+                Date curStart = null;
+                Date curEnd = null;
+                SimpleDateFormat cursimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                try {
+                    curStart = cursimpleDateFormat.parse(_24HourTime11);
+                    curEnd = cursimpleDateFormat.parse(currenttime24add);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                curdifferenceque = curEnd.getTime() - curStart.getTime();
+                Log.d("curdiffhandler", String.valueOf(curdifferenceque));
+                if (curdifferenceque > 0) {
+                    lblmin.setText("Students are now allowed to answer");
+                    lblmin.setTextColor(getResources().getColor(R.color.clr_green));
+                    lblduration.setVisibility(View.VISIBLE);
+                    lblqueduration.setVisibility(View.GONE);
+                    mAdapter = new QuestionForQuizAdapter(msgModelList, ExamEnhancementQuestions.this, adapterpos, ExamEnhancementQuestions.this);
+
+                    rcyquestions.setHasFixedSize(true);
+                    rcyquestions.setLayoutManager(new LinearLayoutManager(ExamEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
+                    rcyquestions.setItemAnimator(new DefaultItemAnimator());
+                    rcyquestions.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+//            if(lblduration.getText().toString().equals("Exam Time:00:00")||lblduration.getText().toString().equals("Exam Time:0:00")){
+//                if(answerlist.size()!=0) {
+//                    if(questionlist.size()!=msgModelList.size()){
+//
+//                        for(int i=0;i<msgModelList.size();i++){
+//                            if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
+//                                String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
+//                                answerlist.add(emptyque);
+//                            }
+//                        }
+//
+//                    }
+//
+//                     if(answerlist.size()==msgModelList.size()) {
+//                        submitquiz();
+//                    }
+//
+//                }else{
+//                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
+//                }
+//            }
+            if(lblduration.getText().toString().equals("Exam Time:01:00")||lblduration.getText().toString().equals("Exam Time:1:00")){
+                showAlert("Please submit your exam on time or else exam will be submitted automatically");
+            }
+
+            recTime = recTime - 1;
+            if (recTime != iMaxRecDur) {
+                recTimerHandler.postDelayed(this, 1000);
+            }
+
+//                lblduration.setVisibility(View.GONE);
+
+            lblduration.setText("Exam Time:"+milliSecondsToTimer(recTime * 1000));
+            if(lblduration.getText().toString().equals("Exam Time:00:00")||lblduration.getText().toString().equals("Exam Time:0:00")){
+                if(answerlist.size()!=0) {
+                    if(answerlist.size()==msgModelList.size()) {
+                        submitquiz();
+                    }
+                    else if(questionlist.size()!=msgModelList.size()){
+
+                        for(int i=0;i<msgModelList.size();i++){
+                            if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
+                                String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
+                                answerlist.add(emptyque);
+                            }
+                        }
+                        if(answerlist.size()==msgModelList.size()) {
+                            submitquiz();
+                        }
+                    }
+
+
+
+                }else{
+                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
+                }
+            }
+
+        }
+    };
+
+    public static String milliSecondsToTimer(long milliseconds) {
+        String finalTimerString = "";
+        String secondsString = "";
+        String minutesString = "";
+
+        // Convert total duration into time
+        int hours = (int) (milliseconds / (1000 * 60 * 60));
+        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+        // Add hours if there
+        if (hours > 0) {
+            finalTimerString = hours + ":";
+        }
+
+        // Prepending 0 to Minutes if it is one digit
+        if (minutes < 10) {
+            minutesString = "0" + minutes;
+        } else {
+            minutesString = "" + minutes;
+        }
+
+        // Prepending 0 to seconds if it is one digit
+        if (seconds < 10) {
+            secondsString = "0" + seconds;
+        } else {
+            secondsString = "" + seconds;
+        }
+
+        finalTimerString = finalTimerString + minutesString + ":" + secondsString;
+
+        // return timer string
+        return finalTimerString;
+    }
+
+    private void examEnhancement() {
+
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        }
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("QuizId", info.getQuizId());
+        jsonObject.addProperty("StudentID", child_id);
+
+
+        Log.d("jsonObject", jsonObject.toString());
+
+        Call<JsonObject> call = apiService.questionforquiz(jsonObject);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+                try {
+                    if (mProgressDialog.isShowing())
+                        mProgressDialog.dismiss();
+                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    if (response.code() == 200 || response.code() == 201) {
+                        Log.d("Response", response.body().toString());
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            int status = jsonObject.getInt("Status");
+                            String message = jsonObject.getString("Message");
+
+                            if (status == 1) {
+                                msgModelList.clear();
+                                JSONArray data = jsonObject.getJSONArray("data");
+
+
+                                for (int i = 0; i < data.length(); i++) {
+                                    jsonObject = data.getJSONObject(i);
+                                    msgModel = new QuestionForQuiz(jsonObject.getInt("QestionId"),
+                                            jsonObject.getString("Question"),
+                                            jsonObject.getString("VideoUrl"),
+                                            jsonObject.getString("FileType"),
+                                            jsonObject.getString("FileUrl"),
+                                            jsonObject.getInt("mark"),
+                                            String.valueOf(i+1),
+                                            jsonObject.getJSONArray("Answer")
+                                    );
+
+                                    msgModelList.add(msgModel);
+
+                                }
+
+                                mAdapter.notifyDataSetChanged();
+
+                            } else {
+
+                                showAlertfinish(message);
+                            }
+
+                        } catch (Exception e) {
+                            Log.e("TextMsg:Exception", e.getMessage());
+                        }
+                    } else {
+                        Toast.makeText(ExamEnhancementQuestions.this, "Server Response Failed", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    Log.e("Response Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("Response Failure", t.getMessage());
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+                // showToast("Server Connection Failed");
+                Toast.makeText(ExamEnhancementQuestions.this, "Server Connection Failed", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void submitquiz() {
+
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
+
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(this);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("QuizId", info.getQuizId());
+        jsonObject.addProperty("StudentID", child_id);
+        jsonObject.addProperty("Answer", String.valueOf(answerlist));
+
+        Log.d("jsonObject", jsonObject.toString());
+
+        Call<JsonObject> call = apiService.submitquiz(jsonObject);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+                try {
+                    if (mProgressDialog.isShowing())
+                        mProgressDialog.dismiss();
+                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    if (response.code() == 200 || response.code() == 201) {
+                        Log.d("Response", response.body().toString());
+
+                        try {
+//                            JSONArray  js = new JSONArray(response.body().toString());
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+
+//                            if (js.length() > 0) {
+//                                JSONObject jsonObject = js.getJSONObject(0);
+                            int strStatus = jsonObject.getInt("Status");
+                            String strMsg = jsonObject.getString("Message");
+
+                            if (strStatus == 1) {
+                                showAlertfinish(strMsg);
+                            }
+
+                            else {
+                                showAlertfinish(strMsg);
+                            }
+//                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(response.body().toString());
+//                            int status = jsonObject.getInt("Status");
+//                            String message = jsonObject.getString("Message");
+//
+//                            if (status == 1) {
+//                                showAlert(message);
+//                            }
+//
+//                            else {
+//                                showAlert(getResources().getString(R.string.no_records));
+//                            }
+//
+//                        } catch (Exception e) {
+//                            Log.e("TextMsg:Exception", e.getMessage());
+//                        }
+                    } else {
+                        Toast.makeText(ExamEnhancementQuestions.this, "Server Response Failed", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    Log.e("Response Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("Response Failure", t.getMessage());
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+                // showToast("Server Connection Failed");
+                Toast.makeText(ExamEnhancementQuestions.this, "Server Connection Failed", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    private void showAlert(String msg) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        //Setting Dialog Title
+        alertDialog.setTitle("Alert");
+
+        alertDialog.setMessage(msg);
+        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.cancel();
+//                finish();
+
+            }
+        });
+
+
+        AlertDialog dialog = alertDialog.create();
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
+
+    private void showAlertfinish(String msg) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        //Setting Dialog Title
+        alertDialog.setTitle("Alert");
+
+        alertDialog.setMessage(msg);
+        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.cancel();
+                finish();
+
+            }
+        });
+
+
+        AlertDialog dialog = alertDialog.create();
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
+    private void showAlertApi(String msg) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        //Setting Dialog Title
+        alertDialog.setTitle("Alert");
+
+        alertDialog.setMessage(msg);
+        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+//                dialog.cancel();
+                submitquiz();
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.setPositiveButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.cancel();
+
+            }
+        });
+        AlertDialog dialog = alertDialog.create();
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
+    @Override
+    public void addclass(final QuestionForQuiz menu, final int position) {
+        adapterpos = position;
+        rgoptions.removeAllViews();
+        rgoptions.clearCheck();
+        videoview.setVisibility(View.GONE);
+        imgview.setVisibility(View.GONE);
+        lnrPDFtext.setVisibility(View.GONE);
+        for (int i = 0; i < menu.getAnswer().length(); i++) {
+            String[] id = new String[0];
+            try {
+                id = menu.getAnswer().get(i).toString().split("~");
+                ansid = id[0];
+                Log.d("ansid", ansid);
+                answer = id[1];
+                Log.d("answer", answer);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            radioButton = new RadioButton(getApplicationContext());
+
+            radioButton.setText(answer);
+            radioButton.setId(Integer.parseInt(ansid));
+            radioButton.setTextSize(16);
+            radioButton.setTextColor(Color.BLACK);
+            radioButton.setPadding(1, 10, 1, 1);
+
+
+            Date currentTime = Calendar.getInstance().getTime();
+            Log.d("currenttime",currentTime.toString());
+            String date = currentTime.toString();
+            String[] parts = date.split(" ");
+
+            System.out.println("Time: " + parts[3] );
+            String currenttime24add=parts[3];
+
+            // ***********compare with current time and start time
+
+            String _24HourTime11 = info.getTimeForQuestionReading()+":00";
+            Log.d("starttime",_24HourTime11);
+            Date curStart = null;
+            Date curEnd = null;
+            SimpleDateFormat cursimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+            try {
+                curStart = cursimpleDateFormat.parse(_24HourTime11);
+                curEnd = cursimpleDateFormat.parse(currenttime24add);
+            }
+            catch(ParseException e){
+                e.printStackTrace();
+            }
+            curdifferenceque = curEnd.getTime() - curStart.getTime();
+            Log.d("curdiffhandler", String.valueOf(curdifferenceque));
+            if(curdifferenceque<=0){
+                lblqueduration.setVisibility(View.VISIBLE);
+                lblduration.setVisibility(View.GONE);
+                rgoptions.setEnabled(false);
+                radioButton.setEnabled(false);
+                btnsubmit.setEnabled(false);
+            }
+            else{
+                lblmin.setText("Students are now allowed to answer");
+                lblmin.setTextColor(getResources().getColor(R.color.clr_green));
+                lblduration.setVisibility(View.VISIBLE);
+                lblqueduration.setVisibility(View.GONE);
+                rgoptions.setEnabled(true);
+                radioButton.setEnabled(true);
+            }
+            rgoptions.addView(radioButton);
+            rgoptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    final int selectedPosition = rgoptions.getCheckedRadioButtonId();
+                    if (selectedPosition != -1) {
+                        String idcom = menu.getQestionId() + "~" + selectedPosition;
+                        String ansidref, answerref;
+                        if (questionlist.size() == 0) {
+                            questionlist.add(String.valueOf(menu.getQestionId()));
+                            if (answerlist.size() == 0) {
+                                answerlist.add(idcom);
+                                Log.d("answerlist", answerlist.get(0));
+                            }
+                        } else if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
+                            int replacequepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
+                            Log.d("replacepos", String.valueOf(replacequepos));
+                            questionlist.set(replacequepos, String.valueOf(menu.getQestionId()));
+                            for (int i = 0; i < menu.getAnswer().length(); i++) {
+                                String[] idref = new String[0];
+                                try {
+                                    idref = menu.getAnswer().get(i).toString().split("~");
+                                    ansidref = idref[0];
+                                    Log.d("ansid", ansid);
+                                    answerref = idref[1];
+                                    Log.d("answer", answer);
+
+
+                                    if (answerlist.contains(menu.getQestionId() + "~" + ansidref)) {
+                                        Log.d("changeexist", "changeexist");
+                                        int replacepos = answerlist.indexOf(menu.getQestionId() + "~" + ansidref);
+                                        Log.d("replacepos", String.valueOf(replacepos));
+                                        answerlist.set(replacepos, idcom);
+                                    }
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            questionlist.add(String.valueOf(menu.getQestionId()));
+                            answerlist.add(idcom);
+                        }
+                        if(answerlist.size()==0){
+                            btnsubmit.setEnabled(false);
+                        }
+                        else{
+                            btnsubmit.setEnabled(true);
+                        }
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("QuizId", info.getQuizId());
+                        jsonObject.addProperty("StudentID", child_id);
+                        jsonObject.addProperty("Answer", String.valueOf(answerlist));
+
+                        Log.d("jsonObject", jsonObject.toString());
+                        Log.d("answersize", String.valueOf(answerlist.size()));
+                    }
+                }
+            });
+
+            if(questionlist.contains(String.valueOf(menu.getQestionId()))){
+                int replacequepos=questionlist.indexOf(String.valueOf(menu.getQestionId()));
+                if(questionlist.get(replacequepos).equals(String.valueOf(menu.getQestionId()))){
+                    String answersetupl=answerlist.get(replacequepos);
+
+                    String[] idsetup = new String[0];
+                    idsetup = answersetupl.split("~");
+                    int ansidsetup = Integer.parseInt(idsetup[0]);
+                    Log.d("ansidsetup", String.valueOf(ansidsetup));
+                    int answersetup = Integer.parseInt(idsetup[1]);
+                    Log.d("answersetup", String.valueOf(answersetup));
+                    if(radioButton.getId()==answersetup){
+                        radioButton.setChecked(true);
+                    }
+
+                }
+
+
+            }
+
+        }
+
+
+        if(answerlist.size()==0){
+            btnsubmit.setEnabled(false);
+        }
+        else{
+            btnsubmit.setEnabled(true);
+        }
+        if (adapterpos == msgModelList.size()-1 && msgModelList.size() != 0) {
+//            btnnext.setEnabled(false);
+            imgnext.setImageResource(R.drawable.bg_next_disable);
+            lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
+        } else {
+//            btnnext.setEnabled(true);
+            imgnext.setImageResource(R.drawable.bg_next_enable);
+            lblnext.setTextColor(getResources().getColor(R.color.clr_black));
+        }
+        if(adapterpos==0){
+//            btnprevious.setEnabled(false);
+            imgprev.setImageResource(R.drawable.bg_prev_disable);
+            lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
+        }
+        else{
+//            btnprevious.setEnabled(true);
+            imgprev.setImageResource(R.drawable.bg_prev_enable);
+            lblprev.setTextColor(getResources().getColor(R.color.clr_black));
+        }
+
+
+        int pos = position + 1;
+        String queno = "Q ." + pos;
+        lblqueno.setText(queno);
+        lblque.setText(menu.getQuestion());
+        videoview.setVisibility(View.GONE);
+        imgview.setVisibility(View.GONE);
+        lnrPDFtext.setVisibility(View.GONE);
+        if (!menu.getVideoUrl().equals("")) {
+            videoview.setVisibility(View.VISIBLE);
+            videourl=menu.getVideoUrl();
+        }
+        else{
+            videoview.setVisibility(View.GONE);
+        }
+        if(menu.getFileType().equals("IMAGE")&& !menu.getFileUrl().equals("")) {
+
+            imgview.setVisibility(View.VISIBLE);
+            Glide.with(this)
+                    .load(menu.getFileUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imgview);
+            imageurl=menu.getFileUrl();
+
+//                final ProgressDialog mProgressDialog = new ProgressDialog(this);
+//                mProgressDialog.setIndeterminate(true);
+//                mProgressDialog.setMessage("Loading...");
+//                mProgressDialog.setCancelable(false);
+//                if (!this.isFinishing()) {
+//                    mProgressDialog.show();
+//                }
+//                Glide.with(ExamEnhancementQuestions.this)
+//                        .load(imageurl)
+//                        .listener(new RequestListener<Drawable>() {
+//                            @Override
+//                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                                mProgressDialog.dismiss();
+//                                onBackPressed();
+//                                return false;
+//                            }
+//                            @Override
+//                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                                mProgressDialog.dismiss();
+//                                return false;
+//                            }
+//                        })
+//                        .into(imgview);
+//
+//            mProgressDialog.dismiss();
+        }
+        else{
+            imgview.setVisibility(View.GONE);
+        }
+        if(menu.getFileType().equals("PDF")&& !menu.getFileUrl().equals("")){
+            lnrPDFtext.setVisibility(View.VISIBLE);
+            lblPDF.setText(menu.getFileUrl());
+            pdfuri=menu.getFileUrl();
+        }
+        else{
+
+            lnrPDFtext.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void removeclass(QuestionForQuiz menu) {
+//        rgoptions.removeAllViews();
+    }
+    private void showvideopopup() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.vimeo_player, null);
+        popupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.WRAP_CONTENT, android.app.ActionBar.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setContentView(layout);
+
+        RelativeLayout image_rlToolbar = (RelativeLayout) layout.findViewById(R.id.image_rlToolbar);
+        ImageView imgBack = (ImageView) layout.findViewById(R.id.imgBack);
+        WebView myWebView = (WebView) layout.findViewById(R.id.myWebView);
+
+        image_rlToolbar.setBackgroundColor(getResources().getColor(R.color.clr_black));
+        imgBack.setImageResource(R.drawable.ic_close);
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        myWebView.setBackgroundColor(getResources().getColor(R.color.clr_black));
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.getSettings().setAppCacheEnabled(true);
+        myWebView.getSettings().setDomStorageEnabled(true);
+        myWebView.getSettings().setSupportZoom(false);
+        myWebView.getSettings().setBuiltInZoomControls(false);
+        myWebView.getSettings().setDisplayZoomControls(false);
+        myWebView.setScrollContainer(false);
+        myWebView.setHorizontalScrollBarEnabled(false);
+        myWebView.setVerticalScrollBarEnabled(false);
+
+        myWebView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
+        myWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
+
+                return true;
+            }
+        });
+        myWebView.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
+                setProgress(progress * 100);
+                if (progress == 100) {
+//                    myWebView.loadUrl(playurl);
+                }
+            }
+        });
+        myWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+
+        String VIDEO_URL="https://player.vimeo.com/video/"+ "425233784";
+        String data_html = "<!DOCTYPE html><html> " +
+                "<head>" +
+                " <meta charset=\"UTF-8\">" +
+
+                "</head>" +
+                " <body style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;\"> " +
+                "<div class=\"vimeo\">" +
+
+                "<iframe  style=\"position:absolute;top:0;bottom:0;width:100%;height:100%\" src=\""+ videourl+"\" frameborder=\"0\">" +
+                "</iframe>" +
+                " </div>" +
+                " </body>" +
+                " </html> ";
+
+        myWebView.loadData(data_html, "text/html", "UTF-8");
+    }
+    private void showpdfpopup() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.vimeo_player, null);
+        popuppdfWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        popuppdfWindow.setContentView(layout);
+        popuppdfWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+        RelativeLayout image_rlToolbar = (RelativeLayout) layout.findViewById(R.id.image_rlToolbar);
+        ImageView imgBack = (ImageView) layout.findViewById(R.id.imgBack);
+        WebView myWebView = (WebView) layout.findViewById(R.id.myWebView);
+
+        image_rlToolbar.setBackgroundColor(getResources().getColor(R.color.clr_black));
+        imgBack.setImageResource(R.drawable.ic_close);
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popuppdfWindow.dismiss();
+            }
+        });
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading");
+        pDialog.setCancelable(false);
+        myWebView.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
+                pDialog.show();
+                setProgress(progress * 100);
+                if (progress == 100) {
+                    pDialog.dismiss();
+                }
+            }
+        });
+
+
+
+        myWebView.setBackgroundColor(getResources().getColor(R.color.clr_black));
+        myWebView.setWebViewClient(new MyWebViewClient(this));
+        myWebView.getSettings().setLoadsImagesAutomatically(true);
+        myWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        myWebView.setVerticalScrollBarEnabled(true);
+        WebSettings webSettings = myWebView.getSettings();
+        myWebView.getSettings().setBuiltInZoomControls(true);
+        webSettings.setJavaScriptEnabled(true);
+        Log.d("content",pdfuri);
+        myWebView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdfuri);
+    }
+
+
+    private void showimagepopup() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.activity_image_circular_pop_up, null);
+        popupimage = new PopupWindow(layout, android.app.ActionBar.LayoutParams.WRAP_CONTENT, android.app.ActionBar.LayoutParams.WRAP_CONTENT, true);
+        popupimage.setContentView(layout);
+
+        ImageView imagePopup_ToolBarIvBack = (ImageView) layout.findViewById(R.id.imagePopup_ToolBarIvBack);
+        RelativeLayout relativeLayoutHeader = (RelativeLayout) layout.findViewById(R.id.relativeLayoutHeader);
+        RelativeLayout rlbackground = (RelativeLayout) layout.findViewById(R.id.rlbackground);
+        ZoomageView demoView = (ZoomageView) layout.findViewById(R.id.demoView);
+
+        relativeLayoutHeader.setVisibility(View.GONE);
+        rlbackground.setBackgroundColor(getResources().getColor(R.color.clr_black));
+        imagePopup_ToolBarIvBack.setImageResource(R.drawable.ic_close);
+
+        imagePopup_ToolBarIvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupimage.dismiss();
+            }
+        });
+//        private void loadImage() {
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
+        if (!this.isFinishing()) {
+            mProgressDialog.show();
+        }
+
+
+        Glide.with(ExamEnhancementQuestions.this)
+                .load(imageurl)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        mProgressDialog.dismiss();
+                        onBackPressed();
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        mProgressDialog.dismiss();
+                        return false;
+                    }
+                })
+                .into(demoView);
+        mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnnext:
+
+                nextpos = adapterpos + 1;
+                if (nextpos != 0) {
+                    Log.d("clickn", String.valueOf(nextpos));
+
+                    mAdapter = new QuestionForQuizAdapter(msgModelList, this, nextpos, this);
+
+                    rcyquestions.setHasFixedSize(true);
+                    rcyquestions.setLayoutManager(new LinearLayoutManager(ExamEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
+                    rcyquestions.setItemAnimator(new DefaultItemAnimator());
+
+                    rcyquestions.smoothScrollToPosition(nextpos);
+
+                    rcyquestions.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.imgnext:
+
+                nextpos = adapterpos + 1;
+                if (nextpos != 0) {
+                    Log.d("clickn", String.valueOf(nextpos));
+
+                    mAdapter = new QuestionForQuizAdapter(msgModelList, this, nextpos, this);
+
+                    rcyquestions.setHasFixedSize(true);
+                    rcyquestions.setLayoutManager(new LinearLayoutManager(ExamEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
+                    rcyquestions.setItemAnimator(new DefaultItemAnimator());
+
+                    rcyquestions.smoothScrollToPosition(nextpos);
+
+                    rcyquestions.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+                break;
+
+            case R.id.btnprevious:
+
+                previouspos = adapterpos - 1;
+                if (previouspos != -1) {
+                    Log.d("clickp", String.valueOf(previouspos));
+
+                    mAdapter = new QuestionForQuizAdapter(msgModelList, this, previouspos, this);
+                    rcyquestions.setHasFixedSize(true);
+                    rcyquestions.setLayoutManager(new LinearLayoutManager(ExamEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
+                    rcyquestions.setItemAnimator(new DefaultItemAnimator());
+
+                    rcyquestions.smoothScrollToPosition(previouspos);
+
+                    rcyquestions.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.imgprev:
+
+                previouspos = adapterpos - 1;
+                if (previouspos != -1) {
+                    Log.d("clickp", String.valueOf(previouspos));
+
+                    mAdapter = new QuestionForQuizAdapter(msgModelList, this, previouspos, this);
+                    rcyquestions.setHasFixedSize(true);
+                    rcyquestions.setLayoutManager(new LinearLayoutManager(ExamEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
+                    rcyquestions.setItemAnimator(new DefaultItemAnimator());
+
+
+                    rcyquestions.smoothScrollToPosition(previouspos);
+
+
+                    rcyquestions.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+                break;
+
+            case R.id.btnsubmit:
+                if(questionlist.size()!=msgModelList.size()){
+
+                    for(int i=0;i<msgModelList.size();i++){
+                        if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
+                            String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
+                            answerlist.add(emptyque);
+                        }
+                    }
+                }
+
+                if(answerlist.size()==msgModelList.size()) {
+                    showAlertApi("Are you sure want to submit the Exam ?");
+                }
+
+                break;
+
+            case R.id.lnrPDFtext:
+
+
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/gview?embedded=true&url="+pdfuri));
+                browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                browserIntent.setPackage("com.android.chrome");
+                startActivity(browserIntent);
+//                showpdfpopup();
+//                Intent i=new Intent(ExamEnhancementQuestions.this,PdfQuizScreen.class);
+//                i.putExtra("TYPE","PDF");
+//                i.putExtra("CONTENT",pdfuri);
+
+//                startActivity(i);
+                break;
+
+            case R.id.imgVideo:
+                showvideopopup();
+                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                break;
+            case R.id.imgShadow:
+                showvideopopup();
+                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                break;
+            case R.id.imgplay:
+                showvideopopup();
+                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                break;
+            case R.id.videoview:
+                showvideopopup();
+                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                break;
+
+            case R.id.imgview:
+                showimagepopup();
+                popupimage.showAtLocation(v, Gravity.CENTER, 0, 0);
+                break;
+        }
+    }
+}

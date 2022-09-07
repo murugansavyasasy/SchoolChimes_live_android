@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/clr_logo_instant" />
+                </shape>
+            </item>
+
+            <item android:bottom="3dp" android:left="0dp" android:right="0dp" android:top="0dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/clr_bottombar_bg" />
+                </shape>
+            </item>
+        </layer-list>
+
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/clr_bottombar_bg" />
+        </shape>
+    </item>
+</selector>

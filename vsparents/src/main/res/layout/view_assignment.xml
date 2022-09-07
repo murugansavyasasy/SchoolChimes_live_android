@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/clr_black"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lnrAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/lbltitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:text="Assignment"
+            android:textColor="@color/clr_white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/layout_tittle"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/attenStudent_toolbar"-->
+<!--        android:background="@color/teacher_clr_grey"-->
+<!--        android:padding="10dp"-->
+<!--        android:visibility="gone">-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/section_type"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/teacher_txt_section"-->
+<!--                android:textColor="@color/teacher_clr_black"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textStyle="bold" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/attenStudent_tvStdSec"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="I-A"-->
+<!--                android:textColor="@color/teacher_clr_black"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textStyle="bold" />-->
+<!--        </LinearLayout>-->
+<!--    </RelativeLayout>-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lnrAction">
+
+    <RelativeLayout
+        android:layout_below="@+id/lnrAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginTop="35dp"
+            android:padding="4dp"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:id="@+id/lblNoMessages"
+            android:textColor="@color/bpWhite"
+            android:textSize="15dp"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@+id/lblNoMessages"
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:layout_below="@+id/recyclerView"
+            android:id="@+id/btnSeeMore"
+           android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:text="@string/SeeMore"
+            android:visibility="gone"
+            android:textColor="@color/teacher_clr_btn_login"
+            android:background="@drawable/bg_stroke_teacherprimary"
+            android:layout_height="wrap_content"></TextView>
+
+    </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

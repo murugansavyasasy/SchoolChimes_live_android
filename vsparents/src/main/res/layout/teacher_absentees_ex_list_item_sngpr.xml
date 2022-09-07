@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:background="@color/teacher_clr_white"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/absExItem_tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="30dp"
+        tools:text="Sec A" />
+
+    <TextView
+        android:id="@+id/absExItem_tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:background="@color/teacher_clr_yellow_transparency"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="7dp"
+        tools:text="20" />
+</RelativeLayout>

@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <RelativeLayout
+    android:orientation="vertical"
+    android:background="@color/clr_white"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:id="@+id/rytOverallCircular"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <LinearLayout
+        android:id="@+id/lnrDateTime"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/txt_date"
+        android:text=""
+        android:textSize="17sp"
+        android:textColor="@color/clr_black"
+        android:padding="3dp"
+        android:gravity="right"/>
+
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/txt_time"
+        android:text=""
+        android:textSize="10sp"
+        android:textColor="@color/clr_black"
+        android:padding="3dp"
+        android:gravity="right"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/txt_type"
+            android:text=""
+            android:textSize="10sp"
+            android:textColor="@color/clr_black"
+            android:padding="3dp"
+            android:gravity="right"/>
+
+
+
+</LinearLayout>
+
+    <ImageView
+        android:layout_height="35dp"
+        android:layout_width="35dp"
+        android:id="@+id/imgBack"
+        app:srcCompat="@drawable/ic_arrow_back"
+        android:visibility="invisible"
+        android:clickable="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/lnrType"
+        android:weightSum="1"
+        android:layout_below="@+id/lblTextTitle">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="Subject"
+            android:textSize="16dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:layout_below="@+id/imgBack"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text=":"
+            android:textSize="18dp"
+            android:textColor="@color/clr_black"
+            android:layout_below="@+id/imgBack"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:id="@+id/lblTextType"
+            android:text=""
+            android:textSize="16dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/clr_black"
+            android:layout_below="@+id/imgBack"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="2dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/lnrCategory"
+        android:weightSum="1"
+        android:layout_below="@+id/lnrType">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="Category"
+            android:textSize="16dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:layout_below="@+id/imgBack"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text=":"
+            android:textSize="18dp"
+            android:textColor="@color/clr_black"
+            android:layout_below="@+id/imgBack"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:id="@+id/lblCategory"
+            android:text=""
+            android:textSize="16dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/clr_black"
+            android:layout_below="@+id/imgBack"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="2dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/lnrDate"
+        android:weightSum="1"
+        android:layout_below="@+id/lnrCategory">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="Submission Due"
+        android:textSize="16dp"
+        android:layout_weight="0.5"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:textStyle="bold"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text=":"
+        android:textSize="18dp"
+        android:textColor="@color/clr_black"
+        android:textStyle="bold"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:id="@+id/lblDate"
+        android:text=""
+        android:textSize="16dp"
+        android:layout_weight="0.5"
+        android:textColor="@color/clr_black"
+        android:layout_below="@+id/imgBack"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="2dp"/>
+
+</LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:weightSum="1"
+        android:id="@+id/lnrSubmissionCount"
+        android:layout_below="@+id/lnrDate">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="Submission Count"
+            android:textSize="16dp"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:textStyle="bold"
+            android:layout_weight="0.5"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text=":"
+            android:textSize="18dp"
+            android:textColor="@color/clr_black"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:id="@+id/lblSubCount"
+            android:text=""
+            android:textSize="16dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/clr_black"
+            android:layout_below="@+id/imgBack"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="2dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/lnrTotalCount"
+        android:weightSum="1"
+        android:layout_below="@+id/lnrSubmissionCount">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="Total Count"
+            android:layout_weight="0.5"
+            android:textSize="16dp"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text=":"
+            android:textSize="18dp"
+            android:textColor="@color/clr_black"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:id="@+id/lblTotalcount"
+            android:text=""
+            android:textSize="16dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/clr_black"
+            android:layout_below="@+id/imgBack"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="2dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/lnrSentby"
+        android:weightSum="1"
+        android:layout_below="@+id/lnrTotalCount">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="Sent By"
+            android:layout_weight="0.5"
+            android:textSize="16dp"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text=":"
+            android:textSize="18dp"
+            android:textColor="@color/clr_black"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:id="@+id/lblSent"
+            android:text=""
+            android:textSize="16dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/clr_black"
+            android:layout_below="@+id/imgBack"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="2dp"/>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/rytButtons"
+        android:padding="3dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/lnrSentby"
+        android:layout_margin="3dp"
+        >
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:id="@+id/btnView"
+        android:text="View"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        style="@style/Teacher_btn_green"/>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:id="@+id/btnForward"
+        android:text="Forward"
+        android:textSize="16sp"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        style="@style/Teacher_btn_login"
+        />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:id="@+id/btnDelete"
+        android:text="Delete"
+        android:textSize="16sp"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        style="@style/Teacher_btn_red"/>
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:id="@+id/btnSubmit"
+            android:text="Submit"
+            android:visibility="gone"
+            android:textSize="16sp"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            style="@style/Teacher_btn_red"/>
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/rytButtonscount"
+        android:layout_below="@id/rytButtons"
+        android:padding="3dp"
+        android:gravity="center"
+        android:layout_margin="3dp"
+        >
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/btnSubmission"
+        android:text="Submissions"
+        android:textSize="16sp"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        style="@style/btn_login"/>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:id="@+id/btnTotal"
+        android:text="Total"
+        android:textSize="16sp"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        style="@style/btn_primary"/>
+    </LinearLayout>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/lblTextTitle"
+        android:text=""
+        android:textSize="18dp"
+        android:textColor="@color/clr_black"
+        android:layout_below="@+id/lnrDateTime"
+        android:textStyle="bold"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/lblNew"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="15dp"/>
+    <TextView
+        android:id="@+id/lblNew"
+        android:visibility="gone"
+
+        android:layout_below="@+id/lnrDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/bg_unread_red"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="@string/txt_new"
+        android:textColor="@color/clr_white"
+        android:textSize="10sp" />
+
+
+    <TextView
+        android:background="@drawable/bottom_view_bg"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/lblSubmitCount"
+        android:text="Submitted Count"
+        android:textSize="13dp"
+        android:visibility="gone"
+        android:textColor="@color/clr_white"
+        android:padding="5dp"
+        android:layout_below="@+id/rytButtons"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:visibility="gone"
+        android:background="@drawable/bg_btn_reject"
+        android:layout_marginBottom="30dp"
+        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:id="@+id/lblEndDate"
+        android:text="End Date"
+        android:textSize="13dp"
+        android:textColor="@color/clr_white"
+        android:padding="5dp"
+        android:layout_below="@+id/lblSubmitCount"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/sample"
+        android:visibility="gone"/>
+
+</RelativeLayout>

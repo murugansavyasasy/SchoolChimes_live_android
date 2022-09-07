@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/clr_white"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/cardPDF_ivDate"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_pdf" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_margin_small"
+            android:layout_marginStart="@dimen/widget_margin_small"
+            android:layout_toEndOf="@+id/cardPDF_ivDate"
+            android:layout_toRightOf="@+id/cardPDF_ivDate"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/widget_margin_small">
+
+            <TextView
+                android:id="@+id/cardPDF_tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/clr_black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="@string/tamil" />
+
+            <TextView
+                android:id="@+id/cardPDF_tvNew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_unread_red"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="@string/txt_new"
+                android:textColor="@color/clr_white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!--<TextView-->
+            <!--android:id="@+id/cardPDF_tvTime"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:gravity="right"-->
+            <!--android:padding="3dp"-->
+            <!--android:textColor="@color/clr_black"-->
+            <!--android:textSize="14sp"-->
+            <!--tools:text="11.30 AM" />-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/cardPDF_tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="3dp"
+                android:textColor="@color/clr_black"
+                android:textSize="10sp"
+                tools:text="20 Jan 2018" />
+
+            <TextView
+                android:id="@+id/cardPDF_tvTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="3dp"
+                android:textColor="@color/clr_black"
+                android:textSize="10sp"
+                tools:text="11.30 AM" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/clr_card_grey"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/cardPDF_tvMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@string/hint_view_pdf"
+            android:textColor="@color/clr_black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardPDF_tvMsg"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cardPDF_btnView"
+                style="@style/btn_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/btn_pdf_view" />
+
+            <Button
+                android:id="@+id/cardPDF_btnDownload"
+                style="@style/btn_green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_gravity="center"
+                android:text="@string/btn_pdf_save" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

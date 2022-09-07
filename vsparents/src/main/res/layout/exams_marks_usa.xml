@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/teacher_img_app_bg"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrStudentDetails"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/clr_black"
+            android:textSize="20sp"
+            android:text="STUDENT DETAILS"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            android:paddingBottom="5sp"
+            android:paddingLeft="5dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/lblName"
+                    android:layout_width="80sp"
+                    android:text="Name"
+                    android:textSize="15sp"
+                    android:textColor="@color/clr_grey"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/lblStudentName"
+                    android:layout_toRightOf="@+id/lblName"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:text=": murugan"
+                    android:textColor="@color/clr_black"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/lblSchool"
+                    android:layout_width="80sp"
+                    android:text="School Name"
+                    android:textSize="15sp"
+                    android:textColor="@color/clr_grey"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/lblSchoolName"
+                    android:layout_toRightOf="@+id/lblSchool"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:text=": Voicesnap pvt ltd"
+                    android:textColor="@color/clr_black"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/lblCalss"
+                    android:layout_width="80sp"
+                    android:text="Standard"
+                    android:textSize="15sp"
+                    android:textColor="@color/clr_grey"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/lblClStandard"
+                    android:layout_toRightOf="@+id/lblCalss"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:text=": III"
+                    android:textColor="@color/clr_black"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/lblSec"
+                    android:layout_width="80sp"
+                    android:text="Section"
+                    android:textSize="15sp"
+                    android:textColor="@color/clr_grey"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/lblSection"
+                    android:layout_toRightOf="@+id/lblSec"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:text=": Apple"
+                    android:textColor="@color/clr_black"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/lblExam"
+                    android:layout_width="80sp"
+                    android:text="Exam Name"
+                    android:textSize="15sp"
+                    android:textColor="@color/clr_grey"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/lblexamName"
+                    android:layout_toRightOf="@+id/lblExam"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:text=": Test for ATTN"
+                    android:textColor="@color/clr_black"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/lblMax"
+                    android:layout_width="80sp"
+                    android:text="Max Marks"
+                    android:textSize="15sp"
+                    android:textColor="@color/clr_grey"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/lblMaximumMarks"
+                    android:layout_toRightOf="@+id/lblMax"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:text=": 200"
+                    android:textColor="@color/clr_black"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/lblAvg"
+                    android:layout_width="80sp"
+                    android:text="Hig/Avg Marks"
+                    android:textSize="15sp"
+                    android:textColor="@color/clr_grey"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/lblAvg"
+                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblHighest"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:text=": 300"
+                    android:textColor="@color/clr_black"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/lblAverage"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="5sp"
+                        android:text="/ 300"
+                        android:textColor="@color/clr_black"
+                        android:layout_centerVertical="true"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnDisplayMarks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/Teacher_btn_login"
+            android:text="Display Marks"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:id="@+id/rytParent"
+    tools:context=".activity.TeacherMeetingURLScreen">
+
+    <RelativeLayout
+        android:id="@+id/genTextMsg_rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/genTextPopup_ToolBarIvBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:clickable="true"
+            app:srcCompat="@drawable/teacher_ic_close" />
+
+        <TextView
+            android:id="@+id/genTextPopup_ToolBarTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/genTextPopup_ToolBarIvBack"
+            android:text="Online Meeting"
+            android:textColor="@color/teacher_clr_white"
+            android:textSize="20sp"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/genTextMsg_rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginTop="7dp"
+            android:id="@+id/lnrTap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/teacher_bg_stroke_primary"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tapCreate"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/bpblack"
+                android:textSize="14dp"
+                android:text="CREATE"/>
+
+            <TextView
+                android:id="@+id/tapUpcoming"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="40dp"
+                android:textColor="@color/bpblack"
+                android:textSize="14dp"
+                android:text="VIEW"/>
+
+
+        </LinearLayout>
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recycleUpcomingMeetings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_above="@+id/genText_relativeLayoutFoot"
+    android:layout_below="@+id/lnrTap"/>
+
+
+
+    <androidx.core.widget.NestedScrollView
+
+        android:id="@+id/ComposeMessgeNested"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/genText_relativeLayoutFoot"
+        android:layout_below="@+id/lnrTap"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:id="@+id/genText_composemsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/mgtGenText_rlHeader"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:background="@color/teacher_clr_white"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/genTextPopup_ivDate"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/onlineclass" />
+
+                <TextView
+                    android:id="@+id/genTextPopup_tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/widget_margin_small"
+                    android:layout_marginLeft="@dimen/widget_margin_small"
+                    android:layout_toEndOf="@+id/genTextPopup_ivDate"
+                    android:layout_toRightOf="@+id/genTextPopup_ivDate"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="16sp"
+
+                    android:text="Compose Meeting URL" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/genText_txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@color/teacher_clr_card_grey"
+                android:ems="10"
+                android:hint="Title"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textSize="14dp"
+               />
+
+
+            <RelativeLayout
+                android:id="@+id/Select_Exam_Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/teacher_clr_card_grey"
+                    android:ems="10"
+                    android:hint="@string/select_exam_date"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:textSize="14dp"
+                    />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_arrow_down_grey" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/genText_txtmessage"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@color/teacher_clr_card_grey"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="Description"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:maxLines="15"
+                android:minLines="7"
+                android:padding="7dp"
+                android:textSize="12dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@color/teacher_clr_card_grey"
+                android:gravity="right"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/genText_msgcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="12sp"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/genText_countslash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="12sp"
+
+                    tools:text="/" />
+
+                <TextView
+                    android:id="@+id/genText_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="300"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="12sp"
+                     />
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bpWhite"
+                android:text="Meeting Platform"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <Spinner
+                android:visibility="visible"
+                android:layout_toLeftOf="@+id/lnrEye"
+                android:id="@+id/spinnerMeetingPlatform"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent" />
+
+                <LinearLayout
+                    android:id="@id/lnrEye"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/bg_white_stroke_grey"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imgEye"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/info"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/lblSelectDate"
+                    android:background="@drawable/teacher_bg_stroke_grey"
+                    android:text="Select Date"
+                    android:padding="4dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="40dp"/>
+                <TextView
+                    android:id="@+id/lblSelectTime"
+                    android:background="@drawable/teacher_bg_stroke_grey"
+                    android:text="Select Time"
+                    android:layout_marginLeft="10dp"
+                    android:padding="4dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/teacher_clr_card_grey"
+                android:layout_marginTop="15dp"
+                android:weightSum="1"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <EditText
+                android:id="@+id/txtMeetingURL"
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Paste your meeting link"
+                android:inputType="none"
+                android:focusable="false"
+                android:longClickable="true"
+                android:clickable="false"
+                android:padding="10dp"
+                android:background="@color/teacher_clr_card_grey"
+                android:textSize="14dp" />
+                <ImageView
+                    android:id="@+id/imgeditclose"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_close_black"/>
+
+            </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/genText_btnToSections"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:enabled="false"
+                android:text="@string/teacher_staff_to_sections" />
+
+            <Button
+                android:id="@+id/btnSendToGroupsStandard"
+                android:visibility="visible"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:enabled="false"
+                android:text="@string/send_to_standard_groups" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+    <RelativeLayout
+        android:id="@+id/genText_relativeLayoutFoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/genText_textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:text="@string/teacher_school_msg"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="20sp"
+
+            tools:text="Chimes " />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/genText_textView3"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/genText_textView3"
+            android:gravity="bottom"
+            android:text="@string/teacher_for_schools"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="10sp"
+
+            />
+
+    </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="7dp"
+    tools:context=".activity_USA.TeacherHomeScreen_USA">
+
+    <LinearLayout
+        android:id="@+id/imgsquare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="7dp"
+        android:gravity="center">
+
+        <CheckBox
+            android:id="@+id/liSection_cbSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/teacher_bg_cb_tint_trans"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Section_Subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imgsquare"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/Relative_section_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/teacher_bg_white_stoke_grey1"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_toLeftOf="@+id/cardAbsen_ll2"
+                android:layout_toStartOf="@+id/cardAbsen_ll2">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/teacher_txt_section"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/liSection_tvSection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="I-A" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/teacher_txt_subject"
+                        android:textColor="@color/teacher_clr_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="Subject: " />
+
+                    <TextView
+                        android:id="@+id/liSection_tvSubject"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/teacher_clr_grey"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:textStyle="bold"
+                        tools:text="Tamil" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cardAbsen_ll2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="@dimen/widget_margin_small"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="@dimen/widget_margin_small"
+                android:layout_toLeftOf="@+id/liSection_btnEdit"
+                android:layout_toStartOf="@+id/liSection_btnEdit"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="@dimen/widget_margin_small">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/teacher_txt_student"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/liSection_tvSeleStudCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="43" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/"
+                        android:textColor="@color/teacher_clr_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/liSection_tvTotStudCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/teacher_clr_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="45" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/liSection_btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/teacher_btn_edit"
+                android:gravity="center"
+                android:minWidth="50dp"
+                android:minHeight="0dp"
+                android:padding="7dp"
+                android:text="@string/edit_section"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="10dp" />
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/teacher_bg_primary_stroke_bottom" />
+    </LinearLayout>
+</RelativeLayout>
+
+
+    <!--android:button="@drawable/teacher_bg_checkbox"-->

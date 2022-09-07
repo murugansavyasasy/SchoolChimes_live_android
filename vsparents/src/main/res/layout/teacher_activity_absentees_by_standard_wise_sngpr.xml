@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@drawable/teacher_img_app_bg"
+    tools:context=".activity_SINGAPORE.TeacherAbsenteesByStandardWise_SNGPR">
+
+    <ExpandableListView
+        android:id="@+id/absEx_exlvList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:childDivider="@color/teacher_clr_white"
+        android:divider="@color/teacher_clr_black_trans_20"
+        android:groupIndicator="@null" />
+
+
+</RelativeLayout>

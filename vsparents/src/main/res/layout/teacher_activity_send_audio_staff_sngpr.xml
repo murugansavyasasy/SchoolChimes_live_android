@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <RelativeLayout
+                android:id="@+id/staffVoice_rlToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/staffVoice_toolBarIvBack"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:clickable="true"
+                    android:contentDescription="@string/teacher_txt_Image"
+                    app:srcCompat="@drawable/teacher_ic_arrow_back" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mgtText_rlHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/teacher_clr_white"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/staffVoice_ivVoiceLogo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/teacher_txt_Image"
+                    app:srcCompat="@drawable/teacher_ic_voice_snap" />
+
+
+                <TextView
+                    android:id="@+id/staffVoice_tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/widget_margin_small"
+                    android:layout_marginStart="@dimen/widget_margin_small"
+                    android:layout_toEndOf="@+id/staffVoice_ivVoiceLogo"
+                    android:layout_toRightOf="@+id/staffVoice_ivVoiceLogo"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/widget_margin_small"
+                    android:text="@string/teacher_txt_recorded_voice"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/teacher_clr_card_grey"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/staffVoice_tvMsg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/teacher_hint_play_voice"
+                    android:textColor="@color/teacher_clr_black"
+                    android:textSize="14sp" />
+
+                <include
+                    layout="@layout/teacher_my_audio_player_sngpr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/teacher_clr_card_grey" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/staffVoice_llRecipient"
+                layout="@layout/teacher_sectionselected_sngpr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@color/teacher_clr_card_grey" />
+
+            <Button
+                android:id="@+id/staffVoice_btnchoose"
+                style="@style/Teacher_btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:text="@string/teacher_choose_recipient" />
+
+            <Button
+                android:id="@+id/staffVoice_btnSend"
+                style="@style/Teacher_btn_green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="@string/teacher_txt_send" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

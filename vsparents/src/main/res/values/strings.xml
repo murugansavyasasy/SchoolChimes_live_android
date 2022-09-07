@@ -1,0 +1,641 @@
+<resources>
+    <string name="app_title">School Chimes</string>
+    <string name="app_name">School Chimes</string>
+    <string name="app_version_id">18</string>
+    <string name="app_id">3</string>
+
+    <string name="selected">selected</string>
+    <string name="done">Done</string>
+    <string name="limit_exceeded">Can select a maximum of %d images</string>
+
+    <string name="error_null_cursor">Oops, something went wrong!</string>
+
+    <!--Request Permission-->
+    <string name="permission_info">App requires permission to Storage to view images.</string>
+    <string name="permission_force">App requires permission to Storage to view images. Tap Settings and go to Permissions to grant permission.</string>
+    <string name="permission_ok">OK</string>
+    <string name="permission_settings">Settings</string>
+    <string name="permission_package">package</string>
+
+    <string name="app_sub_title">for Parents</string>
+
+    <!-- Menu -->
+    <string name="txt_menu_help">Help</string>
+    <string name="txt_menu_logout">Logout</string>
+    <string name="txt_menu_settings">Settings</string>
+
+
+    <string name="txt_menu_change_password">Change Password</string>
+
+    <!-- Splash -->
+    <string name="txt_copyright">© Voicesnap 2019. All rights reserved.</string>
+
+    <!-- Login -->
+    <string name="txt_hello">Hello! \n Please fill out the form below to get started.</string>
+
+
+    <string name="txt_signin">Sign in here.</string>
+    <string name="txt_mobile">Mobile Number</string>
+    <string name="hint_mobile">Enter Mobile Number</string>
+    <string name="hint_password">Enter Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_forgot_password">Forgot Password?</string>
+
+    <string name="hint_save_image">Click here to View full image</string>
+    <string name="btn_save_image">Save Image</string>
+    <string name="txt_new">New</string>
+    <string name="sample_txt_msg">Voice Snap is an innovative provider of Voice based Solutions and Products that add value to enterprises across the business value chain. From a technology perspective, we harness CTI, IVR and Web Technologies along with a deep understanding of Business Process Engineering to create value to Enterprises across the Business Value Chain.</string>
+
+    <string name="hint_play_voice">Press the Play button to play the voice message</string>
+    <string name="hint_view_pdf">Press the Download button to download the attached file</string>
+
+    <string name="btn_pdf_view">View File</string>
+    <string name="btn_pdf_save">Download</string>
+
+    <string name="btn_voice_play">Play Audio</string>
+    <string name="btn_voice_save">Download</string>
+
+    <string name="pop_password_title">Change Password</string>
+    <string name="pop_password_txt_exist">Existing Password</string>
+    <string name="pop_password_hint_exist">Enter Existing Password</string>
+    <string name="pop_password_txt_new">New Password</string>
+    <string name="pop_password_hint_new">Enter New Password</string>
+    <string name="pop_password_txt_repeat">Verify New Password</string>
+    <string name="pop_password_hint_repeat">Confirm New Password</string>
+    <string name="pop_password_btnUpdate">Update</string>
+    <string name="pop_password_btnCancel">Cancel</string>
+
+    <string name="pop_response_title_help">Help</string>
+    <string name="pop_response_btn_send">Send</string>
+    <string name="pop_response_hint_msg">Enter message here..</string>
+    <string name="pop_response_txt_count">460</string>
+
+
+    <string name="txt_test_ques">Did you accept?</string>
+    <string name="rb_yes">Yes</string>
+    <string name="rb_no">No</string>
+    <string name="btn_sign"><u>Sign here</u></string>
+
+    <string name="btn_sign_cancel">Cancel</string>
+    <string name="btn_sign_clear">Clear</string>
+    <string name="btn_sign_submit">Submit</string>
+    <string name="txt_signhere">Your Signature..</string>
+    <string name="external_dir">GetSignature</string>
+
+    <string name="hint_leave_reason">Reason for leave</string>
+    <string name="txt_from">From</string>
+    <string name="txt_to">To</string>
+    <string name="btn_apply">Inform</string>
+    <string name="hint_attendance">Your ward attendance report for past 30 working days</string>
+
+    <string name="home_emergency">Emergency Voice</string>
+    <string name="home_voice_parents">General Voice </string>
+    <string name="home_text_parents">Text Messages</string>
+    <string name="home_notice_board">Notice Board</string>
+    <string name="home_events">School Events</string>
+    <string name="home_photos">Images</string>
+    <string name="home_absentees">Absentees</string>
+    <string name="home_call_message_usage">Calls  SMS usage</string>
+    <string name="home_documents">Circulars</string>
+    <string name="home_homework_text">Homework</string>
+    <string name="home_homework_voice">Voice Homework</string>
+    <string name="home_exam">Exam/Test</string>
+    <string name="home_attendance">Attendance Report</string>
+    <string name="home_leave_request">Leave Information</string>
+
+    <string name="catch_message">Something went wrong.Try Again</string>
+    <string name="else_error_message">Something went wrong.Try Again</string>
+    <string name="Error_message">Check your Internet connectivity</string>
+    <string name="home_pay_fees">Fee Details</string>
+
+
+    <string name="teacher_app_title">Schools V4</string>
+    <string name="teacher_app_name">Voicesnap Schools</string>
+    <string name="teacher_app_sub_title">for Parents</string>
+    <string name="teacher_school_msg">Chimes \t</string>
+
+    <string name="teacher_app_version_id">60</string>
+    <string name="teacher_app_version_name">3.4</string>
+    <string name="teacher_app_id">3</string>
+
+    <!-- Splash -->
+    <string name="teacher_app_version_code">21</string>
+    <string name="teacher_txt_copyright">© Voicesnap 2019. All rights reserved.</string>
+
+    <!-- Notice Board -->
+    <string name="teacher_nb_hint_title">Type News Topic</string>
+    <string name="teacher_nb_hint_msg">Type content here</string>
+
+    <!-- Events -->
+    <string name="teacher_events_date">Date</string>
+    <string name="teacher_events_time">Time</string>
+    <string name="teacher_events_hint_title">Event Topic</string>
+    <string name="teacher_events_hint_msg">Type Event content here</string>
+    <string name="teacher_event_txt_datetime">Date Time</string>
+
+    <!-- pop up -->
+    <string name="teacher_pop_remove_title">Remove Group</string>
+    <string name="teacher_pop_remove_msg">Are you sure? Do you want to remove this group?</string>
+    <string name="teacher_pop_remove_btn_yes">Ok</string>
+    <string name="teacher_pop_remove_btn_no">Cancel</string>
+
+    <!-- Login -->
+    <string name="teacher_txt_hello">Hello! \n Please fill out the form below to get started.</string>
+    <string name="teacher_txt_signin">Sign in here.</string>
+    <string name="teacher_txt_mobile">Mobile Number</string>
+    <string name="teacher_hint_mobile">Enter Mobile Number</string>
+    <string name="teacher_hint_password">Enter Password</string>
+    <string name="teacher_btn_login">Login</string>
+    <string name="teacher_btn_forgot_password">Forgot Password?</string>
+
+
+    <!--Message Type-->
+    <string name="teacher_txt_hello1">Hello! \n What would you like to send today?</string>
+    <string name="teacher_txt_voice"><b>Voice</b> message</string>
+    <string name="teacher_txt_text"><b>Text</b> or <b>Home Work</b></string>
+    <string name="teacher_txt_Image"><b>Image</b></string>
+    <string name="teacher_txt_attendance">Mark <b>Attendance</b></string>
+
+    <!--Text Message-->
+    <string name="teacher_txt_composemsg">Compose Text Message</string>
+    <string name="teacher_txt_composehwmsg">Compose Homework Message</string>
+    <string name="teacher_txt_composeExammsg">Create Exam</string>
+    <string name="teacher_txt_onwhat">On what?</string>
+    <string name="teacher_txt_typemsg">Content?</string>
+    <string name="teacher_txt_hw_title">HomeWork Topic</string>
+
+    <string name="teacher_txt_exam_title">Exam Name</string>
+    <string name="teacher_txt_exam_typemsg">Exam Description</string>
+
+    <string name="teacher_staff_to_sections">To Standard or Sections</string>
+    <string name="teacher_staff_to_students">To Section or Students</string>
+    <string name="teacher_staff_hint_title">Title/Subject</string>
+
+
+    <!--Imagess -->
+    <string name="teacher_txt_composeImg">Upload Image/PDF</string>
+    <string name="teacher_image_hint_title">About Image/PDF</string>
+
+    <!--Voice Message-->
+    <string name="teacher_txt_Recordvoice">Record Voice Message</string>
+    <string name="teacher_txt_recorded_voice">Recorded Voice Message</string>
+    <!--<string name="txt_start_record">Press the button to <b>Start</b> recording the <b>voice message</b></string>-->
+    <!--<string name="txt_stop_record">Press the button to <b>Stop</b>  recording the <b>voice message</b></string>-->
+
+    <string name="teacher_txt_start_record">Press the button to <b>RECORD</b></string>
+    <string name="teacher_txt_stop_record">Press the button to <b>STOP RECORD</b></string>
+    <string name="teacher_txt_PreviewVoice">Listen <b>Voice</b> Message</string>
+    <string name="teacher_txt_next">Next</string>
+    <string name="teacher_txt_sendimg">Send Image</string>
+    <string name="teacher_txt_chgimg">CHANGE IMAGE/PDF</string>
+
+    <string name="teacher_txt_general_title">You can record upto 3 minutes</string>
+    <!--Emergency Voice Message-->
+    <string name="teacher_txt_emergency_voice">Record Emergency Voice</string>
+    <string name="teacher_txt_emergency_title">You can record upto 30 seconds</string>
+
+    <!--Choose Recipients-->
+    <string name="teacher_txt_send">Send</string>
+    <string name="teacher_choose_recipient">Choose Recipients</string>
+    <string name="teacher_send_entire_school">Send to All schools</string>
+    <string name="teacher_txt_selectStudents">Select Students</string>
+    <string name="teacher_Select_class">Select classes</string>
+    <string name="teacher_Select_group">Select groups</string>
+
+    <!--List Section-->
+    <string name="teacher_txt_section">Section:\t </string>
+    <string name="teacher_txt_subject">Subject:\t </string>
+    <string name="teacher_txt_student">Students</string>
+
+    <!--List Students-->
+    <string name="teacher_txt_select">Select all</string>
+    <string name="teacher_txt_unselect">Unselect all</string>
+    <string name="teacher_confirm">Send</string>
+    <string name="teacher_btn_add_class">Add New Class</string>
+    <string name="teacher_cancel">Cancel</string>
+    <string name="teacher_btn_ok">Ok</string>
+    <string name="teacher_btn_remove">Remove</string>
+    <string name="teacher_or">Or</string>
+    <string name="teacher_text_msg">Text Message</string>
+
+    <!--send Audio to entire school-->
+    <string name="teacher_hint_play_voice">Press the button to <b>Play</b> the <b>Voice message</b></string>
+    <string name="teacher_change">Change</string>
+    <string name="teacher_click">Click here to choose Image/PDF</string>
+
+    <!--change Password-->
+    <string name="teacher_pop_password_title">Change Password</string>
+    <string name="teacher_pop_password_txt_exist">Existing Password</string>
+    <string name="teacher_pop_password_hint_exist">Enter Existing Password</string>
+    <string name="teacher_pop_password_txt_new">New Password</string>
+    <string name="teacher_pop_password_hint_new">Enter New Password</string>
+    <string name="teacher_pop_password_txt_repeat">Verify New Password</string>
+    <string name="teacher_pop_password_hint_repeat">Confirm New Password</string>
+    <string name="teacher_pop_password_btnUpdate">Update</string>
+    <string name="teacher_pop_password_btnCancel">Cancel</string>
+
+    <!-- Menu -->
+    <string name="teacher_txt_menu_help">Help</string>
+    <string name="teacher_txt_menu_logout">Logout</string>
+    <string name="teacher_txt_menu_change_password">Change Password</string>
+
+
+    <string name="teacher_teacher_pop_response_title_help">Help</string>
+    <string name="teacher_pop_response_btn_send">Send</string>
+    <string name="teacher_pop_response_btn_clear">Clear</string>
+    <string name="teacher_pop_response_hint_msg">Enter message here..</string>
+    <string name="teacher_pop_response_txt_count">460</string>
+    <string name="teacher_for_schools">for Schools</string>
+    <string name="teacher_choosen_recipient">Choosen Recipient</string>
+    <string name="teacher_Select_school">Select Schools</string>
+
+    <string name="teacher_atten_sections">Section(s)</string>
+    <!-- Attendance -->
+    <string name="teacher_title_attendance">Attendance</string>
+    <string name="teacher_atten_standard">Standard</string>
+    <string name="teacher_atten_section">Section</string>
+    <string name="teacher_atten_subject">Subject</string>
+    <string name="teacher_btn_choose_students">Select Absentees</string>
+    <string name="teacher_btn_mark_all_present">Mark All as Present</string>
+
+    <string name="teacher_title_add_temp_class">Add New Class</string>
+    <string name="teacher_btn_Add">Add</string>
+
+    <string name="teacher_home_emergency">Emergency Voice</string>
+    <string name="teacher_home_voice_parents">Voice to Parents</string>
+    <string name="teacher_home_text_parents">Text to Parents</string>
+    <string name="teacher_home_notice_board">Notice Board</string>
+    <string name="teacher_home_events">School Events</string>
+    <string name="teacher_home_photos">Image Upload</string>
+    <string name="teacher_home_absentees">Absenteeism Report</string>
+    <string name="teacher_home_call_message_usage">Calls  SMS usage</string>
+    <string name="teacher_home_particulars">School Strength</string>
+    <string name="teacher_home_homework_text">Text Homework</string>
+    <string name="teacher_home_homework_voice">Voice Homework</string>
+    <string name="teacher_home_exam">Exam/Test Schedule</string>
+    <string name="teacher_home_attendance">Attendance Marking</string>
+    <string name="teacher_txt_msg_error">Something Went Wrong.Try Again.</string>
+    <string name="teacher_home_mesasagesfrommgmt">Messages From Management</string>
+    <string name="teacher_btn_voice_play">Play Audio</string>
+    <string name="teacher_btn_voice_save">Download</string>
+
+
+    <string name="teacher_failuremsg">Check your Internet connectivity</string>
+
+    <string name="School_title">Select School..</string>
+    <string name="p_s_b_b_sr_secondary_school">P.S.B.B Sr Secondary School</string>
+    <string name="chennai_india">Chennai,India</string>
+    <string name="logged_in_as">Logged in as</string>
+    <string name="group_head">Group Head</string>
+    <string name="change">Change</string>
+    <string name="one">1</string>
+    <string name="one_1">1</string>
+    <string name="two">2</string>
+    <string name="four">4</string>
+    <string name="four_1">2</string>
+    <string name="four_2">2</string>
+    <string name="exam_marks">Exam Marks</string>
+    <string name="four_3">2</string>
+    <string name="four_4">2</string>
+    <string name="four_5">2</string>
+    <string name="four_6">10</string>
+    <string name="four_7">10</string>
+    <string name="library_details">Library Details</string>
+    <string name="four_8">10</string>
+    <string name="online_text">Online Text Book</string>
+    <string name="asdfsadfsd">asdfsadfsd</string>
+    <string name="_26_jan_2017">26 Jan 2017</string>
+    <string name="_26_jan_2017_date">26 Jan 2017</string>
+    <string name="acknowledgement">Acknowledgement</string>
+    <string name="p_s_b_b_sr_secondary">P.S.B.B Sr Secondary School</string>
+    <string name="feedback">Feedback</string>
+    <string name="logout_children">Logout</string>
+    <string name="more_children">More</string>
+    <string name="coming_soon">COMING SOON....</string>
+    <string name="name_circualr">name</string>
+    <string name="image_circualr_name">name</string>
+    <string name="tamil">Tamil</string>
+    <string name="time">11.30 AM</string>
+    <string name="xxxxx">xxxx</string>
+    <string name="yyyyy">yyyy</string>
+    <string name="unread_n_messages">Unread   Messages</string>
+    <string name="name_pdf">name</string>
+    <string name="webwiew_name">name</string>
+    <string name="webview_tamil">Tamil</string>
+    <string name="webviewtamil">11.30 AM</string>
+    <string name="text_name">name</string>
+    <string name="text_message_name">name</string>
+    <string name="text_tamil">Tamil</string>
+    <string name="text_time">11.30 AM</string>
+    <string name="voice_description">Description</string>
+    <string name="enter_subject_name">Enter subject name</string>
+    <string name="sub_date">05 Jul 2018</string>
+    <string name="child_name">Name :</string>
+    <string name="child_class">Class :</string>
+    <string name="child_roll_no">Roll No :</string>
+    <string name="voice_1">VOICE (1)</string>
+    <string name="text_1">TEXT (1)</string>
+    <string name="create_new_password">Create new password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="btn_submit">Submit</string>
+    <string name="btn_next">Next</string>
+    <string name="search_exams">Search Exams</string>
+    <string name="no_exams">No Exams</string>
+    <string name="enter_maximum_mark">Enter Maximum Mark</string>
+    <string name="select_date">Select Date</string>
+    <string name="date_exam">Date</string>
+    <string name="select_time">Select Time</string>
+    <string name="select_session">Select Session</string>
+    <string name="add">ADD</string>
+    <string name="remove">REMOVE</string>
+    <string name="list_of_exams">List of Exams</string>
+    <string name="exam_names">Exam Names</string>
+    <string name="school_name">School Name</string>
+    <string name="your_name">Your Name</string>
+    <string name="alternate_mobile_number">Alternate Mobile Number</string>
+    <string name="email_id">Email ID</string>
+    <string name="_1_question_1">1)Question 1</string>
+    <string name="_1_question_2">1)Question 2</string>
+    <string name="_1_question_3">1)Question 3</string>
+    <string name="_1_question_4">1)Question 4</string>
+    <string name="_1_question_5">1)Question 5</string>
+    <string name="_1_question_6">1)Question 6</string>
+    <string name="_1_question_7">1)Question 7</string>
+    <string name="_1_question_8">1)Question 8</string>
+    <string name="_1_question_9">1)Question 9</string>
+    <string name="other_comments">Other comments....</string>
+    <string name="feedback_submit">SUBMIT</string>
+    <string name="show_monthly_fees">Show Monthly fees</string>
+    <string name="book_id">Book ID</string>
+    <string name="book_name">Book Name</string>
+    <string name="issued_date">Issued Date</string>
+    <string name="due_date">Due Date</string>
+    <string name="subjects">SUBJECTS</string>
+    <string name="marks">MARKS</string>
+    <string name="fee_name">Fee Name</string>
+    <string name="monthly_fees">Monthly fees</string>
+    <string name="total_monthlyfees">Total MonthlyFees</string>
+    <string name="pending_amount">Pending Amount</string>
+    <string name="total">Total</string>
+    <string name="enter_your_otp">Enter Your OTP</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="created_on">Created On</string>
+    <string name="total_paid">Total Paid</string>
+    <string name="payment_type">Payment Type</string>
+    <string name="late_fee">Late Fee</string>
+    <string name="payment">Payment</string>
+    <string name="enter_your_passworddd">Enter your password</string>
+    <string name="term">Term |</string>
+    <string name="term_2">Term ||</string>
+    <string name="term_3">Term |||</string>
+    <string name="term_4">Term |V</string>
+    <string name="yearly_fees">Yearly Fees</string>
+    <string name="_1_question_adpter">1)Question 9</string>
+    <string name="_1_question_1_radio">1)Question 1</string>
+    <string name="_1_question_1_recycle">1)Question 1</string>
+    <string name="skip">Skip</string>
+    <string name="send_to_entire_school">Send to Entire school</string>
+    <string name="send_to_standard_groups">Send to Standard/Groups</string>
+    <string name="send_to_standard_section">Send to Standard/section</string>
+    <string name="authorized_caller">Authorized Caller</string>
+    <string name="select_all">Select All</string>
+    <string name="search_staffs">Search staffs</string>
+    <string name="no_staffs">No Staffs</string>
+    <string name="make_call">Make call</string>
+    <string name="subject_title">Subject :</string>
+    <string name="max_mark">Max Mark :</string>
+    <string name="subject_date">Date :</string>
+    <string name="subject_session">Session :</string>
+    <string name="bill_date">Date :</string>
+    <string name="payment_mode">Payment Mode :</string>
+    <string name="s_no">S.No</string>
+    <string name="bill_fee_name">Fee Name</string>
+    <string name="bill_payment">Payment</string>
+    <string name="bill_total">Total</string>
+    <string name="paid_amount">Paid Amount</string>
+
+    <string name="home_change">Change</string>
+    <string name="teacher_libray">Library Details</string>
+    <string name="conference_call">Conference Call With Teachers</string>
+    <string name="select_student_attedance">Select Student</string>
+    <string name="attedance_section">Section</string>
+    <string name="calls_used">Calls Used:</string>
+    <string name="sms_used">SMS Used:</string>
+    <string name="select_exam_date">Select Exam Date</string>
+
+    <string name="staff">Staff:</string>
+    <string name="students">Students:</string>
+    <string name="select_subjects">Select Subjects</string>
+    <string name="standards_teacher">Standards</string>
+    <string name="groups_teacher">Groups</string>
+    <string name="new_voice">new</string>
+    <string name="image_1">IMAGE (1)</string>
+    <string name="pdf_1">PDF (1)</string>
+    <string name="edit_section">Edit</string>
+
+    <string name="app_version_name">2.3</string>
+    <string name="language_change">Change Language</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="choose">Choose</string>
+    <string name="role">Your Role</string>
+    <string name="your_child">Your Child</string>
+    <string name="login_principal">Login As Principal</string>
+    <string name="login_staff">Login As Staff</string>
+    <string name="login_admin">Login As Admin</string>
+    <string name="login_grouphead">Login As Grouphead</string>
+    <string name="exam_test">Exam Test</string>
+    <string name="circulars">Circulars</string>
+    <string name="exams">Exam Marks</string>
+    <string name="to_voicesnap">to voicesnap</string>
+    <string name="paid_details">Paid Details</string>
+    <string name="upcomming">Upcoming</string>
+    <string name="fee">Fee</string>
+    <string name="details">Details</string>
+    <string name="alert">Alert</string>
+    <string name="connect_internet">please connect the internet</string>
+    <string name="check_internet">Check your Internet connectivity</string>
+    <string name="no_records">No Records Found..</string>
+    <string name="student">Student</string>
+    <string name="marksss">Marks</string>
+    <string name="monthly_pending">Monthly pending</string>
+    <string name="confirm_to_send">Are you sure want to send</string>
+
+    <string name="library">Library</string>
+    <string name="staff_list">Staff List</string>
+    <string name="exam">Exam</string>
+    <string name="logged">Logged</string>
+    <string name="as_principal">As Principal</string>
+    <string name="as_staff">As Staff</string>
+    <string name="as_admin">As Admin</string>
+    <string name="as_grouphead">As Grouphead</string>
+    <string name="absentess_report">Absentees Report</string>
+    <string name="standard_wise">Standardwise</string>
+    <string name="messages">Messages</string>
+    <string name="for_parents">for Parents</string>
+    <string name="from_management">from Management</string>
+    <string name="school">School</string>
+    <string name="strenth">Strength</string>
+    <string name="text_books">Text Books</string>
+    <string name="online">online</string>
+    <string name="enter_leave_reason">Enter the reason for leave</string>
+    <string name="enter_correct_password">Enter the correct password</string>
+    <string name="enter_message">Enter  Message</string>
+    <string name="enter_valid_mobile">Enter valid Mobile Number</string>
+    <string name="fill_all_details">Please fill the  Details</string>
+    <string name="select_feedback">Please select the feedback</string>
+    <string name="sent_succesfully">SENT SUCCESSFULLY</string>
+    <string name="no_paid_records">No Paid Records found</string>
+    <string name="no_pending_records">No Pending Records found</string>
+    <string name="mobile_not_available">Mobile Number is not available in Database</string>
+    <string name="otp_sent">OTP Sent Succesfully</string>
+    <string name="otp_time_expired">Your time is expired..Please reenter OTP</string>
+    <string name="registered_mobile">Enter Registered Mobile number</string>
+    <string name="select_staff">Please select atleast one staff</string>
+    <string name="no_students">No Students available..</string>
+    <string name="exam_will_be">Exams Will be sent to the bellow listed students(s)</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="password_missmatch">New Passwords Mismatching</string>
+    <string name="date_time">Date Time</string>
+    <string name="set_10minis">Set 10 mins from now for Today\'s Event</string>
+    <string name="you_have_not_changed">You\'ve not changed anything so previous selections will be used</string>
+    <string name="class_not_added">Class Not Added to the list</string>
+    <string name="are_you">Are you?</string>
+    <string name="please_uninstall">Please Uninstall the School App and update the all New Version available on the store</string>
+    <string name="choose_country">Where is your school/college is located ?</string>
+    <string name="now">Now</string>
+    <string name="later">Later</string>
+    <string name="teacher_select_school">Select School</string>
+    <string name="select_reciepients">Select Recipients</string>
+    <string name="select_atleast_one_school">Please select atleast one school..</string>
+    <string name="please_select_message">Please select atleast one message</string>
+    <string name="voice_compose_msg">Record Voice Message</string>
+    <string name="voice_history">Voice History</string>
+    <string name="text_compose_msg">Text Compose Message</string>
+    <string name="sms_history">SMS History</string>
+    <string name="choose_from_gallery">Choose From Gallery</string>
+    <string name="choose_pdf">Choose PDF</string>
+    <string name="txt_payment">Hello! Please fill .</string>
+    <string name="approve">Approve</string>
+    <string name="decline">Decline</string>
+    <string name="appliedon">Leave Applied On</string>
+    <string name="leave_from_date">Leave From Date</string>
+    <string name="leave_to_date">Leave To Date</string>
+    <string name="leave_reason">Reason</string>
+    <string name="leave_history">Leave History</string>
+    <string name="events">Events</string>
+    <string name="holidays">Holidays</string>
+    <string name="leave_request">Leave Requests</string>
+    <string name="leave">Leave</string>
+    <string name="requesttttt">Send Request</string>
+    <string name="approved">Approved</string>
+    <string name="declined">Declined</string>
+    <string name="waiting_for_approval">Waiting for approval</string>
+    <string name="holiday_date">Holiday Date</string>
+    <string name="holiday_reason">Reason</string>
+    <string name="staffsss">Staff</string>
+    <string name="subject_name">"Subject Name "</string>
+    <string name="staff_name">"Staff Name "</string>
+    <string name="standard">Standard</string>
+    <string name="section">Section</string>
+    <string name="class_teacher">Class Teacher</string>
+    <string name="select_image_error">Please select maximum four images only.</string>
+    <string name="recent_photos">Recent Photos</string>
+    <string name="recent_messages">Recent Text Messages</string>
+    <string name="recent_voice_messages">Recent Voice Messages</string>
+    <string name="recent_files">Recent Files</string>
+    <string name="emergency">Emergency</string>
+    <string name="attedance">Attendance</string>
+    <string name="want_to_logut">Are you sure want to logout?</string>
+    <string name="home">Home</string>
+    <string name="more">More</string>
+    <string name="txt_language">Language</string>
+    <string name="txt_password">Password</string>
+    <string name="answer">Answer</string>
+    <string name="faq">FAQ</string>
+    <string name="fag_for_parent">FAQ- Parents</string>
+    <string name="faq_for_school">FAQ-Schools</string>
+    <string name="record_new_voice_msg">Record a new voice Message</string>
+    <string name="record_voice_history">Select from Voice history</string>
+    <string name="text_new_msg">Compose a new Text Message</string>
+    <string name="text_compose_history">Select from Text History</string>
+    <string name="image_maximum">Please upload a</string>
+    <string name="images_only">images only</string>
+    <string name="grade_usa">Grade</string>
+    <string name="grades_usa">Grades</string>
+    <string name="select_recipients">Select Recipients</string>
+    <string name="send_standard_section_for_usa">Send to Grade/section</string>
+    <string name="send_standard_groups_for_usa">Send to Grade/Groups</string>
+    <string name="to_standard_sections">To Grade or Sections</string>
+    <string name="mt_rqst_meeting">Request Meeting</string>
+    <string name="mt_status">Status</string>
+    <string name="mt_mtng_details">Meeting Details</string>
+    <string name="mt_enter_details">Enter the details</string>
+    <string name="mt_date_request_on">Date Requested On</string>
+    <string name="mt_details">Details</string>
+    <string name="mt_scheduled">Scheduled</string>
+    <string name="mt_schedule">Schedule</string>
+    <string name="mt_rejected">Rejected</string>
+    <string name="mt_reject">Reject</string>
+    <string name="mt_waiting_for">Waiting For Approval</string>
+    <string name="mt_request">Request</string>
+    <string name="mt_approved">Approved</string>
+    <string name="mt_rejected_reason">Rejected Reason</string>
+    <string name="mt_staff_name">Staff Name</string>
+    <string name="mt_date_requested_on">Date Requested On</string>
+    <string name="mt_staff_comments">Staff Comments</string>
+    <string name="mt_date_time_alloted">Date/Time Allotted</string>
+    <string name="mt_student_name">Student Name</string>
+    <string name="mt_class">Class</string>
+    <string name="mt_your_comments">Your Comments</string>
+    <string name="exit_app">Do you want to exit application?</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="from_gallery">From Gallery</string>
+    <string name="from_camera">From Camera</string>
+    <string name="select_participants">Select participants</string>
+    <string name="you_have_new_message">You have new message from school</string>
+    <string name="about_video">Video Description</string>
+    <string name="compose_video">Upload Video</string>
+    <string name="choose_video">Choose Video from Gallery</string>
+    <string name="change_video">CHANGE VIDEO</string>
+    <string name="video_title">Enter video title</string>
+    <string name="video_error">Please send the video bellow 1000MB.</string>
+    <string name="terms_conditions">Terms and Conditions</string>
+    <string name="agree_continue">AGREE AND CONTINUE</string>
+    <string name="special_offers">Special Offers</string>
+    <string name="or">OR</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="standard_sections_not_assigned">No Standards and sections assigned</string>
+    <string name="caps_image">IMAGE</string>
+    <string name="caps_text">TEXT</string>
+    <string name="caps_voice">VOICE</string>
+    <string name="caps_pdf">PDF</string>
+    <string name="txt_home">Home</string>
+    <string name="get_subjects">Get Subjects</string>
+    <string name="selecte_atleast_one_section">Please select atleast one section</string>
+    <string name="subject_syllabus">Subject Syllabus</string>
+    <string name="syllabus">Syllabus :</string>
+    <string name="make_payment">Make Payment</string>
+    <string name="go_to_settings">GOTO SETTINGS</string>
+    <string name="need_permission">Need Permissions</string>
+    <string name="this_app_need_permission">This app needs permission to use this feature. You can grant them in app settings.</string>
+    <string name="null_time">0:00</string>
+
+    <string name="back_to_login"><u>Back to login</u></string>
+
+
+    <string name="SeeMore">See More >> </string>
+    <string name="maximum_size_20_mb">( Maximum size - 10 MB )</string>
+    <string name="upload_student_profile">Upload Student Profile</string>
+    <string name="upload_documents">Upload Documents</string>
+    <string name="file_name">File Name</string>
+    <string name="browse_file">Browse File</string>
+    <string name="enter_file_name">Enter file name</string>
+    <string name="camera">Camera</string>
+
+    <string name="uploadvideo">Upload Video</string>
+    <string name="uploadimage">Upload Image</string>
+
+    <string name="viewMarks">View Marks</string>
+    <string name="viewProgress">View report card</string>
+
+</resources>

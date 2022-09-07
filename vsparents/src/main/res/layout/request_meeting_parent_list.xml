@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_layout_with_shadow"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_white_stroke_grey"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/imgApprovalStatus"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/green_tick"/>
+
+            <LinearLayout
+                android:id="@+id/lnrAprovalStatus"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/lblApprovalStatus"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/clr_white"
+                android:text="Approved"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+  <LinearLayout
+      android:id="@+id/lnrStaffName"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+     android:layout_marginTop="5dp"
+      android:visibility="visible"
+      android:orientation="horizontal">
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="17dp"
+          android:textStyle="bold"
+          android:layout_weight="1"
+          android:textColor="@color/clr_black"
+          android:text="@string/mt_staff_name"/>
+      <TextView
+          android:id="@+id/lblStaffName"
+          android:layout_weight="1"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="17dp"
+          android:text="ABC"/>
+
+
+
+  </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrRequestDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textColor="@color/clr_black"
+                android:text="@string/mt_date_request_on"/>
+            <TextView
+                android:id="@+id/lblRequestDate"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="12/04/209"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrRequestedFor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textColor="@color/clr_black"
+                android:text="@string/mt_details"/>
+            <TextView
+                android:id="@+id/lblRequestedFor"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="i want to meet u."/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lnrStaffComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblStaffCommentsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textColor="@color/clr_black"
+
+                android:text="@string/mt_staff_comments"/>
+            <TextView
+                android:id="@+id/lblStaffComments"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="i want to meet u."/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lnrDateTime"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textColor="@color/clr_black"
+
+                android:text="@string/mt_date_time_alloted"/>
+            <TextView
+                android:id="@+id/lblSheduledTime"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="i want to meet u."/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    tools:context=".activity_USA.TeacherStandardsAndGroupsList_USA">
+
+    <LinearLayout
+        android:id="@+id/lnr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/genTextPopup_ToolBarIvBack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:clickable="true"
+        grid:srcCompat="@drawable/teacher_ic_close" />
+        <CheckBox
+
+            android:id="@+id/princiStdGrp_cbToAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:visibility="visible"
+            android:buttonTint="@color/teacher_bg_cb_tint_trans"
+            android:text="Send to entire school"
+            android:textColor="@color/teacher_clr_white"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+
+
+    <!--<ImageView-->
+        <!--android:id="@+id/genTextPopup_ToolBarIvBack"-->
+        <!--android:layout_width="35dp"-->
+        <!--android:layout_height="35dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:clickable="true"-->
+        <!--grid:srcCompat="@drawable/teacher_ic_close" />-->
+
+    <LinearLayout
+        android:id="@+id/princiStdGrp_llStdGroups"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/sectiongroup_btnConfirm"
+        android:layout_below="@+id/lnr"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+           android:layout_weight="0.5">
+
+
+
+            <!--<CheckBox-->
+                <!--android:id="@+id/princiStdGrp_cbToAll"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:visibility="visible"-->
+                <!--android:buttonTint="@color/teacher_bg_cb_tint_trans"-->
+                <!--android:text="Send to entire school"-->
+                <!--android:textColor="@color/teacher_clr_white"-->
+                <!--android:textSize="16sp" />-->
+
+
+            <TextView
+                android:id="@+id/sec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/grades_usa"
+                android:textColor="@color/teacher_clr_white"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <ScrollView
+                android:id="@+id/scrollsec"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/teacher_clr_white">
+
+                <!--<android.support.v7.widget.GridLayout-->
+                    <!--android:id="@+id/gridlayout_Section"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:padding="4dp"-->
+                    <!--grid:alignmentMode="alignBounds"-->
+                    <!--grid:columnCount="1"-->
+                    <!--grid:rowOrderPreserved="false"-->
+                    <!--grid:useDefaultMargins="true">-->
+
+                <!--</android.support.v7.widget.GridLayout>-->
+
+                <androidx.gridlayout.widget.GridLayout
+                    android:id="@+id/gridlayout_Section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:animateLayoutChanges="true"
+                    android:padding="4dp"
+                    grid:alignmentMode="alignBounds"
+                    grid:columnCount="1"
+                    grid:rowOrderPreserved="false"
+                    grid:useDefaultMargins="true">
+                </androidx.gridlayout.widget.GridLayout>
+            </ScrollView>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.5">
+            <TextView
+                android:id="@+id/grp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/groups_teacher"
+                android:textColor="@color/teacher_clr_white"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/teacher_clr_white">
+
+                <androidx.gridlayout.widget.GridLayout
+                    android:id="@+id/gridlayout_groups"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:animateLayoutChanges="true"
+                    android:padding="4dp"
+                    grid:alignmentMode="alignBounds"
+                    grid:columnCount="1"
+                    grid:rowOrderPreserved="false"
+                    grid:useDefaultMargins="true">
+                </androidx.gridlayout.widget.GridLayout>
+            </ScrollView>
+    </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/sectiongroup_btnConfirm"
+        style="@style/Teacher_btn_green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/teacher_txt_send" />
+
+</RelativeLayout>
