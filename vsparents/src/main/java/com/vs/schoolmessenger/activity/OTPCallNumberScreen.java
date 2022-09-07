@@ -2,6 +2,7 @@ package com.vs.schoolmessenger.activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.ForgetPaswordDialinNumbers;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.GenericTextWatcher;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -48,7 +50,8 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobileNum;
+import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobileNumberFromSP;
+
 
 /**
  * Created by voicesnap on 4/26/2018.
@@ -69,9 +72,16 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
     String forgot="";
 
     RecyclerView recycleNumbers;
-    Button btnBackToLogin;
+    TextView btnBackToLogin;
 
     SmsBroadcastReceiver mSmsBroadcastReceiver;
+
+    EditText otp_textbox_one, otp_textbox_two, otp_textbox_three, otp_textbox_four,
+            otp_textbox_five,otp_textbox_six;
+
+    String OTP="";
+    TextView lblNoteMessage;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -85,11 +95,27 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.otp_call_number_screen);
 
-//        AppSignatureHelper appSignatureHashHelper = new AppSignatureHelper(this);
-//        // This code requires one time to get Hash keys do comment and share key
-//        Log.d("HashKey: ", appSignatureHashHelper.getAppSignatures().get(0));
-
         startSMSListener();
+
+        otp_textbox_one = findViewById(R.id.otp_edit_box1);
+        otp_textbox_two = findViewById(R.id.otp_edit_box2);
+        otp_textbox_three = findViewById(R.id.otp_edit_box3);
+        otp_textbox_four = findViewById(R.id.otp_edit_box4);
+        otp_textbox_five = findViewById(R.id.otp_edit_box5);
+        otp_textbox_six = findViewById(R.id.otp_edit_box6);
+        lblNoteMessage = findViewById(R.id.lblNoteMessage);
+
+       String otp_note = TeacherUtil_SharedPreference.getOTPNote(OTPCallNumberScreen.this);
+       lblNoteMessage.setText(otp_note);
+
+        EditText[] edit = {otp_textbox_one, otp_textbox_two, otp_textbox_three, otp_textbox_four,otp_textbox_five,otp_textbox_six};
+        otp_textbox_one.addTextChangedListener(new GenericTextWatcher(otp_textbox_one, edit));
+        otp_textbox_two.addTextChangedListener(new GenericTextWatcher(otp_textbox_two, edit));
+        otp_textbox_three.addTextChangedListener(new GenericTextWatcher(otp_textbox_three, edit));
+        otp_textbox_four.addTextChangedListener(new GenericTextWatcher(otp_textbox_four, edit));
+        otp_textbox_five.addTextChangedListener(new GenericTextWatcher(otp_textbox_five, edit));
+        otp_textbox_six.addTextChangedListener(new GenericTextWatcher(otp_textbox_six, edit));
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -99,8 +125,6 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         TeacherUtil_SharedPreference.putNoteMessage(OTPCallNumberScreen.this, note_message);
 
         DialNumbers = TeacherUtil_SharedPreference.getDialNumbers(OTPCallNumberScreen.this);
-
-
         forgot = Util_SharedPreference.getForget(OTPCallNumberScreen.this);
         recycleNumbers = (RecyclerView) findViewById(R.id.recycleNumbers);
 
@@ -129,7 +153,7 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         otp_Timer=TeacherUtil_SharedPreference.getOTpTimer(OTPCallNumberScreen.this);
         otpHandler(otp_Timer);
 
-        btnBackToLogin = (Button) findViewById(R.id.btnBackToLogin);
+        btnBackToLogin = (TextView) findViewById(R.id.btnBackToLogin);
 
         btnBackToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,9 +178,13 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         btnSubmitOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String otp = otp_textbox_one.getText().toString()+otp_textbox_two.getText().toString()+otp_textbox_three.getText().toString()+
+                        otp_textbox_four.getText().toString()+otp_textbox_five.getText().toString()+otp_textbox_six.getText().toString();
+
                 TeacherUtil_SharedPreference.putOTPNum(OTPCallNumberScreen.this, "");
-                    if (!txtOtp.getText().toString().equals("")) {
-                        verifyOTP();
+                    if (!otp.equals("")) {
+                        verifyOTP(otp);
 
                     } else {
                         String msg = getResources().getString(R.string.enter_your_otp);
@@ -234,6 +262,7 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
 
     private void MobileNumberApi() {
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(OTPCallNumberScreen.this);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -241,7 +270,7 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        final String mobilenumber = TeacherUtil_SharedPreference.getMobileNum(OTPCallNumberScreen.this);
+        final String mobilenumber = getMobileNumberFromSP(OTPCallNumberScreen.this);
         TeacherUtil_SharedPreference.putMobileNum(OTPCallNumberScreen.this, mobilenumber);
 
         String CountryID=TeacherUtil_SharedPreference.getCountryID(OTPCallNumberScreen.this);
@@ -251,9 +280,7 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         Log.d("Req",jsonObject.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        // Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePassword(mobilenumber);
         Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePasswordByCountryID(jsonObject);
-
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
@@ -270,18 +297,10 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
                         JSONArray js = new JSONArray(response.body().toString());
                         if (js.length() > 0) {
                             JSONObject jsonObject = js.getJSONObject(0);
-
-                            String numberExists = jsonObject.getString("isNumberExists");
-                            String passwordUpdated = jsonObject.getString("isPasswordUpdated");
                             String OTPSent = jsonObject.getString("OTPSent");
-                            String OTP = jsonObject.getString("OTP");
-                            String Status = jsonObject.getString("Status");
-                            String Message = jsonObject.getString("Message");
                             if(OTPSent.equals("1")){
                                 showAlert(getResources().getString(R.string.otp_sent));
-
                             }
-
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
@@ -319,7 +338,7 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         }, 30000);
     }
 
-    private void verifyOTP() {
+    private void verifyOTP(String otp) {
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(OTPCallNumberScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
@@ -330,11 +349,7 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String otp = txtOtp.getText().toString();
-        Log.e(" otp", otp);
-
-        String number = getMobileNum(OTPCallNumberScreen.this);
-
+        String number = getMobileNumberFromSP(OTPCallNumberScreen.this);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         JsonObject jsonObject = new JsonObject();
@@ -458,7 +473,6 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(OTPCallNumberScreen.this);
 
-
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
@@ -466,14 +480,13 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         mProgressDialog.show();
 
         String CountryID=TeacherUtil_SharedPreference.getCountryID(OTPCallNumberScreen.this);
-        String num = TeacherUtil_SharedPreference.getMobileNum(OTPCallNumberScreen.this);
+        String num = TeacherUtil_SharedPreference.getMobileNumberFromSP(OTPCallNumberScreen.this);
 
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("MobileNumber",num);
         jsonObject.addProperty("CountryID",CountryID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        //Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePassword(num);
         Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePasswordByCountryID(jsonObject);
 
         call.enqueue(new Callback<JsonArray>() {
@@ -525,13 +538,20 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
     @Override
     public void onOTPReceived(String otp) {
         Log.d("OTP Received",otp);
-        txtOtp.setText("");
-        txtOtp.setText(otp);
+
+        OTP = otp;
+        otp_textbox_one.setText(String.valueOf(otp.charAt(0)));
+        otp_textbox_two.setText(String.valueOf(otp.charAt(1)));
+        otp_textbox_three.setText(String.valueOf(otp.charAt(2)));
+        otp_textbox_four.setText(String.valueOf(otp.charAt(3)));
+        otp_textbox_five.setText(String.valueOf(otp.charAt(4)));
+        otp_textbox_six.setText(String.valueOf(otp.charAt(5)));
+
         if (mSmsBroadcastReceiver != null) {
             unregisterReceiver(mSmsBroadcastReceiver);
             mSmsBroadcastReceiver = null;
         }
-        verifyOTP();
+        verifyOTP(OTP);
     }
 
     @Override
