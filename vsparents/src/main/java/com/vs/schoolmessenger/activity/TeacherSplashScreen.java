@@ -473,9 +473,10 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         else {
                             checkAppUpdateAPI();
                         }
-
-                    } else {
+                    }
+                    else {
                         appTermsAndConditions("1");
+
                     }
                 }
             }, SPLASH_TIME_OUT);
@@ -874,28 +875,32 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                 BASE_URL = item.getStrBaseURL();
                 TeacherSchoolsApiClient.changeApiBaseUrl(item.getStrBaseURL());
-                String version = getString(R.string.teacher_app_version_id);
-                if (!("98".equals(version))) {
-                    TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, version);
-                    checkAppUpdateAPI();
-                } else {
 
-                    String value = TeacherUtil_SharedPreference.getInstall(TeacherSplashScreen.this);
-                    String otpValue = TeacherUtil_SharedPreference.getOTPNum(TeacherSplashScreen.this);
+                checkUpdateFirstTime();
 
-                    String mobilescreen = TeacherUtil_SharedPreference.getMobileNumberScreen(TeacherSplashScreen.this);
 
-                    if (mobilescreen.equals("1")) {
-                        openMobileNumbeScreen();
-                    } else if (otpValue.equals("1")) {
-                        openMobileNumbeScreen();
-                    } else if (value.equals("1")) {
-                        openSingInScreen();
-                    } else {
-                        openMobileNumbeScreen();
-                    }
 
-                }
+//                String version = getString(R.string.teacher_app_version_id);
+//                if (!("98".equals(version))) {
+//                    TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, version);
+//                    checkAppUpdateAPI();
+//                } else {
+//
+//                    String value = TeacherUtil_SharedPreference.getInstall(TeacherSplashScreen.this);
+//                    String otpValue = TeacherUtil_SharedPreference.getOTPNum(TeacherSplashScreen.this);
+//                    String mobilescreen = TeacherUtil_SharedPreference.getMobileNumberScreen(TeacherSplashScreen.this);
+//
+//                    if (mobilescreen.equals("1")) {
+//                        openMobileNumbeScreen();
+//                    } else if (otpValue.equals("1")) {
+//                        openMobileNumbeScreen();
+//                    } else if (value.equals("1")) {
+//                        openSingInScreen();
+//                    } else {
+//                        openMobileNumbeScreen();
+//                    }
+//
+//                }
             }
         });
         builder.setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
@@ -910,11 +915,110 @@ public class TeacherSplashScreen extends AppCompatActivity {
         alertDialog.show();
         alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.teacher_colorPrimaryDark));
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.teacher_colorPrimaryDark));
-
     }
 
 
+    private void checkUpdateFirstTime(){
+        String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);
+        TeacherSchoolsApiClient.changeApiBaseUrl(strBaseURL);
 
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
+        if (!this.isFinishing())
+            mProgressDialog.show();
+
+        String countyID = TeacherUtil_SharedPreference.getCountryID(TeacherSplashScreen.this);
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        JsonObject jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_VersionCheck(getString(R.string.teacher_app_version_id), getString(R.string.teacher_app_id), "Android", countyID);
+        Call<JsonArray> call = apiService.VersionCheck(jsonReqArray);
+        call.enqueue(new Callback<JsonArray>() {
+
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+
+                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                if (response.code() == 200 || response.code() == 201)
+                    Log.d("VersionCheck:Res", response.body().toString());
+
+                try {
+                    JSONArray js = new JSONArray(response.body().toString());
+                    if (js.length() > 0) {
+                        JSONObject jsonObject = js.getJSONObject(0);
+                        String Offerslink = jsonObject.getString("Offerslink");
+                        String ImageSize = jsonObject.getString("ImageSize");
+                        String PdfSize = jsonObject.getString("PdfSize");
+                        String FileContent = jsonObject.getString("FileContent");
+                        String VideoSizeLimit = jsonObject.getString("VideoSizeLimit");
+                        String VideoSizeLimitAlert = jsonObject.getString("VideoSizeLimitAlert");
+                        String Videotoken = jsonObject.getString("VideoJson");
+                        String numbers = jsonObject.getString("OtpDialInbound");
+                        String ReportNewLink = jsonObject.getString("ReportsLink");
+                        String helplineURL = jsonObject.getString("helplineURL");
+                        TeacherUtil_SharedPreference.putHelpLineUrl(TeacherSplashScreen.this, helplineURL);
+                        TeacherUtil_SharedPreference.putReportURL(TeacherSplashScreen.this, ReportNewLink);
+                        TeacherUtil_SharedPreference.putDialNumbers(TeacherSplashScreen.this, numbers);
+                        String FeePaymentGateway_URL = jsonObject.getString("FeePaymentGateway");
+                        TeacherUtil_SharedPreference.putPaymentUrl(TeacherSplashScreen.this, FeePaymentGateway_URL);
+                        String ProfileTitle = jsonObject.getString("ProfileTitle");
+                        String ProfileLink = jsonObject.getString("ProfileLink");
+                        String ProfileUploadTitle = jsonObject.getString("UploadProfileTitle");
+                        String NewProductLink = jsonObject.getString("NewProductLink");
+                        TeacherUtil_SharedPreference.putNewProductsLink(TeacherSplashScreen.this, NewProductLink);
+                        TeacherUtil_SharedPreference.putProfilLink(TeacherSplashScreen.this, ProfileLink);
+                        TeacherUtil_SharedPreference.putProfilTitle(TeacherSplashScreen.this, ProfileTitle);
+                        TeacherUtil_SharedPreference.putUploadProfileTitle(TeacherSplashScreen.this, ProfileUploadTitle);
+                        TeacherUtil_SharedPreference.putSize(TeacherSplashScreen.this, ImageSize, PdfSize, FileContent, VideoSizeLimit, VideoSizeLimitAlert, Videotoken);
+                        TeacherUtil_SharedPreference.putOfferLink(TeacherSplashScreen.this, Offerslink);
+                        TeacherUtil_SharedPreference.putLanguages(TeacherSplashScreen.this, LanguageList, "Language");
+                        TeacherUtil_SharedPreference.putOTPTimer(TeacherSplashScreen.this, jsonObject.getString("ResendOTPTimer"));
+
+
+                        String version = getString(R.string.teacher_app_version_id);
+                        if (!("98".equals(version))) {
+                            TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, version);
+                            checkAppUpdateAPI();
+                        } else {
+
+                            String value = TeacherUtil_SharedPreference.getInstall(TeacherSplashScreen.this);
+                            String otpValue = TeacherUtil_SharedPreference.getOTPNum(TeacherSplashScreen.this);
+                            String mobilescreen = TeacherUtil_SharedPreference.getMobileNumberScreen(TeacherSplashScreen.this);
+
+                            if (mobilescreen.equals("1")) {
+                                openMobileNumbeScreen();
+                            } else if (otpValue.equals("1")) {
+                                openMobileNumbeScreen();
+                            } else if (value.equals("1")) {
+                                openSingInScreen();
+                            } else {
+                                openMobileNumbeScreen();
+                            }
+                        }
+                    } else {
+                        showToast(getResources().getString(R.string.no_records));
+                        finish();
+                    }
+
+                } catch (Exception e) {
+                    Log.e("VersionCheck:Exception", e.getMessage());
+                    checkAutoLoginAndSDcardPermission();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+                showToast(getResources().getString(R.string.check_internet));
+                finish();
+                Log.d("VersionCheck:Failure", t.toString());
+            }
+        });
+    }
 
     private void checkAppUpdateAPI() {
         String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);

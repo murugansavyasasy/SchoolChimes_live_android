@@ -151,7 +151,10 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
 
         TeacherUtil_SharedPreference.putOTPNum(OTPCallNumberScreen.this, "1");
         otp_Timer=TeacherUtil_SharedPreference.getOTpTimer(OTPCallNumberScreen.this);
+        Log.d("OTp timer",otp_Timer);
+
         otpHandler(otp_Timer);
+        Log.d("OTp timer",otp_Timer);
 
         btnBackToLogin = (TextView) findViewById(R.id.btnBackToLogin);
 
