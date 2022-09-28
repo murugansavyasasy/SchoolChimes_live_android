@@ -81,6 +81,8 @@ public class ChangePasswordScreen extends AppCompatActivity {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
+    JSONObject jsonObjectdetailsStaff;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -307,35 +309,42 @@ public class ChangePasswordScreen extends AppCompatActivity {
                                 if (is_staff  && is_parent) {
 
                                     JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
-                                    JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(0);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
-                                            jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
-                                            , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true,
-                                            jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"));
-                                    Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
-                                    listschooldetails.add(schoolmodel);
-                                    schoolNamelist.add(jsonObjectdetailsStaff.getString("SchoolName"));
 
+                                    for (int i = 0; i < jSONArray1.length(); i++) {
+
+                                        JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(i);
+                                        schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
+                                                jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
+                                                , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true,
+                                                jsonObjectdetailsStaff.getString("isBooksEnabled"),
+                                                jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"));
+                                        Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
+                                        listschooldetails.add(schoolmodel);
+                                        schoolNamelist.add(jsonObjectdetailsStaff.getString("SchoolName"));
+
+                                    }
+
+                                    JSONObject object = jSONArray1.getJSONObject(0);
                                     if (listschooldetails.size() == 1) {
 
-                                        String strSchoolId = jsonObjectdetailsStaff.getString("SchoolID");
-                                        String strStaffId = jsonObjectdetailsStaff.getString("StaffID");
+                                        String strSchoolId = object.getString("SchoolID");
+                                        String strStaffId = object.getString("StaffID");
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
 
                                         TeacherUtil_SharedPreference.putShoolID(ChangePasswordScreen.this, strSchoolId);
                                         TeacherUtil_SharedPreference.putStaffID(ChangePasswordScreen.this, strStaffId);
-                                        String logo = jsonObjectdetailsStaff.getString("SchoolLogo");
+                                        String logo = object.getString("SchoolLogo");
                                         TeacherUtil_SharedPreference.putSchoolLogo(ChangePasswordScreen.this, logo);
                                     }
 
-                                    String logo = jsonObjectdetailsStaff.getString("SchoolLogo");
+
+                                    String logo = object.getString("SchoolLogo");
                                     TeacherUtil_SharedPreference.putSchoolLogo(ChangePasswordScreen.this, logo);
-                                    String strSchoolId = jsonObjectdetailsStaff.getString("SchoolID");
-                                    String strStaffId1 = jsonObjectdetailsStaff.getString("StaffID");
-                                    String schoolname = jsonObjectdetailsStaff.getString("SchoolName");
-                                    String schooladdress = jsonObjectdetailsStaff.getString("SchoolAddress");
+                                    String strSchoolId = object.getString("SchoolID");
+                                    String strStaffId1 = object.getString("StaffID");
+                                    String schoolname = object.getString("SchoolName");
+                                    String schooladdress = object.getString("SchoolAddress");
                                     TeacherUtil_SharedPreference.putSchoolName(ChangePasswordScreen.this, schoolname);
                                     TeacherUtil_SharedPreference.putStaffAddress(ChangePasswordScreen.this, schooladdress);
 

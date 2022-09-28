@@ -56,7 +56,7 @@
         android:layout_below="@+id/lnrInternetConnection"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="7.2"
+        android:text="7.3"
         android:textColor="@color/clr_black"
         android:textSize="15dp" />
 
