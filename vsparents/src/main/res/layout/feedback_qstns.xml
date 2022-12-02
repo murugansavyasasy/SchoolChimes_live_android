@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/lblQuestion1"
             android:layout_marginLeft="10dp"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/feed_Back_Details"
@@ -73,7 +73,7 @@
             <TextView
                 android:id="@+id/lblQuestion2"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/feed_Back_Details"
@@ -135,7 +135,7 @@
             <TextView
                 android:id="@+id/lblQuestion3"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -196,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="@string/_1_question_4"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textStyle="normal" />
 
 
@@ -246,7 +246,7 @@
             <TextView
                 android:id="@+id/lblQuestion5"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -302,7 +302,7 @@
             <TextView
                 android:id="@+id/lblQuestion6"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -357,7 +357,7 @@
             <TextView
                 android:id="@+id/lblQuestion7"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -412,7 +412,7 @@
             <TextView
                 android:id="@+id/lblQuestion8"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -478,9 +478,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-
                 android:text="@string/_1_question_9"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textStyle="normal" />
 
 
@@ -489,7 +488,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="5dp"
-
                 android:orientation="vertical">
 
                 <RadioButton
@@ -540,7 +538,7 @@
     android:layout_width="wrap_content"
     android:text="@string/other_comments"
     style="@style/feed_Back_Details"
-    android:textSize="20sp"
+    android:textSize="15sp"
     android:textStyle="normal"
     android:layout_height="wrap_content" />
 
@@ -550,9 +548,10 @@
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            android:textSize="15dp"
             android:layout_width="match_parent"
             android:layout_marginRight="10dp"
-            android:background="@drawable/bg_stroke_grey"
+            android:background="@drawable/login_shadow_card"
             android:layout_height="wrap_content" />
         <Button
 
@@ -566,8 +565,6 @@
             android:text="@string/feedback_submit"/>
 
     </LinearLayout>
-
-
 </ScrollView>
 
 

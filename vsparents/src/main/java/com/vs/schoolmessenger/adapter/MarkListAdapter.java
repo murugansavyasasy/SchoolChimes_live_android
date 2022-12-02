@@ -36,10 +36,8 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-
             lblSubject = (TextView) view.findViewById(R.id.lblSubject);
             lblMarks = (TextView) view.findViewById(R.id.lblMarks);
-
         }
     }
 
@@ -47,7 +45,6 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MyView
         this.lib_list = lib_list;
         this.context = context;
     }
-
     @Override
     public MarkListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -58,10 +55,7 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MyView
     @Override
     public void onBindViewHolder(final MarkListAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final SubjectAndMarkList library = lib_list.get(position);
-
-
         if(library.getSubject().equals("Total")){
             holder.lblSubject.setText(library.getSubject());
             holder.lblMarks.setText(library.getMark());
@@ -83,8 +77,6 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MyView
         }
         holder.lblSubject.setText(library.getSubject());
         holder.lblMarks.setText(library.getMark());
-
-
 
     }
 

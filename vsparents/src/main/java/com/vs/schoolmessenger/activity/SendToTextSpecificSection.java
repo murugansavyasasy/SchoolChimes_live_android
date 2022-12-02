@@ -36,15 +36,11 @@ import retrofit2.Response;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 public class SendToTextSpecificSection extends AppCompatActivity implements View.OnClickListener {
-
-
     Button SendToEntireSchool, SendToStansGroups, SendToSpecificSection;
-
     String SchoolID, StaffID, filepath, duration, tittle, strmessage, strdate, strtime, strfilepathimage;
     int iRequestCode;
 
     ArrayList<TeacherClassGroupModel> listClasses, listGroups;
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -57,7 +53,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.sens_specific_section);
-
         SendToEntireSchool = (Button) findViewById(R.id.SendToEntireSchool);
         SendToEntireSchool.setOnClickListener(this);
         SendToStansGroups = (Button) findViewById(R.id.SendToStansGroups);
@@ -70,8 +65,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
             SendToStansGroups.setText("Send to Grade/Groups");
             SendToSpecificSection.setText("Send to Grade/sections");
         }
-
-
         ImageView ivBack = (ImageView) findViewById(R.id.emergVoice_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,22 +94,14 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
             StaffID = TeacherUtil_Common.Principal_staffId;
         }
 
-
-
-
-
     }
-
-
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.SendToEntireSchool:
                 showAlert();
                 break;
             case R.id.SendToStansGroups:
-
                 Intent inPrincipal = new Intent(SendToTextSpecificSection.this, TextStandardAndGroupList.class);
-
                 inPrincipal.putExtra("REQUEST_CODE", iRequestCode);
                 inPrincipal.putExtra("SCHOOL_ID", SchoolID);
                 inPrincipal.putExtra("STAFF_ID", StaffID);
@@ -133,13 +118,10 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
 
             case R.id.SendToSpecificSection:
                 Intent intoSec = new Intent(SendToTextSpecificSection.this, TeacherStaffStandardSection.class);
-
                 intoSec.putExtra("REQUEST_CODE", iRequestCode);
                 intoSec.putExtra("FILEPATH", filepath);
-
                 intoSec.putExtra("SCHOOL_ID", SchoolID);
                 intoSec.putExtra("STAFF_ID", StaffID);
-
                 intoSec.putExtra("DURATION", duration);
                 intoSec.putExtra("TITTLE", tittle);
                 intoSec.putExtra("MESSAGE", strmessage);
@@ -151,8 +133,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
 
     private void showAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SendToTextSpecificSection.this);
-
-
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(R.string.confirm_to_send);
         alertDialog.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
@@ -168,18 +148,15 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
                 dialogInterface.cancel();
             }
         });
-
         AlertDialog dialog = alertDialog.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
     }
 
 
     private void sendToEntireSchool() {
-
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(SendToTextSpecificSection.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
@@ -243,9 +220,7 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
 
     private void showAlert1(String strMsg, final String status) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SendToTextSpecificSection.this);
-
         alertDialog.setTitle(R.string.alert);
-
         alertDialog.setMessage(strMsg);
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
@@ -264,8 +239,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
 
             }
         });
-
-
         AlertDialog dialog = alertDialog.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
@@ -284,7 +257,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
             jsonObjectSchoolstdgrp.addProperty("Description", tittle);
             jsonObjectSchoolstdgrp.addProperty("isEntireSchool", "T");
             jsonObjectSchoolstdgrp.addProperty("Message", strmessage);
-
             JsonArray jsonArrayschoolstd = new JsonArray();
 
             for (int i = 0; i < listClasses.size(); i++) {
@@ -306,7 +278,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -318,18 +289,8 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
         return jsonObjectSchoolstdgrp;
     }
 
-
-    private void backToResultActvity(String msg) {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("MESSAGE", msg);
-        setResult(iRequestCode, returnIntent);
-        finish();
-    }
-
     private void showToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
-
-
 }
 

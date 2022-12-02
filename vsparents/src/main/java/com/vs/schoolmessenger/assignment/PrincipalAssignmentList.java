@@ -12,8 +12,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PrincipalAssignmentList extends AppCompatActivity implements RefreshInterface {
     RecyclerView recyclerView;
@@ -41,6 +45,8 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
     TextView LoadMore;
     TextView lblNoMessages;
 
+    ImageView imgSearch;
+    TextView Searchable;
 
     AssignmentViewAdapter assignment_adapter;
     private ArrayList<AssignmentViewClass> assignlist = new ArrayList<>();
@@ -57,6 +63,48 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
                 onBackPressed();
             }
         });
+
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (assignment_adapter == null)
+                    return;
+
+                if (assignment_adapter.getItemCount() < 1) {
+                    recyclerView.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
 
         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
@@ -79,9 +127,21 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 80);
-
         assignment_adapter = new AssignmentViewAdapter(PrincipalAssignmentList.this, assignlist,this,"0");
         recyclerView.setAdapter(assignment_adapter);
+    }
+
+    private void filterlist(String s) {
+
+        List<AssignmentViewClass> temp = new ArrayList();
+        for (AssignmentViewClass d : assignlist) {
+
+            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getContent().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        assignment_adapter.updateList(temp);
     }
 
     private void seeMoreButtonVisiblity() {

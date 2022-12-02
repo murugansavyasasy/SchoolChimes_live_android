@@ -6,7 +6,6 @@ public class SubjectAndMarkList {
     public SubjectAndMarkList(String sub, String mark) {
         this.subject = sub;
         this.mark = mark;
-
     }
 
     public SubjectAndMarkList() {}

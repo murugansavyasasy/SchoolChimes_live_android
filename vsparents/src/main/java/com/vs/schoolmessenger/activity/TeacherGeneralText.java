@@ -105,7 +105,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     private int i_schools_count = 0;
 
     private int iRequestCode;
-    //    boolean bIsGroupHead;
     String loginType;
     String schoolId, staffId;
 
@@ -394,23 +393,17 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
             }
         });
-
-
         radioGeneralText.setChecked(true);
-
         NestedScrollView.setVisibility(View.VISIBLE);
         rytSmsHistory.setVisibility(View.GONE);
-
         selectedViewButtons();
 
         TextRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radioGeneralText:
-
                         NestedScrollView.setVisibility(View.VISIBLE);
                         rytSmsHistory.setVisibility(View.GONE);
-
                         selectedViewButtons();
                         break;
                     case R.id.radioSmsHistory:
@@ -418,16 +411,12 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                         NestedScrollView.setVisibility(View.GONE);
                         rytSmsHistory.setVisibility(View.VISIBLE);
                         selectedViewButtons();
-
-
                         smsAdapter = new SmsHistoryAdapter(TeacherGeneralText.this, TeacherGeneralText.this, SmsHistoryList);
-
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TeacherGeneralText.this);
                         SmsHistoryRecycle.setLayoutManager(layoutManager);
                         SmsHistoryRecycle.addItemDecoration(new DividerItemDecoration(TeacherGeneralText.this, LinearLayoutManager.VERTICAL));
                         SmsHistoryRecycle.setItemAnimator(new DefaultItemAnimator());
                         SmsHistoryRecycle.setAdapter(smsAdapter);
-
                         SmsHistory();
 
                         break;
@@ -438,14 +427,10 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
 
         if (iRequestCode == PRINCIPAL_TEXT_HW || iRequestCode == STAFF_TEXT_HW) {
-           // String totcount = String.valueOf(maxHomeWorkSMSCount);
-            //tvtotcount.setText(totcount);
             tvheader.setText(getResources().getText(R.string.teacher_txt_composehwmsg));
             et_tittle.setHint(getResources().getText(R.string.teacher_txt_hw_title));//"HomeWork Topic");
             etMessage.setHint(getResources().getText(R.string.teacher_txt_typemsg));
-
-//            etMessage.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxHomeWorkSMSCount)});
-           etMessage.addTextChangedListener(mTextEditorWatcher1);
+            etMessage.addTextChangedListener(mTextEditorWatcher1);
 
         } else if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
             tvheader.setText(getResources().getText(R.string.teacher_txt_composeExammsg));
@@ -453,19 +438,13 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             tvtotcount.setText(totcount);
             et_tittle.setHint(getResources().getText(R.string.teacher_txt_exam_title));//"HomeWork Topic");
             etMessage.setHint(getResources().getText(R.string.teacher_txt_exam_typemsg));
-
-          //  etMessage.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxGeneralSMSCount)});
             etMessage.addTextChangedListener(mTextEditorWatcher);
             et_tittle.addTextChangedListener(mTextEditorWatcher);
-
-
             Date.setOnClickListener(this);
 
         } else {
             String totcount = String.valueOf(maxGeneralSMSCount);
             tvtotcount.setText(totcount);
-
-//            etMessage.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxGeneralSMSCount)});
             etMessage.addTextChangedListener(mTextEditorWatcher);
         }
 
@@ -544,29 +523,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
     }
 
-    private void importnatntInfo() {
 
-//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View layout = inflater.inflate(R.layout.video_terms, null);
-//        popupWindow = new PopupWindow(layout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
-//        popupWindow.setContentView(layout);
-//        popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-//        RecyclerView ryccontent = (RecyclerView) layout.findViewById(R.id.rycContent);
-//        Button btnAgree = (Button) layout.findViewById(R.id.btnAgree);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-//        ryccontent.setLayoutManager(layoutManager);
-//        ryccontent.setItemAnimator(new DefaultItemAnimator());
-//        ContentAdapter contentadapter = new ContentAdapter(contentlist, TeacherGeneralText.this);
-//        ryccontent.setAdapter(contentadapter);
-//        btnAgree.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                popupWindow.dismiss();
-//            }
-//        });
-
-
-    }
 
     @Override
     protected void onPause() {
@@ -627,8 +584,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-
 
         SelectedSchoolId="";
         SelectedStaffId="";
@@ -692,10 +647,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                                     data = new SmsHistoryModel(Id, content, description, false);
                                     SmsHistoryList.add(data);
                                 }
-
                             }
-
-
                             smsAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_records), Toast.LENGTH_SHORT).show();
@@ -734,9 +686,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
                 NestedScrollView.setVisibility(View.VISIBLE);
                 rytSmsHistory.setVisibility(View.GONE);
-
                 radioGeneralText.setChecked(true);
-
                 dialog.cancel();
 
 
@@ -754,10 +704,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     }
 
     private void selectedViewButtons() {
-
         loginType = TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherGeneralText.this);
-
-
         if (loginType.equals(LOGIN_TYPE_TEACHER)) {
 
             if (iRequestCode == STAFF_TEXT) {
@@ -765,7 +712,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 btnToStudents.setVisibility(View.VISIBLE);
                 btnNext.setVisibility(View.GONE);
                 btn_Select_receipients.setVisibility(View.GONE);
-
                 btnSmsHistoryStandard.setVisibility(View.VISIBLE);
                 btnSmsHistorySectionOrStudents.setVisibility(View.VISIBLE);
                 btnSlectSchool.setVisibility(View.GONE);
@@ -794,8 +740,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 btnNext.setVisibility(View.GONE);
                 btnSelectSchool.setVisibility(View.VISIBLE);
                 btn_Select_receipients.setVisibility(View.GONE);
-
-
                 btnSmsHistoryStandard.setVisibility(View.GONE);
                 btnSmsHistorySectionOrStudents.setVisibility(View.GONE);
                 btnSlectSchool.setVisibility(View.VISIBLE);
@@ -805,8 +749,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         }
     }
     public void onAddField(View v) {
-
-
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.add_subjects, null);
         AddSubjectlayout.addView(rowView, AddSubjectlayout.getChildCount() - 1);
@@ -814,18 +756,12 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     }
 
     public void onDate(View v) {
-
-
         datePicker();
         setMinDateTime(a);
     }
 
-
     private void setMinDateTime(int a) {
-
-
         strfromdate = dateFormater(System.currentTimeMillis(), "dd-MM-yyyy");
-
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 10);
@@ -839,9 +775,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         selHour = Integer.toString(minimumHour);
         selMin = Integer.toString(minimumMinute);
-
-
-
     }
 
     private void datePicker() {
@@ -976,9 +909,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         boolean isReady = etMessage.getText().toString().length() > 0;
         boolean istitleReady = et_tittle.getText().toString().length() > 0;
-
-
-
 
         if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
 

@@ -67,8 +67,6 @@ public class OnlineClassByStaffAdapter extends RecyclerView.Adapter<OnlineClassB
         else {
             holder.lblCancel.setVisibility(View.GONE);
         }
-
-
     }
 
     @Override
@@ -81,8 +79,6 @@ public class OnlineClassByStaffAdapter extends RecyclerView.Adapter<OnlineClassB
         TextView lblTopic, lblDescription, lblURL, lblSubject, lblMeetingType,lblDateTime,lblNew,lblCancel,lblTarget,lblcreatedon;
         RelativeLayout rytSubject;
         LinearLayout lnrParent;
-
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -109,10 +105,6 @@ public class OnlineClassByStaffAdapter extends RecyclerView.Adapter<OnlineClassB
                 }
             });
         }
-    }
-
-    private void showToast(String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     public void clearAllData() {

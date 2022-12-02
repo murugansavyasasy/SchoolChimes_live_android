@@ -28,8 +28,6 @@ public class PendingDetailsAdapter extends RecyclerView.Adapter<PendingDetailsAd
             this.notifyItemRangeRemoved(0, size);
         }
     }
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblFeeName, lblTerm1, lbltermFrom, lblTerm2, lblterm2From, lblTerm3, lblterm3From, lblTerm4, lblterm4From, lblTotal,lblYealyFees;
         RelativeLayout rytTerm1, rytTerm2, rytTerm3, rytTerm4, rytDetailsDisplay,rytYearly;
@@ -44,8 +42,6 @@ public class PendingDetailsAdapter extends RecyclerView.Adapter<PendingDetailsAd
             lblTerm3 = (TextView) view.findViewById(R.id.lblTerm3);
             lblTerm4 = (TextView) view.findViewById(R.id.lblTerm4);
             lblTotal = (TextView) view.findViewById(R.id.lblTotal);
-
-
             lblYealyFees = (TextView) view.findViewById(R.id.lblYealyFees);
 
             rytTerm1 = (RelativeLayout) view.findViewById(R.id.rytTerm1);
@@ -53,9 +49,7 @@ public class PendingDetailsAdapter extends RecyclerView.Adapter<PendingDetailsAd
             rytTerm3 = (RelativeLayout) view.findViewById(R.id.rytTerm3);
             rytTerm4 = (RelativeLayout) view.findViewById(R.id.rytTerm4);
             rytDetailsDisplay = (RelativeLayout) view.findViewById(R.id.rytDetailsDisplay);
-
             rytYearly = (RelativeLayout) view.findViewById(R.id.rytYearly);
-
 
         }
     }
@@ -75,14 +69,9 @@ public class PendingDetailsAdapter extends RecyclerView.Adapter<PendingDetailsAd
     @Override
     public void onBindViewHolder(final PendingDetailsAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final PendingFeeDetails paid = lib_list.get(position);
-
         holder.lblFeeName.setText(": " + paid.getFeeName());
         holder.lblTotal.setText(": " + paid.getTotal() + "0");
-
-
-
         if (paid.getFeesID().equals("5.0")){
             if (!paid.getYearlyFees().equals("0.0")) {
                 holder.rytYearly.setVisibility(View.VISIBLE);
@@ -113,10 +102,6 @@ public class PendingDetailsAdapter extends RecyclerView.Adapter<PendingDetailsAd
                 } else {
                     holder.rytTerm2.setVisibility(View.GONE);
                 }
-
-
-
-
 
             } else if (paid.getFeeTerms().equals("3")) {
 

@@ -77,18 +77,12 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     TeacherSectionModel selSection;
 
     private int i_students_count;
-//    boolean bSelectAll = false;
-
     CheckBox cbSelectAll;
     String schoolId, sectioncode,filepath,duration,Description,strmessage;
     int iRequestCode;
-
     String voicetype="",strPDFFilepath;
-
     ArrayList<String> slectedImagePath = new ArrayList<String>();
-
     String fileNameDateTime;
-
     AmazonS3 s3Client;
     TransferUtility transferUtility;
     S3Uploader s3uploaderObj;
@@ -96,7 +90,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType="";
-
     String flag="";
     String uploadFilePath="";
     String SuccessFilePath="";
@@ -114,10 +107,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_attendance_student_list);
-
-
-
-
         schoolID = TeacherUtil_SharedPreference.getSchoolIdFromSP(TeacherAttendanceStudentList.this);
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         Log.d("REQUEST_CODE", String.valueOf(iRequestCode));
@@ -141,8 +130,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         targetCode = selSection.getStdSecCode();
         s3uploaderObj = new S3Uploader(TeacherAttendanceStudentList.this);
-
-
         Log.d("Tot - Sele", selSection.getTotStudents() + " - " + selSection.getSelectedStudentsCount());
         rvStudentList = (RecyclerView) findViewById(R.id.attenStudent_rvStudentList);
         adapter = new TeacherStudendListAdapter(TeacherAttendanceStudentList.this, this, studentList);
@@ -165,17 +152,13 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         tvOK = (TextView) findViewById(R.id.attenStudent_tvOk);
         tvCancel = (TextView) findViewById(R.id.attenStudent_tvCancel);
-
-
         tvOK.setEnabled(false);
         tvOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (studentList.size()>0) {
-                //if (i_students_count>0) {
                     showAttendanceConfirmationAlert();
-
                 }
                 else {
                     showToast(getResources().getString(R.string.no_students));
@@ -190,10 +173,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             }
         });
 
-
-
         cbSelectAll = (CheckBox) findViewById(R.id.attenStudent_cbSelectAll);
-
         cbSelectAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -219,29 +199,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 }
             }
         });
-
-//        cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                for (int i = 0; i < studentList.size(); i++) {
-//                    studentList.get(i).setSelectStatus(isChecked);
-//
-//                }
-//                adapter.notifyDataSetChanged();
-//
-//                if (isChecked) {
-//                    i_students_count = studentList.size();
-//                    Log.d("CHECK-i_students_count", "True - " + i_students_count);
-//                } else {
-//                    i_students_count = 0;
-//                    Log.d("CHECK-i_students_count", "False - " + i_students_count);
-//                }
-//
-//                enableDisableNext();
-//            }
-//        });
-
-
         studentListAPI();
     }
 
@@ -255,44 +212,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void studentListAPI_TEMP() {
-        try {
-            JSONArray js = new JSONArray("[{\"StudentID\":\"75834\",\"StudentName\":\"Mrs.N.Yasotha\",\"StudentAdmissionNo\":\"1212\"},{\"StudentID\":\"26333\",\"StudentName\":\"PRIYA\",\"StudentAdmissionNo\":\"8822\"},{\"StudentID\":\"26345\",\"StudentName\":\"S RAVI\",\"StudentAdmissionNo\":\"100\"},{\"StudentID\":\"672337\",\"StudentName\":\"Sivakumar R\",\"StudentAdmissionNo\":\"112312\"},{\"StudentID\":\"7445\",\"StudentName\":\"tst1\",\"StudentAdmissionNo\":\"10201\"},{\"StudentID\":\"505962\",\"StudentName\":\"Vivek kumar\",\"StudentAdmissionNo\":\"1111\"},{\"StudentID\":\"26357\",\"StudentName\":\"vnoooth\",\"StudentAdmissionNo\":\"2245\"}]");
-            if (js.length() > 0) {
-                JSONObject jsonObject = js.getJSONObject(0);
-                String strStudName = jsonObject.getString("StudentName");
-                String strStudID = jsonObject.getString("StudentID");
-
-                if (strStudID.equals("")) {
-                    showToast(strStudName);
-                } else {
-                    TeacherStudentsModel studentsModel;
-                    Log.d("json length", js.length() + "");
-                    for (int i = 0; i < js.length(); i++) {
-                        jsonObject = js.getJSONObject(i);
-                        studentsModel = new TeacherStudentsModel(jsonObject.getString("StudentID"), jsonObject.getString("StudentName")
-                                , jsonObject.getString("StudentAdmissionNo"), false);
-                        studentList.add(studentsModel);
-                    }
-
-
-                    selSection.setTotStudents(String.valueOf(0));//String.valueOf(studentList.size()));
-                    tvTotalCount.setText(String.valueOf(studentList.size()));
-
-
-                    cbSelectAll.setChecked(false);
-
-
-                }
-
-            } else {
-                showToast("Server Response Failed. Try again");
-            }
-
-        } catch (Exception e) {
-            Log.e("StudentsList:Excep", e.getMessage());
-        }
-    }
 
     private void studentListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -310,8 +229,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
-
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = constructJsonArrayMgtSchoolStd();
         Call<JsonArray> call = apiService.GetStudDetailForSection(jsonReqArray);
@@ -347,15 +264,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                                         , jsonObject.getString("StudentAdmissionNo"), false);
                                 studentList.add(studentsModel);
                             }
-
-
                             selSection.setTotStudents(String.valueOf(0));//String.valueOf(studentList.size()));
                             tvTotalCount.setText(String.valueOf(studentList.size()));
-
-
                             cbSelectAll.setChecked(false);
-
-
                         }
 
                     } else {
@@ -372,26 +283,20 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("SubjectHandling:Failure", t.toString());
             }
         });
     }
 
     private void showSettingsAlert1(String strStudName) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherAttendanceStudentList.this);
-
-
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(strStudName);
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-
-
             }
         });
-
         alertDialog.show();
     }
 
@@ -400,8 +305,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         if (student != null) {
             i_students_count++;
             enableDisableNext();
-
-
         }
     }
 
@@ -411,28 +314,18 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             i_students_count--;
             cbSelectAll.setChecked(false);
             enableDisableNext();
-
         }
     }
 
     private void enableDisableNext() {
-
         tvSelectedCount.setText(i_students_count + "");
-
         if (i_students_count > 0)
             tvOK.setEnabled(true);
         else tvOK.setEnabled(false);
-
-
         if(studentList.size()==i_students_count) {
             cbSelectAll.setChecked(true);
         }
-
-
     }
-
-
-
     private void backToResultActvity(String msg) {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("MESSAGE", msg);
@@ -468,7 +361,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             public void onClick(DialogInterface dialog, int which) {
 
                 if (iRequestCode == STAFF_VOICE) {
-
                     if(voicetype.equals("VoiceHistory")){
                       sendVoiceFromVoivehistory();
                     }
@@ -481,9 +373,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                     SendSMSToEntireSection();
                 }
                 if(iRequestCode == STAFF_PHOTOS){
-                    
+
                     if(!strPDFFilepath.equals("")){
-                       //sendPDFToEntireSection();s
                         contentType="application/pdf";
                         slectedImagePath.clear();
                         slectedImagePath.add(strPDFFilepath);
@@ -491,15 +382,13 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                         uploadFileToAWSs3(pathIndex,".pdf");
                     }
                     else {
-                        //SendImageToEntireSection();s
                         contentType="image/png";
                         UploadedS3URlList.clear();
                         uploadFileToAWSs3(pathIndex,"IMG");
                     }
-                   
+
                 }
                 if((iRequestCode == PRINCIPAL_ATTENDANCE) || (iRequestCode== STAFF_ATTENDANCE)){
-
                     sendAttenAPIAbsent();
                         }
                 if((iRequestCode == PRINCIPAL_EXAM_TEST) || (iRequestCode== STAFF_TEXT_EXAM)){
@@ -556,12 +445,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         }
 
-        else {
-            // Toast.makeText(this, "Null Path", Toast.LENGTH_SHORT).show();
-        }
-
-
-
     }
 
     private void SendMultipleImagePDFAsStaffToSpecificStudentsWithCloudURL(String fileType) {
@@ -612,7 +495,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 hideLoading();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -627,7 +509,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         else {
             isMultiple="1";
         }
-
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
             jsonObjectSchoolstdgrp.addProperty("SchoolID", Principal_SchoolId);
@@ -647,9 +528,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                 }
             }
-                Log.d("TTgroup", "1");
                 jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
-
                 JsonArray jsonArrayschoolstd1 = new JsonArray();
                 for (int j = 0; j < UploadedS3URlList.size(); j++) {
                     JsonObject jsonObjectclass = new JsonObject();
@@ -661,7 +540,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
 
 
-            //}
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }
@@ -687,83 +565,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         }
     }
 
-    private void sendPDFToEntireSection() {
-
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-        File file = new File(strPDFFilepath);
-        Log.d("FILE_Path", strPDFFilepath);
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), file);
-
-        MultipartBody.Part bodyFile =
-                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-
-        JsonObject jsonReqArray = constructJsonArrayImage("0",".pdf");
-        RequestBody requestBody =
-                RequestBody.create(
-                        MultipartBody.FORM, jsonReqArray.toString());
-        final ProgressDialog mProgressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-        Call<JsonArray> call = apiService.SendImageAsStaffToSpecificStudents(requestBody, bodyFile);
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
-
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
-
-                            if ((strStatus.toLowerCase()).equals("1")) {
-
-                                showAlert(strMsg);
-                            }
-                            else{
-                                showAlert(strMsg);
-                            }
-                        } else {
-                            showToast(getResources().getString(R.string.no_records));
-                        }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
-                showToast(t.toString());
-            }
-        });
-    }
 
     private void sendVoiceFromVoivehistory() {
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
@@ -773,7 +574,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         JsonObject jsonReqArray = jsonArrayFromVoiceHistory();
-
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Uploading...");
@@ -864,8 +664,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     }
 
     private void SendVoiceToEntireSection() {
-
-
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
@@ -917,7 +715,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             String strMsg = jsonObject.getString("Message");
                             if ((strStatus.toLowerCase()).equals("1")) {
 
-                                
+
                                 showAlert(strMsg);
                             }
                             else{
@@ -951,12 +749,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
     private void showAlert(String strMsg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherAttendanceStudentList.this);
-
-
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(strMsg);
-
-
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -967,13 +761,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
             }
         });
-
-
         AlertDialog dialog = alertDialog.create();
         dialog.setCanceledOnTouchOutside(false);
-
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
 
@@ -1008,7 +798,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                 }
 
-                Log.d("TTgroup", "1");
                 jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
                 Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
 
@@ -1080,7 +869,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -1103,10 +891,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                     jsonObjectclass.addProperty("ID", studentList.get(i).getStudentID());
                     Log.d("StudentID", studentList.get(i).getStudentID());
                     jsonArrayschoolstd.add(jsonObjectclass);
-//                }
                 }
 
-                Log.d("TTgroup", "1");
                 jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
                 Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
 
@@ -1116,205 +902,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         }
 
         return jsonObjectSchoolstdgrp;
-
     }
 
 
-    private void SendImageToEntireSection() {
-
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-
-
-
-        MultipartBody.Part[] surveyImagesParts = new MultipartBody.Part[slectedImagePath.size()];
-        for (int index = 0; index < slectedImagePath.size(); index++) {
-
-
-            File file = new File(slectedImagePath.get(index));
-            RequestBody surveyBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            surveyImagesParts[index] = MultipartBody.Part.createFormData("image", file.getName(), surveyBody);
-        }
-
-//        // add another part within the multipart request
-        JsonObject jsonReqArray = constructJsonArrayImage("1","IMG");
-        RequestBody requestBody =
-                RequestBody.create(
-                        MultipartBody.FORM, jsonReqArray.toString());
-        final ProgressDialog mProgressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-        Call<JsonArray> call = apiService.sendMultipleImagesToSpecificStudents(requestBody, surveyImagesParts);
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
-
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
-
-                            if ((strStatus.toLowerCase()).equals("1")) {
-
-                                showAlert(strMsg);
-                            }
-                            else{
-                                showAlert(strMsg);
-                            }
-                        } else {
-                            showToast(getResources().getString(R.string.no_records));
-                        }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
-                showToast(t.toString());
-            }
-        });
-    }
-
-
-    private JsonObject constructJsonArrayImage(String multiple,String filetype) {
-
-        JsonObject jsonObjectSchoolstdgrp = new JsonObject();
-        try {
-            jsonObjectSchoolstdgrp.addProperty("SchoolID", Principal_SchoolId);
-            jsonObjectSchoolstdgrp.addProperty("StaffID", Principal_staffId);
-            jsonObjectSchoolstdgrp.addProperty("Description", Description);
-            jsonObjectSchoolstdgrp.addProperty("TargetCode", targetCode);
-            jsonObjectSchoolstdgrp.addProperty("isMultiple", multiple);
-            jsonObjectSchoolstdgrp.addProperty("FileType", filetype);
-
-            JsonArray jsonArrayschoolstd = new JsonArray();
-            for (int i = 0; i < studentList.size(); i++) {
-                if (studentList.get(i).isSelectStatus()) {
-                    JsonObject jsonObjectclass = new JsonObject();
-                    jsonObjectclass.addProperty("ID", studentList.get(i).getStudentID());
-                    Log.d("StudentID", studentList.get(i).getStudentID());
-                    jsonArrayschoolstd.add(jsonObjectclass);
-
-                }
-
-                Log.d("TTgroup", "1");
-                jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
-                Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
-
-            }
-        } catch (Exception e) {
-            Log.d("ASDF", e.toString());
-        }
-
-        return jsonObjectSchoolstdgrp;
-
-    }
-
-    private void sendAttenAPI() {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
-
-        String schoolID = TeacherUtil_SharedPreference.getSchoolIdFromSP(TeacherAttendanceStudentList.this);
-        String staffID = TeacherUtil_SharedPreference.getStaffIdFromSP(TeacherAttendanceStudentList.this);
-
-        JsonArray jsArrayStudents = constructStudentsJsonArray();
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-//        JsonArray jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_SendSmsAdminToSchools(strMsg, constructJsonArrayAdminSchools());
-        JsonArray jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_SendSMSAtt(schoolID, staffID, "F", jsArrayStudents);
-        Call<JsonArray> call = apiService.SendAttendanceReport(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("AtteSMS:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("AtteSMS:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        String strStatus = jsonObject.getString("Status");
-                        String strMsg = jsonObject.getString("Message");
-                        showToast(strMsg);
-
-                        if ((strStatus.toLowerCase()).equals("y")) {
-                            backToResultActvity("OK");
-                        }
-
-                    } else {
-                        showToast("Server Response Failed. Try again");
-                    }
-
-                } catch (Exception e) {
-                    showToast("Server Response Failed. Try again");
-                    Log.e("AtteSMS:Excep", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast("Service Not Available");
-                Log.d("AtteSMS:Failure", t.toString());
-            }
-        });
-    }
-
-    private JsonArray constructStudentsJsonArray() {
-        JsonArray jsonArrayStudents = new JsonArray();
-        try {
-            for (int i = 0; i < studentList.size(); i++) {
-                if (studentList.get(i).isSelectStatus()) {
-                    JsonObject jsonObjectStudents = new JsonObject();
-                    jsonObjectStudents.addProperty("ID", studentList.get(i).getStudentID());
-                    jsonArrayStudents.add(jsonObjectStudents);
-                }
-            }
-
-            Log.d("Final_Array", jsonArrayStudents.toString());
-
-        } catch (Exception e) {
-            Log.d("ASDF", e.toString());
-        }
-
-        return jsonArrayStudents;
-    }
 
     private String getStudentsName() {
         StringBuilder strStudList = new StringBuilder();
@@ -1324,9 +914,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             for (int i = 0; i < studentList.size(); i++) {
                 if (studentList.get(i).isSelectStatus())
                     strStudList.append("\n" + studentList.get(i).getStudentName());
-
             }
-
             Log.d("Final_List", strStudList.toString());
 
         } catch (Exception e) {
@@ -1338,7 +926,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
     private String getStudentsName1() {
         StringBuilder strStudList = new StringBuilder();
-
             strStudList.append("Message will be sent to the below listed student(s) \n");
 
         try {
@@ -1347,7 +934,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                     strStudList.append("\n" + studentList.get(i).getStudentName());
 
             }
-
             Log.d("Final_List", strStudList.toString());
 
         } catch (Exception e) {
@@ -1362,9 +948,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         try {
             jsonObjectSchool.addProperty("SchoolId", Principal_SchoolId);
             jsonObjectSchool.addProperty("TargetCode", sectioncode);
-
-
-
             jsonObjectSchool.addProperty("StaffID", Principal_staffId);
 
             Log.d("schoolid", schoolID);
@@ -1435,7 +1018,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("AtteSMS:Failure", t.toString());
             }
         });
     }
@@ -1524,14 +1106,10 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
     }
-
-
-
     private JsonObject constructJsonArrayMgtSchoolstextExam() {
 
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
@@ -1542,8 +1120,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             jsonObjectSchoolstdgrp.addProperty("SectionCode", sectioncode);
             jsonObjectSchoolstdgrp.addProperty("ExamName", strmessage);
             jsonObjectSchoolstdgrp.addProperty("ExamSyllabus", Description);
-
-
             JsonArray subjects = new JsonArray();
             for (int i = 0; i < SubjectDetailsList.size(); i++) {
                 SubjectDetails sectionsListNEW = SubjectDetailsList.get(i);
@@ -1564,12 +1140,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                     jsonObjectclass.addProperty("ID", studentList.get(i).getStudentID());
                     Log.d("StudentID", studentList.get(i).getStudentID());
                     jsonArrayschoolstd.add(jsonObjectclass);
-
                 }
-
                 jsonObjectSchoolstdgrp.add("Subjects", subjects);
 
-                Log.d("TTgroup", "1");
                 jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
                 Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
             }
@@ -1579,6 +1152,4 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         return jsonObjectSchoolstdgrp;
     }
-
-
 }

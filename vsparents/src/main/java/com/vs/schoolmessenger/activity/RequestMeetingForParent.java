@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.RequestMeetingForpParentTapAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
@@ -51,6 +53,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class RequestMeetingForParent extends AppCompatActivity implements View.OnClickListener {
     public static ViewPager viewPager;
@@ -69,6 +72,8 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     private ArrayList<Profiles> childList = new ArrayList<>();
 
+    Slider slider;
+    ImageView adImage;
     //String userId;
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -97,6 +102,11 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
         rytLanguage.setOnClickListener(this);
         rytPassword.setOnClickListener(this);
         rytHome.setOnClickListener(this);
+
+        Slider.init(new PicassoImageLoadingService(RequestMeetingForParent.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.request_tabLayoutrecovery);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.mt_rqst_meeting));
@@ -161,6 +171,12 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
     }
 
 

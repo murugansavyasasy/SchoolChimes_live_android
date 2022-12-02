@@ -18,7 +18,6 @@ public class HolidaysAdapter extends RecyclerView.Adapter<HolidaysAdapter.MyView
 
     private List<HolidayModel> lib_list;
     Context context;
-
     public void clearAllData() {
         int size = this.lib_list.size();
         if (size > 0) {
@@ -29,18 +28,13 @@ public class HolidaysAdapter extends RecyclerView.Adapter<HolidaysAdapter.MyView
         }
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblHolidayDate,lblHolidayReason;
-
-
         public MyViewHolder(View view) {
             super(view);
 
             lblHolidayDate = (TextView) view.findViewById(R.id.lblHolidayDate);
             lblHolidayReason = (TextView) view.findViewById(R.id.lblHolidayReason);
-
-
         }
     }
     public HolidaysAdapter(List<HolidayModel> lib_list, Context context) {
@@ -58,12 +52,9 @@ public class HolidaysAdapter extends RecyclerView.Adapter<HolidaysAdapter.MyView
     @Override
     public void onBindViewHolder(final HolidaysAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final HolidayModel holiday = lib_list.get(position);
-
         holder.lblHolidayDate.setText(" : "+holiday.getDate());
         holder.lblHolidayReason.setText(" : "+holiday.getReason());
-
     }
 
     @Override

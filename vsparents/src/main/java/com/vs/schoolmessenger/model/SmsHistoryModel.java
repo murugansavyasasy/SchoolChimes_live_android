@@ -10,9 +10,7 @@ public class SmsHistoryModel {
         this.description = des;
         this.content = content;
         this.SeletedStatus = SelectedStatus;
-
-
-        }
+    }
 
     public SmsHistoryModel() {}
 

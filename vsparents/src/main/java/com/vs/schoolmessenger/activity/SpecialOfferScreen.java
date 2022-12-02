@@ -28,7 +28,6 @@ public class SpecialOfferScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.special_offer);
         webView=(WebView) findViewById(R.id.specila_offer_webview);
-
         MobileNumber=TeacherUtil_SharedPreference.getMobileNumberFromSP(SpecialOfferScreen.this);
         Log.d("MobileNumber",MobileNumber);
         OfferLink=TeacherUtil_SharedPreference.getOfferLink(SpecialOfferScreen.this);

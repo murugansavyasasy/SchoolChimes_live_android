@@ -19,10 +19,27 @@
         />
     <FrameLayout
         android:layout_below="@+id/tabs"
-        android:layout_above="@+id/lnrBottom"
+        android:layout_above="@+id/lnrAdView"
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:layout_above="@+id/lnrBottom"
+        android:id="@+id/lnrAdView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bannerView"
+        android:layout_marginTop="10dp"
+        layout="@layout/ads_view"/>
+
+    </LinearLayout>
 
 
 

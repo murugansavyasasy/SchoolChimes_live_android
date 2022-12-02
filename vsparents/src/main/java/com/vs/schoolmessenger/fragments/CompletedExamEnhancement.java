@@ -4,11 +4,15 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +58,9 @@ public class CompletedExamEnhancement extends Fragment {
     String previousDate;
     Boolean show=false;
 
+    ImageView imgSearch;
+    TextView Searchable;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +79,6 @@ public class CompletedExamEnhancement extends Fragment {
 
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
-//        examEnhancement();
         mAdapter = new ExamEnhancementAdapter(msgModelList, getActivity(),"2");
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recycle_paidlist.setLayoutManager(mLayoutManager);
@@ -80,8 +86,58 @@ public class CompletedExamEnhancement extends Fragment {
         recycle_paidlist.setAdapter(mAdapter);
         recycle_paidlist.getRecycledViewPool().setMaxRecycledViews(0, 80);
 
+        Searchable = (EditText) rootView.findViewById(R.id.Searchable);
+        imgSearch = (ImageView) rootView.findViewById(R.id.imgSearch);
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (mAdapter == null)
+                    return;
+
+                if (mAdapter.getItemCount() < 1) {
+                    recycle_paidlist.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        recycle_paidlist.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    recycle_paidlist.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
 
         return rootView;
+    }
+
+    private void filterlist(String s) {
+        ArrayList<ExamEnhancement> temp = new ArrayList();
+        for (ExamEnhancement d : msgModelList) {
+
+            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getSubject().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        mAdapter.updateList(temp);
     }
 
     @Override
@@ -200,7 +256,6 @@ public class CompletedExamEnhancement extends Fragment {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                // showToast("Server Connection Failed");
                 Toast.makeText(getActivity(), "Server Connection Failed", Toast.LENGTH_SHORT).show();
 
             }
@@ -211,7 +266,6 @@ public class CompletedExamEnhancement extends Fragment {
         show=true;
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
-        //Setting Dialog Title
         alertDialog.setTitle("Alert");
 
         alertDialog.setMessage(msg);
@@ -243,24 +297,5 @@ public class CompletedExamEnhancement extends Fragment {
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
-    private void showRecordsFound(String name) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
-        //Setting Dialog Title
-        alertDialog.setTitle("Alert");
-
-        alertDialog.setMessage(name);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                dialog.dismiss();
-
-
-
-            }
-        });
-
-        alertDialog.show();
-    }
 }

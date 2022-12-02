@@ -31,10 +31,13 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.DatesListAdapter;
 import com.vs.schoolmessenger.interfaces.DatesListListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.DatesModel;
+import com.vs.schoolmessenger.model.ExamGroupHeader;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
@@ -60,6 +63,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 import static com.vs.schoolmessenger.util.Util_Common.MENU_TEXT;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_VOICE;
@@ -91,8 +95,12 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
-    String previousDate;
-    String previousDateVoice;
+    ImageView imgSearch;
+    TextView Searchable;
+    Slider slider;
+    ImageView adImage;
+    String Title = "";
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -108,13 +116,21 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         strTitle = getIntent().getExtras().getString("HEADER", "");
 
+        if(iRequestCode == MENU_TEXT){
+            Title ="Text";
+        }
+        else if(iRequestCode == MENU_VOICE) {
+            Title ="Voice";
+        }
+
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_children);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(strTitle);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(Title);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
-
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
 
         rytLanguage = (RelativeLayout) findViewById(R.id.rytLanguage);
         rytHome = (RelativeLayout) findViewById(R.id.rytHome);
@@ -128,6 +144,47 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         rytPassword.setOnClickListener(this);
         rytHome.setOnClickListener(this);
 
+        Slider.init(new PicassoImageLoadingService(DatesList.this));
+        slider = findViewById(R.id.banner);
+        adImage = findViewById(R.id.adImage);
+
+
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (datesListAdapter == null)
+                    return;
+
+                if (datesListAdapter.getItemCount() < 1) {
+                    rvDateList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvDateList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvDateList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
 
          LoadMore=(TextView) findViewById(R.id.btnSeeMore);
          lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
@@ -139,56 +196,9 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
                 if(iRequestCode==MENU_TEXT){
                     LaodMoreDatewisetListSmsAPI();
-
-
-//                    previousDate=TeacherUtil_SharedPreference.getCurrent_Date_DateList(DatesList.this);
-//                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                    String currentDate = df.format(c.getTime());
-//                    if (previousDate.equals("") || previousDate.compareTo(currentDate)<0)
-//                    {
-//                        LaodMoreDatewisetListSmsAPI();
-//                    }
-//                    else {
-//                        myDb = new SqliteDB(DatesList.this);
-//                        if (myDb.checkTextMeassages()) {
-//                            dateList.clear();
-//                            totaldateList.addAll(myDb.getTextMessages());
-//                            dateList.addAll(totaldateList);
-//                            datesListAdapter.notifyDataSetChanged();
-//                            LoadMore.setVisibility(View.GONE);
-//
-//                        }
-//                        else {
-//                            showRecords("No Records found...");
-//                        }
-//                    }
-
                 }
                 else if(iRequestCode==MENU_VOICE){
                    LaodMoreDatewisetListVoiceAPI();
-
-//                    previousDateVoice=TeacherUtil_SharedPreference.getDateListVoiceDate(DatesList.this);
-//                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                    String currentDate = df.format(c.getTime());
-//                    if (previousDateVoice.equals("") || previousDateVoice.compareTo(currentDate)<0)
-//                    {
-//                        LaodMoreDatewisetListVoiceAPI();
-//                    }
-//                    else {
-//                        myDb = new SqliteDB(DatesList.this);
-//                        if (myDb.checkVoiceMeassageCount()) {
-//                            dateList.clear();
-//                            totaldateList.addAll(myDb.getVoiceMessages());
-//                            dateList.addAll(totaldateList);
-//                            datesListAdapter.notifyDataSetChanged();
-//                            LoadMore.setVisibility(View.GONE);
-//
-//                        }
-//                        else {
-//                            showRecords("No Records found...");
-//                        }
-//                    }
-
                 }
 
 
@@ -196,9 +206,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         });
 
          isNewVersion=TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
-
          seeMoreButtonVisiblity();
-
 
         rvDateList = (RecyclerView) findViewById(R.id.datesList_rvDateList);
         datesListAdapter = new DatesListAdapter(DatesList.this, dateList, new DatesListListener() {
@@ -230,10 +238,23 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
     }
 
+
+
+    private void filterlist(String s) {
+        List<DatesModel> temp = new ArrayList();
+        for (DatesModel d : dateList) {
+
+            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getDay().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        datesListAdapter.updateList(temp);
+    }
+
     private void seeMoreButtonVisiblity() {
         if(isNewVersion.equals("1")){
             LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
         else {
             LoadMore.setVisibility(View.GONE);
@@ -279,11 +300,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 lblNoMessages.setVisibility(View.GONE);
 
 
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                Log.d("currentDate",currentDate);
-//                TeacherUtil_SharedPreference.putDateListVoiceCurrentDate(DatesList.this,currentDate);
-
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
@@ -309,12 +325,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
                             arrayList = new ArrayList<>();
                             arrayList.addAll(dateList);
-//                            myDb = new SqliteDB(DatesList.this);
-//
-//                            if (myDb.checkVoiceMeassageCount()) {
-//                                myDb.deleteVoiceMessageRecords();
-//                            }
-//                            myDb.addVoiceMeassges((ArrayList<DatesModel>) OffLineDateList, DatesList.this);
 
                             datesListAdapter.notifyDataSetChanged();
 
@@ -339,8 +349,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     }
 
     private void LaodMoreDatewisetListSmsAPI() {
-
-
         String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
         if(isNewVersionn.equals("1")){
             String ReportURL=TeacherUtil_SharedPreference.getReportURL(DatesList.this);
@@ -374,14 +382,8 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                Log.d("currentDate",currentDate);
-//                TeacherUtil_SharedPreference.putDateListCurrentDate(DatesList.this,currentDate);
                 LoadMore.setVisibility(View.GONE);
                 lblNoMessages.setVisibility(View.GONE);
-
-
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
@@ -411,11 +413,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
                             arrayList = new ArrayList<>();
                             arrayList.addAll(dateList);
-//                            myDb = new SqliteDB(DatesList.this);
-//                            if (myDb.checkTextMeassages()) {
-//                                myDb.deleteTextMeassages();
-//                            }
-//                            myDb.addTextMessages((ArrayList<DatesModel>) OffLineDateList, DatesList.this);
 
                             datesListAdapter.notifyDataSetChanged();
                         }
@@ -451,58 +448,26 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
 
         if (iRequestCode == MENU_TEXT) {
             if (isNetworkConnected()) {
                 DatewisetListSmsAPI();
             }
-
         }
         else if (iRequestCode == MENU_VOICE) {
 
             if (isNetworkConnected()) {
                 DatewisetListVoiceAPI();
             }
-
         }
-
     }
-
-    private void showSettingsAlert1() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DatesList.this);
-
-        //Setting Dialog Title
-        alertDialog.setTitle(R.string.alert);
-
-        //Setting Dialog Message
-        alertDialog.setMessage(R.string.connect_internet);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                finish();
-
-            }
-        });
-
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-      //  alertDialog.show();
-    }
-
     private boolean isNetworkConnected() {
-
         ConnectivityManager connMgr = (ConnectivityManager) DatesList.this
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         return connMgr.getActiveNetworkInfo() != null;
@@ -511,33 +476,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     private void showToast(String msg) {
         Toast.makeText(DatesList.this, msg, Toast.LENGTH_SHORT).show();
     }
-
-    private void AbsenteesReportListAPI2() {
-        try {
-            JSONArray js = new JSONArray("[{\"Date\":\"22-12-2017\",\"Day\":\"Friday\",\"TotalAbsentees\":\"3\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"23\",\"TotalAbsentees\":\"3\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"23\",\"TotalAbsentees\":\"3\"}]}]},{\"Date\":\"21-12-2017\",\"Day\":\"Thursday\",\"TotalAbsentees\":\"6\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"23\",\"TotalAbsentees\":\"6\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"23\",\"TotalAbsentees\":\"6\"}]}]},{\"Date\":\"18-01-2018\",\"Day\":\"Thursday\",\"TotalAbsentees\":\"3\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"79\",\"TotalAbsentees\":\"2\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"330\",\"TotalAbsentees\":\"2\"}]},{\"ClassName\":\"IV\",\"ClassId\":\"80\",\"TotalAbsentees\":\"1\",\"SectionWise\":[{\"SectionName\":\"A\",\"SectionId\":\"334\",\"TotalAbsentees\":\"1\"}]}]},{\"Date\":\"17-01-2018\",\"Day\":\"Wednesday\",\"TotalAbsentees\":\"1\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"79\",\"TotalAbsentees\":\"1\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"330\",\"TotalAbsentees\":\"1\"}]}]},{\"Date\":\"08-01-2018\",\"Day\":\"Monday\",\"TotalAbsentees\":\"3\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"79\",\"TotalAbsentees\":\"3\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"330\",\"TotalAbsentees\":\"2\"},{\"SectionName\":\"B\",\"SectionId\":\"331\",\"TotalAbsentees\":\"1\"}]}]}]");
-            if (js.length() > 0) {
-                Log.d("json length", js.length() + "");
-                for (int i = 0; i < js.length(); i++) {
-                    JSONObject jsonObject = js.getJSONObject(i);
-                    date = jsonObject.getString("Date");
-                    unreadcount = jsonObject.getString("TotalAbsentees");
-                    day = jsonObject.getString("Day");
-                    DatesModel absentee;
-                    absentee = new DatesModel(date, day, unreadcount,false);
-                    dateList.add(absentee);
-
-                }
-                datesListAdapter.notifyDataSetChanged();
-
-            } else {
-                showToast("Server Response Failed. Try again");
-            }
-
-        } catch (Exception e) {
-            Log.e("GroupList:Excep", e.getMessage());
-        }
-    }
-
 
     private void DatewisetListSmsAPI() {
 
@@ -587,7 +525,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
                             if(isNewVersion.equals("1")){
                                 LoadMore.setVisibility(View.VISIBLE);
-                                lblNoMessages.setVisibility(View.VISIBLE);
                             }
                             else {
                                 LoadMore.setVisibility(View.GONE);
@@ -748,7 +685,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
                             if(isNewVersion.equals("1")){
                                 LoadMore.setVisibility(View.VISIBLE);
-                                lblNoMessages.setVisibility(View.VISIBLE);
                             }
                             else {
                                 LoadMore.setVisibility(View.GONE);

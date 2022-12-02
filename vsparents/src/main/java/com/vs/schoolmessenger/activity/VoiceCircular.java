@@ -8,22 +8,32 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.VoiceCircularListAdapterNEW;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.MessageModel;
@@ -40,16 +50,17 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 import static com.vs.schoolmessenger.util.Util_Common.MENU_EMERGENCY;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_HW;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_VOICE;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_VOICE_HW;
 import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
 
 public class VoiceCircular extends AppCompatActivity {
@@ -80,6 +91,14 @@ public class VoiceCircular extends AppCompatActivity {
     TextView lblNoMessages;
     String isNewVersion;
     TextView LoadMore;
+    ImageView imgSearch;
+    TextView Searchable;
+
+    Slider slider;
+    ImageView adImage;
+
+    RelativeLayout voice_rlToolbar;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -93,47 +112,78 @@ public class VoiceCircular extends AppCompatActivity {
         c = Calendar.getInstance();
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
 
+
         Log.d("iRequestCode", String.valueOf(iRequestCode));
         if (iRequestCode != MENU_EMERGENCY) {
             selDate = getIntent().getExtras().getString("SEL_DATE", "");
         }
         else
         {
-            selDate = getIntent().getExtras().getString("HEADER", "");
+           // selDate = getIntent().getExtras().getString("HEADER", "");
+            selDate = "Emergency Voice";
         }
 
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar_children);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(selDate);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
 
-         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
-         LoadMore.setEnabled(true);
+        Slider.init(new PicassoImageLoadingService(VoiceCircular.this));
+        slider = findViewById(R.id.banner);
+        adImage = findViewById(R.id.adImage);
+
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+        voice_rlToolbar = (RelativeLayout) findViewById(R.id.voice_rlToolbar);
+        voice_rlToolbar.setVisibility(View.GONE);
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (voiceAdapter == null)
+                    return;
+
+                if (voiceAdapter.getItemCount() < 1) {
+                    rvVoiceList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvVoiceList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvVoiceList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
+
+        LoadMore=(TextView) findViewById(R.id.btnSeeMore);
+        LoadMore.setEnabled(true);
         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(iRequestCode==MENU_EMERGENCY){
                     LoadMorecircularsEmergencyAPI();
-
-//                    previousDate=TeacherUtil_SharedPreference.getEmergencyCurrentDate(VoiceCircular.this);
-//                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                    String currentDate = df.format(c.getTime());
-//                    if (previousDate.equals("") || previousDate.compareTo(currentDate)<0)
-//                    {
-//                        LoadMorecircularsEmergencyAPI();
-//                    }
-//                    else {
-//                        myDb = new SqliteDB(VoiceCircular.this);
-//                        if (myDb.checkEmergencyvoice()) {
-//                            msgModelList.clear();
-//                            totalMsgList.addAll(myDb.getEmergency_voice());
-//                            msgModelList.addAll(totalMsgList);
-//                            voiceAdapter.notifyDataSetChanged();
-//                            LoadMore.setEnabled(false);
-//
-//                        }
-//                        else {
-//                            showAlertRecords("No Records Found..");
-//                        }
-//                    }
                 }
 
             }
@@ -149,15 +199,12 @@ public class VoiceCircular extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackController();
-                //TeacherUtil_SharedPreference.putOnBackPressed(VoiceCircular.this,"1");
                 onBackPressed();
             }
         });
 
         TextView tvTitle = (TextView) findViewById(R.id.voice_ToolBarTvTitle);
         tvTitle.setText(selDate);
-
-
         rvVoiceList = (RecyclerView) findViewById(R.id.voice_rvCircularList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvVoiceList.setLayoutManager(layoutManager);
@@ -165,6 +212,19 @@ public class VoiceCircular extends AppCompatActivity {
         voiceAdapter = new VoiceCircularListAdapterNEW(VoiceCircular.this, msgModelList);
         rvVoiceList.setAdapter(voiceAdapter);
     }
+
+    private void filterlist(String s) {
+        ArrayList<MessageModel> temp = new ArrayList();
+        for (MessageModel d : msgModelList) {
+
+            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgTitle().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        voiceAdapter.updateList(temp);
+    }
+
 
     private void onBackController() {
         if(iRequestCode==MENU_VOICE){
@@ -178,12 +238,8 @@ public class VoiceCircular extends AppCompatActivity {
     private void seeMoreButtonVisiblity() {
         if(isNewVersion.equals("1")&& iRequestCode==MENU_EMERGENCY){
             LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
-        else {
-            LoadMore.setVisibility(View.GONE);
-            lblNoMessages.setVisibility(View.GONE);
-        }
+
     }
 
 
@@ -229,11 +285,6 @@ public class VoiceCircular extends AppCompatActivity {
                 LoadMore.setVisibility(View.GONE);
                 lblNoMessages.setVisibility(View.GONE);
 
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                Log.d("currentDate",currentDate);
-//                TeacherUtil_SharedPreference.putEmerGencyCurrentDate(VoiceCircular.this,currentDate);
-
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     OffLinemsgModelList.clear();
@@ -248,7 +299,6 @@ public class VoiceCircular extends AppCompatActivity {
                             MessageModel msgModel;
                             Log.d("json length", js.length() + "");
 
-                           // voiceAdapter.clearAllData();
 
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
@@ -264,12 +314,6 @@ public class VoiceCircular extends AppCompatActivity {
 
                             arrayList = new ArrayList<>();
                             arrayList.addAll(msgModelList);
-//                            myDb = new SqliteDB(VoiceCircular.this);
-//
-//                            if(myDb.checkEmergencyvoice()){
-//                                myDb.deleteEmergencyVoice();
-//                            }
-//                            myDb.addEmergencyVoice((ArrayList<MessageModel>) OffLinemsgModelList, VoiceCircular.this);
 
                             voiceAdapter.notifyDataSetChanged();
 
@@ -295,10 +339,21 @@ public class VoiceCircular extends AppCompatActivity {
         });
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackController();
+                onBackPressed();
+                return (true);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-
+        ShowAds.getAds(this,adImage,slider,"");
         if (isWriteExternalPermissionGranted()) {
             switch (iRequestCode) {
                 case MENU_EMERGENCY:
@@ -314,16 +369,7 @@ public class VoiceCircular extends AppCompatActivity {
                         circularsVoicebydateAPI();
 
                     }
-//                    else {
-//
-//                        myDb = new SqliteDB(VoiceCircular.this);
-//                        voiceAdapter.clearAllData();
-//                        if (myDb.checkVoiceList(selDate)) {
-//                            msgModelList.addAll(myDb.getDayByDayVoiceList(selDate));
-//                        } else {
-//                            showSettingsAlert1();
-//                        }
-//                    }
+
                     break;
 
                 case MENU_HW:
@@ -331,18 +377,7 @@ public class VoiceCircular extends AppCompatActivity {
                     if (isNetworkConnected()) {
                         circularsHomeworkbydateAPI();
                     }
-//                    else {
-//
-//                        myDb = new SqliteDB(VoiceCircular.this);
-//
-//                        voiceAdapter.clearAllData();
-//
-//                        if (myDb.checkHomeWorkVoiceList(selDate)) {
-//                            msgModelList.addAll(myDb.getHomeWorkVoiceList(selDate));
-//                        } else {
-//                            showSettingsAlert1();
-//                        }
-//                    }
+
 
                     break;
             }
@@ -351,8 +386,6 @@ public class VoiceCircular extends AppCompatActivity {
 
     private void showSettingsAlert1() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(VoiceCircular.this);
-
-
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(R.string.connect_internet);
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
@@ -382,7 +415,6 @@ public class VoiceCircular extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         onBackController();
-        //TeacherUtil_SharedPreference.putOnBackPressed(VoiceCircular.this,"1");
         finish();
     }
 
@@ -564,7 +596,6 @@ public class VoiceCircular extends AppCompatActivity {
 
                         if(isNewVersion.equals("1")&& iRequestCode==MENU_EMERGENCY){
                             LoadMore.setVisibility(View.VISIBLE);
-                            lblNoMessages.setVisibility(View.VISIBLE);
                         }
                         else {
                             LoadMore.setVisibility(View.GONE);
@@ -725,7 +756,6 @@ public class VoiceCircular extends AppCompatActivity {
                             MessageModel msgModel;
                             Log.d("json length", js.length() + "");
 
-//                            voiceAdapter.clearAllData();
 
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
@@ -740,14 +770,6 @@ public class VoiceCircular extends AppCompatActivity {
 
                             arrayList = new ArrayList<>();
                             arrayList.addAll(msgModelList);
-
-//                            myDb = new SqliteDB(VoiceCircular.this);
-//
-//                            if(myDb.checkVoiceList(selDate)){
-//                                myDb.deleteVoiceList(selDate);
-//                            }
-//                            myDb.addDayByDayVoiceList((ArrayList<MessageModel>) msgModelList, VoiceCircular.this);
-
                             voiceAdapter.notifyDataSetChanged();
 
                         } else {
@@ -836,8 +858,6 @@ public class VoiceCircular extends AppCompatActivity {
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
 
-
-
                                 msgModel = new MessageModel(jsonObject.getString("HomeworkID"), jsonObject.getString("HomeworkSubject"),
                                         jsonObject.getString("HomeworkContent"), "",
                                         selDate, "",jsonObject.getString("HomeworkTitle"),false);
@@ -850,12 +870,6 @@ public class VoiceCircular extends AppCompatActivity {
 
                         arrayList = new ArrayList<>();
                         arrayList.addAll(msgModelList);
-//                        myDb = new SqliteDB(VoiceCircular.this);
-//
-//                        if(myDb.checkHomeWorkVoiceList(selDate)){
-//                            myDb.deleteHomeWorkVoiceList(selDate);
-//                        }
-//                        myDb.addHomeWorkVoiceList((ArrayList<MessageModel>) msgModelList, VoiceCircular.this);
 
                             voiceAdapter.notifyDataSetChanged();
 

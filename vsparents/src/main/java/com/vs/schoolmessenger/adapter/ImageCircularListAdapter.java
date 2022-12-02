@@ -59,9 +59,6 @@ public class ImageCircularListAdapter extends RecyclerView.Adapter<ImageCircular
             holder.tvStatus.setVisibility(View.VISIBLE);
         else holder.tvStatus.setVisibility(View.GONE);
 
-
-
-
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         if (msgModel.getMsgContent() != "") {
             holder.img.setVisibility(View.VISIBLE);
@@ -81,7 +78,6 @@ public class ImageCircularListAdapter extends RecyclerView.Adapter<ImageCircular
             }
         });
     }
-
 
     @Override
     public int getItemCount() {

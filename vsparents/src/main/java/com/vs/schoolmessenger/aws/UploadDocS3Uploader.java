@@ -41,7 +41,6 @@ public class UploadDocS3Uploader {
 
     private class UploadDocUploadListener implements TransferListener {
 
-        // Simply updates the UI list when notified.
         @Override
         public void onError(int id, Exception e) {
             Log.e(TAG, "Error during upload: " + id, e);

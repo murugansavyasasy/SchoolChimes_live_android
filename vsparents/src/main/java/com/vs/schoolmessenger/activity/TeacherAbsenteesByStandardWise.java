@@ -45,7 +45,6 @@ public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
     TeacherAbsenteesExpandableListAdapter absenteesExpandableListAdapter;
 
     ArrayList<TeacherABS_Section> listClassGroupsCollection;
-
     private int lastExpandedPosition = -1;
 
     @Override
@@ -61,14 +60,10 @@ public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
 
         expListView = (ExpandableListView) findViewById(R.id.absEx_exlvList);
-
-
         listHeaderParent = (ArrayList<TeacherABS_Standard>) getIntent().getSerializableExtra(
                 "LIST_STDS");
 
-        Log.d("standard List", String.valueOf(listHeaderParent.size()));
         loadStdSections();
-
         absenteesExpandableListAdapter = new TeacherAbsenteesExpandableListAdapter(
                 this, listHeaderParent, mapStandardsAndGroups, expListView);
 
@@ -83,13 +78,7 @@ public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
             }
         });
 
-
-
-
         expListView.setAdapter(absenteesExpandableListAdapter);
-
-
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -99,29 +88,6 @@ public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
                 return (true);
             default:
                 return super.onOptionsItemSelected(item);
-        }
-
-    }
-
-    private void tempListItems() {
-        listGropus.add(new TeacherABS_Section("A", "5/50"));
-        listGropus.add(new TeacherABS_Section("B", "4/52"));
-        listGropus.add(new TeacherABS_Section("C", "5/49"));
-        listGropus.add(new TeacherABS_Section("D", "7/55"));
-    }
-
-    private void createGroupList() {
-        for (int i = 0; i < 5; i++) {
-            listHeaderParent.add(new TeacherABS_Standard("" + (i + 1), (i + 10) + "/200"));
-        }
-    }
-
-    private void createCollection() {
-        mapStandardsAndGroups = new LinkedHashMap<>();
-        for (TeacherABS_Standard groupclass : listHeaderParent) {
-            loadSubList(listGropus);
-
-            mapStandardsAndGroups.put(groupclass, listClassGroupsCollection);
         }
     }
 
@@ -140,125 +106,5 @@ public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
             loadSubList(groupclass.getSections());
             mapStandardsAndGroups.put(groupclass, listClassGroupsCollection);
         }
-    }
-
-
-
-    private void AbsenteesByStdListAPI() {
-
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherAbsenteesByStandardWise.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherAbsenteesByStandardWise.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherAbsenteesByStandardWise.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        }
-        listHeaderParent = new ArrayList<>();
-        listGropus = new ArrayList<>();
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
-
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-        JsonObject jsonReqArray = constructJsonArrayMgtSchoolStd();
-        Call<JsonArray> call = apiService.GetAbsenteesCountByDate(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("StudentsList:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
-                        for (int i = 0; i < js.length(); i++) {
-                            JSONObject jsonObject = js.getJSONObject(i);
-
-                            JSONArray jSONArray = jsonObject.getJSONArray("ClassWise");
-                            for (int j = 0; j < jSONArray.length(); j++) {
-                                JSONObject jsonObjectgroups = jSONArray.getJSONObject(j);
-                                TeacherABS_Standard abs_standard;
-                                abs_standard = new TeacherABS_Standard(jsonObjectgroups.getString("ClassName"), jsonObjectgroups.getString("TotalAbsentees"));
-                                Log.d("STD&SEC", jsonObjectgroups.getString("ClassName") + jsonObjectgroups.getString("TotalAbsentees"));
-                                Log.d("Size", String.valueOf(listHeaderParent.size()));
-                                Log.d("tttt", jsonObjectgroups.toString());
-                                JSONArray jSONArraysection = jsonObjectgroups.getJSONArray("SectionWise");
-
-                                if (jSONArraysection.length() > 0) {
-                                    listGropus = new ArrayList<>();
-                                    for (int k = 0; k < jSONArraysection.length(); k++) {
-                                        JSONObject jsonObjectsections = jSONArraysection.getJSONObject(k);
-                                        TeacherABS_Section abs_section;
-                                        abs_section = new TeacherABS_Section(jsonObjectsections.getString("SectionName"), jsonObjectsections.getString("TotalAbsentees"));
-                                        Log.d("childlist", abs_section.getSection());
-                                        listGropus.add(abs_section);
-                                    }
-                                    abs_standard.setSections(listGropus);
-                                }
-
-                                listHeaderParent.add(abs_standard);
-                            }
-
-
-                            mapStandardsAndGroups = new LinkedHashMap<>();
-                            for (TeacherABS_Standard groupclass : listHeaderParent) {
-                                listClassGroupsCollection = new ArrayList<>();
-                                loadSubList(groupclass.getSections());
-                                mapStandardsAndGroups.put(groupclass, listClassGroupsCollection);
-                            }
-
-                            absenteesExpandableListAdapter = new TeacherAbsenteesExpandableListAdapter(
-                                    TeacherAbsenteesByStandardWise.this, listHeaderParent, mapStandardsAndGroups, expListView);
-                            expListView.setAdapter(absenteesExpandableListAdapter);
-
-
-                        }
-                    } else {
-                        showToast("Server Response Failed. Try again");
-                    }
-
-                } catch (Exception e) {
-                    Log.e("GroupList:Excep", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast("Check your Internet connectivity");
-                Log.d("SubjectHandling:Failure", t.toString());
-            }
-        });
-    }
-
-
-    private JsonObject constructJsonArrayMgtSchoolStd() {
-        JsonObject jsonObjectSchool = new JsonObject();
-        try {
-            jsonObjectSchool.addProperty("SchoolId", Principal_SchoolId);
-            Log.d("schoolid", Principal_SchoolId);
-        } catch (Exception e) {
-            Log.d("ASDF", e.toString());
-        }
-        return jsonObjectSchool;
-    }
-
-    private void showToast(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }

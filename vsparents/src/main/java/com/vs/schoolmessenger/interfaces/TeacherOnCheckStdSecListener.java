@@ -9,6 +9,5 @@ import com.vs.schoolmessenger.model.TeacherSectionModel;
 public interface TeacherOnCheckStdSecListener
 {
     public void stdSec_addClass(TeacherSectionModel stdSec);
-
     public void stdSec_removeClass(TeacherSectionModel stdSec);
 }

@@ -33,7 +33,6 @@ public class UploadDocUtils {
         generatePresignedUrlRequest.setResponseHeaders(overrideHeader);
 
         URL url = s3client.generatePresignedUrl(generatePresignedUrlRequest);
-
         String fileUrl = url.toString().substring(0, url.toString().indexOf('?'));
         Log.e("s", fileUrl);
         return fileUrl;

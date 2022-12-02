@@ -99,11 +99,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                  CHANNEL_ID = "voicesnap_channel_03";// The id of the channel.
                  name = "snapvoice";// The user-visible name of the channel.
             }
-
-//            String CHANNEL_ID = "voicesnap_channel_01";// The id of the channel.
-//            CharSequence name = "Voicesnap";// The user-visible name of the channel.
-//
-
             int importance = NotificationManager.IMPORTANCE_HIGH;
             mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
 
@@ -130,8 +125,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(mChannel);
             String GROUP_KEY_WORK_VOICESNAP = "com.vs.schoolmessenger.WORK_VOICESNAP";
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                    .setContentTitle(title)
-//                    .setContentText(messageBody)
                     .setContent(
                             getCustomDesign(title, messageBody,""))
                     .setSmallIcon(R.drawable.school_chimes)
@@ -155,7 +148,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(messageBody)
                     .setAutoCancel(true)
-                   // .setSound(notificationSoundURI)
                     .setSound(message_voice)
                     .setContentIntent(resultIntent);
 

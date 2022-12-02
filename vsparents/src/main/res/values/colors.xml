@@ -1,148 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#E67E22</color>-->
-    <!--<color name="colorPrimaryDark">#E27413</color>-->
-
-
     <color name="colorPrimary">#006064</color>
     <color name="colorPrimaryDark">#006064</color>
     <color name="colorAccent">#006064</color>
-
     <color name="clr_window_bg">#F4F4F4</color>
-    <!--<color name="clr_btn_login">#E67E22</color>-->
-    <!--<color name="clr_btn_login_50">#80E67E22</color>-->
     <color name="clr_btn_login">#006064</color>
-
     <color name="clr_blue_events">#FF74C2EA</color>
     <color name="clr_blue_bg">#FFACDEF7</color>
-
     <color name="clr_chimes_red">#f64148</color>
-
     <color name="clr_chimes_blue">#392f87</color>
-
-
     <color name="clr_blue_light">#c9edff</color>
-
     <color name="clr_blue_light2">#dbf2fd</color>
-
     <color name="clr_btn_login_50">#80019AE8</color>
-
     <color name="clr_grey_disable">#939393</color>
     <color name="clr_grey">#B9B9B9</color>
-
     <color name="exm_clr">#dedede</color>
-
     <color name="clr_grey_school">#bab9b9</color>
-
     <color name="clr_grey_light">#D8D8D8</color>
     <color name="clr_grey_dark">#4B4B4D</color>
-
     <color name="clr_card_grey">#F5F5F5</color>
-
     <color name="card_grey">#e2dfdf</color>
-
     <color name="clr_red">#FF7575</color>
-
     <color name="clr_reject_red">#c45f5f</color>
-
     <color name="clr_white">#FFFFFF</color>
     <color name="clr_white_fifty">#80FFFFFF</color>
-
     <color name="clr_black">#000000</color>
     <color name="clr_black1">#414040</color>
     <color name="clr_black_trans_50">#80000000</color>
     <color name="clr_black_trans_20">#33000000</color>
     <color name="clr_black_trans_90">#E6000000</color>
     <color name="clr_black_trans_80">#CC000000</color>
-
     <color name="image_backround_color">#cc686767</color>
     <color name="clr_green">#16C117</color>
     <color name="clr_green_50">#8016C117</color>
     <color name="clr_yellow">#F8A220</color>
     <color name="clr_yellow_transparency">#80F8A220</color>
     <color name="clr_pink">#D51F45</color>
-
-    <!--<color name="clr_blue">#019AE8</color>-->
     <color name="clr_blue">#006064</color>
-
     <color name="light_grey">#f5f6f8</color>
-
-
     <color name="clr_bottombar_bg">#4B4B4D</color>
     <color name="clr_logo_instant">#E34568</color>
-
-
     <color name="clr_criomson">#990000</color>
-
     <color name="teacher_colorPrimary">#581845</color>
     <color name="teacher_colorPrimaryDark">#581845</color>
     <color name="teacher_colorAccent">#581845</color>
-
     <color name="teacher_clr_window_bg">#F4F4F4</color>
-
     <color name="teacher_clr_btn_login">#b65908</color>
-
     <color name="teacher_clr_btn_login_50">#80E67E22</color>
-
     <color name="teacher_clr_grey">#B9B9B9</color>
     <color name="teacher_clr_grey_light">#D8D8D8</color>
     <color name="teacher_clr_grey_dark">#4B4B4D</color>
-
     <color name="teacher_clr_card_grey">#F5F5F5</color>
-
     <color name="teacher_clr_red">#E34545</color>
-
     <color name="teacher_clr_red_red">#E34545</color>
-
     <color name="teacher_clr_white">#FFFFFF</color>
     <color name="teacher_clr_white_fifty">#80FFFFFF</color>
     <color name="teacher_clr_white_20">#33FFFFFF</color>
-
     <color name="teacher_clr_black">#000000</color>
     <color name="teacher_clr_black_trans_50">#80000000</color>
     <color name="teacher_clr_black_trans_20">#33000000</color>
     <color name="teacher_clr_black_trans_90">#E6000000</color>
-
     <color name="teacher_clr_black_trans_80">#CC000000</color>
-    <!--<color name="teacher_clr_black_trans_80">#581845</color>-->
-
     <color name="teacher_clr_green">#24BB59</color>
     <color name="teacher_clr_green_50">#8024BB59</color>
     <color name="teacher_clr_yellow">#F8A220</color>
     <color name="teacher_clr_yellow_transparency">#80F8A220</color>
     <color name="teacher_clr_pink">#D51F45</color>
     <color name="teacher_clr_blue">#019AE8</color>
-
     <color name="teacher_clr_red_50">#80E34545</color>
-
-
     <color name="teacher_clr_pink1">#f58da3</color>
-
-
     <color name="clr_orange">#FD5F37</color>
-
     <color name="multiple_image_select_primary">#2E7D32</color>
     <color name="multiple_image_select_primaryDark">#1B5E20</color>
     <color name="multiple_image_select_primaryLight">#C8E6C9</color>
     <color name="multiple_image_select_accent">#4CAF50</color>
-
     <color name="multiple_image_select_primaryText">#212121</color>
     <color name="multiple_image_select_secondaryText">#727272</color>
     <color name="multiple_image_select_divider">#B6B6B6</color>
-
     <color name="profile_screen_clr">#F4F1F1</color>
     <color name="light_blue_bg">#e6edf4</color>
-
     <color name="multiple_image_select_toolbarPrimaryText">#FFFFFF</color>
-
     <color name="multiple_image_select_albumTextBackground">#99FFFFFF</color>
     <color name="multiple_image_select_imageSelectBackground">#000000</color>
-
     <color name="multiple_image_select_buttonText">#FFFFFF</color>
-
-
     <color name="tab_indicator">#2196F3</color>
-
     <color name="itemSelected">#90FFFFFF</color>
     <color name="dropShadow">#AA000000</color>
     <color name="menu_text">#222222</color>
@@ -151,4 +92,8 @@
     <color name="color_teal">#016064</color>
     <color name="color_green">#359094</color>
     <color name="color_brown">#581545</color>
+    <color name="clr_no_records">#D9ECEA</color>
+<!--    <color name="clr_light_yellow">#F8EDCE</color>-->
+    <color name="clr_light_yellow">#D9ECEA</color>
+
 </resources>

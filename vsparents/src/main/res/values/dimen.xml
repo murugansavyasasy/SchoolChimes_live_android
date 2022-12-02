@@ -2,40 +2,26 @@
 <resources>
     <dimen name="bar_height">100dp</dimen>
     <dimen name="bar_text_size">20sp</dimen>
-
     <dimen name="dim_cb">25dp</dimen>
-
-
     <dimen name="network_image_size">40dp</dimen>
     <dimen name="network_image_size_small">40dp</dimen>
-
     <dimen name="chimes_network_image_size">70dp</dimen>
     <dimen name="chimes_network_image_size_small">70dp</dimen>
-
     <dimen name="widget_margin_small">3dp</dimen>
     <dimen name="widget_margin_xsmall">2dp</dimen>
     <dimen name="widget_margin_medium">10dp</dimen>
     <dimen name="widget_margin_large">15dp</dimen>
     <dimen name="card_album_radius">3dp</dimen>
-
-    <!-- Text Size -->
     <dimen name="txt_xsmall">10sp</dimen>
     <dimen name="txt_small">12sp</dimen>
     <dimen name="txt_medium">15sp</dimen>
     <dimen name="txt_large">18sp</dimen>
     <dimen name="txt_xlarge">20sp</dimen>
-
     <dimen name="img_width">300dp</dimen>
     <dimen name="img_height">200dp</dimen>
-
     <dimen name="home_menu_icon">30dp</dimen>
-
-
-
     <dimen name="dim_rec_oval">50dp</dimen>
-
     <dimen name="img_dimen">50dp</dimen>
-
     <dimen name="_3sdp">3dp</dimen>
     <dimen name="_8dp">8dp</dimen>
     <dimen name="_8sdp">8dp</dimen>
@@ -53,10 +39,5 @@
     <dimen name="_34sdp">34dp</dimen>
     <dimen name="_30sdp">30dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-
-
-
-
-
 
 </resources>

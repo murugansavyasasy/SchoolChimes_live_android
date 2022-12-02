@@ -43,8 +43,6 @@ public class TeacherCircularsDateListAdapter extends RecyclerView.Adapter<Teache
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         final TeacherCircularDates date = datesList.get(position);
-
-
         holder.tvDate.setText(date.getCircularDate());
         holder.tvDay.setText(date.getCircularDay());
 
@@ -148,6 +146,12 @@ public class TeacherCircularsDateListAdapter extends RecyclerView.Adapter<Teache
     @Override
     public int getItemCount() {
         return datesList.size();
+    }
+
+
+    public void updateList(List<TeacherCircularDates> temp) {
+        datesList = temp;
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

@@ -142,8 +142,6 @@ public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.
     public void onBindViewHolder(final SubjectListAdapter.MyViewHolder holder, final int position) {
 
         holder.bind(lib_list.get(position));
-
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final TeacherSubjectModel exam = lib_list.get(position);
 
         holder.ExamName.setText(exam.getStrSubName());
@@ -293,12 +291,6 @@ public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.
                 mDatePicker.show();
             }
         });
-
-
-
-
-
-
 
         holder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override

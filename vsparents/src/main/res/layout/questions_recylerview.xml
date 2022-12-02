@@ -13,6 +13,35 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="5dp"
+            android:id="@+id/rytSearch"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/Searchable"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_search_shadow"
+                android:hint="Search"
+                android:textSize="15dp"
+                android:paddingLeft="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/imgSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/search_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleview"
             android:layout_width="match_parent"

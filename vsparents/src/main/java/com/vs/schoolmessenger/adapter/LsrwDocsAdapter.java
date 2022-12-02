@@ -95,8 +95,6 @@ public  class LsrwDocsAdapter extends RecyclerView.Adapter<LsrwDocsAdapter.MyVie
         public RelativeLayout rytDelete;
         ImageView imgview;
         ConstraintLayout constraint;
-
-
         public MyViewHolder(View view) {
             super(view);
 

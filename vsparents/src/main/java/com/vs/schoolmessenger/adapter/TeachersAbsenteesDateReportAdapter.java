@@ -77,6 +77,12 @@ public class TeachersAbsenteesDateReportAdapter extends RecyclerView.Adapter<Tea
         this.listener = listener;
     }
 
+    public void updateList(List<TeacherAbsenteesDates> temp) {
+        dateList = temp;
+        notifyDataSetChanged();
+    }
+
+
     private void showToast(String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }

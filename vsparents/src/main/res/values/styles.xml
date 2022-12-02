@@ -1,16 +1,11 @@
 <resources>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/clr_window_bg</item>
-
         <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
-
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/RobotoButtonStyle</item>
     </style>
@@ -52,23 +47,16 @@
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
-    <!-- ***************** -->
 
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:windowBackground">@color/clr_window_bg</item>
-        <!-- <item name="android:background">@color/clrBackgroundGray</item>-->
-
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/RobotoButtonStyle</item>
-
         <item name="toolbarStyle">@style/Widget.Toolbar</item>
         <item name="actionBarWidgetTheme">@style/Theme_MyActionBarTheme_Widget</item>
-
         <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
     </style>
 
@@ -84,45 +72,29 @@
         <item name="contentInsetLeft">3dp</item>
     </style>
 
-    <!-- ***************** -->
-
     <style name="AppTheme.NoActionBar.Login" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/clr_grey</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:windowBackground">@color/clr_window_bg</item>
-
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/RobotoButtonStyle</item>
-
         <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
     </style>
 
-    <!-- ***************** -->
-
     <style name="AppTheme.Home" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
-
-        <!--<item name="android:homeAsUpIndicator">@drawable/ic_left_black</item>-->
         <item name="android:windowBackground">@color/clr_window_bg</item>
-
         <item name="actionBarWidgetTheme">@style/Theme_MyActionBarTheme_Widget</item>
-
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/RobotoButtonStyle</item>
-
         <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
     </style>
-
     <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
         <item name="titleTextStyle">@style/MyTitleTextStyle</item>
-
         <item name="contentInsetStart">3dp</item>
         <item name="contentInsetLeft">3dp</item>
     </style>
@@ -130,43 +102,25 @@
     <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/clr_white</item>
     </style>
-
-    <!-- ***************** -->
-
     <style name="AppTheme.FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/colorAccent</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/clr_window_bg</item>
-        <!-- Even widgets backgrounds also changing
-        <item name="android:background">@color/clr_window_bg</item>-->
-
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/RobotoButtonStyle</item>
 
         <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
     </style>
 
-    <!-- ***************** -->
-
     <style name="AppTheme.Translucent" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@color/clr_black_trans_80</item>
-
-        <!--<item name="android:windowIsTranslucent">true</item>-->
-
+        <item name="android:windowBackground">@color/clr_white</item>
         <item name="colorAccent">@color/clr_green</item>
 
-        <!--<item name="android:colorBackgroundCacheHint">@null</item>-->
-        <!--<item name="android:windowAnimationStyle">@android:style/Animation</item>-->
     </style>
-
-    <!-- ***************** -->
-
     <style name="txt_18_bold_grey">
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/clr_grey</item>
@@ -303,57 +257,27 @@
         <item name="bpButtonsTextColor">@color/colorPrimaryDark</item>
 
     </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
     <style name="parent_taplayout" parent="android:Widget">
-        <!--<item name="tabBackground">@drawable/tab_background</item>-->
         <item name="tabIndicatorColor">@color/bpWhite</item>
         <item name="tabIndicatorHeight">5dp</item>
-
     </style>
-
-
     <style name="school_taplayout" parent="android:Widget">
-        <!--<item name="tabBackground">@drawable/school_tab_background</item>-->
         <item name="tabIndicatorColor">@color/bpWhite</item>
         <item name="tabIndicatorHeight">5dp</item>
-
     </style>
-
     <style name="DialogTheme" parent="android:Widget">
         <item name="colorAccent">@color/teacher_colorPrimary</item>
     </style>
-
-
-
-
     <style name="Teacher_AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/teacher_colorPrimary</item>
         <item name="colorPrimaryDark">@color/teacher_colorPrimaryDark</item>
         <item name="colorAccent">@color/teacher_colorAccent</item>
-
         <item name="android:windowBackground">@color/teacher_clr_window_bg</item>
-
         <item name="android:actionBarStyle">@style/Teacher_AppTheme.ActionBar</item>
         <item name="actionBarStyle">@style/Teacher_AppTheme.ActionBar</item>
-
         <item name="android:textViewStyle">@style/Teacher_RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/Teacher_RobotoButtonStyle</item>
-
     </style>
-
     <style name="Teacher_AppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar">
         <item name="android:titleTextStyle">@style/Teacher_AppTheme.ActionBar.TitleText</item>
         <item name="titleTextStyle">@style/Teacher_AppTheme.ActionBar.TitleText</item>
@@ -375,24 +299,15 @@
     <style name="Teacher_RobotoButtonStyle" parent="android:Widget.Holo.Button">
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
-
-    <!-- ***************** -->
-
     <style name="Teacher_AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/teacher_colorPrimary</item>
         <item name="colorPrimaryDark">@color/teacher_colorPrimaryDark</item>
         <item name="colorAccent">@color/teacher_colorAccent</item>
-
         <item name="android:windowBackground">@color/teacher_clr_window_bg</item>
-        <!-- <item name="android:background">@color/clrBackgroundGray</item>-->
-
         <item name="android:textViewStyle">@style/Teacher_RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/Teacher_RobotoButtonStyle</item>
-
         <item name="toolbarStyle">@style/Teacher_Widget.Toolbar</item>
         <item name="actionBarWidgetTheme">@style/Teacher_Theme_MyActionBarTheme_Widget</item>
-
         <item name="android:alertDialogTheme">@style/Teacher_AlertDialogCustom</item>
     </style>
 
@@ -407,46 +322,30 @@
         <item name="contentInsetStart">3dp</item>
         <item name="contentInsetLeft">3dp</item>
     </style>
-
-    <!-- ***************** -->
-
     <style name="Teacher_AppTheme.NoActionBar.Login" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/teacher_colorPrimary</item>
         <item name="colorPrimaryDark">@color/teacher_colorPrimaryDark</item>
         <item name="colorAccent">@color/teacher_colorAccent</item>
-
         <item name="android:windowBackground">@color/teacher_clr_window_bg</item>
-
         <item name="android:textViewStyle">@style/Teacher_RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/Teacher_RobotoButtonStyle</item>
-
         <item name="android:alertDialogTheme">@style/Teacher_AlertDialogCustom</item>
     </style>
 
-    <!-- ***************** -->
-
     <style name="Teacher_AppTheme.Home" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/teacher_colorPrimary</item>
         <item name="colorPrimaryDark">@color/teacher_colorPrimaryDark</item>
         <item name="colorAccent">@color/teacher_colorAccent</item>
         <item name="actionBarStyle">@style/Teacher_MyActionBar</item>
-
-        <!--<item name="android:homeAsUpIndicator">@drawable/ic_left_black</item>-->
         <item name="android:windowBackground">@color/teacher_clr_window_bg</item>
-
         <item name="actionBarWidgetTheme">@style/Teacher_Theme_MyActionBarTheme_Widget</item>
-
         <item name="android:textViewStyle">@style/Teacher_RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/Teacher_RobotoButtonStyle</item>
-
         <item name="android:alertDialogTheme">@style/Teacher_AlertDialogCustom</item>
     </style>
 
     <style name="Teacher_MyActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
         <item name="titleTextStyle">@style/Teacher_MyTitleTextStyle</item>
-
         <item name="contentInsetStart">3dp</item>
         <item name="contentInsetLeft">3dp</item>
     </style>
@@ -454,44 +353,23 @@
     <style name="Teacher_MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/teacher_clr_white</item>
     </style>
-
-    <!-- ***************** -->
-
     <style name="Teacher_AppTheme.FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/teacher_colorAccent</item>
         <item name="colorPrimaryDark">@color/teacher_colorAccent</item>
         <item name="colorAccent">@color/teacher_colorAccent</item>
-
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/teacher_clr_window_bg</item>
-        <!-- Even widgets backgrounds also changing
-        <item name="android:background">@color/clr_window_bg</item>-->
-
         <item name="android:textViewStyle">@style/Teacher_RobotoTextViewStyle</item>
         <item name="buttonStyle">@style/Teacher_RobotoButtonStyle</item>
 
         <item name="android:alertDialogTheme">@style/Teacher_AlertDialogCustom</item>
     </style>
-
-    <!-- ***************** -->
-
     <style name="Teacher_AppTheme.Translucent" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/teacher_clr_black_trans_80</item>
-
-    <!--<item name="android:windowIsTranslucent">true</item>-->
-
         <item name="colorAccent">@color/teacher_colorAccent</item>
-
-        <!--<item name="android:colorBackgroundCacheHint">@null</item>-->
-        <!--<item name="android:windowAnimationStyle">@android:style/Animation</item>-->
     </style>
-
-    <!-- ***************** -->
-
-
     <style name="Teacher_txt_18_bold_grey">
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/teacher_clr_grey</item>
@@ -499,8 +377,6 @@
         <item name="android:minHeight">0dp</item>
         <item name="android:textStyle">bold</item>
     </style>
-
-
     <style name="Teacher_txt_14_normal_grey">
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/teacher_clr_grey</item>
@@ -508,8 +384,6 @@
         <item name="android:minHeight">0dp</item>
         <item name="android:textStyle">normal</item>
     </style>
-
-
     <style name="Teacher_txt_14_normal_primary">
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/teacher_clr_btn_login</item>
@@ -567,9 +441,6 @@
         <item name="android:padding">7dp</item>
         <item name="android:textStyle">bold</item>
     </style>
-
-
-
     <style name="Teacher_btn_green">
         <item name="android:gravity">center</item>
         <item name="android:textColor">#FFFFFF</item>
@@ -602,7 +473,6 @@
     </style>
 
     <style name="feed_Back_Details">
-
         <item name="android:textColor">@color/clr_black1</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
@@ -631,17 +501,11 @@
     </style>
 
     <style name="Teacher_AppTheme.FullScreen.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="Teacher_AppTheme.FullScreen.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
-    <!-- Spin -->
     <style name="Teacher_spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
     </style>
-
     <style name="Teacher_spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
     </style>
-
     <style name="Teacher_AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorPrimary">@color/teacher_colorPrimaryDark</item>
         <item name="colorAccent">@color/teacher_colorPrimary</item>
@@ -660,26 +524,18 @@
         <item name="bpPreHeaderBackgroundColor">@color/teacher_colorPrimaryDark</item>
         <item name="bpHeaderSelectedTextColor">@color/bpWhite</item>
         <item name="bpHeaderUnselectedTextColor">@color/radial_gray_light</item>
-
         <item name="bpBodyBackgroundColor">@color/bpWhite</item>
         <item name="bpBodySelectedTextColor">@color/teacher_colorPrimaryDark</item>
         <item name="bpBodyUnselectedTextColor">@color/date_picker_text_normal</item>
-
         <item name="bpRadialBackgroundColor">@color/radial_gray_light</item>
         <item name="bpRadialPointerColor">@color/teacher_colorPrimaryDark</item>
         <item name="bpRadialPointerAlpha">35</item>
         <item name="bpRadialTextColor">@color/teacher_colorPrimaryDark</item>
-
         <item name="bpAmPmCircleColor">@color/teacher_colorPrimaryDark</item>
         <item name="bpAmPmTextColor">@color/bpWhite</item>
-
         <item name="bpButtonsBackgroundColor">@color/bpWhite</item>
         <item name="bpButtonsTextColor">@color/teacher_colorPrimaryDark</item>
     </style>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-
-
 </resources>

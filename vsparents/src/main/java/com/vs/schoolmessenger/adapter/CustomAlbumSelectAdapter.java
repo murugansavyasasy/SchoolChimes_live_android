@@ -33,15 +33,11 @@ public class CustomAlbumSelectAdapter extends CustomGenericAdapter<Album> {
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image_view_album_image);
             viewHolder.textView = (TextView) convertView.findViewById(R.id.text_view_album_name);
             viewHolder.textView1 = (TextView) convertView.findViewById(R.id.gallery_count);
-
-
-
             convertView.setTag(viewHolder);
 
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
         viewHolder.imageView.getLayoutParams().width = size;
         viewHolder.imageView.getLayoutParams().height = size;
 

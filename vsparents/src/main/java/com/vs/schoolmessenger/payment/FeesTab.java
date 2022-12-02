@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.activity.FAQScreen;
 import com.vs.schoolmessenger.activity.HomeActivity;
 import com.vs.schoolmessenger.activity.TeacherChangePassword;
@@ -57,6 +60,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class FeesTab extends AppCompatActivity implements View.OnClickListener {
     ViewPager viewPager;
@@ -93,6 +97,10 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
     ArrayList<String> isGroupHedMenuNames = new ArrayList<>();
     ArrayList<String> isParentMenuNames = new ArrayList<>();
 
+
+    Slider slider;
+    LinearLayout lnrAdView;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -112,6 +120,16 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
         rytHelp = (RelativeLayout) findViewById(R.id.rytHelp);
         rytPassword = (RelativeLayout) findViewById(R.id.rytPassword);
         rytLogout = (RelativeLayout) findViewById(R.id.rytLogout);
+
+        lnrAdView = (LinearLayout) findViewById(R.id.lnrAdView);
+        lnrAdView.setVisibility(View.VISIBLE);
+
+
+        Slider.init(new PicassoImageLoadingService(FeesTab.this));
+        slider = findViewById(R.id.banner);
+        ImageView adImage = findViewById(R.id.adImage);
+
+        ShowAds.getAds(FeesTab.this,adImage,slider,"");
 
         rytLogout.setOnClickListener(this);
         rytHelp.setOnClickListener(this);
@@ -141,7 +159,7 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
         fragmentOne = new FeeFragment();
         fragmentTwo = new InvoiceFragment();
         allTabs.addTab(allTabs.newTab().setText("Payment"),true);
-        allTabs.addTab(allTabs.newTab().setText("Invoice"));
+        allTabs.addTab(allTabs.newTab().setText("Receipt"));
     }
 
     public static FeesTab getInstance() {

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +43,6 @@ import retrofit2.Callback;
 
 public class HolidaysFragment extends Fragment {
     RecyclerView recycle_paidlist;
-    // ImageView back;
     String school_id, child_id,MemberId;
     Context context;
     private ArrayList<HolidayModel> msgModelList = new ArrayList<>();
@@ -55,8 +55,7 @@ public class HolidaysFragment extends Fragment {
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
-    String previousDate;
-
+    RelativeLayout rytSearch;
 
 
     @Override
@@ -70,48 +69,28 @@ public class HolidaysFragment extends Fragment {
         school_id = Util_SharedPreference.getSchoolIdFromSP(getActivity());
         MemberId = Util_SharedPreference.getChildIdFromSP(getActivity());
 
-        Log.e("sizee123", String.valueOf(msgModelList.size()));
         c = Calendar.getInstance();
          LoadMore=(TextView) rootView.findViewById(R.id.btnSeeMore);
         lblNoMessages=(TextView) rootView.findViewById(R.id.lblNoMessages);
+
+        rytSearch=(RelativeLayout) rootView.findViewById(R.id.rytSearch);
+        rytSearch.setVisibility(View.GONE);
 
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LoadMoregetEventsDetails();
 
-//                previousDate=TeacherUtil_SharedPreference.getHolidayDate(getActivity());
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                if (previousDate.equals("") || previousDate.compareTo(currentDate)<0)
-//                {
-//                    LoadMoregetEventsDetails();
-//                }
-//                else {
-//                    myDb = new SqliteDB(getActivity());
-//                    if (myDb.checkHolidays()) {
-//                        msgModelList.clear();
-//                        totalmsgModelList.addAll(myDb.getHolidays());
-//                        msgModelList.addAll(totalmsgModelList);
-//                        mAdapter.notifyDataSetChanged();
-//                        LoadMore.setVisibility(View.GONE);
-//
-//                    }
-//                    else {
-//                        showAlert("No Records Found..");
-//                    }
-//                }
             }
         });
          isNewVersion=TeacherUtil_SharedPreference.getNewVersion(getActivity());
         if(isNewVersion.equals("1")){
-            LoadMore.setVisibility(View.VISIBLE);
+            LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.VISIBLE);
         }
         else {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
-
         }
 
         mAdapter = new HolidaysAdapter(msgModelList, getActivity());
@@ -120,7 +99,6 @@ public class HolidaysFragment extends Fragment {
         recycle_paidlist.setItemAnimator(new DefaultItemAnimator());
         recycle_paidlist.setAdapter(mAdapter);
         recycle_paidlist.getRecycledViewPool().setMaxRecycledViews(0, 80);
-
 
         getEventsDetails();
         return rootView;
@@ -137,7 +115,6 @@ public class HolidaysFragment extends Fragment {
             String baseURL= TeacherUtil_SharedPreference.getBaseUrl(getActivity());
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
-
 
         final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
@@ -165,16 +142,9 @@ public class HolidaysFragment extends Fragment {
                         LoadMore.setVisibility(View.GONE);
                         lblNoMessages.setVisibility(View.GONE);
 
-
-//                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                        String currentDate = df.format(c.getTime());
-//                        Log.d("currentDate",currentDate);
-//                        TeacherUtil_SharedPreference.putHolidayCurrentDate(getActivity(),currentDate);
-
                         try {
                             JSONArray js = new JSONArray(response.body().toString());
                             if (js.length() > 0) {
-                               // mAdapter.clearAllData();
                                 HolidayModel msgModel;
                                  OfflinemsgModelList.clear();
                                 for (int i = 0; i < js.length(); i++) {
@@ -324,11 +294,8 @@ public class HolidaysFragment extends Fragment {
 
     private void showAlert(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
         alertDialog.setTitle( R.string.alert);
         alertDialog.setMessage(msg);
-
-
         alertDialog.setNegativeButton( R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -338,10 +305,7 @@ public class HolidaysFragment extends Fragment {
 
             }
         });
-
-
         AlertDialog dialog = alertDialog.create();
-
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
@@ -349,24 +313,6 @@ public class HolidaysFragment extends Fragment {
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
-    private void showRecordsFound(String name) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage(name);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                dialog.dismiss();
-
-
-
-            }
-        });
-
-        alertDialog.show();
-    }
 
 
 }

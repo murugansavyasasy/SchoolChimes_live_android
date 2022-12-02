@@ -67,7 +67,6 @@ public class ForgetPaswordDialinNumbers extends RecyclerView.Adapter<ForgetPaswo
     @Override
     public void onBindViewHolder(final ForgetPaswordDialinNumbers.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(number_list.size()));
         final String number = number_list.get(position);
         holder.DialNumber.setText(number);
         holder.rytFirstNumber.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +84,6 @@ public class ForgetPaswordDialinNumbers extends RecyclerView.Adapter<ForgetPaswo
 
             }
         });
-
 
     }
     @Override

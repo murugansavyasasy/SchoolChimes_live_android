@@ -6,12 +6,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -43,15 +46,15 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
     ImageView imgBack;
     KnowledgeEnhancementAdapter knowledgeadapter;
     private ArrayList<KnowledgeEnhancementModel> msgModelList = new ArrayList<>();
-
     String isNewVersion;
     Boolean show=false;
+    ImageView imgSearch;
+    TextView Searchable;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,12 +66,47 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-//        tabLayout= Objects.requireNonNull(getActivity()).findViewById(R.id.assignTablayout);
         recyclerView = view.findViewById(R.id.recycleview);
         isNewVersion=TeacherUtil_SharedPreference.getNewVersion(getActivity());
+        Searchable =view.findViewById(R.id.Searchable);
+        imgSearch = view.findViewById(R.id.imgSearch);
 
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (knowledgeadapter == null)
+                    return;
+
+                if (knowledgeadapter.getItemCount() < 1) {
+                    recyclerView.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -79,13 +117,22 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
 
     }
 
+    private void filterlist(String s) {
+        ArrayList<KnowledgeEnhancementModel> temp = new ArrayList();
+        for (KnowledgeEnhancementModel d : msgModelList) {
+
+            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getSubject().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        knowledgeadapter.updateList(temp);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         getKnowledgeEnchancement();
-
-
-
     }
 
     private void getKnowledgeEnchancement() {
@@ -114,8 +161,6 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
         jsonObject.addProperty("SchoolID", strSchoolID);
 
         Log.d("Request", jsonObject.toString());
-
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonObject> call = apiService.knowledgeEnhanement(jsonObject);
         call.enqueue(new Callback<JsonObject>() {
@@ -161,8 +206,6 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
                                 );
                                 msgModelList.add(msgModel);
                             }
-
-
                             knowledgeadapter.notifyDataSetChanged();
 
                         }
@@ -172,11 +215,7 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
                             if(show==false) {
                                 showAlertRecords(getResources().getString(R.string.no_records));
                             }
-
-
                         }
-
-
                     } else {
                         recyclerView.setAdapter(knowledgeadapter);
                         knowledgeadapter.notifyDataSetChanged();
@@ -212,7 +251,6 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-//                getActivity().finish();
                 show=false;
 
             }
@@ -222,15 +260,12 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
         AlertDialog dialog = alertDialog.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-
     }
 
     private void showToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-
     }
 
 }

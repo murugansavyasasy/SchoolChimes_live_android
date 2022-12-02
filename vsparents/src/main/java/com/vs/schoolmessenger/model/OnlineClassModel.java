@@ -3,9 +3,6 @@ package com.vs.schoolmessenger.model;
 import java.io.Serializable;
 
 public class OnlineClassModel implements Serializable {
-
-
-
      String header_id;
      String message_id;
      String topic;
@@ -19,8 +16,6 @@ public class OnlineClassModel implements Serializable {
      String staff_name;
      String subject_name;
      String is_app_viewed;
-
-
      public OnlineClassModel() {
      }
 

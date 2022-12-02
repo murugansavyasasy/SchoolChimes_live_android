@@ -9,14 +9,11 @@ public class KnowledgeEnhancementModel implements Serializable {
     int Level;
     String Title;
     String Description;
-
     String Subject;
-
     String SubmittedOn;
     String Issubmitted;
     String isAppRead;
     String SentBy;
-
     String TotalNumberOfQuestions;
     String RightAnswer;
     String WrongAnswer;
@@ -32,12 +29,10 @@ public class KnowledgeEnhancementModel implements Serializable {
         this.Title=title;
         this.Description=description;
         this.Subject=subject;
-
         this.SubmittedOn=submittedOn;
         this.Issubmitted=issubmitted;
         this.isAppRead=isAppRead;
         this.SentBy=sentBy;
-
         this.TotalNumberOfQuestions=totalNumberOfQuestions;
         this.RightAnswer=rightAnswer;
         this.WrongAnswer=wrongAnswer;
@@ -46,8 +41,6 @@ public class KnowledgeEnhancementModel implements Serializable {
         this.NoOfLevels=NoOfLevels;
         this.createdOn=createdOn;
         this.detailId=detailId;
-
-
     }
 
     public String getCreatedOn() {
@@ -91,7 +84,6 @@ public class KnowledgeEnhancementModel implements Serializable {
         Description = description;
     }
 
-
     public String getSubject() {
         return Subject;
     }
@@ -99,7 +91,6 @@ public class KnowledgeEnhancementModel implements Serializable {
     public void setSubject(String subject) {
         Subject = subject;
     }
-
 
     public String getSubmittedOn() {
         return SubmittedOn;

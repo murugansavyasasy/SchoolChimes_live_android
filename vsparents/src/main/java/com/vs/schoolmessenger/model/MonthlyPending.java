@@ -11,11 +11,8 @@ public class MonthlyPending {
         this.EndMonthName = endMonthName;
         this.PendingAmount = pendingAmout;
     }
-
     public MonthlyPending() {
     }
-
-
 
     public String getPendingAmount() {
         return PendingAmount;

@@ -8,22 +8,32 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.PdfCircularListAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.MessageModel;
@@ -39,11 +49,13 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
 
@@ -75,6 +87,12 @@ public class PdfCircular extends AppCompatActivity {
     Calendar c;
     String previousDate;
 
+    ImageView imgSearch;
+    TextView Searchable;
+    Slider slider;
+    ImageView adImage;
+    RelativeLayout voice_rlToolbar;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -89,6 +107,13 @@ public class PdfCircular extends AppCompatActivity {
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         selDate = getIntent().getExtras().getString("HEADER", "");
 
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar_children);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Circulars");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
+
         ImageView ivBack = (ImageView) findViewById(R.id.pdf_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,42 +125,65 @@ public class PdfCircular extends AppCompatActivity {
         TextView tvTitle = (TextView) findViewById(R.id.pdf_ToolBarTvTitle);
         tvTitle.setText(selDate);
 
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+        voice_rlToolbar = (RelativeLayout) findViewById(R.id.pdf_rlToolbar);
+        voice_rlToolbar.setVisibility(View.GONE);
 
-         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
+        Slider.init(new PicassoImageLoadingService(PdfCircular.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
+
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (pdfAdapter == null)
+                    return;
+
+                if (pdfAdapter.getItemCount() < 1) {
+                    rvPdfList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvPdfList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvPdfList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
+        LoadMore=(TextView) findViewById(R.id.btnSeeMore);
         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LoadMorecircularsPdfAPI();
 
-//                previousDate=TeacherUtil_SharedPreference.getCircularDate(PdfCircular.this);
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                if (previousDate.equals("") || previousDate.compareTo(currentDate)<0)
-//                {
-//                    LoadMorecircularsPdfAPI();
-//                }
-//                else {
-//                    myDb = new SqliteDB(PdfCircular.this);
-//                    if (myDb.checkDocuments()) {
-//                        msgModelList.clear();
-//                        totalmsgModelList.addAll(myDb.getDocuments());
-//                        msgModelList.addAll(totalmsgModelList);
-//                        pdfAdapter.notifyDataSetChanged();
-//                        LoadMore.setVisibility(View.GONE);
-//
-//                    }
-//                    else {
-//                        showRecordsfound("No Records Found..");
-//                    }
-//                }
+
             }
         });
          isNewVersion=TeacherUtil_SharedPreference.getNewVersion(PdfCircular.this);
          seeMoreButtonVisiblity();
-
-
-
 
         rvPdfList = (RecyclerView) findViewById(R.id.pdf_rvCircularList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -146,10 +194,21 @@ public class PdfCircular extends AppCompatActivity {
 
     }
 
+    private void filterlist(String s) {
+        ArrayList<MessageModel> temp = new ArrayList();
+        for (MessageModel d : msgModelList) {
+
+            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        pdfAdapter.updateList(temp);
+    }
+
     private void seeMoreButtonVisiblity() {
         if(isNewVersion.equals("1")){
             LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
         else {
             LoadMore.setVisibility(View.GONE);
@@ -200,11 +259,6 @@ public class PdfCircular extends AppCompatActivity {
                 lblNoMessages.setVisibility(View.GONE);
 
 
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                Log.d("currentDate",currentDate);
-//                TeacherUtil_SharedPreference.putCircularCurrentDate(PdfCircular.this,currentDate);
-
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
@@ -217,7 +271,6 @@ public class PdfCircular extends AppCompatActivity {
                             MessageModel msgModel;
                             Log.d("json length", js.length() + "");
 
-                          //  pdfAdapter.clearAllData();
                             OfflinemsgModelList.clear();
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
@@ -235,17 +288,10 @@ public class PdfCircular extends AppCompatActivity {
 
                             arrayList = new ArrayList<>();
                             arrayList.addAll(msgModelList);
-//                            myDb = new SqliteDB(PdfCircular.this);
-//
-//                            if(myDb.checkDocuments()){
-//                                myDb.deleteDocuments();
-//                            }
-//                            myDb.addDocuments( (ArrayList<MessageModel>) OfflinemsgModelList, PdfCircular.this);
 
                             pdfAdapter.notifyDataSetChanged();
 
                         } else {
-                            //  showToast(strMessage);
                             showRecordsfound(strMessage);
                         }
                     } else {
@@ -272,9 +318,21 @@ public class PdfCircular extends AppCompatActivity {
         finish();
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return (true);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+
+        ShowAds.getAds(this,adImage,slider,"");
         if (isWriteExternalPermissionGranted())
             if (isNetworkConnected()) {
                 circularsPdfAPI();
@@ -495,7 +553,6 @@ public class PdfCircular extends AppCompatActivity {
 
                         if(isNewVersion.equals("1")){
                             LoadMore.setVisibility(View.VISIBLE);
-                            lblNoMessages.setVisibility(View.VISIBLE);
                         }
                         else {
                             LoadMore.setVisibility(View.GONE);

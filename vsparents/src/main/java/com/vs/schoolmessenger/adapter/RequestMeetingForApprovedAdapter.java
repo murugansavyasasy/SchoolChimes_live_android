@@ -23,7 +23,6 @@ public class RequestMeetingForApprovedAdapter extends RecyclerView.Adapter<Reque
 
     private List<RequestMeetingApprovedModel> lib_list;
     Context context;
-    private PopupWindow pwindow;
 
 
     public void clearAllData() {
@@ -35,8 +34,6 @@ public class RequestMeetingForApprovedAdapter extends RecyclerView.Adapter<Reque
             this.notifyItemRangeRemoved(0, size);
         }
     }
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView lblApprovalStatus, lblStaffName,lblRequestDate,lblRequestedFor,lblStaffComments,lblStaffCommentsLabel,
@@ -45,9 +42,6 @@ public class RequestMeetingForApprovedAdapter extends RecyclerView.Adapter<Reque
         public LinearLayout lnrAprovalStatus,lnrStaffName, lnrRequestDate, lnrRequestedFor, lnrStaffComments, lnrDateTime,
                 lnrClass,lnrApproveAndReject;
         public Button btnApprove,btnReject;
-
-
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -60,8 +54,6 @@ public class RequestMeetingForApprovedAdapter extends RecyclerView.Adapter<Reque
             lblStaffCommentsLabel = (TextView) view.findViewById(R.id.lblStaffCommentsLabel);
             lblSheduledTime = (TextView) view.findViewById(R.id.lblSheduledTime);
             lblClassName = (TextView) view.findViewById(R.id.lblClassName);
-
-
             lnrAprovalStatus = (LinearLayout) view.findViewById(R.id.lnrAprovalStatus);
             lnrStaffName = (LinearLayout) view.findViewById(R.id.lnrStaffName);
             lnrRequestDate = (LinearLayout) view.findViewById(R.id.lnrRequestDate);
@@ -73,11 +65,7 @@ public class RequestMeetingForApprovedAdapter extends RecyclerView.Adapter<Reque
 
             btnApprove = (Button) view.findViewById(R.id.btnApprove);
             btnReject = (Button) view.findViewById(R.id.btnReject);
-
             imgApprovalStatus = (ImageView) view.findViewById(R.id.imgApprovalStatus);
-
-
-
 
         }
     }
@@ -96,20 +84,10 @@ public class RequestMeetingForApprovedAdapter extends RecyclerView.Adapter<Reque
 
     @Override
     public void onBindViewHolder(final RequestMeetingForApprovedAdapter.MyViewHolder holder, final int position) {
-
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
-
         final RequestMeetingApprovedModel history = lib_list.get(position);
-
-
-
-
-
         if (history.getApprovalStatus().equals("0")) {
 
-
             holder.lnrApproveAndReject.setVisibility(View.VISIBLE);
-
             holder.lblStaffName.setText(history.getStaffName());
             holder.lblRequestDate.setText(history.getRequestedON());
             holder.lblRequestedFor.setText(history.getParentComment());
@@ -159,17 +137,7 @@ public class RequestMeetingForApprovedAdapter extends RecyclerView.Adapter<Reque
             holder.lblApprovalStatus.setText(R.string.mt_rejected);
 
         }
-
-
-
-
     }
-
-
-
-
-
-
     @Override
     public int getItemCount() {
         return lib_list.size();

@@ -14,11 +14,8 @@ import com.vs.schoolmessenger.model.FAQModel;
 import java.util.List;
 
 public class FAQAdapter extends RecyclerView.Adapter<FAQAdapter.MyViewHolder> {
-
-
     private List<FAQModel> lib_list;
     Context context;
-
 
     public void clearAllData() {
         int size = this.lib_list.size();
@@ -30,13 +27,8 @@ public class FAQAdapter extends RecyclerView.Adapter<FAQAdapter.MyViewHolder> {
         }
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblQuestion, lblAnswer ;
-
-
-
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -61,9 +53,7 @@ public class FAQAdapter extends RecyclerView.Adapter<FAQAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(final FAQAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final FAQModel questions = lib_list.get(position);
-
         holder.lblQuestion.setText(questions.getQuestion());
         holder.lblAnswer.setText(" : "+questions.getAnswer());
 

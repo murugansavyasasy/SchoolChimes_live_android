@@ -25,6 +25,8 @@ import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -41,6 +43,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerDialogFragment.OnDateSetListener {
 
@@ -60,6 +63,8 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
 
     PopupWindow pwindow;
     Button btnLeaveHistory;
+    Slider slider;
+    ImageView adImage;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -71,18 +76,19 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_leave);
 
-
-
         tv_fromdate = (TextView) findViewById(R.id.appLeave_tvFromDate);
         tv_todate = (TextView) findViewById(R.id.appLeave_tvToDate);
         et_reason = (EditText) findViewById(R.id.applyleave_etReason);
         btn_apply= (Button) findViewById(R.id.appLeave_btnSignIn);
         btnLeaveHistory= (Button) findViewById(R.id.btnLeaveHistory);
 
+        Slider.init(new PicassoImageLoadingService(ApplyLeave.this));
+        slider = findViewById(R.id.banner);
+        adImage = findViewById(R.id.adImage);
+
         btnLeaveHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 Intent leavehistory=new Intent(ApplyLeave.this,LeaveRequestsByStaffs.class);
                 leavehistory.putExtra("type","child");
@@ -132,8 +138,13 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
                 onBackPressed();
             }
         });
-
         setMinDateTime();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ShowAds.getAds(this,adImage,slider,"Dashboard");
     }
 
     private void setMinDateTime() {
@@ -141,8 +152,6 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         strfromdate = dateFormater(System.currentTimeMillis(), "dd-MM-yyyy");
         tv_todate.setText(dateFormater(System.currentTimeMillis(), "dd MMM yyyy"));
         strtodate = dateFormater(System.currentTimeMillis(), "dd-MM-yyyy");
-
-
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 10);
 
@@ -155,10 +164,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
 
         selHour = Integer.toString(minimumHour);
         selMin = Integer.toString(minimumMinute);
-
-
     }
-
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -168,7 +174,6 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void datePicker() {
@@ -185,17 +190,11 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         cdp.show(getSupportFragmentManager(), FRAG_TAG_DATE_PICKER);
     }
 
-
-
-
     private String dateFormater(long dateInMillis, String formatString) {
         SimpleDateFormat formatter = new SimpleDateFormat(formatString);
         String dateString = formatter.format(new Date(dateInMillis));
-        Log.d("dateString", dateString);
         return dateString;
     }
-
-
 
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
@@ -220,7 +219,6 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-       // MessengerApiClient.changeApiBaseUrl(Util_SharedPreference.getBaseUrlFromSP(ApplyLeave.this));
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         if (!this.isFinishing())

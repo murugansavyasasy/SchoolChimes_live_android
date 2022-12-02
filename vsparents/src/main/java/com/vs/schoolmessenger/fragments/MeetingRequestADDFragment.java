@@ -38,23 +38,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class MeetingRequestADDFragment extends Fragment {
-    RecyclerView recycle_paidlist;
     String school_id, child_id,StaffID="";
-    Context context;
     private ArrayList<StaffModel> staffList = new ArrayList<>();
-
-
     Spinner spnStaffList;
     EditText txtComments;
     Button btnRequest;
-
-
     ArrayList<String> staffNames = new ArrayList<>();
     String selectedItemText;
-
     String staffName;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,33 +54,20 @@ public class MeetingRequestADDFragment extends Fragment {
         spnStaffList = (Spinner) rootView.findViewById(R.id.spnStaffList);
         btnRequest = (Button) rootView.findViewById(R.id.btnRequest);
         txtComments = (EditText) rootView.findViewById(R.id.txtComments);
-
-
         child_id = Util_SharedPreference.getChildIdFromSP(getActivity());
         school_id = Util_SharedPreference.getSchoolIdFromSP(getActivity());
-        Log.e("sizee123", String.valueOf(staffList.size()));
-
-
-
-
-
-
 
         spnStaffList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedItemText = (String) parent.getItemAtPosition(position);
-                Log.d("selectedItemText", selectedItemText);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-
             }
         });
-
-
 
         btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +84,6 @@ public class MeetingRequestADDFragment extends Fragment {
             }
         });
 
-
         getDetails();
         return rootView;
     }
@@ -116,10 +93,7 @@ public class MeetingRequestADDFragment extends Fragment {
             final StaffModel nameslist = staffList.get(i);
             String name = nameslist.getStaffName();
             if (name.equals(selectedItemText)) {
-
-
                 StaffID = nameslist.getStaffId();
-                Log.d("schoolID", StaffID);
             }
         }
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(getActivity());
@@ -235,21 +209,17 @@ public class MeetingRequestADDFragment extends Fragment {
 
                         staffList.clear();
                         staffNames.clear();
-
                         JSONObject js = new JSONObject(response.body().toString());
 
                         String classTeacher = js.getString("classteacher");
                         String classTeacherID = js.getString("ClassTeacherID");
-
                         staffNames.add("Select Staff");
-
                         if(!classTeacherID.equals("0")) {
 
                             StaffModel data = new StaffModel("", classTeacher+" -Class Teacher", classTeacherID);
                             staffList.add(data);
                             staffNames.add(classTeacher+" -Class Teacher");
                         }
-
                         JSONArray array = js.getJSONArray("subjectdetails");
 
                         if (array.length() > 0) {
@@ -266,19 +236,13 @@ public class MeetingRequestADDFragment extends Fragment {
                                     staffList.add(data1);
                                     staffNames.add(staffName);
                                 }
-
-
-
                             }
-
                             if(staffList.size()==0){
                                 staffNames.add(staffName);
                             }
                             ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, staffNames);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spnStaffList.setAdapter(adapter);
-
-                            Log.d("list123", String.valueOf(staffList.size()));
 
                         } else {
                             showRecordsFound(getResources().getString(R.string.no_records),"");
@@ -302,8 +266,6 @@ public class MeetingRequestADDFragment extends Fragment {
     }
 
     private void showRecordsFound(String subjectName, final String next) {
-
-
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(subjectName);
@@ -313,7 +275,6 @@ public class MeetingRequestADDFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 if(next.equals("1")) {
-
                     txtComments.setText("");
                     dialog.cancel();
                     RequestMeetingForParent.next();
@@ -323,22 +284,13 @@ public class MeetingRequestADDFragment extends Fragment {
                     dialog.cancel();
                 }
 
-
-
-
             }
         });
 
         AlertDialog dialog = alertDialog.create();
-
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-
     }
-
-
 }

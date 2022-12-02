@@ -9,21 +9,27 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.LSRWAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.lsrwModelClass;
@@ -35,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class LSRWListActivity extends AppCompatActivity {
@@ -44,6 +51,10 @@ public class LSRWListActivity extends AppCompatActivity {
     RecyclerView recycleview;
     LSRWAdapter textAdapter;
     Boolean show=false;
+    ImageView imgSearch;
+    TextView Searchable;
+    Slider slider;
+    ImageView adImage;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -69,6 +80,50 @@ public class LSRWListActivity extends AppCompatActivity {
             }
         });
 
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
+        Slider.init(new PicassoImageLoadingService(LSRWListActivity.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (textAdapter == null)
+                    return;
+
+                if (textAdapter.getItemCount() < 1) {
+                    recycleview.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        recycleview.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    recycleview.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
 
         recycleview = (RecyclerView) findViewById(R.id.fees_pending_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -78,9 +133,24 @@ public class LSRWListActivity extends AppCompatActivity {
 
     }
 
+    private void filterlist(String s) {
+        List<lsrwModelClass> temp = new ArrayList();
+        for (lsrwModelClass d : msgModelList) {
+
+            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getSubmittedOn().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        textAdapter.updateList(temp);
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
+
         getLsrwListApi();
 
     }

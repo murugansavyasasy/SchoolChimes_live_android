@@ -32,6 +32,8 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.LibraryDetailsAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
@@ -56,6 +58,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class StudentLibraryDetails extends AppCompatActivity implements View.OnClickListener {
 
@@ -69,14 +72,16 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
     BottomNavigationView bottomNavigationView;
     private PopupWindow pHelpWindow;
 
-
-
     RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     private ArrayList<Profiles> childList = new ArrayList<>();
 
+    ImageView imgSearch;
+    TextView Searchable;
+    Slider slider;
+    ImageView adImage;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -90,7 +95,6 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.library_details);
-
 
 
         library_student_list = (RecyclerView) findViewById(R.id.library_student_list);
@@ -107,6 +111,11 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
         rytPassword.setOnClickListener(this);
         rytHome.setOnClickListener(this);
 
+        Slider.init(new PicassoImageLoadingService(StudentLibraryDetails.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
+
         child_ID = getIntent().getExtras().getString("CHILD_ID");
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -122,6 +131,45 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
             }
         });
 
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (mAdapter == null)
+                    return;
+
+                if (mAdapter.getItemCount() < 1) {
+                    library_student_list.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        library_student_list.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    library_student_list.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
 
         libraryDetails();
 
@@ -133,15 +181,27 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
         library_student_list.setItemAnimator(new DefaultItemAnimator());
         library_student_list.setAdapter(mAdapter);
         library_student_list.getRecycledViewPool().setMaxRecycledViews(0, 80);
-        
+
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
+    }
 
+    private void filterlist(String s) {
+        List<LibraryDetails> temp = new ArrayList();
+        for (LibraryDetails d : librarylist) {
 
+            if (d.getName().toLowerCase().contains(s.toLowerCase()) || d.getIssuedDate().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
 
-
-
+        }
+        mAdapter.updateList(temp);
+    }
 
 
     private void libraryDetails() {
@@ -587,7 +647,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
                             recreate();
 
                             //restartActivity();
-   
+
 
                         } else {
                             showToast(message);

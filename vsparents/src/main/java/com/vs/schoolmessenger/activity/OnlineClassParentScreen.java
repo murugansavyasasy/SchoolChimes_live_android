@@ -6,16 +6,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.OnlineClassAdapter;
 import com.vs.schoolmessenger.interfaces.OnItemClickOnlineClass;
 import com.vs.schoolmessenger.interfaces.OnMsgItemClickListener;
@@ -32,6 +39,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,7 +50,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+import ss.com.bannerslider.Slider;
 
 
 public  class OnlineClassParentScreen extends AppCompatActivity implements OnItemClickOnlineClass {
@@ -50,6 +60,12 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
     RecyclerView rvTextMsgList;
     OnlineClassAdapter textAdapter;
 
+    ImageView imgSearch;
+    TextView Searchable;
+
+    Slider slider;
+    ImageView adImage;
+    RelativeLayout voice_rlToolbar;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -71,6 +87,55 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
         rvTextMsgList = (RecyclerView) findViewById(R.id.text_rvCircularList);
         TextView tvTitle = (TextView) findViewById(R.id.text_ToolBarTvTitle);
         tvTitle.setText("Online Meetings");
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
+        voice_rlToolbar = (RelativeLayout) findViewById(R.id.text_rlToolbar);
+        voice_rlToolbar.setVisibility(View.GONE);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar_children);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Meetings");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
+
+        Slider.init(new PicassoImageLoadingService(OnlineClassParentScreen.this));
+        slider = findViewById(R.id.banner);
+        adImage = findViewById(R.id.adImage);
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (textAdapter == null)
+                    return;
+
+                if (textAdapter.getItemCount() < 1) {
+                    rvTextMsgList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvTextMsgList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvTextMsgList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
 
 
 
@@ -89,9 +154,34 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
 
     }
 
+    private void filterlist(String s) {
+        ArrayList<OnlineClassModel> temp = new ArrayList();
+        for (OnlineClassModel d : msgModelList) {
+
+            if (d.getTopic().toLowerCase().contains(s.toLowerCase()) ||  d.getMeetingdate().toLowerCase().contains(s.toLowerCase()) || d.getMeetingtype().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        textAdapter.updateList(temp);
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return (true);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     public void onResume(){
         super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
+
         getOnlineClasses();
 
     }
@@ -215,6 +305,6 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
 
     @Override
     public void onMsgItemClick(OnlineClassModel item) {
-        
+
     }
 }

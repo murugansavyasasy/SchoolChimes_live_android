@@ -1007,6 +1007,21 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
+
+
+    public static void putAdTimeInterval(Activity activity,String autoupdate){
+        SharedPreferences prefs = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE);
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.putString("AdTimeInterval", autoupdate);
+        Log.d(SH_PARENT, "autoupdate Data stored in SP");
+        ed.commit();
+    }
+
+    public static String getAdTimeInterval(Activity activity) {
+        String strupdate = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE).getString("AdTimeInterval", "");
+        return strupdate;
+    }
+
     public static void putProfilTitle(Activity activity,String autoupdate){
         SharedPreferences prefs = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
@@ -1424,6 +1439,10 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static String getLoginTypeFromSP(Activity activity) {
+        String loggedInAs = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(SH_LOGGEDIN_AS, "");
+        return loggedInAs;
+    }
+    public static String getLoginTypeContextFromSP(Context activity) {
         String loggedInAs = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(SH_LOGGEDIN_AS, "");
         return loggedInAs;
     }

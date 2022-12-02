@@ -1,10 +1,7 @@
 package com.vs.schoolmessenger.model;
 
 public class RequestMeetingApprovedModel {
-
-
     private String RequestId,StaffName, ParentComment,ApprovalStatus,StaffComment,ScheduleDate,ScheduleTime,RequestedON,ApprovedOn,CLS;
-
     public RequestMeetingApprovedModel(String id, String name, String parentcomment, String status, String staffcomment, String date, String time, String requestedOn, String approvedOn,String cls  ) {
         this.RequestId = id;
         this.StaffName = name;
@@ -16,8 +13,6 @@ public class RequestMeetingApprovedModel {
         this.RequestedON = requestedOn;
         this.ApprovedOn = approvedOn;
         this.CLS = cls;
-
-
 
     }
 

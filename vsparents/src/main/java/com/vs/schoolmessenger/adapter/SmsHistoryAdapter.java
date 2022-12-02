@@ -23,11 +23,7 @@ public class SmsHistoryAdapter extends RecyclerView.Adapter<SmsHistoryAdapter.My
     private List<SmsHistoryModel> lib_list;
     Context context;
     private final SmsHistoryListener onContactsListener;
-
     private int prevSelection = -1;
-
-
-
 
     public void clearAllData() {
         int size = this.lib_list.size();
@@ -45,12 +41,9 @@ public class SmsHistoryAdapter extends RecyclerView.Adapter<SmsHistoryAdapter.My
         notifyDataSetChanged();
     }
 
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblContent, lblDescription;
         public CheckBox SelectChckbox;
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -66,8 +59,6 @@ public class SmsHistoryAdapter extends RecyclerView.Adapter<SmsHistoryAdapter.My
         this.lib_list = lib_list;
         this.context = context;
         this.onContactsListener = onCheckListener;
-
-
     }
 
     @Override
@@ -80,14 +71,9 @@ public class SmsHistoryAdapter extends RecyclerView.Adapter<SmsHistoryAdapter.My
     @Override
     public void onBindViewHolder(final SmsHistoryAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
-
         final SmsHistoryModel staffs = lib_list.get(position);
-
         holder.lblContent.setText(staffs.getContent());
         holder.lblDescription.setText(staffs.getDescription());
-
-
 
         if (staffs.getSelectedStatus()) {
             holder.SelectChckbox.setChecked(true);
@@ -121,13 +107,7 @@ public class SmsHistoryAdapter extends RecyclerView.Adapter<SmsHistoryAdapter.My
 
             }
         });
-
-
     }
-
-
-
-
 
     @Override
     public long getItemId(int position) {

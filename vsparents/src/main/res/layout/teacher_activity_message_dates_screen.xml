@@ -8,13 +8,50 @@
     tools:context=".activity.TeacherMessageDatesScreen">
 
     <RelativeLayout
-        android:layout_below="@+id/dates_llHeader"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <RelativeLayout
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="5dp"
+            android:id="@+id/rytSearch"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/Searchable"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_search_shadow"
+                android:hint="Search"
+                android:textSize="15dp"
+                android:paddingLeft="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/imgSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/search_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/lnrView"
+            android:layout_below="@+id/rytSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
         <TextView
             android:padding="4dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="20dp"
             android:visibility="gone"
             android:textSize="15dp"
             android:layout_centerHorizontal="true"
@@ -25,16 +62,18 @@
             android:layout_height="wrap_content">
         </TextView>
 
+
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@id/lblNoMessages"
             android:id="@+id/dates_rvChildList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:padding="5dp" />
 
+        </LinearLayout>
+
         <TextView
-            android:layout_below="@+id/dates_rvChildList"
+            android:layout_below="@+id/lnrView"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:id="@+id/btnSeeMore"
@@ -48,15 +87,6 @@
             android:layout_height="wrap_content"></TextView>
 
     </RelativeLayout>
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/dates_rvChildList"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_below="@+id/dates_llHeader"-->
-<!--        android:layout_marginTop="1dp" />-->
-
-
 
 </RelativeLayout>
 

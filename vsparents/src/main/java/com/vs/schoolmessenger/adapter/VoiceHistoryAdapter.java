@@ -101,8 +101,6 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
             @Override
             public void onClick(View v) {
 
-
-
                 if (isNetworkConnected()) {
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
@@ -118,11 +116,7 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
 
                     DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE,"Voice_History");
 
-
-
                 }
-
-
 
                 else {
                     long unixTime = System.currentTimeMillis() / 1000L;

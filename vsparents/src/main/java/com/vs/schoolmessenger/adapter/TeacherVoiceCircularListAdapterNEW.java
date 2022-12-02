@@ -131,7 +131,6 @@ public class TeacherVoiceCircularListAdapterNEW extends RecyclerView.Adapter<Tea
             for (int i = 0; i < size; i++) {
                 this.circularList.remove(0);
             }
-
             this.notifyItemRangeRemoved(0, size);
         }
     }

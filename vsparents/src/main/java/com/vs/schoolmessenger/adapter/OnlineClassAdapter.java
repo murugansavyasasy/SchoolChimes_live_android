@@ -14,6 +14,7 @@ import com.vs.schoolmessenger.interfaces.OnItemClickOnlineClass;
 import com.vs.schoolmessenger.model.OnlineClassModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,14 +68,17 @@ public class OnlineClassAdapter extends RecyclerView.Adapter<OnlineClassAdapter.
         return textDataList.size();
     }
 
+
+    public void updateList(ArrayList<OnlineClassModel> temp) {
+        textDataList = temp;
+        notifyDataSetChanged();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView lblTopic, lblDescription, lblURL, lblSubject, lblMeetingType,lblDateTime,lblNew;
         RelativeLayout rytSubject;
         LinearLayout lnrParent;
-
-
-
         public MyViewHolder(View view) {
             super(view);
 

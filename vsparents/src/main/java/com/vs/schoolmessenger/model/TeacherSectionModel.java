@@ -16,7 +16,7 @@ public class TeacherSectionModel implements Serializable {
     public TeacherSectionModel() {}
 
     public TeacherSectionModel(boolean selectStatus, String standard, String section, String stdSecCode, String subject, String subjectCode, String totStudents, String selectedStudentsCount, boolean allStudentsSelected)
-    {//, TeacherStudentsModel studentsList) {
+    {
         this.selectStatus = selectStatus;
         this.standard = standard;
         this.section = section;
@@ -26,7 +26,6 @@ public class TeacherSectionModel implements Serializable {
         this.totStudents = totStudents;
         this.selectedStudentsCount = selectedStudentsCount;
         this.allStudentsSelected = allStudentsSelected;
-//        this.studentsList = studentsList;
     }
 
     public boolean isSelectStatus() {

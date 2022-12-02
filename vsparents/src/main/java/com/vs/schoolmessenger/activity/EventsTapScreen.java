@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,12 +33,16 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.MainSliderAdapter;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.fragments.EventsFragment;
 import com.vs.schoolmessenger.fragments.HolidaysFragment;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
+import com.vs.schoolmessenger.model.adsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -55,6 +60,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class EventsTapScreen extends AppCompatActivity implements View.OnClickListener {
     ViewPager viewPager;
@@ -93,6 +99,10 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
     ArrayList<String> isGroupHedMenuNames = new ArrayList<>();
     ArrayList<String> isParentMenuNames = new ArrayList<>();
 
+    Slider slider;
+    LinearLayout lnrAdView;
+    ImageView adImage;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -113,6 +123,16 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
         rytHelp = (RelativeLayout) findViewById(R.id.rytHelp);
         rytPassword = (RelativeLayout) findViewById(R.id.rytPassword);
         rytLogout = (RelativeLayout) findViewById(R.id.rytLogout);
+
+        lnrAdView = (LinearLayout) findViewById(R.id.lnrAdView);
+        lnrAdView.setVisibility(View.VISIBLE);
+
+
+
+        Slider.init(new PicassoImageLoadingService(EventsTapScreen.this));
+        slider = findViewById(R.id.banner);
+        adImage = findViewById(R.id.adImage);
+
 
         rytLogout.setOnClickListener(this);
         rytHelp.setOnClickListener(this);
@@ -143,6 +163,12 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
+    }
+
     private void setupTabLayout() {
         fragmentOne = new EventsFragment();
         fragmentTwo = new HolidaysFragment();
@@ -595,6 +621,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 pHelpWindow.dismiss();
                 hideKeyBoard();
+
             }
         });
 

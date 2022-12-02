@@ -22,7 +22,6 @@ public class FeePendingAlertAdapter extends RecyclerView.Adapter<FeePendingAlert
     ArrayList<TeacherSchoolsModel> imagelist = new ArrayList<>();
     ArrayList<String> descriptionlist = new ArrayList<>();
     private Context context;
-
     private static final String IMAGE_FOLDER = "School Voice/Images";
 
     String name;
@@ -54,9 +53,7 @@ public class FeePendingAlertAdapter extends RecyclerView.Adapter<FeePendingAlert
             holder.lnrParent.setVisibility(View.GONE);
 
         }
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -64,7 +61,6 @@ public class FeePendingAlertAdapter extends RecyclerView.Adapter<FeePendingAlert
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
         TextView lblSchoolName;
         TextView lblAmount;
         LinearLayout lnrParent;

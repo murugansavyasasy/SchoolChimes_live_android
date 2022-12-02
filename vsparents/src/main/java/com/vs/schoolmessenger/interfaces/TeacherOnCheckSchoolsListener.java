@@ -9,6 +9,5 @@ import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 public interface TeacherOnCheckSchoolsListener
 {
     public void school_addSchool(TeacherSchoolsModel school);
-
     public void school_removeSchool(TeacherSchoolsModel school);
 }

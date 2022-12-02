@@ -125,7 +125,7 @@ public class VoiceCircularListAdapter extends RecyclerView.Adapter<VoiceCircular
         public TextView tvTime, tvTitle, tvStatus, tvDuarion, tvTotDuration;
         public ImageButton imgBtnPlayPause;
         public SeekBar seekBar;
-        //
+
         private MediaPlayer mediaPlayer;
         int mediaFileLengthInMilliseconds = 0;
         Handler handler = new Handler();

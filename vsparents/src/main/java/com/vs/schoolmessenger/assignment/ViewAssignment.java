@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +72,8 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
     String isNewVersion;
     TextView LoadMore;
     TextView lblNoMessages;
+
+    RelativeLayout rytSearch;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,11 +95,8 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
         recyclerView = view.findViewById(R.id.recyclerView);
         LoadMore = view.findViewById(R.id.btnSeeMore);
         imgBack = view.findViewById(R.id.imgBack);
-//        lblAdd = view.findViewById(R.id.lblbroadcast);
-//        Intent inAtten = new Intent(getContext(), TeacherSchoolList.class);
-//        inAtten.putExtra("REQUEST_CODE", PRINCIPAL_ASSIGNMENT);
-//        inAtten.putExtra("Type", "View");
-//        startActivity(inAtten);
+        rytSearch = view.findViewById(R.id.rytSearch);
+        rytSearch.setVisibility(View.GONE);
 
         LoadMore=(TextView) view.findViewById(R.id.btnSeeMore);
         lblNoMessages=(TextView) view.findViewById(R.id.lblNoMessages);
@@ -123,7 +123,6 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
             recyclerView.setAdapter(assignment_adapter);
         } else {
 
-            Log.d("School","Schoolist");
             listSchoolsAPI();
             schoolsListAdapter =
                     new TeacherSchoolListForPrincipalAdapter(getContext(), arrSchoolList, new TeacherSchoolListPrincipalListener() {
@@ -132,7 +131,6 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
                             TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
                             TeacherUtil_Common.Principal_staffId = item.getStrStaffID();
                             Intent inPrincipal = new Intent(getContext(), PrincipalAssignmentList.class);
-
                             startActivity(inPrincipal);
 
                         }
@@ -170,34 +168,27 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
         object.addProperty("ProcessBy", TeacherUtil_Common.Principal_staffId);
         object.addProperty("SchoolID", TeacherUtil_Common.Principal_SchoolId);
         object.addProperty("MobileNumber", MobileNumber);
-//        object.addProperty("ProcessBy", "2174939");
         Log.d("view:req", object.toString());
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         Call<JsonArray> call = apiService.ViewAllAssignmentListByStaff_Archive(object);
-
-
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (mProgressDialog.isShowing())
                     Log.d("Upload-Code:Response", response.code() + "-" + response);
-
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("Upload:Body", "" + response.body().toString());
                     LoadMore.setVisibility(View.GONE);
                     lblNoMessages.setVisibility(View.GONE);
                     mProgressDialog.dismiss();
                     try {
-//                                String strResponse = response.body().toString();
 
                         JSONArray js = new JSONArray(response.body().toString());
                         if (js.length() > 0) {
                             for(int i=0;i<js.length();i++) {
                                 JSONObject jsonObject = js.getJSONObject(i);
-
                                 String result = jsonObject.getString("result");
-
                                 String Message = jsonObject.getString("Message");
                                 if (result.equals("1")) {
                                     String AssignmentId = jsonObject.getString("AssignmentId");
@@ -210,19 +201,14 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
                                     String TotalCount = jsonObject.getString("TotalCount");
                                     String EndDate = jsonObject.getString("EndDate");
                                     String category = jsonObject.getString("category");
-
                                     boolean is_Archive = jsonObject.getBoolean("is_Archive");
-
                                     AssignmentViewClass report = new AssignmentViewClass(AssignmentId, Type, Content, Title, Date, Time, submittedCount,TotalCount,EndDate,"0","0",is_Archive,category);
                                     assignlist.add(report);
-//                                        assignment_adapter.notifyDataSetChanged();
                                 }
                                 else{
                                     alert(Message);
                                 }
                             }
-
-
                             assignment_adapter.notifyDataSetChanged();
                         }
                         else{
@@ -243,26 +229,20 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
                 Log.e("Response Failure", t.getMessage());
                 showToast("Server Connection Failed");
             }
-
-
         });
     }
 
     private void seeMoreButtonVisiblity() {
         if(isNewVersion.equals("1")){
             LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
         else {
             LoadMore.setVisibility(View.GONE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
-
         if(listschooldetails.size()==1){
             LoadMore.setVisibility(View.VISIBLE);
         }
         else {
-            Log.d("principal","principal");
             LoadMore.setVisibility(View.GONE);
         }
     }
@@ -279,7 +259,6 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
 
         Log.d("test1", "test1");
         i_schools_count = 0;
-//        listschooldetails = new ArrayList<>();
         Log.d("test2", "test2" + listschooldetails.size());
         for (int i = 0; i < listschooldetails.size(); i++) {
             Log.d("test3", "test3" + listschooldetails.size());
@@ -288,7 +267,6 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
                     ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending());
-//            schoolsModel.setStrStaffID(TeacherUtil_SharedPreference.getStaffIdFromSP(TeacherEmergencyVoice.this));
             Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
             Log.d("Testing", "8***********************");
@@ -319,7 +297,6 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
         object.addProperty("ProcessBy", TeacherUtil_Common.Principal_staffId);
         object.addProperty("SchoolID", TeacherUtil_Common.Principal_SchoolId);
         object.addProperty("MobileNumber", MobileNumber);
-//        object.addProperty("ProcessBy", "2174939");
         Log.d("view:req", object.toString());
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
@@ -336,23 +313,19 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
                         Log.d("Upload:Body", "" + response.body().toString());
                         mProgressDialog.dismiss();
                         try {
-//                                String strResponse = response.body().toString();
                             assignlist.clear();
 
                             if(isNewVersion.equals("1")){
                                 LoadMore.setVisibility(View.VISIBLE);
-                                lblNoMessages.setVisibility(View.VISIBLE);
                             }
                             else {
                                 LoadMore.setVisibility(View.GONE);
-                                lblNoMessages.setVisibility(View.VISIBLE);
                             }
 
                             if(listschooldetails.size()==1){
                                 LoadMore.setVisibility(View.VISIBLE);
                             }
                             else {
-                                Log.d("principal","principal");
                                 LoadMore.setVisibility(View.GONE);
                             }
 
@@ -376,11 +349,8 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
                                         String EndDate = jsonObject.getString("EndDate");
                                         String category = jsonObject.getString("category");
 
-
-
                                         AssignmentViewClass report = new AssignmentViewClass(AssignmentId, Type, Content, Title, Date, Time, submittedCount,TotalCount,EndDate,"0","0",false,category);
                                         assignlist.add(report);
-//                                        assignment_adapter.notifyDataSetChanged();
                                     }
                                     else{
                                         if(isNewVersion.equals("1")){
@@ -399,8 +369,6 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
                                         }
                                     }
                                 }
-
-
                                 assignment_adapter.notifyDataSetChanged();
                             }
                             else{
@@ -441,7 +409,6 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
             alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
                     tabLayout.getTabAt(0).select();
                     CreateAssignment fragment = new CreateAssignment();
 

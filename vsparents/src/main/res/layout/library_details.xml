@@ -11,7 +11,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/lnrBottom">
+        android:orientation="vertical"
+        android:layout_above="@+id/bannerView">
+
+        <RelativeLayout
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="5dp"
+            android:id="@+id/rytSearch"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/Searchable"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_search_shadow"
+                android:hint="Search"
+                android:textSize="15dp"
+                android:paddingLeft="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/imgSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/search_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/library_student_list"
@@ -20,19 +50,16 @@
             android:scrollbars="vertical" />
 
 
-        <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/home_bottom_navigation"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:visibility="gone"-->
-        <!--app:itemBackground="@drawable/bottom_view_bg"-->
-        <!--app:itemIconTint="@drawable/nav_item_color_state"-->
-        <!--app:itemTextColor="@drawable/nav_item_color_state"-->
-        <!--app:menu="@menu/bottom_navigation_main" />-->
-
-
     </LinearLayout>
+
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bannerView"
+        android:layout_above="@+id/lnrBottom"
+        android:layout_marginTop="10dp"
+        layout="@layout/ads_view"/>
 
     <LinearLayout
         android:id="@+id/lnrBottom"

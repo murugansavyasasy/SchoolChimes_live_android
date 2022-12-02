@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.DatesListListener;
 import com.vs.schoolmessenger.model.DatesModel;
+import com.vs.schoolmessenger.model.ExamGroupHeader;
 
 import java.util.List;
 
@@ -36,7 +37,6 @@ public class DatesListAdapter extends RecyclerView.Adapter<DatesListAdapter.MyVi
         holder.bind(dateList.get(position), listener);
 
         final DatesModel profile = dateList.get(position);
-
         holder.tvDate.setText(profile.getDate());
         holder.tvDay.setText(profile.getDay());
         holder.tvCount.setText(profile.getCount());
@@ -74,10 +74,6 @@ public class DatesListAdapter extends RecyclerView.Adapter<DatesListAdapter.MyVi
         this.listener = listener;
     }
 
-    private void showToast(String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-    }
-
     public void clearAllData() {
         int size = this.dateList.size();
         if (size > 0) {
@@ -87,5 +83,10 @@ public class DatesListAdapter extends RecyclerView.Adapter<DatesListAdapter.MyVi
 
             this.notifyItemRangeRemoved(0, size);
         }
+    }
+
+    public void updateList(List<DatesModel> temp) {
+        dateList = temp;
+        notifyDataSetChanged();
     }
 }

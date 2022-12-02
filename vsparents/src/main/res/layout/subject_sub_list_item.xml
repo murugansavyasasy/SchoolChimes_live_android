@@ -33,6 +33,8 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:textStyle="bold"
+                android:textSize="12dp"
                 android:textColor="@color/clr_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,6 +43,7 @@
             <TextView
                 android:id="@+id/lblSubjectName"
                 android:layout_width="170dp"
+                android:textStyle="normal"
                 android:layout_height="wrap_content"
                 android:text="English"/>
         </LinearLayout>
@@ -52,11 +55,14 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:textStyle="bold"
+                android:textSize="12dp"
                 android:textColor="@color/clr_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/max_mark" />
             <TextView
+                android:textStyle="normal"
                 android:id="@+id/lblMaxMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,6 +89,8 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:textStyle="bold"
+                android:textSize="12dp"
                 android:layout_width="wrap_content"
                 android:textColor="@color/clr_black"
                 android:layout_height="wrap_content"
@@ -90,6 +98,7 @@
 
             <TextView
                 android:id="@+id/lblExamDate"
+                android:textStyle="normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12/09/2018"/>
@@ -102,12 +111,15 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:textStyle="bold"
+                android:textSize="12dp"
                 android:textColor="@color/clr_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/subject_session" />
             <TextView
                 android:id="@+id/lblSession"
+                android:textStyle="normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AN"/>
@@ -123,6 +135,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
+            android:textStyle="bold"
+            android:textSize="12dp"
             android:id="@+id/lblSyllabus"
             android:textColor="@color/clr_black"
             android:layout_width="wrap_content"
@@ -131,6 +145,7 @@
 
         <TextView
             android:id="@+id/lblSubjectSyllabus"
+            android:textStyle="normal"
             android:layout_toRightOf="@+id/lblSyllabus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -16,6 +16,7 @@ import com.vs.schoolmessenger.activity.ViewQuizResult;
 import com.vs.schoolmessenger.model.KnowledgeEnhancementModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,7 +50,6 @@ public class KnowledgeEnhancementAdapter extends RecyclerView.Adapter<KnowledgeE
         holder.lblsubject.setText(data.getSubject());
 
         holder.lblSent.setText(data.getSentBy());
-//        holder.lblmarkque.setText(String.valueOf(data.getMarkPerQuestion()));
         holder.lbltotalque.setText(data.getTotalNumberOfQuestions());
         holder.lblrightanswer.setText(data.getRightAnswer());
         holder.lblwrongans.setText(data.getWrongAnswer());
@@ -85,8 +85,6 @@ public class KnowledgeEnhancementAdapter extends RecyclerView.Adapter<KnowledgeE
             holder.lnrRightAns.setVisibility(View.VISIBLE);
             holder.lnrWrongAns.setVisibility(View.VISIBLE);
         }
-
-
         holder.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +109,11 @@ public class KnowledgeEnhancementAdapter extends RecyclerView.Adapter<KnowledgeE
         return dateList.size();
     }
 
+    public void updateList(ArrayList<KnowledgeEnhancementModel> temp) {
+        dateList = temp;
+        notifyDataSetChanged();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
        TextView txt_date,txt_time,txt_type,lblsubject,lblExamdate,lblEndtime,lblStarttime,lblSent,
@@ -119,9 +122,6 @@ public class KnowledgeEnhancementAdapter extends RecyclerView.Adapter<KnowledgeE
         Button btnStart;
         LinearLayout lnrSubject,lnrStarttime,lnrendtime,lnrexamdate,lnrSentby,lnrtimeque,lnrmarkque,lnrTotalque,
                 lnrRightAns,lnrWrongAns,lnrTotalMarks,lnrBtn;
-
-
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -163,17 +163,10 @@ public class KnowledgeEnhancementAdapter extends RecyclerView.Adapter<KnowledgeE
 
         }
     }
-
     public KnowledgeEnhancementAdapter(Context context, ArrayList<KnowledgeEnhancementModel> dateList, String type) {
         this.context = context;
         this.dateList = dateList;
         this.type = type;
 
-
     }
-
-
-
-
-
 }

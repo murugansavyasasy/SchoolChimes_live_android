@@ -6,9 +6,7 @@ public class FAQModel {
     public FAQModel(String question, String answer) {
         this.Question = question;
         this.Answer = answer;
-
     }
-
     public FAQModel() {}
 
     public String getQuestion() {

@@ -80,7 +80,6 @@ public class ExamListAdapter extends
     @Override
     public void onBindViewHolder(final ExamListAdapter.MyViewHolder holder, final int
             position) {
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final ExamList exam = lib_list.get(position);
         child_id = Util_SharedPreference.getChildIdFromSP(context);
         schoolid = Util_SharedPreference.getSchoolIdFromSP(context);
@@ -105,6 +104,11 @@ public class ExamListAdapter extends
     public int getItemCount() {
         return lib_list.size();
     }
+
+    public void updateList(List<ExamList> temp) {
+        lib_list = temp;
+        notifyDataSetChanged();
+    }
     private void progressApi(ExamList exam) {
 
             String baseURL = TeacherUtil_SharedPreference.getBaseUrl(context);
@@ -118,9 +122,6 @@ public class ExamListAdapter extends
         TeacherMessengerApiInterface apiService =
                 TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonObject = new JsonObject();
-// jsonObject.addProperty("SchoolID",5512 );
-// jsonObject.addProperty("ChildID", 5452477);
-// jsonObject.addProperty("ExamID", 522);
         jsonObject.addProperty("SchoolID",schoolid );
         jsonObject.addProperty("ChildID", child_id);
         jsonObject.addProperty("ExamID",exam.getId());
@@ -150,7 +151,6 @@ public class ExamListAdapter extends
                                     context.startActivity(browserIntent);
                                 }
                                 else{
-// progresslink="http://www.africau.edu/images/default/sample.pdf";
                                     showAlertfinish(message);
                                 }
 
@@ -173,7 +173,6 @@ public class ExamListAdapter extends
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-// showToast("Server Connection Failed");
                 Toast.makeText(context, "Server Connection Failed",
 
                         Toast.LENGTH_SHORT).show();
@@ -182,7 +181,6 @@ public class ExamListAdapter extends
     }
     private void showAlertfinish(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-//Setting Dialog Title
         alertDialog.setTitle("Alert");
         alertDialog.setMessage(msg);
         alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {

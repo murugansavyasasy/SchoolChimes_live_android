@@ -16,8 +16,6 @@ public class SkillAttachmentModel implements Serializable {
         this.Attachment = Attachment;
         this.Type = Type;
         this.Order = Order;
-
-
     }
 
     public String getContentId() {

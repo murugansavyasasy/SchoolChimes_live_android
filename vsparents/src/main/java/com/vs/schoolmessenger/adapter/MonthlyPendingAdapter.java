@@ -17,7 +17,6 @@ public class MonthlyPendingAdapter extends RecyclerView.Adapter<MonthlyPendingAd
 
     private List<MonthlyPending> lib_list;
     Context context;
-
     public void clearAllData() {
         int size = this.lib_list.size();
         if (size > 0) {
@@ -28,11 +27,8 @@ public class MonthlyPendingAdapter extends RecyclerView.Adapter<MonthlyPendingAd
         }
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblFeeName,lblMonthly,lblTotal,lblTotalFrom,lblPendingAmount;
-
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -58,15 +54,11 @@ public class MonthlyPendingAdapter extends RecyclerView.Adapter<MonthlyPendingAd
     @Override
     public void onBindViewHolder(final MonthlyPendingAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final MonthlyPending paid = lib_list.get(position);
-
         holder.lblFeeName.setText(": "+paid.getFeeName());
         holder.lblMonthly.setText(": "+paid.getMonthly());
         holder.lblTotal.setText(": "+paid.getTotalMonthly()+"0");
         holder.lblPendingAmount.setText(": "+paid.getPendingAmount()+"0"+"  From "+paid.getStartMonthName()+" To "+paid.getEndMonthName());
-
-
     }
 
     @Override

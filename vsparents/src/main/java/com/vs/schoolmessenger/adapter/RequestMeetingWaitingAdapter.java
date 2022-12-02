@@ -53,9 +53,6 @@ public class RequestMeetingWaitingAdapter extends RecyclerView.Adapter<RequestMe
     Context context;
     private PopupWindow pwindow;
     int mYear, mMonth, mDay;
-
-
-
     public void clearAllData() {
         int size = this.lib_list.size();
         if (size > 0) {
@@ -75,9 +72,6 @@ public class RequestMeetingWaitingAdapter extends RecyclerView.Adapter<RequestMe
         public LinearLayout lnrAprovalStatus,lnrStaffName, lnrRequestDate, lnrRequestedFor, lnrStaffComments, lnrDateTime,
                 lnrClass,lnrApproveAndReject;
         public Button btnApprove,btnReject;
-
-
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -103,11 +97,7 @@ public class RequestMeetingWaitingAdapter extends RecyclerView.Adapter<RequestMe
 
             btnApprove = (Button) view.findViewById(R.id.btnApprove);
             btnReject = (Button) view.findViewById(R.id.btnReject);
-
             imgApprovalStatus = (ImageView) view.findViewById(R.id.imgApprovalStatus);
-
-
-
 
         }
     }
@@ -126,27 +116,17 @@ public class RequestMeetingWaitingAdapter extends RecyclerView.Adapter<RequestMe
 
     @Override
     public void onBindViewHolder(final RequestMeetingWaitingAdapter.MyViewHolder holder, final int position) {
-
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
-
         final RequestMeetingForParentModel history = lib_list.get(position);
-
-
         if (history.getApprovalStatus().equals("0")) {
-
-
             holder.lnrApproveAndReject.setVisibility(View.VISIBLE);
-
             holder.lblStaffName.setText(": "+history.getStaffName());
             holder.lblRequestDate.setText(": "+history.getRequestedON());
             holder.lblRequestedFor.setText(": "+history.getParentComment());
             holder.lblStaffComments.setText(": "+history.getStaffComment());
             holder.lblSheduledTime.setText(": "+history.getScheduleDate()+"/"+history.getScheduleTime());
             holder.lblClassName.setText(": "+history.getCLS());
-
             holder.lnrStaffComments.setVisibility(View.GONE);
             holder.lnrDateTime.setVisibility(View.GONE);
-
             holder.lnrAprovalStatus.setBackgroundColor(Color.parseColor("#B9B9B9"));
             holder.imgApprovalStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.waiting_tick));
 
@@ -174,15 +154,11 @@ public class RequestMeetingWaitingAdapter extends RecyclerView.Adapter<RequestMe
             holder.lblStaffComments.setText(history.getStaffComment());
             holder.lblSheduledTime.setText(history.getScheduleDate()+"/"+history.getScheduleTime());
             holder.lblClassName.setText(history.getCLS());
-
             holder.lblRequestDate.setVisibility(View.GONE);
             holder.lnrDateTime.setVisibility(View.GONE);
-
             holder.lblStaffCommentsLabel.setText(R.string.mt_rejected_reason);
-
             holder.imgApprovalStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.wrong_tick));
             holder.lnrAprovalStatus.setBackgroundColor(Color.parseColor("#E34545"));
-
             holder.lblApprovalStatus.setText(R.string.mt_rejected);
 
         }
@@ -190,8 +166,6 @@ public class RequestMeetingWaitingAdapter extends RecyclerView.Adapter<RequestMe
         holder.btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 showApprovePopup(history);
                 pwindow.showAtLocation(v, Gravity.NO_GRAVITY, 0, 0);
             }
@@ -200,17 +174,10 @@ public class RequestMeetingWaitingAdapter extends RecyclerView.Adapter<RequestMe
         holder.btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showRejectPopup(history);
                 pwindow.showAtLocation(v, Gravity.NO_GRAVITY, 0, 0);
-
-
             }
         });
-
-
-
-
     }
 
     private void showRejectPopup(final RequestMeetingForParentModel history) {
@@ -292,14 +259,8 @@ public class RequestMeetingWaitingAdapter extends RecyclerView.Adapter<RequestMe
                         myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
                         String myFormat = "dd/MM/yyyy"; //Change as you need
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.FRANCE);
-
-
                         lblDate.setText(sdf.format(myCalendar.getTime()));
 
-
-                        // holder.ExamDate.setText(sdf.format(myCalendar.getTime()));
-
-                        Log.d("date", sdf.format(myCalendar.getTime()));
 
                         mDay = selectedday;
                         mMonth = selectedmonth;
@@ -319,8 +280,6 @@ public class RequestMeetingWaitingAdapter extends RecyclerView.Adapter<RequestMe
                 Calendar mcurrentTime = Calendar.getInstance();
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
-
-
 
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {

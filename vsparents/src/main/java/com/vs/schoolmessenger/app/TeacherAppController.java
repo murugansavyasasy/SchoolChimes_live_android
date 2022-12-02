@@ -31,9 +31,6 @@ public class TeacherAppController extends Application
     public void onCreate() {
         super.onCreate();
 
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-//        AppEventsLogger.activateApp(this);
-
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()

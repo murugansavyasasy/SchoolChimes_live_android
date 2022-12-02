@@ -288,6 +288,8 @@ public class TeacherChangePassword extends AppCompatActivity {
         jsonObject.addProperty("OTP", OTP);
         jsonObject.addProperty("NewPassword", strNewPass);
 
+        Log.d("req",jsonObject.toString());
+
         Call<JsonArray> call = apiService.ResetPasswordAfterForget(jsonObject);
         call.enqueue(new Callback<JsonArray>() {
 

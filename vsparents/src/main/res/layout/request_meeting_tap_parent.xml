@@ -25,10 +25,19 @@
         android:id="@+id/request_pagerrecovery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/lnrBottom"
+        android:layout_above="@+id/bannerView"
         android:background="@drawable/img_app_bg"
         android:layout_below="@id/request_tabLayoutrecovery"
         app:tabMode="scrollable" />
+
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bannerView"
+        android:layout_above="@+id/lnrBottom"
+        android:layout_marginTop="10dp"
+        layout="@layout/ads_view"/>
 
 
 

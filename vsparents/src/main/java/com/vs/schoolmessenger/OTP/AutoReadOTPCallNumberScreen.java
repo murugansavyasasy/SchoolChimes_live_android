@@ -80,29 +80,22 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
     String otp_Timer;
     public static Handler handler = new Handler();
     Runnable yourRunnable;
-
     String DialNumbers = "";
     RecyclerView recycleNumbers;
     TextView btnBackToLogin;
-
     SmsBroadcastReceiver mSmsBroadcastReceiver;
     IntentFilter intentFilter;
-
     String Grouphead,Principal,Staff,Admin,Parent;
     String strMobile, strPassword;
-    public static String   staf, grouphead, admin;
+    public static String staf, grouphead, admin;
     SqliteDB myDb;
-
     ArrayList<Profiles> arrayList;
     ArrayList<Profiles> arrChildList = new ArrayList<>();
     ArrayList<String> schoolNamelist = new ArrayList<>();
     EditText otp_textbox_one, otp_textbox_two, otp_textbox_three, otp_textbox_four,
             otp_textbox_five,otp_textbox_six;
-
     String OTP="";
     TextView lblNoteMessage;
-    JSONObject jsonObjectdetailsStaff;
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -168,7 +161,6 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                 stophandler();
                 Intent intent = new Intent(AutoReadOTPCallNumberScreen.this, TeacherSignInScreen.class);
                 startActivity(intent);
-               // finish();
             }
         });
 
@@ -446,23 +438,25 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                         String Status = jsonObject.getString("Status");
                         String Message = jsonObject.getString("Message");
 
-                        String role = jsonObject.getString("staff_role");
-                        String display_role = jsonObject.getString("staff_display_role");
-                        TeacherUtil_SharedPreference.putRole(AutoReadOTPCallNumberScreen.this, role);
-                        TeacherUtil_SharedPreference.putDisplayRoleMessage(AutoReadOTPCallNumberScreen.this, display_role);
-                        TeacherUtil_SharedPreference.putLoginMessage(AutoReadOTPCallNumberScreen.this, Message);
-                        String ImageCount = jsonObject.getString("ImageCount");
-                        TeacherUtil_SharedPreference.putImageCount(AutoReadOTPCallNumberScreen.this, ImageCount);
-
-                        Boolean is_parent = jsonObject.getBoolean("is_parent");
-                        Boolean is_staff = jsonObject.getBoolean("is_staff");
-                        TeacherUtil_SharedPreference.putIsStaff(AutoReadOTPCallNumberScreen.this,is_staff);
-                        TeacherUtil_SharedPreference.putIsParent(AutoReadOTPCallNumberScreen.this,is_parent);
 
                         String strlogin = "";
                         TeacherSchoolsModel schoolmodel = null;
                         listschooldetails = new ArrayList<>();
                         if (Status.equals("1")) {
+
+                            String role = jsonObject.getString("staff_role");
+                            String display_role = jsonObject.getString("staff_display_role");
+                            TeacherUtil_SharedPreference.putRole(AutoReadOTPCallNumberScreen.this, role);
+                            TeacherUtil_SharedPreference.putDisplayRoleMessage(AutoReadOTPCallNumberScreen.this, display_role);
+                            TeacherUtil_SharedPreference.putLoginMessage(AutoReadOTPCallNumberScreen.this, Message);
+                            String ImageCount = jsonObject.getString("ImageCount");
+                            TeacherUtil_SharedPreference.putImageCount(AutoReadOTPCallNumberScreen.this, ImageCount);
+
+                            Boolean is_parent = jsonObject.getBoolean("is_parent");
+                            Boolean is_staff = jsonObject.getBoolean("is_staff");
+                            TeacherUtil_SharedPreference.putIsStaff(AutoReadOTPCallNumberScreen.this,is_staff);
+                            TeacherUtil_SharedPreference.putIsParent(AutoReadOTPCallNumberScreen.this,is_parent);
+
 
                             TeacherUtil_Common.maxEmergencyvoicecount = jsonObject.getInt("MaxEmergencyVoiceDuration");
                             TeacherUtil_Common.maxGeneralvoicecount = jsonObject.getInt("MaxGeneralVoiceDuartion");

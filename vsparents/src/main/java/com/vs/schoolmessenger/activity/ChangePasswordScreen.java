@@ -62,17 +62,13 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
     ImageView login_ivEye, login_ivEye1;
     ArrayList<Profiles> arrChildList = new ArrayList<>();
-    // static String par,princi,staf,grouphead,admin;
     String number, imei, confirm_password;
-
-
     TelephonyManager telephonyManager;
     boolean bEyeVisible = false;
     boolean bEyeVisible1 = false;
 
     SqliteDB myDb;
     ArrayList<Profiles> arrayList;
-
     ArrayList<String> schoolNamelist = new ArrayList<>();
     String IMEINumber="";
 
@@ -80,8 +76,6 @@ public class ChangePasswordScreen extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
-
-    JSONObject jsonObjectdetailsStaff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,24 +273,26 @@ public class ChangePasswordScreen extends AppCompatActivity {
                             JSONObject jsonObject = js.getJSONObject(0);
                             String Status = jsonObject.getString("Status");
                             String Message = jsonObject.getString("Message");
-                            String role = jsonObject.getString("staff_role");
-                            String display_role = jsonObject.getString("staff_display_role");
-                            TeacherUtil_SharedPreference.putRole(ChangePasswordScreen.this, role);
-                            TeacherUtil_SharedPreference.putDisplayRoleMessage(ChangePasswordScreen.this, display_role);
-                            TeacherUtil_SharedPreference.putLoginMessage(ChangePasswordScreen.this, Message);
-                            String ImageCount = jsonObject.getString("ImageCount");
-                            TeacherUtil_SharedPreference.putImageCount(ChangePasswordScreen.this, ImageCount);
-
-
-                            Boolean is_parent = jsonObject.getBoolean("is_parent");
-                            Boolean is_staff = jsonObject.getBoolean("is_staff");
-                            TeacherUtil_SharedPreference.putIsStaff(ChangePasswordScreen.this,is_staff);
-                            TeacherUtil_SharedPreference.putIsParent(ChangePasswordScreen.this,is_parent);
 
                             String strlogin = "";
                             TeacherSchoolsModel schoolmodel = null;
                             listschooldetails = new ArrayList<>();
                             if (Status.equals("1")) {
+
+                                String role = jsonObject.getString("staff_role");
+                                String display_role = jsonObject.getString("staff_display_role");
+                                TeacherUtil_SharedPreference.putRole(ChangePasswordScreen.this, role);
+                                TeacherUtil_SharedPreference.putDisplayRoleMessage(ChangePasswordScreen.this, display_role);
+                                TeacherUtil_SharedPreference.putLoginMessage(ChangePasswordScreen.this, Message);
+                                String ImageCount = jsonObject.getString("ImageCount");
+                                TeacherUtil_SharedPreference.putImageCount(ChangePasswordScreen.this, ImageCount);
+
+
+                                Boolean is_parent = jsonObject.getBoolean("is_parent");
+                                Boolean is_staff = jsonObject.getBoolean("is_staff");
+                                TeacherUtil_SharedPreference.putIsStaff(ChangePasswordScreen.this,is_staff);
+                                TeacherUtil_SharedPreference.putIsParent(ChangePasswordScreen.this,is_parent);
+
 
                                 TeacherUtil_Common.maxEmergencyvoicecount = jsonObject.getInt("MaxEmergencyVoiceDuration");
                                 TeacherUtil_Common.maxGeneralvoicecount = jsonObject.getInt("MaxGeneralVoiceDuartion");
@@ -673,37 +669,35 @@ public class ChangePasswordScreen extends AppCompatActivity {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
-                        String Grouphead = jsonObject.getString("idGroupHead");
-                        String Principal = jsonObject.getString("isPrincipal");
-                        String Staff = jsonObject.getString("isStaff");
-                        String Admin = jsonObject.getString("isAdmin");
+
                         String Status = jsonObject.getString("Status");
                         String Message = jsonObject.getString("Message");
-                        String Parent = jsonObject.getString("isParent");
-
 
                         TeacherUtil_SharedPreference.putLoginMessage(ChangePasswordScreen.this,Message);
-
-                        TeacherUtil_SharedPreference.putPrincipal(ChangePasswordScreen.this, Principal);
-                        TeacherUtil_SharedPreference.putStaff(ChangePasswordScreen.this, Staff);
-                        TeacherUtil_SharedPreference.putGroupHead(ChangePasswordScreen.this, Grouphead);
-                        TeacherUtil_SharedPreference.putParent(ChangePasswordScreen.this, Parent);
-                        TeacherUtil_SharedPreference.putAdmin(ChangePasswordScreen.this, Admin);
-
-
-
-                        TeacherSignInScreen.par = Parent;
-                        TeacherSignInScreen.princi = Principal;
-                        TeacherSignInScreen.staf = Staff;
-                        TeacherSignInScreen.grouphead = Grouphead;
-                        TeacherSignInScreen.admin = Admin;
-
-
 
                         String strlogin = "";
                         TeacherSchoolsModel schoolmodel = null;
                         listschooldetails = new ArrayList<>();
                         if (Status.equals("1")) {
+
+
+                            String Grouphead = jsonObject.getString("idGroupHead");
+                            String Principal = jsonObject.getString("isPrincipal");
+                            String Staff = jsonObject.getString("isStaff");
+                            String Admin = jsonObject.getString("isAdmin");
+                            String Parent = jsonObject.getString("isParent");
+
+                            TeacherUtil_SharedPreference.putPrincipal(ChangePasswordScreen.this, Principal);
+                            TeacherUtil_SharedPreference.putStaff(ChangePasswordScreen.this, Staff);
+                            TeacherUtil_SharedPreference.putGroupHead(ChangePasswordScreen.this, Grouphead);
+                            TeacherUtil_SharedPreference.putParent(ChangePasswordScreen.this, Parent);
+                            TeacherUtil_SharedPreference.putAdmin(ChangePasswordScreen.this, Admin);
+
+                            TeacherSignInScreen.par = Parent;
+                            TeacherSignInScreen.princi = Principal;
+                            TeacherSignInScreen.staf = Staff;
+                            TeacherSignInScreen.grouphead = Grouphead;
+                            TeacherSignInScreen.admin = Admin;
 
                             TeacherUtil_Common.maxEmergencyvoicecount = jsonObject.getInt("MaxEmergencyVoiceDuration");
                             TeacherUtil_Common.maxGeneralvoicecount = jsonObject.getInt("MaxGeneralVoiceDuartion");

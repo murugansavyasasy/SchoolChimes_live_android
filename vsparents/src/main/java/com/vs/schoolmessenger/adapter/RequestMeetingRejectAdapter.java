@@ -19,12 +19,8 @@ import com.vs.schoolmessenger.model.RequestMeetingRejectedModel;
 import java.util.List;
 
 public class RequestMeetingRejectAdapter extends RecyclerView.Adapter<RequestMeetingRejectAdapter.MyViewHolder> {
-
-
     private List<RequestMeetingRejectedModel> lib_list;
     Context context;
-    private PopupWindow pwindow;
-
 
     public void clearAllData() {
         int size = this.lib_list.size();
@@ -46,9 +42,6 @@ public class RequestMeetingRejectAdapter extends RecyclerView.Adapter<RequestMee
                 lnrClass,lnrApproveAndReject;
         public Button btnApprove,btnReject;
 
-
-
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -60,8 +53,6 @@ public class RequestMeetingRejectAdapter extends RecyclerView.Adapter<RequestMee
             lblStaffCommentsLabel = (TextView) view.findViewById(R.id.lblStaffCommentsLabel);
             lblSheduledTime = (TextView) view.findViewById(R.id.lblSheduledTime);
             lblClassName = (TextView) view.findViewById(R.id.lblClassName);
-
-
             lnrAprovalStatus = (LinearLayout) view.findViewById(R.id.lnrAprovalStatus);
             lnrStaffName = (LinearLayout) view.findViewById(R.id.lnrStaffName);
             lnrRequestDate = (LinearLayout) view.findViewById(R.id.lnrRequestDate);
@@ -70,15 +61,9 @@ public class RequestMeetingRejectAdapter extends RecyclerView.Adapter<RequestMee
             lnrDateTime = (LinearLayout) view.findViewById(R.id.lnrDateTime);
             lnrClass = (LinearLayout) view.findViewById(R.id.lnrClass);
             lnrApproveAndReject = (LinearLayout) view.findViewById(R.id.lnrApproveAndReject);
-
             btnApprove = (Button) view.findViewById(R.id.btnApprove);
             btnReject = (Button) view.findViewById(R.id.btnReject);
-
             imgApprovalStatus = (ImageView) view.findViewById(R.id.imgApprovalStatus);
-
-
-
-
         }
     }
 
@@ -97,19 +82,10 @@ public class RequestMeetingRejectAdapter extends RecyclerView.Adapter<RequestMee
     @Override
     public void onBindViewHolder(final RequestMeetingRejectAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
-
         final RequestMeetingRejectedModel history = lib_list.get(position);
-
-
-
-
-
         if (history.getApprovalStatus().equals("0")) {
 
-
             holder.lnrApproveAndReject.setVisibility(View.VISIBLE);
-
             holder.lblStaffName.setText(history.getStaffName());
             holder.lblRequestDate.setText(history.getRequestedON());
             holder.lblRequestedFor.setText(history.getParentComment());
@@ -159,10 +135,6 @@ public class RequestMeetingRejectAdapter extends RecyclerView.Adapter<RequestMee
             holder.lblApprovalStatus.setText(R.string.mt_rejected);
 
         }
-
-
-
-
     }
 
 

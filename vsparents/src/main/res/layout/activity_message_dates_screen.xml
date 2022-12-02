@@ -140,7 +140,7 @@
     </LinearLayout>
 
     <ScrollView
-        android:layout_above="@+id/lnrBottom"
+        android:layout_above="@+id/bannerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -148,17 +148,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+
+
+        <RelativeLayout
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="5dp"
+            android:id="@+id/rytSearch"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/Searchable"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_search_shadow"
+                android:hint="Search"
+                android:textSize="15dp"
+                android:paddingLeft="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/imgSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/search_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
         <TextView
-            android:textSize="15dp"
-            android:padding="4dp"
-            android:layout_marginTop="35dp"
-            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
             android:visibility="gone"
+            android:textSize="15dp"
             android:id="@+id/lblNoMessages"
+            android:background="@drawable/bg_shadow_no_records"
             android:textColor="@color/teacher_clr_red_red"
             android:text=""
+            android:padding="10dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+        </TextView>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:padding="15dp"
@@ -185,6 +220,14 @@
             android:layout_height="wrap_content"></TextView>
     </LinearLayout>
     </ScrollView>
+
+    <include
+        android:layout_above="@+id/lnrBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bannerView"
+        android:layout_marginTop="10dp"
+        layout="@layout/ads_view"/>
 
 
     <LinearLayout

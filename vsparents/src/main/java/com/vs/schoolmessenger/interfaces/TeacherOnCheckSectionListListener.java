@@ -9,6 +9,5 @@ import com.vs.schoolmessenger.model.TeacherSectionsListNEW;
 
 public interface TeacherOnCheckSectionListListener {
     public void section_addSection(TeacherSectionsListNEW sectionsListNEW);
-
     public void section_removeSection(TeacherSectionsListNEW sectionsListNEW);
 }

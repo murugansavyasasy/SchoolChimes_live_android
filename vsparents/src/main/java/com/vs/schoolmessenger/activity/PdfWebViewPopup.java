@@ -31,7 +31,6 @@ import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
 public class PdfWebViewPopup extends AppCompatActivity {
 
     WebView wbTerms;
-    ProgressDialog pDialog;
 
     TextView tvTitle, tvTime, tvStatus;
   TeacherMessageModel pdfModel;
@@ -88,11 +87,9 @@ public class PdfWebViewPopup extends AppCompatActivity {
                 startActivityForResult(intent, SIGNATURE_ACTIVITY);
             }
         });
-
         rgAcceptance = (RadioGroup) findViewById(R.id.pdfPopup_rgAcceptance);
         rbYes = (RadioButton) findViewById(R.id.pdfPopup_rbYes);
         rbNo = (RadioButton) findViewById(R.id.pdfPopup_rbNo);
-
         rgAcceptance.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
@@ -120,43 +117,6 @@ public class PdfWebViewPopup extends AppCompatActivity {
         else llBotton.setVisibility(View.GONE);
 
         tvQuestion.setText(pdfModel.getStrQuestion());
-
-
-        ///getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
-
-//        wbTerms = (WebView) findViewById(R.id.pdfPopup_webView);
-//        pDialog = new ProgressDialog(PdfWebViewPopup.this);
-//        pDialog.setMessage("Loading");
-//        pDialog.setCancelable(false);
-
-//        wbTerms.setWebChromeClient(new WebChromeClient() {
-//            public void onProgressChanged(WebView view, int progress) {
-//                //Make the bar disappear after URL is loaded, and changes string to Loading...
-////                setTitle("Loading...");
-//                pDialog.show();
-//                setProgress(progress * 100); //Make the bar disappear after URL is loaded
-//
-//                if (progress == 100) {
-//                    pDialog.dismiss();
-//
-//                    if (pdfModel.getMsgReadStatus().equals("0")) {
-//                        pdfModel.setMsgReadStatus("1");
-//                        tvStatus.setVisibility(View.GONE);
-//
-//                        ChangeMsgReadStatus.changeReadStatus(PdfWebViewPopup.this, pdfModel.getMsgID(), MSG_TYPE_PDF, pdfModel.getMsgDate(),isNewVersion,is_Archive, new OnRefreshListener() {
-//                            @Override
-//                            public void onRefreshItem() {
-//                                pdfModel.setMsgReadStatus("1");
-//                                if (pdfModel.getMsgReadStatus().equals("0"))
-//                                    tvStatus.setVisibility(View.VISIBLE);
-//                                else tvStatus.setVisibility(View.GONE);
-//                            }
-//                        });
-//                    }
-//                }
-//            }
-//        });
-
         if (pdfModel.getMsgReadStatus().equals("0")) {
             pdfModel.setMsgReadStatus("1");
             tvStatus.setVisibility(View.GONE);
@@ -180,13 +140,6 @@ public class PdfWebViewPopup extends AppCompatActivity {
         wbTerms = (WebView) findViewById(R.id.pdfPopup_webView);
         wbTerms.setVisibility(View.GONE);
 
-//        wbTerms.setWebViewClient(new MyWebViewClient(PdfWebViewPopup.this));
-//        wbTerms.getSettings().setLoadsImagesAutomatically(true);
-//        wbTerms.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-//        WebSettings webSettings = wbTerms.getSettings();
-//        wbTerms.getSettings().setBuiltInZoomControls(true);
-//        webSettings.setJavaScriptEnabled(true);
-//        wbTerms.loadUrl("https://docs.google.com/viewerng/viewer?url=" + strURL);
     }
 
     @Override
@@ -214,12 +167,6 @@ public class PdfWebViewPopup extends AppCompatActivity {
                 break;
         }
 
-    }
-
-    private void showToast(String msg) {
-        Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP, 105, 50);
-        toast.show();
     }
 
     private void signVisiblityFalse(boolean bFlag) {

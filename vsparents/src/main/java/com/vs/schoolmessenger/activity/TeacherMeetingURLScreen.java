@@ -34,22 +34,17 @@ import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFra
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.adapter.OnlineClassAdapter;
 import com.vs.schoolmessenger.adapter.OnlineClassByStaffAdapter;
 import com.vs.schoolmessenger.adapter.OnlineMeetingTypeAdapter;
-import com.vs.schoolmessenger.interfaces.OnItemClickOnlineClass;
 import com.vs.schoolmessenger.interfaces.OnlineClassStaffListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.OnlineClassByStaffModel;
-import com.vs.schoolmessenger.model.OnlineClassModel;
 import com.vs.schoolmessenger.model.OnlineMeetingTypeModel;
 import com.vs.schoolmessenger.model.OnlineStepsModel;
-import com.vs.schoolmessenger.payment.PaymentFeesActrivity;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

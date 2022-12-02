@@ -7,20 +7,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.ExamDateListAdapter;
 import com.vs.schoolmessenger.adapter.TextCircularListAdapter;
 import com.vs.schoolmessenger.adapter.TextCircularListAdapternew;
@@ -41,11 +51,13 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 import static com.vs.schoolmessenger.util.Util_Common.MENU_EVENTS;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_EXAM_TEST;
@@ -81,6 +93,13 @@ public class TextCircular extends AppCompatActivity {
     String previousDate;
     Boolean is_Archive;
 
+    ImageView imgSearch;
+    TextView Searchable;
+
+    Slider slider;
+    ImageView adImage;
+
+    RelativeLayout voice_rlToolbar;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -92,19 +111,29 @@ public class TextCircular extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_circular);
         c = Calendar.getInstance();
-
+        voice_rlToolbar = (RelativeLayout) findViewById(R.id.text_rlToolbar);
+        voice_rlToolbar.setVisibility(View.GONE);
 
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         if (iRequestCode == MENU_HW || iRequestCode == MENU_TEXT) {
             selDate = getIntent().getExtras().getString("SEL_DATE", "");
             is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
         }
-
         else
         {
-            selDate = getIntent().getExtras().getString("HEADER", "");
+            //selDate = getIntent().getExtras().getString("HEADER", "");
+            selDate = "Notice Board";
         }
 
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar_children);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(selDate);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
+
+        Slider.init(new PicassoImageLoadingService(TextCircular.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
 
         ImageView ivBack = (ImageView) findViewById(R.id.text_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +153,86 @@ public class TextCircular extends AppCompatActivity {
         rvTextMsgList = (RecyclerView) findViewById(R.id.text_rvCircularList);
         TextView tvTitle = (TextView) findViewById(R.id.text_ToolBarTvTitle);
         tvTitle.setText(selDate);
+
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
+
+        if(iRequestCode==MENU_NOTICE_BOARD || iRequestCode == MENU_EVENTS) {
+
+            Searchable.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (tvadapter == null)
+                        return;
+
+                    if (tvadapter.getItemCount() < 1) {
+                        rvTextMsgList.setVisibility(View.GONE);
+                        if (Searchable.getText().toString().isEmpty()) {
+                            rvTextMsgList.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        rvTextMsgList.setVisibility(View.VISIBLE);
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    if (editable.length() > 0) {
+                        imgSearch.setVisibility(View.GONE);
+                    } else {
+                        imgSearch.setVisibility(View.VISIBLE);
+                    }
+                    filterlist(editable.toString());
+                }
+            });
+
+        }
+        else {
+            Searchable.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (textAdapter == null)
+                        return;
+
+                    if (textAdapter.getItemCount() < 1) {
+                        rvTextMsgList.setVisibility(View.GONE);
+                        if (Searchable.getText().toString().isEmpty()) {
+                            rvTextMsgList.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        rvTextMsgList.setVisibility(View.VISIBLE);
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    if (editable.length() > 0) {
+                        imgSearch.setVisibility(View.GONE);
+                    } else {
+                        imgSearch.setVisibility(View.VISIBLE);
+                    }
+                    filterlist(editable.toString());
+                }
+            });
+
+        }
 
          LoadMore=(TextView) findViewById(R.id.btnSeeMore);
          lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
@@ -165,10 +274,27 @@ public class TextCircular extends AppCompatActivity {
         }
     }
 
+    private void filterlist(String s) {
+        ArrayList<MessageModel> temp = new ArrayList();
+        for (MessageModel d : msgModelList) {
+
+            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        if(iRequestCode==MENU_NOTICE_BOARD || iRequestCode == MENU_EVENTS) {
+            tvadapter.updateList(temp);
+        }
+        else {
+            textAdapter.updateList(temp);
+
+        }
+    }
+
     private void seeMoreButtonVisiblity() {
         if(isNewVersion.equals("1") && iRequestCode==MENU_NOTICE_BOARD){
             LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
         else {
             LoadMore.setVisibility(View.GONE);
@@ -217,11 +343,6 @@ public class TextCircular extends AppCompatActivity {
                 lblNoMessages.setVisibility(View.GONE);
 
 
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                Log.d("currentDate",currentDate);
-//                TeacherUtil_SharedPreference.putNoticeBoardCurrentDate(TextCircular.this,currentDate);
-
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
@@ -233,7 +354,6 @@ public class TextCircular extends AppCompatActivity {
                             MessageModel msgModel;
                             Log.d("json length", js.length() + "");
 
-                          //  tvadapter.clearAllData();
                            OfflinemsgModelList.clear();
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
@@ -247,13 +367,6 @@ public class TextCircular extends AppCompatActivity {
 
                             arrayList = new ArrayList<>();
                             arrayList.addAll(msgModelList);
-//                            myDb = new SqliteDB(TextCircular.this);
-//
-//                            if(myDb.checkNoticeBoard()){
-//                                myDb.deleteNoticeBoard();
-//                            }
-//                            myDb.addNoticeBoard( (ArrayList<MessageModel>) OfflinemsgModelList, TextCircular.this);
-
                             tvadapter.notifyDataSetChanged();
 
                         } else {
@@ -291,25 +404,33 @@ public class TextCircular extends AppCompatActivity {
         finish();
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if(iRequestCode==MENU_TEXT){
+                    TeacherUtil_SharedPreference.putOnBackPressedText(TextCircular.this,"1");
+                }
+                else if(iRequestCode==MENU_HW){
+                    TeacherUtil_SharedPreference.putOnBackPressedHWTEXT(TextCircular.this,"1");
+
+                }
+                onBackPressed();
+                return (true);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
         switch (iRequestCode) {
             case MENU_TEXT:
                 if (isNetworkConnected()) {
                     circularsTextbydateAPI();
                 }
-//                else {
-//
-//                    myDb = new SqliteDB(TextCircular.this);
-//                    textAdapter.clearAllData();
-//
-//                    if (myDb.checkTextList(selDate)) {
-//                        msgModelList.addAll(myDb.getDayByDayTextList(selDate));
-//                    } else {
-//                        showSettingsAlert1();
-//                    }
-//                }
+
                 break;
 
             case MENU_NOTICE_BOARD:
@@ -325,16 +446,7 @@ public class TextCircular extends AppCompatActivity {
                 if (isNetworkConnected()) {
                     circularsEventsAPI();
                 }
-//                else {
-//
-//                    myDb = new SqliteDB(TextCircular.this);
-//                    tvadapter.clearAllData();
-//                    if (myDb.checkEvents()) {
-//                        msgModelList.addAll(myDb.getEvents());
-//                    } else {
-//                        showSettingsAlert1();
-//                    }
-//                }
+
                 break;
 
             case MENU_EXAM_TEST:
@@ -343,17 +455,7 @@ public class TextCircular extends AppCompatActivity {
                     circularsExameAPI();
                 }
 
-//              else {
-//
-//                    myDb = new SqliteDB(TextCircular.this);
-//
-//                  textAdapter.clearAllData();
-//                    if (myDb.checkExamTest()) {
-//                        msgModelList.addAll(myDb.getExamTest());
-//                    } else {
-//                        showSettingsAlert1();
-//                    }
-//                }
+
                 break;
 
             case MENU_HW:
@@ -361,16 +463,7 @@ public class TextCircular extends AppCompatActivity {
                 if (isNetworkConnected()) {
                     circularsHomeworkAPI();
                 }
-//                else {
-//
-//                    myDb = new SqliteDB(TextCircular.this);
-//
-//                    if (myDb.checkHomeWorkTextList(selDate)) {
-//                        msgModelList.addAll(myDb.getHomeWorkTextList(selDate));
-//                    } else {
-//                        showSettingsAlert1();
-//                    }
-//                }
+
                 break;
         }
 
@@ -613,14 +706,6 @@ public class TextCircular extends AppCompatActivity {
 
                             arrayList = new ArrayList<>();
                             arrayList.addAll(msgModelList);
-//                            myDb = new SqliteDB(TextCircular.this);
-//
-//
-//                            if(myDb.checkTextList(selDate)){
-//                                myDb.deleteTextList(selDate);
-//                            }
-//
-//                            myDb.addDayByDayTextList( (ArrayList<MessageModel>) msgModelList, TextCircular.this);
 
                             textAdapter.notifyDataSetChanged();
 
@@ -705,8 +790,6 @@ public class TextCircular extends AppCompatActivity {
 
                                ExamDateListClass model;
 
-                               Log.d("json length", js.length() + "");
-
                                mAdapter.clearAllData();
 
                                for (int j = 0; j < Details.length(); j++) {
@@ -722,12 +805,6 @@ public class TextCircular extends AppCompatActivity {
 
                                subjects = new ArrayList<>();
                                subjects.addAll(exams);
-
-//                               myDb = new SqliteDB(TextCircular.this);
-//
-//                               if (myDb.checkExamTest()) {
-//                                   myDb.deleteExamTest();
-//                               }
                                mAdapter.notifyDataSetChanged();
 
                            }
@@ -799,7 +876,6 @@ public class TextCircular extends AppCompatActivity {
 
                         if(isNewVersion.equals("1")&&iRequestCode==MENU_NOTICE_BOARD){
                             LoadMore.setVisibility(View.VISIBLE);
-                            lblNoMessages.setVisibility(View.VISIBLE);
                         }
                         else {
                             LoadMore.setVisibility(View.GONE);
@@ -911,7 +987,7 @@ public class TextCircular extends AppCompatActivity {
                         JSONObject jsonObject = js.getJSONObject(0);
                         String strStatus = jsonObject.getString("Status");
                         String strMessage = jsonObject.getString("Message");
-//
+
 
                         if (strStatus.equals("1")) {
                             MessageModel msgModel;
@@ -929,14 +1005,6 @@ public class TextCircular extends AppCompatActivity {
 
                             arrayList = new ArrayList<>();
                             arrayList.addAll(msgModelList);
-
-//                            myDb = new SqliteDB(TextCircular.this);
-//
-//                            if(myDb.checkEvents()){
-//                                myDb.deleteEvents();
-//                            }
-//                            myDb.addEvents( (ArrayList<MessageModel>) msgModelList, TextCircular.this);
-
 
                             tvadapter.notifyDataSetChanged();
 
@@ -1060,14 +1128,7 @@ public class TextCircular extends AppCompatActivity {
 
                         arrayList = new ArrayList<>();
                         arrayList.addAll(msgModelList);
-
-//                        myDb = new SqliteDB(TextCircular.this);
-//                        if(myDb.checkHomeWorkTextList(selDate)){
-//                            myDb.deleteHomeWorkTextList(selDate);
-//                        }
-//                        myDb.addHomeWorkTextList( (ArrayList<MessageModel>) msgModelList, TextCircular.this);
-
-                            textAdapter.notifyDataSetChanged();
+                        textAdapter.notifyDataSetChanged();
 
 
                     } else {

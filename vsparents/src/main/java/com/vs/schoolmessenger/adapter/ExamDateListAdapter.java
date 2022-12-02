@@ -27,12 +27,8 @@ public class ExamDateListAdapter extends RecyclerView.Adapter<ExamDateListAdapte
             this.notifyItemRangeRemoved(0, size);
         }
     }
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblFeeName,lblMonthly,lblTotal,lblTotalFrom,lblPendingAmount;
-
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -57,12 +53,7 @@ public class ExamDateListAdapter extends RecyclerView.Adapter<ExamDateListAdapte
 
     @Override
     public void onBindViewHolder(final ExamDateListAdapter.MyViewHolder holder, final int position) {
-
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final ExamDateListClass paid = lib_list.get(position);
-
-
-
     }
 
     @Override

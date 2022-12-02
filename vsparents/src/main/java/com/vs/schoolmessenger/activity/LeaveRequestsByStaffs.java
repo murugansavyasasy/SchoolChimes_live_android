@@ -11,10 +11,14 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +58,10 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
     public LeaveRequestAdapter mAdapter;
 
     boolean login;
+
+
+    ImageView imgSearch;
+    TextView Searchable;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -100,7 +108,43 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
         });
 
 
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
 
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (mAdapter == null)
+                    return;
+
+                if (mAdapter.getItemCount() < 1) {
+                    Leave_History_recycle.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        Leave_History_recycle.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    Leave_History_recycle.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
 
         mAdapter = new LeaveRequestAdapter(leaveHistoryList, LeaveRequestsByStaffs.this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -110,6 +154,18 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
         Leave_History_recycle.getRecycledViewPool().setMaxRecycledViews(0, 80);
 
 
+    }
+
+    private void filterlist(String s) {
+        List<LeaveRequestDetails> temp = new ArrayList();
+        for (LeaveRequestDetails d : leaveHistoryList) {
+
+            if (d.getName().toLowerCase().contains(s.toLowerCase()) || d.getSection().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        mAdapter.updateList(temp);
     }
 
     @Override

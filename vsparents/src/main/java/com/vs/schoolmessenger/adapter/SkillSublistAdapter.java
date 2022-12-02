@@ -104,8 +104,6 @@ public class SkillSublistAdapter extends RecyclerView.Adapter<SkillSublistAdapte
             lnrLSRW = (LinearLayout) view.findViewById(R.id.lnrLSRW);
             lnrSentBy = (LinearLayout) view.findViewById(R.id.lnrSentBy);
 
-
-
         }
     }
 
@@ -113,7 +111,6 @@ public class SkillSublistAdapter extends RecyclerView.Adapter<SkillSublistAdapte
         this.context = context;
         this.dateList = dateList;
     }
-
 
     public void clearAllData() {
         int size = this.dateList.size();
@@ -125,8 +122,6 @@ public class SkillSublistAdapter extends RecyclerView.Adapter<SkillSublistAdapte
             this.notifyItemRangeRemoved(0, size);
         }
     }
-
-
 }
 
 

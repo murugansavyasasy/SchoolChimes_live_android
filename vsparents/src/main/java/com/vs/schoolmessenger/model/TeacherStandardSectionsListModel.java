@@ -20,7 +20,6 @@ public class TeacherStandardSectionsListModel {
         this.listSubjects = listSubjects;
     }
 
-    //--------
     ArrayList<TeacherSectionsListNEW> listSectionsNew;
 
     public ArrayList<TeacherSectionsListNEW> getListSectionsNew() {
@@ -31,7 +30,6 @@ public class TeacherStandardSectionsListModel {
         this.listSectionsNew = listSectionsNew;
     }
 
-    //-------------------
     public TeacherStandardSectionsListModel() {
     }
 

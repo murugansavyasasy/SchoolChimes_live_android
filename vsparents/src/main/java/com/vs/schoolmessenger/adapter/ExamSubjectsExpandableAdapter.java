@@ -22,9 +22,6 @@ public class ExamSubjectsExpandableAdapter extends BaseExpandableListAdapter {
     private Context _context;
     private List<ExamGroupHeader> _listDataHeader; // header titles
     private HashMap<ExamGroupHeader, List<ExamDateListClass>> _listDataChild;
-
-
-
     public ExamSubjectsExpandableAdapter(Context context, List<ExamGroupHeader> listDataHeader,
                                          HashMap<ExamGroupHeader, List<ExamDateListClass>> listChildData) {
         this._context = context;
@@ -134,9 +131,6 @@ public class ExamSubjectsExpandableAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-
-
-
     @Override
     public boolean hasStableIds() {
         return false;
@@ -149,6 +143,6 @@ public class ExamSubjectsExpandableAdapter extends BaseExpandableListAdapter {
 
     public void updateList(List<ExamGroupHeader> temp) {
         _listDataHeader = temp;
-        notifyDataSetChanged();
+         notifyDataSetChanged();
     }
 }

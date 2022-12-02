@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,76 +45,50 @@ import retrofit2.Callback;
 
 public class EventsFragment extends Fragment {
     RecyclerView recycle_paidlist;
-
     String school_id, child_id;
     TextView lblNoMessages;
-
     private ArrayList<MessageModel> msgModelList = new ArrayList<>();
     private ArrayList<MessageModel> totalmsgModelList = new ArrayList<>();
     private ArrayList<MessageModel> OfflinemsgModelList = new ArrayList<>();
     public TextCircularListAdapternew mAdapter;
-    SqliteDB myDb;
     ArrayList<MessageModel> arrayList;
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
-    String previousDate;
-
+    RelativeLayout rytSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.feespending_recycle, container, false);
         recycle_paidlist = (RecyclerView) rootView.findViewById(R.id.fees_pending_recycler_view);
 
         child_id = Util_SharedPreference.getChildIdFromSP(getActivity());
         school_id = Util_SharedPreference.getSchoolIdFromSP(getActivity());
 
-        Log.e("sizee123", String.valueOf(msgModelList.size()));
-        c = Calendar.getInstance();
+         c = Calendar.getInstance();
          LoadMore=(TextView) rootView.findViewById(R.id.btnSeeMore);
          lblNoMessages=(TextView) rootView.findViewById(R.id.lblNoMessages);
+
+        rytSearch=(RelativeLayout) rootView.findViewById(R.id.rytSearch);
+        rytSearch.setVisibility(View.GONE);
+
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LoadMoregetEventsDetails();
-
-//                previousDate=TeacherUtil_SharedPreference.getEventDate(getActivity());
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                if (previousDate.equals("") || previousDate.compareTo(currentDate)<0)
-//                {
-//                    LoadMoregetEventsDetails();
-//                }
-//                else {
-//                    myDb = new SqliteDB(getActivity());
-//                    if (myDb.checkEvents()) {
-//                        msgModelList.clear();
-//                        totalmsgModelList.addAll(myDb.getEvents());
-//                        msgModelList.addAll(totalmsgModelList);
-//                        mAdapter.notifyDataSetChanged();
-//                        LoadMore.setVisibility(View.GONE);
-//
-//                    }
-//                    else {
-//                        showAlert("No Records Found..");
-//                    }
-//                }
             }
         });
 
          isNewVersion=TeacherUtil_SharedPreference.getNewVersion(getActivity());
         if(isNewVersion.equals("1")){
             LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
         else {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
         }
-
-
+        msgModelList.clear();
         mAdapter = new TextCircularListAdapternew(msgModelList, getActivity());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recycle_paidlist.setLayoutManager(mLayoutManager);
@@ -167,11 +142,6 @@ public class EventsFragment extends Fragment {
                         lblNoMessages.setVisibility(View.GONE);
 
 
-//                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                        String currentDate = df.format(c.getTime());
-//                        Log.d("currentDate",currentDate);
-//                        TeacherUtil_SharedPreference.putEventCurrentDate(getActivity(),currentDate);
-
                         try {
                             JSONArray js = new JSONArray(response.body().toString());
                             if (js.length() > 0) {
@@ -180,10 +150,11 @@ public class EventsFragment extends Fragment {
                                 String strMessage = jsonObject.getString("Message");
 
                                 if (strStatus.equals("1")) {
+                                    recycle_paidlist.setVisibility(View.VISIBLE);
+
                                     MessageModel msgModel;
                                     Log.d("json length", js.length() + "");
 
-                                   // mAdapter.clearAllData();
                                  OfflinemsgModelList.clear();
                                     for (int i = 0; i < js.length(); i++) {
                                         jsonObject = js.getJSONObject(i);
@@ -196,18 +167,10 @@ public class EventsFragment extends Fragment {
 
                                     arrayList = new ArrayList<>();
                                     arrayList.addAll(msgModelList);
-//                                    myDb = new SqliteDB(getActivity());
-//
-//                                    if(myDb.checkEvents()){
-//                                        myDb.deleteEvents();
-//                                    }
-//                                    myDb.addEvents( (ArrayList<MessageModel>) OfflinemsgModelList, getActivity());
-
-
                                     mAdapter.notifyDataSetChanged();
 
                                 } else {
-
+                                    recycle_paidlist.setVisibility(View.GONE);
                                     showAlert(strMessage);
                                 }
                             } else {
@@ -232,7 +195,6 @@ public class EventsFragment extends Fragment {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                // showToast("Server Connection Failed");
                 Toast.makeText(getActivity(), "Server Connection Failed", Toast.LENGTH_SHORT).show();
 
             }
@@ -244,30 +206,6 @@ public class EventsFragment extends Fragment {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         return connMgr.getActiveNetworkInfo() != null;
-    }
-
-    private void showSettingsAlert1() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-        alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage(R.string.connect_internet);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-
-
-
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-
     }
 
     private void getEventsDetails() {
@@ -314,11 +252,13 @@ public class EventsFragment extends Fragment {
                                 String strMessage = jsonObject.getString("Message");
 
                                 if (strStatus.equals("1")) {
+                                    recycle_paidlist.setVisibility(View.VISIBLE);
+
                                     MessageModel msgModel;
                                     Log.d("json length", js.length() + "");
 
                                     mAdapter.clearAllData();
-                               totalmsgModelList.clear();
+                                  totalmsgModelList.clear();
                                     for (int i = 0; i < js.length(); i++) {
                                         jsonObject = js.getJSONObject(i);
                                         msgModel = new MessageModel(jsonObject.getString("Status"), jsonObject.getString("EventTitle"),
@@ -337,6 +277,7 @@ public class EventsFragment extends Fragment {
                                     if(isNewVersion.equals("1")){
                                         lblNoMessages.setVisibility(View.VISIBLE);
                                         lblNoMessages.setText(strMessage);
+                                        recycle_paidlist.setVisibility(View.GONE);
                                     }
                                     else {
                                         lblNoMessages.setVisibility(View.GONE);
@@ -366,7 +307,6 @@ public class EventsFragment extends Fragment {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                // showToast("Server Connection Failed");
                 Toast.makeText(getActivity(), "Server Connection Failed", Toast.LENGTH_SHORT).show();
 
             }
@@ -375,8 +315,6 @@ public class EventsFragment extends Fragment {
 
     private void showAlert(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-        //Setting Dialog Title
         alertDialog.setTitle("Alert");
 
         alertDialog.setMessage(msg);
@@ -388,10 +326,7 @@ public class EventsFragment extends Fragment {
 
             }
         });
-
-
         AlertDialog dialog = alertDialog.create();
-
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
@@ -401,25 +336,16 @@ public class EventsFragment extends Fragment {
 
     private void showRecordsFound(String name) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-        //Setting Dialog Title
         alertDialog.setTitle("Alert");
-
         alertDialog.setMessage(name);
         alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 dialog.dismiss();
-
-
-
             }
         });
 
         alertDialog.show();
     }
-
-
-
 }

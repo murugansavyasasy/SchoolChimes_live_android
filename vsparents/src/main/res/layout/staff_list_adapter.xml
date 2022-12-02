@@ -6,7 +6,6 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:orientation="vertical"
-
     android:layout_height="wrap_content">
 
     <RelativeLayout
@@ -47,8 +46,8 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/clr_grey">
+        android:layout_height="0.5dp"
+        android:background="@color/clr_grey_light">
 
     </View>
 </LinearLayout>

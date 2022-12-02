@@ -3,34 +3,7 @@ package com.vs.schoolmessenger.model;
 import java.io.Serializable;
 
 public class ExamEnhancement implements Serializable {
-//    {
-//        "Status": 1,
-//            "Message": "Success!",
-//            "data": [
-//        {
-//            "QuizId": 27,
-//                "Title": "calculation test",
-//                "Description": "engdesc",
-//                "MarkPerQuestion": 2,
-//                "Subject": "ENGLISH",
-//                "Date": "11/06/2021",
-//                "Time": "17:07:16",
-//                "SubmittedOn": "11/06/2021",
-//                "Issubmitted": "1",
-//                "isAppRead": "1",
-//                "SentBy": "vssales ",
-//                "SortOrder": "2021-06-11T11:37:16.000Z",
-//                "ExamStartTime": "18/06/2021 11:00:00",
-//                "ExamEndTime": "18/06/2021 11:00:00",
-//                "TimeForQuestionReading": "12/06/2021 15:40:35",
-//                "ExamDate": "18/06/2021",
-//                "TotalNumberOfQuestions": "20",
-//                "RightAnswer": "19",
-//                "WrongAnswer": "18",
-//                "totalMark": "4"
-//        }
-//    ]
-//    }
+
     public String Title;
     public String Description;
     public String Subject;
@@ -51,7 +24,6 @@ public class ExamEnhancement implements Serializable {
     public int QuizId;
     public int detailId;
     public String isShow;
-
 
     public ExamEnhancement(String Title, String Description,  String Subject,
                             String SubmittedOn,String Issubmitted, String isAppRead,
@@ -104,7 +76,6 @@ public class ExamEnhancement implements Serializable {
         Description = description;
     }
 
-
     public String getSubject() {
         return Subject;
     }
@@ -112,8 +83,6 @@ public class ExamEnhancement implements Serializable {
     public void setSubject(String subject) {
         Subject = subject;
     }
-
-
 
     public String getSubmittedOn() {
         return SubmittedOn;
@@ -146,7 +115,6 @@ public class ExamEnhancement implements Serializable {
     public void setSentBy(String sentBy) {
         SentBy = sentBy;
     }
-
 
     public String getExamStartTime() {
         return ExamStartTime;

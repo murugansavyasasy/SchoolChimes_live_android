@@ -310,45 +310,6 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
     }
 
 
-    private void showLoginType() {
-        String[] LoginTypeArray = loginTypeList.toArray(new String[loginTypeList.size()]);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(TeacherSignInScreen.this);
-        AlertDialog alertDialog;
-
-        builder.setTitle(R.string.are_you);
-        builder.setCancelable(false);
-        builder.setSingleChoiceItems(LoginTypeArray, 0, null);
-        builder.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.cancel();
-                int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                String strLoginType = loginTypeList.get(selectedPosition);
-                Log.d("LOGIN_TYPE", strLoginType);
-
-                TeacherUtil_SharedPreference.putStaffLoginInfoToSP(TeacherSignInScreen.this, strMobile, strPassword, true);
-                TeacherUtil_SharedPreference.putLoggedInAsToSP(TeacherSignInScreen.this, strLoginType);
-
-                startActivity(new Intent(TeacherSignInScreen.this, TeacherHomeScreen.class));
-                finish();
-
-
-            }
-        });
-        builder.setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                finish();
-            }
-        });
-
-        alertDialog = builder.create();
-        alertDialog.show();
-        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.teacher_colorPrimaryDark));
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.teacher_colorPrimaryDark));
-    }
-
     private void forgotPasswordValidation() {
 
         strMobile = etMobile.getText().toString().trim();
@@ -499,23 +460,25 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
                         String Status = jsonObject.getString("Status");
                         String Message = jsonObject.getString("Message");
 
-                        String role = jsonObject.getString("staff_role");
-                        String display_role = jsonObject.getString("staff_display_role");
-                        TeacherUtil_SharedPreference.putRole(TeacherSignInScreen.this, role);
-                        TeacherUtil_SharedPreference.putDisplayRoleMessage(TeacherSignInScreen.this, display_role);
-                        TeacherUtil_SharedPreference.putLoginMessage(TeacherSignInScreen.this, Message);
-                        String ImageCount = jsonObject.getString("ImageCount");
-                        TeacherUtil_SharedPreference.putImageCount(TeacherSignInScreen.this, ImageCount);
-
-                        Boolean is_parent = jsonObject.getBoolean("is_parent");
-                        Boolean is_staff = jsonObject.getBoolean("is_staff");
-                        TeacherUtil_SharedPreference.putIsStaff(TeacherSignInScreen.this,is_staff);
-                        TeacherUtil_SharedPreference.putIsParent(TeacherSignInScreen.this,is_parent);
 
                         String strlogin = "";
                         TeacherSchoolsModel schoolmodel = null;
                         listschooldetails = new ArrayList<>();
                         if (Status.equals("1")) {
+
+                            String role = jsonObject.getString("staff_role");
+                            String display_role = jsonObject.getString("staff_display_role");
+                            TeacherUtil_SharedPreference.putRole(TeacherSignInScreen.this, role);
+                            TeacherUtil_SharedPreference.putDisplayRoleMessage(TeacherSignInScreen.this, display_role);
+                            TeacherUtil_SharedPreference.putLoginMessage(TeacherSignInScreen.this, Message);
+                            String ImageCount = jsonObject.getString("ImageCount");
+                            TeacherUtil_SharedPreference.putImageCount(TeacherSignInScreen.this, ImageCount);
+
+                            Boolean is_parent = jsonObject.getBoolean("is_parent");
+                            Boolean is_staff = jsonObject.getBoolean("is_staff");
+                            TeacherUtil_SharedPreference.putIsStaff(TeacherSignInScreen.this,is_staff);
+                            TeacherUtil_SharedPreference.putIsParent(TeacherSignInScreen.this,is_parent);
+
 
                             TeacherUtil_Common.maxEmergencyvoicecount = jsonObject.getInt("MaxEmergencyVoiceDuration");
                             TeacherUtil_Common.maxGeneralvoicecount = jsonObject.getInt("MaxGeneralVoiceDuartion");

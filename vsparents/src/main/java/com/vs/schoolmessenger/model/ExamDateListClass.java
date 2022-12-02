@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class ExamDateListClass implements Serializable {
      String Syllabus,SubName,ExamDate,ExamSession,Maxmark,SubjectSyllabus;
-
-
-
     public ExamDateListClass(String syllabus,String subname,String examdate,String examSession,String maxmark,String subsyllabus) {
 
         this.Syllabus = syllabus;
@@ -19,9 +16,6 @@ public class ExamDateListClass implements Serializable {
     }
 
     public ExamDateListClass() {}
-
-
-
 
     public String getSyllabus() {
         return Syllabus;

@@ -6,9 +6,7 @@ public class ExamList {
     public ExamList(String Id, String Name) {
         this.Id = Id;
         this.ExamName = Name;
-
     }
-
     public ExamList() {}
 
     public String getId() {

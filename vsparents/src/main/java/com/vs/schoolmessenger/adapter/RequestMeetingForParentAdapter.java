@@ -22,9 +22,6 @@ public class RequestMeetingForParentAdapter extends RecyclerView.Adapter<Request
 
     private List<RequestMeetingForParentModel> lib_list;
     Context context;
-    private PopupWindow pwindow;
-
-
     public void clearAllData() {
         int size = this.lib_list.size();
         if (size > 0) {
@@ -53,21 +50,13 @@ public class RequestMeetingForParentAdapter extends RecyclerView.Adapter<Request
             lblStaffComments = (TextView) view.findViewById(R.id.lblStaffComments);
             lblStaffCommentsLabel = (TextView) view.findViewById(R.id.lblStaffCommentsLabel);
             lblSheduledTime = (TextView) view.findViewById(R.id.lblSheduledTime);
-
-
             lnrAprovalStatus = (LinearLayout) view.findViewById(R.id.lnrAprovalStatus);
             lnrStaffName = (LinearLayout) view.findViewById(R.id.lnrStaffName);
             lnrRequestDate = (LinearLayout) view.findViewById(R.id.lnrRequestDate);
             lnrRequestedFor = (LinearLayout) view.findViewById(R.id.lnrRequestedFor);
             lnrStaffComments = (LinearLayout) view.findViewById(R.id.lnrStaffComments);
             lnrDateTime = (LinearLayout) view.findViewById(R.id.lnrDateTime);
-
-
             imgApprovalStatus = (ImageView) view.findViewById(R.id.imgApprovalStatus);
-
-
-
-
         }
     }
 
@@ -85,18 +74,8 @@ public class RequestMeetingForParentAdapter extends RecyclerView.Adapter<Request
 
     @Override
     public void onBindViewHolder(final RequestMeetingForParentAdapter.MyViewHolder holder, final int position) {
-
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
-
         final RequestMeetingForParentModel history = lib_list.get(position);
-
-
-
-
-
         if (history.getApprovalStatus().equals("0")) {
-
-
 
            holder.lblStaffName.setText(": "+history.getStaffName());
            holder.lblRequestDate.setText(": "+history.getRequestedON());
@@ -142,19 +121,8 @@ public class RequestMeetingForParentAdapter extends RecyclerView.Adapter<Request
              holder.lnrAprovalStatus.setBackgroundColor(Color.parseColor("#E34545"));
 
             holder.lblApprovalStatus.setText(R.string.mt_rejected);
-
         }
-
-
-
-
     }
-
-
-
-
-
-
     @Override
     public int getItemCount() {
         return lib_list.size();

@@ -98,7 +98,6 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
             thumbNailSchoolImg = (NetworkImageView) view
                     .findViewById(R.id.cardProfile_nivThumbnailSchoolImg);
         }
-
         public void bind(final Profiles item, final OnProfileItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

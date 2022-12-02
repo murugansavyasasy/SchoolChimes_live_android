@@ -55,7 +55,6 @@ public class ElementExamListAdapter extends RecyclerView.Adapter<ElementExamList
     @Override
     public void onBindViewHolder(final ElementExamListAdapter.MyViewHolder holder, final
     int position) {
-        Log.d("listsizeeee", String.valueOf(data.size()));
         final Element elements = data.get(position);
         holder.lblname.setText(elements.getName());
         holder.lblmark.setText(elements.getMark());

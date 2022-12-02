@@ -36,7 +36,6 @@ public class TeacherSubjectModel implements Serializable
         this.strSubCode = strSubCode;
     }
 
-
     public boolean getSelectedStatus() {
         return SelectedStatus;
     }

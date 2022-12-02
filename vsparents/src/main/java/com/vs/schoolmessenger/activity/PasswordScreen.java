@@ -370,24 +370,26 @@ public class PasswordScreen extends AppCompatActivity {
                         JSONObject jsonObject = js.getJSONObject(0);
                         String Status = jsonObject.getString("Status");
                         String Message = jsonObject.getString("Message");
-                        String role = jsonObject.getString("staff_role");
-                        String display_role = jsonObject.getString("staff_display_role");
-                        TeacherUtil_SharedPreference.putRole(PasswordScreen.this, role);
-                        TeacherUtil_SharedPreference.putDisplayRoleMessage(PasswordScreen.this, display_role);
-                        TeacherUtil_SharedPreference.putLoginMessage(PasswordScreen.this, Message);
-                        String ImageCount = jsonObject.getString("ImageCount");
-                        TeacherUtil_SharedPreference.putImageCount(PasswordScreen.this, ImageCount);
-
-
-                        Boolean is_parent = jsonObject.getBoolean("is_parent");
-                        Boolean is_staff = jsonObject.getBoolean("is_staff");
-                        TeacherUtil_SharedPreference.putIsStaff(PasswordScreen.this,is_staff);
-                        TeacherUtil_SharedPreference.putIsParent(PasswordScreen.this,is_parent);
 
                         String strlogin = "";
                         TeacherSchoolsModel schoolmodel = null;
                         listschooldetails = new ArrayList<>();
                         if (Status.equals("1")) {
+
+                            String role = jsonObject.getString("staff_role");
+                            String display_role = jsonObject.getString("staff_display_role");
+                            TeacherUtil_SharedPreference.putRole(PasswordScreen.this, role);
+                            TeacherUtil_SharedPreference.putDisplayRoleMessage(PasswordScreen.this, display_role);
+                            TeacherUtil_SharedPreference.putLoginMessage(PasswordScreen.this, Message);
+                            String ImageCount = jsonObject.getString("ImageCount");
+                            TeacherUtil_SharedPreference.putImageCount(PasswordScreen.this, ImageCount);
+
+
+                            Boolean is_parent = jsonObject.getBoolean("is_parent");
+                            Boolean is_staff = jsonObject.getBoolean("is_staff");
+                            TeacherUtil_SharedPreference.putIsStaff(PasswordScreen.this,is_staff);
+                            TeacherUtil_SharedPreference.putIsParent(PasswordScreen.this,is_parent);
+
 
                             TeacherUtil_Common.maxEmergencyvoicecount = jsonObject.getInt("MaxEmergencyVoiceDuration");
                             TeacherUtil_Common.maxGeneralvoicecount = jsonObject.getInt("MaxGeneralVoiceDuartion");

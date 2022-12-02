@@ -54,9 +54,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
         }
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
-//        public VimeoPlayerView card_video_image;
         public ImageView imgShadow,imgplay,imgVideo;
         public FrameLayout frmPlayVideo;
         public TextView title,createdon,createdby,description,tvnew;
@@ -65,7 +63,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
 
         public MyViewHolder(View view) {
             super(view);
-//            card_video_image = (VimeoPlayerView) view.findViewById(R.id.card_video_image);
 
             imgVideo = (ImageView) view.findViewById(R.id.imgVideo);
             imgShadow = (ImageView) view.findViewById(R.id.imgShadow);
@@ -95,7 +92,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
     @Override
     public void onBindViewHolder(final VideosAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final VideoModelClass data = lib_list.get(position);
         holder.createdon.setText(data.getCreatedOn());
         holder.createdby.setText(data.getCreatedBy());
@@ -113,18 +109,12 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
             holder.description.setVisibility(View.VISIBLE);
             holder.description.setText(data.getDescription());
         }
-//        holder.card_video_image.setEnabled(false);
         holder.imgShadow.setEnabled(false);
-//        DefaultControlPanelView defaultControlPanelView=new DefaultControlPanelView(holder.card_video_image);
-//             defaultControlPanelView.dismissControls(1);
-//        holder.card_video_image.initialize(true,data.getVimeoId());
-
         holder.imgShadow.setBackgroundColor(context.getResources().getColor(R.color.clr_white_fifty));
 
 
 
         Glide.with(context)
-//                .load("http://img.youtube.com/vi/P3mAtvs5Elc/0.jpg")
                 .load(R.drawable.video_parent_img)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
@@ -134,27 +124,13 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
   holder.frmPlayVideo.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-//          if(data.getIsAppViewed().equals("0")) {
           Intent play=new Intent(context, VimeoVideoPlayerActivity.class);
           play.putExtra("VIDEO_ID",data.getIframe());
           play.putExtra("DETAILID",data.getDetailID());
           play.putExtra("ISAPPVIEW",data.getIsAppViewed());
           play.putExtra("is_Archive",data.getIs_Archive());
           context.startActivity(play);
-//          }
-//          String[] separated = data.getIframe().split("\\?(?!\\?)");
-//
-//          String name = separated[0];  //"/"
-//          Log.d("name", name);
-//
-//          String FileName = separated[1];
-//          Log.d("FileName", FileName);
-//
-//          String id=name.substring(name.lastIndexOf('/')+1);
-//          Log.d("id",id);
-//
-//          String url=id+"/";
-//          VimeoAPi(url);
+
 
       }
   });
@@ -166,8 +142,13 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
         return lib_list.size();
 
     }
+
+    public void updateList(List<VideoModelClass> temp) {
+        lib_list = temp;
+        notifyDataSetChanged();
+    }
+
     private void VimeoAPi(String url) {
-//        OkHttpClient.Builder client = new OkHttpClient.Builder();
 
         OkHttpClient client1;
         client1 = new OkHttpClient.Builder()
@@ -201,7 +182,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
                 if (response.isSuccessful()) {
                     try {
 
-                        Log.d("try","testtry");
                         JSONObject object1 = new JSONObject(response.body().toString());
                         JSONObject obj = object1.getJSONObject("request");
                         JSONObject files = obj.getJSONObject("files");
@@ -210,34 +190,10 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
                         JSONObject url = progressive.getJSONObject(0);
                         final String playurl=url.getString("url");
 
-
-                        Log.d("Response sucess", playurl.toString());
-
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setDataAndType(Uri.parse(playurl), "video/*");
                         context.startActivity(intent);
 
-//                               myWebView.loadUrl(playurl);
-//                        videoView.setVideoPath("https://vod-progressive.akamaized.net/exp=1591077888~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F4899%2F16%2F424498179%2F1837778844.mp4~hmac=5f2a6767d647d5f2a2390c71871abf1affb3bee6988b2a574a3272a13fb44833/vimeo-prod-skyfire-std-us/01/4899/16/424498179/1837778844.mp4");
-//                        videoView.setVideoPath(playurl);
-//                        videoView.start();
-//                        myWebView.setWebChromeClient(new WebChromeClient() {
-//                            public void onProgressChanged(WebView view, int progress) {
-//                                Log.d("chrome", playurl);
-//                                setProgress(progress * 100);
-//                                if (progress == 100) {
-//                                    myWebView.loadUrl(playurl);
-//                                }
-//                            }
-//                        });
-//                        myWebView.setWebViewClient(new WebViewClient() {
-//                            @Override
-//                            public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
-//                                Log.d("webview", playurl.toString());
-//                webView.loadUrl(playurl);
-//                                return true;
-//                            }
-//                        });
 
                     } catch (Exception e) {
                         Log.e("VIMEO Exception", e.getMessage());

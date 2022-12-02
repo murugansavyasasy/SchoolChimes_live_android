@@ -22,9 +22,7 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
 
     private List<StaffList> lib_list;
     Context context;
-
     private StaffListListener onCheckStudentListener;
-
 
     public void clearAllData() {
         int size = this.lib_list.size();
@@ -62,8 +60,6 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
         this.lib_list = lib_list;
         this.context = context;
         this.onCheckStudentListener = onCheckListener;
-
-
     }
 
     @Override

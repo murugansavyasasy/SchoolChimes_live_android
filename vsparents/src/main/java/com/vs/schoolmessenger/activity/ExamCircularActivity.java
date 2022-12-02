@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.ExamSubjectsExpandableAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.ExamDateListClass;
@@ -55,6 +57,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class ExamCircularActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -78,12 +81,13 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     private ArrayList<Profiles> childList = new ArrayList<>();
 
+    Slider slider;
+    ImageView adImage;
 
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +96,6 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.exam_circular);
-
 
         rytLanguage = (RelativeLayout) findViewById(R.id.rytLanguage);
         rytHome = (RelativeLayout) findViewById(R.id.rytHome);
@@ -105,6 +108,11 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         rytLanguage.setOnClickListener(this);
         rytPassword.setOnClickListener(this);
         rytHome.setOnClickListener(this);
+
+        Slider.init(new PicassoImageLoadingService(ExamCircularActivity.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
@@ -194,6 +202,12 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         lvExp.setAdapter(mAdapter);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
     }
 
     private boolean isNetworkConnected() {

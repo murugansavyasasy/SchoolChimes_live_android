@@ -9,9 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +57,8 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
     String SchoolID, StaffID;
     String date, absentcount, day;
     int iRequestCode;
+    ImageView imgSearch;
+    TextView Searchable;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -64,21 +70,16 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_absentees_report);
 
-
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
-        Log.d("Reqcode", String.valueOf(iRequestCode));
-
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.absentess_report);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
-
-
-
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
-
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
 
         if ((TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherAbsenteesReport.this).equals(LOGIN_TYPE_PRINCIPAL)) && (listschooldetails.size() == 1)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
@@ -90,7 +91,40 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
             TeacherUtil_Common.Principal_staffId = StaffID;
             Log.d("SchoolID", SchoolID + " " + StaffID);
         }
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (absenteesDateReportAdapter == null)
+                    return;
+
+                if (absenteesDateReportAdapter.getItemCount() < 1) {
+                    rvDateList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvDateList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvDateList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
 
         rvDateList = (RecyclerView) findViewById(R.id.absentee_rvDateList);
         absenteesDateReportAdapter = new TeachersAbsenteesDateReportAdapter(TeacherAbsenteesReport.this, dateList, new TeacherAbsenteesDateListener() {
@@ -105,7 +139,6 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                 showToast(item.getDate());
             }
         });
-
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvDateList.setHasFixedSize(true);
         rvDateList.setLayoutManager(mLayoutManager);
@@ -113,6 +146,18 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         rvDateList.setAdapter(absenteesDateReportAdapter);
         AbsenteesReportListAPI();
 
+    }
+
+    private void filterlist(String s) {
+        List<TeacherAbsenteesDates> temp = new ArrayList();
+        for (TeacherAbsenteesDates d : dateList) {
+
+            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getDay().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        absenteesDateReportAdapter.updateList(temp);
     }
 
     @Override
@@ -125,11 +170,8 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
             }
         }
     }
-
-
     @Override
     public void onBackPressed() {
-
         backToResultActvity("BACK");
     }
 
@@ -152,7 +194,6 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void AbsenteesReportListAPI() {
@@ -207,10 +248,7 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
 
                             try
                             {
-
-                                    JSONArray jSONArray = jsonObject.getJSONArray("ClassWise");
-
-
+                                  JSONArray jSONArray = jsonObject.getJSONArray("ClassWise");
                                     for (int j = 0; j < jSONArray.length(); j++) {
                                         JSONObject jsonObjectgroups = jSONArray.getJSONObject(j);
                                         TeacherABS_Standard abs_standard;
@@ -238,11 +276,7 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                             } catch (Exception e) {
                                 Log.e("GroupList:Excep", e.getMessage());
                             }
-
-
-
                             absentee.setStandards(listStds);
-
                             dateList.add(absentee);
                         }
                         absenteesDateReportAdapter.notifyDataSetChanged();
@@ -255,25 +289,19 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                     Log.e("GroupList:Excep", e.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("SubjectHandling:Failure", t.toString());
             }
         });
     }
-
-
     private JsonObject constructJsonArrayMgtSchoolStd() {
         JsonObject jsonObjectSchool = new JsonObject();
         try {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
-
             jsonObjectSchool.addProperty("StaffID", StaffID);
-
             Log.d("schoolid", SchoolID);
             Log.d("AbsenteeReport:req", jsonObjectSchool.toString());
         } catch (Exception e) {
@@ -281,7 +309,4 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         }
         return jsonObjectSchool;
     }
-
-
-
 }

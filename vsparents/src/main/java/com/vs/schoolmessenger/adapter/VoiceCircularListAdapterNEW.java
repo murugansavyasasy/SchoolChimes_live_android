@@ -22,6 +22,7 @@ import com.vs.schoolmessenger.util.DownloadFileFromURL;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
 
@@ -34,8 +35,6 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
     Context context;
     private static final String VOICE_FOLDER = "School Voice/Voice";
     Boolean is_Archive;
-
-
     private ArrayList<File[]> list = new ArrayList<>();
     static MessageModel msgModel;
     static String msgType;
@@ -221,4 +220,10 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
             this.notifyItemRangeRemoved(0, size);
         }
     }
+
+    public void updateList(ArrayList<MessageModel> temp) {
+        circularList = temp;
+        notifyDataSetChanged();
+    }
+
 }

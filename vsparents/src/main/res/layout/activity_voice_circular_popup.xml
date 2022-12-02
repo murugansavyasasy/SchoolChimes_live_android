@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+android:background="@drawable/img_app_bg"
     tools:context=".activity.TextMessagePopup">
 
     <RelativeLayout
@@ -22,7 +23,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:clickable="true"
-            app:srcCompat="@drawable/ic_close" />
+            app:srcCompat="@drawable/ic_close_black" />
 
         <TextView
             android:id="@+id/voicePopup_ToolBarTvTitle"
@@ -41,6 +42,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:background="@drawable/bg_shadow_white_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -51,6 +53,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="150dp"
+        android:padding="10dp"
         android:orientation="vertical">
 
         <RelativeLayout

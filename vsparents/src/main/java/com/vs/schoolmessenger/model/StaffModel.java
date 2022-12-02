@@ -7,7 +7,6 @@ public class StaffModel {
         this.SubName = subname;
         this.staffName = StaffName;
         this.StaffId = staffid;
-
     }
 
     public StaffModel() {}

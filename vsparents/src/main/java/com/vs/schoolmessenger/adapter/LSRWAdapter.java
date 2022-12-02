@@ -78,6 +78,11 @@ public class LSRWAdapter extends RecyclerView.Adapter<LSRWAdapter.MyViewHolder> 
         return dateList.size();
     }
 
+    public void updateList(List<lsrwModelClass> temp) {
+        dateList = temp;
+        notifyDataSetChanged();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblTitle, lblDescription, lblSubmittedOn, lblSubject, lblSentBy,lblNew;
         public Button btnView;

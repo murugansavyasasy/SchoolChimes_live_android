@@ -23,7 +23,6 @@ public class TeacherSchoolsModel implements Serializable{
     String BookEnable;
     String isPaymentPending;
 
-
     public TeacherSchoolsModel() {
     }
 

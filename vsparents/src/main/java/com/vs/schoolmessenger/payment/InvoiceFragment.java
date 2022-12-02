@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,7 @@ public class InvoiceFragment extends Fragment {
     RecyclerView recyclerView;
     InvoiceDetailsAdapter invoiceadapter;
     private ArrayList<InVoiceDetailsModel> invoiceList = new ArrayList<>();
+    RelativeLayout rytSearch;
 
     String isNewVersion;
     Boolean show=false;
@@ -67,6 +69,8 @@ public class InvoiceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.recycleview);
+        rytSearch = view.findViewById(R.id.rytSearch);
+        rytSearch.setVisibility(View.GONE);
         isNewVersion= TeacherUtil_SharedPreference.getNewVersion(getActivity());
 
         getInvoiceDetails();

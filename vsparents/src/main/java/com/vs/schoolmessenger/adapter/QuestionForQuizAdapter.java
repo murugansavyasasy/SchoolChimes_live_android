@@ -46,20 +46,14 @@ public class QuestionForQuizAdapter extends RecyclerView.Adapter<QuestionForQuiz
         return new QuestionForQuizAdapter.MyViewHolder(itemView);
     }
 
-
-
     @Override
     public int getItemCount() {
         return textDataList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
         TextView lblno;
         RelativeLayout lnrbgnum;
-
-
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -100,8 +94,6 @@ public class QuestionForQuizAdapter extends RecyclerView.Adapter<QuestionForQuiz
                 }
             });
 
-
-
         }
         public void changeToSelect(int resid) {
             lnrbgnum.setBackgroundResource(resid);
@@ -116,29 +108,10 @@ public class QuestionForQuizAdapter extends RecyclerView.Adapter<QuestionForQuiz
     public void onBindViewHolder(final QuestionForQuizAdapter.MyViewHolder holder, final int position) {
 
         final QuestionForQuiz msgModel = textDataList.get(position);
-
-
-//        int positiondisc=position+1;
-//        String no= String.valueOf(positiondisc);
         holder.lblno.setText(msgModel.Questionnum);
-
         holder.bind(msgModel,menuClickListener);
-
         holder.changeToSelect(selectedPos == position ? R.drawable.bg_que_dark : R.drawable.bg_que_light);
-
         holder.changeToSelectText(selectedPos == position ? Color.parseColor("#ffffff"): Color.parseColor("#000000"));
-
-//        if(msgModel.isSelectedstatus()==false){
-//
-//            menuClickListener.removeclass(msgModel);
-//            holder.lblno.setTextColor( Color.parseColor("#000000"));
-//            holder.lnrbgnum.setBackgroundResource(R.drawable.bg_que_light);
-//        }
-//        if(msgModel.isSelectedstatus()==true){
-//            menuClickListener.addclass(msgModel,position);
-//            holder.lblno.setTextColor( Color.parseColor("#ffffff"));
-//            holder.lnrbgnum.setBackgroundResource(R.drawable.bg_que_dark);
-//        }
 
     }
     private void showToast(String msg) {

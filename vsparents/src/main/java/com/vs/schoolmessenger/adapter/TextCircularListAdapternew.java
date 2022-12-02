@@ -14,6 +14,7 @@ import com.vs.schoolmessenger.interfaces.OnMsgItemClickListener;
 import com.vs.schoolmessenger.model.MessageModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by devi on 5/3/2017.
@@ -65,6 +66,12 @@ public class TextCircularListAdapternew extends RecyclerView.Adapter<TextCircula
     @Override
     public int getItemCount() {
         return textDataList.size();
+    }
+
+
+    public void updateList(ArrayList<MessageModel> temp) {
+        textDataList = temp;
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

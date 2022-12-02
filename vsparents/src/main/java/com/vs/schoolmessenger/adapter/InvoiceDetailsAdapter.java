@@ -37,8 +37,6 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
     private List<InVoiceDetailsModel> dateList;
     Context context;
     String child_id,schoolid;
-
-
     @Override
     public InvoiceDetailsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -51,24 +49,16 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
     public void onBindViewHolder(final InvoiceDetailsAdapter.MyViewHolder holder, int position) {
 
         final InVoiceDetailsModel data = dateList.get(position);
-
         child_id = Util_SharedPreference.getChildIdFromSP(context);
         schoolid = Util_SharedPreference.getSchoolIdFromSP(context);
-
         holder.lblInvoiceAmount.setText(data.getInvoice_amount());
         holder.lblInvoiceDate.setText(data.getInvoice_date());
         holder.lblInvoiceNumber.setText(data.getInvoice_number());
 
-        Log.d("InvoiceId", data.getInvoice_ID());
-
-
         holder.btnViewFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 ViewInvoicePDF(data.getInvoice_ID());
-                Log.d("InvoiceId", data.getInvoice_ID());
-
 
             }
         });
@@ -90,8 +80,6 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
             lblInvoiceNumber = (TextView) view.findViewById(R.id.lblInvoiceNumber);
             btnViewFile = (Button) view.findViewById(R.id.btnViewFile);
         }
-
-
     }
 
     public InvoiceDetailsAdapter(Context context, List<InVoiceDetailsModel> dateList) {
@@ -165,7 +153,6 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-// showToast("Server Connection Failed");
                 Toast.makeText(context, "Server Connection Failed",
 
                         Toast.LENGTH_SHORT).show();
@@ -174,7 +161,6 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
     }
     private void showAlertfinish(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-//Setting Dialog Title
         alertDialog.setTitle("Alert");
         alertDialog.setMessage(msg);
         alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {

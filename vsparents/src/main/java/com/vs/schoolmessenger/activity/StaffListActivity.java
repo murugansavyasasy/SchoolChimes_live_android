@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -27,6 +29,9 @@ import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +40,9 @@ import retrofit2.Response;
 public class StaffListActivity extends AppCompatActivity {
     ActivityStaffListBinding binding;
     StaffListChat staffList;
+
+
+    StaffChatListAdapter adapter;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -50,6 +58,57 @@ public class StaffListActivity extends AppCompatActivity {
             }
         });
         staffListApi();
+
+        binding.Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (adapter == null)
+                    return;
+
+                if (adapter.getItemCount() < 1) {
+                    binding.staffList.setVisibility(View.GONE);
+                    if (binding.Searchable.getText().toString().isEmpty()) {
+                        binding.staffList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    binding.staffList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    binding.imgSearch.setVisibility(View.GONE);
+                } else {
+                    binding.imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
+
+    }
+
+    private void filterlist(String s) {
+
+        ArrayList<SubjectDetail> temp = new ArrayList();
+        for (SubjectDetail d : staffList.subjectdetails) {
+
+            if (d.staffname.toLowerCase().contains(s.toLowerCase()) || d.subjectname.toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        adapter.updateList(temp);
     }
 
     public void staffListApi() {
@@ -88,6 +147,7 @@ public class StaffListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
 
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
@@ -105,7 +165,7 @@ public class StaffListActivity extends AppCompatActivity {
                         subjectDetail.SubjectID = "";
                         staffList.subjectdetails.add(0, subjectDetail);
 
-                        StaffChatListAdapter adapter = new StaffChatListAdapter(staffList.subjectdetails, new SubjectSelectedListener() {
+                         adapter = new StaffChatListAdapter(staffList.subjectdetails, new SubjectSelectedListener() {
                             @Override
                             public void click(SubjectDetail staffDetail) {
                                 Intent intent = new Intent(StaffListActivity.this, StudentChatActivity.class);

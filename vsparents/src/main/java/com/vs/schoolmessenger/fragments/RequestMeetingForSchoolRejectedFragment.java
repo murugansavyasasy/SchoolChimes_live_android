@@ -38,13 +38,8 @@ import retrofit2.Callback;
 public class RequestMeetingForSchoolRejectedFragment extends Fragment {
     RecyclerView recycle_paidlist;
     String school_id,Staff_ID;
-    Context context;
     private ArrayList<RequestMeetingRejectedModel> Meeting_list = new ArrayList<>();
-
     public RequestMeetingRejectAdapter mAdapter;
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,11 +50,6 @@ public class RequestMeetingForSchoolRejectedFragment extends Fragment {
 
         Staff_ID= TeacherUtil_Common.Principal_staffId;
         school_id= TeacherUtil_Common.Principal_SchoolId;
-
-        Log.e("sizee123", String.valueOf(Meeting_list.size()));
-
-
-
 
         mAdapter = new RequestMeetingRejectAdapter(Meeting_list, getActivity());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -161,31 +151,6 @@ public class RequestMeetingForSchoolRejectedFragment extends Fragment {
 
             }
         });
-    }
-
-    private void showAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-        alertDialog.setTitle("Alert");
-
-        alertDialog.setMessage("No Paid Records Found..");
-
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.cancel();
-            }
-        });
-
-
-        AlertDialog dialog = alertDialog.create();
-
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
 }

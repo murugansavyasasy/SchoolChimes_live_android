@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
@@ -66,6 +70,9 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
     String isNewVersion;
     TextView LoadMore;
     TextView lblNoMessages;
+
+    ImageView imgSearch;
+    TextView Searchable;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -106,6 +113,45 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         LoadMore = (TextView) findViewById(R.id.btnSeeMore);
         lblNoMessages = (TextView) findViewById(R.id.lblNoMessages);
 
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (dateListAdapter == null)
+                    return;
+
+                if (dateListAdapter.getItemCount() < 1) {
+                    rvDatesList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvDatesList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvDatesList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
 
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +171,18 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         rvDatesList.setItemAnimator(new DefaultItemAnimator());
         rvDatesList.setAdapter(dateListAdapter);
         rvDatesList.getRecycledViewPool().setMaxRecycledViews(0, 80);
+
+    }
+
+    private void filterlist(String s) {
+        List<TeacherCircularDates> temp = new ArrayList();
+        for (TeacherCircularDates d : datesList) {
+
+            if (d.getCircularDate().toLowerCase().contains(s.toLowerCase()) || d.getCircularDay().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+        }
+        dateListAdapter.updateList(temp);
 
     }
 
@@ -219,16 +277,10 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
     }
 
     private void seeMoreButtonVisiblity() {
-        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
+           isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
+           LoadMore.setVisibility(View.VISIBLE);
 
-        if (isNewVersion.equals("1")) {
-            Log.d("new", "new");
-            LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
-        } else {
-            LoadMore.setVisibility(View.GONE);
-            lblNoMessages.setVisibility(View.VISIBLE);
-        }
+
     }
 
     @Override
@@ -290,6 +342,7 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
 
                             String date = jsonObject.getString("Date");
                             if (!date.equals("0")) {
+
                                 cirDates = new TeacherCircularDates(jsonObject.getString("Date"), jsonObject.getString("Day"),
                                         jsonObject.getString("TotalVOICE"), jsonObject.getString("UnreadVOICE"),
                                         jsonObject.getString("TotalSMS"), jsonObject.getString("UnreadSMS"),
@@ -298,13 +351,11 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                                 datesList.add(cirDates);
 
                             } else {
-//                                showRecords(jsonObject.getString("Day"));
 
                                 if (isNewVersion.equals("1")) {
                                     lblNoMessages.setVisibility(View.VISIBLE);
                                     lblNoMessages.setText(jsonObject.getString("Day"));
                                     String loadMoreCall = TeacherUtil_SharedPreference.getOnBackMethod(TeacherMessageDatesScreen.this);
-                                    Log.d("loadMoreCall", loadMoreCall);
                                     if (loadMoreCall.equals("1")) {
                                         TeacherUtil_SharedPreference.putOnBackPressed(TeacherMessageDatesScreen.this, "");
                                         LoadMoreGetDetails();
@@ -321,10 +372,6 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
 
                         if (isNewVersion.equals("1")) {
                             LoadMore.setVisibility(View.VISIBLE);
-                            lblNoMessages.setVisibility(View.VISIBLE);
-                        } else {
-                            LoadMore.setVisibility(View.GONE);
-                            lblNoMessages.setVisibility(View.VISIBLE);
                         }
 
                         dateListAdapter.notifyDataSetChanged();

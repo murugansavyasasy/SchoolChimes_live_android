@@ -31,6 +31,8 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.ExamListAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.ExamList;
@@ -55,6 +57,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class ExamListScreen extends AppCompatActivity implements View.OnClickListener{
 
@@ -71,10 +74,19 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     private ArrayList<Profiles> childList = new ArrayList<>();
 
+
+    ImageView imgSearch;
+    TextView Searchable;
+
+    Slider slider;
+    ImageView adImage;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +111,49 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
         rytLanguage.setOnClickListener(this);
         rytPassword.setOnClickListener(this);
         rytHome.setOnClickListener(this);
+
+        Slider.init(new PicassoImageLoadingService(ExamListScreen.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
+
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (mAdapter == null)
+                    return;
+
+                if (mAdapter.getItemCount() < 1) {
+                    Exam_list_recycle.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        Exam_list_recycle.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    Exam_list_recycle.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
@@ -126,6 +181,24 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
         Exam_list_recycle.setAdapter(mAdapter);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
+    }
+
+    private void filterlist(String s) {
+        List<ExamList> temp = new ArrayList();
+        for (ExamList d : Exam_list) {
+
+            if (d.getName().toLowerCase().contains(s.toLowerCase())  ) {
+                temp.add(d);
+            }
+
+        }
+        mAdapter.updateList(temp);
     }
 
     private boolean isNetworkConnected() {

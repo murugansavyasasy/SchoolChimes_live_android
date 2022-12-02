@@ -14,18 +14,11 @@ public class EventsAdapter extends FragmentStatePagerAdapter {
 
     int mNumOfTabs;
     String userId;
-    Context mcontext;
-    LayoutInflater mLayoutInflater;
-
-    SharedPreferences shpRemember;
-
     public EventsAdapter(FragmentManager fm, int NumOfTabs, String userId) {//, String invno, String dmdid) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.userId = userId;
-
     }
-
 
     @Override
     public Fragment getItem(int position) {
@@ -38,9 +31,6 @@ public class EventsAdapter extends FragmentStatePagerAdapter {
             case 1:
                 HolidaysFragment tab1 = new HolidaysFragment();
                 return tab1;
-
-
-
 
             default:
                 return null;

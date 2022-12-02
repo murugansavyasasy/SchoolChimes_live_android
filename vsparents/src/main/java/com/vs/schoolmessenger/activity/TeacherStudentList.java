@@ -53,28 +53,7 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
 
     private int i_students_count;
     boolean bLoadStudentsFromAPI = false;
-
     CheckBox cbSelectAll;
-
-
-    String fileNameDateTime;
-
-    AmazonS3 s3Client;
-    TransferUtility transferUtility;
-    S3Uploader s3uploaderObj;
-
-    String urlFromS3 = null;
-    ProgressDialog progressDialog;
-    String contentType="";
-
-    String flag="";
-    String uploadFilePath="";
-    String SuccessFilePath="";
-    int pathIndex=0;
-
-    String[] UploadedURLStringArray;
-    private  ArrayList<String> UploadedS3URlList = new ArrayList<>();
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -84,15 +63,10 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_student_list);
-
-
-
         schoolID = TeacherUtil_SharedPreference.getSchoolIdFromSP(TeacherStudentList.this);
         selSection = (TeacherSectionModel) getIntent().getSerializableExtra("STD_SEC");
         targetCode = selSection.getStdSecCode();
         i_students_count = Integer.parseInt(selSection.getSelectedStudentsCount());
-
-        Log.d("Tot - Sele", selSection.getTotStudents() + " - " + selSection.getSelectedStudentsCount());
 
         rvStudentList = (RecyclerView) findViewById(R.id.student_rvStudentList);
         adapter = new TeacherStudendListAdapter(TeacherStudentList.this, this, studentList);
@@ -131,8 +105,6 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
             }
         });
 
-
-
         if (selSection.getStudentsList() != null) {
             studentList.addAll(selSection.getStudentsList());
             adapter.notifyDataSetChanged();
@@ -162,7 +134,6 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
             }
         });
 
-
         if (bLoadStudentsFromAPI)
             studentListAPI();
     }
@@ -182,8 +153,6 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonArray jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_GetStudDetail(schoolID, targetCode);
         Call<JsonArray> call = apiService.GetStudDetail(jsonReqArray);
@@ -240,7 +209,6 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("SubjectHandling:Failure", t.toString());
             }
         });
     }
@@ -249,10 +217,7 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
     public void student_addClass(TeacherStudentsModel student) {
         if (student != null) {
             i_students_count++;
-
             enableDisableNext();
-
-
         }
     }
 
@@ -261,14 +226,11 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
         if (student != null) {
             i_students_count--;
             enableDisableNext();
-
         }
     }
 
     private void enableDisableNext() {
-
         tvSelectedCount.setText(i_students_count + "");
-
         if (i_students_count > 0)
             tvOK.setEnabled(true);
         else tvOK.setEnabled(false);

@@ -41,8 +41,6 @@ public class PaymentWebViewActivity extends AppCompatActivity {
     String SchoolID = "";
     ProgressDialog pDialog;
     String PaymentLink ="";
-
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -73,8 +71,6 @@ public class PaymentWebViewActivity extends AppCompatActivity {
         });
 
         getPaymentLink();
-
-
     }
 
     private void getPaymentLink() {
@@ -183,7 +179,5 @@ public class PaymentWebViewActivity extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(paymentLink);
-
-
     }
 }

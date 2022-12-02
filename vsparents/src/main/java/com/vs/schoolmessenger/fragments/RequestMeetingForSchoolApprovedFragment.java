@@ -38,14 +38,8 @@ import retrofit2.Callback;
 public class RequestMeetingForSchoolApprovedFragment extends Fragment {
     RecyclerView recycle_paidlist;
     String school_id,Staff_ID;
-    Context context;
     private ArrayList<RequestMeetingApprovedModel> Meeting_list = new ArrayList<>();
-
     public RequestMeetingForApprovedAdapter mAdapter;
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,11 +49,6 @@ public class RequestMeetingForSchoolApprovedFragment extends Fragment {
 
         Staff_ID= TeacherUtil_Common.Principal_staffId;
         school_id= TeacherUtil_Common.Principal_SchoolId;
-
-        Log.e("sizee123", String.valueOf(Meeting_list.size()));
-
-
-
 
         mAdapter = new RequestMeetingForApprovedAdapter(Meeting_list, getActivity());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -72,9 +61,6 @@ public class RequestMeetingForSchoolApprovedFragment extends Fragment {
 
         return rootView;
     }
-
-
-
     private void getDetails() {
 
         String baseURL= TeacherUtil_SharedPreference.getBaseUrl(getActivity());
@@ -166,36 +152,4 @@ public class RequestMeetingForSchoolApprovedFragment extends Fragment {
             }
         });
     }
-
-    private void showAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage("No Paid Records Found..");
-
-
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.cancel();
-
-
-            }
-        });
-
-
-        AlertDialog dialog = alertDialog.create();
-
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-    }
-
-
-
-
-
 }

@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="25dp"
+    android:padding="10dp"
+    android:background="@drawable/bg_shadow_white_card"
     android:orientation="vertical">
 
     <RelativeLayout

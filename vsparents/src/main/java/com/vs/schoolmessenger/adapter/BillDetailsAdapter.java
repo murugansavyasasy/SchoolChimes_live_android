@@ -33,17 +33,12 @@ public class BillDetailsAdapter extends RecyclerView.Adapter<BillDetailsAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblFeeName,lblPaidAmount,lblSno;
         public RelativeLayout rytDetailsDisplay;
-
-
         public MyViewHolder(View view) {
             super(view);
 
             lblFeeName = (TextView) view.findViewById(R.id.lblFeeName);
             lblSno = (TextView) view.findViewById(R.id.lblSno);
             lblPaidAmount = (TextView) view.findViewById(R.id.lblPaidAmount);
-
-
-
         }
     }
     public BillDetailsAdapter(List<BillDetails> lib_list, Context context) {
@@ -61,16 +56,12 @@ public class BillDetailsAdapter extends RecyclerView.Adapter<BillDetailsAdapter.
     @Override
     public void onBindViewHolder(final BillDetailsAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final BillDetails paid = lib_list.get(position);
-
         holder.lblFeeName.setText(paid.getFeeName()+"("+paid.getFeeTerm()+")");
         holder.lblSno.setText(String.valueOf(paid.getSerialNo()));
         holder.lblPaidAmount.setText("Rs:"+paid.getPaidAmount()+"0");
 
-
-
-        }
+    }
 
     @Override
     public int getItemCount() {

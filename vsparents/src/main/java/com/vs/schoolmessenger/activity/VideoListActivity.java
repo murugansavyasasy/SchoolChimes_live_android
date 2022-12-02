@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.activity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -9,16 +10,24 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.VideosAdapter;
 import com.vs.schoolmessenger.assignment.AssignmentViewClass;
 import com.vs.schoolmessenger.assignment.ParentAssignmentListActivity;
@@ -38,10 +47,12 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class VideoListActivity extends AppCompatActivity {
 
@@ -60,6 +71,11 @@ public class VideoListActivity extends AppCompatActivity {
     String previousDate;
     SqliteDB myDb;
 
+    ImageView imgSearch;
+    TextView Searchable;
+    Slider slider;
+    ImageView adImage;
+    RelativeLayout voice_rlToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +89,13 @@ public class VideoListActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        voice_rlToolbar = (RelativeLayout) findViewById(R.id.image_rlToolbar);
+        voice_rlToolbar.setVisibility(View.GONE);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar_children);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Videos");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         TextView tvTitle = (TextView) findViewById(R.id.image_ToolBarTvTitle);
          LoadMore=(TextView) findViewById(R.id.btnSeeMore);
@@ -81,53 +104,81 @@ public class VideoListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 LoadMoreVideoListApi();
-
-
-//                previousDate=TeacherUtil_SharedPreference.getVideoDate(VideoListActivity.this);
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                if (previousDate.equals("") || previousDate.compareTo(currentDate)<0)
-//                {
-//                    LoadMoreVideoListApi();
-//                }
-//                else {
-//                    myDb = new SqliteDB(VideoListActivity.this);
-//                    if (myDb.checkVideos()) {
-//                        videoList.clear();
-//                        totalvideoList.addAll(myDb.getVideos());
-//                        videoList.addAll(totalvideoList);
-//                        imgAdapter.notifyDataSetChanged();
-//                        LoadMore.setVisibility(View.GONE);
-//
-//                    }
-//                    else {
-//                        alert("No Records Found..");
-//                    }
-//                }
             }
         });
 
-         isNewVersion=TeacherUtil_SharedPreference.getNewVersion(VideoListActivity.this);
+
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
+        Slider.init(new PicassoImageLoadingService(VideoListActivity.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (imgAdapter == null)
+                    return;
+
+                if (imgAdapter.getItemCount() < 1) {
+                    videos_circularList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        videos_circularList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    videos_circularList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
+        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(VideoListActivity.this);
 
         seeMoreButtonVisiblity();
-
-
-
         videos_circularList = (RecyclerView) findViewById(R.id.videos_circularList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         videos_circularList.setLayoutManager(layoutManager);
         videos_circularList.setItemAnimator(new DefaultItemAnimator());
         imgAdapter = new VideosAdapter(videoList, VideoListActivity.this);
         videos_circularList.setAdapter(imgAdapter);
-//        VideoListApi();
-//        addDatas();
+    }
+
+    private void filterlist(String s) {
+        List<VideoModelClass> temp = new ArrayList();
+        for (VideoModelClass d : videoList) {
+
+            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getCreatedOn().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        imgAdapter.updateList(temp);
 
     }
 
     private void seeMoreButtonVisiblity() {
         if(isNewVersion.equals("1")){
             LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
         else {
             LoadMore.setVisibility(View.GONE);
@@ -174,13 +225,7 @@ public class VideoListActivity extends AppCompatActivity {
                     LoadMore.setVisibility(View.GONE);
                     lblNoMessages.setVisibility(View.GONE);
 
-//                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                    String currentDate = df.format(c.getTime());
-//                    Log.d("currentDate",currentDate);
-//                    TeacherUtil_SharedPreference.putVideoCurrentDate(VideoListActivity.this,currentDate);
-
                     try {
-                       // videoList.clear();
 
                         OfflinevideoList.clear();
                         JSONArray js = new JSONArray(response.body().toString());
@@ -211,12 +256,6 @@ public class VideoListActivity extends AppCompatActivity {
                                     alert(Message);
                                 }
                             }
-//                            myDb = new SqliteDB(VideoListActivity.this);
-//                            if(myDb.checkVideos()){
-//                                myDb.deleteVideos();
-//                            }
-//                            myDb.addVideos( (ArrayList<VideoModelClass>) OfflinevideoList, VideoListActivity.this);
-
 
                             imgAdapter.notifyDataSetChanged();
                         }
@@ -241,45 +280,20 @@ public class VideoListActivity extends AppCompatActivity {
 
         });
     }
-
-    private void addDatas() {
-
-//        VideoModelClass msgModel=new VideoModelClass("P3mAtvs5Elc","http://img.youtube.com/vi/P3mAtvs5Elc/0.jpg");
-//        videoList.add(msgModel);
-        imgAdapter.notifyDataSetChanged();
-    }
-
-    private void getImagesURL() {
-
-            videoId=extractYoutubeId("http://www.youtube.com/watch?v=P3mAtvs5Elc");
-            Log.e("VideoId is->","" + videoId);
-            String img_url="http://img.youtube.com/vi/"+videoId+"/0.jpg";
-
-//            VideoModelClass msgModel=new VideoModelClass("P3mAtvs5Elc",img_url);
-//            videoList.add(msgModel);
-    }
-
-    private String extractYoutubeId(String url) {
-        String query = null;
-        try {
-            query = new URL(url).getQuery();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return (true);
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        String[] param = query.split("&");
-        String id = null;
-        for (String row : param) {
-            String[] param1 = row.split("=");
-            if (param1[0].equals("v")) {
-                id = param1[1];
-            }
-        }
-        return id;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
         VideoListApi();
     }
 
@@ -324,7 +338,6 @@ public class VideoListActivity extends AppCompatActivity {
 
                         if(isNewVersion.equals("1")){
                             LoadMore.setVisibility(View.VISIBLE);
-                            lblNoMessages.setVisibility(View.VISIBLE);
                         }
                         else {
                             LoadMore.setVisibility(View.GONE);

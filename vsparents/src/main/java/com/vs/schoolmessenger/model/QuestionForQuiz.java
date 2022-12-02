@@ -3,17 +3,6 @@ package com.vs.schoolmessenger.model;
 import org.json.JSONArray;
 
 public class QuestionForQuiz {
-//      "QestionId": 11,
-//              "Question": "test",
-//              "Answer": [
-//              "1~testaaa",
-//              "2~testbbb",
-//              "3~testccc",
-//              "4~testddd"
-//              ],
-//              "VideoUrl": "test/video/1",
-//              "Date": "18/05/2021",
-//              "Time": "19:48:46"
 
     public int QestionId;
     public String Questionnum;
@@ -59,10 +48,6 @@ public class QuestionForQuiz {
     public void setVideoUrl(String videoUrl) {
         VideoUrl = videoUrl;
     }
-
-
-
-
 
     public String getFileType() {
         return FileType;

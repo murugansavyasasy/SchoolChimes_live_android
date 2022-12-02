@@ -1,8 +1,6 @@
 package com.vs.schoolmessenger.model;
 
 public class InVoiceDetailsModel {
-
-
     String invoiceNo;
     String invoiceAmount;
     String invoiceDate;
@@ -12,11 +10,7 @@ public class InVoiceDetailsModel {
         this.invoiceNo = invoice_number;
         this.invoiceDate = invoice_date;
         this.invoiceAmount = invoice_amount;
-
-
     }
-
-
     public String getInvoice_ID() {
         return id;
     }

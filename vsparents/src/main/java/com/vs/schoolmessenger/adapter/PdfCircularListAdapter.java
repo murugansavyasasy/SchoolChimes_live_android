@@ -21,6 +21,7 @@ import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.util.DownloadFileFromURL;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
 
@@ -44,9 +45,7 @@ public class PdfCircularListAdapter extends RecyclerView.Adapter<PdfCircularList
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.bind(circularList.get(position));
-
         final MessageModel circular = circularList.get(position);
-
         holder.tvDate.setText(circular.getMsgDate());
         holder.tvTime.setText(circular.getMsgTime());
         holder.tvTitle.setText(circular.getMsgTitle());
@@ -70,8 +69,6 @@ public class PdfCircularListAdapter extends RecyclerView.Adapter<PdfCircularList
                 inPdfPopup.putExtra("PDF_ITEM", circular);
                 context.startActivity(inPdfPopup);
 
-//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(circular.getMsgContent()));
-//                context.startActivity(browserIntent);
             }
         });
 
@@ -120,6 +117,11 @@ public class PdfCircularListAdapter extends RecyclerView.Adapter<PdfCircularList
     public PdfCircularListAdapter(Context context, ArrayList<MessageModel> circularList) {
         this.context = context;
         this.circularList = circularList;
+    }
+
+    public void updateList(ArrayList<MessageModel> temp) {
+        circularList = temp;
+        notifyDataSetChanged();
     }
 
     private void showToast(String msg) {

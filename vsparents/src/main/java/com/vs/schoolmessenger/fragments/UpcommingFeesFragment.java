@@ -48,9 +48,7 @@ public class UpcommingFeesFragment extends Fragment {
     PendingDetailsAdapter mAdapter;
     private ArrayList<PendingFeeDetails> pending_list = new ArrayList<>();
     private ArrayList<MonthlyPending> monthly_list = new ArrayList<>();
-
     public static String pending_size = "";
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,18 +62,13 @@ public class UpcommingFeesFragment extends Fragment {
         child_id = Util_SharedPreference.getChildIdFromSP(getActivity());
         school_id = Util_SharedPreference.getSchoolIdFromSP(getActivity());
 
-
         getPendingDetails();
-
-
         mAdapter = new PendingDetailsAdapter(pending_list, getActivity());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recycle_upcomming_list.setLayoutManager(mLayoutManager);
         recycle_upcomming_list.setItemAnimator(new DefaultItemAnimator());
         recycle_upcomming_list.setAdapter(mAdapter);
         recycle_upcomming_list.getRecycledViewPool().setMaxRecycledViews(0, 80);
-
-
         btnMonthlyFees.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,13 +85,9 @@ public class UpcommingFeesFragment extends Fragment {
                 startActivity(payment);
             }
         });
-
-
         return rootView;
 
     }
-
-
     private void getPendingDetails() {
         String baseURL= TeacherUtil_SharedPreference.getBaseUrl(getActivity());
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
@@ -207,11 +196,8 @@ public class UpcommingFeesFragment extends Fragment {
 
     private void showAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(R.string.no_pending_records);
-
-
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -223,7 +209,6 @@ public class UpcommingFeesFragment extends Fragment {
         AlertDialog dialog = alertDialog.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
 

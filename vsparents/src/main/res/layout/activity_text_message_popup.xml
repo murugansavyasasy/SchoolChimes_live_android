@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/img_app_bg"
     tools:context=".activity.TextMessagePopup">
 
     <RelativeLayout
@@ -22,7 +23,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:clickable="true"
-            app:srcCompat="@drawable/ic_close" />
+            app:srcCompat="@drawable/ic_close_black" />
 
         <TextView
             android:id="@+id/textPopup_ToolBarTvTitle"
@@ -33,7 +34,7 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/textPopup_ToolBarIvBack"
             android:layout_toRightOf="@+id/textPopup_ToolBarIvBack"
-            android:textColor="@color/clr_white"
+            android:textColor="@color/clr_black"
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="gone"
@@ -41,6 +42,8 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:background="@drawable/bg_shadow_white_card"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

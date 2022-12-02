@@ -41,12 +41,9 @@ import retrofit2.Callback;
 
 public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapter.MyViewHolder> {
 
-
     private List<LeaveRequestDetails> lib_list;
     Context context;
     private PopupWindow pwindow;
-
-
     public void clearAllData() {
         int size = this.lib_list.size();
         if (size > 0) {
@@ -68,10 +65,6 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
         public RelativeLayout rytLayout;
         public LinearLayout lnrParent,lnrImages;
         public ImageView imgAprovalStatus;
-
-
-
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -87,7 +80,6 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
             lnrParent = (LinearLayout) view.findViewById(R.id.lnrParent);
             lnrImages = (LinearLayout) view.findViewById(R.id.lnrImages);
             imgAprovalStatus = (ImageView) view.findViewById(R.id.imgAprovalStatus);
-
 
             cardProfile_tv2 = (TextView) view.findViewById(R.id.cardProfile_tv2);
             cardProfile_tv1 = (TextView) view.findViewById(R.id.cardProfile_tv1);
@@ -111,11 +103,7 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
 
     @Override
     public void onBindViewHolder(final LeaveRequestAdapter.MyViewHolder holder, final int position) {
-
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
-
         final LeaveRequestDetails history = lib_list.get(position);
-
         holder.lblName.setText(" " + history.getName());
         holder.lblStandard.setText(" " + history.getCLS());
         holder.lblSection.setText(history.getSection());
@@ -133,7 +121,6 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
             holder.imgAprovalStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.wrong_tick));
         }
 
-
         holder.rytLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,21 +128,10 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
                 Intent requests=new Intent(context,LeaveRequestStaffApproveActivity.class);
                 requests.putExtra("history", (Serializable) history);
                 context.startActivity(requests);
-
-
             }
         });
-
-
     }
 
-    private void textColorChange(MyViewHolder holder) {
-        holder.cardProfile_tv1.setTextColor(Color.parseColor("#000000"));
-        holder.cardProfile_tv2.setTextColor(Color.parseColor("#000000"));
-        holder.cardProfile_tv3.setTextColor(Color.parseColor("#000000"));
-        holder.cardProfile_tv4.setTextColor(Color.parseColor("#000000"));
-        holder.cardProfile_tv5.setTextColor(Color.parseColor("#000000"));
-    }
 
     private void historyPopup(final LeaveRequestDetails history) {
 
@@ -225,8 +201,6 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
 
             }
         });
-
-
     }
 
     private void leaveApproveDeclineApi(String approve, String id, String UpdatedOn,String reason) {
@@ -300,5 +274,11 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
         return lib_list.size();
 
     }
+
+    public void updateList(List<LeaveRequestDetails> temp) {
+        lib_list = temp;
+        notifyDataSetChanged();
+    }
+
 }
 

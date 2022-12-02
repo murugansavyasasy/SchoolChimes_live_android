@@ -29,7 +29,6 @@ public interface TeacherMessengerApiInterface {
     Call<JsonArray> VersionCheck(@Body JsonObject jsonObject);
 
     @POST("GetCountryList")
-//countryList
     Call<JsonArray> GetCountryList(@Body JsonObject jsonObject);
 
     @POST("GetUserDetails")
@@ -65,17 +64,14 @@ public interface TeacherMessengerApiInterface {
     @POST("GetClassSubjects")
     Call<JsonArray> GetClassSubjects(@Body JsonArray jsonObject);
 
-    // Uploading Staff Voice
     @Multipart
     @POST("StaffwiseVoice")
     Call<JsonArray> StaffwiseVoice(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
-    // Uploading Staff Imagess
     @Multipart
     @POST("GetImageStaff")
     Call<JsonArray> StaffwiseImage(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
-    //MgtText
     @POST("SendSmsMgtAdmin")
     Call<JsonArray> SendSmsMgtAdminToAllSchools(@Body JsonArray jsonObject);
 
@@ -85,7 +81,6 @@ public interface TeacherMessengerApiInterface {
     @POST("SendGroupMessageSnrMgt")
     Call<JsonArray> textMgtStdGrp(@Body JsonArray jsonObject);
 
-    // Uploading Mgt/Admin Voice
     @Multipart
     @POST("SendVoiceMgtAdmin")
     Call<JsonArray> SendVoiceMgtAdminToAllSchools(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
@@ -98,7 +93,6 @@ public interface TeacherMessengerApiInterface {
     @POST("SnrMgtStdGrp")
     Call<JsonArray> SendVoiceMgtStdGrp(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
-    // Uploading Mgt/Admin Imagess
     @Multipart
     @POST("GetImageMgtAdmin")
     Call<JsonArray> SendImageMgtAdminToAllSchools(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
@@ -111,7 +105,6 @@ public interface TeacherMessengerApiInterface {
     @POST("GetImageSnrMgt")
     Call<JsonArray> SendImageMgtStdGrp(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
-    //    School App version 4
     @Multipart
     @POST("SendVoiceToEntireSchools")
     Call<JsonArray> SendVoiceToEntireSchools(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
@@ -135,10 +128,10 @@ public interface TeacherMessengerApiInterface {
 
 
     @POST("GetAllStandardsAndGroups")
-    Call<JsonArray> GetAllStandardsAndGroups (@Body JsonObject jsonObject);
+    Call<JsonArray> GetAllStandardsAndGroups(@Body JsonObject jsonObject);
 
     @POST("GetAllStandardsAndGroupsForVideo")
-    Call<JsonArray> GetAllStandardsAndGroupsForVideo (@Body JsonObject jsonObject);
+    Call<JsonArray> GetAllStandardsAndGroupsForVideo(@Body JsonObject jsonObject);
 
     @Multipart
     @POST("SendVoiceToGroupsAndStandards")
@@ -177,12 +170,10 @@ public interface TeacherMessengerApiInterface {
     @POST("GetStudDetailForSection")
     Call<JsonArray> GetStudDetailForSection(@Body JsonObject jsonObject);
 
-//Send message to specific section and specific students
 
     @Multipart
     @POST("SendVoiceAsStaffToSpecificStudents")
     Call<JsonArray> SendVoiceAsStaffToSpecificStudents(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
-
 
 
     @POST("SendSMSAsStaffToSpecificStudents")
@@ -214,7 +205,6 @@ public interface TeacherMessengerApiInterface {
     @POST("SendMultipleImageAsStaffToEntireSection")
     Call<JsonArray> sendMultipleImagesToEntireSection(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part[] files);
 
-//    Home work
 
     @Multipart
     @POST("InsertHomeWorkVoice")
@@ -245,7 +235,6 @@ public interface TeacherMessengerApiInterface {
     @POST("ResetPasswordAfterForget")
     Call<JsonArray> ResetPasswordAfterForget(@Body JsonObject jsonObject);
 
-    // Downloading
     @Streaming
     @GET
     Call<ResponseBody> downloadFileWithDynamicUrlAsync(@Url String fileUrl);
@@ -292,23 +281,18 @@ public interface TeacherMessengerApiInterface {
 
 
     @POST("GetAllStaffs")
-    Call<JsonArray> GetAllStaffs (@Body JsonObject jsonObject);
+    Call<JsonArray> GetAllStaffs(@Body JsonObject jsonObject);
 
     @POST("GetCommonSubjectsForSections")
     Call<JsonArray> GetSubjects(@Body JsonObject jsonObject);
 
     @POST("InitiatePrincipalCall")
-    Call<JsonArray> InitiatePrincipalCall (@Body JsonObject jsonObject);
+    Call<JsonArray> InitiatePrincipalCall(@Body JsonObject jsonObject);
 
-
-
-    //parent
 
     @POST(Util_UrlMethods.VERSION_CHECK)
     Call<JsonArray> VersionCheck(@Body JsonArray jsonObject);
 
-//    @POST(Util_UrlMethods.GET_COUNTRY_LIST)
-//    Call<JsonArray> GetCountryList(@Body JsonObject jsonObject);
 
     @POST(Util_UrlMethods.GET_CHILD_LIST)
     Call<JsonArray> GetChildList(@Body JsonArray jsonObject);
@@ -325,8 +309,6 @@ public interface TeacherMessengerApiInterface {
     @POST(Util_UrlMethods.READ_STATUS_UPDATE)
     Call<JsonArray> ReadStatusUpdate(@Body JsonArray jsonObject);
 
-//    @POST(Util_UrlMethods.CHANGE_PASSWORD)
-//    Call<JsonArray> ChangePassword(@Body JsonArray jsonObject);
 
     @POST(Util_UrlMethods.GET_HELP)
     Call<JsonArray> GetHelp(@Body JsonArray jsonObject);
@@ -341,34 +323,21 @@ public interface TeacherMessengerApiInterface {
     @POST(Util_UrlMethods.INSERT_QUE_REPLY)
     Call<JsonArray> SignUpload(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
-    // Downloading
-//    @Streaming
-//    @GET
-//    Call<ResponseBody> downloadFileWithDynamicUrlAsync(@Url String fileUrl);
-
-
-    //    Parent App version 4
     @POST("GetCountryListV4")
     Call<JsonArray> GetCountryListnew(@Body JsonObject jsonObject);
 
     @POST("ForgetPassword")
     Call<JsonArray> ForgetPasswordnew(@Body JsonObject jsonObject);
 
-//    @POST("VersionCheck")
-//    Call<JsonArray>VersionCheck(@Body JsonObject jsonObject);
 
     @POST("DeviceToken")
     Call<JsonArray> DeviceTokennew(@Body JsonObject jsonObject);
 
-//    @POST("ChangePassword")
-//    Call<JsonArray>ChangePasswordnew(@Body JsonObject jsonObject);
-
-
     @POST("ReadStatusUpdate")
-    Call<JsonArray>ReadStatusUpdatenew(@Body JsonObject jsonObject);
+    Call<JsonArray> ReadStatusUpdatenew(@Body JsonObject jsonObject);
 
     @POST("ReadStatusUpdate_Archive")
-    Call<JsonArray>ReadStatusUpdatenew_Archive(@Body JsonObject jsonObject);
+    Call<JsonArray> ReadStatusUpdatenew_Archive(@Body JsonObject jsonObject);
 
     @POST("ManageParentLogin")
     Call<JsonArray> ManageParentLogin(@Body JsonObject jsonObject);
@@ -450,10 +419,6 @@ public interface TeacherMessengerApiInterface {
     Call<JsonArray> GetOverallUnreadCount(@Body JsonObject jsonObject);
 
 
-
-//    @POST("GetMemberBookList")
-//    Call<JsonArray> GetMemberBookList(@Body JsonObject jsonObject);
-
     @POST("GetStudentExamList")
     Call<JsonArray> GetStudentExamList(@Body JsonObject jsonObject);
 
@@ -493,39 +458,41 @@ public interface TeacherMessengerApiInterface {
     Call<JsonArray> SendVoicetoGroupsStandardsfromVoiceHistory(@Body JsonObject jsonObject);
 
     @POST("GetMenuDetails")
-    Call<JsonArray> ChangeLanguage (@Body JsonObject jsonObject);
+    Call<JsonArray> ChangeLanguage(@Body JsonObject jsonObject);
+
+    @POST("get-ads")
+    Call<JsonArray> getAds(@Body JsonObject jsonObject);
 
     @POST("GetLeaveRequests")
     Call<JsonArray> GetLeaveRequests(@Body JsonObject jsonObject);
 
     @POST("Updateleavestatus")
-    Call<JsonObject> Updateleavestatus (@Body JsonObject jsonObject);
+    Call<JsonObject> Updateleavestatus(@Body JsonObject jsonObject);
 
     @POST("ViewHolidays")
-    Call<JsonArray> ViewHolidays (@Body JsonObject jsonObject);
+    Call<JsonArray> ViewHolidays(@Body JsonObject jsonObject);
 
     @POST("ViewHolidays_Archive")
-    Call<JsonArray> LoadMoreViewHolidays (@Body JsonObject jsonObject);
+    Call<JsonArray> LoadMoreViewHolidays(@Body JsonObject jsonObject);
 
     @POST("getStaffDetails")
-    Call<JsonObject> getStaffDetails (@Body JsonObject jsonObject);
+    Call<JsonObject> getStaffDetails(@Body JsonObject jsonObject);
 
 
     @GET("getFAQLink")
-    Call<JsonObject> getFAQLink(@Query("MemberID") String Mobilenumber,@Query("Usertype") String uertype);
+    Call<JsonObject> getFAQLink(@Query("MemberID") String Mobilenumber, @Query("Usertype") String uertype);
 
     @POST("GetPaymentGatewayLink")
     Call<JsonArray> getPayment(@Body JsonObject jsonObject);
 
-
     @POST("GetMeetingRequestsforStaff")
-    Call<JsonArray> GetMeetingRequestsforStaff (@Body JsonObject jsonObject);
+    Call<JsonArray> GetMeetingRequestsforStaff(@Body JsonObject jsonObject);
 
     @POST("GetMeetingRequestsforParents")
-    Call<JsonArray> GetMeetingRequestsforParents (@Body JsonObject jsonObject);
+    Call<JsonArray> GetMeetingRequestsforParents(@Body JsonObject jsonObject);
 
     @POST("ManageParentTeacherMeetingRequests")
-    Call<JsonArray> ManageParentTeacherMeetingRequests (@Body JsonObject jsonObject);
+    Call<JsonArray> ManageParentTeacherMeetingRequests(@Body JsonObject jsonObject);
 
 
     @Multipart
@@ -539,10 +506,9 @@ public interface TeacherMessengerApiInterface {
     @POST("GetPasswordResetStatus")
     Call<JsonArray> GetPasswordResetStatus(@Body JsonObject jsonObject);
 
-//    Assignment
-@Multipart
-@POST("ManageAssignmentFromApp")
-Call<JsonArray> ManageAssignmentFromAppmessage(@Part("Info") RequestBody requestBody);
+    @Multipart
+    @POST("ManageAssignmentFromApp")
+    Call<JsonArray> ManageAssignmentFromAppmessage(@Part("Info") RequestBody requestBody);
 
 
     @Multipart
@@ -591,19 +557,19 @@ Call<JsonArray> ManageAssignmentFromAppmessage(@Part("Info") RequestBody request
     Call<JsonArray> SubmitAssignmentFromAppWithCloudURL_Archive(@Body JsonObject jsonObject);
 
     @POST("ManageAssignmentFromAppWithCloudURL")
-    Call<JsonArray>  ManageAssignmentFromAppWithCloudURL(@Body JsonObject jsonObject);
+    Call<JsonArray> ManageAssignmentFromAppWithCloudURL(@Body JsonObject jsonObject);
 
     @POST("SendMultipleImagePDFAsStaffToSpecificStudentsWithCloudURL")
-    Call<JsonArray>  SendMultipleImagePDFAsStaffToSpecificStudentsWithCloudURL(@Body JsonObject jsonObject);
+    Call<JsonArray> SendMultipleImagePDFAsStaffToSpecificStudentsWithCloudURL(@Body JsonObject jsonObject);
 
     @POST("SendMultipleImagePDFToEntireSchoolsWithCloudURL")
-    Call<JsonArray>  SendMultipleImagePDFToEntireSchoolsWithCloudURL(@Body JsonObject jsonObject);
+    Call<JsonArray> SendMultipleImagePDFToEntireSchoolsWithCloudURL(@Body JsonObject jsonObject);
 
     @POST("SendMultipleImagePDFAsStaffToEntireSectionWithCloudURL")
-    Call<JsonArray>  SendMultipleImagePDFAsStaffToEntireSectionWithCloudURL(@Body JsonObject jsonObject);
+    Call<JsonArray> SendMultipleImagePDFAsStaffToEntireSectionWithCloudURL(@Body JsonObject jsonObject);
 
     @POST("SendMultipleImagePDFToGroupsAndStandardsWithCloudURL")
-    Call<JsonArray>  SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(@Body JsonObject jsonObject);
+    Call<JsonArray> SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(@Body JsonObject jsonObject);
 
     @POST("GetAssignmentForStudent")
     Call<JsonArray> GetAssignmentForStudent(@Body JsonObject jsonObject);
@@ -617,13 +583,11 @@ Call<JsonArray> ManageAssignmentFromAppmessage(@Part("Info") RequestBody request
     @POST("GetVideosForStudent_Archive")
     Call<JsonArray> LoadMoreGetVideosForStudent(@Body JsonObject jsonObject);
 
-//    Vimeo Api
-//    "Authorization: Bearer 031097f31f782ace6fc9669fd84ef393"
 
     @Headers({"Content-Type: application/json",
             "Accept: application/vnd.vimeo.*+json;version=3.4"})
     @POST("/me/videos")
-    Call<JsonObject> VideoUpload(@Body JsonObject jsonObject, @Header("Authorization")String head);
+    Call<JsonObject> VideoUpload(@Body JsonObject jsonObject, @Header("Authorization") String head);
 
 
     @Headers({"Tus-Resumable: 1.0.0",
@@ -632,23 +596,22 @@ Call<JsonArray> ManageAssignmentFromAppmessage(@Part("Info") RequestBody request
             "Accept: application/vnd.vimeo.*+json;version=3.4"})
     @PUT("upload")
     Call<ResponseBody> patchVimeoVideoMetaData(@Query("ticket_id") String ticketid,
-                                             @Query("video_file_id") String videoid,
-                                             @Query("signature") String signatureid,
-                                             @Query("v6") String v6id,
-                                             @Query("redirect_url") String redirecturl,
-                                             @Body RequestBody file);
+                                               @Query("video_file_id") String videoid,
+                                               @Query("signature") String signatureid,
+                                               @Query("v6") String v6id,
+                                               @Query("redirect_url") String redirecturl,
+                                               @Body RequestBody file);
 
     @Headers({"Tus-Resumable: 1.0.0",
             "Upload-Offset: 0",
             "Content-Type: application/offset+octet-stream",
             "Accept: application/vnd.vimeo.*+json;version=3.4"})
     @PATCH("https://asia-files.tus.vimeo.com/files/vimeo-prod-src-tus-asia/{id}")
-    Call<ResponseBody> patch(@Path("id")String id,@Body RequestBody file);
+    Call<ResponseBody> patch(@Path("id") String id, @Body RequestBody file);
 
     @GET("config")
     Call<JsonObject> Videoplay();
 
-//    Video
 
     @POST("SendVideoFromAppForEnitireSchool")
     Call<JsonArray> SendVideoFromAppForEnitireSchool(@Body JsonObject jsonObject);
@@ -664,11 +627,6 @@ Call<JsonArray> ManageAssignmentFromAppmessage(@Part("Info") RequestBody request
 
     @POST("GetVideoContentRestriction")
     Call<JsonArray> GetVideoContentRestriction();
-
-    /*****Chat*****/
-
-//    @POST("CheckMobileNumberforUpdatePasswordByCountryID")
-//    Call<JsonArray> CheckMobileNumberforUpdatePasswordByCountryID(@Body JsonObject jsonObject);
 
     @POST("GetStaffClassesforChat")
     Call<JsonArray> subjectList(@Body JsonObject jsonObject);
@@ -690,7 +648,6 @@ Call<JsonArray> ManageAssignmentFromAppmessage(@Part("Info") RequestBody request
 
     @POST("GetAllStaffs")
     Call<JsonArray> staffDetailsList(@Body JsonObject jsonObject);
-    /*****Chat*****/
 
     @GET("institute-fee-rate/student-fee-details-app")
     Call<FeeDetailsItems> getFeeDetails(@Query("ChildID") String childid, @Query("SchoolID") String schollid);
@@ -705,59 +662,47 @@ Call<JsonArray> ManageAssignmentFromAppmessage(@Part("Info") RequestBody request
     Call<JsonArray> feePaymentLogs(@Body JsonObject jsonObject);
 
     @POST("{id}/transfers")
-    Call<JsonObject> transferToMultipleAccout(@Path("id") String paymentID, @Header("Content-Type") String content_type,@Header("Authorization") String secretKey,@Body JsonObject jsonobject);
+    Call<JsonObject> transferToMultipleAccout(@Path("id") String paymentID, @Header("Content-Type") String content_type, @Header("Authorization") String secretKey, @Body JsonObject jsonobject);
 
 
     @POST("{id}/refund")
-    Call<JsonObject> refundAmountToCustomer(@Path("id") String paymentID, @Header("Content-Type") String content_type,@Header("Authorization") String secretKey,@Body JsonObject jsonobject);
+    Call<JsonObject> refundAmountToCustomer(@Path("id") String paymentID, @Header("Content-Type") String content_type, @Header("Authorization") String secretKey, @Body JsonObject jsonobject);
 
     @POST("{id}/capture")
-    Call<JsonObject> changeCapturePayment(@Path("id") String paymentID, @Header("Content-Type") String content_type,@Header("Authorization") String secretKey,@Body JsonObject jsonobject);
+    Call<JsonObject> changeCapturePayment(@Path("id") String paymentID, @Header("Content-Type") String content_type, @Header("Authorization") String secretKey, @Body JsonObject jsonobject);
 
     @POST("studentform/uploads-student-document")
     Call<JsonArray> submitStudentDocuments(@Body JsonObject jsonObject);
 
-    //Parent Exam Enhancement
 
     @POST("ViewAllExamByStudent")
     Call<JsonObject> examenhancement(@Body JsonObject jsonObject);
 
 
-    //Parent Knowledge Enhancement
-
     @POST("ViewAllKEByStudent")
     Call<JsonObject> knowledgeEnhanement(@Body JsonObject jsonObject);
 
-    // Parent Question for quiz
 
     @POST("GetQuestionForQuiz")
     Call<JsonObject> questionforquiz(@Body JsonObject jsonObject);
 
-    // Parent Submit quiz
-
     @POST("SubmitResponseForQuiz")
     Call<JsonObject> submitquiz(@Body JsonObject jsonObject);
 
-    // Parent LSRW
     @POST("ViewAllSkillByStudent")
     Call<JsonObject> GetLSRWlist(@Body JsonObject jsonObject);
 
-    // Parent LSRW Attachments
     @POST("GetAttachmentForSkill")
     Call<JsonObject> GetAttachmentForSkill(@Body JsonObject jsonObject);
 
-    // Parent LSRW Submit
     @POST("SubmitResponseForSkill")
     Call<JsonArray> SubmitResponseForSkill(@Body JsonObject jsonObject);
 
- // Parent View Quiz Submissions
     @POST("ViewSubmission")
     Call<JsonObject> ViewSubmission(@Body JsonObject jsonObject);
 
     @POST("GetProgressCardLink")
     Call<JsonObject> GetProgressCardLink(@Body JsonObject jsonObject);
-
-//Student Exam Marks - View Marks
 
     @POST("GetStudentExamMark")
     Call<JsonObject> GetStudentExamMark(@Body JsonObject jsonObject);
@@ -765,10 +710,8 @@ Call<JsonArray> ManageAssignmentFromAppmessage(@Part("Info") RequestBody request
     @POST("get-timetable")
     Call<JsonObject> GetTimetable(@Body JsonObject jsonObject);
 
-
     @POST("student-invoice-data")
     Call<JsonObject> GetInvoiceData(@Body JsonObject jsonObject);
-
 
     @POST("invoice-details")
     Call<JsonObject> GetInvoiceDetails(@Body JsonObject jsonObject);

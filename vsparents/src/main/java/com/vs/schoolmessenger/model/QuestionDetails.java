@@ -7,7 +7,6 @@ package com.vs.schoolmessenger.model;
 public class QuestionDetails {
 
     private String QustnID, Question;
-
     public QuestionDetails(String Id, String Qustn) {
         this.QustnID = Id;
         this.Question = Qustn;

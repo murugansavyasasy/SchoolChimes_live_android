@@ -15,7 +15,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.payment.PaymentWebView;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -71,9 +70,6 @@ public class FeeFragment extends Fragment {
         } else {
             web_view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
-//        PaymentInterface paymentInterface = new PaymentInterface();
-//        web_view.addJavascriptInterface(paymentInterface, "PaymentInterface");
-        // web_view.loadDataWithBaseURL(TeacherSchoolsApiClient.BASE_URL, data, mime, encoding, TeacherSchoolsApiClient.BASE_URL);
         web_view.loadUrl(PaymentUrl);
         web_view.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {

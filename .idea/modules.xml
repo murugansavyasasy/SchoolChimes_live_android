@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Merging_latest_SchoolMessengerParents.iml" filepath="$PROJECT_DIR$/.idea/Merging_latest_SchoolMessengerParents.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/Merging_latest_SchoolMessengerParents.vsparents.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/Merging_latest_SchoolMessengerParents.vsparents.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/Merging_latest_SchoolMessengerParents.vsparents.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/Merging_latest_SchoolMessengerParents.vsparents.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/Merging_latest_SchoolMessengerParents.vsparents.main.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/Merging_latest_SchoolMessengerParents.vsparents.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/Merging_latest_SchoolMessengerParents.vsparents.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/Merging_latest_SchoolMessengerParents.vsparents.unitTest.iml" />
     </modules>
   </component>
 </project>

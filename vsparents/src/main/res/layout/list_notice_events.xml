@@ -5,6 +5,8 @@
     xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_shadow_white_card"
+
     android:layout_marginBottom="10dp"
     android:orientation="vertical">
     <LinearLayout
@@ -33,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_black"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textStyle="bold"
@@ -54,7 +56,7 @@
             android:layout_weight="0.5"
             android:layout_gravity="center"
             android:textColor="@color/clr_black"
-            android:textSize="15sp"
+            android:textSize="13sp"
             tools:text="20 Jan 2018" />
 
         <TextView
@@ -66,7 +68,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="@color/clr_black"
-            android:textSize="15sp"
+            android:textSize="13sp"
             tools:text="11.30 AM" />
 
         <TextView
@@ -121,7 +123,7 @@
         android:id="@+id/expand_text_view"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/clr_card_grey"
+        android:background="@color/clr_light_yellow"
         expandableTextView:animAlphaStart="1"
         expandableTextView:maxCollapsedLines="3">
 
@@ -138,7 +140,7 @@
             android:text="@string/sample_txt_msg"
             android:textColor="@color/bpblack"
             android:ellipsize="end"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <ImageButton
             android:id="@id/expand_collapse"

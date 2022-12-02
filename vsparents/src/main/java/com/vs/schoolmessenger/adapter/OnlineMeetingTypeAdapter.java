@@ -35,8 +35,6 @@ public class OnlineMeetingTypeAdapter extends RecyclerView.Adapter<OnlineMeeting
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblStep,lblNo;
-
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -61,12 +59,8 @@ public class OnlineMeetingTypeAdapter extends RecyclerView.Adapter<OnlineMeeting
     @Override
     public void onBindViewHolder(final OnlineMeetingTypeAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final OnlineStepsModel holiday = lib_list.get(position);
-
-
             holder.lblStep.setText(Html.fromHtml(holiday.getStep()));
-            // holder.lblStep.setText(holiday.getStep());
 
         if(!holiday.getID().equals("")) {
             holder.lblNo.setText(holiday.getID() + " .");

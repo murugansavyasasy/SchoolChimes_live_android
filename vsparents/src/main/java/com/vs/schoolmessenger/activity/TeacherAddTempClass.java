@@ -63,9 +63,6 @@ public class TeacherAddTempClass extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_add_temp_class);
-
-
-
         ImageView ivBack = (ImageView) findViewById(R.id.addTempClass_IvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,24 +75,14 @@ public class TeacherAddTempClass extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Std", strStdName);
-                Log.d("Sec", strSecName);
-                Log.d("SecCode", strSecCode);
-                Log.d("Subject", strSubjectName);
-                Log.d("SubID", strSubjectCode);
-                Log.d("TotStud", strTotalStudents);
-
                 stdSec = new TeacherSectionModel(false, strStdName, strSecName, strSecCode, strSubjectName, strSubjectCode, strTotalStudents, strTotalStudents, true);
                 backToResultActvity("OK");
             }
         });
 
-
-
         spinStandard = (Spinner) findViewById(R.id.addTempClass_spinStandard);
         spinSection = (Spinner) findViewById(R.id.addTempClass_spinSection);
         spinSubject = (Spinner) findViewById(R.id.addTempClass_spinSubject);
-
         spinStandard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -176,7 +163,6 @@ public class TeacherAddTempClass extends AppCompatActivity {
         mProgressDialog.show();
 
         final String schoolID = TeacherUtil_SharedPreference.getSchoolIdFromSP(TeacherAddTempClass.this);
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonArray jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_GetSecAtt(schoolID);
         Call<JsonArray> call = apiService.GetStandardsAndSectionsList(jsonReqArray);
@@ -232,7 +218,6 @@ public class TeacherAddTempClass extends AppCompatActivity {
                             adaStd = new ArrayAdapter<>(TeacherAddTempClass.this, R.layout.teacher_spin_title, listStd);
                             adaStd.setDropDownViewResource(R.layout.teacher_spin_dropdown);
                             spinStandard.setAdapter(adaStd);
-
                         }
 
                     } else {
@@ -252,7 +237,6 @@ public class TeacherAddTempClass extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("StdSecList:Failure", t.toString());
                 onBackPressed();
             }
         });
@@ -267,7 +251,6 @@ public class TeacherAddTempClass extends AppCompatActivity {
         mProgressDialog.show();
 
         final String schoolID = TeacherUtil_SharedPreference.getSchoolIdFromSP(TeacherAddTempClass.this);
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonArray jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_GetSubjects(schoolID, strSecCode);
         Call<JsonArray> call = apiService.GetClassSubjects(jsonReqArray);
@@ -328,13 +311,10 @@ public class TeacherAddTempClass extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("SubjectsList:Failure", t.toString());
                 onBackPressed();
             }
         });
     }
-
-
     private void showToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }

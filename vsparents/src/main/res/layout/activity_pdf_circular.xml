@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/img_app_bg"
     tools:context=".activity.VoiceCircular">
 
     <RelativeLayout
@@ -22,7 +23,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:clickable="true"
-            app:srcCompat="@drawable/ic_arrow_back" />
+            app:srcCompat="@drawable/ic_arrow_black" />
 
         <TextView
             android:id="@+id/pdf_ToolBarTvTitle"
@@ -33,14 +34,45 @@
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/pdf_ToolBarIvBack"
             android:layout_toRightOf="@+id/pdf_ToolBarIvBack"
-            android:textColor="@color/clr_white"
+            android:textColor="@color/clr_black"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="@string/name_pdf" />
     </RelativeLayout>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_below="@+id/pdf_rlToolbar"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="5dp"
+        android:id="@+id/rytSearch"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/Searchable"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_search_shadow"
+            android:hint="Search"
+            android:textSize="15dp"
+            android:paddingLeft="15dp"
+            />
+
+        <ImageView
+            android:id="@+id/imgSearch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/search_icon"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_below="@+id/rytSearch"
+        android:layout_above="@+id/bannerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -48,17 +80,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_marginTop="35dp"
-        android:id="@+id/lblNoMessages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:textSize="15dp"
-        android:layout_centerHorizontal="true"
-        android:text=""
-        android:textColor="@color/bpWhite"
-        android:visibility="gone" />
+        <TextView
+            android:layout_marginTop="25dp"
+            android:visibility="gone"
+            android:textSize="15dp"
+            android:id="@+id/lblNoMessages"
+            android:background="@drawable/bg_shadow_no_records"
+            android:textColor="@color/teacher_clr_red_red"
+            android:text=""
+            android:padding="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pdf_rvCircularList"
@@ -78,11 +112,23 @@
         android:layout_below="@+id/pdf_rvCircularList"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/bg_stroke_teacherprimary"
+        android:background="@drawable/bg_stroke_primary"
+        android:textColor="@color/colorPrimary"
         android:padding="5dp"
         android:visibility="gone"
         android:text="@string/SeeMore"
-        android:textColor="@color/teacher_clr_btn_login"></TextView>
+></TextView>
     </RelativeLayout>
     </ScrollView>
+
+
+    <include
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bannerView"
+        android:layout_marginTop="10dp"
+        layout="@layout/ads_view"/>
+
+
     </RelativeLayout>

@@ -11,8 +11,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
-
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
@@ -33,17 +31,23 @@
 
         <activity android:name=".activity.PdfQuizScreen"
             android:launchMode="singleTop"
+            android:exported="false"
+
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity android:name=".activity.ViewQuizResult"
             android:launchMode="singleTop"
+            android:exported="false"
+
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity
             android:name=".activity.PreviewLSRWScreen"
             android:launchMode="singleTop"
+            android:exported="false"
+
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Home"
@@ -52,33 +56,35 @@
             android:name=".activity.SkillSubListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.LSRWListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ParentSubmitLSRW"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".activity.KnowledgeEnhancementQuestions"
             android:launchMode="singleTop"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -86,6 +92,8 @@
             android:launchMode="singleTop"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
@@ -99,96 +107,134 @@
         <activity
             android:name=".activity.StaffDetailListActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StaffListActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherChatActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StudentChatActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.SubjectListActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.PrincipalAssignmentList"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.ImageCircularPop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.PdfListAcivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.PdfViewActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.ParentAssignmentListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.Login"
+            android:exported="false"
+
+            android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.ParentSubmitActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.StudentSubmissionListActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.ViewTypeActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.StudentSelectAssignment"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.RecipientAssignmentActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.PdfAssignmentActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.ImageAssignmentActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.VoiceAssignmentActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.MessageAssignmentActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
@@ -198,7 +244,8 @@
 
         <activity
             android:name=".activity.TeacherSplashScreen"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -209,12 +256,16 @@
             android:name=".activity.VideoListActivity"
             android:launchMode="singleTop"
             android:hardwareAccelerated="true"
+            android:exported="false"
+
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Translucent"
+            android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.AssignmentActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
@@ -229,7 +280,9 @@
         </provider> <!-- <receiver -->
         <!-- android:name=".util.DailyAlarmReceiver" -->
         <!-- android:exported="true" /> -->
-        <receiver android:name=".fcmservices.MySMSBroadCastReceiver">
+        <receiver
+            android:name=".fcmservices.MySMSBroadCastReceiver"
+            android:exported="false">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
@@ -241,615 +294,720 @@
         <activity
             android:name=".activity.MobileNumberScreen"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.OTPScreen"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
             android:name=".OTP.AutoReadOTPCallNumberScreen"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
             android:name=".activity.OTPCallNumberScreen"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ChangePasswordScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.PasswordScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.FeedBackDetails"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.FeedBackQuestionsScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.FeesDetails"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Home"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activity.PaymentWebViewActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StudentLibraryDetails"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StaffLibraryDetails"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StudentMarksDetails"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.MarksListScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.SubjectListScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TextBookActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ExamListScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.MonthlyPendingFees"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TextBookForParent"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ChildrenScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.MessageDatesScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TextCircular"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Translucent"
+            android:exported="false"
+
+            android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.OnlineClassParentScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Translucent"
+            android:exported="false"
+
+            android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.VoiceCircular"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Translucent"
+            android:exported="false"
+
+            android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ImageCircular"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Translucent"
+            android:exported="false"
+
+            android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.PdfCircular"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Translucent"
+            android:exported="false"
+
+            android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TextMessagePopup"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.OnlineClassPopup"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.PdfWebViewPopup"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.VoiceCircularPopup"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.ChangePassword"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+
+
         <activity
             android:name=".activity.CaptureSignature"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ImageCircularPopUp"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ImageCircularPopUpParent"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.HomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.DatesList"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ApplyLeave"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.Attendance"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.FeesPayment"
-            android:label="Pay Fees"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Home"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activity.ExamCircularActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.RequestMeetingForParent"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ParentQuizScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherSignInScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherHomeScreen"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Home"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherTextMessage"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherStaffTextCircular"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherRecordAudio"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherTakePicture"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+
         <activity
             android:name=".activity.TeacherListAllSection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherStudentList"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherMgtVoiceCircular"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activity.TeacherListGroups"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherStaffImageCircular"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherStaffVoiceCircular"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherMgtImageCircular"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherMgtTextCircular"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activity.TeacherListClasses"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherChangePassword"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherExtandablegroupclasslist"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherAttendanceScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ScoolsList"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StaffListCalls"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherAttendanceStudentList"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherAddTempClass"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.Teacher_AA_Test"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherEmergencyVoice"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherGeneralText"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherMeetingURLScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherNoticeBoard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherEventsScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherStandardsAndGroupsList"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.SendToVoiceSpecificSection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.VoiceStandardAndGroupList"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.SendToTextSpecificSection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TextStandardAndGroupList"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherAbsenteesReport"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherAbsenteesByStandardWise"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherParticularsScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherCallsSmsUsages"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherPhotosScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.TeacherStaffStandardSection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activity.TeacherStaffVoice" />
+
         <activity
             android:name=".activity.TeacherSchoolList"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.TeacherMessageDatesScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.RequestMeetingForSchool"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.PaidBillDetails"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Home"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activity.TeacherVoiceCircular"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StaffDisplayTextMessages"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StaffDisplayPDF"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StaffDisplayImages"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.TeacherTextCircular"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/Teacher_AppTheme.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activity.TeacherVoiceCircularPopup"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.LeaveRequestsByStaffs"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
+            android:hardwareAccelerated="true"
             android:name=".activity.EventsTapScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ParentOnlineExamScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ParentKnowledgeEnhancementScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.StaffDetailsForParent"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.NewPopUpActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.FAQScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.SpecialOfferScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.NewProductsScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.UploadProfileScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ProfileLinkScreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
+            android:theme="@style/AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:name=".SliderAdsImage.SpecificAdDetails"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
@@ -857,138 +1015,163 @@
             android:name=".activity.HelpActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <service android:name=".fcmservices.MyFirebaseMessagingService">
+        <service
+            android:name=".fcmservices.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service> <!-- <service android:name=".fcmservices.MyFirebaseInstanceIDService"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.firebase.INSTANCE_ID_EVENT" /> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
+        </service>
+
         <activity
             android:name=".activity.TimeTableActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <activity
-            android:name=".activity.ParentFeeDetails"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Home"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activity.UploadVideoActivity"
             android:launchMode="singleTop"
             android:hardwareAccelerated="true"
+            android:exported="false"
+
             android:screenOrientation="portrait"
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".activity.YoutubePlayerActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Translucent" />
+
         <activity
             android:name=".activity.LeaveRequestStaffApproveActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.AlbumSelectActivity"
+            android:exported="false"
+
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".activity.ImageSelectActivity"
+            android:exported="false"
+
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".activity.ImagePreviewActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.PdfAppRead"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.VideoUpload"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".videoalbum.AlbumVideoSelectVideoActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".videoalbum.ImageSelectVideoActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".videoalbum.HelperVideoActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.VideoPlayActivity"
             android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.VimeoVideoPlayerActivity"
             android:configChanges="screenSize|orientation"
             android:hardwareAccelerated="true"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.VideoPrincipalRecipient"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.RecipientVideoActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.StudentSelectVideo"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".assignment.GroupListVideoActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".payment.PaymentFeesActrivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <activity
-            android:hardwareAccelerated="true"
-            android:name=".payment.PaymentWebView"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Home"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+<!--        <activity-->
+<!--            android:name=".payment.PaymentFeesActrivity"-->
+<!--            android:launchMode="singleTop"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:exported="true"-->
+
+<!--            android:windowSoftInputMode="stateHidden|adjustResize" />-->
+
 
         <activity
             android:hardwareAccelerated="true"
             android:name=".payment.FeesTab"
             android:launchMode="singleTop"
+            android:exported="false"
+
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
@@ -996,12 +1179,15 @@
         <activity android:name=".activity.ViewExamMarks"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="false"
+
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" ></activity>
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
-            android:enabled="true" />
+            android:enabled="false"
+            />
     </application>
 
 </manifest>

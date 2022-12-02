@@ -14,10 +14,6 @@ public class RequestMeetingForpParentTapAdapter extends FragmentStatePagerAdapte
 
     int mNumOfTabs;
     String userId;
-    Context mcontext;
-    LayoutInflater mLayoutInflater;
-
-    SharedPreferences shpRemember;
 
     public RequestMeetingForpParentTapAdapter(FragmentManager fm, int NumOfTabs, String userId) {//, String invno, String dmdid) {
         super(fm);
@@ -25,7 +21,6 @@ public class RequestMeetingForpParentTapAdapter extends FragmentStatePagerAdapte
         this.userId = userId;
 
     }
-
 
     @Override
     public Fragment getItem(int position) {
@@ -38,8 +33,6 @@ public class RequestMeetingForpParentTapAdapter extends FragmentStatePagerAdapte
             case 1:
                 RequestMeetingHistoryForParentFragment tab1 = new RequestMeetingHistoryForParentFragment();
                 return tab1;
-
-
 
 
             default:

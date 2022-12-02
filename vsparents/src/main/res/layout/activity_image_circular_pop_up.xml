@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/rlbackground"
+    android:background="@drawable/img_app_bg"
     android:layout_height="match_parent">
 
     <RelativeLayout
@@ -22,7 +23,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:clickable="true"
-            app:srcCompat="@drawable/ic_close" />
+            app:srcCompat="@drawable/ic_close_black" />
 
         <TextView
             android:id="@+id/imagePopup_ToolBarTvTitle"

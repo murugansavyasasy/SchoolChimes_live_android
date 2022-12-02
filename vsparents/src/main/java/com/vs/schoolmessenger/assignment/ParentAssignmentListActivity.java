@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.assignment;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,16 +14,23 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.activity.HomeActivity;
 import com.vs.schoolmessenger.activity.MessageDatesScreen;
 import com.vs.schoolmessenger.activity.PdfCircular;
@@ -42,11 +50,13 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class ParentAssignmentListActivity extends AppCompatActivity implements RefreshInterface {
     RecyclerView recyclerView;
@@ -63,6 +73,12 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
+
+    ImageView imgSearch;
+    TextView Searchable;
+
+    Slider slider;
+    LinearLayout lnrAction;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -88,12 +104,26 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
         assignment_adapter = new AssignmentViewAdapter(ParentAssignmentListActivity.this, assignlist,this,"1");
         recyclerView.setAdapter(assignment_adapter);
 
+        Slider.init(new PicassoImageLoadingService(ParentAssignmentListActivity.this));
+        slider = findViewById(R.id.banner);
+        ImageView adImage = findViewById(R.id.adImage);
+
+        ShowAds.getAds(ParentAssignmentListActivity.this,adImage,slider,"");
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                onBackPressed();
             }
         });
+
+        lnrAction = (LinearLayout) findViewById(R.id.lnrAction);
+        lnrAction.setVisibility(View.GONE);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar_children);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Assignment");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
 
         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
@@ -106,16 +136,65 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
             }
         });
 
-         isNewVersion=TeacherUtil_SharedPreference.getNewVersion(ParentAssignmentListActivity.this);
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
 
-        seeMoreButtonVisiblity();
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (assignment_adapter == null)
+                    return;
+
+                if (assignment_adapter.getItemCount() < 1) {
+                    recyclerView.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
+        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(ParentAssignmentListActivity.this);
+
+         seeMoreButtonVisiblity();
+
+    }
+
+    private void filterlist(String s) {
+        List<AssignmentViewClass> temp = new ArrayList();
+        for (AssignmentViewClass d : assignlist) {
+
+            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getTitle().toLowerCase().contains(s.toLowerCase()) ||  d.getContent().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+        }
+        assignment_adapter.updateList(temp);
     }
 
     private void seeMoreButtonVisiblity() {
         if(isNewVersion.equals("1")){
             LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
         else {
             LoadMore.setVisibility(View.GONE);
@@ -236,6 +315,16 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
                 1222);
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return (true);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -285,7 +374,6 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
 
                         if(isNewVersion.equals("1")){
                             LoadMore.setVisibility(View.VISIBLE);
-                            lblNoMessages.setVisibility(View.VISIBLE);
                         }
                         else {
                             LoadMore.setVisibility(View.GONE);

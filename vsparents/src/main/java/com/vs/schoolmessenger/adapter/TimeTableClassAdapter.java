@@ -39,8 +39,6 @@ public class TimeTableClassAdapter extends RecyclerView.Adapter<TimeTableClassAd
         holder.lblstarttime.setText(data.getFromTime());
         holder.lblendtime.setText(data.getToTime());
 
-
-
         if(data.getHourType().equals("2")){
 
             if(!data.getStaffName().equals("")) {

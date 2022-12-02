@@ -23,15 +23,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.adapter.LSRWAdapter;
 import com.vs.schoolmessenger.adapter.SkillSublistAdapter;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.SkillAttachmentModel;
-import com.vs.schoolmessenger.model.lsrwModelClass;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -41,14 +38,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_ASSIGNMENT;
 import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_LSRW;
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_QUIZ;
 
 public class SkillSubListActivity extends AppCompatActivity {
-
-
     public ArrayList<SkillAttachmentModel> msgModelList = new ArrayList<>();
     RecyclerView recycleview;
     SkillSublistAdapter textAdapter;
@@ -98,10 +90,8 @@ public class SkillSubListActivity extends AppCompatActivity {
             ChangeMsgReadStatus.changeReadStatus(SkillSubListActivity.this, detailid, MSG_TYPE_LSRW,"",isNewVersion,false, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
-
                 }
             });
-
         }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recycleview.setLayoutManager(layoutManager);
@@ -124,7 +114,6 @@ public class SkillSubListActivity extends AppCompatActivity {
              getAttachment();
 
     }
-
 
     private void prepareAlbums () {
 

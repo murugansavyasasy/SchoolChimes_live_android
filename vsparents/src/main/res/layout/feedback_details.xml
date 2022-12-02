@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@string/school_name"
-            android:textSize="20sp"
+            android:textSize="15sp"
             style="@style/feed_Back_Details"
             android:textStyle="normal" />
         <TextView
@@ -41,23 +41,16 @@
             android:textSize="20dp" />
         </LinearLayout>
 
-        <!--<EditText-->
-            <!--android:id="@+id/txtSchoolName"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="35dp"-->
-            <!--android:background="@drawable/schoolnameback"-->
-            <!--android:inputType="text"-->
-            <!--android:paddingLeft="5dp"-->
-            <!--android:textColor="@color/clr_white" />-->
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="@drawable/bg_stroke_grey"
+            android:background="@drawable/login_shadow_card"
             android:layout_height="wrap_content">
 
         <Spinner
             android:id="@+id/SchoolList"
             android:layout_width="match_parent"
-            android:layout_height="35dp" />
+            android:layout_height="50dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/your_name"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 style="@style/feed_Back_Details"
                 android:textStyle="normal" />
 
@@ -87,9 +80,10 @@
         <EditText
             android:id="@+id/txtContactPerson"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@drawable/bg_stroke_grey"
+            android:layout_height="50dp"
+            android:background="@drawable/login_shadow_card"
             android:inputType="text"
+            android:textSize="15dp"
             android:paddingLeft="5dp" />
 
         <LinearLayout
@@ -106,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/alternate_mobile_number"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 style="@style/feed_Back_Details"
                 android:textStyle="normal" />
 
@@ -119,22 +113,16 @@
                 android:textSize="20dp" />
 
 </LinearLayout>
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:text="*"-->
-                <!--android:textColor="@color/clr_red"-->
-                <!--android:textSize="20dp" />-->
 
         </LinearLayout>
 
         <EditText
             android:id="@+id/txtContactMobileNumber"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@drawable/bg_stroke_grey"
+            android:layout_height="50dp"
+            android:background="@drawable/login_shadow_card"
             android:inputType="number"
+            android:textSize="15dp"
             android:maxLength="10"
             android:paddingLeft="5dp" />
 
@@ -154,7 +142,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/email_id"
                 style="@style/feed_Back_Details"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textStyle="normal" />
 
             <TextView
@@ -165,21 +153,14 @@
                 android:textColor="@color/clr_red"
                 android:textSize="20dp" />
             </LinearLayout>
-
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:text="*"-->
-                <!--android:textColor="@color/clr_red"-->
-                <!--android:textSize="20dp" />-->
         </LinearLayout>
 
         <EditText
             android:id="@+id/txtEmailID"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@drawable/bg_stroke_grey"
+            android:layout_height="50dp"
+            android:textSize="15dp"
+            android:background="@drawable/login_shadow_card"
             android:inputType="text"
             android:paddingLeft="5dp" />
 

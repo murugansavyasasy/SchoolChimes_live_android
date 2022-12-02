@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/aHome_cvEmergency"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:id="@+id/lnrMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/cardview_border"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/lblUnreadCount"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|top"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/shape_oval_red"
+                android:gravity="center"
+                android:text="@string/one"
+                android:textColor="@color/clr_white"
+                android:textSize="10sp"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/imgMenu"
+                android:layout_width="@dimen/home_menu_icon"
+                android:layout_height="@dimen/home_menu_icon"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/c_emergency" />
+
+            <TextView
+                android:id="@+id/lblMenuName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:letterSpacing="0.05"
+                android:text=""
+                android:textColor="@color/clr_black"
+                android:textSize="10sp" />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -87,8 +87,6 @@ public class ImageCircularListAdapterNEW extends RecyclerView.Adapter<ImageCircu
             holder.tvStatus.setVisibility(View.VISIBLE);
         else holder.tvStatus.setVisibility(View.GONE);
 
-
-
         Glide.with(context)
                 .load(msgModel.getMsgContent())
                 .listener(new RequestListener<Drawable>() {
@@ -107,33 +105,6 @@ public class ImageCircularListAdapterNEW extends RecyclerView.Adapter<ImageCircu
                     }
                 })
                 .into(holder.img);
-
-//        Glide.with(context).load(msgModel.getMsgContent())
-//                .asBitmap()
-//                .thumbnail(0.5f)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(new SimpleTarget<Bitmap>() {
-//
-//                    @Override
-//                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-//                        // for demonstration purposes, let's just set it to an ImageView
-//                        holder.img.setImageBitmap(bitmap);
-//
-//                        holder.progressBar.setVisibility(View.GONE);
-//                        holder.btnSaveImage.setEnabled(true);
-//                        holder.tvSaveAlert.setVisibility(View.VISIBLE);
-//                    }
-//
-//                    @Override
-//                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-//                        super.onLoadFailed(e, errorDrawable);
-//
-//                        holder.btnSaveImage.setEnabled(false);
-//                        holder.tvSaveAlert.setVisibility(View.GONE);
-//                    }
-//                });
-
-
 
         holder.tvSaveAlert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +132,12 @@ public class ImageCircularListAdapterNEW extends RecyclerView.Adapter<ImageCircu
     @Override
     public int getItemCount() {
         return imageDataList.size();
+    }
+
+
+    public void updateList(ArrayList<MessageModel> temp) {
+        imageDataList = temp;
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

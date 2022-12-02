@@ -4,26 +4,12 @@ import java.io.Serializable;
 
 public class QuizSubmissions implements Serializable {
 
-//  "id": 18,
-//          "quizId": 27,
-//          "aOption": "1~testaaaZ",
-//          "bOption": "2~testbbbZ",
-//          "cOption": "3~testcccZ",
-//          "dOption": "4~testdddZ",
-//          "mark": null,
-//          "answer": "1",
-//          "studentAnswer": "1",
-//          "correctAnswer": "testaaaZ",
-//          "givenFileType": 0
-
-
     public int id;
     public int quizId;
     public String question;
     public String aOption;
     public String bOption;
     public String cOption;
-
     public String dOption;
     public String mark;
     public String answer;
@@ -126,7 +112,6 @@ public class QuizSubmissions implements Serializable {
     public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
-
 
     public String getQuestion() {
         return question;

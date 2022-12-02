@@ -31,12 +31,9 @@ public class SchoolsListAdapter extends RecyclerView.Adapter<SchoolsListAdapter.
         }
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView schoolNmae;
         public RelativeLayout rytSchoolList;
-
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -62,11 +59,8 @@ public class SchoolsListAdapter extends RecyclerView.Adapter<SchoolsListAdapter.
     @Override
     public void onBindViewHolder(final SchoolsListAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final TeacherSchoolsModel school = lib_list.get(position);
-
         holder.schoolNmae.setText(school.getStrSchoolName());
-
         holder.rytSchoolList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,14 +71,11 @@ public class SchoolsListAdapter extends RecyclerView.Adapter<SchoolsListAdapter.
 
             }
         });
-
-
     }
 
     @Override
     public int getItemCount() {
         return lib_list.size();
-
     }
 }
 

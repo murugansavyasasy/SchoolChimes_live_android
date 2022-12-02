@@ -99,28 +99,6 @@ public class StaffDisplayImageAdapter extends RecyclerView.Adapter<StaffDisplayI
                 })
                 .into(holder.img);
 
-//        Glide.with(context).load(msgModel.getMsgContent())
-//                .asBitmap()
-//                .thumbnail(0.5f)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(new SimpleTarget<Bitmap>() {
-//                    @Override
-//                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-//                        holder.img.setImageBitmap(bitmap);
-//
-//                        holder.progressBar.setVisibility(View.GONE);
-//                        holder.btnSaveImage.setEnabled(true);
-//                        holder.tvSaveAlert.setVisibility(View.VISIBLE);
-//                    }
-//
-//                    @Override
-//                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-//                        super.onLoadFailed(e, errorDrawable);
-//
-//                        holder.btnSaveImage.setEnabled(false);
-//                        holder.tvSaveAlert.setVisibility(View.GONE);
-//                    }
-//                });
 
         holder.tvSaveAlert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,10 +120,7 @@ public class StaffDisplayImageAdapter extends RecyclerView.Adapter<StaffDisplayI
         });
     }
 
-    private boolean isNetworkConnected() {
-        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return connMgr.getActiveNetworkInfo() != null;
-    }
+
 
     @Override
     public int getItemCount() {

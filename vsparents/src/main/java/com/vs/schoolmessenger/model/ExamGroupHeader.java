@@ -4,15 +4,10 @@ import java.io.Serializable;
 
 public class ExamGroupHeader implements Serializable {
     String Id, ExamName,Syllabus;
-
-
-
     public ExamGroupHeader(String Id, String Name,String syllabus) {
         this.Id = Id;
         this.ExamName = Name;
         this.Syllabus = syllabus;
-
-
     }
 
     public ExamGroupHeader() {}

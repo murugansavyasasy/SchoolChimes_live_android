@@ -14,12 +14,8 @@ import com.vs.schoolmessenger.model.LibraryDetails;
 import java.util.List;
 
 public class LibraryDetailsAdapter extends RecyclerView.Adapter<LibraryDetailsAdapter.MyViewHolder> {
-
-
     private List<LibraryDetails> lib_list;
     Context context;
-
-
     public void clearAllData() {
         int size = this.lib_list.size();
         if (size > 0) {
@@ -29,7 +25,6 @@ public class LibraryDetailsAdapter extends RecyclerView.Adapter<LibraryDetailsAd
             this.notifyItemRangeRemoved(0, size);
         }
     }
-
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lblBookID, lblBookName, lblIssuedDate, lblDueDate;
@@ -59,21 +54,20 @@ public class LibraryDetailsAdapter extends RecyclerView.Adapter<LibraryDetailsAd
     @Override
     public void onBindViewHolder(final LibraryDetailsAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
             final LibraryDetails library = lib_list.get(position);
-
              holder.lblBookID.setText(": "+library.getId());
              holder.lblBookName.setText(": "+library.getName());
              holder.lblIssuedDate.setText(": "+library.getIssuedDate());
              holder.lblDueDate.setText(": "+library.getDueDate());
 
-
-         }
-
+    }
     @Override
     public int getItemCount() {
         return lib_list.size();
-
+    }
+    public void updateList(List<LibraryDetails> temp) {
+        lib_list = temp;
+        notifyDataSetChanged();
     }
 }
 

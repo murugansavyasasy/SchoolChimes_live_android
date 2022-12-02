@@ -35,18 +35,20 @@ public class AttendanceDateListAdapter extends RecyclerView.Adapter<AttendanceDa
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.bind(dateList.get(position), listener);
-
         final DatesModel profile = dateList.get(position);
-
-
         holder.tvDate.setText(profile.getDate());
         holder.tvDay.setText(profile.getDay());
-        holder.tvCount.setText("Absent");//profile.getCount());
+        holder.tvCount.setText("Absent");
     }
 
     @Override
     public int getItemCount() {
         return dateList.size();
+    }
+
+    public void updateList(List<DatesModel> temp) {
+        dateList = temp;
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -61,7 +63,6 @@ public class AttendanceDateListAdapter extends RecyclerView.Adapter<AttendanceDa
             tvCount = (TextView) view.findViewById(R.id.cardAbsen_tvCount);
             ffArrow = (ImageView) view.findViewById(R.id.cardAbsen_ivRight);
             ffArrow.setVisibility(View.GONE);
-//            tvCount.setVisibility(View.GONE);
         }
 
         public void bind(final DatesModel item, final DatesListListener listener) {

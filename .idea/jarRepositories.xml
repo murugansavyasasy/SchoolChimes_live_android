@@ -71,5 +71,10 @@
       <option name="name" value="maven" />
       <option name="url" value="file:$PROJECT_DIR$/../../../../VS%20ANDROID%20PROJECTS/School_live_6.5/Android_school_latest_live_source/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenRepo" />
+      <option name="name" value="MavenRepo" />
+      <option name="url" value="https://repo.maven.apache.org/maven2/" />
+    </remote-repository>
   </component>
 </project>

@@ -49,7 +49,6 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
         holder.tvstudentid.setText(profile.getAdmisionNo());
         holder.tvstudentname.setText(profile.getStudentName());
 
-
         holder.cbSelect.setOnCheckedChangeListener(null);
         holder.cbSelect.setChecked(profile.isSelectStatus());
         holder.cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

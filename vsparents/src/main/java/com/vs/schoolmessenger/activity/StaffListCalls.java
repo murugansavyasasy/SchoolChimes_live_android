@@ -48,25 +48,18 @@ import retrofit2.Callback;
 
 public class StaffListCalls extends AppCompatActivity implements StaffListListener {
 
-
     RecyclerView staff_list_recycle;
-
     TeacherSchoolsModel childItem = new TeacherSchoolsModel();
-
-
     public StaffListAdapter mAdapter;
     Button btnCalls;
     ImageView imgSearch;
-
     int i_sections_count;
-
     CheckBox select_All;
     EditText Searchable;
     RelativeLayout rytNoRecords;
     private int i_students_count;
     String staff_id, school_id;
     ArrayList<StaffList> staff_list = new ArrayList<StaffList>();
-
     ArrayList<StaffList> SelectedSubjects = new ArrayList<StaffList>();
 
     @Override
@@ -84,8 +77,6 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.staff_list);
 
-
-
         Searchable = (EditText) findViewById(R.id.Searchable);
         imgSearch = (ImageView) findViewById(R.id.imgSearch);
 
@@ -98,10 +89,7 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
         childItem = (TeacherSchoolsModel) getIntent().getSerializableExtra("schools");
 
         staff_id = childItem.getStrStaffID();
-        Log.d("staff_id", staff_id);
         school_id = childItem.getStrSchoolID();
-        Log.d("school_id", school_id);
-
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
@@ -116,8 +104,6 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
         });
 
         getStaffList();
-
-
         btnCalls.setEnabled(false);
 
         i_sections_count = 0;
@@ -140,8 +126,6 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
                 }
             }
         }, staff_list);
-
-
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(StaffListCalls.this);
         staff_list_recycle.setLayoutManager(mLayoutManager);
         staff_list_recycle.setItemAnimator(new DefaultItemAnimator());
@@ -208,27 +192,21 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
                 }
                 mAdapter.notifyDataSetChanged();
                 if (isChecked) {
-
-
                     btnCalls.setEnabled(true);
                     i_students_count = staff_list.size();
                     Log.d("CHECK-i_students_count", "True - " + i_students_count);
                 } else {
                     i_students_count = 0;
                     btnCalls.setEnabled(false);
-
                     Log.d("CHECK-i_students_count", "False - " + i_students_count);
                 }
 
             }
         });
-
-
         btnCalls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 principalCalls();
-
             }
         });
 
@@ -242,14 +220,11 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
         else {
             btnCalls.setEnabled(false);
             }
-
-
     }
 
     private void filter(String s) {
         List<StaffList> temp = new ArrayList();
         for (StaffList d : staff_list) {
-
             if (d.getStaffName().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
@@ -271,7 +246,6 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
         JsonObject jsonObject = new JsonObject();
         JsonArray jsonArrayschool = new JsonArray();
 
-
         for (int i = 0; i < staff_list.size(); i++) {
             if (staff_list.get(i).getSelecteStatus()) {
                 JsonObject jsonObjectSchoolList = new JsonObject();
@@ -284,8 +258,6 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.select_staff), Toast.LENGTH_SHORT).show();
 
         }
-
-
         jsonObject.addProperty("DialerId", staff_id);
         jsonObject.add("StaffIDList", jsonArrayschool);
 

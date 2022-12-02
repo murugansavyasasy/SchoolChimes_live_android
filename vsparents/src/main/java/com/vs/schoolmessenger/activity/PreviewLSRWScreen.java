@@ -111,10 +111,7 @@ public class PreviewLSRWScreen extends AppCompatActivity {
     int iMediaDuration = 0;
     SeekBar myplayerseekber;
     String isNewVersion;
-
-
     private static final String VOICE_FOLDER = "School Voice/Voice";
-    //    LinearLayout lnrImages;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -122,8 +119,6 @@ public class PreviewLSRWScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.activity_preview_l_s_r_w_screen);
 
@@ -159,7 +154,6 @@ public class PreviewLSRWScreen extends AppCompatActivity {
         tvTotDuration = (TextView) findViewById(R.id.txttoduration);
 
         isNewVersion = TeacherUtil_SharedPreference.getNewVersion(this);
-
         skillmodel = (SkillAttachmentModel) getIntent().getSerializableExtra("attachement");
         AttachmentType=skillmodel.getType();
         Content=skillmodel.getAttachment();

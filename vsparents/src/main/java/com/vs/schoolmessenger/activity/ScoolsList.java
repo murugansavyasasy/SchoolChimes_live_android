@@ -222,10 +222,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-
-
-
         JsonObject jsonReqArray = jsonArrayNormalVoiceGroupHeadVoiceHistory();
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
@@ -326,9 +322,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
-
-
-
         JsonObject jsonReqArray = jsonArrayEmergencyVoiceGroupHeadVoiceHistory();
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
@@ -358,8 +351,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                             JSONObject jsonObject = js.getJSONObject(0);
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
-                            //    showToast(strMsg);
-
 
                             if ((strStatus.toLowerCase()).equals("1")) {
                                 showAlert(strMsg,strStatus);

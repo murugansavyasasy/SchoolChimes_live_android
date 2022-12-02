@@ -43,27 +43,19 @@ import java.util.HashSet;
  */
 public class ImageSelectActivity extends HelperActivity {
     private ArrayList<Image> images = new ArrayList<>();
-
-
     private String album;
-
     private TextView errorDisplay;
     private GridView gridView;
     private CustomImageSelectAdapter adapter;
-
-
     private ActionBar actionBar;
-
     private ActionMode actionMode;
     private int countSelected;
-
     private ContentObserver observer;
     private Handler handler;
     private Thread thread;
     String CountrID = "";
     String ImageCount = "";
     String profile="";
-
     int limit = 0;
     private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
 
@@ -72,12 +64,10 @@ public class ImageSelectActivity extends HelperActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_select);
         actionBar = getSupportActionBar();
-
         Bundle extras = getIntent().getExtras();
         if(extras!=null) {
             profile = extras.getString("ProfileScreen", "");
         }
-
         if(profile.equals("Profile")){
             limit = 1;
         }
@@ -98,11 +88,8 @@ public class ImageSelectActivity extends HelperActivity {
         }
         album = intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM);
         setTitle(album);
-
         errorDisplay = (TextView) findViewById(R.id.text_view_error);
         errorDisplay.setVisibility(View.INVISIBLE);
-
-
         gridView = (GridView) findViewById(R.id.grid_view_image_select);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -195,9 +182,7 @@ public class ImageSelectActivity extends HelperActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
         stopThread();
-
         getContentResolver().unregisterContentObserver(observer);
         observer = null;
 
@@ -210,7 +195,6 @@ public class ImageSelectActivity extends HelperActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(null);
         }
@@ -258,11 +242,8 @@ public class ImageSelectActivity extends HelperActivity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater menuInflater = mode.getMenuInflater();
             menuInflater.inflate(R.menu.menu_contexual_action_bar, menu);
-
-
             actionMode = mode;
             countSelected = 0;
-
             return true;
         }
 
@@ -299,8 +280,6 @@ public class ImageSelectActivity extends HelperActivity {
                     Toast.LENGTH_SHORT)
                     .show();
             return;
-
-
         }
 
         images.get(position).isSelected = !images.get(position).isSelected;
@@ -340,23 +319,11 @@ public class ImageSelectActivity extends HelperActivity {
     }
 
     private void sendIntent() {
-//
-//        if (CountrID.equals("16")) {
-//            Intent intent = new Intent(ImageSelectActivity.this, TeacherPhotosScreen_SNGPR.class);
-//            intent.putStringArrayListExtra("images", getSelected());
-//            setResult(RESULT_OK, intent);
-//            finish();
-//        } else if (CountrID.equals("19")) {
-//            Intent intent = new Intent(ImageSelectActivity.this, TeacherPhotosScreen_USA.class);
-//            intent.putStringArrayListExtra("images", getSelected());
-//            setResult(RESULT_OK, intent);
-//            finish();
-//        } else {
             Intent intent = new Intent(ImageSelectActivity.this, TeacherPhotosScreen.class);
             intent.putStringArrayListExtra("images", getSelected());
             setResult(RESULT_OK, intent);
             finish();
-      //  }
+
     }
 
     private void loadImages() {

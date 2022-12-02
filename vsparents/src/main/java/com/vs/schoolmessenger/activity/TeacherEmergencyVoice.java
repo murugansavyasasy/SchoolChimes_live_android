@@ -210,7 +210,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
             btnToSections.setText("To Grade or Sections");
         }
 
-
         VoiceHistoryRecycle = (RecyclerView) findViewById(R.id.VoiceHistoryRecycle);
         spinnerList = (Spinner) findViewById(R.id.spinnerList);
         NestedScrollView = (NestedScrollView) findViewById(R.id.ComposeMessgeNested);

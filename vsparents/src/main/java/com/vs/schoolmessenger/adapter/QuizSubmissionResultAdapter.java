@@ -41,7 +41,6 @@ public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmis
         this.textDataList = textDataList;
         this.context = context;
         this.type = type;
-
     }
 
     @Override
@@ -51,8 +50,6 @@ public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmis
 
         return new QuizSubmissionResultAdapter.MyViewHolder(itemView);
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -66,10 +63,6 @@ public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmis
         FrameLayout videoview;
         LinearLayout lnrPDFtext;
         ImageView imgVideo,imgShadow,imgplay,imgview;
-
-
-
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -88,9 +81,6 @@ public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmis
 
         }
 
-//        public void bind(final OnlineClassByStaffModel item, final OnlineClassStaffListener listener) {
-//
-//        }
     }
     @Override
     public void onBindViewHolder(final QuizSubmissionResultAdapter.MyViewHolder holder, final int position) {
@@ -100,8 +90,6 @@ public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmis
         holder.lblqueno.setText(position+1+" .");
         holder.lblque.setText(msgModel.getQuestion());
         holder.lblcorrectans.setText("Correct Answer : "+msgModel.getCorrectAnswer());
-
-
         ArrayList<String>answers=new ArrayList<>();
         answers.clear();
         answers.add(msgModel.getaOption());
@@ -143,12 +131,6 @@ public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmis
             holder.rgoptions.addView(radioButton);
 
         }
-
-
-
-
-
-
     }
     private void showToast(String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();

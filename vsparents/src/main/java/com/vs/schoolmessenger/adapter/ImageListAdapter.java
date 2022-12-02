@@ -58,9 +58,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyVi
     @Override
     public void onBindViewHolder(final ImageListAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final String imageUrl = lib_list.get(position);
-
         File file = new File(imageUrl);
         final Uri imageUri = Uri.fromFile(file);
         Glide.with(context)
@@ -75,7 +73,6 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyVi
                 context.startActivity(imagePreview);
             }
         });
-
 
     }
 

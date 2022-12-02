@@ -97,9 +97,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     RecyclerView rcyquestions;
     FrameLayout videoview;
     ConstraintLayout constraint;
-    //    VideoView videoview;
     LinearLayout lnrPDFtext;
-    //    WebView myWebView;
     ImageView imgview,imgVideo,imgplay,imgShadow,imgprev,imgnext;
     Button btnnext, btnprevious, btnsubmit;
     Handler handler;

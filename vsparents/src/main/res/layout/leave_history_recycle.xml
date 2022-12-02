@@ -83,6 +83,33 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_margin="10dp"
+            android:id="@+id/rytSearch"
+            android:layout_width="match_parent"
+            android:background="@drawable/bg_stroke_grey"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/Searchable"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_stroke_grey"
+                android:hint="Search"
+                android:padding="5dp" />
+
+            <ImageView
+                android:id="@+id/imgSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/search_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
 
         <ScrollView
             android:layout_width="match_parent"

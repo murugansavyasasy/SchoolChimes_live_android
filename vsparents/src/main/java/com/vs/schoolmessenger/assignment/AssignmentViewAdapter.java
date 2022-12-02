@@ -258,6 +258,11 @@ public class AssignmentViewAdapter extends RecyclerView.Adapter<AssignmentViewAd
         return dateList.size();
     }
 
+    public void updateList(List<AssignmentViewClass> temp) {
+        dateList = temp;
+        notifyDataSetChanged();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView sample,lblNew,lblTextTitle,lbldate,lbltime,lblmsgtype,lblsubject,lblenddate,lblSubCount,lblTotalcount,lblSent;
         public Button btnView,btnForward,btnDelete,btnSubmission,btnTotal,btnSubmit;

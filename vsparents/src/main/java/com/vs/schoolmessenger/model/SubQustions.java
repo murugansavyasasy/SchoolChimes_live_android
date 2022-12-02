@@ -6,14 +6,11 @@ package com.vs.schoolmessenger.model;
 
 public class SubQustions {
     private String QustnID, Question,MainQuestion,ManQuestionId;
-
     public SubQustions(String subId, String subqs,String mainid,String mainqstn ) {
         this.QustnID = subId;
         this.Question = subqs;
         this.MainQuestion = mainqstn;
         this.ManQuestionId = mainid;
-
-
     }
 
     public SubQustions() {}
@@ -34,7 +31,6 @@ public class SubQustions {
         this.Question = qs;
     }
 
-
     public String getMainQuestionID() {
         return ManQuestionId;
     }
@@ -42,7 +38,6 @@ public class SubQustions {
     public void setMainQuestinID(String qs) {
         this.ManQuestionId = qs;
     }
-
 
     public String getMainQuestion() {
         return MainQuestion;

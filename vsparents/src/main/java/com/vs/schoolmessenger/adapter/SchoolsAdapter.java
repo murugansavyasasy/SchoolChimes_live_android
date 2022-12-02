@@ -24,9 +24,7 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.MyViewHo
 
     private List<TeacherSchoolsModel> lib_list;
     Context context;
-
     private final SchoolsListener onContactsListener;
-
     public void clearAllData() {
         int size = this.lib_list.size();
         if (size > 0) {
@@ -37,14 +35,11 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.MyViewHo
         }
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView schoolNmae;
         public RelativeLayout rytSchoolList;
         public ImageView princiSchool_ivRight;
         public CheckBox SelectedCheckBox;
-
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -52,8 +47,6 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.MyViewHo
             rytSchoolList = (RelativeLayout) view.findViewById(R.id.rytSchoolList);
             princiSchool_ivRight = (ImageView) view.findViewById(R.id.princiSchool_ivRight);
             SelectedCheckBox = (CheckBox) view.findViewById(R.id.SelectedCheckBox);
-
-
         }
     }
 
@@ -73,22 +66,16 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.MyViewHo
     @Override
     public void onBindViewHolder(final SchoolsAdapter.MyViewHolder holder, final int position) {
 
-        Log.d("listsizeeee", String.valueOf(lib_list.size()));
         final TeacherSchoolsModel school = lib_list.get(position);
-
         holder.schoolNmae.setText(school.getStrSchoolName());
         holder.princiSchool_ivRight.setVisibility(View.GONE);
         holder.SelectedCheckBox.setVisibility(View.VISIBLE);
-
-
         holder.SelectedCheckBox.setOnCheckedChangeListener(null);
         holder.SelectedCheckBox.setChecked(school.isSelectStatus());
         holder.SelectedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-
                 school.setSelectStatus(isChecked);
 
                 if (isChecked) {
@@ -98,17 +85,10 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.MyViewHo
                     } else {
 
                     onContactsListener.schools_remove(school);
-
-
                 }
-
-
-
             }
         });
-
     }
-
     @Override
     public int getItemCount() {
         return lib_list.size();

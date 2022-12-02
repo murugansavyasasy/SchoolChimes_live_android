@@ -12,11 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
+
+import ss.com.bannerslider.Slider;
 
 public class TextBookForParent extends AppCompatActivity {
 
     private WebView webView;
     ProgressDialog pDialog;
+
+    Slider slider;
+    ImageView adImage;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +40,12 @@ public class TextBookForParent extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        Slider.init(new PicassoImageLoadingService(TextBookForParent.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
+
 
         Bundle extras = getIntent().getExtras();
         String url = extras.getString("url");
@@ -57,6 +70,12 @@ public class TextBookForParent extends AppCompatActivity {
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);
         }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
+    }
 
     @Override
     public void onBackPressed() {

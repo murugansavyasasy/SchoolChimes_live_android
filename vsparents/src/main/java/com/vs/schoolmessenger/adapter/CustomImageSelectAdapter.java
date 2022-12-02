@@ -46,7 +46,6 @@ public class CustomImageSelectAdapter extends CustomGenericAdapter<Image> {
 
         if (arrayList.get(position).isSelected ) {
 
-            Log.d("seladpt", String.valueOf(arrayList.get(position).isSelected));
                    viewHolder.view.setAlpha(0.5f);
                    ((FrameLayout) convertView).setForeground(context.getResources().getDrawable(R.drawable.ic_action_done));
 
@@ -59,11 +58,7 @@ public class CustomImageSelectAdapter extends CustomGenericAdapter<Image> {
         }
         Glide.with(context)
                 .load(arrayList.get(position).path)
-
                 .placeholder(R.drawable.image_placeholder).into(viewHolder.imageView);
-        Log.d("arraylist", String.valueOf(arrayList.get(position).path));
-
-
 
         return convertView;
     }

@@ -9,6 +9,5 @@ import com.vs.schoolmessenger.model.TeacherStudentsModel;
 public interface TeacherOnCheckStudentListener
 {
     public void student_addClass(TeacherStudentsModel student);
-
     public void student_removeClass(TeacherStudentsModel student);
 }

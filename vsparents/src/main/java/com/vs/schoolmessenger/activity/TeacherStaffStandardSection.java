@@ -2518,6 +2518,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
             Log.d("schoolid", SchoolID);
             Log.d("staffstd&sec", jsonObjectSchool.toString());
+            Log.d("request", jsonObjectSchool.toString());
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }
@@ -2532,6 +2533,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             jsonObjectSchool.addProperty("isAttendance", "0");
 
             Log.d("schoolid", SchoolID);
+            Log.d("request", jsonObjectSchool.toString());
             Log.d("staffstd&sec", jsonObjectSchool.toString());
         } catch (Exception e) {
             Log.d("ASDF", e.toString());

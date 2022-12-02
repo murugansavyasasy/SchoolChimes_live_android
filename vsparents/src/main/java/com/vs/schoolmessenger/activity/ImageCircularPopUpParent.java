@@ -32,9 +32,7 @@ import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_IMAGE;
 public class ImageCircularPopUpParent extends AppCompatActivity {
 
     MessageModel imgMsgModel;
-
     TextView tvTitle, tvTime, tvStatus, tvdescription;
-
     ImageView ivImage;
     private ZoomageView demoView;
     String isNewVersion;
@@ -50,14 +48,9 @@ public class ImageCircularPopUpParent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_circular_pop_up);
-
-
         imgMsgModel = (MessageModel) getIntent().getSerializableExtra("IMAGE_ITEM");
-
         isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ImageCircularPopUpParent.this);
         is_Archive = imgMsgModel.getIs_Archive();
-
-
         ImageView ivBack = (ImageView) findViewById(R.id.imagePopup_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,8 +83,6 @@ public class ImageCircularPopUpParent extends AppCompatActivity {
             tvdescription.setVisibility(View.VISIBLE);
         }
         loadImage();
-
-
     }
 
     @Override
@@ -99,8 +90,6 @@ public class ImageCircularPopUpParent extends AppCompatActivity {
         TeacherUtil_SharedPreference.putOnBackPressedImages(ImageCircularPopUpParent.this,"1");
         finish();
     }
-
-
     private void loadImage() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -108,8 +97,6 @@ public class ImageCircularPopUpParent extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
-
-
         Glide.with(ImageCircularPopUpParent.this)
                 .load(imgMsgModel.getMsgContent())
                 .listener(new RequestListener<Drawable>() {
@@ -139,41 +126,6 @@ public class ImageCircularPopUpParent extends AppCompatActivity {
                     }
                 })
                 .into(demoView);
-
-
-//        Glide.with(ImageCircularPopUp.this).load(imgMsgModel.getMsgContent())
-//                .asBitmap()
-//                .thumbnail(0.5f)
-////                .crossFade()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(new SimpleTarget<Bitmap>() {
-//                    @Override
-//                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-//
-//
-//                        ivImage.setImageBitmap(bitmap);
-//                        demoView.setImageBitmap(bitmap);
-//                        mProgressDialog.dismiss();
-//
-//                        if (imgMsgModel.getMsgReadStatus().equals("0"))
-//                            ChangeMsgReadStatus.changeReadStatus(ImageCircularPopUp.this, imgMsgModel.getMsgID(), MSG_TYPE_IMAGE, imgMsgModel.getMsgDate(), new OnRefreshListener() {
-//                                @Override
-//                                public void onRefreshItem() {
-//                                    imgMsgModel.setMsgReadStatus("1");
-//                                    if (imgMsgModel.getMsgReadStatus().equals("0"))
-//                                        tvStatus.setVisibility(View.VISIBLE);
-//                                    else tvStatus.setVisibility(View.GONE);
-//                                }
-//                            });
-//                    }
-//
-//                    @Override
-//                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-//                        super.onLoadFailed(e, errorDrawable);
-//                        onBackPressed();
-//                        showToast(getResources().getString(R.string.check_internet));
-//                    }
-//                });
 
     }
 

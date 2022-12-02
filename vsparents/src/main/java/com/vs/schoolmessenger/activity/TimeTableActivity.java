@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.TimeTableClassAdapter;
 import com.vs.schoolmessenger.adapter.TimeTableDayAdapter;
 import com.vs.schoolmessenger.assignment.PrincipalAssignmentList;
@@ -38,6 +40,7 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class TimeTableActivity extends AppCompatActivity {
 
@@ -48,6 +51,9 @@ public class TimeTableActivity extends AppCompatActivity {
     TimeTableDayAdapter dayAdapter;
 
     String DayID;
+
+    Slider slider;
+    ImageView adImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +75,11 @@ public class TimeTableActivity extends AppCompatActivity {
 
         recycleviewDay = (RecyclerView) findViewById(R.id.recycleViewDay);
         recyclerClass = (RecyclerView) findViewById(R.id.rcyclass);
+
+        Slider.init(new PicassoImageLoadingService(TimeTableActivity.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
 
         dayAdapter = new TimeTableDayAdapter(this, DayList, new TimeTableDayListener() {
 
@@ -126,6 +137,7 @@ public class TimeTableActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
 //        getTimeTableApi();
 
     }

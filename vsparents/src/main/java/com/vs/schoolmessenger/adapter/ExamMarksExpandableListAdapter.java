@@ -68,7 +68,6 @@ public class ExamMarksExpandableListAdapter extends BaseExpandableListAdapter {
             listTitleTextView.setText(value[0]);
             listTitleTextView.setTextColor(Color.parseColor("#006064")); // primary color
         }
-//        listTitleTextView.setText(listTitle);
         return convertView;
     }
 
@@ -106,7 +105,6 @@ public class ExamMarksExpandableListAdapter extends BaseExpandableListAdapter {
 
         }
 
-       // expandedListTextView.setText(expandedListText);
         return convertView;
     }
     @Override

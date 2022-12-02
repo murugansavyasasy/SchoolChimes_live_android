@@ -30,6 +30,8 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.AttendanceDateListAdapter;
 import com.vs.schoolmessenger.interfaces.DatesListListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -58,6 +60,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class Attendance extends AppCompatActivity implements View.OnClickListener {
 
@@ -87,7 +90,6 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     ArrayList<Integer> isGroupHedMenuID = new ArrayList<>();
     ArrayList<Integer> isParentMenuID = new ArrayList<>();
 
-
     ArrayList<String> isAdminMenuNames = new ArrayList<>();
     ArrayList<String> isIsStaffMenuNames = new ArrayList<>();
     ArrayList<String> isPrincipalMenuNames = new ArrayList<>();
@@ -100,6 +102,11 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     SqliteDB myDb;
     Calendar c;
     String previousDate;
+    ImageView imgSearch;
+    TextView Searchable;
+
+    Slider slider;
+    ImageView adImage;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -120,8 +127,52 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         getSupportActionBar().setCustomView(R.layout.actionbar_children);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(strTitle);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Attedance Report");
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
+
+
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
+        Slider.init(new PicassoImageLoadingService(Attendance.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
+
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (datesListAdapter == null)
+                    return;
+
+                if (datesListAdapter.getItemCount() < 1) {
+                    rvDateList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvDateList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvDateList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
 
 
 
@@ -145,30 +196,6 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
             public void onClick(View view) {
                 LoadMoreAttendenceReportAPI();
 
-//                previousDate=TeacherUtil_SharedPreference.getAttedanceCurrentDate(Attendance.this);
-//                Log.d("previousDate",previousDate);
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                Log.d("current",currentDate);
-//                if (previousDate.equals("") || previousDate.compareTo(currentDate)<0)
-//                {
-//                    LoadMoreAttendenceReportAPI();
-//                }
-//                else {
-//                    myDb = new SqliteDB(Attendance.this);
-//                    if (myDb.checkAttedance()) {
-//                        dateList.clear();
-//                        totalDateList.addAll(myDb.getAttedance_list());
-//                        dateList.addAll(totalDateList);
-//                        datesListAdapter.notifyDataSetChanged();
-//                        LoadMore.setVisibility(View.GONE);
-//
-//                    }
-//                    else {
-//                        showAlertRecords("No Records Found..");
-//                    }
-//                }
-
             }
         });
         isNewVersion=TeacherUtil_SharedPreference.getNewVersion(Attendance.this);
@@ -183,13 +210,10 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
 
         rvDateList = (RecyclerView) findViewById(R.id.attendance_rvDateList);
-      //  attendance_tv1 = (TextView) findViewById(R.id.attendance_tv1);
         datesListAdapter = new AttendanceDateListAdapter(Attendance.this, dateList, new DatesListListener() {
             @Override
             public void onItemClick(DatesModel item) {
                 Log.d(TAG, "Selected Date: " + item.getDate());
-
-
 
                 }
         });
@@ -197,10 +221,28 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvDateList.setHasFixedSize(true);
         rvDateList.setLayoutManager(mLayoutManager);
-//        rvDateList.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         rvDateList.setItemAnimator(new DefaultItemAnimator());
         rvDateList.setAdapter(datesListAdapter);
         AttendenceReportAPI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
+    }
+
+
+    private void filterlist(String s) {
+        List<DatesModel> temp = new ArrayList();
+        for (DatesModel d : dateList) {
+
+            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getDay().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        datesListAdapter.updateList(temp);
     }
 
     private void LoadMoreAttendenceReportAPI() {
@@ -670,7 +712,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
                         LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),Attendance.this);
                         LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),Attendance.this);
                         LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),Attendance.this);
-                       
+
 
 
                         if (Integer.parseInt(status) > 0) {

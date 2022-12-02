@@ -16,10 +16,8 @@ public class TeacherABS_Standard implements Serializable
     }
 
     public TeacherABS_Standard(String standard, String count){//, ArrayList<TeacherABS_Section> sections) {
-
         this.standard = standard;
         this.count = count;
-//        this.sections = sections;
     }
 
     public String getStandard() {

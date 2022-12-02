@@ -34,6 +34,8 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.CircularsDateListAdapter;
 import com.vs.schoolmessenger.app.AppController;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -55,12 +57,14 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 public class MessageDatesScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -94,6 +98,12 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     Calendar c;
     String previousDate;
 
+    ImageView imgSearch;
+    TextView Searchable;
+
+    Slider slider;
+    ImageView adImage;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -112,7 +122,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_dates);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_acTitle)).setText(strChildName);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_acTitle)).setText("Homework");
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,8 +130,11 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             }
         });
 
+        Slider.init(new PicassoImageLoadingService(MessageDatesScreen.this));
+        slider = findViewById(R.id.banner);
+         adImage = findViewById(R.id.adImage);
 
-         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
+        LoadMore=(TextView) findViewById(R.id.btnSeeMore);
         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,11 +155,52 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         rytPassword = (RelativeLayout) findViewById(R.id.rytPassword);
         rytLogout = (RelativeLayout) findViewById(R.id.rytLogout);
 
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
         rytLogout.setOnClickListener(this);
         rytHelp.setOnClickListener(this);
         rytLanguage.setOnClickListener(this);
         rytPassword.setOnClickListener(this);
         rytHome.setOnClickListener(this);
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (dateListAdapter == null)
+                    return;
+
+                if (dateListAdapter.getItemCount() < 1) {
+                    rvDatesList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvDatesList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvDatesList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
+
 
         tvMsgCount = (TextView) findViewById(R.id.dates_tvMsgCount);
         tvSchoolAddress = (TextView) findViewById(R.id.dates_tvSchoolAddress);
@@ -154,6 +208,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         tvMsgCount.setText(childItem.getMsgCount());
         tvSchoolName.setText(childItem.getSchoolName());
         tvSchoolAddress.setText(childItem.getSchoolAddress());
+
 
         nivThumbNailSchoolImg = (NetworkImageView) findViewById(R.id.dates_nivThumbnailSchoolImg);
         imageLoader = AppController.getInstance().getImageLoader();
@@ -168,10 +223,21 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         rvDatesList.setAdapter(dateListAdapter);
     }
 
+    private void filterlist(String s) {
+        List<CircularDates> temp = new ArrayList();
+        for (CircularDates d : datesList) {
+
+            if (d.getCircularDate().toLowerCase().contains(s.toLowerCase()) || d.getCircularDay().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        dateListAdapter.updateList(temp);
+    }
+
     private void seeMoreButtonVisiblity() {
         if(isNewVersion.equals("1")){
             LoadMore.setVisibility(View.VISIBLE);
-            lblNoMessages.setVisibility(View.VISIBLE);
         }
         else {
             LoadMore.setVisibility(View.GONE);
@@ -216,12 +282,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 LoadMore.setVisibility(View.GONE);
                 lblNoMessages.setVisibility(View.GONE);
 
-
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                String currentDate = df.format(c.getTime());
-//                Log.d("currentDate",currentDate);
-//                TeacherUtil_SharedPreference.putHomeWorkCurrentDate(MessageDatesScreen.this,currentDate);
-
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
@@ -235,9 +295,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                             CircularDates cirDates;
                             Log.d("json length", js.length() + "");
 
-//                            dateListAdapter.clearAllData();
-//                            iTotMsgUnreadCount = 0;
-                            // OfflinedatesList.clear();
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 cirDates = new CircularDates(jsonObject.getString("HomeworkDate"), jsonObject.getString("HomeworkDay"),
@@ -254,12 +311,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                             tvMsgCount.setText("" + iTotMsgUnreadCount);
                             arrayList = new ArrayList<>();
                             arrayList.addAll(datesList);
-//                            myDb = new SqliteDB(MessageDatesScreen.this);
-//
-//                            if(myDb.checkHomeWork()){
-//                                myDb.deleteHomeWork();
-//                            }
-//                            myDb.addHomeWork( (ArrayList<CircularDates>) OfflinedatesList, MessageDatesScreen.this);
                             dateListAdapter.notifyDataSetChanged();
 
                         } else {
@@ -287,6 +338,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
+        ShowAds.getAds(this,adImage,slider,"");
 
         if (isNetworkConnected()) {
             recentCircularsDateWiseAPI();
@@ -456,7 +508,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
                         String strDate = jsonObject.getString("HomeworkDate");
                         String strTotalSMS = jsonObject.getString("TextCount");
-                        //String strTotalSMS = jsonObject.getString("HomeworkDay");
 
                         dateListAdapter.clearAllData();
                         iTotMsgUnreadCount = 0;
@@ -465,7 +516,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
                         if(isNewVersion.equals("1")){
                             LoadMore.setVisibility(View.VISIBLE);
-                            lblNoMessages.setVisibility(View.VISIBLE);
                         }
                         else {
                             LoadMore.setVisibility(View.GONE);

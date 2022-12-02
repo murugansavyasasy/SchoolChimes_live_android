@@ -76,8 +76,6 @@ public class CircularsDateListAdapter extends RecyclerView.Adapter<CircularsDate
             holder.tvVoiceUnread.setVisibility(View.GONE);
         else holder.tvVoiceUnread.setVisibility(View.VISIBLE);
 
-        //************
-
         holder.tvTextTotal.setText("TEXT (" + date.getTextTotCount() + ")");
         holder.tvTextUnread.setText(date.getTextUnreadCount());
         int iTextUnread = Integer.parseInt(date.getTextUnreadCount());
@@ -112,6 +110,10 @@ public class CircularsDateListAdapter extends RecyclerView.Adapter<CircularsDate
         return datesList.size();
     }
 
+    public void updateList(List<CircularDates> temp) {
+        datesList = temp;
+        notifyDataSetChanged();
+    }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tvDate, tvDay, tvTotalUnread;
         LinearLayout llVoice, llText, llImage, llPDF;

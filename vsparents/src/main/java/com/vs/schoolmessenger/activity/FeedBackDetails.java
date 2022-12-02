@@ -58,7 +58,6 @@ public class FeedBackDetails extends AppCompatActivity {
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     String selectedItemText;
 
-    // ScrollView scroll;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));

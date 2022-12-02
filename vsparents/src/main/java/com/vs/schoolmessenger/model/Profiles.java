@@ -30,12 +30,10 @@ public class Profiles implements Serializable {
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
         this.schoolThumbnailImgUrl = schoolThumbnailImgUrl;
-
         this.BookEnable=bookEnable;
         this.BookLink=bookLink;
         this.IsNotAllow=isnotallow;
         this.DisplayMessage=displaymessage;
-//        this.msgCount = msgCount;
     }
 
 
@@ -55,8 +53,6 @@ public class Profiles implements Serializable {
         this.DisplayMessage = message;
     }
 
-
-
     public String getBookEnable() {
         return BookEnable;
     }
@@ -65,8 +61,6 @@ public class Profiles implements Serializable {
         this.BookEnable = childName;
     }
 
-
-
     public String getBookLink() {
         return BookLink;
     }
@@ -74,8 +68,6 @@ public class Profiles implements Serializable {
     public void setBookLink(String childName) {
         this.BookLink = childName;
     }
-
-
 
     public String getChildName() {
         return childName;

@@ -31,9 +31,6 @@ public class AppController extends Application
     public void onCreate() {
         super.onCreate();
 
-//        AppSignatureHelper appSignatureHelper = new AppSignatureHelper(this);
-//        appSignatureHelper.getAppSignatures();
-
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
@@ -42,27 +39,9 @@ public class AppController extends Application
                                 .build()))
                 .build());
 
-       // Thread.setDefaultUncaughtExceptionHandler(handleAppCrash);
         mInstance = this;
     }
 
-
-
-
-//    private Thread.UncaughtExceptionHandler handleAppCrash =
-//            new Thread.UncaughtExceptionHandler() {
-//                @Override
-//                public void uncaughtException(Thread thread, Throwable ex) {
-//                    Log.e("error", ex.toString());
-//                    //send email here
-//                    Intent   intent = new Intent(Intent.ACTION_SEND);
-//                   intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"murugan@voicesnap.com"});
-//                    intent.putExtra(Intent.EXTRA_SUBJECT, "SchoolApp_Crash Report");
-//                    intent.putExtra(Intent.EXTRA_TEXT, ex.toString());
-//                    intent.setType("message/rfc822");
-//                    startActivity(Intent.createChooser(intent, "Crash Report send to email"));
-//                }
-//            };
 
     public static synchronized AppController getInstance() {
         return mInstance;

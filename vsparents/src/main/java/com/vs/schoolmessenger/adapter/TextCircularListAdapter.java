@@ -67,6 +67,11 @@ public class TextCircularListAdapter extends RecyclerView.Adapter<TextCircularLi
         return textDataList.size();
     }
 
+    public void updateList(ArrayList<MessageModel> temp) {
+        textDataList = temp;
+        notifyDataSetChanged();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvTitle, tvDate, tvTime, tvStatus, tvMsgContent,tvDescription;

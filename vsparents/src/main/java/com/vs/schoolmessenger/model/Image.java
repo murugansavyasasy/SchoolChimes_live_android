@@ -27,8 +27,6 @@ public class Image implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeLong(id);
-//        dest.writeString(name);
         dest.writeString(path);
     }
 
@@ -45,8 +43,6 @@ public class Image implements Parcelable {
     };
 
     private Image(Parcel in) {
-//        id = in.readLong();
-//        name = in.readString();
         path = in.readString();
     }
 }

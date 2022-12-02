@@ -21,6 +21,7 @@ import com.vs.schoolmessenger.model.ExamEnhancement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ExamEnhancementAdapter extends RecyclerView.Adapter<ExamEnhancementAdapter.MyViewHolder> {
 
@@ -32,7 +33,6 @@ public class ExamEnhancementAdapter extends RecyclerView.Adapter<ExamEnhancement
         this.textDataList = textDataList;
         this.context = context;
         this.type = type;
-
     }
 
     @Override
@@ -43,13 +43,15 @@ public class ExamEnhancementAdapter extends RecyclerView.Adapter<ExamEnhancement
         return new ExamEnhancementAdapter.MyViewHolder(itemView);
     }
 
-
-
     @Override
     public int getItemCount() {
         return textDataList.size();
     }
 
+    public void updateList(ArrayList<ExamEnhancement> temp) {
+        textDataList = temp;
+        notifyDataSetChanged();
+    }
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt_date,txt_time,txt_type,lblsubject,lblExamdate,lblEndtime,lblStarttime,lblSent,
@@ -58,9 +60,6 @@ public class ExamEnhancementAdapter extends RecyclerView.Adapter<ExamEnhancement
         Button btnStart;
         LinearLayout lnrSubject,lnrStarttime,lnrendtime,lnrexamdate,lnrSentby,lnrtimeque,lnrmarkque,lnrTotalque,
                 lnrRightAns,lnrWrongAns,lnrTotalMarks,lnrBtn;
-
-
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -100,9 +99,7 @@ public class ExamEnhancementAdapter extends RecyclerView.Adapter<ExamEnhancement
 
         }
 
-//        public void bind(final OnlineClassByStaffModel item, final OnlineClassStaffListener listener) {
-//
-//        }
+
     }
     @Override
     public void onBindViewHolder(final ExamEnhancementAdapter.MyViewHolder holder, final int position) {
@@ -141,7 +138,6 @@ public class ExamEnhancementAdapter extends RecyclerView.Adapter<ExamEnhancement
         holder.lbltotalmarks.setText(msgModel.getTotalMark());
         holder.lblTextTitle.setText(msgModel.getTitle());
         holder.lblDesc.setText(msgModel.getDescription());
-
 
         //type ==1 Upcoming
         //type ==2 Completed
@@ -191,7 +187,6 @@ public class ExamEnhancementAdapter extends RecyclerView.Adapter<ExamEnhancement
             holder.lnrTotalMarks.setVisibility((View.GONE));
         }
 
-
             holder.btnStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -216,15 +211,8 @@ public class ExamEnhancementAdapter extends RecyclerView.Adapter<ExamEnhancement
 
                 }
             });
-
-
-
-
-
     }
-    private void showToast(String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-    }
+
 
     public void clearAllData() {
         int size = this.textDataList.size();

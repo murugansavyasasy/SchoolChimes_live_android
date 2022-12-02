@@ -88,7 +88,6 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_OFFICE_S
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.loginJsonObject;
 
 
 public class TeacherSplashScreen extends AppCompatActivity {
@@ -99,16 +98,13 @@ public class TeacherSplashScreen extends AppCompatActivity {
     boolean bForceUpdate = false;
 
     String strMobile, strPassword;
-    ArrayList<String> loginTypeList = new ArrayList<>();
     ArrayList<Profiles> arrChildList = new ArrayList<>();
 
     SqliteDB myDb;
     ArrayList<Profiles> arrayList;
     ArrayList<String> schoolNamelist = new ArrayList<>();
-    TeacherSchoolsModel schoolmodel = null;
 
     ArrayList<Languages> LanguageList = new ArrayList<>();
-    String IMEINumber = "";
     String CountrID = "";
 
     LinearLayout lnrInternetConnection;
@@ -117,7 +113,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
     ProgressDialog pDialog;
     String trmsAndConditions = "https://gradit.voicesnap.com/School/SchoolTermsConditions";
 
-
     private AppUpdateManager appUpdateManager;
     private InstallStateUpdatedListener installStateUpdatedListener;
     private static final int FLEXIBLE_APP_UPDATE_REQ_CODE = 123;
@@ -125,8 +120,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
     LinearLayout lnrSnackBar;
     TextView lblInstall;
-    JSONObject jsonObjectdetailsStaff;
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -177,6 +170,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
         else {
             TeacherUtil_SharedPreference.putNewProduct(TeacherSplashScreen.this,"1");
         }
+
+
     }
 
     @Override
@@ -660,48 +655,9 @@ public class TeacherSplashScreen extends AppCompatActivity {
     }
 
     private void goToSignInScreen(String msg) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherSplashScreen.this);
-        alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                Intent inChangePass = new Intent(TeacherSplashScreen.this, TeacherSignInScreen.class);
-                startActivity(inChangePass);
-                finish();
-
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
-
-
-    }
-
-    private void alert(String msg) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherSplashScreen.this);
-        alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
-
-
+        Intent inChangePass = new Intent(TeacherSplashScreen.this, TeacherSignInScreen.class);
+        startActivity(inChangePass);
+        finish();
     }
 
     private void showAlert(String title, String msg) {
@@ -790,9 +746,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
-
         String strBase = BASE_URL;
-
         TeacherSchoolsApiClient.changeApiBaseUrl(strBase);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_GetCountryList(getString(R.string.teacher_app_id));
@@ -824,7 +778,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 arrCountryList.add(countryList);
                                 countryNameList.add(countryList.getStrCountyName());
                             }
-
                             showCountryListBox();
                         }
                         else {
@@ -837,7 +790,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
-                    Log.e("GetCountry:Exception", e.getMessage());
                     finish();
                 }
             }
@@ -848,7 +800,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
                 finish();
-                Log.d("GetCountry:Failure", t.toString());
             }
         });
     }
@@ -864,45 +815,17 @@ public class TeacherSplashScreen extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.cancel();
                 int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-
                 TeacherCountryList item = arrCountryList.get(selectedPosition);
-
                 TeacherUtil_SharedPreference.putCountryInforToSP(TeacherSplashScreen.this, item.getStrCountyID(),
                         item.getStrCountyName(), item.getStrCountyMobileLength(), item.getStrCountyCode(),
                         item.getStrBaseURL());
 
                 TeacherUtil_SharedPreference.putBaseURL(TeacherSplashScreen.this,item.getStrBaseURL());
                 CountrID = TeacherUtil_SharedPreference.getCountryID(TeacherSplashScreen.this);
-                Log.d("CountryID", CountrID);
-
                 BASE_URL = item.getStrBaseURL();
                 TeacherSchoolsApiClient.changeApiBaseUrl(item.getStrBaseURL());
-
                 checkUpdateFirstTime();
 
-
-
-//                String version = getString(R.string.teacher_app_version_id);
-//                if (!("98".equals(version))) {
-//                    TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, version);
-//                    checkAppUpdateAPI();
-//                } else {
-//
-//                    String value = TeacherUtil_SharedPreference.getInstall(TeacherSplashScreen.this);
-//                    String otpValue = TeacherUtil_SharedPreference.getOTPNum(TeacherSplashScreen.this);
-//                    String mobilescreen = TeacherUtil_SharedPreference.getMobileNumberScreen(TeacherSplashScreen.this);
-//
-//                    if (mobilescreen.equals("1")) {
-//                        openMobileNumbeScreen();
-//                    } else if (otpValue.equals("1")) {
-//                        openMobileNumbeScreen();
-//                    } else if (value.equals("1")) {
-//                        openSingInScreen();
-//                    } else {
-//                        openMobileNumbeScreen();
-//                    }
-//
-//                }
             }
         });
         builder.setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
@@ -969,6 +892,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         String ProfileLink = jsonObject.getString("ProfileLink");
                         String ProfileUploadTitle = jsonObject.getString("UploadProfileTitle");
                         String NewProductLink = jsonObject.getString("NewProductLink");
+                        String adTimerInterval = jsonObject.getString("adTimerInterval");
+                        TeacherUtil_SharedPreference.putAdTimeInterval(TeacherSplashScreen.this, adTimerInterval);
                         TeacherUtil_SharedPreference.putNewProductsLink(TeacherSplashScreen.this, NewProductLink);
                         TeacherUtil_SharedPreference.putProfilLink(TeacherSplashScreen.this, ProfileLink);
                         TeacherUtil_SharedPreference.putProfilTitle(TeacherSplashScreen.this, ProfileTitle);
@@ -1087,6 +1012,9 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         String ProfileUploadTitle = jsonObject.getString("UploadProfileTitle");
                         String NewProductLink = jsonObject.getString("NewProductLink");
                         String InAppUpdate = jsonObject.getString("InAppUpdate");
+                        String adTimerInterval = jsonObject.getString("adTimerInterval");
+                        TeacherUtil_SharedPreference.putAdTimeInterval(TeacherSplashScreen.this, adTimerInterval);
+
                         TeacherUtil_SharedPreference.putNewProductsLink(TeacherSplashScreen.this, NewProductLink);
                         TeacherUtil_SharedPreference.putProfilLink(TeacherSplashScreen.this, ProfileLink);
                         TeacherUtil_SharedPreference.putProfilTitle(TeacherSplashScreen.this, ProfileTitle);
@@ -1227,37 +1155,36 @@ public class TeacherSplashScreen extends AppCompatActivity {
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-
-
                 Log.d("Login:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Login:Res", response.body().toString());
-
-
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
                         String Status = jsonObject.getString("Status");
                         String Message = jsonObject.getString("Message");
-                        String role = jsonObject.getString("staff_role");
-                        String display_role = jsonObject.getString("staff_display_role");
-                        TeacherUtil_SharedPreference.putRole(TeacherSplashScreen.this, role);
-                        TeacherUtil_SharedPreference.putDisplayRoleMessage(TeacherSplashScreen.this, display_role);
-                        TeacherUtil_SharedPreference.putLoginMessage(TeacherSplashScreen.this, Message);
-                        String ImageCount = jsonObject.getString("ImageCount");
-                        TeacherUtil_SharedPreference.putImageCount(TeacherSplashScreen.this, ImageCount);
-
-                        Boolean is_parent = jsonObject.getBoolean("is_parent");
-                        Boolean is_staff = jsonObject.getBoolean("is_staff");
-                        TeacherUtil_SharedPreference.putIsStaff(TeacherSplashScreen.this,is_staff);
-                        TeacherUtil_SharedPreference.putIsParent(TeacherSplashScreen.this,is_parent);
 
 
                         String strlogin = "";
                         TeacherSchoolsModel schoolmodel = null;
                         listschooldetails = new ArrayList<>();
                         if (Status.equals("1")) {
+
+                            String role = jsonObject.getString("staff_role");
+                            String display_role = jsonObject.getString("staff_display_role");
+                            TeacherUtil_SharedPreference.putRole(TeacherSplashScreen.this, role);
+                            TeacherUtil_SharedPreference.putDisplayRoleMessage(TeacherSplashScreen.this, display_role);
+                            TeacherUtil_SharedPreference.putLoginMessage(TeacherSplashScreen.this, Message);
+                            String ImageCount = jsonObject.getString("ImageCount");
+                            TeacherUtil_SharedPreference.putImageCount(TeacherSplashScreen.this, ImageCount);
+
+                            Boolean is_parent = jsonObject.getBoolean("is_parent");
+                            Boolean is_staff = jsonObject.getBoolean("is_staff");
+                            TeacherUtil_SharedPreference.putIsStaff(TeacherSplashScreen.this,is_staff);
+                            TeacherUtil_SharedPreference.putIsParent(TeacherSplashScreen.this,is_parent);
+
+
 
                             TeacherUtil_Common.maxEmergencyvoicecount = jsonObject.getInt("MaxEmergencyVoiceDuration");
                             TeacherUtil_Common.maxGeneralvoicecount = jsonObject.getInt("MaxGeneralVoiceDuartion");
@@ -1691,30 +1618,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
         validateUser();
     }
 
-    private void show(String message) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherSplashScreen.this);
-        alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage(message);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-
-                startActivity(new Intent(TeacherSplashScreen.this, TeacherSignInScreen.class));
-                finish();
-
-
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.show();
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
-
-    }
-
-
     private void showPlayStoreAlert(String versionAlertTitle, String versionAlertContent, final String PlaystoreMarketId, final String PlayStoreLink) {
         AlertDialog.Builder builder = new AlertDialog.Builder(TeacherSplashScreen.this);
         AlertDialog alertDialog;
@@ -1785,8 +1688,5 @@ public class TeacherSplashScreen extends AppCompatActivity {
         } else {
 
         }
-
     }
-
-
 }
