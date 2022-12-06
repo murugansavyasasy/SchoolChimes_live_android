@@ -15,7 +15,7 @@ android {
         applicationId "com.vs.schoolmessenger"
         minSdkVersion 22
         targetSdkVersion 32
-        versionCode 74
+        versionCode 75
         versionName "7.4"
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -94,9 +94,9 @@ dependencies {
  //   implementation 'com.razorpay:checkout:1.5.16'
 
     //AWS s3 libraries
-    implementation 'com.amazonaws:aws-android-sdk-s3:2.6.31'
-    implementation 'com.amazonaws:aws-android-sdk-cognito:2.6.31'
-    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.2.+'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.59.0'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.20.1'
+    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.25.0'
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'de.hdodenhof:circleimageview:1.2.1'
 

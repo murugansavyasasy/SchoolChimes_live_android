@@ -37,6 +37,8 @@ public class S3Uploader {
         TransferObserver observer = transferUtility.upload(AWSKeys.BUCKET_NAME, fileNameDateTime+"_"+mediaUrl,
                 file, CannedAccessControlList.PublicRead);
 
+        Log.d("media_upload", "media_upload");
+
         observer.setTransferListener(new UploadListener());
     }
 
@@ -47,6 +49,8 @@ public class S3Uploader {
         @Override
         public void onError(int id, Exception e) {
             Log.e(TAG, "Error during upload: " + id, e);
+            Log.d("Errror_Ex", String.valueOf(e));
+
             s3UploadInterface.onUploadError(e.toString());
             s3UploadInterface.onUploadError("Error");
         }
@@ -55,11 +59,16 @@ public class S3Uploader {
         public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
             Log.d(TAG, String.format("onProgressChanged: %d, total: %d, current: %d",
                     id, bytesTotal, bytesCurrent));
+
+            Log.d("bytesTotal", String.valueOf(bytesTotal));
+
         }
 
         @Override
         public void onStateChanged(int id, TransferState newState) {
             Log.d(TAG, "onStateChanged: " + id + ", " + newState);
+
+            Log.d("newstae", String.valueOf(newState));
             if (newState == TransferState.COMPLETED) {
                 s3UploadInterface.onUploadSuccess("Success");
             }
