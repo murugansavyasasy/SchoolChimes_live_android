@@ -57,7 +57,7 @@
                     android:lineSpacingExtra="2dp"
                     android:maxLines="100"
                     android:singleLine="false"
-                    android:text="Message "
+                    android:text="Message"
                     android:textColor="@color/clr_black"
                     android:textSize="14sp" />
 

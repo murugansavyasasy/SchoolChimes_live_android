@@ -150,6 +150,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
 
     String isEmergencyVoice="";
     TextView emergVoice_tvTitle;
+    Button btnStaffGroups;
 
 
     @Override
@@ -204,6 +205,11 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
         btnToSections.setEnabled(false);
         btnToStudents.setEnabled(false);
         rlVoicePreview.setVisibility(View.GONE);
+
+        btnStaffGroups = (Button) findViewById(R.id.btnStaffGroups);
+        btnStaffGroups.setOnClickListener(this);
+        btnStaffGroups.setEnabled(false);
+
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherEmergencyVoice.this);
         if(countryID.equals("11")){
@@ -524,6 +530,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
             } else {
                 rvSchoolsList.setVisibility(View.GONE);
                 btnNext.setVisibility(View.GONE);
+                btnStaffGroups.setVisibility(View.VISIBLE);
             }
         }
 
@@ -936,6 +943,19 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
                 intoStu.putExtra("SCHOOL_ID", "");
                 intoStu.putExtra("TO", "STU");
                 startActivityForResult(intoStu, iRequestCode);
+                break;
+
+
+            case R.id.btnStaffGroups:
+                Intent intoStu2 = new Intent(TeacherEmergencyVoice.this, ToStaffGroupList.class);
+                String strtittle2 = et_tittle.getText().toString();
+                intoStu2.putExtra("REQUEST_CODE", iRequestCode);
+                intoStu2.putExtra("DURATION", String.valueOf(iMediaDuration));
+                intoStu2.putExtra("FILEPATH", String.valueOf(futureStudioIconFile.getPath()));
+                intoStu2.putExtra("TITTLE", strtittle2);
+                intoStu2.putExtra("SCHOOL_ID", schoolId);
+                intoStu2.putExtra("STAFF_ID", staffId);
+                startActivityForResult(intoStu2, iRequestCode);
                 break;
 
             case R.id.myAudioPlayer_imgBtnPlayPause:
@@ -1418,6 +1438,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
         if ((loginType.equals(LOGIN_TYPE_TEACHER)) || ((iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW || iRequestCode == STAFF_TEXT_EXAM || iRequestCode == PRINCIPAL_VOICE || iRequestCode == STAFF_VOICE || iRequestCode == PRINCIPAL_VOICE_HW))) {
             btnToSections.setEnabled(false);
             btnToStudents.setEnabled(false);
+            btnStaffGroups.setEnabled(false);
 
             btnSelectSchool.setEnabled(false);
             btn_Select_receipients.setEnabled(false);
@@ -1457,6 +1478,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
         if (loginType.equals(LOGIN_TYPE_TEACHER) || (iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW || iRequestCode == STAFF_TEXT_EXAM || iRequestCode == PRINCIPAL_VOICE || iRequestCode == STAFF_VOICE || iRequestCode == PRINCIPAL_VOICE_HW)) {
             btnToSections.setEnabled(true);
             btnToStudents.setEnabled(true);
+            btnStaffGroups.setEnabled(true);
 
             btnSelectSchool.setEnabled(true);
             btn_Select_receipients.setEnabled(true);

@@ -92,7 +92,7 @@ public class VoiceCircular extends AppCompatActivity {
     String isNewVersion;
     TextView LoadMore;
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
 
     Slider slider;
     ImageView adImage;
@@ -150,6 +150,8 @@ public class VoiceCircular extends AppCompatActivity {
                 if (voiceAdapter == null)
                     return;
 
+                Log.d("text_onchange","text");
+
                 if (voiceAdapter.getItemCount() < 1) {
                     rvVoiceList.setVisibility(View.GONE);
                     if (Searchable.getText().toString().isEmpty()) {
@@ -164,6 +166,8 @@ public class VoiceCircular extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
+                Log.d("text_after",editable.toString());
 
                 if (editable.length() > 0) {
                     imgSearch.setVisibility(View.GONE);
@@ -217,7 +221,7 @@ public class VoiceCircular extends AppCompatActivity {
         ArrayList<MessageModel> temp = new ArrayList();
         for (MessageModel d : msgModelList) {
 
-            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgTitle().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getMsgdescription().toLowerCase().contains(s.toLowerCase()) || d.getMsgTitle().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase()) ) {
                 temp.add(d);
             }
 

@@ -47,6 +47,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.AlbumSelectActivity;
 import com.vs.schoolmessenger.activity.TeacherEmergencyVoice;
 import com.vs.schoolmessenger.activity.TeacherSchoolList;
+import com.vs.schoolmessenger.activity.ToStaffGroupList;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.FileUtils;
@@ -89,7 +90,6 @@ public class VideoUpload extends AppCompatActivity {
     TextView lblClickImage;
     EditText edgallery,edtitle;
 
-
     private PopupWindow popupWindow;
 
     String OrganisationId,ManagementID;
@@ -101,6 +101,8 @@ public class VideoUpload extends AppCompatActivity {
     Intent resume;
     ContentAdapter contentadapter;
     private Future<Void> mFuture;
+    Button btnStaffGroups;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -140,6 +142,8 @@ public class VideoUpload extends AppCompatActivity {
         imgplay3.setVisibility(View.GONE);
         imgplay4.setVisibility(View.GONE);
 
+        btnStaffGroups = (Button) findViewById(R.id.btnStaffGroups);
+
         imgback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +154,8 @@ public class VideoUpload extends AppCompatActivity {
             btnStdSec.setVisibility(View.VISIBLE);
             btnSchool.setVisibility(View.VISIBLE);
             btnRecipients.setVisibility(View.GONE);
+
+            btnStaffGroups.setVisibility(View.VISIBLE);
 
         }
         else if (loginType.equals(LOGIN_TYPE_PRINCIPAL)){
@@ -241,6 +247,34 @@ public class VideoUpload extends AppCompatActivity {
                     i.putExtra("SEC", "1");
                     i.putExtra("TITLE", edtitle.getText().toString());
                     i.putExtra("CONTENT", edgallery.getText().toString());
+                    i.putExtra("FILEPATH", String.valueOf(file));
+                    i.putExtra("FILE_SIZE", String.valueOf(length));
+                    startActivity(i);
+                }
+
+            }
+        });
+
+        btnStaffGroups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("filepath", String.valueOf(file));
+                length = file.length();
+
+                total=0;
+                sizekb=  (1000)*Integer.parseInt(String.valueOf(length));
+                if(edtitle.getText().toString().equals("")){
+                    alert("Please Enter Title");
+                }
+                else if (edgallery.getText().toString().equals("")){
+                    alert("Please Enter Description");
+
+                }
+                else {
+                    Intent i = new Intent(VideoUpload.this, ToStaffGroupList.class);
+                    i.putExtra("REQUEST_CODE", VIDEO_GALLERY);
+                    i.putExtra("TITTLE", edtitle.getText().toString());
+                    i.putExtra("MESSAGE", edgallery.getText().toString());
                     i.putExtra("FILEPATH", String.valueOf(file));
                     i.putExtra("FILE_SIZE", String.valueOf(length));
                     startActivity(i);
@@ -487,6 +521,7 @@ public class VideoUpload extends AppCompatActivity {
                 btnRecipients.setEnabled(false);
                 btnStdSec.setEnabled(false);
                 btnSchool.setEnabled(false);
+                btnStaffGroups.setEnabled(false);
                 lblClickImage.setVisibility(View.VISIBLE);
 
             }
@@ -494,6 +529,7 @@ public class VideoUpload extends AppCompatActivity {
                 btnchange.setEnabled(true);
                 btnRecipients.setEnabled(true);
                 btnStdSec.setEnabled(true);
+                btnStaffGroups.setEnabled(true);
                 btnSchool.setEnabled(true);
             }
         }

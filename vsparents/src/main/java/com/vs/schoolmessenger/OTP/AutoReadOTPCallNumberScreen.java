@@ -34,6 +34,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.ChildrenScreen;
+import com.vs.schoolmessenger.activity.MobileNumberScreen;
+import com.vs.schoolmessenger.activity.PasswordScreen;
 import com.vs.schoolmessenger.activity.TeacherChangePassword;
 import com.vs.schoolmessenger.activity.TeacherSignInScreen;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
@@ -368,7 +370,15 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
 
                             if (Status.equals("1")) {
                                  stophandler();
+                                String strPassword = TeacherUtil_SharedPreference.getPasswordFromSP(AutoReadOTPCallNumberScreen.this);
+                                if(strPassword.equals("")) {
+                                    Intent intent = new Intent(AutoReadOTPCallNumberScreen.this, PasswordScreen.class);
+                                    startActivity(intent);
+                                    finish();
+                                 }
+                                else {
                                  getUserDetails();
+                                }
 
                             } else {
                                 showAlert(Message);

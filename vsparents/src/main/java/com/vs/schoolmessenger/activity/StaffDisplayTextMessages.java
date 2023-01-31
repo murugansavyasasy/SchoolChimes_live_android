@@ -50,11 +50,6 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_voice_circular);
 
-//        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        }
-
-
         voice_ToolBarIvBack = (ImageView) findViewById(R.id.voice_ToolBarIvBack);
         voice_ToolBarIvBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +74,6 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
         textAdapter = new StaffDisplayTextAdapter(msgModelList, StaffDisplayTextMessages.this, new OnMsgItemClickListener() {
             @Override
             public void onMsgItemClick(TeacherMessageModel item) {
-//                showToast(item.getMsgContent());
                 Intent inTextPopup = new Intent(StaffDisplayTextMessages.this, TextMessagePopup.class);
                 inTextPopup.putExtra("TEXT_ITEM", item);
                 inTextPopup.putExtra("is_Archive", is_Archive);
@@ -87,9 +81,6 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
             }
         });
         rvVoiceList.setAdapter(textAdapter);
-
-
-
 
     }
 

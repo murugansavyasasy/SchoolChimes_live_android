@@ -99,7 +99,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     String previousDate;
 
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
 
     Slider slider;
     ImageView adImage;

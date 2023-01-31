@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:id="@+id/lnrStudent"
-    android:padding="5dp"
-    android:background="@color/clr_white"
+    android:padding="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginHorizontal="10dp"
+    android:background="@drawable/bg_shadow_white_card"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:id="@+id/lnrStudentDetails"
         android:background="@color/clr_white"
         android:layout_height="wrap_content">
@@ -16,38 +18,31 @@
         android:id="@+id/lblstudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:layout_gravity="center"
+        android:textSize="18dp"
+        android:layout_gravity="left"
         android:gravity="left"
         android:textColor="@color/clr_blue"
         android:text="nisha"
-        android:layout_margin="5dp"
         android:padding="5dp"/>
     <TextView
         android:id="@+id/lblsection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:layout_gravity="center"
+        android:textSize="13dp"
+        android:layout_gravity="left"
         android:gravity="left"
         android:textColor="@color/clr_black"
         android:text="nisha"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
         android:padding="5dp"/>
 
     <TextView
         android:id="@+id/lblstatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:layout_gravity="center"
-        android:gravity="right"
+        android:textSize="13dp"
+        android:layout_gravity="left"
         android:textColor="@color/clr_green"
         android:text="nisha"
-        android:layout_margin="5dp"
         android:padding="5dp"/>
 
 </LinearLayout>

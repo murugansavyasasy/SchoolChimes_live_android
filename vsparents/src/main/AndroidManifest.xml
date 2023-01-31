@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+
 
     <uses-feature
         android:name="android.hardware.telephony"
@@ -791,7 +795,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
+            android:theme="@style/Teacher_AppTheme.Translucent"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <activity
+            android:name=".activity.ToStaffGroupList"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -886,9 +897,17 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
-
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:name=".activity.StaffDisplayVideos"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:theme="@style/Teacher_AppTheme.Translucent"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activity.StaffDisplayPDF"
             android:launchMode="singleTop"

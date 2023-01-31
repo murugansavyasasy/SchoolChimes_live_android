@@ -94,7 +94,7 @@ public class TextCircular extends AppCompatActivity {
     Boolean is_Archive;
 
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
 
     Slider slider;
     ImageView adImage;

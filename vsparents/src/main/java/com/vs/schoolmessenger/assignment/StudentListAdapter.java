@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
+import com.vs.schoolmessenger.model.DatesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 
@@ -98,6 +99,11 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         this.context = context;
         this.dateList = dateList;
         this.assignmentid = assignmentid;
+    }
+
+    public void updateList(List<Studentclass> temp) {
+        dateList = temp;
+        notifyDataSetChanged();
     }
     private void showFilePickPopup(final String assignid, final String userid, final String type,final Boolean archive) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

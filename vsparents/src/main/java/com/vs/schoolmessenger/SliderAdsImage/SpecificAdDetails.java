@@ -1,11 +1,13 @@
 package com.vs.schoolmessenger.SliderAdsImage;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +16,6 @@ public class SpecificAdDetails extends AppCompatActivity {
 
     WebView webView;
     ProgressDialog pDialog;
-    private WebSettings webSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +37,46 @@ public class SpecificAdDetails extends AppCompatActivity {
         pDialog = new ProgressDialog(SpecificAdDetails.this);
         pDialog.setMessage("");
         pDialog.setCancelable(false);
-        webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
 
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(false);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        settings.setDomStorageEnabled(true);
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        webView.setScrollbarFadingEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        } else {
+            webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        webView.loadUrl(reDirectUrl);
         webView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
-                pDialog.show();
-                setProgress(progress * 100);
+                if (progress < 100) {
+                    pDialog.show();
+                }
                 if (progress == 100) {
                     pDialog.dismiss();
-
                 }
             }
         });
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.loadUrl(reDirectUrl);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+            }
+        });
 
         ShowAds.redirectURL ="";
         ShowAds.advertisementName ="";

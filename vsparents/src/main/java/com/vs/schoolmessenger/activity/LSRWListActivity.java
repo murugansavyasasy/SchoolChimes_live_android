@@ -52,7 +52,7 @@ public class LSRWListActivity extends AppCompatActivity {
     LSRWAdapter textAdapter;
     Boolean show=false;
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
     Slider slider;
     ImageView adImage;
 

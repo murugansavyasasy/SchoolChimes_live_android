@@ -1,30 +1,38 @@
 package com.vs.schoolmessenger.activity;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
-import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +40,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.vs.schoolmessenger.BuildConfig;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.ChildMenuAdapter;
@@ -41,7 +57,6 @@ import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.ParentMenuModel;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
-import com.vs.schoolmessenger.model.adsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.SqliteDB;
@@ -53,8 +68,10 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
@@ -64,15 +81,11 @@ import retrofit2.Response;
 import ss.com.bannerslider.Slider;
 
 
-import static com.vs.schoolmessenger.util.Util_Common.hasPermissions;
-
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     static ArrayList<String> isParentMenuNames = new ArrayList<>();
     String strChildName, child_ID;
     public static Profiles childItem = new Profiles();
     TextView tv_schoolname, tvSchoolAddress;
-    String[] PERMISSIONS = {Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    int PERMISSION_ALL = 1;
     SqliteDB myDb;
     ImageView aHome_nivSchoolLogo;
     RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
@@ -91,15 +104,27 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     Slider slider;
     ImageView adImage;
-    ImageView flipImage;
 
-    public  Handler handler = new Handler();
-    public  Runnable myRunnable;
+    public Handler handler = new Handler();
+    public static int i = 0;
+    private PopupWindow popupWindow;
+
+    int Contact_Count = 0;
+    int exist_Count = 0;
+
+    String contact_alert_title = "", contact_alert_Content = "", contact_display_name = "", contact_numbers = "",contact_button = "";
+    String[] contacts;
+    String Display_Name = "";
+
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    private PopupWindow SettingspopupWindow;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,17 +152,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-//        flipImage = (ImageView) findViewById(R.id.flipImage);
-//        myRunnable = new Runnable() {
-//            public void run() {
-//
-//                loadAnimations();
-//                handler.postDelayed(this, 3000);
-//            }
-//        };
-//        handler.postDelayed(myRunnable, 0);
-
-
         Slider.init(new PicassoImageLoadingService(HomeActivity.this));
         slider = findViewById(R.id.banner);
         adImage = findViewById(R.id.adImage);
@@ -151,7 +165,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         rytLogout = (RelativeLayout) findViewById(R.id.rytLogout);
         scrollingtext = (TextView) findViewById(R.id.scrollingtext);
         lnrScroll = (LinearLayout) findViewById(R.id.lnrScroll);
-        //scrollingtext.setSelected(true);
 
         rytLogout.setOnClickListener(this);
         rytHelp.setOnClickListener(this);
@@ -159,9 +172,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         rytPassword.setOnClickListener(this);
         rytHome.setOnClickListener(this);
 
-        if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
-        }
+
         aHome_nivSchoolLogo = (ImageView) findViewById(R.id.aHome_nivSchoolLogo);
         String url = childItem.getSchoolThumbnailImgUrl();
 
@@ -173,6 +184,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             showToast(e.getMessage());
         }
 
+        getMenuDetails();
+
+
         isBookEnabled = childItem.getBookEnable();
         BookLink = childItem.getBookLink();
         child_ID = Util_SharedPreference.getChildIdFromSP(HomeActivity.this);
@@ -180,36 +194,70 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         tv_schoolname.setText(Util_SharedPreference.getSchoolnameFromSP(HomeActivity.this));
         tvSchoolAddress = (TextView) findViewById(R.id.aHome_tvSchoolAddress);
         tvSchoolAddress.setText(Util_SharedPreference.getSchooladdressFromSP(HomeActivity.this));
+
     }
 
-    private void loadAnimations() {
-        ObjectAnimator animStage1 = (ObjectAnimator) AnimatorInflater.loadAnimator(HomeActivity.this, R.animator.flipstage1);
-        final ObjectAnimator animStage2 = (ObjectAnimator) AnimatorInflater.loadAnimator(HomeActivity.this, R.animator.flipstage2);
-        animStage1.setTarget(flipImage);
-        animStage2.setTarget(flipImage);
-        animStage1.setDuration(500);
-        animStage2.setDuration(500);
-        animStage1.start();
-        animStage1.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+    private void getContactPermission() {
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
+            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
+        } else {
+            checkIfContactsExist();
+            // Android version is lesser than 6.0 or the permission is already granted.
+          Log.d("Granded","Granded");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+                getContactPermission();
+            } else {
+                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getReadContactsPermission(HomeActivity.this);
+
+               if(isPermissionDeniedCount.equals("2")){
+                   settingsContactPermission();
+               }
+
+               else if(isPermissionDeniedCount.equals("1")) {
+                    TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "2");
+                }
+                else {
+                    TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "1");
+                }
             }
+        }
+    }
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                animStage2.start();
-               // Glide.with(HomeActivity.this.getApplicationContext()).load("http://vs5.voicesnapforschools.com/nodejs/promotions/gradit.png").into(flipImage);
-                flipImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(),R.drawable.ad_img,null));
+    private void settingsContactPermission() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.settings_app_permission, null);
+        SettingspopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        SettingspopupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                SettingspopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
             }
+        });
 
+        TextView lblNotNow = (TextView) layout.findViewById(R.id.lblNotNow);
+        TextView lblSettings = (TextView) layout.findViewById(R.id.lblSettings);
+        lblNotNow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAnimationCancel(Animator animation) {
-
+            public void onClick(View v) {
+                SettingspopupWindow.dismiss();
             }
+        });
 
+        lblSettings.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAnimationRepeat(Animator animation) {
-
+            public void onClick(View v) {
+                SettingspopupWindow.dismiss();
+                startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
             }
         });
     }
@@ -217,7 +265,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void getMenuDetails() {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-
         IDs = "";
         String countryId = TeacherUtil_SharedPreference.getCountryID(HomeActivity.this);
         schools_list = TeacherUtil_SharedPreference.getChildrenScreenSchools_List(HomeActivity.this, "schools_list");
@@ -271,20 +318,32 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             for (String itemtemp : name) {
                                 isParentMenuNames.add(itemtemp);
                             }
-                        }
-                        String alert_message = jsonObject.getString("alert_message");
-                        if (!alert_message.equals("")) {
-                            lnrScroll.setVisibility(View.VISIBLE);
-                            scrollingtext.setText(alert_message);
-                        } else {
-                            lnrScroll.setVisibility(View.GONE);
-                        }
 
-                        UnreadCount();
+
+                            contact_alert_title = jsonObject.getString("contact_alert_title");
+                            contact_alert_Content = jsonObject.getString("contact_alert_content");
+                            contact_display_name = jsonObject.getString("contact_display_name");
+                            contact_numbers = jsonObject.getString("contact_numbers");
+                            contact_button = jsonObject.getString("contact_button_content");
+
+                            contacts = contact_numbers.split(",");
+                            getContactPermission();
+
+                            String alert_message = jsonObject.getString("alert_message");
+                            if (!alert_message.equals("")) {
+                                lnrScroll.setVisibility(View.VISIBLE);
+                                scrollingtext.setText(alert_message);
+                            } else {
+                                lnrScroll.setVisibility(View.GONE);
+                            }
+
+                            UnreadCount();
+
+                        }
                     }
 
                 } catch (Exception e) {
-                    Log.e("VersionCheck:Exception", e.getMessage());
+                    Log.e("menu:Exception", e.getMessage());
                 }
             }
 
@@ -295,6 +354,119 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 showToast(getResources().getString(R.string.check_internet));
             }
         });
+    }
+
+    private void checkIfContactsExist() {
+
+        exist_Count = 0;
+        ContentResolver contentResolver = HomeActivity.this.getContentResolver();
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String[] projection = new String[] { ContactsContract.PhoneLookup._ID };
+        String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?";
+        String[] selectionArguments = { contact_display_name };
+        Cursor cursor = contentResolver.query(uri, projection, selection, selectionArguments, null);
+        exist_Count = cursor.getCount();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+            }
+        }
+
+        Contact_Count = 0;
+        for (int i = 0; i < contacts.length; i++) {
+            String number = contacts[i];
+            if (number != null) {
+                Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+                String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME};
+                Cursor cur = HomeActivity.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
+                try {
+                    if (cur.moveToFirst()) {
+                        Contact_Count = Contact_Count + 1;
+                        int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+                        Display_Name = cur.getString(indexName);
+                        Log.d("Display_Name", Display_Name);
+                            if (!Display_Name.equals(contact_display_name)) {
+                                Contact_Count = Contact_Count - 1;
+                            }
+                    }
+                } finally {
+                    if (cur != null)
+                        cur.close();
+                }
+            }
+        }
+        if (contacts.length != Contact_Count ) {
+            if(exist_Count == 0 || exist_Count < contacts.length) {
+                contactSaveContent();
+            }
+        }
+
+    }
+
+    private void contactSaveContent() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.save_contact_alert, null);
+        popupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        popupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                popupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        TextView btnSaveContact = (TextView) layout.findViewById(R.id.btnSaveContact);
+        ImageView imgClose = (ImageView) layout.findViewById(R.id.imgClose);
+        TextView lblHeader = (TextView) layout.findViewById(R.id.lblHeader);
+        TextView lblContent = (TextView) layout.findViewById(R.id.lblContent);
+        lblHeader.setText(contact_alert_title);
+        lblContent.setText(contact_alert_Content);
+        btnSaveContact.setText(contact_button);
+
+        btnSaveContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                saveContacts();
+            }
+        });
+
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+
+    private void saveContacts() {
+
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.school_chimes_trans_splash);
+       // Bitmap bit = Bitmap.createScaledBitmap(b, 100, 100, false);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        ArrayList<ContentValues> data = new ArrayList<ContentValues>();
+        for (int i = 0; i < contacts.length; i++) {
+            ContentValues row = new ContentValues();
+            row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+            row.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
+            row.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+            data.add(row);
+        }
+
+        for (int i = 0; i < contacts.length; i++) {
+            ContentValues row = new ContentValues();
+            row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
+            row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
+            data.add(row);
+        }
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
+        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
+        startActivityForResult(intent, 100);
+
     }
 
     public void deleteCache(Activity activity) {
@@ -540,8 +712,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(HomeActivity.this,adImage,slider,"Dashboard");
-        getMenuDetails();
+        ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard");
+//        getMenuDetails();
     }
 
     private void UnreadCount() {
@@ -680,7 +852,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
                         }
-                        ChildMenuAdapter myAdapter = new ChildMenuAdapter(HomeActivity.this, R.layout.child_menu_item, menuList, BookLink);
+                        ChildMenuAdapter myAdapter = new ChildMenuAdapter(HomeActivity.this, R.layout.child_menu_item, menuList, BookLink,rytParent);
                         idGridMenus.setAdapter(myAdapter);
 
                         myDb = new SqliteDB(HomeActivity.this);
@@ -711,4 +883,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void showToast(String msg) {
         Toast.makeText(HomeActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
+
+
+
 }

@@ -188,8 +188,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
     }
 
     private void validateUser() {
-
-        TeacherUtil_SharedPreference.putStaffLoginInfoToSP(TeacherSignInScreen.this, strMobile, "", false);
+        TeacherUtil_SharedPreference.putStaffLoginInfoToSP(TeacherSignInScreen.this, strMobile, strPassword, false);
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherSignInScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
@@ -202,7 +201,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
         String androidId = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-        JsonObject json_object = TeacherUtil_JsonRequest.getJsonArray_ValidateUser(strMobile, androidId, "");
+        JsonObject json_object = TeacherUtil_JsonRequest.getJsonArray_ValidateUser(strMobile, androidId, strPassword);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.ValidateUser(json_object);
         call.enqueue(new Callback<JsonArray>() {

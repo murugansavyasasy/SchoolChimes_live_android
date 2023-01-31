@@ -96,7 +96,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     TextView LoadMore;
     Calendar c;
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
     Slider slider;
     ImageView adImage;
     String Title = "";

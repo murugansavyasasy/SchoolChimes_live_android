@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 
 import androidx.core.app.ActivityCompat;
@@ -132,6 +134,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
         setContentView(R.layout.teacher_activity_splash_screen);
         lnrSnackBar = (LinearLayout) findViewById(R.id.lnrSnackBar);
         lblInstall = (TextView) findViewById(R.id.lblInstall);
+
+
         appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
         installStateUpdatedListener = state -> {
             if (state.installStatus() == InstallStatus.DOWNLOADED) {
@@ -170,13 +174,12 @@ public class TeacherSplashScreen extends AppCompatActivity {
         else {
             TeacherUtil_SharedPreference.putNewProduct(TeacherSplashScreen.this,"1");
         }
-
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Log.d("Contacts", String.valueOf(data));
         if (requestCode == FLEXIBLE_APP_UPDATE_REQ_CODE) {
             if (resultCode == RESULT_CANCELED) {
                 checkAutoLoginAndSDcardPermission();
@@ -303,13 +306,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
     private void isContactPermissionGranted() {
         Dexter.withActivity(this)
                 .withPermissions(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.INTERNET,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.CALL_PHONE,
-                        Manifest.permission.CAMERA,
                         Manifest.permission.ACCESS_WIFI_STATE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
@@ -1630,7 +1628,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
         builder.setNegativeButton(R.string.now, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
-
                 TeacherUtil_SharedPreference.putAppTermsAndConditions(TeacherSplashScreen.this, "");
                 final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                 try {
@@ -1664,7 +1661,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     }
 
     private void checkAutoLoginAndSDcardPermission() {
-        if (isWriteExternalPermissionGranted()) {
+       // if (isWriteExternalPermissionGranted()) {
 
             if (TeacherUtil_SharedPreference.getAutoLoginStatusFromSP(TeacherSplashScreen.this)) {
                 loginAPInew();
@@ -1685,8 +1682,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 }
 
             }
-        } else {
+      //  }
 
-        }
+
     }
 }

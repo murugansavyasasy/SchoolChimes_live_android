@@ -1747,6 +1747,69 @@ public class TeacherUtil_SharedPreference {
         return Date;
     }
 
+
+
+    public static void putReadContactsPermission(Activity activity, String date) {
+        SharedPreferences sp = activity.getSharedPreferences("CONTACTS", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString("Permission", date);
+        Log.d(spName, "Login Type stored in SP");
+        ed.commit();
+    }
+    public static String getReadContactsPermission(Activity activity) {
+        String Date = activity.getSharedPreferences("CONTACTS", MODE_PRIVATE).getString("Permission", "");
+        return Date;
+    }
+
+
+    public static void putParentStoragePermission(Context activity, String date) {
+        SharedPreferences sp = activity.getSharedPreferences("PARENT_STORAGE", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString("parent_media", date);
+        ed.commit();
+    }
+    public static String getParentStoragePermission(Context activity) {
+        String Date = activity.getSharedPreferences("PARENT_STORAGE", MODE_PRIVATE).getString("parent_media", "");
+        return Date;
+    }
+
+
+    public static void putParentStorageandCameraPermission(Context activity, String date) {
+        SharedPreferences sp = activity.getSharedPreferences("PARENT_STORAGE_CAMERA", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString("parent_media_camera", date);
+        ed.commit();
+    }
+    public static String getParentStorageandCameraPermission(Context activity) {
+        String Date = activity.getSharedPreferences("PARENT_STORAGE_CAMERA", MODE_PRIVATE).getString("parent_media_camera", "");
+        return Date;
+    }
+
+
+
+
+    public static void putStaffRecordPermission(Context activity, String date) {
+        SharedPreferences sp = activity.getSharedPreferences("STAFF_RECORD_VOICE", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString("staff_record", date);
+        ed.commit();
+    }
+    public static String getStaffRecordPermission(Context activity) {
+        String Date = activity.getSharedPreferences("STAFF_RECORD_VOICE", MODE_PRIVATE).getString("staff_record", "");
+        return Date;
+    }
+
+    public static void putStaffCameraPermission(Context activity, String date) {
+        SharedPreferences sp = activity.getSharedPreferences("STAFF_CAMERA", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString("staff_cameras", date);
+        ed.commit();
+    }
+    public static String getStaffCameraPermission(Context activity) {
+        String Date = activity.getSharedPreferences("STAFF_CAMERA", MODE_PRIVATE).getString("staff_cameras", "");
+        return Date;
+    }
+
     public static void putDateListVoiceCurrentDate(Activity activity, String date) {
         SharedPreferences sp = activity.getSharedPreferences(spName, MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();

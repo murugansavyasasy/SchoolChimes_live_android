@@ -1,16 +1,30 @@
 package com.vs.schoolmessenger.adapter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.vs.schoolmessenger.BuildConfig;
+
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.FeedBackDetails;
 import com.vs.schoolmessenger.activity.LeaveRequestsByStaffs;
@@ -43,6 +57,7 @@ import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_EMERGENCY;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_NOTICE_BOARD;
@@ -82,12 +97,19 @@ public class SchoolMenuAdapter extends ArrayAdapter {
     ArrayList<String> isPrincipalMenuNames = new ArrayList<>();
     Context context;
     String bookLink;
+    RelativeLayout rytParent;
+    Boolean isPermission = false;
+    Boolean isCameraPermission = false;
 
-    public SchoolMenuAdapter(Context context, int textViewResourceId, ArrayList objects,String BookLink) {
+    private PopupWindow SettingsStoragepopupWindow;
+    private PopupWindow SettingsStorageCamerapopupWindow;
+
+    public SchoolMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent) {
         super(context, textViewResourceId, objects);
         isPrincipalMenuNames = objects;
         this.context = context;
         this.bookLink = BookLink;
+        this.rytParent = rytParent;
     }
 
     @Override
@@ -109,7 +131,7 @@ public class SchoolMenuAdapter extends ArrayAdapter {
         lnrMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menuOnClick(textView,imgMenu, position, MenuName);
+                menuOnClick(MenuName);
 
             }
         });
@@ -236,64 +258,306 @@ public class SchoolMenuAdapter extends ArrayAdapter {
 
     }
 
-    private void menuOnClick(TextView textView, ImageView imgMenu, int position, String MenuName) {
+    private void menuOnClick(String MenuName) {
+
+        String substring = MenuName.substring(Math.max(MenuName.length() - 2, 0));
+        String substring1 = MenuName.substring(Math.max(MenuName.length() - 3, 0));
+
+        if (substring.equals("_0")) {
+            isVoicePermissionGranded(MenuName);
+
+        }
+       else if (substring.equals("_1")) {
+             isVoicePermissionGranded(MenuName);
+
+       }
+        else if (substring.equals("_2")) {
+            goToNextScreen(MenuName);
+
+
+        } else if (substring.equals("_3")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring.equals("_4")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring.equals("_5")) {
+
+            isCameraPermission(MenuName);
+
+        } else if (substring.equals("_6")) {
+
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring.equals("_7")) {
+
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring.equals("_8")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring.equals("_9")) {
+
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring1.equals("_10")) {
+            isVoicePermissionGranded(MenuName);
+        }
+       else if (substring1.equals("_11")) {
+
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_12")) {
+
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_13")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_14")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_15")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_16")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_17")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_18")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_19")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_20")) {
+
+        } else if (substring1.equals("_21")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_22")) {
+            isCameraPermission(MenuName);
+
+        } else if (substring1.equals("_23")) {
+            isVoicePermissionGranded(MenuName);
+
+        } else if (substring1.equals("_24")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_25")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_26")) {
+            goToNextScreen(MenuName);
+
+        } else if (substring1.equals("_27")) {
+            goToNextScreen(MenuName);
+
+        }
+
+    }
+
+    private boolean isCameraPermission(String MenuName) {
+
+        Dexter.withActivity((Activity) context)
+                .withPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA
+                )
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            isCameraPermission = true;
+                            goToNextScreen(MenuName);
+                        }
+                        else {
+                            settingsCameraPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+
+                    }
+                })
+                .onSameThread()
+                .check();
+
+        return isCameraPermission;
+    }
+
+    private void settingsCameraPermission() {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.settings_camera_storage_permission, null);
+        SettingsStorageCamerapopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        SettingsStorageCamerapopupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                SettingsStorageCamerapopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+        TextView lblHeader = (TextView) layout.findViewById(R.id.lblHeader);
+        lblHeader.setText("To send media, allow School chimes access to your device's media,camera,photos and files. Tap Settings >Permissions, and turn Storage and camera on ");
+        TextView lblNotNow = (TextView) layout.findViewById(R.id.lblNotNow);
+        TextView lblSettings = (TextView) layout.findViewById(R.id.lblSettings);
+        lblNotNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsStorageCamerapopupWindow.dismiss();
+            }
+        });
+
+        lblSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsStorageCamerapopupWindow.dismiss();
+                context.startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+            }
+        });
+    }
+
+    public boolean isVoicePermissionGranded(String MenuName) {
+
+        Dexter.withActivity((Activity) context)
+                .withPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO
+                        )
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            isPermission = true;
+                            goToNextScreen(MenuName);
+                        }
+                        else {
+                            settingsStoragePermission();
+
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+
+                    }
+                })
+                .onSameThread()
+                .check();
+
+        return isPermission;
+    }
+
+    private void settingsStoragePermission() {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.settings_storage_permission, null);
+        SettingsStoragepopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        SettingsStoragepopupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                SettingsStoragepopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+        TextView lblHeader = (TextView) layout.findViewById(R.id.lblHeader);
+        lblHeader.setText("To send media, allow School chimes access to your device's media,microphone and files. Tap Settings >Permissions, and turn Storage and microphone on ");
+        TextView lblNotNow = (TextView) layout.findViewById(R.id.lblNotNow);
+        TextView lblSettings = (TextView) layout.findViewById(R.id.lblSettings);
+        lblNotNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsStoragepopupWindow.dismiss();
+            }
+        });
+
+        lblSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsStoragepopupWindow.dismiss();
+                context.startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+            }
+        });
+    }
+
+    private void goToNextScreen(String MenuName) {
 
         String substring = MenuName.substring(Math.max(MenuName.length() - 2, 0));
         String substring1 = MenuName.substring(Math.max(MenuName.length() - 3, 0));
 
         if (substring.equals("_0")) {
 
-            Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
-            inVoice.putExtra("EMERGENCY", true);
-            inVoice.putExtra("TeacherSchoolsModel", Teacher_AA_Test.schoolmodel);
+                Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
+                inVoice.putExtra("EMERGENCY", true);
+                inVoice.putExtra("TeacherSchoolsModel", Teacher_AA_Test.schoolmodel);
 
-            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
-                inVoice.putExtra("REQUEST_CODE", GH_EMERGENCY);
-            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
-                inVoice.putExtra("REQUEST_CODE", GH_VOICE);
-            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
-                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_EMERGENCY);
-            }
-            context.startActivity(inVoice);
+                if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
+                    inVoice.putExtra("REQUEST_CODE", GH_EMERGENCY);
+                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
+                    inVoice.putExtra("REQUEST_CODE", GH_VOICE);
+                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
+                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_EMERGENCY);
+                }
+                context.startActivity(inVoice);
+
+
 
         }
-       else if (substring.equals("_1")) {
+        else if (substring.equals("_1")) {
 
-            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
-                if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
+                    if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                        Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
+                        inVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE);
+                        inVoice.putExtra("EMERGENCY", false);
+                        context.startActivity(inVoice);
+                    } else {
+                        Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                        inVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE);
+                        inVoice.putExtra("EMERGENCY", false);
+                        context.startActivity(inVoice);
+                    }
+                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
+                    if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                        Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
+                        inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
+                        inVoice.putExtra("EMERGENCY", false);
+                        context.startActivity(inVoice);
+                    } else {
+                        Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                        inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
+                        inVoice.putExtra("EMERGENCY", false);
+                        context.startActivity(inVoice);
+                    }
+                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
+
                     Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
-                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE);
-                    inVoice.putExtra("EMERGENCY", false);
-                    context.startActivity(inVoice);
-                } else {
-                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
-                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE);
+                    inVoice.putExtra("REQUEST_CODE", GH_VOICE);
                     inVoice.putExtra("EMERGENCY", false);
                     context.startActivity(inVoice);
                 }
-            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
-                if (TeacherUtil_Common.listschooldetails.size() == 1) {
-                    Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
-                    inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
-                    inVoice.putExtra("EMERGENCY", false);
-                    context.startActivity(inVoice);
-                } else {
-                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
-                    inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
-                    inVoice.putExtra("EMERGENCY", false);
-                    context.startActivity(inVoice);
-                }
-            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
-
-                Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
-                inVoice.putExtra("REQUEST_CODE", GH_VOICE);
-                inVoice.putExtra("EMERGENCY", false);
-                context.startActivity(inVoice);
-            }
 
         }
         else if (substring.equals("_2")) {
-
 
             if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
                 if (TeacherUtil_Common.listschooldetails.size() == 1) {
@@ -338,13 +602,15 @@ public class SchoolMenuAdapter extends ArrayAdapter {
             context.startActivity(inEvents);
 
         } else if (substring.equals("_5")) {
-            Intent inImg = new Intent(context, TeacherPhotosScreen.class);
 
-            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL))
-                inImg.putExtra("REQUEST_CODE", PRINCIPAL_PHOTOS);
-            else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER))
-                inImg.putExtra("REQUEST_CODE", STAFF_PHOTOS);
-            context.startActivity(inImg);
+                Intent inImg = new Intent(context, TeacherPhotosScreen.class);
+                if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL))
+                    inImg.putExtra("REQUEST_CODE", PRINCIPAL_PHOTOS);
+                else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER))
+                    inImg.putExtra("REQUEST_CODE", STAFF_PHOTOS);
+                context.startActivity(inImg);
+
+
 
         } else if (substring.equals("_6")) {
 
@@ -409,27 +675,27 @@ public class SchoolMenuAdapter extends ArrayAdapter {
 
         }
         else if (substring1.equals("_10")) {
-            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
-                if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
+                    if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                        Intent inHomeWorkVoice = new Intent(context, TeacherEmergencyVoice.class);
+                        inHomeWorkVoice.putExtra("EMERGENCY", false);
+                        inHomeWorkVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE_HW);
+                        context.startActivity(inHomeWorkVoice);
+                    } else {
+                        Intent inHomeWorkVoice = new Intent(context, TeacherSchoolList.class);
+                        inHomeWorkVoice.putExtra("EMERGENCY", false);
+                        inHomeWorkVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE_HW);
+                        context.startActivity(inHomeWorkVoice);
+                    }
+                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
                     Intent inHomeWorkVoice = new Intent(context, TeacherEmergencyVoice.class);
                     inHomeWorkVoice.putExtra("EMERGENCY", false);
-                    inHomeWorkVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE_HW);
-                    context.startActivity(inHomeWorkVoice);
-                } else {
-                    Intent inHomeWorkVoice = new Intent(context, TeacherSchoolList.class);
-                    inHomeWorkVoice.putExtra("EMERGENCY", false);
-                    inHomeWorkVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE_HW);
+                    inHomeWorkVoice.putExtra("REQUEST_CODE", STAFF_VOICE_HW);
                     context.startActivity(inHomeWorkVoice);
                 }
-            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
-                Intent inHomeWorkVoice = new Intent(context, TeacherEmergencyVoice.class);
-                inHomeWorkVoice.putExtra("EMERGENCY", false);
-                inHomeWorkVoice.putExtra("REQUEST_CODE", STAFF_VOICE_HW);
-                context.startActivity(inHomeWorkVoice);
-            }
 
         }
-       else if (substring1.equals("_11")) {
+        else if (substring1.equals("_11")) {
 
             if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
                 if (TeacherUtil_Common.listschooldetails.size() == 1) {
@@ -523,12 +789,14 @@ public class SchoolMenuAdapter extends ArrayAdapter {
             context.startActivity(offers);
 
         } else if (substring1.equals("_22")) {
-            Intent assignment = new Intent(context, AssignmentActivity.class);
-            context.startActivity(assignment);
+                Intent assignment = new Intent(context, AssignmentActivity.class);
+                context.startActivity(assignment);
+
 
         } else if (substring1.equals("_23")) {
-            Intent videovimeo = new Intent(context, VideoUpload.class);
-            context.startActivity(videovimeo);
+                Intent videovimeo = new Intent(context, VideoUpload.class);
+                context.startActivity(videovimeo);
+
 
         } else if (substring1.equals("_24")) {
             if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {

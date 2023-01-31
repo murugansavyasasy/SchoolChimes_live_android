@@ -72,7 +72,7 @@ public class VideoListActivity extends AppCompatActivity {
     SqliteDB myDb;
 
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
     Slider slider;
     ImageView adImage;
     RelativeLayout voice_rlToolbar;

@@ -319,6 +319,17 @@
                 android:enabled="false"
                 android:text="@string/teacher_confirm" />
 
+
+            <Button
+                android:id="@+id/btnStaffGroups"
+                style="@style/Teacher_btn_login"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/teacher_to_staff_groups" />
+
             <Button
                 android:id="@+id/btnSelectSchool"
                 style="@style/Teacher_btn_login"

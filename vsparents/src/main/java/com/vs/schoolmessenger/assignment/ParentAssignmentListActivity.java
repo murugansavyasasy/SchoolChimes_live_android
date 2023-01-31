@@ -75,7 +75,7 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
     Calendar c;
 
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
 
     Slider slider;
     LinearLayout lnrAction;

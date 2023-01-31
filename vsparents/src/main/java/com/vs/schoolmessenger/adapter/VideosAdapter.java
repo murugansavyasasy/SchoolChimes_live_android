@@ -59,8 +59,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
         public FrameLayout frmPlayVideo;
         public TextView title,createdon,createdby,description,tvnew;
 
-
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -111,7 +109,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
         }
         holder.imgShadow.setEnabled(false);
         holder.imgShadow.setBackgroundColor(context.getResources().getColor(R.color.clr_white_fifty));
-
 
 
         Glide.with(context)

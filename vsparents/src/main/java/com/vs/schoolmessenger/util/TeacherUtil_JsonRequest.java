@@ -62,6 +62,8 @@ public class TeacherUtil_JsonRequest {
         jsonObject.addProperty("Password", password);
         jsonObject.addProperty("DeviceType", "Android");
         jsonObject.addProperty("SecureID", secureID);
+        Log.d("req",jsonObject.toString());
+
 
         return jsonObject;
     }

@@ -244,7 +244,8 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                                         jsonObject.getString("TotalVOICE"), jsonObject.getString("UnreadVOICE"),
                                         jsonObject.getString("TotalSMS"), jsonObject.getString("UnreadSMS"),
                                         jsonObject.getString("TotalIMG"), jsonObject.getString("UnreadIMG"),
-                                        jsonObject.getString("TotalPDF"), jsonObject.getString("UnreadPDF"), jsonObject.getBoolean("is_Archive"));
+                                        jsonObject.getString("TotalPDF"), jsonObject.getString("UnreadPDF"),
+                                        jsonObject.getString("TotalVIDEO"), jsonObject.getString("UnreadVIDEO"),jsonObject.getBoolean("is_Archive"));
 
                                 datesList.add(cirDates);
 
@@ -252,8 +253,6 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                                 showRecords(jsonObject.getString("Day"));
 
                             }
-
-
                         }
                         dateListAdapter.notifyDataSetChanged();
                     } else {
@@ -279,21 +278,18 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
     private void seeMoreButtonVisiblity() {
            isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
            LoadMore.setVisibility(View.VISIBLE);
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getDetails();
-
     }
 
     private void getDetails() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
-        if(isNewVersionn.equals("1")){
+        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
+        if(isNewVersion.equals("1")){
             String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherMessageDatesScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
         }
@@ -313,9 +309,7 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("MemberId", staff_id);
         jsonObject.addProperty("SchoolId", school_id);
-
         Log.d(" jsonObject12344555", String.valueOf(jsonObject));
-
         Call<JsonArray> call = apiService.GetMessageCount(jsonObject);
         call.enqueue(new Callback<JsonArray>() {
 
@@ -342,16 +336,15 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
 
                             String date = jsonObject.getString("Date");
                             if (!date.equals("0")) {
-
                                 cirDates = new TeacherCircularDates(jsonObject.getString("Date"), jsonObject.getString("Day"),
                                         jsonObject.getString("TotalVOICE"), jsonObject.getString("UnreadVOICE"),
                                         jsonObject.getString("TotalSMS"), jsonObject.getString("UnreadSMS"),
                                         jsonObject.getString("TotalIMG"), jsonObject.getString("UnreadIMG"),
-                                        jsonObject.getString("TotalPDF"), jsonObject.getString("UnreadPDF"), false);
+                                        jsonObject.getString("TotalPDF"), jsonObject.getString("UnreadPDF"),
+                                        jsonObject.getString("TotalVIDEO"), jsonObject.getString("UnreadVIDEO"),false);
                                 datesList.add(cirDates);
 
                             } else {
-
                                 if (isNewVersion.equals("1")) {
                                     lblNoMessages.setVisibility(View.VISIBLE);
                                     lblNoMessages.setText(jsonObject.getString("Day"));
@@ -364,16 +357,10 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                                     lblNoMessages.setVisibility(View.GONE);
                                     showRecords(jsonObject.getString("Day"));
                                 }
-
                             }
-
                         }
 
-
-                        if (isNewVersion.equals("1")) {
-                            LoadMore.setVisibility(View.VISIBLE);
-                        }
-
+                        LoadMore.setVisibility(View.VISIBLE);
                         dateListAdapter.notifyDataSetChanged();
                     } else {
                         showRecords(getResources().getString(R.string.no_records));

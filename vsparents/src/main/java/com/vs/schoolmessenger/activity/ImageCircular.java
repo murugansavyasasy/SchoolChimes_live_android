@@ -77,7 +77,7 @@ public class ImageCircular extends AppCompatActivity {
     ArrayList<MessageModel> arrayList;
 
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
     RelativeLayout voice_rlToolbar;
 
     private final String android_image_urls[] = {

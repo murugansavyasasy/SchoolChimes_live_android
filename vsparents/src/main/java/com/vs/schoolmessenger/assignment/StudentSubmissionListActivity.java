@@ -10,8 +10,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -20,6 +23,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
+import com.vs.schoolmessenger.model.DatesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -30,6 +34,7 @@ import org.json.JSONObject;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
@@ -48,6 +53,10 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
     String isNewVersion;
 
     Boolean IsArchice;
+    ImageView imgSearch;
+    EditText Searchable;
+    ImageView adImage;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -62,6 +71,12 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
         relativeLayout = findViewById(R.id.layout_tittle);
         imgBack.setVisibility(View.VISIBLE);
 
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+        adImage = (ImageView) findViewById(R.id.adImage);
+
+        adImage.setVisibility(View.GONE);
+
 
          id=getIntent().getExtras().getString("ID","");
          type=getIntent().getExtras().getString("TYPE","");
@@ -72,6 +87,41 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 onBackControl();
                 onBackPressed();
+            }
+        });
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (studentListAdapter == null)
+                    return;
+
+                if (studentListAdapter.getItemCount() < 1) {
+                    recyclerView.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
             }
         });
 
@@ -86,6 +136,18 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
 
         studentListAdapter = new StudentListAdapter(StudentSubmissionListActivity.this, studentlist,id);
         recyclerView.setAdapter(studentListAdapter);
+    }
+
+    private void filterlist(String s) {
+        List<Studentclass> temp = new ArrayList();
+        for (Studentclass d : studentlist) {
+
+            if (d.getMessage().toLowerCase().contains(s.toLowerCase()) || d.getStudentname().toLowerCase().contains(s.toLowerCase()) || d.getStandard().toLowerCase().contains(s.toLowerCase()) ) {
+                temp.add(d);
+            }
+
+        }
+        studentListAdapter.updateList(temp);
     }
 
     private void onBackControl() {
@@ -126,7 +188,6 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
             String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StudentSubmissionListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
-
 
         if(userType.equals("parent")){
              userID= Util_SharedPreference.getChildIdFromSP(StudentSubmissionListActivity.this);
@@ -171,7 +232,6 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
                     Log.d("Upload:Body", "" + response.body().toString());
                     mProgressDialog.dismiss();
                     try {
-//                                String strResponse = response.body().toString();
                         studentlist.clear();
                         JSONArray js = new JSONArray(response.body().toString());
                         if (js.length() > 0) {
@@ -187,14 +247,12 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
                                     String Message = jsonObject.getString("Message");
                                     Studentclass report = new Studentclass(studentid, Studentname, Standard, Section, Message,IsArchice);
                                     studentlist.add(report);
-//                                        assignment_adapter.notifyDataSetChanged();
                                 }
                                 else{
                                     String Message = jsonObject.getString("Message");
                                     alert(Message);
                                 }
                             }
-
 
                             studentListAdapter.notifyDataSetChanged();
                         }

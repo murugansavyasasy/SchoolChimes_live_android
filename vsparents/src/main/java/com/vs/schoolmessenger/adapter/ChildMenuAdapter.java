@@ -1,17 +1,29 @@
 package com.vs.schoolmessenger.adapter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.activity.ApplyLeave;
 import com.vs.schoolmessenger.activity.Attendance;
 import com.vs.schoolmessenger.activity.DatesList;
@@ -37,11 +49,13 @@ import com.vs.schoolmessenger.assignment.ParentAssignmentListActivity;
 import com.vs.schoolmessenger.model.ParentMenuModel;
 import com.vs.schoolmessenger.payment.FeesTab;
 import com.vs.schoolmessenger.util.Constants;
+import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import java.util.ArrayList;
+import java.util.List;
+import com.vs.schoolmessenger.BuildConfig;
 
-import static com.vs.schoolmessenger.SliderAdsImage.ShowAds.myRunnable;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_ATTENDANCE;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_DOCUMENTS;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_EMERGENCY;
@@ -52,17 +66,28 @@ import static com.vs.schoolmessenger.util.Util_Common.MENU_PHOTOS;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_TEXT;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_VOICE;
 
+
 public class ChildMenuAdapter extends ArrayAdapter {
 
     ArrayList<ParentMenuModel> isPrincipalMenuNames = new ArrayList<>();
     Context context;
     String bookLink;
+    RelativeLayout rytParent;
+    Boolean isPermission = false;
+    Boolean isCameraPermission = false;
+    Boolean isRecordPermission = false;
 
-    public ChildMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink) {
+    private PopupWindow SettingsStoragepopupWindow;
+    private PopupWindow SettingsStorageCamerapopupWindow;
+
+
+
+    public ChildMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent) {
         super(context, textViewResourceId, objects);
         isPrincipalMenuNames = objects;
         this.context = context;
         this.bookLink = BookLink;
+        this.rytParent = rytParent;
     }
 
     @Override
@@ -97,7 +122,6 @@ public class ChildMenuAdapter extends ArrayAdapter {
             imgMenu.setImageResource(R.drawable.c_emergency);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
-
         }
 
         if (MenuName.contains("_1")) {
@@ -244,29 +268,291 @@ public class ChildMenuAdapter extends ArrayAdapter {
     }
 
     private void menuOnClick(String MenuName) {
-
         String substring = MenuName.substring(Math.max(MenuName.length() - 2, 0));
         String substring1 = MenuName.substring(Math.max(MenuName.length() - 3, 0));
-
         String menuIDSingle = MenuName.substring(Math.max(MenuName.length() - 1, 0));
         String menuIDTwo = MenuName.substring(Math.max(MenuName.length() - 2, 0));
 
+        if (substring.equals("_0")) {
+            isPermissionGranded(MenuName);
+        }
+        else if (substring.equals("_1")) {
+            isPermissionGranded(MenuName);
+
+        }
+        else if (substring.equals("_2")) {
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring.equals("_3")) {
+            isPermissionGranded(MenuName);
+
+        }
+        else if (substring.equals("_4")) {
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring.equals("_5")) {
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring.equals("_6")) {
+            isPermissionGranded(MenuName);
+
+        }
+        else if (substring.equals("_7")) {
+            goToNextScreen(MenuName);
+
+
+        }
+        else if (substring.equals("_8")) {
+            goToNextScreen(MenuName);
+
+
+        }
+        else if (substring.equals("_9")) {
+            goToNextScreen(MenuName);
+        }
+        else if (substring1.equals("_10")) {
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring1.equals("_11")) {
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring1.equals("_12")) {
+            isPermissionGranded(MenuName);
+        }
+        else if (substring1.equals("_13")) {
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring1.equals("_14")) {
+            goToNextScreen(MenuName);
+
+
+        }
+        else if (substring1.equals("_15")) {
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring1.equals("_16")) {
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring1.equals("_17")) {
+        }
+        else if (substring1.equals("_18")) {
+            isCameraPermissions(MenuName);
+        }
+        else if (substring1.equals("_19")) {
+            isPermissionGranded(MenuName);
+        }
+        else if (substring1.equals("_20")) {
+            goToNextScreen(MenuName);
+
+        }
+        else if (substring1.equals("_21")) {
+            isPermissionGranded(MenuName);
+        }
+        else if (substring1.equals("_22")) {
+            isCameraPermissions(MenuName);
+        }
+        else if (substring1.equals("_23")) {
+            goToNextScreen(MenuName);
+
+        }
+
+    }
+
+    private boolean isCameraPermissions(String MenuName) {
+
+        Dexter.withActivity((Activity) context)
+                .withPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.RECORD_AUDIO
+                )
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            isCameraPermission = true;
+                            goToNextScreen(MenuName);
+                        }
+                        else {
+
+                            String isPermissionDeniedCount = TeacherUtil_SharedPreference.getParentStorageandCameraPermission(context);
+
+                            if(isPermissionDeniedCount.equals("2")){
+                                settingsCameraPermission();
+                            }
+
+                            else if(isPermissionDeniedCount.equals("1")) {
+                                TeacherUtil_SharedPreference.putParentStorageandCameraPermission(context, "2");
+                            }
+                            else {
+                                TeacherUtil_SharedPreference.putParentStorageandCameraPermission(context, "1");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+
+                      //  Toast.makeText(context, "Error occurred! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
+
+        return isCameraPermission;
+    }
+
+    private void settingsCameraPermission() {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.settings_camera_storage_permission, null);
+        SettingsStorageCamerapopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        SettingsStorageCamerapopupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                SettingsStorageCamerapopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+        TextView lblHeader = (TextView) layout.findViewById(R.id.lblHeader);
+        lblHeader.setText("To send and save media, allow School chimes access to your device's photos,media,camera,microphone and files. Tap Settings >Permissions, and turn Storage,Camera and microphone on ");
+        TextView lblNotNow = (TextView) layout.findViewById(R.id.lblNotNow);
+        TextView lblSettings = (TextView) layout.findViewById(R.id.lblSettings);
+        lblNotNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsStorageCamerapopupWindow.dismiss();
+            }
+        });
+
+        lblSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsStorageCamerapopupWindow.dismiss();
+                context.startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+            }
+        });
+    }
+
+
+    private boolean isPermissionGranded(String MenuName){
+
+        Dexter.withActivity((Activity) context)
+                .withPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            isPermission = true;
+                            goToNextScreen(MenuName);
+                        }
+                        else {
+
+                            String isPermissionDeniedCount = TeacherUtil_SharedPreference.getParentStoragePermission(context);
+
+                            if(isPermissionDeniedCount.equals("2")){
+                                settingsStoragePermission();
+                            }
+                            else if(isPermissionDeniedCount.equals("1")) {
+                                TeacherUtil_SharedPreference.putParentStoragePermission(context, "2");
+                            }
+                            else {
+                                TeacherUtil_SharedPreference.putParentStoragePermission(context, "1");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+
+                      //  Toast.makeText(context, "Error occurred! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
+
+        return isPermission;
+    }
+
+    private void settingsStoragePermission() {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.settings_storage_permission, null);
+        SettingsStoragepopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        SettingsStoragepopupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                SettingsStoragepopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+        TextView lblHeader = (TextView) layout.findViewById(R.id.lblHeader);
+
+        lblHeader.setText("To send and save media, allow School chimes access to your device's ,storage .Tap Settings >Permissions, and turn Storage and media on ");
+
+        TextView lblNotNow = (TextView) layout.findViewById(R.id.lblNotNow);
+        TextView lblSettings = (TextView) layout.findViewById(R.id.lblSettings);
+        lblNotNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsStoragepopupWindow.dismiss();
+            }
+        });
+
+        lblSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsStoragepopupWindow.dismiss();
+                context.startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+            }
+        });
+    }
+
+    private void goToNextScreen(String MenuName) {
+        String substring = MenuName.substring(Math.max(MenuName.length() - 2, 0));
+        String substring1 = MenuName.substring(Math.max(MenuName.length() - 3, 0));
+        String menuIDSingle = MenuName.substring(Math.max(MenuName.length() - 1, 0));
+        String menuIDTwo = MenuName.substring(Math.max(MenuName.length() - 2, 0));
 
         if (substring.equals("_0")) {
 
-            Constants.Menu_ID = menuIDSingle;
-            Intent inNext = new Intent(context, VoiceCircular.class);
-            inNext.putExtra("REQUEST_CODE", MENU_EMERGENCY);
-            inNext.putExtra("HEADER", R.string.emergency);
-            context.startActivity(inNext);
+                Constants.Menu_ID = menuIDSingle;
+                Intent inNext = new Intent(context, VoiceCircular.class);
+                inNext.putExtra("REQUEST_CODE", MENU_EMERGENCY);
+                inNext.putExtra("HEADER", R.string.emergency);
+                context.startActivity(inNext);
 
         }
         else if (substring.equals("_1")) {
-            Constants.Menu_ID = menuIDSingle;
-            Intent inNext = new Intent(context, DatesList.class);
-            inNext.putExtra("REQUEST_CODE", MENU_VOICE);
-            inNext.putExtra("HEADER", R.string.recent_voice_messages);
-            context.startActivity(inNext);
+
+                Constants.Menu_ID = menuIDSingle;
+                Intent inNext = new Intent(context, DatesList.class);
+                inNext.putExtra("REQUEST_CODE", MENU_VOICE);
+                inNext.putExtra("HEADER", R.string.recent_voice_messages);
+                context.startActivity(inNext);
+
 
         }
         else if (substring.equals("_2")) {
@@ -278,11 +564,12 @@ public class ChildMenuAdapter extends ArrayAdapter {
 
         }
         else if (substring.equals("_3")) {
-            Constants.Menu_ID = menuIDSingle;
-            Intent inNext = new Intent(context, MessageDatesScreen.class);
-            inNext.putExtra("REQUEST_CODE", MENU_HW);
-            inNext.putExtra("Profiles", HomeActivity.childItem);
-            context.startActivity(inNext);
+                Constants.Menu_ID = menuIDSingle;
+                Intent inNext = new Intent(context, MessageDatesScreen.class);
+                inNext.putExtra("REQUEST_CODE", MENU_HW);
+                inNext.putExtra("Profiles", HomeActivity.childItem);
+                context.startActivity(inNext);
+
 
         }
         else if (substring.equals("_4")) {
@@ -301,11 +588,12 @@ public class ChildMenuAdapter extends ArrayAdapter {
 
         }
         else if (substring.equals("_6")) {
-            Constants.Menu_ID = menuIDSingle;
-            Intent inNext = new Intent(context, PdfCircular.class);
-            inNext.putExtra("REQUEST_CODE", MENU_DOCUMENTS);
-            inNext.putExtra("HEADER", R.string.recent_files);
-            context.startActivity(inNext);
+                Constants.Menu_ID = menuIDSingle;
+                Intent inNext = new Intent(context, PdfCircular.class);
+                inNext.putExtra("REQUEST_CODE", MENU_DOCUMENTS);
+                inNext.putExtra("HEADER", R.string.recent_files);
+                context.startActivity(inNext);
+
 
         }
         else if (substring.equals("_7")) {
@@ -345,11 +633,13 @@ public class ChildMenuAdapter extends ArrayAdapter {
             context.startActivity(inNext);
         }
         else if (substring1.equals("_12")) {
-            Constants.Menu_ID = menuIDTwo;
-            Intent inNext = new Intent(context, ImageCircular.class);
-            inNext.putExtra("REQUEST_CODE", MENU_PHOTOS);
-            inNext.putExtra("HEADER", R.string.recent_photos);
-            context.startActivity(inNext);
+
+                Constants.Menu_ID = menuIDTwo;
+                Intent inNext = new Intent(context, ImageCircular.class);
+                inNext.putExtra("REQUEST_CODE", MENU_PHOTOS);
+                inNext.putExtra("HEADER", R.string.recent_photos);
+                context.startActivity(inNext);
+
         }
         else if (substring1.equals("_13")) {
             Constants.Menu_ID = menuIDTwo;
@@ -378,14 +668,16 @@ public class ChildMenuAdapter extends ArrayAdapter {
         else if (substring1.equals("_17")) {
         }
         else if (substring1.equals("_18")) {
-            Constants.Menu_ID = menuIDTwo;
-            Intent inNext = new Intent(context, ParentAssignmentListActivity.class);
-            context.startActivity(inNext);
+                Constants.Menu_ID = menuIDTwo;
+                Intent inNext = new Intent(context, ParentAssignmentListActivity.class);
+                context.startActivity(inNext);
+
         }
         else if (substring1.equals("_19")) {
-            Constants.Menu_ID = menuIDTwo;
-            Intent inNext = new Intent(context, VideoListActivity.class);
-            context.startActivity(inNext);
+                Constants.Menu_ID = menuIDTwo;
+                Intent inNext = new Intent(context, VideoListActivity.class);
+                context.startActivity(inNext);
+
         }
         else if (substring1.equals("_20")) {
             Constants.Menu_ID = menuIDTwo;
@@ -393,16 +685,18 @@ public class ChildMenuAdapter extends ArrayAdapter {
             context.startActivity(inNext);
         }
         else if (substring1.equals("_21")) {
-            Constants.Menu_ID = menuIDTwo;
-            Intent inNext = new Intent(context, ParentQuizScreen.class);
-            inNext.putExtra("Type", "Parent");
-            context.startActivity(inNext);
+                Constants.Menu_ID = menuIDTwo;
+                Intent inNext = new Intent(context, ParentQuizScreen.class);
+                inNext.putExtra("Type", "Parent");
+                context.startActivity(inNext);
+
         }
         else if (substring1.equals("_22")) {
-            Constants.Menu_ID = menuIDTwo;
-            Intent inNext = new Intent(context, LSRWListActivity.class);
-            inNext.putExtra("Type", "Parent");
-            context.startActivity(inNext);
+                Constants.Menu_ID = menuIDTwo;
+                Intent inNext = new Intent(context, LSRWListActivity.class);
+                inNext.putExtra("Type", "Parent");
+                context.startActivity(inNext);
+
         }
         else if (substring1.equals("_23")) {
             Constants.Menu_ID = menuIDTwo;

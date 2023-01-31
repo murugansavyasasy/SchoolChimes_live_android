@@ -4,11 +4,17 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -16,7 +22,6 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -24,6 +29,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -47,6 +53,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.BuildConfig;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.FeePendingAlertAdapter;
 import com.vs.schoolmessenger.adapter.SchoolMenuAdapter;
@@ -65,6 +72,7 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,7 +83,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
-
 
 public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickListener {
 
@@ -107,6 +114,18 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     String Role="";
     String BookLink;
     Boolean BookEnabled = false;
+    int Contact_Count = 0;
+    int exist_Count = 0;
+
+    Boolean isPermission = false;
+    String contact_alert_title="",contact_alert_Content="",contact_display_name="",contact_numbers="",contact_button = "";
+    String[] contacts ;
+    String Display_Name = "";
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    private PopupWindow SettingspopupWindow;
+    private PopupWindow ContactpopupWindow;
+
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -146,7 +165,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
         } else if (Role.equals("p3")) {
             ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
-
         }
         else if (Role.equals("p4")) {
             ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
@@ -191,15 +209,11 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             schools_list = TeacherUtil_SharedPreference.getChildrenScreenSchools_List(Teacher_AA_Test.this, "schools_list");
 
         }
-        String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE};
-        if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
-        }
+
 
         idGridMenus = (GridView) findViewById(R.id.idGridMenus);
         scrollingtext = (TextView) findViewById(R.id.scrollingtext);
         lnrScroll = (LinearLayout) findViewById(R.id.lnrScroll);
-        //scrollingtext.setSelected (true);
         rytParent = (RelativeLayout) findViewById(R.id.rytParent);
         tvLoggedInAs = (TextView) findViewById(R.id.aHome_tvLoggedInAs);
         tvLoggedInAs.setText(TeacherUtil_SharedPreference.getLoginTypeFromSP(Teacher_AA_Test.this));
@@ -250,7 +264,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 String url = TeacherUtil_SharedPreference.getSchoolLogo(Teacher_AA_Test.this);
                 try {
                     if (!url.equals("")) {
-
                         Glide.with(this).load(url).centerCrop().into(nivSchoolLogo);
                     }
                 } catch (Exception e) {
@@ -289,6 +302,75 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 showPaymentPendingAlert();
             }
         }
+    }
+
+
+    private void getContactPermission() {
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
+            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
+        } else {
+            checkIfContactsExist();
+            // Android version is lesser than 6.0 or the permission is already granted.
+            Log.d("Granded","Granded");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+                getContactPermission();
+            } else {
+                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getReadContactsPermission(Teacher_AA_Test.this);
+
+                if(isPermissionDeniedCount.equals("2")){
+                    settingsContactPermission();
+                }
+
+                else if(isPermissionDeniedCount.equals("1")) {
+                    TeacherUtil_SharedPreference.putReadContactsPermission(Teacher_AA_Test.this, "2");
+                }
+                else {
+                    TeacherUtil_SharedPreference.putReadContactsPermission(Teacher_AA_Test.this, "1");
+
+                }
+
+            }
+        }
+    }
+
+    private void settingsContactPermission() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.settings_app_permission, null);
+        SettingspopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        SettingspopupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                SettingspopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        TextView lblNotNow = (TextView) layout.findViewById(R.id.lblNotNow);
+        TextView lblSettings = (TextView) layout.findViewById(R.id.lblSettings);
+        lblNotNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingspopupWindow.dismiss();
+            }
+        });
+
+        lblSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingspopupWindow.dismiss();
+                startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+
+            }
+        });
     }
 
     private void getMenuDetails() {
@@ -351,14 +433,26 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             for (String itemtemp : name) {
                                 isPrincipalMenuNames.add(itemtemp);
                             }
-                        }
-                        String alert_message = jsonObject.getString("alert_message");
-                        if(!alert_message.equals("")){
-                            lnrScroll.setVisibility(View.VISIBLE);
-                            scrollingtext.setText(alert_message);
-                        }
-                        else {
-                            lnrScroll.setVisibility(View.GONE);
+
+                            String alert_message = jsonObject.getString("alert_message");
+                            if(!alert_message.equals("")){
+                                lnrScroll.setVisibility(View.VISIBLE);
+                                scrollingtext.setText(alert_message);
+                            }
+                            else {
+                                lnrScroll.setVisibility(View.GONE);
+                            }
+
+                            contact_alert_title = jsonObject.getString("contact_alert_title");
+                            contact_alert_Content = jsonObject.getString("contact_alert_content");
+                            contact_display_name = jsonObject.getString("contact_display_name");
+                            contact_numbers = jsonObject.getString("contact_numbers");
+                            contact_button = jsonObject.getString("contact_button_content");
+
+                            contacts = contact_numbers.split(",");
+
+                            getContactPermission();
+
                         }
 
                         selectedLoginType();
@@ -373,7 +467,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             }
                         }
                         setupBottomBar();
-                        SchoolMenuAdapter myAdapter=new SchoolMenuAdapter(Teacher_AA_Test.this,R.layout.school_menu_card_item,isPrincipalMenuNames,BookLink);
+                        SchoolMenuAdapter myAdapter=new SchoolMenuAdapter(Teacher_AA_Test.this,R.layout.school_menu_card_item,isPrincipalMenuNames,BookLink,rytParent);
                         idGridMenus.setAdapter(myAdapter);
                     }
                 } catch (Exception e) {
@@ -388,6 +482,121 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 Log.d("VersionCheck:Failure", t.toString());
             }
         });
+    }
+
+    private void checkIfContactsExist() {
+
+        exist_Count = 0;
+        ContentResolver contentResolver = Teacher_AA_Test.this.getContentResolver();
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String[] projection = new String[] { ContactsContract.PhoneLookup._ID };
+        String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?";
+        String[] selectionArguments = { contact_display_name };
+        Cursor cursor = contentResolver.query(uri, projection, selection, selectionArguments, null);
+        exist_Count = cursor.getCount();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+            }
+        }
+        Contact_Count = 0;
+        for (int i = 0; i < contacts.length; i++) {
+            String number = contacts[i];
+            if (number != null) {
+                Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+                String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup.DISPLAY_NAME };
+                Cursor cur = Teacher_AA_Test.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
+                try {
+                    if (cur.moveToFirst()) {
+                        Contact_Count = Contact_Count +1;
+
+                        int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+                        Display_Name = cur.getString(indexName);
+                        Log.d("Display_Name", Display_Name);
+
+                        if(!Display_Name.equals(contact_display_name)){
+                            Contact_Count = Contact_Count - 1;
+                        }
+                    }
+                } finally {
+                    if (cur != null)
+                        cur.close();
+                }
+            }
+        }
+        if (contacts.length != Contact_Count ) {
+            if(exist_Count == 0 || exist_Count < contacts.length) {
+                contactSaveContent();
+            }
+        }
+    }
+
+    private void contactSaveContent() {
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.save_contact_alert, null);
+        ContactpopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        ContactpopupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                ContactpopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        TextView btnSaveContact = (TextView) layout.findViewById(R.id.btnSaveContact);
+        ImageView imgClose = (ImageView) layout.findViewById(R.id.imgClose);
+        TextView lblHeader = (TextView) layout.findViewById(R.id.lblHeader);
+        TextView lblContent = (TextView) layout.findViewById(R.id.lblContent);
+        lblHeader.setText(contact_alert_title);
+        lblContent.setText(contact_alert_Content);
+        btnSaveContact.setText(contact_button);
+
+        btnSaveContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContactpopupWindow.dismiss();
+                saveContacts();
+            }
+        });
+
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContactpopupWindow.dismiss();
+            }
+        });
+    }
+
+    private void saveContacts() {
+
+
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.school_chimes_trans_splash);
+        //Bitmap bit = Bitmap.createScaledBitmap(b, 100, 100, false);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        ArrayList<ContentValues> data = new ArrayList<ContentValues>();
+        for (int i = 0; i < contacts.length; i++) {
+            ContentValues row = new ContentValues();
+            row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+            row.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
+            row.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+            data.add(row);
+        }
+
+        for (int i = 0; i < contacts.length; i++) {
+            ContentValues row = new ContentValues();
+            row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
+            row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
+            data.add(row);
+        }
+
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
+        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
+        startActivityForResult(intent,100);
+
     }
 
     private void selectedLoginType() {
@@ -520,13 +729,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         TeacherUtil_SharedPreference.putCurrentDate(Teacher_AA_Test.this, date);
 
-//        String new_product = TeacherUtil_SharedPreference.getNewProduct(Teacher_AA_Test.this);
-//        if (new_product.equals("1")) {
-//            Glide.with(this).load(R.drawable.new_products).into(imgNew);
-//        } else {
-//            Glide.with(this).load(R.raw.new_gif).into(imgNew);
-//        }
-
     }
     private void setupBottomBar() {
         bottomNavigationView = (BottomNavigationView)
@@ -562,76 +764,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     private void changeLanguageInitial(String lang) {
         LocaleHelper local = new LocaleHelper();
         local.setLocale(Teacher_AA_Test.this, lang);
-    }
-
-    public static boolean hasPermissions(Context context, String[] permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public boolean isStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v("Write_Etnl_Permission", "Permission is granted");
-                return true;
-            } else {
-
-                Log.v("Write_Etnl_Permission", "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
-                return false;
-            }
-        } else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("Write_Etnl_Permission", "Permission is granted");
-            return true;
-        }
-    }
-
-    public boolean isRecordPermissionGranted() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.RECORD_AUDIO)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v("Rec_Audio_Permission", "Permission is granted");
-                return true;
-            } else {
-
-                Log.v("Rec_Audio_Permission", "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
-                return false;
-            }
-        } else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("Rec_Audio_Permission", "Permission is granted");
-            return true;
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.v("Write_Etnl_Permission", "Permission: " + permissions[0] + "was " + grantResults[0]);
-                    //resume tasks needing this permission
-                }
-                return;
-            }
-
-            case MY_PERMISSIONS_REQUEST_RECORD_AUDIO: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.v("Rec_Audio_Permission", "Permission: " + permissions[0] + "was " + grantResults[0]);
-                    //resume tasks needing this permission
-                }
-                return;
-            }
-        }
     }
 
     @Override

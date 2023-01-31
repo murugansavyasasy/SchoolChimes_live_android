@@ -31,7 +31,10 @@ public interface TeacherMessengerApiInterface {
     @POST("GetCountryList")
     Call<JsonArray> GetCountryList(@Body JsonObject jsonObject);
 
-    @POST("GetUserDetails")
+//    @POST("GetUserDetails")
+//    Call<JsonArray> getStaffDetail(@Body JsonObject jsonObject);
+
+    @POST("GetUserDetailsWithValidation")
     Call<JsonArray> getStaffDetail(@Body JsonObject jsonObject);
 
     @POST("ValidatePassword")
@@ -130,7 +133,10 @@ public interface TeacherMessengerApiInterface {
     @POST("GetAllStandardsAndGroups")
     Call<JsonArray> GetAllStandardsAndGroups(@Body JsonObject jsonObject);
 
-    @POST("GetAllStandardsAndGroupsForVideo")
+    @POST("GetStaffGroups")
+    Call<JsonArray> GetStaffGroups(@Body JsonObject jsonObject);
+
+    @POST("GetAllStandardsAndGroups")
     Call<JsonArray> GetAllStandardsAndGroupsForVideo(@Body JsonObject jsonObject);
 
     @Multipart
@@ -140,6 +146,15 @@ public interface TeacherMessengerApiInterface {
 
     @POST("SendSMSToGroupsAndStandards")
     Call<JsonArray> SendSMSToGroupsAndStandards(@Body JsonObject jsonObject);
+
+
+    @POST("SendSMSAsStaffToGroups")
+    Call<JsonArray> SendSMSAsStaffToGroups(@Body JsonObject jsonObject);
+
+    @Multipart
+    @POST("SendVoiceAsStaffToGroups")
+    Call<JsonArray> SendVoiceAsStaffToGroups(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
+
 
     @POST("ManageSchoolEvents")
     Call<JsonArray> ManageSchoolEvents(@Body JsonObject jsonObject);
@@ -570,6 +585,14 @@ public interface TeacherMessengerApiInterface {
 
     @POST("SendMultipleImagePDFToGroupsAndStandardsWithCloudURL")
     Call<JsonArray> SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(@Body JsonObject jsonObject);
+
+
+    @POST("SendMultipleImagePDFAsStaffToGroupsWithCloudURL")
+    Call<JsonArray> SendMultipleImagePDFAsStaffToGroupsWithCloudURL(@Body JsonObject jsonObject);
+
+
+    @POST("SendVideoAsStaffToGroups")
+    Call<JsonArray> SendVideoAsStaffToGroups(@Body JsonObject jsonObject);
 
     @POST("GetAssignmentForStudent")
     Call<JsonArray> GetAssignmentForStudent(@Body JsonObject jsonObject);

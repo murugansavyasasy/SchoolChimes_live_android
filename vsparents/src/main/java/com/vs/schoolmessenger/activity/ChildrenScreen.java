@@ -68,7 +68,6 @@ import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
-import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
@@ -78,20 +77,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.vs.schoolmessenger.activity.TeacherSignInScreen.hasPermissions;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_HEAD;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 public class ChildrenScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -105,7 +96,6 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     LinearLayout aHome_llSchoollayout, lnrLogout, lnrFeedBack, lnrMore, Schoollayout;
     TextView aHome_tvSchoolName;
 
-    int PERMISSION_ALL = 1;
     ArrayList<String> schoolNamelist = new ArrayList<>();
 
     static ArrayList<Integer> isAdminMenuID = new ArrayList<>();
@@ -144,11 +134,6 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_screen);
         TeacherUtil_SharedPreference.putChild(ChildrenScreen.this, "1");
-
-        String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE};
-        if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
-        }
 
         aHome_llSchoollayout = (LinearLayout) findViewById(R.id.aHome_llSchoollayout);
         Schoollayout = (LinearLayout) findViewById(R.id.Schoollayout);
@@ -766,79 +751,6 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         }
         TeacherUtil_SharedPreference.putPrincipalIDs(isPrincipalMenuID, ChildrenScreen.this);
     }
-
-
-    private void unreadMsgCountAPI() {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-        final String strMobile = Util_SharedPreference.getMobileNumberFromSP(ChildrenScreen.this);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonArray jsonReqArray = Util_JsonRequest.getJsonArray_UnreadMessageCount(strMobile);
-        Call<JsonArray> call = apiService.UnreadMessageCount(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("UnredMsgCount:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("UnredMsgCount:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        String strChildID = jsonObject.getString("ChildID");
-                        String strTotalUnreadCount = jsonObject.getString("TotalUnreadCount");
-
-                        if (!strChildID.equals("")) {
-                            Log.d("json length", js.length() + "");
-                            for (int i = 0; i < js.length(); i++) {
-                                jsonObject = js.getJSONObject(i);
-                                strChildID = jsonObject.getString("ChildID");
-                                strTotalUnreadCount = jsonObject.getString("TotalUnreadCount");
-
-                                for (int j = 0; j < childList.size(); j++) {
-                                    Log.d("ITEM_XXX " + j, childList.get(j).getChildID().toString());
-                                    if (childList.get(j).getChildID().equals(strChildID)) {
-                                        Log.d("ITEM_yyy " + j, childList.get(j).toString());
-                                        childList.get(j).setMsgCount(strTotalUnreadCount);
-                                        break;
-                                    }
-                                }
-                            }
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            showToast(strTotalUnreadCount);
-                        }
-                    } else {
-                        showToast(String.valueOf(getResources().getText(R.string.else_error_message)));
-                    }
-
-                } catch (Exception e) {
-                    Log.e("UnredMsgCount:Exception", e.getMessage());
-                    showToast(String.valueOf(getResources().getText(R.string.catch_message)));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(String.valueOf(getResources().getText(R.string.Error_message)));
-                Log.d("UnredMsgCount:Failure", t.toString());
-            }
-        });
-    }
-
 
     public void setupHelpPopUp() {
 

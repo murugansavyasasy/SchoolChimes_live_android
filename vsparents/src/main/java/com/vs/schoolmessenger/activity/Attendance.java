@@ -103,7 +103,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     Calendar c;
     String previousDate;
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
 
     Slider slider;
     ImageView adImage;

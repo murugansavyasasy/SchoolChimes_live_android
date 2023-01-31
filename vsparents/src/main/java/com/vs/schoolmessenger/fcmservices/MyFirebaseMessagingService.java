@@ -68,11 +68,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void createNotification(String messageBody, String title, String sound, String tone) {
 
+        Log.d("Received","Received");
         Intent intent = new Intent(this, TeacherSplashScreen.class);
         intent.putExtra("CHILD_LIST", pubStArrChildList);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent resultIntent = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+
+        PendingIntent resultIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            resultIntent = PendingIntent.getActivity(this, 0, intent,
+                    PendingIntent.FLAG_MUTABLE);
+        }
+        else {
+            resultIntent = PendingIntent.getActivity(this, 0, intent,
+                    PendingIntent.FLAG_ONE_SHOT);
+        }
 
         message_voice = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.message);
         emergency_message_voice = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.emergencyvoice);
@@ -87,7 +96,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 if(tone.equals("message")){
                     CHANNEL_ID = "voicesnap_channel_01";// The id of the channel.
                     name = "Voicesnap";// The user-visible name of the channel.
-
                 }
                 else if(tone.equals("emergency_voice")){
                     CHANNEL_ID = "voicesnap_channel_02";// The id of the channel.
@@ -108,7 +116,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .build();
             mChannel.enableLights(true);
             mChannel.enableVibration(true);
-           // mChannel.setSound(notificationSoundURI, attributes);
             if(sound.equals("Enabled")){
                 if(tone.equals("message")){
                     mChannel.setSound(message_voice, attributes);

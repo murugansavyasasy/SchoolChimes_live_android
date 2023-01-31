@@ -12,6 +12,7 @@ public class TeacherCircularDates implements Serializable {
     private String textTotCount, textUnreadCount;
     private String imageTotCount, imageUnreadCount;
     private String pdfTotCount, pdfUnreadCount;
+    private String videoTotCount, videoUnreadCount;
     Boolean is_Archive;
 
     public TeacherCircularDates() {
@@ -19,7 +20,7 @@ public class TeacherCircularDates implements Serializable {
 
     public TeacherCircularDates(String circularDate, String circularDay, String voiceTotCount, String voiceUnreadCount,
                                 String textTotCount, String textUnreadCount, String imageTotCount,
-                                String imageUnreadCount, String pdfTotCount, String pdfUnreadCount,Boolean archive) {
+                                String imageUnreadCount, String pdfTotCount, String pdfUnreadCount,String videoTotal,String videoUnread,Boolean archive) {
         this.circularDate = circularDate;
         this.circularDay = circularDay;
         this.voiceTotCount = voiceTotCount;
@@ -30,6 +31,9 @@ public class TeacherCircularDates implements Serializable {
         this.imageUnreadCount = imageUnreadCount;
         this.pdfTotCount = pdfTotCount;
         this.pdfUnreadCount = pdfUnreadCount;
+
+        this.videoTotCount = videoTotal;
+        this.videoUnreadCount = videoUnread;
         this.is_Archive = archive;
     }
     public TeacherCircularDates(String circularDate, String circularDay, String voiceTotCount, String voiceUnreadCount,
@@ -123,6 +127,22 @@ public class TeacherCircularDates implements Serializable {
 
     public void setPdfUnreadCount(String pdfUnreadCount) {
         this.pdfUnreadCount = pdfUnreadCount;
+    }
+
+    public String getVideoTotCount() {
+        return videoTotCount;
+    }
+
+    public void setVideoTotCount(String pdfUnreadCount) {
+        this.videoTotCount = pdfUnreadCount;
+    }
+
+    public String getVideoUnreadCount() {
+        return videoUnreadCount;
+    }
+
+    public void setVideoUnreadCount(String pdfUnreadCount) {
+        this.videoUnreadCount = pdfUnreadCount;
     }
 
 

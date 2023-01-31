@@ -114,7 +114,7 @@
     <string name="teacher_app_sub_title">for Parents</string>
     <string name="teacher_school_msg">Chimes \t</string>
 
-    <string name="teacher_app_version_id">63</string>
+    <string name="teacher_app_version_id">64</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -167,8 +167,8 @@
     <string name="teacher_txt_exam_title">Exam Name</string>
     <string name="teacher_txt_exam_typemsg">Exam Description</string>
 
-    <string name="teacher_staff_to_sections">To Standard or Sections</string>
-    <string name="teacher_staff_to_students">To Section or Students</string>
+    <string name="teacher_staff_to_sections">TO STANDARD OR SECTIONS</string>
+    <string name="teacher_staff_to_students">TO SECTION OR STUDENTS</string>
     <string name="teacher_staff_hint_title">Title/Subject</string>
 
 
@@ -505,6 +505,7 @@
     <string name="now">Now</string>
     <string name="later">Later</string>
     <string name="teacher_select_school">Select School</string>
+    <string name="teacher_to_staff_groups">TO GROUPS</string>
     <string name="select_reciepients">Select Recipients</string>
     <string name="select_atleast_one_school">Please select atleast one school..</string>
     <string name="please_select_message">Please select atleast one message</string>
@@ -562,7 +563,7 @@
     <string name="images_only">images only</string>
     <string name="grade_usa">Grade</string>
     <string name="grades_usa">Grades</string>
-    <string name="select_recipients">Select Recipients</string>
+    <string name="select_recipients">SELECT RECIPIENTS</string>
     <string name="send_standard_section_for_usa">Send to Grade/section</string>
     <string name="send_standard_groups_for_usa">Send to Grade/Groups</string>
     <string name="to_standard_sections">To Grade or Sections</string>

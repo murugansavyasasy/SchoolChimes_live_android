@@ -88,7 +88,7 @@ public class PdfCircular extends AppCompatActivity {
     String previousDate;
 
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
     Slider slider;
     ImageView adImage;
     RelativeLayout voice_rlToolbar;

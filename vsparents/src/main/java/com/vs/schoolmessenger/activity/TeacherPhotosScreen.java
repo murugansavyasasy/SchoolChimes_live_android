@@ -130,6 +130,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
     ClipData mClipData;
     String imageFilePath;
     File photoFile;
+    Button btnStaffGroups;
 
     // private ArrayList<Imagess> images = new ArrayList<>();
 
@@ -154,6 +155,11 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
         btnToStudents.setOnClickListener(this);
         btnToSections.setEnabled(false);
         btnToStudents.setEnabled(false);
+
+        btnStaffGroups = (Button) findViewById(R.id.btnStaffGroups);
+        btnStaffGroups.setOnClickListener(this);
+        btnStaffGroups.setEnabled(false);
+
 
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherPhotosScreen.this);
@@ -232,7 +238,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
         } else if (loginType.equals(LOGIN_TYPE_TEACHER)) {
             rvSchoolsList.setVisibility(View.GONE);
             btnNext.setVisibility(View.GONE);
-
+            btnStaffGroups.setVisibility(View.VISIBLE);
 
         }
 
@@ -292,6 +298,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                 img4.setImageBitmap(null);
                 lblImageCount.setText("");
                 imagePathList.clear();
+
                 Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 try {
                     photoFile = createImageFile();
@@ -513,58 +520,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    private Intent getPickImageChooserIntent() {
-
-        Uri outputFileUri = getCaptureImageOutputUri();
-
-        List<Intent> allIntents = new ArrayList<>();
-        PackageManager packageManager = getPackageManager();
-
-        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for (ResolveInfo res : listCam) {
-            Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(res.activityInfo.packageName);
-            if (outputFileUri != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            }
-            allIntents.add(intent);
-        }
-
-        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        galleryIntent.setType("image/*");
-
-
-        galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-
-        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
-        for (ResolveInfo res : listGallery) {
-            Intent intent = new Intent(galleryIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(res.activityInfo.packageName);
-            if (outputFileUri != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            }
-
-            allIntents.add(intent);
-        }
-
-        Intent mainIntent = allIntents.get(allIntents.size() - 1);
-        for (Intent intent : allIntents) {
-            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
-                mainIntent = intent;
-                break;
-            }
-        }
-        allIntents.remove(mainIntent);
-
-        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
-
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
-
-        return chooserIntent;
-    }
 
 
     private Uri getCaptureImageOutputUri() {
@@ -577,14 +532,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
         return outputFileUri;
     }
 
-    public Uri getPickImageResultUri(Intent data) {
-        boolean isCamera = true;
-        if (data != null) {
-            String action = data.getAction();
-            isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
-        }
-        return isCamera ? getCaptureImageOutputUri() : data.getData();
-    }
 
     private String getImageFilename() {
         String filepath = Environment.getExternalStorageDirectory().getPath();
@@ -621,6 +568,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
 
         btnToSections.setEnabled(true);
         btnToStudents.setEnabled(true);
+        btnStaffGroups.setEnabled(true);
         if (requestCode == 1 && null != data) {
 
             try {
@@ -833,14 +781,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                         lblClickImage.setVisibility(View.GONE);
                         img1.setEnabled(true);
 
-//                        Bitmap photo = (Bitmap) data.getExtras().get("data");
-//                        Uri mImageUri = getImageUri(getApplicationContext(), photo);
-//
-//                        Log.d("Uri_M", String.valueOf(mImageUri));
-//                        String path = FileUtils.getPath(TeacherPhotosScreen.this, mImageUri);
-//                        imagePathList.add(path);
-
-
                         Log.d("File_path", imageFilePath);
                         imagePathList.add(imageFilePath);
                         Log.d("size", String.valueOf(imagePathList.size()));
@@ -899,149 +839,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
         return file.delete();
     }
 
-    private Uri getImageUri(Context applicationContext, Bitmap photo) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(applicationContext.getContentResolver(), photo, "Title", null);
-        return Uri.parse(path);
 
-
-    }
-
-    public Uri bitmapToUriConverter(Bitmap mBitmap) {
-        Uri uri = null;
-        try {
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            // Calculate inSampleSize
-            options.inSampleSize = calculateInSampleSize(options, 100, 100);
-
-            // Decode bitmap with inSampleSize set
-            options.inJustDecodeBounds = false;
-            Bitmap newBitmap = Bitmap.createScaledBitmap(mBitmap, 200, 200,
-                    true);
-            File file = new File(TeacherPhotosScreen.this.getFilesDir(), "Image"
-                    + new Random().nextInt() + ".jpeg");
-            FileOutputStream out = TeacherPhotosScreen.this.openFileOutput(file.getName(),
-                    Context.MODE_WORLD_READABLE);
-            newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
-            //get absolute path
-            String realPath = file.getAbsolutePath();
-            File f = new File(realPath);
-            uri = Uri.fromFile(f);
-
-        } catch (Exception e) {
-            Log.e("Your Error Message", e.getMessage());
-        }
-        return uri;
-    }
-
-
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight
-                    && (halfWidth / inSampleSize) >= reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
-
-
-
-
-    public String getReadableFileSize(long size) {
-        if (size <= 0) {
-            return "0";
-        }
-        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
-        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
-    }
-
-    public String getRealPathFromURI1(Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
-    }
-
-    private static Bitmap rotateImageIfRequired(Bitmap img, Uri selectedImage) throws IOException {
-
-        ExifInterface ei = new ExifInterface(selectedImage.getPath());
-        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-        switch (orientation) {
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                return rotateImage(img, 90);
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                return rotateImage(img, 180);
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                return rotateImage(img, 270);
-            default:
-                return img;
-        }
-    }
-
-    private static Bitmap rotateImage(Bitmap img, int degree) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degree);
-        Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
-        img.recycle();
-        return rotatedImg;
-    }
-
-
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 0) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
 
     @Override
     public void onBackPressed() {
@@ -1083,16 +881,13 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                     startActivityForResult(intoSec, iRequestCode);
                 } else {
                     if (imagePathList.size() <= Integer.parseInt(ImageCount)) {
-
                         Intent intoSec = new Intent(TeacherPhotosScreen.this, TeacherStaffStandardSection.class);
                         String strtittle = et_tittle.getText().toString().trim();
                         intoSec.putExtra("REQUEST_CODE", iRequestCode);
                         intoSec.putExtra("TO", "SEC");
                         intoSec.putExtra("FILEPATH", strCompressedImagePath);
-
                         intoSec.putExtra("FILE_PATH_PDF", strPDfFilePath);
                         intoSec.putExtra("PATH_LIST", imagePathList);
-
                         intoSec.putExtra("TITTLE", strtittle);
                         startActivityForResult(intoSec, iRequestCode);
                     } else {
@@ -1100,9 +895,37 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                         showAlert(getResources().getString(R.string.image_maximum) + " " + ImageCount + " " + getResources().getString(R.string.images_only));
 
                     }
-
                 }
 
+                break;
+
+
+            case R.id.btnStaffGroups:
+
+
+                if (!strPDfFilePath.equals("")) {
+                    Intent intoSec = new Intent(TeacherPhotosScreen.this, ToStaffGroupList.class);
+                    String strtittle = et_tittle.getText().toString().trim();
+                    intoSec.putExtra("REQUEST_CODE", iRequestCode);
+                    intoSec.putExtra("FILEPATH", strCompressedImagePath);
+                    intoSec.putExtra("FILE_PATH_PDF", strPDfFilePath);
+                    intoSec.putExtra("PATH_LIST", imagePathList);
+                    intoSec.putExtra("TITTLE", strtittle);
+                    startActivityForResult(intoSec, iRequestCode);
+                } else {
+                    if (imagePathList.size() <= Integer.parseInt(ImageCount)) {
+                        Intent intoSec = new Intent(TeacherPhotosScreen.this, ToStaffGroupList.class);
+                        String strtittle = et_tittle.getText().toString().trim();
+                        intoSec.putExtra("REQUEST_CODE", iRequestCode);
+                        intoSec.putExtra("FILEPATH", strCompressedImagePath);
+                        intoSec.putExtra("FILE_PATH_PDF", strPDfFilePath);
+                        intoSec.putExtra("PATH_LIST", imagePathList);
+                        intoSec.putExtra("TITTLE", strtittle);
+                        startActivityForResult(intoSec, iRequestCode);
+                    } else {
+                        showAlert(getResources().getString(R.string.image_maximum) + " " + ImageCount + " " + getResources().getString(R.string.images_only));
+                    }
+                }
 
                 break;
 
@@ -1123,7 +946,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                     startActivityForResult(intoStu, iRequestCode);
                 } else {
                     if (imagePathList.size() <= Integer.parseInt(ImageCount)) {
-
                         Intent intoStu = new Intent(TeacherPhotosScreen.this, TeacherStaffStandardSection.class);
                         String strtittle1 = et_tittle.getText().toString().trim();
                         intoStu.putExtra("REQUEST_CODE", iRequestCode);

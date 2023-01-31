@@ -20,6 +20,9 @@ import java.util.List;
  */
 
 public class TeacherUtil_Common {
+
+    public static Boolean isPermission = false;
+
     public static String selectedCircularDate;
 
     public static List<TeacherSectionModel> list_staffStdSecs = null;// = new ArrayList<>();

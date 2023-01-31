@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/bpTransparent_black"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rect_popup_white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/teacher_colorPrimary">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_files" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/lblHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="To send media, allow School chimes access to your device's photos,media,camera and files. Tap Settings >Permissions, and turn Files,Camera and media on "
+            android:textColor="@color/teacher_clr_btn_login"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+
+        <RelativeLayout
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lblNotNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Not now"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="18dp" />
+
+
+            <TextView
+                android:layout_toRightOf="@+id/lblNotNow"
+                android:id="@+id/lblSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Settings"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="18dp" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>
+

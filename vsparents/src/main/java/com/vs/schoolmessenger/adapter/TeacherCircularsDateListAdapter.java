@@ -14,6 +14,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.StaffDisplayImages;
 import com.vs.schoolmessenger.activity.StaffDisplayPDF;
 import com.vs.schoolmessenger.activity.StaffDisplayTextMessages;
+import com.vs.schoolmessenger.activity.StaffDisplayVideos;
 import com.vs.schoolmessenger.activity.TeacherVoiceCircular;
 import com.vs.schoolmessenger.model.TeacherCircularDates;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
@@ -65,9 +66,41 @@ public class TeacherCircularsDateListAdapter extends RecyclerView.Adapter<Teache
                 }
             });
         }
+
+
         if (iVoiceUnread < 1)
             holder.tvVoiceUnread.setVisibility(View.GONE);
         else holder.tvVoiceUnread.setVisibility(View.VISIBLE);
+
+        //********
+
+
+        holder.tvVideoTotal.setText("VIDEO"+"(" + date.getVideoTotCount() + ")");
+        holder.tvVideoUnread.setText(date.getVideoUnreadCount());
+        int iVideoUnread = Integer.parseInt(date.getVideoUnreadCount());
+        int iVideoTotal = Integer.parseInt(date.getVideoTotCount());
+        if (iVideoTotal < 1)
+            holder.llVIDEO.setEnabled(false);
+        else {
+            holder.llVIDEO.setEnabled(true);
+            holder.llVIDEO.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    TeacherUtil_Common.selectedCircularDate = date.getCircularDate();
+                    Intent inVoice = new Intent(context, StaffDisplayVideos.class);
+                    inVoice.putExtra("SEL_DATE", date.getCircularDate());
+                    inVoice.putExtra("is_Archive", date.getIs_Archive());
+                    context.startActivity(inVoice);
+
+                }
+            });
+        }
+
+        if (iVideoUnread < 1)
+            holder.tvVideoUnread.setVisibility(View.GONE);
+        else holder.tvVideoUnread.setVisibility(View.VISIBLE);
+
 
         //************
 
@@ -94,6 +127,8 @@ public class TeacherCircularsDateListAdapter extends RecyclerView.Adapter<Teache
             holder.tvTextUnread.setVisibility(View.GONE);
         else holder.tvTextUnread.setVisibility(View.VISIBLE);
 
+        //********
+
         holder.tvImageTotal.setText(context.getResources().getString(R.string.caps_image)+"(" + date.getImageTotCount() + ")");
         holder.tvImageUnread.setText(date.getImageUnreadCount());
         int iImageUnread = Integer.parseInt(date.getImageUnreadCount());
@@ -116,6 +151,8 @@ public class TeacherCircularsDateListAdapter extends RecyclerView.Adapter<Teache
         if (iImageUnread < 1)
             holder.tvImageUnread.setVisibility(View.GONE);
         else holder.tvImageUnread.setVisibility(View.VISIBLE);
+
+        //********
 
         holder.tvPdfTotal.setText(context.getResources().getString(R.string.caps_pdf)+"(" + date.getPdfTotCount() + ")");
         holder.tvPdfUnread.setText(date.getPdfUnreadCount());
@@ -156,9 +193,9 @@ public class TeacherCircularsDateListAdapter extends RecyclerView.Adapter<Teache
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tvDate, tvDay, tvTotalUnread;
-        LinearLayout llVoice, llText, llImage, llPDF;
+        LinearLayout llVoice, llText, llImage, llPDF,llVIDEO;
         TextView tvVoiceTotal, tvVoiceUnread, tvTextTotal, tvTextUnread,
-                tvImageTotal, tvImageUnread, tvPdfTotal, tvPdfUnread;
+                tvImageTotal, tvImageUnread, tvPdfTotal, tvPdfUnread,tvVideoUnread,tvVideoTotal;
 
         public MyViewHolder(View view) {
             super(view);
@@ -167,6 +204,7 @@ public class TeacherCircularsDateListAdapter extends RecyclerView.Adapter<Teache
             llText = (LinearLayout) view.findViewById(R.id.cardDates_llTextMsg);
             llImage = (LinearLayout) view.findViewById(R.id.cardDates_llImageMsg);
             llPDF = (LinearLayout) view.findViewById(R.id.cardDates_llPDFMsg);
+            llVIDEO = (LinearLayout) view.findViewById(R.id.cardDates_llVideoMsg);
 
             tvTotalUnread = (TextView) view.findViewById(R.id.cardDates_tvTotUnreadMsgCount);
 
@@ -184,6 +222,9 @@ public class TeacherCircularsDateListAdapter extends RecyclerView.Adapter<Teache
 
             tvPdfTotal = (TextView) view.findViewById(R.id.cardDates_tvTotPDFMsgCount);
             tvPdfUnread = (TextView) view.findViewById(R.id.cardDates_tvUnreadPDFMsgCount);
+
+            tvVideoTotal = (TextView) view.findViewById(R.id.cardDates_tvTotVIDEOMsgCount);
+            tvVideoUnread = (TextView) view.findViewById(R.id.cardDates_tvUnreadVIDEOMsgCount);
         }
     }
 

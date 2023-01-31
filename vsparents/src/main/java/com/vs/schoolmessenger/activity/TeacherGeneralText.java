@@ -143,6 +143,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     RadioGroup TextRadio;
     RadioButton radioGeneralText, radioSmsHistory;
     private PopupWindow popupWindow;
+    Button btnStaffGroups;
 
 
     @Override
@@ -206,6 +207,11 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         btnToStudents.setOnClickListener(this);
         btnToSections.setEnabled(false);
         btnToStudents.setEnabled(false);
+
+        btnStaffGroups = (Button) findViewById(R.id.btnStaffGroups);
+        btnStaffGroups.setOnClickListener(this);
+        btnStaffGroups.setEnabled(false);
+
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherGeneralText.this);
         if(countryID.equals("11")){
@@ -492,6 +498,8 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 btnNext.setVisibility(View.GONE);
                 btnToStudents.setVisibility(View.GONE);
             } else {
+
+                btnStaffGroups.setVisibility(View.VISIBLE);
                 rvSchoolsList.setVisibility(View.GONE);
                 btnNext.setVisibility(View.GONE);
             }
@@ -710,6 +718,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             if (iRequestCode == STAFF_TEXT) {
                 btnToSections.setVisibility(View.VISIBLE);
                 btnToStudents.setVisibility(View.VISIBLE);
+                btnStaffGroups.setVisibility(View.VISIBLE);
                 btnNext.setVisibility(View.GONE);
                 btn_Select_receipients.setVisibility(View.GONE);
                 btnSmsHistoryStandard.setVisibility(View.VISIBLE);
@@ -914,11 +923,13 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
             btnToSections.setEnabled((isReady) && (istitleReady));
             btnToStudents.setEnabled((isReady) && (istitleReady));
+            btnStaffGroups.setEnabled((isReady) && (istitleReady));
 
         }
         else if (loginType.equals(LOGIN_TYPE_TEACHER) || (iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW) || iRequestCode == PRINCIPAL_TEXT_HW) {
             btnToSections.setEnabled(isReady);
             btnToStudents.setEnabled(isReady);
+            btnStaffGroups.setEnabled(isReady);
 
             btn_Select_receipients.setEnabled(isReady);
             btnSelectSchool.setEnabled(isReady);
@@ -972,6 +983,19 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 intoSec.putExtra("TO", "SEC");
                 Log.d("SECTION", "SEC");
                 startActivityForResult(intoSec, iRequestCode);
+                break;
+
+
+            case R.id.btnStaffGroups:
+                Intent intoSec1 = new Intent(TeacherGeneralText.this, ToStaffGroupList.class);
+                String strtittle2 = et_tittle.getText().toString();
+                String message2 = etMessage.getText().toString();
+                intoSec1.putExtra("REQUEST_CODE", iRequestCode);
+                intoSec1.putExtra("SCHOOL_ID", schoolId);
+                intoSec1.putExtra("STAFF_ID", staffId);
+                intoSec1.putExtra("TITTLE", strtittle2);
+                intoSec1.putExtra("MESSAGE", message2);
+                startActivityForResult(intoSec1, iRequestCode);
                 break;
 
             case R.id.genText_btnToStudents:

@@ -46,7 +46,7 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
     TextView lblNoMessages;
 
     ImageView imgSearch;
-    TextView Searchable;
+    EditText Searchable;
 
     AssignmentViewAdapter assignment_adapter;
     private ArrayList<AssignmentViewClass> assignlist = new ArrayList<>();
@@ -103,8 +103,7 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
         });
 
 
-        Searchable = (EditText) findViewById(R.id.Searchable);
-        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
 
         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
