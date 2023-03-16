@@ -4,24 +4,28 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.provider.Settings;
 
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Telephony;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,6 +37,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,9 +58,12 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.vs.schoolmessenger.BuildConfig;
 import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
 import com.vs.schoolmessenger.R;
 
+import com.vs.schoolmessenger.adapter.NewupdatesAdapter;
+import com.vs.schoolmessenger.adapter.PaymentTypeAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
@@ -123,6 +131,10 @@ public class TeacherSplashScreen extends AppCompatActivity {
     LinearLayout lnrSnackBar;
     TextView lblInstall;
 
+    private PopupWindow whatsNewPopupWindow;
+    RelativeLayout rytParent;
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -134,6 +146,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
         setContentView(R.layout.teacher_activity_splash_screen);
         lnrSnackBar = (LinearLayout) findViewById(R.id.lnrSnackBar);
         lblInstall = (TextView) findViewById(R.id.lblInstall);
+        rytParent = (RelativeLayout) findViewById(R.id.rytParent);
 
 
         appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
@@ -175,6 +188,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
             TeacherUtil_SharedPreference.putNewProduct(TeacherSplashScreen.this,"1");
         }
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -996,6 +1011,9 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         String ReportNewLink = jsonObject.getString("ReportsLink");
                         String helplineURL = jsonObject.getString("helplineURL");
 
+                        String NewVersion = jsonObject.getString("NewVersion");
+                        String NewUpdates = jsonObject.getString("NewUpdates");
+
                         TeacherUtil_SharedPreference.putHelpLineUrl(TeacherSplashScreen.this, helplineURL);
 
                         TeacherUtil_SharedPreference.putReportURL(TeacherSplashScreen.this, ReportNewLink);
@@ -1051,7 +1069,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                     public void onClick(View v) {
                                         dialog.dismiss();
                                         nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle,
-                                                VersionAlertContent, PlaystoreMarketId, PlayStoreLink,InAppUpdate);
+                                                VersionAlertContent, PlaystoreMarketId, PlayStoreLink,InAppUpdate,NewVersion,NewUpdates);
                                     }
                                 });
 
@@ -1060,7 +1078,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                             }
                         } else {
                             nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle,
-                                    VersionAlertContent, PlaystoreMarketId, PlayStoreLink,InAppUpdate);
+                                    VersionAlertContent, PlaystoreMarketId, PlayStoreLink,InAppUpdate,NewVersion,NewUpdates);
                         }
 
                     } else {
@@ -1086,21 +1104,112 @@ public class TeacherSplashScreen extends AppCompatActivity {
         });
     }
 
-    private void nextStep(String strUpdateAvailable, String strForceUpdate, String versionAlertTitle, String versionAlertContent, String playstoreMarketId, String playStoreLink,String InAppUpdate) {
+
+    private void whatsNewPopup(String inAppUpdate, String strUpdateAvailable, String strForceUpdate, String playstoreMarketId, String playStoreLink,String new_version,String new_updates){
+        bForceUpdate = strForceUpdate.equals("1");
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.whats_new_popup, null);
+        whatsNewPopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        whatsNewPopupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                whatsNewPopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        TextView btnNotNow = (TextView) layout.findViewById(R.id.btnNotNow);
+        TextView btnUpdate = (TextView) layout.findViewById(R.id.btnUpdate);
+        TextView idUpdateTitle = (TextView) layout.findViewById(R.id.idUpdateTitle);
+        TextView lblYourVersion = (TextView) layout.findViewById(R.id.lblYourVersion);
+        TextView lblNewVersion = (TextView) layout.findViewById(R.id.lblNewVersion);
+        TextView lblYourAppVersion = (TextView) layout.findViewById(R.id.lblYourAppVersion);
+        TextView lblNewVersionCode = (TextView) layout.findViewById(R.id.lblNewVersionCode);
+
+        RecyclerView recycleNewUpdates = (RecyclerView) layout.findViewById(R.id.recycleNewUpdates);
+        String current_version = BuildConfig.VERSION_NAME;
+        lblYourAppVersion.setText(current_version);
+        lblNewVersionCode.setText(new_version);
+
+        String[] separated = new_updates.split("~");
+        NewupdatesAdapter paymentAdapter = new NewupdatesAdapter(separated, TeacherSplashScreen.this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recycleNewUpdates.setLayoutManager(mLayoutManager);
+        recycleNewUpdates.setItemAnimator(new DefaultItemAnimator());
+        recycleNewUpdates.setAdapter(paymentAdapter);
+        paymentAdapter.notifyDataSetChanged();
+
+
+        if(bForceUpdate){
+            btnNotNow.setVisibility(View.GONE);
+        }
+        else {
+            btnNotNow.setVisibility(View.VISIBLE);
+        }
+
+        idUpdateTitle.setTypeface(null, Typeface.BOLD);
+        lblNewVersion.setTypeface(null, Typeface.BOLD);
+        lblYourVersion.setTypeface(null, Typeface.BOLD);
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                whatsNewPopupWindow.dismiss();
+                if(inAppUpdate.equals("1")) {
+                    if (strUpdateAvailable.equals("1") && strForceUpdate.equals("1")) {
+                        checkImmediateUpdate();
+                    } else if (strUpdateAvailable.equals("1") && strForceUpdate.equals("0")) {
+                        checkFlexibleUpdate();
+                    }
+                }
+                else {
+                    TeacherUtil_SharedPreference.putAppTermsAndConditions(TeacherSplashScreen.this, "");
+                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setData(Uri.parse(playstoreMarketId + appPackageName));
+                        startActivity(intent);
+
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setData(Uri.parse(playStoreLink + appPackageName));
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+
+        btnNotNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                whatsNewPopupWindow.dismiss();
+                checkAutoLoginAndSDcardPermission();
+            }
+        });
+    }
+
+    private void nextStep(String strUpdateAvailable, String strForceUpdate, String versionAlertTitle, String versionAlertContent, String playstoreMarketId, String playStoreLink,String InAppUpdate,String new_version,String new_updates) {
+
         if (strUpdateAvailable.equals("1")) {
             bForceUpdate = strForceUpdate.equals("1");
             TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, getString(R.string.teacher_app_version_id));
 
-            if(InAppUpdate.equals("1")) {
-                if (strUpdateAvailable.equals("1") && strForceUpdate.equals("1")) {
-                    checkImmediateUpdate();
-                } else if (strUpdateAvailable.equals("1") && strForceUpdate.equals("0")) {
-                    checkFlexibleUpdate();
-                }
-            }
-            else {
-                 showPlayStoreAlert(versionAlertTitle, versionAlertContent, playstoreMarketId, playStoreLink);
-            }
+            whatsNewPopup(InAppUpdate,strUpdateAvailable,strForceUpdate,playstoreMarketId,playStoreLink,new_version,new_updates);
+
+//            if(InAppUpdate.equals("1")) {
+//
+//                if (strUpdateAvailable.equals("1") && strForceUpdate.equals("1")) {
+//                    checkImmediateUpdate();
+//                } else if (strUpdateAvailable.equals("1") && strForceUpdate.equals("0")) {
+//                    checkFlexibleUpdate();
+//                }
+//            }
+//            else {
+//                showPlayStoreAlert(versionAlertTitle, versionAlertContent, playstoreMarketId, playStoreLink);
+//            }
+
 
         } else if (strUpdateAvailable.equals("0")) {
             TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, getString(R.string.teacher_app_version_id));

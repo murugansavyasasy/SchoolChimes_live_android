@@ -37,6 +37,7 @@ import com.vs.schoolmessenger.activity.MessageDatesScreen;
 import com.vs.schoolmessenger.activity.OnlineClassParentScreen;
 import com.vs.schoolmessenger.activity.ParentQuizScreen;
 import com.vs.schoolmessenger.activity.PdfCircular;
+import com.vs.schoolmessenger.activity.ProfileLinkScreen;
 import com.vs.schoolmessenger.activity.RequestMeetingForParent;
 import com.vs.schoolmessenger.activity.StaffListActivity;
 import com.vs.schoolmessenger.activity.StudentLibraryDetails;
@@ -79,7 +80,6 @@ public class ChildMenuAdapter extends ArrayAdapter {
 
     private PopupWindow SettingsStoragepopupWindow;
     private PopupWindow SettingsStorageCamerapopupWindow;
-
 
 
     public ChildMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent) {
@@ -256,6 +256,12 @@ public class ChildMenuAdapter extends ArrayAdapter {
             setUnReadCount(unReadCount, lblUnreadCount);
         }
 
+        if (MenuName.contains("_24")) {
+            imgMenu.setImageResource(R.drawable.student_profile);
+            textView.setText(MenuName.substring(0, MenuName.length() - 3));
+            setUnReadCount(unReadCount, lblUnreadCount);
+        }
+
         return v;
     }
 
@@ -278,7 +284,6 @@ public class ChildMenuAdapter extends ArrayAdapter {
         }
         else if (substring.equals("_1")) {
             isPermissionGranded(MenuName);
-
         }
         else if (substring.equals("_2")) {
             goToNextScreen(MenuName);
@@ -361,9 +366,11 @@ public class ChildMenuAdapter extends ArrayAdapter {
         }
         else if (substring1.equals("_23")) {
             goToNextScreen(MenuName);
-
         }
 
+        else if (substring1.equals("_24")) {
+            goToNextScreen(MenuName);
+        }
     }
 
     private boolean isCameraPermissions(String MenuName) {
@@ -702,6 +709,12 @@ public class ChildMenuAdapter extends ArrayAdapter {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, TimeTableActivity.class);
             context.startActivity(inNext);
+        }
+
+        else if (substring1.equals("_24")) {
+            Intent profile=new Intent(context, ProfileLinkScreen.class);
+            context.startActivity(profile);
+
         }
 
     }

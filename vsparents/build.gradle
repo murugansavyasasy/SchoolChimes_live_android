@@ -15,13 +15,38 @@ android {
         applicationId "com.vs.schoolmessenger"
         minSdkVersion 22
         targetSdkVersion 32
-        versionCode 76
-        versionName "7.5"
+        versionCode 77
+        versionName "7.6"
+        flavorDimensions "default"
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
+
+//    flavorDimensions "version"
+    productFlavors {
+        main {
+            //dimension "version"
+            applicationIdSuffix ""
+//            versionNameSuffix ""
+        }
+        sales {
+            //dimension "version"
+            applicationIdSuffix ".sales"
+//            versionName "7.5"
+//            versionCode 76
+        }
+        paid {
+            //dimension "version"
+            applicationIdSuffix ".paid"
+//            versionName "7.5"
+//            versionCode 76
+        }
+
+    }
+
+
     dataBinding {
         enabled = true
     }
@@ -108,6 +133,7 @@ dependencies {
     implementation 'com.google.android.play:core:1.8.3'
 
     implementation 'com.ss.bannerslider:bannerslider:2.0.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
 }
 apply plugin: 'com.google.gms.google-services'

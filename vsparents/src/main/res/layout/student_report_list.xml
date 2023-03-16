@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/rytExams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:background="@drawable/bg_shadow_white_card"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:id="@+id/lnrStuName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bpWhite"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Student Name"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/lblStudentName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Murugan"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/card_grey"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/lnrClassName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrStuName"
+            android:layout_marginTop="5dp"
+            android:background="@color/bpWhite"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Class Name"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/lblClassName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="NUR - Karnataka"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/card_grey"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/lnrSectionName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrClassName"
+            android:layout_marginTop="5dp"
+            android:background="@color/bpWhite"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Section Name"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/lblSectionName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="VRCR"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/card_grey"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/lnrAdmissionNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrSectionName"
+            android:layout_marginTop="5dp"
+            android:background="@color/clr_white"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Admission No"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/lblAdmissionNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="VS-80"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/card_grey"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:id="@+id/lnrgender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrAdmissionNo"
+            android:layout_marginTop="5dp"
+            android:background="@color/bpWhite"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Gender"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/lblGender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="male"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/card_grey"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/lnrDOB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrgender"
+            android:layout_marginTop="5dp"
+            android:background="@color/clr_white"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="DOB"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/lblDOB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="31/05/2020"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/card_grey"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/lnrMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrDOB"
+            android:layout_marginTop="5dp"
+            android:background="@color/bpWhite"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Mobile No"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/lblMobile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="9003550544"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_14sdp" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/card_grey"
+            android:layout_height="1dp"/>
+
+        <RelativeLayout
+            android:padding="5dp"
+            android:layout_below="@+id/lnrMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <Button
+            android:id="@+id/btnCall"
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_shadow_white_card"
+            android:paddingHorizontal="5dp"
+            android:text="Call"
+            android:textColor="@color/teacher_clr_blue"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btnSendSms"
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bg_shadow_white_card"
+            android:paddingHorizontal="5dp"
+            android:text="Send SMS"
+            android:textColor="@color/teacher_clr_blue"
+            android:textSize="14dp" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

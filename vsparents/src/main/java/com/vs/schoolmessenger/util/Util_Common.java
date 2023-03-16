@@ -74,14 +74,14 @@ public class Util_Common {
         popup.getMenuInflater().inflate(R.menu.settings_popup, popup.getMenu());
         Menu menuOpts = popup.getMenu();
         menuOpts.getItem(0).setTitle(UploadProfileTitle);
-        menuOpts.getItem(1).setTitle(ProfileTitle);
+      //  menuOpts.getItem(1).setTitle(ProfileTitle);
         if(type.equals("1")){
             menuOpts.getItem(0).setVisible(true);
-            menuOpts.getItem(1).setVisible(true);
+            //menuOpts.getItem(1).setVisible(true);
         }
         else {
             menuOpts.getItem(0).setVisible(false);
-            menuOpts.getItem(1).setVisible(false);
+           // menuOpts.getItem(1).setVisible(false);
         }
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

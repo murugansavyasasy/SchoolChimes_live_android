@@ -132,7 +132,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         s3uploaderObj = new S3Uploader(TeacherAttendanceStudentList.this);
         Log.d("Tot - Sele", selSection.getTotStudents() + " - " + selSection.getSelectedStudentsCount());
         rvStudentList = (RecyclerView) findViewById(R.id.attenStudent_rvStudentList);
-        adapter = new TeacherStudendListAdapter(TeacherAttendanceStudentList.this, this, studentList);
+        adapter = new TeacherStudendListAdapter(TeacherAttendanceStudentList.this, this, studentList,iRequestCode);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvStudentList.setHasFixedSize(true);
@@ -174,6 +174,11 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         });
 
         cbSelectAll = (CheckBox) findViewById(R.id.attenStudent_cbSelectAll);
+
+        if(iRequestCode == PRINCIPAL_ATTENDANCE || iRequestCode == STAFF_ATTENDANCE ){
+            cbSelectAll.setText("Absentees All");
+        }
+
         cbSelectAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

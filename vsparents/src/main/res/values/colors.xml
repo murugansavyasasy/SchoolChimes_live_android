@@ -96,4 +96,10 @@
 <!--    <color name="clr_light_yellow">#F8EDCE</color>-->
     <color name="clr_light_yellow">#D9ECEA</color>
 
+    <color name="clr_report">#EFD5DF</color>
+
+    <color name="clr_daily_collection">#689F38</color>
+
+
+
 </resources>

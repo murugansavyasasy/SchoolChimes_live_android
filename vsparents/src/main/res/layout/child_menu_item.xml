@@ -40,7 +40,7 @@
                 android:layout_width="@dimen/home_menu_icon"
                 android:layout_height="@dimen/home_menu_icon"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/c_emergency" />
+                app:srcCompat="@drawable/school_chimes" />
 
             <TextView
                 android:id="@+id/lblMenuName"

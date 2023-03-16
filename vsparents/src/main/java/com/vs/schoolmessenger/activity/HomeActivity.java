@@ -1,7 +1,6 @@
 package com.vs.schoolmessenger.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -40,13 +39,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.BuildConfig;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
@@ -71,7 +63,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
@@ -118,7 +109,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private PopupWindow SettingspopupWindow;
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -183,8 +173,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             showToast(e.getMessage());
         }
-
-        getMenuDetails();
 
 
         isBookEnabled = childItem.getBookEnable();
@@ -256,8 +244,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         lblSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SettingspopupWindow.dismiss();
-                startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+                try {
+                    SettingspopupWindow.dismiss();
+                    startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+                }
+                catch (Exception e){
+                    Log.d("saveexception",e.toString());
+                }
             }
         });
     }
@@ -319,7 +312,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 isParentMenuNames.add(itemtemp);
                             }
 
-
                             contact_alert_title = jsonObject.getString("contact_alert_title");
                             contact_alert_Content = jsonObject.getString("contact_alert_content");
                             contact_display_name = jsonObject.getString("contact_display_name");
@@ -338,7 +330,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
                             UnreadCount();
-
                         }
                     }
 
@@ -399,7 +390,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 contactSaveContent();
             }
         }
-
     }
 
     private void contactSaveContent() {
@@ -439,33 +429,39 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void saveContacts() {
+        Log.d("ContactLength", String.valueOf(contacts.length));
+        try {
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.school_chimes_trans_splash);
+            // Bitmap bit = Bitmap.createScaledBitmap(b, 100, 100, false);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.school_chimes_trans_splash);
-       // Bitmap bit = Bitmap.createScaledBitmap(b, 100, 100, false);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
+            Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+            ArrayList<ContentValues> data = new ArrayList<ContentValues>();
+            for (int i = 0; i < contacts.length; i++) {
+                ContentValues row = new ContentValues();
+                row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+                row.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
+                row.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+                data.add(row);
+            }
 
-        Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-        ArrayList<ContentValues> data = new ArrayList<ContentValues>();
-        for (int i = 0; i < contacts.length; i++) {
-            ContentValues row = new ContentValues();
-            row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-            row.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
-            row.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
-            data.add(row);
+            for (int i = 0; i < contacts.length; i++) {
+                ContentValues row = new ContentValues();
+                row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
+                row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
+                data.add(row);
+            }
+            intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
+            intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
+            startActivityForResult(intent, 100);
+
         }
-
-        for (int i = 0; i < contacts.length; i++) {
-            ContentValues row = new ContentValues();
-            row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
-            row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
-            data.add(row);
+        catch (Exception e){
+            Log.d("saveContactError",e.toString());
         }
-        intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
-        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
-        startActivityForResult(intent, 100);
 
     }
 
@@ -713,7 +709,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard");
-//        getMenuDetails();
+        getMenuDetails();
     }
 
     private void UnreadCount() {
@@ -762,6 +758,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         String onlineClass = jsonObject.getString("ONLINECLASS");
                         String quiz = jsonObject.getString("QUIZEXAM");
                         String lsrw = jsonObject.getString("LSRW");
+                        String exam_marks = jsonObject.getString("EXAMMARKS");
 
                         menuList.clear();
 
@@ -785,7 +782,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 count = examtest;
 
                             } else if (substring.equals("_5")) {
-                                count = "0";
+                                count = exam_marks;
 
                             } else if (substring.equals("_6")) {
                                 count = documentcount;
@@ -883,7 +880,4 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void showToast(String msg) {
         Toast.makeText(HomeActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
-
-
-
 }

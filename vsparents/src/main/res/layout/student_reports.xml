@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_above="@+id/lnrBottom"
+    android:background="@drawable/img_app_bg"
+    tools:context=".activity.StudentReportActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_marginHorizontal="5dp"
+            android:id="@+id/rytSearch"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/Searchable"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_search_shadow"
+                android:hint="Search"
+                android:textSize="15dp"
+                android:paddingLeft="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/imgSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/search_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/attendance_tv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/teacher_atten_standard"
+            android:layout_marginHorizontal="10dp"
+            android:textColor="@color/clr_black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/attendance_spinStandard"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/lblSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/teacher_atten_section"
+            android:visibility="gone"
+            android:textColor="@color/clr_black"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="10dp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/attendance_spinSection"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="40dp"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/transparent" />
+
+
+
+        <TextView
+            android:id="@+id/lblGetAllStudent"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/teacher_colorPrimary"
+            android:background="@drawable/bg_search_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GET ALL STUDENT"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Exam_list_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:scrollbars="vertical" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

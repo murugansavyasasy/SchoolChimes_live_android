@@ -493,13 +493,15 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 btnToStudents.setVisibility(View.GONE);
             }
         } else if (loginType.equals(LOGIN_TYPE_TEACHER)) {
+
             if (iRequestCode == STAFF_TEXT_HW) {
                 rvSchoolsList.setVisibility(View.GONE);
                 btnNext.setVisibility(View.GONE);
                 btnToStudents.setVisibility(View.GONE);
             } else {
-
-                btnStaffGroups.setVisibility(View.VISIBLE);
+                if(iRequestCode == STAFF_TEXT){
+                    btnStaffGroups.setVisibility(View.VISIBLE);
+                }
                 rvSchoolsList.setVisibility(View.GONE);
                 btnNext.setVisibility(View.GONE);
             }

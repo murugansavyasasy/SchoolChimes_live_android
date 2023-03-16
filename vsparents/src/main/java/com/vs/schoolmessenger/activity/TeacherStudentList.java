@@ -69,7 +69,7 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
         i_students_count = Integer.parseInt(selSection.getSelectedStudentsCount());
 
         rvStudentList = (RecyclerView) findViewById(R.id.student_rvStudentList);
-        adapter = new TeacherStudendListAdapter(TeacherStudentList.this, this, studentList);
+        adapter = new TeacherStudendListAdapter(TeacherStudentList.this, this, studentList,0);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvStudentList.setHasFixedSize(true);

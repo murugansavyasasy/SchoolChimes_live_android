@@ -4,9 +4,14 @@
     <item
         android:id="@+id/uploadDoc"
         android:title="Upload profile/Documents" />
-    <item
-        android:id="@+id/editProfile"
-        android:title="Edit profile" />
+
+
+<!--    <item-->
+<!--        android:id="@+id/editProfile"-->
+<!--        android:title="Edit profile" />-->
+<!--    -->
+<!--    -->
+
     <item
         android:id="@+id/ClearCache"
         android:title="Clear Cache" />

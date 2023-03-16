@@ -92,8 +92,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     ImageView nivSchoolLogo;
     TextView tvLoggedInAs, tvSchoolName, tvSchoolAddress;
     Button btnChange;
-    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 1;
-    public static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 2;
     private PopupWindow pHelpWindow;
     String IDs = "";
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
@@ -117,7 +115,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     int Contact_Count = 0;
     int exist_Count = 0;
 
-    Boolean isPermission = false;
     String contact_alert_title="",contact_alert_Content="",contact_display_name="",contact_numbers="",contact_button = "";
     String[] contacts ;
     String Display_Name = "";
@@ -433,6 +430,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             for (String itemtemp : name) {
                                 isPrincipalMenuNames.add(itemtemp);
                             }
+
 
                             String alert_message = jsonObject.getString("alert_message");
                             if(!alert_message.equals("")){

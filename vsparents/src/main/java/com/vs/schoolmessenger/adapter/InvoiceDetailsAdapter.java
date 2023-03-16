@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.InVoiceDetailsModel;
+import com.vs.schoolmessenger.payment.PdfWebView;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
@@ -126,9 +127,13 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
                             if (status.equals("1")) {
                                 String invoicePdf = jsonObject.getString("data");
                                 if(!invoicePdf.equals("")){
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                            Uri.parse(invoicePdf));
-                                    context.startActivity(browserIntent);
+                                    Intent receipt = new Intent(context, PdfWebView.class);
+                                    receipt.putExtra("URL",invoicePdf);
+                                    context.startActivity(receipt);
+
+//                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+//                                            Uri.parse(invoicePdf));
+//                                    context.startActivity(browserIntent);
                                 }
                                 else{
                                     showAlertfinish(message);

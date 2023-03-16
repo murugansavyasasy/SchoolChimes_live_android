@@ -106,8 +106,6 @@ public class DownloadFileFromURL {
     }
 
 
-
-
     public static boolean writeResponseBodyToDisk(ResponseBody body, String folder, String fileName,Activity activity) {
         try {
             //String filepath = Environment.getExternalStorageDirectory().getPath();
@@ -117,18 +115,19 @@ public class DownloadFileFromURL {
             {
                // filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
                 filepath=activity.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+                Log.d("file_path1",filepath);
 
             }
             else{
                 filepath = Environment.getExternalStorageDirectory().getPath();
+                Log.d("file_path2",filepath);
+
             }
 
             File file = new File(filepath, folder);
             File dir = new File(file.getAbsolutePath());
 
             System.out.println("body: " + body);
-
-
 
             if (!dir.exists()) {
                 dir.mkdirs();

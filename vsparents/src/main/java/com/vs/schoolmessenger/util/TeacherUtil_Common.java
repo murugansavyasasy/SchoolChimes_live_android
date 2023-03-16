@@ -22,11 +22,8 @@ import java.util.List;
 public class TeacherUtil_Common {
 
     public static Boolean isPermission = false;
-
     public static String selectedCircularDate;
-
     public static List<TeacherSectionModel> list_staffStdSecs = null;// = new ArrayList<>();
-
     public static ArrayList<TeacherSchoolsModel> listschooldetails = null;// new ArrayList<>();
     public static String strNoClassWarning = "";
 
@@ -43,7 +40,6 @@ public class TeacherUtil_Common {
     public static final String VOICE_FILE_NAME = "schoolVoice.mp3";
     //public static final String VOICE_FILE_NAME = "schoolVoice";
 
-
     public static int maxEmergencyvoicecount =30;
     public static int maxGeneralvoicecount =180;
     public static int maxHWVoiceDuration = 180;
@@ -51,7 +47,6 @@ public class TeacherUtil_Common {
     public static int maxHomeWorkSMSCount =120;
 
     public static JSONObject loginJsonObject;
-
     public static final int GH_EMERGENCY = 8301;
     public static final int GH_VOICE = 8302;
     public static final int GH_TEXT = 8303;
@@ -72,12 +67,11 @@ public class TeacherUtil_Common {
     public static final int PRINCIPAL_ASSIGNMENT= 8220;
     public static final int PRINCIPAL_CHAT= 8221;
     public static final int PRINCIPAL_MESSAGESFROMMANAGEMENT= 8222;
-
-
     public static final int PRINCIPAL_MEETING_URL= 8223;
+    public static final int PRINCIPAL_STUDENT_REPORT= 8224;
+    public static final int PRINCIPAL_DAILY_COLLECTION= 8225;
+
     public static final int STAFF_MEETING_URL= 8224;
-
-
     public static final int STAFF_PHOTOS = 8101;
     public static final int STAFF_VOICE = 8102;
     public static final int STAFF_VOICE_HW = 8103;
@@ -93,14 +87,10 @@ public class TeacherUtil_Common {
     public static final int STAFF_IMAGEASSIGNMENT = 8112;
     public static final int STAFF_PDFASSIGNMENT = 8113;
 
-
     public static final int VIDEO_GALLERY = 8114;
     public static final int MEETING_URL = 8115;
-
-
     public static String Principal_SchoolId = "";
     public static String Principal_staffId = "";
-
     public static String staff_schoolId = "";
 
     public static boolean isNetworkAvailable(Activity activity) {

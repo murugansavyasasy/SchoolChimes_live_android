@@ -82,21 +82,6 @@ public class ShowAds {
                             i = 0;
                             rotateAds(activity, image);
 
-//                                Log.d("adsList", String.valueOf(adsList.size()));
-//                                slider.setAdapter(new MainSliderAdapter(activity, adsList));
-//                                slider.setInterval(3000);
-//                                slider.setOnSlideClickListener(new OnSlideClickListener() {
-//                                    @Override
-//                                    public void onSlideClick(int position) {
-//                                x        Log.d("redirectURl ",adsList.get(position).getRedirectURL());
-//
-//                                        if(!adsList.get(position).getRedirectURL().equals("")) {
-//                                            Intent intent = new Intent(activity, SpecificAdDetails.class);
-//                                            intent.putExtra("AdredirectURl",adsList.get(position).getRedirectURL());
-//                                            activity.startActivity(intent);
-//                                        }
-//                                    }
-//                                });
 
                         }
                     }
@@ -123,10 +108,7 @@ public class ShowAds {
         handler.removeCallbacks(myRunnable);
     }
 
-//    public static void restart(int j) {
-//        handler.removeCallbacks(myRunnable);
-//        handler.postDelayed(myRunnable, delay * j);
-//    }
+
 
     private static void rotateAds(Activity activity, ImageView image) {
          String adTimeInterval = TeacherUtil_SharedPreference.getAdTimeInterval(activity);

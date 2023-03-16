@@ -34,10 +34,12 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ABSENTEES
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ASSIGNMENT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANCE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_CHAT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_DAILY_COLLECTION;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MEETING_URL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MESSAGESFROMMANAGEMENT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_SCHOOLSTRENGTH;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_STUDENT_REPORT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT_HW;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE;
@@ -376,6 +378,64 @@ public class TeacherSchoolList extends AppCompatActivity {
         }
 
 
+        if(iRequestCode == PRINCIPAL_STUDENT_REPORT){
+
+
+            TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
+                    new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
+                        @Override
+                        public void onItemClick(TeacherSchoolsModel item) {
+                            TeacherUtil_Common.Principal_SchoolId=item.getStrSchoolID();
+                            TeacherUtil_Common.Principal_staffId=item.getStrStaffID();
+
+                            Intent inPrincipal = new Intent(TeacherSchoolList.this, StudentReportActivity.class);
+                            inPrincipal.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
+                            inPrincipal.putExtra("SCHOOL_ID", item.getStrSchoolID());
+                            inPrincipal.putExtra("STAFF_ID", item.getStrStaffID());
+                            startActivity(inPrincipal);
+
+
+                        }
+                    });
+
+            rvSchoolsList.hasFixedSize();
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TeacherSchoolList.this);
+            rvSchoolsList.setLayoutManager(layoutManager);
+            rvSchoolsList.addItemDecoration(new DividerItemDecoration(TeacherSchoolList.this, LinearLayoutManager.VERTICAL));
+            rvSchoolsList.setItemAnimator(new DefaultItemAnimator());
+            rvSchoolsList.setAdapter(schoolsListAdapter);
+
+
+
+        }
+
+        if(iRequestCode == PRINCIPAL_DAILY_COLLECTION){
+
+            TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
+                    new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
+                        @Override
+                        public void onItemClick(TeacherSchoolsModel item) {
+                            TeacherUtil_Common.Principal_SchoolId=item.getStrSchoolID();
+                            TeacherUtil_Common.Principal_staffId=item.getStrStaffID();
+
+                            Intent inPrincipal = new Intent(TeacherSchoolList.this, DailyFeeCollectionActivity.class);
+                            inPrincipal.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
+                            inPrincipal.putExtra("SCHOOL_ID", item.getStrSchoolID());
+                            inPrincipal.putExtra("STAFF_ID", item.getStrStaffID());
+                            startActivity(inPrincipal);
+
+
+                        }
+                    });
+
+            rvSchoolsList.hasFixedSize();
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TeacherSchoolList.this);
+            rvSchoolsList.setLayoutManager(layoutManager);
+            rvSchoolsList.addItemDecoration(new DividerItemDecoration(TeacherSchoolList.this, LinearLayoutManager.VERTICAL));
+            rvSchoolsList.setItemAnimator(new DefaultItemAnimator());
+            rvSchoolsList.setAdapter(schoolsListAdapter);
+
+        }
 
 
 

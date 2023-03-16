@@ -123,7 +123,7 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
 
         targetCode = sectioncode;
         rvStudentList = (RecyclerView) findViewById(R.id.attenStudent_rvStudentList);
-        adapter = new TeacherStudendListAdapter(StudentSelectVideo.this, this, studentList);
+        adapter = new TeacherStudendListAdapter(StudentSelectVideo.this, this, studentList,0);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvStudentList.setHasFixedSize(true);
@@ -435,7 +435,7 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             }
         }
     }
-   
+
 
 
     private String getStudentsName() {

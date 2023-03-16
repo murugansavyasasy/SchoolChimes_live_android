@@ -419,7 +419,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
-
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -755,7 +754,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
-
             android:theme="@style/Teacher_AppTheme.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -872,7 +870,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
+            android:theme="@style/Teacher_AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <activity
+            android:name=".activity.StudentReportActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -993,7 +998,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
+            android:theme="@style/Teacher_AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <activity
+            android:name=".activity.DailyFeeCollectionActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -1190,7 +1202,15 @@
             android:name=".payment.FeesTab"
             android:launchMode="singleTop"
             android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <activity
+            android:hardwareAccelerated="true"
+            android:name=".payment.PdfWebView"
+            android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />

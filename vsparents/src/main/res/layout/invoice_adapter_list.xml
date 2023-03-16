@@ -33,7 +33,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="0.4"
-                android:text="Invoice Number"
+                android:text="Receipt Number"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -80,7 +80,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="0.4"
-                android:text="Invoice Amount"
+                android:text="Receipt Amount"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -129,7 +129,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="0.4"
-                android:text="Invoice Date"
+                android:text="Receipt Date"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -170,7 +170,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:text="View invoice"
+        android:text="View Receipt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

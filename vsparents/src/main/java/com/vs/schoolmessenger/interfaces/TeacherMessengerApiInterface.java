@@ -2,8 +2,11 @@ package com.vs.schoolmessenger.interfaces;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
 import com.vs.schoolmessenger.payment.Model.FeeDetailsItems;
 import com.vs.schoolmessenger.util.Util_UrlMethods;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -436,6 +439,12 @@ public interface TeacherMessengerApiInterface {
 
     @POST("GetStudentExamList")
     Call<JsonArray> GetStudentExamList(@Body JsonObject jsonObject);
+
+    @POST("GetStudentList")
+    Call<JsonObject> GetStudentReport(@Body JsonObject jsonObject);
+
+    @POST("daily-collection-fee-app")
+    Call<List<DailyFeeCollectionModelItem>> getDailyCollection(@Body JsonObject jsonObject);
 
     @POST("GetStudentExamMarks")
     Call<JsonArray> GetStudentExamMarks(@Body JsonObject jsonObject);

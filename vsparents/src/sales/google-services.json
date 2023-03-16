@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "727813916281",
+    "project_id": "school-sales",
+    "storage_bucket": "school-sales.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727813916281:android:3ef32ca00752495ec5f6a8",
+        "android_client_info": {
+          "package_name": "com.vs.schoolmessenger.sales"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727813916281-vertdpparqb7clnsl4npo7ujifgkbul0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF6jDCrHOLjqj_WckmbiwbPLua9k1lgfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727813916281-vertdpparqb7clnsl4npo7ujifgkbul0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

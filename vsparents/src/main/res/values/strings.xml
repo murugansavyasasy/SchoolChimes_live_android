@@ -4,6 +4,9 @@
     <string name="app_version_id">18</string>
     <string name="app_id">3</string>
 
+    <string name="flavour_name">Flavour</string>
+
+
     <string name="selected">selected</string>
     <string name="done">Done</string>
     <string name="limit_exceeded">Can select a maximum of %d images</string>
@@ -114,7 +117,7 @@
     <string name="teacher_app_sub_title">for Parents</string>
     <string name="teacher_school_msg">Chimes \t</string>
 
-    <string name="teacher_app_version_id">64</string>
+    <string name="teacher_app_version_id">65</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -638,5 +641,21 @@
 
     <string name="viewMarks">View Marks</string>
     <string name="viewProgress">View report card</string>
+
+    <string name="app_version">7.6</string>
+
+
+
+<!--   Update whats new features here-->
+
+    <string name="text_feature_one">\u25CF   Bug fixed.</string>
+    <string name="text_feature_two">\u25CF   Issues Resolved.  </string>
+    <string name="text_feature_three">\u25CF   Collection widget present in layout file and change. </string>
+    <string name="text_feature_four">\u25CF   Present is not specified in layout xml file. </string>
+    <string name="text_feature_five">\u25CF   Payment added.  </string>
+    <string name="text_feature_six">\u25CF   We have got the reference to the Textview in layout file. </string>
+    <string name="text_feature_seven">\u25CF   Staff details added.  </string>
+
+    <string name="Rs">\u20B9</string>
 
 </resources>

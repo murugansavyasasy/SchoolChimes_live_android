@@ -1,12 +1,18 @@
 package com.vs.schoolmessenger.adapter;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANCE;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_ATTENDANCE;
+
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vs.schoolmessenger.R;
@@ -14,7 +20,6 @@ import com.vs.schoolmessenger.interfaces.TeacherOnCheckStudentListener;
 import com.vs.schoolmessenger.model.TeacherStudentsModel;
 
 import java.util.List;
-
 
 
 /**
@@ -25,11 +30,13 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
     private List<TeacherStudentsModel> studentlist;
     Context context;
     private TeacherOnCheckStudentListener onCheckStudentListener;
+    private int requestCode;
 
-    public TeacherStudendListAdapter(Context context, TeacherOnCheckStudentListener onCheckStudentListener, List<TeacherStudentsModel> studentlist) {
+    public TeacherStudendListAdapter(Context context, TeacherOnCheckStudentListener onCheckStudentListener, List<TeacherStudentsModel> studentlist, int irequestCode) {
         this.context = context;
         this.onCheckStudentListener = onCheckStudentListener;
         this.studentlist = studentlist;
+        this.requestCode = irequestCode;
     }
 
     @Override
@@ -43,8 +50,17 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
-        holder.bind(studentlist.get(position));
+        if (requestCode == PRINCIPAL_ATTENDANCE || requestCode == STAFF_ATTENDANCE) {
+            holder.cbSelect.setVisibility(View.GONE);
+            holder.lnrAbsent.setVisibility(View.GONE);
+            holder.lnrPresent.setVisibility(View.VISIBLE);
+        } else {
+            holder.cbSelect.setVisibility(View.VISIBLE);
+            holder.lnrAbsent.setVisibility(View.GONE);
+            holder.lnrPresent.setVisibility(View.GONE);
+        }
 
+        holder.bind(studentlist.get(position));
         final TeacherStudentsModel profile = studentlist.get(position);
         holder.tvstudentid.setText(profile.getAdmisionNo());
         holder.tvstudentname.setText(profile.getStudentName());
@@ -60,9 +76,39 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
                 } else {
                     onCheckStudentListener.student_removeClass(profile);
                 }
+            }
+        });
+
+        if (profile.isSelectStatus()) {
+            holder.lnrPresent.setVisibility(View.GONE);
+            holder.lnrAbsent.setVisibility(View.VISIBLE);
+        } else {
+            holder.lnrPresent.setVisibility(View.VISIBLE);
+            holder.lnrAbsent.setVisibility(View.GONE);
+        }
+
+        holder.lnrPresent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCheckStudentListener.student_addClass(profile);
+
+                holder.lnrPresent.setVisibility(View.GONE);
+                holder.lnrAbsent.setVisibility(View.VISIBLE);
 
             }
         });
+
+        holder.lnrAbsent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCheckStudentListener.student_removeClass(profile);
+                holder.lnrPresent.setVisibility(View.VISIBLE);
+                holder.lnrAbsent.setVisibility(View.GONE);
+
+            }
+        });
+
+
     }
 
     @Override
@@ -78,6 +124,7 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tvstudentid, tvstudentname;
         CheckBox cbSelect;
+        LinearLayout lnrPresent, lnrAbsent;
 
         public MyViewHolder(View view) {
             super(view);
@@ -86,6 +133,10 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
             tvstudentname = (TextView) view.findViewById(R.id.Student_name);
 
             cbSelect = (CheckBox) view.findViewById(R.id.Student_cbSelect);
+            lnrPresent = (LinearLayout) view.findViewById(R.id.lnrPresent);
+            lnrAbsent = (LinearLayout) view.findViewById(R.id.lnrAbsent);
+
+
         }
 
         public void bind(TeacherStudentsModel studentsModel) {

@@ -140,7 +140,7 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
 
         targetCode = sectioncode;
         rvStudentList = (RecyclerView) findViewById(R.id.attenStudent_rvStudentList);
-        adapter = new TeacherStudendListAdapter(StudentSelectAssignment.this, this, studentList);
+        adapter = new TeacherStudendListAdapter(StudentSelectAssignment.this, this, studentList,0);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvStudentList.setHasFixedSize(true);

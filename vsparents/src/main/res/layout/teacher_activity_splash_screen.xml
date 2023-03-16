@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/rytParent"
     android:background="@drawable/img_app_bg"
     tools:context=".activity.TeacherSplashScreen">
 
@@ -53,7 +54,7 @@
         android:layout_below="@+id/lnrInternetConnection"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="7.5"
+        android:text="@string/app_version"
         android:textColor="@color/clr_black"
         android:textSize="15dp" />
 

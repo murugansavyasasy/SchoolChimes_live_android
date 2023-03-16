@@ -26,6 +26,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.activity.DailyFeeCollectionActivity;
 import com.vs.schoolmessenger.activity.FeedBackDetails;
 import com.vs.schoolmessenger.activity.LeaveRequestsByStaffs;
 import com.vs.schoolmessenger.activity.NewProductsScreen;
@@ -35,6 +36,7 @@ import com.vs.schoolmessenger.activity.ScoolsList;
 import com.vs.schoolmessenger.activity.SpecialOfferScreen;
 import com.vs.schoolmessenger.activity.StaffDetailListActivity;
 import com.vs.schoolmessenger.activity.StaffLibraryDetails;
+import com.vs.schoolmessenger.activity.StudentReportActivity;
 import com.vs.schoolmessenger.activity.SubjectListActivity;
 import com.vs.schoolmessenger.activity.TeacherAbsenteesReport;
 import com.vs.schoolmessenger.activity.TeacherAttendanceScreen;
@@ -70,6 +72,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ABSENTEES;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANCE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_CHAT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_DAILY_COLLECTION;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EMERGENCY;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EVENTS;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
@@ -78,6 +81,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MESSAGESF
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_NOTICE_BOARD;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_PHOTOS;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_SCHOOLSTRENGTH;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_STUDENT_REPORT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT_HW;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE;
@@ -100,7 +104,6 @@ public class SchoolMenuAdapter extends ArrayAdapter {
     RelativeLayout rytParent;
     Boolean isPermission = false;
     Boolean isCameraPermission = false;
-
     private PopupWindow SettingsStoragepopupWindow;
     private PopupWindow SettingsStorageCamerapopupWindow;
 
@@ -253,6 +256,16 @@ public class SchoolMenuAdapter extends ArrayAdapter {
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
 
+        if (isPrincipalMenuNames.get(position).contains("_28")) {
+            imgMenu.setImageResource(R.drawable.daily_collection_report);
+            textView.setText(MenuName.substring(0, MenuName.length() - 3));
+        }
+
+        if (isPrincipalMenuNames.get(position).contains("_29")) {
+            imgMenu.setImageResource(R.drawable.student_report);
+            textView.setText(MenuName.substring(0, MenuName.length() - 3));
+        }
+
 
         return v;
 
@@ -357,7 +370,13 @@ public class SchoolMenuAdapter extends ArrayAdapter {
 
         } else if (substring1.equals("_27")) {
             goToNextScreen(MenuName);
+       }
+        else if (substring1.equals("_28")) {
+            goToNextScreen(MenuName);
+        }
 
+        else if (substring1.equals("_29")) {
+            goToNextScreen(MenuName);
         }
 
     }
@@ -843,10 +862,43 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                 }
             }
 
-        } else if (substring1.equals("_27")) {
+        }
+
+        else if (substring1.equals("_27")) {
             Intent online = new Intent(context, ParentQuizScreen.class);
             online.putExtra("Type", "SChool");
             context.startActivity(online);
+        }
+
+        else if (substring1.equals("_28")) {
+            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
+                if (TeacherUtil_Common.listschooldetails.size() == 1) {
+
+                    Intent inVoice = new Intent(context, DailyFeeCollectionActivity.class);
+                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_DAILY_COLLECTION);
+                    context.startActivity(inVoice);
+
+                } else {
+                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_DAILY_COLLECTION);
+                    context.startActivity(inVoice);
+                }
+            }
+
+        }
+
+        else if (substring1.equals("_29")) {
+            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
+                if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                    Intent inVoice = new Intent(context, StudentReportActivity.class);
+                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
+                    context.startActivity(inVoice);
+                } else {
+                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
+                    context.startActivity(inVoice);
+                }
+            }
 
         }
 
