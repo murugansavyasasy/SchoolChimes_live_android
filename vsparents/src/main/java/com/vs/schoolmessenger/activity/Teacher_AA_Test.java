@@ -432,6 +432,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             }
 
 
+
                             String alert_message = jsonObject.getString("alert_message");
                             if(!alert_message.equals("")){
                                 lnrScroll.setVisibility(View.VISIBLE);

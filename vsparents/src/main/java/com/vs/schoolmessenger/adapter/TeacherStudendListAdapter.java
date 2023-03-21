@@ -90,8 +90,8 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
         holder.lnrPresent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                profile.setSelectStatus(true);
                 onCheckStudentListener.student_addClass(profile);
-
                 holder.lnrPresent.setVisibility(View.GONE);
                 holder.lnrAbsent.setVisibility(View.VISIBLE);
 
@@ -101,6 +101,7 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
         holder.lnrAbsent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                profile.setSelectStatus(false);
                 onCheckStudentListener.student_removeClass(profile);
                 holder.lnrPresent.setVisibility(View.VISIBLE);
                 holder.lnrAbsent.setVisibility(View.GONE);

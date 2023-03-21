@@ -1038,7 +1038,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < studentList.size(); i++) {
-                if (studentList.get(i).isSelectStatus()) {
+                if(studentList.get(i).isSelectStatus()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("ID", studentList.get(i).getStudentID());
                     Log.d("StudentID", studentList.get(i).getStudentID());
