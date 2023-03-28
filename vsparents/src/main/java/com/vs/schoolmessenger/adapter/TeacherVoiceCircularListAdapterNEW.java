@@ -28,7 +28,7 @@ public class TeacherVoiceCircularListAdapterNEW extends RecyclerView.Adapter<Tea
     private ArrayList<TeacherMessageModel> circularList;
     Context context;
     Boolean is_Archive;
-    private static final String VOICE_FOLDER = "School Voice/Voice";
+    private static final String VOICE_FOLDER = "//SchoolVoiceVoice";
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

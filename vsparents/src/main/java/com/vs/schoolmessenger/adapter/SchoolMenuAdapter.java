@@ -871,9 +871,7 @@ public class SchoolMenuAdapter extends ArrayAdapter {
         }
 
         else if (substring1.equals("_28")) {
-            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
                 if (TeacherUtil_Common.listschooldetails.size() == 1) {
-
                     Intent inVoice = new Intent(context, DailyFeeCollectionActivity.class);
                     inVoice.putExtra("REQUEST_CODE", PRINCIPAL_DAILY_COLLECTION);
                     context.startActivity(inVoice);
@@ -883,11 +881,9 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                     inVoice.putExtra("REQUEST_CODE", PRINCIPAL_DAILY_COLLECTION);
                     context.startActivity(inVoice);
                 }
-            }
         }
 
         else if (substring1.equals("_29")) {
-            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL) || TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
                 if (TeacherUtil_Common.listschooldetails.size() == 1) {
                     Intent inVoice = new Intent(context, StudentReportActivity.class);
                     inVoice.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
@@ -897,7 +893,6 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                     inVoice.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
                     context.startActivity(inVoice);
                 }
-            }
 
         }
 

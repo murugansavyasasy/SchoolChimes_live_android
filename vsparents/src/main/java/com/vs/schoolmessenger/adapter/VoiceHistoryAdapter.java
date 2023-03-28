@@ -1,10 +1,13 @@
 package com.vs.schoolmessenger.adapter;
 
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Environment;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,7 +34,7 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
 
     private ArrayList<MessageModel> circularList;
     Context context;
-    private static final String VOICE_FOLDER = "School Voice/Voice";
+    private static final String VOICE_FOLDER = "//SchoolChimesVoice";
 
 
     private ArrayList<File[]> list = new ArrayList<>();
@@ -114,8 +117,29 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
 
                     String filename = String.valueOf(circular.getMsgID());
 
-                    DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE,"Voice_History");
 
+                    final File dir;
+                    if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                        dir = new File(Environment.getExternalStorageDirectory().getPath()
+                                + VOICE_FOLDER);
+                    } else {
+                        dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                                + VOICE_FOLDER);
+                    }
+
+                    File futureStudioIconFile = new File(dir, filename + "_" + circular.getMsgTitle() + ".mp3");
+
+
+                    if(futureStudioIconFile.exists()){
+                        Intent inPdfPopup = new Intent(context, VoiceCircularPopup.class);
+                        inPdfPopup.putExtra("VOICE_ITEM", circular);
+                        inPdfPopup.putExtra("VOICE_TYPE", "Voice_History");
+                        context.startActivity(inPdfPopup);
+                    }
+                    else {
+
+                        DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "Voice_History");
+                    }
                 }
 
                 else {
@@ -139,9 +163,22 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
                             myList.remove(0);
                         }
                     }
-                    String root_sd = Environment.getExternalStorageDirectory().getPath();
-                    File yourDir1 = new File(root_sd, VOICE_FOLDER);
-                    File list[] = yourDir1.listFiles();
+
+                    final File dir;
+                    if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                        dir = new File(Environment.getExternalStorageDirectory().getPath()
+                                + VOICE_FOLDER);
+                    } else {
+                        dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                                + VOICE_FOLDER);
+                    }
+
+
+//                    String root_sd = Environment.getExternalStorageDirectory().getPath();
+//                    File yourDir1 = new File(root_sd, VOICE_FOLDER);
+
+
+                    File list[] = dir.listFiles();
 
                     System.out.println("list: " + list.length);
                     for (int i = 0; i < list.length; i++) {

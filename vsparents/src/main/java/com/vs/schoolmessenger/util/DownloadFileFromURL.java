@@ -1,5 +1,8 @@
 package com.vs.schoolmessenger.util;
 
+import static android.os.Environment.DIRECTORY_DOCUMENTS;
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
 import  android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -83,7 +87,6 @@ public class DownloadFileFromURL {
                                     Intent inPdfPopup = new Intent(activity, VoiceCircularPopup.class);
                                     inPdfPopup.putExtra("VOICE_ITEM", msgModel);
                                     inPdfPopup.putExtra("VOICE_TYPE", voicetype);
-
                                     activity.startActivity(inPdfPopup);
                                 } else
                                     showAlert(activity, "Success", "File stored in: " + folder + "/" + fileName);
@@ -108,24 +111,31 @@ public class DownloadFileFromURL {
 
     public static boolean writeResponseBodyToDisk(ResponseBody body, String folder, String fileName,Activity activity) {
         try {
-            //String filepath = Environment.getExternalStorageDirectory().getPath();
 
-            String filepath;
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            {
-               // filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-                filepath=activity.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
-                Log.d("file_path1",filepath);
+//            String filepath;
+//            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+//            {
+//                filepath=activity.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+//                Log.d("file_path1",filepath);
+//
+//            }
+//            else{
+//                filepath = Environment.getExternalStorageDirectory().getPath();
+//                Log.d("file_path2",filepath);
+//
+//            }
+//
+//            File file = new File(filepath, folder);
+//            File dir = new File(file.getAbsolutePath());
 
+            final File dir;
+            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                dir = new File(Environment.getExternalStorageDirectory().getPath()
+                        + folder);
+            } else {
+                dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                        + folder);
             }
-            else{
-                filepath = Environment.getExternalStorageDirectory().getPath();
-                Log.d("file_path2",filepath);
-
-            }
-
-            File file = new File(filepath, folder);
-            File dir = new File(file.getAbsolutePath());
 
             System.out.println("body: " + body);
 
@@ -135,6 +145,7 @@ public class DownloadFileFromURL {
             }
 
             File futureStudioIconFile = new File(dir, fileName);//"Hai.mp3"
+
 
             if (!futureStudioIconFile.exists())
             {

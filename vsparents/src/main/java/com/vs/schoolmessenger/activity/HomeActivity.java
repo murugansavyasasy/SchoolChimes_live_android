@@ -429,9 +429,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void saveContacts() {
-        Log.d("ContactLength", String.valueOf(contacts.length));
         try {
-            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.school_chimes_trans_splash);
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.conatct_school);
             // Bitmap bit = Bitmap.createScaledBitmap(b, 100, 100, false);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             b.compress(Bitmap.CompressFormat.PNG, 100, stream);

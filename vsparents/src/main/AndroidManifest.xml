@@ -43,7 +43,6 @@
         <activity android:name=".activity.ViewQuizResult"
             android:launchMode="singleTop"
             android:exported="false"
-
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>

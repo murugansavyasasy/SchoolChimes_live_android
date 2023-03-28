@@ -32,7 +32,7 @@ public class PdfCircularListAdapter extends RecyclerView.Adapter<PdfCircularList
 
     private ArrayList<MessageModel> circularList;
     Context context;
-    private static final String PDF_FOLDER = "School Voice/PDF";
+    private static final String PDF_FOLDER = "//SchoolChimesPDF";
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,6 +65,7 @@ public class PdfCircularListAdapter extends RecyclerView.Adapter<PdfCircularList
         holder.btnView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent inPdfPopup = new Intent(context, PdfAppRead.class);
                 inPdfPopup.putExtra("PDF_ITEM", circular);
                 context.startActivity(inPdfPopup);

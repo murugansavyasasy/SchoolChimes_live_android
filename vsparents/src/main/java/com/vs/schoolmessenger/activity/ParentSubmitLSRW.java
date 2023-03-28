@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
@@ -538,24 +540,34 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     }
 
     private String getRecFilename() {
-        String filepath ;
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-        {
-            //filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-            filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+//        String filepath ;
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+//        {
+//            //filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+//            filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+//
+//        }
+//        else{
+//            filepath = Environment.getExternalStorageDirectory().getPath();
+//        }
 
+
+        //File fileDir = new File(filepath, VOICE_FOLDER_NAME);
+
+        final File dir;
+        if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+            dir = new File(Environment.getExternalStorageDirectory().getPath()
+                    + VOICE_FOLDER_NAME);
+        } else {
+            dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                    + VOICE_FOLDER_NAME);
         }
-        else{
-            filepath = Environment.getExternalStorageDirectory().getPath();
+
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
 
-        File fileDir = new File(filepath, VOICE_FOLDER_NAME);
-
-        if (!fileDir.exists()) {
-            fileDir.mkdirs();
-        }
-
-        File fileNamePath = new File(fileDir, VOICE_FILE_NAME);
+        File fileNamePath = new File(dir, VOICE_FILE_NAME);
         Log.d("FILE_PATH", fileNamePath.getPath());
         return (fileNamePath.getPath()); //+ System.currentTimeMillis()
     }

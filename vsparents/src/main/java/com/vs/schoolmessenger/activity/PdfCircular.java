@@ -62,7 +62,6 @@ import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
 public class PdfCircular extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 1;
-
     RecyclerView rvPdfList;
     PdfCircularListAdapter pdfAdapter;
     public ArrayList<MessageModel> msgModelList = new ArrayList<>();
@@ -132,8 +131,7 @@ public class PdfCircular extends AppCompatActivity {
 
         Slider.init(new PicassoImageLoadingService(PdfCircular.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
-
+        adImage = findViewById(R.id.adImage);
 
 
         Searchable.addTextChangedListener(new TextWatcher() {

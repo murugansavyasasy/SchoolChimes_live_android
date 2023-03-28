@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.adapter;
 
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Environment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +26,7 @@ import com.vs.schoolmessenger.util.DownloadFileFromURL;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
@@ -33,7 +38,7 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
 
     private ArrayList<MessageModel> circularList;
     Context context;
-    private static final String VOICE_FOLDER = "School Voice/Voice";
+    private static final String VOICE_FOLDER = "//SchoolChimesVoice";
     Boolean is_Archive;
     private ArrayList<File[]> list = new ArrayList<>();
     static MessageModel msgModel;
@@ -74,6 +79,8 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
             @Override
             public void onClick(View v) {
 
+
+
                 if (isNetworkConnected()) {
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
@@ -87,7 +94,30 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
 
                     String filename = String.valueOf(circular.getMsgID());
 
-                    DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE,"");
+
+                    final File dir;
+                    if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                        dir = new File(Environment.getExternalStorageDirectory().getPath()
+                                + VOICE_FOLDER);
+                    } else {
+                        dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                                + VOICE_FOLDER);
+                    }
+
+                    File futureStudioIconFile = new File(dir, filename + "_" + circular.getMsgTitle() + ".mp3");
+
+//                    Date lastModDate = new Date(futureStudioIconFile.lastModified());
+//                    Log.d("Folder_Created_date", String.valueOf(lastModDate));
+
+                    if(futureStudioIconFile.exists()){
+                        Intent inPdfPopup = new Intent(context, VoiceCircularPopup.class);
+                        inPdfPopup.putExtra("VOICE_ITEM", circular);
+                        inPdfPopup.putExtra("VOICE_TYPE", "");
+                        context.startActivity(inPdfPopup);
+                    }
+                    else {
+                        DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "");
+                    }
 
                 }
                 else {
@@ -111,18 +141,28 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
                             myList.remove(0);
                         }
                     }
-                   // String root_sd = Environment.getExternalStorageDirectory().getPath();
-                    String root_sd;
-                    if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.Q)
-                    {
-                        root_sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-                    }
-                    else{
-                        root_sd = Environment.getExternalStorageDirectory().getPath();
-                    }
 
-                    File yourDir1 = new File(root_sd, VOICE_FOLDER);
-                    File list[] = yourDir1.listFiles();
+
+//                    String root_sd;
+//                    if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.Q)
+//                    {
+//                        root_sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+//                    }
+//                    else{
+//                        root_sd = Environment.getExternalStorageDirectory().getPath();
+//                    }
+//
+//                    File yourDir1 = new File(root_sd, VOICE_FOLDER);
+
+                    final File dir;
+                    if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                        dir = new File(Environment.getExternalStorageDirectory().getPath()
+                                + VOICE_FOLDER);
+                    } else {
+                        dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                                + VOICE_FOLDER);
+                    }
+                    File list[] = dir.listFiles();
 
                     System.out.println("list: " + list.length);
                     for (int i = 0; i < list.length; i++) {

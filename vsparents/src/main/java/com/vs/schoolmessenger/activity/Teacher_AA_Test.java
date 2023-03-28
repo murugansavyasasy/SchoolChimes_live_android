@@ -533,7 +533,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.save_contact_alert, null);
-        ContactpopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+       PopupWindow ContactpopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
         ContactpopupWindow.setContentView(layout);
         rytParent.post(new Runnable() {
             public void run() {
@@ -552,8 +552,14 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         btnSaveContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContactpopupWindow.dismiss();
-                saveContacts();
+                try {
+                    ContactpopupWindow.dismiss();
+                    saveContacts();
+                }
+                catch (Exception e){
+                    Log.d("failure_popup_error",e.toString());
+                }
+
             }
         });
 
@@ -567,34 +573,32 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
     private void saveContacts() {
 
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.conatct_school);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+            ArrayList<ContentValues> data = new ArrayList<ContentValues>();
+            for (int i = 0; i < contacts.length; i++) {
+                ContentValues row = new ContentValues();
+                row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+                row.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
+                row.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+                data.add(row);
+            }
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.school_chimes_trans_splash);
-        //Bitmap bit = Bitmap.createScaledBitmap(b, 100, 100, false);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
 
-        Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-        ArrayList<ContentValues> data = new ArrayList<ContentValues>();
-        for (int i = 0; i < contacts.length; i++) {
-            ContentValues row = new ContentValues();
-            row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-            row.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
-            row.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
-            data.add(row);
-        }
+            for (int i = 0; i < contacts.length; i++) {
+                ContentValues row = new ContentValues();
+                row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
+                row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
+                data.add(row);
+            }
 
-        for (int i = 0; i < contacts.length; i++) {
-            ContentValues row = new ContentValues();
-            row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
-            row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
-            data.add(row);
-        }
-
-        intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
-        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
-        startActivityForResult(intent,100);
+            intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
+            intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
+            startActivityForResult(intent, 100);
 
     }
 

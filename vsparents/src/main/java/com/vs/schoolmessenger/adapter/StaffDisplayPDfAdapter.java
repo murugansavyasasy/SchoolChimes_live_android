@@ -23,7 +23,7 @@ public class StaffDisplayPDfAdapter extends RecyclerView.Adapter<StaffDisplayPDf
 
     private ArrayList<TeacherMessageModel> circularList;
     Context context;
-    private static final String PDF_FOLDER = "School Voice/PDF";
+    private static final String PDF_FOLDER = "//SchoolVoicePDF";
     Boolean is_Archive;
 
     @Override

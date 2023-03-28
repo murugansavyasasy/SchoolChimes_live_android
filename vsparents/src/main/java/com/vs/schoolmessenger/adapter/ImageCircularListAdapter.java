@@ -33,7 +33,7 @@ public class ImageCircularListAdapter extends RecyclerView.Adapter<ImageCircular
     private ArrayList<MessageModel> imageDataList;
     private Context context;
 
-    private static final String IMAGE_FOLDER = "School Voice/Images";
+    private static final String IMAGE_FOLDER = "//SchoolChimesImages";
 
     public ImageCircularListAdapter(ArrayList<MessageModel> imageDataList, Context context) {
         this.imageDataList = imageDataList;

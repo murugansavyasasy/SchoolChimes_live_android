@@ -53,7 +53,7 @@ public class ImageCircularassgn extends RecyclerView.Adapter<ImageCircularassgn.
 
 
 
-    private static final String IMAGE_FOLDER = "School Assignments images";
+    private static final String IMAGE_FOLDER = "//SchoolAssignmentsImages";
 
     String name;
     private ArrayList<String> myList = new ArrayList<>();

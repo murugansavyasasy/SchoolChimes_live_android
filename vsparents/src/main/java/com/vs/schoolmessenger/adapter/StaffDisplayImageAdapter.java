@@ -41,7 +41,7 @@ public class StaffDisplayImageAdapter extends RecyclerView.Adapter<StaffDisplayI
     private ArrayList<TeacherMessageModel> imageDataList;
     private Context context;
 
-    private static final String IMAGE_FOLDER = "School Voice/Images";
+    private static final String IMAGE_FOLDER = "//SchoolVoiceImages";
 
     String name;
     Boolean is_Archive;

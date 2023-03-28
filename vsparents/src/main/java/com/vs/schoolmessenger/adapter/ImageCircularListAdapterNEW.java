@@ -50,7 +50,7 @@ public class ImageCircularListAdapterNEW extends RecyclerView.Adapter<ImageCircu
     private ArrayList<MessageModel> imageDataList;
     private Context context;
 
-    private static final String IMAGE_FOLDER = "School Voice/Images";
+    private static final String IMAGE_FOLDER = "//SchoolChimes Images";
 
     String name;
     private ArrayList<String> myList = new ArrayList<>();

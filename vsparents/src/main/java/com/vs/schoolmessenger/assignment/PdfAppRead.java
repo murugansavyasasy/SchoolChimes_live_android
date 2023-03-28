@@ -25,6 +25,7 @@ import com.vs.schoolmessenger.activity.PdfCircular;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
+import com.vs.schoolmessenger.payment.PdfWebView;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.MyWebViewClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -143,51 +144,23 @@ public class PdfAppRead extends AppCompatActivity {
                 }
             });
         }
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strURL));
-        startActivity(browserIntent);
+
+
+
+//        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strURL));
+//        startActivity(browserIntent);
+//        finish();
+
+        Intent receipt = new Intent(PdfAppRead.this, PdfWebView.class);
+        receipt.putExtra("URL",strURL);
+        receipt.putExtra("tittle","Circular");
+        startActivity(receipt);
         finish();
+
         getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
         wbTerms = (WebView) findViewById(R.id.pdfPopup_webView);
         wbTerms.setVisibility(View.GONE);
 
-//        pDialog = new ProgressDialog(PdfAppRead.this);
-//        pDialog.setMessage("Loading");
-//        pDialog.setCancelable(false);
-//
-//        wbTerms.setWebChromeClient(new WebChromeClient() {
-//            public void onProgressChanged(WebView view, int progress) {
-//                //Make the bar disappear after URL is loaded, and changes string to Loading...
-////                setTitle("Loading...");
-//                pDialog.show();
-//                setProgress(progress * 100); //Make the bar disappear after URL is loaded
-//
-//                if (progress == 100) {
-//                    pDialog.dismiss();
-//
-//                    if (pdfModel.getMsgReadStatus().equals("0")) {
-//                        pdfModel.setMsgReadStatus("1");
-//                        tvStatus.setVisibility(View.GONE);
-//
-//                        ChangeMsgReadStatus.changeReadStatus(PdfAppRead.this, pdfModel.getMsgID(), MSG_TYPE_PDF, pdfModel.getMsgDate(), new OnRefreshListener() {
-//                            @Override
-//                            public void onRefreshItem() {
-//                                pdfModel.setMsgReadStatus("1");
-//                                if (pdfModel.getMsgReadStatus().equals("0"))
-//                                    tvStatus.setVisibility(View.VISIBLE);
-//                                else tvStatus.setVisibility(View.GONE);
-//                            }
-//                        });
-//                    }
-//                }
-//            }
-//        });
-//        wbTerms.setWebViewClient(new MyWebViewClient(PdfAppRead.this));
-//        wbTerms.getSettings().setLoadsImagesAutomatically(true);
-//        wbTerms.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-//        WebSettings webSettings = wbTerms.getSettings();
-//        wbTerms.getSettings().setBuiltInZoomControls(true);
-//        webSettings.setJavaScriptEnabled(true);
-//        wbTerms.loadUrl("https://docs.google.com/viewerng/viewer?url=" + strURL);
     }
 
     @Override

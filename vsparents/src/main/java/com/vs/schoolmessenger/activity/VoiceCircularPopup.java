@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,7 +46,7 @@ public class VoiceCircularPopup extends AppCompatActivity {
     MessageModel voiceModel;
 
 
-    private final String VOICE_FOLDER = "School Voice/Voice";
+    private final String VOICE_FOLDER = "//SchoolChimesVoice";
 
     String voicetype="";
     String isNewVersion;
@@ -54,7 +56,6 @@ public class VoiceCircularPopup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_circular_popup);
-
 
         voiceModel = (MessageModel) getIntent().getSerializableExtra("VOICE_ITEM");
         voicetype = getIntent().getExtras().getString("VOICE_TYPE", "");
@@ -219,21 +220,29 @@ public class VoiceCircularPopup extends AppCompatActivity {
     public void fetchSong() {
         Log.d("FetchSong", "Start***************************************");
         try {
-            //String filepath = Environment.getExternalStorageDirectory().getPath();
 
-            String filepath;
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            {
-               // filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-                filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+//            String filepath;
+//            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+//            {
+//               // filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+//                filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+//
+//            }
+//            else{
+//                filepath = Environment.getExternalStorageDirectory().getPath();
+//            }
+//
+//            File file = new File(filepath, VOICE_FOLDER);
+//            File dir = new File(file.getAbsolutePath());
 
+            final File dir;
+            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                dir = new File(Environment.getExternalStorageDirectory().getPath()
+                        + VOICE_FOLDER);
+            } else {
+                dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                        + VOICE_FOLDER);
             }
-            else{
-                filepath = Environment.getExternalStorageDirectory().getPath();
-            }
-
-            File file = new File(filepath, VOICE_FOLDER);
-            File dir = new File(file.getAbsolutePath());
 
             if (!dir.exists()) {
                 dir.mkdirs();

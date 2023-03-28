@@ -36,7 +36,7 @@ public class TeacherUtil_Common {
     public static final String LIST_STANDARDS = "Select Classes";
     public static final String LIST_GROUPS = "Select Groups";
 
-    public static final String VOICE_FOLDER_NAME = "School Messenger/Voice";
+    public static final String VOICE_FOLDER_NAME = "//SchoolMessengerVoice";
     public static final String VOICE_FILE_NAME = "schoolVoice.mp3";
     //public static final String VOICE_FILE_NAME = "schoolVoice";
 
