@@ -112,30 +112,16 @@ public class DownloadFileFromURL {
     public static boolean writeResponseBodyToDisk(ResponseBody body, String folder, String fileName,Activity activity) {
         try {
 
-//            String filepath;
-//            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-//            {
-//                filepath=activity.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
-//                Log.d("file_path1",filepath);
-//
-//            }
-//            else{
-//                filepath = Environment.getExternalStorageDirectory().getPath();
-//                Log.d("file_path2",filepath);
-//
-//            }
-//
-//            File file = new File(filepath, folder);
-//            File dir = new File(file.getAbsolutePath());
-
-            final File dir;
-            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-                dir = new File(Environment.getExternalStorageDirectory().getPath()
-                        + folder);
-            } else {
-                dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
-                        + folder);
+            String filepath;
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            {
+                filepath=activity.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
             }
+            else{
+                filepath = Environment.getExternalStorageDirectory().getPath();
+            }
+            File file = new File(filepath, folder);
+            File dir = new File(file.getAbsolutePath());
 
             System.out.println("body: " + body);
 

@@ -7,6 +7,7 @@ import android.content.Context;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,8 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
+        Log.d("request_code", String.valueOf(requestCode));
+
         if (requestCode == PRINCIPAL_ATTENDANCE || requestCode == STAFF_ATTENDANCE) {
             holder.cbSelect.setVisibility(View.GONE);
             holder.lnrAbsent.setVisibility(View.GONE);
@@ -79,12 +82,14 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
             }
         });
 
-        if (profile.isSelectStatus()) {
-            holder.lnrPresent.setVisibility(View.GONE);
-            holder.lnrAbsent.setVisibility(View.VISIBLE);
-        } else {
-            holder.lnrPresent.setVisibility(View.VISIBLE);
-            holder.lnrAbsent.setVisibility(View.GONE);
+        if (requestCode == PRINCIPAL_ATTENDANCE || requestCode == STAFF_ATTENDANCE) {
+            if (profile.isSelectStatus()) {
+                holder.lnrPresent.setVisibility(View.GONE);
+                holder.lnrAbsent.setVisibility(View.VISIBLE);
+            } else {
+                holder.lnrPresent.setVisibility(View.VISIBLE);
+                holder.lnrAbsent.setVisibility(View.GONE);
+            }
         }
 
         holder.lnrPresent.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +99,6 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
                 onCheckStudentListener.student_addClass(profile);
                 holder.lnrPresent.setVisibility(View.GONE);
                 holder.lnrAbsent.setVisibility(View.VISIBLE);
-
             }
         });
 

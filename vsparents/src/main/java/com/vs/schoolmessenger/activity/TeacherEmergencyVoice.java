@@ -1461,8 +1461,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
             recorder.setOutputFile(getRecFilename());
             recorder.prepare();
             recorder.start();
-
-
             recTimeUpdation();
 
             bIsRecording = true;
@@ -1512,39 +1510,23 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
 
     private String getRecFilename() {
 
-//        String filepath;
-//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-//        {
-//            //filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-//            filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
-//
-//        }
-//        else{
-//            filepath = Environment.getExternalStorageDirectory().getPath();
-//        }
-
-        //        File fileDir = new File(filepath, VOICE_FOLDER_NAME);
-//        if (!fileDir.exists()) {
-//            fileDir.mkdirs();
-//        }
-
-        final File dir;
-        if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-            dir = new File(Environment.getExternalStorageDirectory().getPath()
-                    + VOICE_FOLDER_NAME);
-        } else {
-            dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
-                    + VOICE_FOLDER_NAME);
+        String filepath;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+        {
+            filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+        }
+        else{
+            filepath = Environment.getExternalStorageDirectory().getPath();
         }
 
-        if (!dir.exists()) {
-            dir.mkdirs();
+        File fileDir = new File(filepath, VOICE_FOLDER_NAME);
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
         }
 
-
-        File fileNamePath = new File(dir, VOICE_FILE_NAME);
-        Log.d("FILE_PATH", fileNamePath.getPath());
-        return (fileNamePath.getPath()); //+ System.currentTimeMillis()
+        File fileNamePath = new File(fileDir, VOICE_FILE_NAME);
+        Log.d("fileNamePath",fileNamePath.getPath());
+        return (fileNamePath.getPath());
 
     }
 
@@ -1573,39 +1555,21 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
     public void fetchSong() {
         Log.d("FetchSong", "Start***************************************");
         try {
-
-//            String filepath;
-//            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-//            {
-//               // filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-//                filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
-//
-//            }
-//            else{
-//                filepath = Environment.getExternalStorageDirectory().getPath();
-//            }
-//
-//            File file = new File(filepath, VOICE_FOLDER_NAME);
-//            File dir = new File(file.getAbsolutePath());
-//
-//            if (!dir.exists()) {
-//                dir.mkdirs();
-//                System.out.println("Dir: " + dir);
-//            }
-
-            final File dir;
-            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-                dir = new File(Environment.getExternalStorageDirectory().getPath()
-                        + VOICE_FOLDER_NAME);
-            } else {
-                dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
-                        + VOICE_FOLDER_NAME);
+            String filepath;
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            {
+                filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
             }
+            else{
+                filepath = Environment.getExternalStorageDirectory().getPath();
+            }
+            File file = new File(filepath, VOICE_FOLDER_NAME);
+            File dir = new File(file.getAbsolutePath());
 
             if (!dir.exists()) {
                 dir.mkdirs();
+                System.out.println("Dir: " + dir);
             }
-
 
             futureStudioIconFile = new File(dir, VOICE_FILE_NAME);
             System.out.println("FILE_PATH:" + futureStudioIconFile.getPath());

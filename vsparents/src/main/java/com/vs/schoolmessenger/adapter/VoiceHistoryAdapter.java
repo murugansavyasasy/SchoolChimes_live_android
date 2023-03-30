@@ -90,15 +90,12 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
                     prevSelection = position;
                 }
 
-
                 else {
                      onContactsListener.voiceHistoryRemoveList(circular);
                 }
 
             }
         });
-
-
 
         holder.btnView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,29 +114,8 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
 
                     String filename = String.valueOf(circular.getMsgID());
 
+                    DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "Voice_History");
 
-                    final File dir;
-                    if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-                        dir = new File(Environment.getExternalStorageDirectory().getPath()
-                                + VOICE_FOLDER);
-                    } else {
-                        dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
-                                + VOICE_FOLDER);
-                    }
-
-                    File futureStudioIconFile = new File(dir, filename + "_" + circular.getMsgTitle() + ".mp3");
-
-
-                    if(futureStudioIconFile.exists()){
-                        Intent inPdfPopup = new Intent(context, VoiceCircularPopup.class);
-                        inPdfPopup.putExtra("VOICE_ITEM", circular);
-                        inPdfPopup.putExtra("VOICE_TYPE", "Voice_History");
-                        context.startActivity(inPdfPopup);
-                    }
-                    else {
-
-                        DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "Voice_History");
-                    }
                 }
 
                 else {
@@ -164,21 +140,18 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
                         }
                     }
 
-                    final File dir;
-                    if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-                        dir = new File(Environment.getExternalStorageDirectory().getPath()
-                                + VOICE_FOLDER);
-                    } else {
-                        dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
-                                + VOICE_FOLDER);
+
+                    String root_sd;
+                    if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.Q)
+                    {
+                        root_sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+                    }
+                    else{
+                        root_sd = Environment.getExternalStorageDirectory().getPath();
                     }
 
-
-//                    String root_sd = Environment.getExternalStorageDirectory().getPath();
-//                    File yourDir1 = new File(root_sd, VOICE_FOLDER);
-
-
-                    File list[] = dir.listFiles();
+                    File yourDir1 = new File(root_sd, VOICE_FOLDER);
+                    File list[] = yourDir1.listFiles();
 
                     System.out.println("list: " + list.length);
                     for (int i = 0; i < list.length; i++) {

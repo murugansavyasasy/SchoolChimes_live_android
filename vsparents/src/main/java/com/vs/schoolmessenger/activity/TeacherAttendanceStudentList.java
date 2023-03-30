@@ -897,7 +897,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                     Log.d("StudentID", studentList.get(i).getStudentID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
-
                 jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
                 Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
 

@@ -93,31 +93,8 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
                     System.out.println("VOICE_FOLDER1: " + VOICE_FOLDER);
 
                     String filename = String.valueOf(circular.getMsgID());
+                    DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "");
 
-
-                    final File dir;
-                    if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-                        dir = new File(Environment.getExternalStorageDirectory().getPath()
-                                + VOICE_FOLDER);
-                    } else {
-                        dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
-                                + VOICE_FOLDER);
-                    }
-
-                    File futureStudioIconFile = new File(dir, filename + "_" + circular.getMsgTitle() + ".mp3");
-
-//                    Date lastModDate = new Date(futureStudioIconFile.lastModified());
-//                    Log.d("Folder_Created_date", String.valueOf(lastModDate));
-
-                    if(futureStudioIconFile.exists()){
-                        Intent inPdfPopup = new Intent(context, VoiceCircularPopup.class);
-                        inPdfPopup.putExtra("VOICE_ITEM", circular);
-                        inPdfPopup.putExtra("VOICE_TYPE", "");
-                        context.startActivity(inPdfPopup);
-                    }
-                    else {
-                        DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "");
-                    }
 
                 }
                 else {
@@ -143,26 +120,18 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
                     }
 
 
-//                    String root_sd;
-//                    if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.Q)
-//                    {
-//                        root_sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-//                    }
-//                    else{
-//                        root_sd = Environment.getExternalStorageDirectory().getPath();
-//                    }
-//
-//                    File yourDir1 = new File(root_sd, VOICE_FOLDER);
-
-                    final File dir;
-                    if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-                        dir = new File(Environment.getExternalStorageDirectory().getPath()
-                                + VOICE_FOLDER);
-                    } else {
-                        dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
-                                + VOICE_FOLDER);
+                    String root_sd;
+                    if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.Q)
+                    {
+                        root_sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
                     }
-                    File list[] = dir.listFiles();
+                    else{
+                        root_sd = Environment.getExternalStorageDirectory().getPath();
+                    }
+
+                    File yourDir1 = new File(root_sd, VOICE_FOLDER);
+
+                    File list[] = yourDir1.listFiles();
 
                     System.out.println("list: " + list.length);
                     for (int i = 0; i < list.length; i++) {

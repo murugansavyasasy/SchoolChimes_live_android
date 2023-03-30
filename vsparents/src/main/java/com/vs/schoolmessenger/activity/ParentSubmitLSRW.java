@@ -529,8 +529,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         recTimerHandler.removeCallbacks(runson);
         bIsRecording = false;
         tvRecordTitle.setText(getText(R.string.teacher_txt_start_record));
-
-
         ivRecord.setBackgroundResource(R.drawable.teacher_bg_record_start);
         ivRecord.setImageResource(R.drawable.teacher_ic_mic);
         voiceplay.setVisibility(View.VISIBLE);
@@ -540,34 +538,22 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     }
 
     private String getRecFilename() {
-//        String filepath ;
-//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-//        {
-//            //filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-//            filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
-//
-//        }
-//        else{
-//            filepath = Environment.getExternalStorageDirectory().getPath();
-//        }
+        String filepath ;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+        {
+            filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
 
-
-        //File fileDir = new File(filepath, VOICE_FOLDER_NAME);
-
-        final File dir;
-        if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-            dir = new File(Environment.getExternalStorageDirectory().getPath()
-                    + VOICE_FOLDER_NAME);
-        } else {
-            dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
-                    + VOICE_FOLDER_NAME);
+        }
+        else{
+            filepath = Environment.getExternalStorageDirectory().getPath();
         }
 
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
+        File fileDir = new File(filepath, VOICE_FOLDER_NAME);
 
-        File fileNamePath = new File(dir, VOICE_FILE_NAME);
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+        File fileNamePath = new File(fileDir, VOICE_FILE_NAME);
         Log.d("FILE_PATH", fileNamePath.getPath());
         return (fileNamePath.getPath()); //+ System.currentTimeMillis()
     }
@@ -594,7 +580,18 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     public void fetchSong() {
         Log.d("FetchSong", "Start***************************************");
         try {
-            String filepath = Environment.getExternalStorageDirectory().getPath();
+//            String filepath = Environment.getExternalStorageDirectory().getPath();
+
+            String filepath ;
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            {
+                filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+
+            }
+            else{
+                filepath = Environment.getExternalStorageDirectory().getPath();
+            }
+
             File file = new File(filepath, VOICE_FOLDER_NAME);
             File dir = new File(file.getAbsolutePath());
 
