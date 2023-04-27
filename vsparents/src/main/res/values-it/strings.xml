@@ -103,6 +103,7 @@
     <string name="teacher_app_sub_title">per i genitori</string>
     <string name="teacher_school_msg">Scuola Messenger \ t</string>
 
+    <string name="teacher_app_version_id">70</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -628,6 +629,5 @@
     <string name="standard_sections_not_assigned">Nessuna norma e sezione assegnate</string>
     <string name="null_time">0:00</string>
     <string name="txt_menu_settings">impostazioni</string>
-    <string name="teacher_app_version_id">64</string>
 
 </resources>

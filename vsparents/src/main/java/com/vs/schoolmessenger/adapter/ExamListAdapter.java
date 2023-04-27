@@ -23,10 +23,12 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.ExamEnhancementQuestions;
 import com.vs.schoolmessenger.activity.MarksListScreen;
 import com.vs.schoolmessenger.activity.ViewExamMarks;
+import com.vs.schoolmessenger.assignment.PdfAppRead;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Element;
 import com.vs.schoolmessenger.model.ExamList;
 import com.vs.schoolmessenger.model.QuestionForQuiz;
+import com.vs.schoolmessenger.payment.PdfWebView;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
@@ -146,9 +148,17 @@ public class ExamListAdapter extends
                             if (status.equals("1")) {
                                 String progresslink = jsonObject.getString("Data");
                                 if(!progresslink.equals("")){
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                            Uri.parse(progresslink));
-                                    context.startActivity(browserIntent);
+
+                                    Intent receipt = new Intent(context, PdfWebView.class);
+                                    receipt.putExtra("URL",progresslink);
+                                    receipt.putExtra("tittle","Report Card");
+                                    context.startActivity(receipt);
+
+//                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+//                                            Uri.parse(progresslink));
+//                                    context.startActivity(browserIntent);
+
+
                                 }
                                 else{
                                     showAlertfinish(message);

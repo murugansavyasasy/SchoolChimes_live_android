@@ -735,7 +735,6 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         });
         myWebView.setBackgroundColor(getResources().getColor(R.color.clr_black));
         myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.getSettings().setAppCacheEnabled(true);
         myWebView.getSettings().setDomStorageEnabled(true);
         myWebView.getSettings().setSupportZoom(false);
         myWebView.getSettings().setBuiltInZoomControls(false);

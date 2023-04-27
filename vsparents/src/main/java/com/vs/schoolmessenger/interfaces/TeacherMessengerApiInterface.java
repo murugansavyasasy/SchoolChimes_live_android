@@ -2,6 +2,10 @@ package com.vs.schoolmessenger.interfaces;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.LessonPlan.Model.EditLessonModel;
+import com.vs.schoolmessenger.LessonPlan.Model.LessonPlanModel;
+import com.vs.schoolmessenger.LessonPlan.Model.Response;
+import com.vs.schoolmessenger.LessonPlan.Model.ViewLessonPlanModel;
 import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
 import com.vs.schoolmessenger.payment.Model.FeeDetailsItems;
 import com.vs.schoolmessenger.util.Util_UrlMethods;
@@ -445,6 +449,27 @@ public interface TeacherMessengerApiInterface {
 
     @POST("daily-collection-fee-app")
     Call<List<DailyFeeCollectionModelItem>> getDailyCollection(@Body JsonObject jsonObject);
+
+
+    @GET("lesson-plan/get_lesson_plan_staff_report_App")
+    Call<LessonPlanModel> getLessonPlans(@Query("request_type") String request_type, @Query("institute_id") String institute_id, @Query("user_id") String user_id);
+
+    @GET("lesson-plan/view_lesson_plan_for_App")
+    Call<ViewLessonPlanModel> getViewLessonPlans(@Query("section_subject_id") String request_type, @Query("institute_id") String institute_id, @Query("user_id") String user_id,@Query("status_filter") String status_filter);
+
+    @GET("lesson-plan/get_data_to_edit_staff_lessonplan_app")
+    Call<EditLessonModel> getEditDataCard(@Query("particular_id") String particular_id, @Query("request_type") String request_type, @Query("institute_id") String institute_id, @Query("user_id") String user_id);
+
+    @POST("lesson-plan/delete_lesson_plan_data_App")
+    Call<Response> deleteLessonPlan(@Body JsonObject jsonObject);
+
+    @POST("lesson-plan/update_status_for_lesson_plan_App")
+    Call<Response> updateStatusIcon(@Body JsonObject jsonObject);
+
+    @POST("lesson-plan/update_staff_lessonplan_particular_app")
+    Call<Response> updateLessonParticularCard(@Body JsonObject jsonObject);
+
+
 
     @POST("GetStudentExamMarks")
     Call<JsonArray> GetStudentExamMarks(@Body JsonObject jsonObject);

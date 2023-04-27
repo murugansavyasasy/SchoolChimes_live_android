@@ -195,14 +195,11 @@ public class VimeoPlayer extends WebView {
             this.getSettings().setDatabaseEnabled(true);
             this.getSettings().setDomStorageEnabled(true);
             this.getSettings().setAllowFileAccess(true);
-            this.getSettings().setAppCacheEnabled(true);
-            this.getSettings().setAppCachePath(this.getContext().getCacheDir().getAbsolutePath());
         } else {
             this.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
             this.getSettings().setDatabaseEnabled(false);
             this.getSettings().setDomStorageEnabled(false);
             this.getSettings().setAllowFileAccess(false);
-            this.getSettings().setAppCacheEnabled(false);
         }
 
         this.addJavascriptInterface(jsBridge, "JsBridge");

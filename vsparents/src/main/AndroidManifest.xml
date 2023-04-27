@@ -1006,6 +1006,24 @@
             android:exported="false"
             android:theme="@style/Teacher_AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
+
+        <activity
+            android:name=".LessonPlan.Activity.LessonPlanActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:theme="@style/Teacher_AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:name=".LessonPlan.Activity.ViewLessonPlanActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:theme="@style/Teacher_AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activity.NewProductsScreen"
             android:launchMode="singleTop"

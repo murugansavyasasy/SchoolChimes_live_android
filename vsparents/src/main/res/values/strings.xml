@@ -117,7 +117,7 @@
     <string name="teacher_app_sub_title">for Parents</string>
     <string name="teacher_school_msg">Chimes \t</string>
 
-    <string name="teacher_app_version_id">69</string>
+    <string name="teacher_app_version_id">70</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -642,7 +642,7 @@
     <string name="viewMarks">View Marks</string>
     <string name="viewProgress">View report card</string>
 
-    <string name="app_version">7.6</string>
+    <string name="app_version">7.6.1</string>
 
 
 

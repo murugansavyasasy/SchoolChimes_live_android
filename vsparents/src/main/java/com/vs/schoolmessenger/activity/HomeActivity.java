@@ -318,8 +318,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             contact_numbers = jsonObject.getString("contact_numbers");
                             contact_button = jsonObject.getString("contact_button_content");
 
-                            contacts = contact_numbers.split(",");
-                            getContactPermission();
+
+                            if(!contact_numbers.equals("")) {
+                                contacts = contact_numbers.split(",");
+                                getContactPermission();
+                            }
 
                             String alert_message = jsonObject.getString("alert_message");
                             if (!alert_message.equals("")) {

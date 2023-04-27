@@ -93,6 +93,10 @@ public class TeacherUtil_Common {
     public static String Principal_staffId = "";
     public static String staff_schoolId = "";
 
+
+    public static String lesson_request_type = "";
+
+
     public static boolean isNetworkAvailable(Activity activity) {
         ConnectivityManager connectivity = (ConnectivityManager) activity
                 .getSystemService(Context.CONNECTIVITY_SERVICE);

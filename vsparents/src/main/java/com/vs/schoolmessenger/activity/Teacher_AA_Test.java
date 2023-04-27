@@ -432,7 +432,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             }
 
 
-
                             String alert_message = jsonObject.getString("alert_message");
                             if(!alert_message.equals("")){
                                 lnrScroll.setVisibility(View.VISIBLE);
@@ -448,9 +447,11 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             contact_numbers = jsonObject.getString("contact_numbers");
                             contact_button = jsonObject.getString("contact_button_content");
 
-                            contacts = contact_numbers.split(",");
 
-                            getContactPermission();
+                            if(!contact_numbers.equals("")) {
+                                contacts = contact_numbers.split(",");
+                                getContactPermission();
+                            }
 
                         }
 

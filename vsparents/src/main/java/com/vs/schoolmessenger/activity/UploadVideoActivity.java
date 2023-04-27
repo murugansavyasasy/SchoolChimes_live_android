@@ -36,6 +36,7 @@ import com.vs.schoolmessenger.util.FileUtils;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -248,7 +249,11 @@ public class UploadVideoActivity extends AppCompatActivity implements View.OnCli
                     Log.d("Duration", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(VideoDuration)));
                     int width = Integer.valueOf(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
                     int height = Integer.valueOf(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
-                    retriever.release();
+                    try {
+                        retriever.release();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
                     File file = new File(filePath);
                     VideoFileSize = file.length();

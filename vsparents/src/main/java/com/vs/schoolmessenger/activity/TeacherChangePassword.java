@@ -310,10 +310,10 @@ public class TeacherChangePassword extends AppCompatActivity {
                         String strMsg = jsonObject.getString("Message");
 
                         if (strStatus.equals("1")) {
-                            TeacherUtil_SharedPreference.cleaStaffSharedPreference(TeacherChangePassword.this);
                             String type = TeacherUtil_SharedPreference.getPassWordType(TeacherChangePassword.this);
 
                             if (type.equals("Signin_screen")) {
+                                TeacherUtil_SharedPreference.cleaStaffSharedPreference(TeacherChangePassword.this);
                                 startActivity(new Intent(TeacherChangePassword.this, TeacherSignInScreen.class));
                                 finish();
                             }
@@ -397,12 +397,10 @@ public class TeacherChangePassword extends AppCompatActivity {
                         String strMsg = jsonObject.getString("Message");
 
                         if (strStatus.equals("1")) {
-                            TeacherUtil_SharedPreference.cleaStaffSharedPreference(TeacherChangePassword.this);
-
-
                             String type = TeacherUtil_SharedPreference.getPassWordType(TeacherChangePassword.this);
 
                             if (type.equals("Signin_screen")) {
+                                TeacherUtil_SharedPreference.cleaStaffSharedPreference(TeacherChangePassword.this);
                                 startActivity(new Intent(TeacherChangePassword.this, TeacherSignInScreen.class));
                                 finish();
                             }

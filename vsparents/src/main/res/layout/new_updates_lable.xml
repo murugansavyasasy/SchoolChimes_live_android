@@ -16,6 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_feature_one"
+        android:autoLink="web"
+        android:linksClickable="true"
         android:textColor="@color/clr_black"
         android:textSize="14dp" />
 

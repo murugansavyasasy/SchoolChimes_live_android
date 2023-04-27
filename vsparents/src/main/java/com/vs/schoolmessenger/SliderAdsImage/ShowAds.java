@@ -74,13 +74,21 @@ public class ShowAds {
                             JSONArray data = jsonObject.getJSONArray("data");
                             adsModel ads;
                             adsList.clear();
-                            for (int i = 0; i < data.length(); i++) {
-                                JSONObject object = data.getJSONObject(i);
-                                ads = new adsModel(object.getInt("id"), object.getString("advertisementName"), object.getString("contentUrl"), object.getString("redirectUrl"));
-                                adsList.add(ads);
+
+                            if(data.length() > 0) {
+                                image.setVisibility(View.VISIBLE);
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject object = data.getJSONObject(i);
+                                    ads = new adsModel(object.getInt("id"), object.getString("advertisementName"), object.getString("contentUrl"), object.getString("redirectUrl"));
+                                    adsList.add(ads);
+                                }
+                                i = 0;
+                                rotateAds(activity, image);
+
                             }
-                            i = 0;
-                            rotateAds(activity, image);
+                            else {
+                                image.setVisibility(View.GONE);
+                            }
 
 
                         }
