@@ -35,9 +35,6 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
 
     LeaveRequestDetails history;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -109,9 +106,7 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
             }
         });
 
-
-
-        }
+    }
 
     private void leaveApproveDeclineApi(String approve, String id, String updatedOn, String reason) {
 
@@ -182,30 +177,6 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
-
-
-    private void showRecordsFound(String no_records_found) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(LeaveRequestStaffApproveActivity.this);
-        alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage(no_records_found);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                finish();
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
-
-    }
 }

@@ -182,90 +182,6 @@ public class TextStandardAndGroupList extends AppCompatActivity {
         }
     }
 
-    private void groupListAPI() {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
-
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TextStandardAndGroupList.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-        JsonObject jsonReqArray = constructJsonArrayMgtSchoolStd();
-        Call<JsonArray> call = apiService.GetSchoolStrengthBySchoolID(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("StudentsList:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        Log.d("json length", js.length() + "");
-                        for (int i = 0; i < js.length(); i++) {
-                            JSONArray jSONArray = jsonObject.getJSONArray("Groups");
-                            TeacherClassGroupModel classgrp;
-                            cbListGroups = new CheckBox[jSONArray.length()];
-                            for (int j = 0; j < jSONArray.length(); j++) {
-                                JSONObject jsonObjectgroups = jSONArray.getJSONObject(j);
-                                classgrp = new TeacherClassGroupModel(jsonObjectgroups.getString("GroupName"), jsonObjectgroups.getString("GroupId"), false);
-                                listGroups.add(classgrp);
-                                Log.d("Exception1", "except1");
-                                LayoutInflater inflater = getLayoutInflater();
-                                // inflate the header description layout and add it to the linear layout:
-                                View addView1 = inflater.inflate(R.layout.teacher_section_list, null, false);
-                                Log.d("Exception2", "except2");
-                                gridlayoutgroups.addView(addView1);
-                                cbListGroups[j] = (CheckBox) addView1.findViewById(R.id.ch_section);
-                                cbListGroups[j].setText(listGroups.get(j).getStrName());
-                                final int finalI = j;
-                                Log.d("Exception3", "except3");
-                                cbListGroups[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        listGroups.get(finalI).setbSelected(isChecked);
-
-                                        if (isChecked)
-                                            iSelStdGrpCount++;
-                                        else iSelStdGrpCount--;
-                                    }
-                                });
-                            }
-                        }
-
-                        cbToAll.setChecked(false);
-
-                    } else {
-                        showToast("No Records Found..");
-                    }
-
-                } catch (Exception e) {
-                    Log.e("GroupList:Excep", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast("Check your Internet connectivity");
-                Log.d("GroupList:Failure", t.toString());
-            }
-        });
-    }
-
 
     private void standardsListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -305,7 +221,6 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
-                        Log.d("json length", js.length() + "");
                         for (int i = 0; i < js.length(); i++) {
                             JSONArray jSONArray = jsonObject.getJSONArray("Standards");
                             TeacherClassGroupModel classstd;
@@ -318,16 +233,12 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                                 if(!StandardID.equals("0")) {
                                     classstd = new TeacherClassGroupModel(jsonObjectgroups.getString("StandardName"), jsonObjectgroups.getString("StandardID"), false);
                                     listClasses.add(classstd);
-                                    Log.d("Exception1", "except1std");
                                     LayoutInflater inflater = getLayoutInflater();
-                                    // inflate the header description layout and add it to the linear layout:
                                     View addView1 = inflater.inflate(R.layout.teacher_section_list, null, false);
-                                    Log.d("Exception2", "except2std");
                                     gridlayoutSection.addView(addView1);
                                     cbListStd[j] = (CheckBox) addView1.findViewById(R.id.ch_section);
                                     cbListStd[j].setText(listClasses.get(j).getStrName());
                                     final int finalI = j;
-                                    Log.d("Exception3", "except3std");
                                     cbListStd[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -357,16 +268,12 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                                 if(!GroupID.equals("0")) {
                                     classgrp = new TeacherClassGroupModel(jsonObjectgroups.getString("GroupName"), jsonObjectgroups.getString("GroupID"), false);
                                     listGroups.add(classgrp);
-                                    Log.d("Exception1", "except1");
                                     LayoutInflater inflater = getLayoutInflater();
-                                    // inflate the header description layout and add it to the linear layout:
                                     View addView1 = inflater.inflate(R.layout.teacher_section_list, null, false);
-                                    Log.d("Exception2", "except2");
                                     gridlayoutgroups.addView(addView1);
                                     cbListGroups[j] = (CheckBox) addView1.findViewById(R.id.ch_section);
                                     cbListGroups[j].setText(listGroups.get(j).getStrName());
                                     final int finalI = j;
-                                    Log.d("Exception3", "except3");
                                     cbListGroups[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -400,7 +307,6 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("GroupList:Failure", t.toString());
             }
         });
     }
@@ -513,20 +419,10 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                 if (cbToAll.isChecked()) {
                     SendImageCircularAPIentireschool();
 
-//                    slectedImagePath.clear();
-//                    slectedImagePath.add(strfilepathimage);
-//                    UploadedS3URlList.clear();
-//                    uploadFileToAWSs3(pathIndex);
-
-
                 } else {
                     if(iSelStdGrpCount>0) {
                         SendImageCircularAPIstdgrp();
 
-//                        slectedImagePath.clear();
-//                        slectedImagePath.add(strfilepathimage);
-//                        UploadedS3URlList.clear();
-//                        uploadFileToAWSs3(pathIndex);
                     }
                     else {
                         showToast(getResources().getString(R.string.select_participants));
@@ -576,10 +472,8 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
                             if ((strStatus.toLowerCase()).equals("1")) {
                                 showAlertForOnline(strMsg,strStatus);
-                               // showAlert(strMsg,strStatus);
                             } else {
                                showAlertForOnline(strMsg,strStatus);
-                              //  showAlert(strMsg,strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -606,8 +500,6 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
     private void showAlertForOnline(String strMsg, final String strStatus) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(TextStandardAndGroupList.this);
-
-
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(strMsg);
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
@@ -616,8 +508,6 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
                 if (strStatus.equals("1")) {
                     dialog.cancel();
-
-
                     finish();
                 } else {
                     dialog.cancel();
@@ -627,20 +517,14 @@ public class TextStandardAndGroupList extends AppCompatActivity {
             }
         });
 
-
         AlertDialog dialog = alertDialog.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
-
-
     }
 
     private JsonObject constructOnlineClassRequest() {
-
-
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
             jsonObjectSchoolstdgrp.addProperty("school_id", SchoolID);
@@ -660,7 +544,6 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -670,12 +553,10 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -786,7 +667,6 @@ public class TextStandardAndGroupList extends AppCompatActivity {
         MultipartBody.Part bodyFile =
                 MultipartBody.Part.createFormData("voice", file.getName(), requestFile);
 
-//        // add another part within the multipart request
         JsonObject jsonReqArray = constructJsonArraySchoolsvoiceprincipal();
         RequestBody requestBody =
                 RequestBody.create(

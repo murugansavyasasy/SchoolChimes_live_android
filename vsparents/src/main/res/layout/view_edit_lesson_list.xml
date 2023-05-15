@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:padding="10dp"
+        android:background="@color/bpWhite"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/lnrText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblTextName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textColor="@color/clr_yellow"
+                android:textSize="@dimen/_14sdp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:layout_gravity="center"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_16sdp"/>
+
+            <EditText
+                android:id="@+id/txtTextValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:text="Name"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/clr_black"
+                android:background="@drawable/rect_search"
+                android:textSize="@dimen/_12sdp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblCalendarName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textColor="@color/clr_yellow"
+                android:textSize="@dimen/_14sdp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:layout_gravity="center"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_12sdp"/>
+
+
+            <RelativeLayout
+                android:id="@+id/rytCalendar"
+                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:orientation="horizontal">
+
+            <TextView
+                android:layout_toLeftOf="@+id/imgCalendar"
+                android:id="@+id/lblCalendarValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:layout_alignParentLeft="true"
+                android:padding="10dp"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_12sdp"/>
+
+            <ImageView
+                android:id="@+id/imgCalendar"
+                android:layout_alignParentRight="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/calendar"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrDropDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblDropDownName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textColor="@color/clr_yellow"
+                android:textSize="@dimen/_14sdp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:layout_gravity="center"
+                android:textColor="@color/clr_black"
+                android:textSize="@dimen/_16sdp"/>
+
+            <RelativeLayout
+                android:id="@+id/rytSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:background="@drawable/bg_shadow_white_card"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinners"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="0dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_drop_down" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

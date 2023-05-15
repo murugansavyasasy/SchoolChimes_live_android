@@ -55,8 +55,6 @@ public class PdfWebViewPopup extends AppCompatActivity {
         pdfModel = (TeacherMessageModel) getIntent().getSerializableExtra("PDF_ITEM");
         strURL = pdfModel.getMsgContent();
 
-        Log.d("URL",strURL);
-
         ImageView ivBack = (ImageView) findViewById(R.id.pdfPopup_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -117,7 +117,7 @@
     <string name="teacher_app_sub_title">for Parents</string>
     <string name="teacher_school_msg">Chimes \t</string>
 
-    <string name="teacher_app_version_id">70</string>
+    <string name="teacher_app_version_id">71</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -642,11 +642,17 @@
     <string name="viewMarks">View Marks</string>
     <string name="viewProgress">View report card</string>
 
-    <string name="app_version">7.6.1</string>
+    <string name="app_version">7.6.11</string>
+
+
+    <string name="lbl_Yet_to_start">Yet to start</string>
+    <string name="lbl_in_progress">In Progress</string>
+    <string name="lbl_completed">Completed</string>
 
 
 
-<!--   Update whats new features here-->
+
+    <!--   Update whats new features here-->
 
     <string name="text_feature_one">\u25CF   Bug fixed.</string>
     <string name="text_feature_two">\u25CF   Issues Resolved.  </string>

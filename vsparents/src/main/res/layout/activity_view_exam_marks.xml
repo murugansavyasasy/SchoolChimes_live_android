@@ -44,9 +44,9 @@
                 android:id="@+id/rcyElements"
                 android:layout_width="match_parent"
                 android:layout_below="@id/scrollexp"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/card_light_grey"
+                android:background="@drawable/bg_shadow_white_card"
                 android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -54,9 +54,9 @@
                 android:id="@+id/rcyGroups"
                 android:layout_width="match_parent"
                 android:layout_below="@id/rcyElements"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/card_light_grey"
+                android:background="@drawable/bg_shadow_white_card"
                 android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>

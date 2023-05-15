@@ -37,7 +37,6 @@ public class TeacherVoiceCircular extends AppCompatActivity {
     TeacherVoiceCircularListAdapterNEW voiceAdapter;
     public ArrayList<TeacherMessageModel> msgModelList = new ArrayList<>();
 
-    String selDate, strMsgType;
     private int iRequestCode;
 
     TextView voice_ToolBarTvTitle;
@@ -48,7 +47,6 @@ public class TeacherVoiceCircular extends AppCompatActivity {
     String isNewVersion;
 
 
-    private final String android_image_status[] = {"1", "0"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,7 +206,6 @@ public class TeacherVoiceCircular extends AppCompatActivity {
 
                 if (!strDate.equals("")) {
                     TeacherMessageModel msgModel;
-                    Log.d("json length", js.length() + "");
 
                     voiceAdapter.clearAllData();
                     for (int i = 0; i < js.length(); i++) {

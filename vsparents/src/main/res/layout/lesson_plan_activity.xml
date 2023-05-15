@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:visibility="visible"
+        android:id="@+id/lnrTab"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/lnrAllClasses"
+            android:background="@drawable/rect_chimes_stroke"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <TextView
+            android:id="@+id/lblAllClasses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="All Classes"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="@color/clr_black"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/lnrYourHandled"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblYouHandled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Classes You Handle"
+                android:textSize="@dimen/_16sdp"
+                android:textColor="@color/clr_black"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintTop_toBottomOf="@+id/lnrTab"
+        android:id="@+id/rvLessonPlans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:padding="10dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

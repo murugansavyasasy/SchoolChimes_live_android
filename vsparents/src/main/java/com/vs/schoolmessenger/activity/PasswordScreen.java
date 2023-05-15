@@ -32,29 +32,22 @@ import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.adapter.ForgetPaswordDialinNumbers;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,7 +75,6 @@ public class PasswordScreen extends AppCompatActivity {
     ArrayList<Profiles> arrChildList = new ArrayList<>();
 
     String mobilenumber;
-    SqliteDB myDb;
     ArrayList<Profiles> arrayList;
     boolean bEyeVisible = false;
     String number, password;
@@ -456,11 +448,7 @@ public class PasswordScreen extends AppCompatActivity {
 
                                 arrayList = new ArrayList<>();
                                 arrayList.addAll(arrChildList);
-                                myDb = new SqliteDB(PasswordScreen.this);
-                                if (myDb.checkChildDetails()) {
-                                    myDb.deleteChildDetails();
-                                }
-                                myDb.addChildDetails((ArrayList<Profiles>) arrChildList, PasswordScreen.this);
+
                                 pubStArrChildList.addAll(arrChildList);
 
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(PasswordScreen.this, number, password, true);
@@ -521,11 +509,7 @@ public class PasswordScreen extends AppCompatActivity {
 
                                 arrayList = new ArrayList<>();
                                 arrayList.addAll(arrChildList);
-                                myDb = new SqliteDB(PasswordScreen.this);
-                                if (myDb.checkChildDetails()) {
-                                    myDb.deleteChildDetails();
-                                }
-                                myDb.addChildDetails((ArrayList<Profiles>) arrChildList, PasswordScreen.this);
+
                                 pubStArrChildList.addAll(arrChildList);
 
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(PasswordScreen.this, number, password, true);

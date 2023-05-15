@@ -67,7 +67,6 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
 
     TeacherSectionModel selSection;
 
-    private ArrayList<TeacherSectionsListNEW> seletedSectionsList = new ArrayList<>();
     ArrayList<TeacherSubjectModel> listSubjects1 = new ArrayList<TeacherSubjectModel>();
     ArrayList<TeacherSubjectModel> listSubjects2 = new ArrayList<TeacherSubjectModel>();
 
@@ -110,11 +109,9 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         Log.d("REQUEST_CODE", String.valueOf(iRequestCode));
         strToWhom = getIntent().getExtras().getString("TO", "");
-        Log.d("strToWhom", strToWhom);
 
         Section = (ArrayList<TeacherSectionsListNEW>) getIntent().getSerializableExtra("SectionList123");
 
-        Log.d("REQUEST_CODE", String.valueOf(iRequestCode));
         selSection = (TeacherSectionModel) getIntent().getSerializableExtra("STD_SEC");
         schoolId = getIntent().getExtras().getString("SCHOOL_ID", "");
         sectioncode = getIntent().getExtras().getString("SECCODE", "");
@@ -173,16 +170,9 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
             public void onClick(View v) {
 
                 if (SubjectDetailsList.size() > 0) {
-                   // if (strToWhom.equals("SEC")) {
                         if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
                             SendExam();
                         }
-                    //}
-//                    if (strToWhom.equals("STU")) {
-//                        if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
-//                            SendExamSpecificsection();
-//                        }
-//                    }
 
                 } else {
                     showToast(getResources().getString(R.string.select_subjects));
@@ -231,235 +221,6 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
         else
             btnSend.setEnabled(false);
 
-    }
-
-    private void subjectList() {
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
-
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = constructJsonArrayMgtSchoolStdHW();
-        Call<JsonArray> call = apiService.GetStandardsAndSubjectsAsStaff(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("StdSecList:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("StdSecList:Res", response.body().toString());
-
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        {
-                            TeacherStandardSectionsListModel stdSecList;
-                            Log.d("json length", js.length() + "");
-
-
-                            mAdapter.clearAllData();
-                            for (int i = 0; i < js.length(); i++) {
-                                JSONObject jsonObject = js.getJSONObject(i);
-                                if (jsonObject.getString("StandardId").equals("0")) {
-                                    showToast(getResources().getString(R.string.standard_sections_not_assigned));
-                                    finish();
-                                } else {
-                                    stdSecList = new TeacherStandardSectionsListModel(jsonObject.getString("Standard"), jsonObject.getString("StandardId"));
-                              ;
-
-                                    ArrayList<TeacherSectionsListNEW> listSections = new ArrayList<>();
-                                    ArrayList<TeacherSubjectModel> listSubjects = new ArrayList<>();
-
-                                    JSONArray jsArySections = jsonObject.getJSONArray("Sections");
-                                    if (jsArySections.length() > 0) {
-                                        JSONObject jObjStd;
-                                        TeacherSectionsListNEW sectionsList;
-                                        for (int j = 0; j < jsArySections.length(); j++) {
-                                            jObjStd = jsArySections.getJSONObject(j);
-                                            if (jObjStd.getString("SectionId").equals("0")) {
-                                                showToast(jObjStd.getString("SectionName"));
-                                                sectionsList = new TeacherSectionsListNEW(jObjStd.getString("SectionName"), jObjStd.getString("SectionId"),
-                                                        "", false);
-                                                listSections.add(sectionsList);
-                                            } else {
-                                                sectionsList = new TeacherSectionsListNEW(jObjStd.getString("SectionName"), jObjStd.getString("SectionId"),
-                                                        "", false);
-                                                listSections.add(sectionsList);
-                                            }
-                                        }
-                                    }
-
-
-                                    JSONArray jsArySubjects = jsonObject.getJSONArray("Subjects");
-                                    if (jsArySubjects.length() > 0) {
-                                        JSONObject jObjSub;
-                                        TeacherSubjectModel subjectList;
-
-                                        for (int k = 0; k < jsArySubjects.length(); k++) {
-                                            jObjSub = jsArySubjects.getJSONObject(k);
-
-                                            subjectList = new TeacherSubjectModel(jObjSub.getString("SubjectName"), jObjSub.getString("SubjectId"), false);
-                                            listSubjects2.add(subjectList);
-                                        }
-                                        mAdapter.notifyDataSetChanged();
-
-                                    }
-
-
-
-                                }
-
-
-                            }
-                        }
-
-
-                    } else {
-                        showToast(getResources().getString(R.string.no_records));
-                        onBackPressed();
-                    }
-
-                } catch (Exception e) {
-                    Log.d("Exception", e.toString());
-                    showToast(getResources().getString(R.string.check_internet));
-                    onBackPressed();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("StdSecList:Failure", t.toString());
-                onBackPressed();
-            }
-        });
-    }
-
-    private JsonObject constructJsonArrayMgtSchoolStdHW() {
-        JsonObject jsonObjectSchool = new JsonObject();
-        try {
-            jsonObjectSchool.addProperty("SchoolId", TeacherUtil_Common.Principal_SchoolId);
-            jsonObjectSchool.addProperty("StaffID", TeacherUtil_Common.Principal_staffId);
-            Log.d("schoolid", TeacherUtil_Common.Principal_SchoolId);
-            Log.d("staffstd&sec", jsonObjectSchool.toString());
-        } catch (Exception e) {
-            Log.d("ASDF", e.toString());
-        }
-        return jsonObjectSchool;
-    }
-
-    private void SendExamSpecificsection() {
-
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(SubjectListScreen.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(SubjectListScreen.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
-        JsonObject jsonReqArray = constructJsonArrayMgtSchoolstextSpecificSec();
-        Call<JsonArray> call = apiService.InsertExamToEntireSection(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
-
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
-
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg);
-                            } else {
-                                showAlert(strMsg);
-                            }
-                        } else {
-                            showToast(getResources().getString(R.string.no_records));
-                        }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
-                showToast(t.toString());
-            }
-        });
-    }
-
-    private JsonObject constructJsonArrayMgtSchoolstextSpecificSec() {
-
-        JsonObject jsonObjectSchoolstdgrp = new JsonObject();
-        try {
-
-            jsonObjectSchoolstdgrp.addProperty("SchoolID", TeacherUtil_Common.Principal_SchoolId);
-            jsonObjectSchoolstdgrp.addProperty("StaffID", TeacherUtil_Common.Principal_staffId);
-            jsonObjectSchoolstdgrp.addProperty("ExamName", ExamName);
-            jsonObjectSchoolstdgrp.addProperty("ExamSyllabus", ExamSyllabus);
-
-            JsonArray jsonArrayschoolstd = new JsonArray();
-            JsonObject jsonObjectclass = new JsonObject();
-            jsonObjectclass.addProperty("TargetCode", strSecCode);
-            Log.d("schoolid", strSecCode);
-            jsonArrayschoolstd.add(jsonObjectclass);
-
-
-            JsonArray jsonArrayschoolstd1 = new JsonArray();
-            for (int i = 0; i < SubjectDetailsList.size(); i++) {
-                SubjectDetails sectionsListNEW = SubjectDetailsList.get(i);
-                JsonObject jsonObjectclass1 = new JsonObject();
-                jsonObjectclass1.addProperty("Subcode", sectionsListNEW.getStrSubCode());
-                jsonObjectclass1.addProperty("ExamDate", sectionsListNEW.getDate());
-                jsonObjectclass1.addProperty("Session", sectionsListNEW.getSession());
-                jsonObjectclass1.addProperty("MaxMark", sectionsListNEW.getMaxMark());
-
-                jsonArrayschoolstd1.add(jsonObjectclass1);
-
-            }
-            jsonObjectSchoolstdgrp.add("Subjects", jsonArrayschoolstd1);
-            jsonObjectSchoolstdgrp.add("Seccode", jsonArrayschoolstd);
-
-        } catch (Exception e) {
-            Log.d("ASDF", e.toString());
-        }
-
-
-        Log.d("Request",jsonObjectSchoolstdgrp.toString());
-        return jsonObjectSchoolstdgrp;
     }
 
     private void showToast(String s) {
@@ -561,9 +322,6 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
             jsonObjectSchoolstdgrp.addProperty("StaffID", TeacherUtil_Common.Principal_staffId);
             jsonObjectSchoolstdgrp.addProperty("ExamName", ExamName);
             jsonObjectSchoolstdgrp.addProperty("ExamSyllabus", ExamSyllabus);
-
-
-
             JsonArray jsonArrayschoolstd_section = new JsonArray();
             for (int i = 0; i < Section.size(); i++) {
                 TeacherSectionsListNEW sectionsListNEW = Section.get(i);
@@ -589,9 +347,6 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
 
             }
 
-            Log.d("Subjects_list", jsonArrayschoolstd.toString());
-
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("Subjects", jsonArrayschoolstd);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
 
@@ -601,107 +356,6 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
 
         return jsonObjectSchoolstdgrp;
     }
-
-    private void examListApi() {
-
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(SubjectListScreen.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(SubjectListScreen.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(SubjectListScreen.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        }
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("SchoolID", school_ID);
-
-        Log.d("jsonObject", jsonObject.toString());
-
-        Call<JsonArray> call = apiService.GetStudentExamList(jsonObject);
-
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
-                try {
-                    if (mProgressDialog.isShowing())
-                        mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
-                    if (response.code() == 200 || response.code() == 201) {
-                        Log.d("Response", response.body().toString());
-                        ExamList data;
-                        JSONArray js = new JSONArray(response.body().toString());
-
-                        if (js.length() > 0) {
-                            mAdapter.clearAllData();
-                            for (int i = 0; i < js.length(); i++) {
-                                JSONObject jsonObject = js.getJSONObject(i);
-
-                                String value = jsonObject.getString("value");
-                                if (value.equals("-2")) {
-                                    String Name = jsonObject.getString("name");
-                                    showRecords(Name);
-                                } else {
-                                    String ExamID = jsonObject.getString("value");
-                                    String ExamName = jsonObject.getString("name");
-                                    data = new ExamList(ExamID, ExamName);
-                                    Exam_list.add(data);
-                                }
-
-                            }
-                            mAdapter.notifyDataSetChanged();
-
-                        } else {
-                            showRecords("No Records found");
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Server Response Failed", Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (Exception e) {
-                    Log.e("Response Exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                Log.e("Response Failure", t.getMessage());
-                Toast.makeText(getApplicationContext(), "Server Connection Failed", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    private void showRecords(String name) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SubjectListScreen.this);
-
-        alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage(name);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                finish();
-
-            }
-        });
-
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
-    }
-
 
     @Override
     public void student_addClass(TeacherSubjectModel student) {

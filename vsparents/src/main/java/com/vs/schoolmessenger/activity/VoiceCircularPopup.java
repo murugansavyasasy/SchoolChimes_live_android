@@ -87,7 +87,6 @@ public class VoiceCircularPopup extends AppCompatActivity {
         imgBtnPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // TeacherUtil_SharedPreference.putOnBackPressed(VoiceCircularPopup.this,"1");
                 TeacherUtil_SharedPreference.putOnBackPressedEmeVoice(VoiceCircularPopup.this,"1");
                 recVoicePlayPause();
             }
@@ -95,7 +94,6 @@ public class VoiceCircularPopup extends AppCompatActivity {
 
 
         isNewVersion = TeacherUtil_SharedPreference.getNewVersion(VoiceCircularPopup.this);
-        //is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
         is_Archive = voiceModel.getIs_Archive();
 
 
@@ -149,7 +147,6 @@ public class VoiceCircularPopup extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-       // TeacherUtil_SharedPreference.putOnBackPressed(VoiceCircularPopup.this,"1");
         TeacherUtil_SharedPreference.putOnBackPressedEmeVoice(VoiceCircularPopup.this,"1");
 
         if (mediaPlayer.isPlaying())
@@ -186,11 +183,9 @@ public class VoiceCircularPopup extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (v.getId() == R.id.myAudioPlayer_seekBar) {
-//                    if (holder.mediaPlayer.isPlaying())
                     {
                         SeekBar sb = (SeekBar) v;
                         int playPositionInMillisecconds = (mediaFileLengthInMilliseconds / 100) * sb.getProgress();
-//                        Log.d("Position: ", ""+playPositionInMillisecconds);
                         mediaPlayer.seekTo(playPositionInMillisecconds);
                     }
                 }
@@ -249,13 +244,8 @@ public class VoiceCircularPopup extends AppCompatActivity {
             }
 
 
-            Log.d("path",voiceModel.getMsgTitle());
-            Log.d("path",voiceModel.getMsgTitle());
             String name=voiceModel.getMsgID()+"_"+voiceModel.getMsgTitle()+".mp3";
-            Log.d("name",name);
-
             File futureStudioIconFile = new File(dir, voiceModel.getMsgID()+"_"+voiceModel.getMsgTitle()+".mp3");
-
             System.out.println("FILE_PATH:" + futureStudioIconFile.getPath());
 
             mediaPlayer.reset();
@@ -269,11 +259,7 @@ public class VoiceCircularPopup extends AppCompatActivity {
             Log.d("in Fetch Song", e.toString());
         }
 
-        Log.d("FetchSong", "END***************************************");
     }
-
-
-
 
     private void primarySeekBarProgressUpdater(final int fileLength) {
         int iProgress = (int) (((float) mediaPlayer.getCurrentPosition() / fileLength) * 100);

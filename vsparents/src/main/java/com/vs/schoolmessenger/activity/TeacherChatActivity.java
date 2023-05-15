@@ -192,9 +192,7 @@ public class TeacherChatActivity extends AppCompatActivity {
                         try {
                             if (currentOffset == 0) {
                                 if (!messages.isEmpty()) {
-//                                    chatCount = messages.get(0).ChatCount;
                                     limit = messages.get(0).Limit;
-//                                    offset = messages.get(0).Offset + 1;
                                     if (limit > 0) {
                                         chatCount = messages.get(0).ChatCount;
                                         offset = messages.get(0).Offset + 1;
@@ -260,12 +258,8 @@ public class TeacherChatActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-
         String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherChatActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-
-
-
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("QuestionID", teacherChat.QuestionID);
         jsonObject.addProperty("Answer", answer);
@@ -288,12 +282,10 @@ public class TeacherChatActivity extends AppCompatActivity {
                     if (response.code() == 200 || response.code() == 201) {
                         binding.layoutGroup.setVisibility(View.GONE);
                         binding.chatMessage.setText("");
-//                        teacherChatApi(offset);
                         Log.d("Response", response.body().toString());
                         JSONArray js = new JSONArray(response.body().toString());
                         if (js.length() > 0) {
                             JSONObject jsonObject = js.getJSONObject(0);
-                            Log.d("message", jsonObject.getString("Message"));
                             TeacherChat teacher = new Gson().fromJson(jsonObject.getString("result"), TeacherChat.class);
                             if (!teacherMessages.isEmpty()) {
                                 int index = teacherMessages.indexOf(teacherChat);

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.vs.schoolmessenger.LessonPlan.Model.EditDataItem;
+import com.vs.schoolmessenger.LessonPlan.Model.ViewDataItem;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 
@@ -71,6 +73,9 @@ public class TeacherUtil_Common {
     public static final int PRINCIPAL_STUDENT_REPORT= 8224;
     public static final int PRINCIPAL_DAILY_COLLECTION= 8225;
 
+    public static final int PRINCIPAL_LESSON_PLAN= 8226;
+
+
     public static final int STAFF_MEETING_URL= 8224;
     public static final int STAFF_PHOTOS = 8101;
     public static final int STAFF_VOICE = 8102;
@@ -95,6 +100,9 @@ public class TeacherUtil_Common {
 
 
     public static String lesson_request_type = "";
+
+    public static List<EditDataItem> EditDataList = new ArrayList<EditDataItem>();
+
 
 
     public static boolean isNetworkAvailable(Activity activity) {

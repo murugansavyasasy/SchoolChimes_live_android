@@ -66,22 +66,17 @@ import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VIDEO;
 
 public class VimeoVideoPlayerActivity extends AppCompatActivity {
 
-    //    private static final int RECOVERY_REQUEST = 1;
-//    private YouTubePlayerView youTubeView;
-    String VideoID, DETAILID, ISAPPVIEW, vimeoVideo;
+
+    String VideoID, DETAILID, ISAPPVIEW;
     ImageView imgBack;
-    //    ProgressDialog pDialog;
     WebView myWebView;
     VideoView videoView;
-    ImageView prev, next, pause,imgback;
+    ImageView prev, next, pause;
     SeekBar seekBar;
-    int video_index;
     double current_pos, total_duration;
     TextView current, total;
     LinearLayout showProgress;
     Handler mHandler,handler;
-    boolean isVisible = true;
-    RelativeLayout relativeLayout;
 
     String isNewVersion;
     Boolean is_Archive;
@@ -206,78 +201,6 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity {
 
     }
 
-    private void VimeoAPi(String url) {
-
-
-        OkHttpClient client1;
-        client1 = new OkHttpClient.Builder()
-                .connectTimeout(300, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.MINUTES)
-                .writeTimeout(5, TimeUnit.MINUTES)
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(client1)
-                .baseUrl("https://player.vimeo.com/video/" + url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        final ProgressDialog mProgressDialog = new ProgressDialog(VimeoVideoPlayerActivity.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Connecting...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
-        TeacherMessengerApiInterface service = retrofit.create(TeacherMessengerApiInterface.class);
-
-        Call<JsonObject> call = service.Videoplay();
-
-        call.enqueue(new Callback<JsonObject>() {
-
-            @Override
-            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                int res = response.code();
-                Log.d("RESPONSE", String.valueOf(res));
-                if (response.isSuccessful()) {
-                    try {
-
-                        Log.d("try", "testtry");
-                        JSONObject object1 = new JSONObject(response.body().toString());
-                        JSONObject obj = object1.getJSONObject("request");
-                        JSONObject files = obj.getJSONObject("files");
-
-                        JSONArray progressive = files.getJSONArray("progressive");
-                        JSONObject url = progressive.getJSONObject(0);
-                        final String playurl = url.getString("url");
-
-
-                        Log.d("Response sucess", playurl.toString());
-                        videoView.setVideoPath(playurl);
-                        videoView.start();
-                        pause.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
-
-                    } catch (Exception e) {
-                        Log.e("VIMEO Exception", e.getMessage());
-                    }
-
-                } else {
-                    Log.d("Response fail", "fail");
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                Log.e("Response Failure", t.getMessage());
-
-            }
-        });
-    }
 
     public void setVideoProgress() {
         //get the video duration
@@ -362,7 +285,6 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         TeacherUtil_SharedPreference.putOnBackPressedVideo(VimeoVideoPlayerActivity.this,"1");
-        //TeacherUtil_SharedPreference.putOnBackPressed(VoiceCircular.this,"1");
         finish();
     }
 }

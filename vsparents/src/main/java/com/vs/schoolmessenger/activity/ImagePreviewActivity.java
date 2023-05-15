@@ -21,8 +21,6 @@ public class ImagePreviewActivity extends AppCompatActivity {
     String imageUri;
     Uri uri;
 
-    private ScaleGestureDetector scaleGestureDetector;
-    private Matrix matrix = new Matrix();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +41,6 @@ public class ImagePreviewActivity extends AppCompatActivity {
 
         imageView=(TouchImageView) findViewById(R.id.imgageview);
         imageUri = getIntent().getExtras().getString("ImageURl", "");
-        Log.d("uri",imageUri);
 
         uri= Uri.parse(imageUri);
         Glide.with(ImagePreviewActivity.this)

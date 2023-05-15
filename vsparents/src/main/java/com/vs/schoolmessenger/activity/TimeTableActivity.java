@@ -146,7 +146,6 @@ public class TimeTableActivity extends AppCompatActivity {
     private void getTimeTableApi() {
 
         String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
-        Log.d("isNewVersionn",isNewVersionn);
         if (isNewVersionn.equals("1")) {
 
             String baseURL = TeacherUtil_SharedPreference.getBaseUrl(this);
@@ -212,8 +211,6 @@ public class TimeTableActivity extends AppCompatActivity {
                         }
                         else{
                             timeTableclassAdapter.notifyDataSetChanged();
-
-                            //alert("No TimeTable Assigned");
                             alert(message);
 
                         }

@@ -53,14 +53,9 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MESSAGESF
 public class TeacherMessageDatesScreen extends AppCompatActivity {
 
     String staff_id, school_id;
-    TeacherProfiles childItem = new TeacherProfiles();
 
     TeacherSchoolsModel schoolmodel;
 
-    int iTotMsgUnreadCount = 0;
-    TextView tvSchoolName, tvSchoolAddress, tvMsgCount;
-    NetworkImageView nivThumbNailSchoolImg;
-    ImageLoader imageLoader;
 
     RecyclerView rvDatesList;
     private TeacherCircularsDateListAdapter dateListAdapter;
@@ -211,7 +206,6 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         jsonObject.addProperty("MemberId", staff_id);
         jsonObject.addProperty("SchoolId", school_id);
 
-        Log.d(" jsonObject12344555", String.valueOf(jsonObject));
 
         Call<JsonArray> call = apiService.GetMessageCount_Archive(jsonObject);
         call.enqueue(new Callback<JsonArray>() {
@@ -223,7 +217,6 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
 
                 Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
-                    Log.d("overallUnreadCount:Res", response.body().toString());
                 LoadMore.setVisibility(View.GONE);
                 lblNoMessages.setVisibility(View.GONE);
 
@@ -232,9 +225,7 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
                         TeacherCircularDates cirDates;
-                        Log.d("json length", js.length() + "");
 
-//                        dateListAdapter.clearAllData();
                         for (int i = 0; i < js.length(); i++) {
                             jsonObject = js.getJSONObject(i);
 
@@ -269,7 +260,6 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Unreadcount:Failure", t.toString());
             }
         });
 
@@ -309,7 +299,6 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("MemberId", staff_id);
         jsonObject.addProperty("SchoolId", school_id);
-        Log.d(" jsonObject12344555", String.valueOf(jsonObject));
         Call<JsonArray> call = apiService.GetMessageCount(jsonObject);
         call.enqueue(new Callback<JsonArray>() {
 
@@ -320,14 +309,12 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
 
                 Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
-                    Log.d("overallUnreadCount:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
                         TeacherCircularDates cirDates;
-                        Log.d("json length", js.length() + "");
 
                         dateListAdapter.clearAllData();
                         datesList.clear();
@@ -376,7 +363,6 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Unreadcount:Failure", t.toString());
             }
         });
 

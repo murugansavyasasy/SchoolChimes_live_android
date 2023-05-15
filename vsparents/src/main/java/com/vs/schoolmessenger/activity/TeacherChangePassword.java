@@ -93,7 +93,6 @@ public class TeacherChangePassword extends AppCompatActivity {
         forget = Util_SharedPreference.getForget(TeacherChangePassword.this);
         forgetOTPMessage = TeacherUtil_SharedPreference.getForgetOtpMessage(TeacherChangePassword.this);
 
-        Log.d("forgetOTPMessage", forgetOTPMessage);
 
         if (forget.equals("forget")) {
 
@@ -210,7 +209,6 @@ public class TeacherChangePassword extends AppCompatActivity {
         btnUpdatePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                pChangePass.dismiss();
                 strOldPass = etOldPass.getText().toString().trim();
                 strNewPass = etNewPass.getText().toString().trim();
                 strConfirmPass = etConfirmPass.getText().toString().trim();
@@ -279,8 +277,6 @@ public class TeacherChangePassword extends AppCompatActivity {
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(TeacherChangePassword.this);
 
-        Log.d("ChangePass:mob-Old-New", mobNumber + " - " + strOldPass + " - " + strNewPass);
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         JsonObject jsonObject = new JsonObject();
@@ -342,7 +338,6 @@ public class TeacherChangePassword extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("ChangePass:Failure", t.toString());
             }
         });
     }
@@ -372,8 +367,6 @@ public class TeacherChangePassword extends AppCompatActivity {
 
 
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(TeacherChangePassword.this);
-
-        Log.d("ChangePass:mob-Old-New", mobNumber + " - " + strOldPass + " - " + strNewPass);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_ChangePassword(mobNumber, strOldPass, strNewPass);
@@ -429,7 +422,6 @@ public class TeacherChangePassword extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("ChangePass:Failure", t.toString());
             }
         });
     }

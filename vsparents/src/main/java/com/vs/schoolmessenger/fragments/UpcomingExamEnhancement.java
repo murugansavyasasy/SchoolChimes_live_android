@@ -26,9 +26,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.ExamEnhancementAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.ExamEnhancement;
-import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -37,7 +35,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

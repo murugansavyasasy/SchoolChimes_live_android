@@ -40,8 +40,6 @@ import retrofit2.Callback;
  */
 
 public class FeedBackQuestionsScreen extends AppCompatActivity {
-
-
     TextView lblQuestion1, lblQuestion2, lblQuestion3, lblQuestion4, lblQuestion5, lblQuestion6, lblQuestion7, lblQuestion8, lblQuestion9;
 
     RadioButton radioLessThanMonth, radioMonths,
@@ -132,17 +130,11 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
 
 
         schoolID = extras.getString("schoolID");
-        Log.d("schoolID", schoolID);
         schoolname = extras.getString("schoolname","");
-        Log.d("schoolname", schoolname);
         contactpersion = extras.getString("contactpersion","");
-        Log.d("contactpersion", contactpersion);
         mobilenumber = extras.getString("mobilenumber","");
-        Log.d("mobilenumber", mobilenumber);
         emaiid = extras.getString("email","");
-
         StaffId = extras.getString("staffID","");
-        Log.d("emaiid", emaiid);
 
 
 
@@ -564,22 +556,15 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("SchoolID", schoolID);
-            Log.d("schoolID", schoolID);
             jsonObject.addProperty("SchoolName", schoolname);
-            Log.d("schoolname", schoolname);
             jsonObject.addProperty("ContactPerson", contactpersion);
-            Log.d("contactpersion", contactpersion);
             jsonObject.addProperty("ContactMobile", mobilenumber);
-            Log.d("mobilenumber", mobilenumber);
             jsonObject.addProperty("EmailID", emaiid);
-            Log.d("emaiid", emaiid);
             jsonObject.addProperty("AnswerDetails", answers);
-            Log.d("values", values);
             jsonObject.addProperty("OtherInfo", othercomment);
 
 
             jsonObject.addProperty("MemberID", StaffId);
-            Log.d("othercomment", othercomment);
 
             Call<JsonArray> call = apiService.InsertFeedbackDetails(jsonObject);
             Log.d("insert", jsonObject.toString());
@@ -620,7 +605,6 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<JsonArray> call, Throwable t) {
                     Log.e("Response Failure", t.getMessage());
-                    // showToast("Server Connection Failed");
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
 
                 }

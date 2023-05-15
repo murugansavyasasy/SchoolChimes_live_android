@@ -22,7 +22,6 @@ import com.vs.schoolmessenger.model.Constants;
 public class HelperActivity extends AppCompatActivity {
     protected View view;
 
-    private final int maxLines = 4;
     private final String[] permissions = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
 
     protected void checkPermission() {

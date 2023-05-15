@@ -138,8 +138,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
     public static PopupWindow popupWindowvideo;
 
-
-
     String imageFilePath;
     String DocFilePath;
 
@@ -154,35 +152,28 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     String urlFromS3 = null;
     String contentType="",filecontent;
     LsrwDocsAdapter uploadAdapter;
-    String profileAwsFilePath="";
 
     Button btnadd,btnsubmit;
 
     int pathIndex=0;
-    String uploadFilePath = "";
 
-    ArrayList<String> slectedImagePath = new ArrayList<String>();
     int SELECT_VIDEO = 1;
     int SELECT_IMAGE = 2;
     int SELECT_PDF = 3;
     int CAMERA = 4;
 
-//    public static ArrayList<String> imagePathList = new ArrayList<>();
     public static ArrayList<String> gallerylist = new ArrayList<>();
-//    public static ArrayList<String> submitlist = new ArrayList<>();
     public static ArrayList<String> contentlist = new ArrayList<>();
     File photoFile,file,futureStudioIconFile;
-    long length,sizekb,total;
-    Intent resume;
     ContentAdapter contentadapter;
-    private Future<Void> mFuture;
-    String sectionsTargetCode="",upload_link,strsize,iframe,link,imagesize;
-    String AssignId="";
+    String upload_link,strsize,iframe,link,imagesize;
     String ticket_id;
     String video_file_id;
     String signature;
     String v6;
     String redirect_url,selected,skillid;
+
+    Future<Void> mFuture;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -266,7 +257,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 if (bIsRecording)
                     stop_RECORD();
                  selected = parent.getItemAtPosition(position).toString();
-                Log.d("text",selected);
                 edtextmsg.setVisibility(View.GONE);
                 rytvoice.setVisibility(View.GONE);
                 voiceplay.setVisibility(View.GONE);
@@ -371,7 +361,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
                 Intent intent = new Intent();
                 intent.setType("application/pdf");
-//                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_DEFAULT);
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"), SELECT_PDF);
@@ -379,14 +368,8 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.parentVideofile:
-
-
-
                 videotermsapi();
-//                Intent intentvideo;
-//                intentvideo = new Intent(ParentSubmitLSRW.this, AlbumVideoSelectVideoActivity.class);
-//                intentvideo.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                startActivityForResult(intentvideo, SELECT_VIDEO);
+
 
                 break;
 
@@ -398,7 +381,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
             case R.id.btnadd:
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    //Find the currently focused view, so we can grab the correct window token from it.
                     View view = getCurrentFocus();
                     //If no view currently has focus, create a new one, just so we can grab a window token from it
                     if (view == null) {
@@ -427,12 +409,12 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 }
                 else if(selected.equals("Image")){
 
-                        UploadFileToAWS("image_from_lsrw",0);
+                    UploadFileToAWS("image_from_lsrw",0);
 
                 }
                 else if(selected.equals("Pdf")){
 
-                        UploadFileToAWS("pdf_from_lsrw",0);
+                    UploadFileToAWS("pdf_from_lsrw",0);
                 }
                 if(submitlist.size()!=0){
                     rcysubmissions.setVisibility(View.VISIBLE);
@@ -445,11 +427,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 }
                 break;
 
-//            case R.id.lblImageCount1:
-//
-//                    Intent tostart = new Intent(Intent.ACTION_VIEW);
-//                    tostart.setDataAndType(Uri.parse(imagePathList.get(0).getWsUploadedDoc()), "video/*");
-//                    startActivity(tostart);
+
 
         }
     }
@@ -503,8 +481,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         voiceplay.setVisibility(View.GONE);
         btnadd.setEnabled(false);
         tvRecordTitle.setText(getText(R.string.teacher_txt_stop_record));
-//        btnToSections.setEnabled(false);
-//        btnToStudents.setEnabled(false);
 
         try {
             recorder = new MediaRecorder();
@@ -804,7 +780,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
                                 UploadedS3URlList.add(files);
                                 UploadFileToAWS(FileDisplayname,pathIndex + 1);
-//                                submitlist.add(urlFromS3);
                                 if(selected.equals("Voice")) {
                                     submitlist.add(new UploadFilesModel(urlFromS3, "VOICE"));
                                     setAdapter();
@@ -836,7 +811,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                                     lblAddAttachment.setVisibility(View.VISIBLE);
 
                                 }
-                                Log.d("submitlist", String.valueOf(submitlist.size()));
 
                             }
                         }
@@ -845,7 +819,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onUploadError(String response) {
                         hideLoading();
-                        Log.d("error", "Error Uploading");
                     }
                 });
             }
@@ -864,22 +837,14 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
             ArrayList<String> path;
 
             path = data.getStringArrayListExtra("images");
-
-            Log.d("imagelist", String.valueOf(imagePathList));
-            Log.d("pathpre", String.valueOf(path));
-
-
-
             for (int y = 0; y < path.size(); y++) {
 
                 if (y == 0) {
 
                     File img = new File(path.get(0));
                     long pathlength = img.length();
-                    Log.d("pathlength", String.valueOf(pathlength));
                     String check=img.toString();
                     check=check.substring(check.lastIndexOf(".")+1);
-                    Log.d("check",check);
                     if(check.equalsIgnoreCase("mp4")||check.equalsIgnoreCase("mov")||
                             check.equalsIgnoreCase("flv")||check.equalsIgnoreCase("avi")||
                             check.equalsIgnoreCase("wmv")) {
@@ -888,7 +853,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
                             img1.setVideoPath(path.get(0));
                             img1.setVisibility(View.VISIBLE);
-//                            img1.getHolder().setSizeFromLayout();
                             img1.seekTo(1);
                             lblImageCount1.setVisibility(View.VISIBLE);
 
@@ -905,14 +869,11 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                                 btnadd.setEnabled(false);
                             }
 
-                            Log.d("imgpthlist",imagePathList.get(0).getWsUploadedDoc());
                             try {
                                 File outputDir = new File(getExternalFilesDir(null), "outputs");
-                                //noinspection ResultOfMethodCallIgnored
                                 outputDir.mkdir();
                                 file = File.createTempFile("transcode_test", ".mp4", outputDir);
                             } catch (IOException e) {
-                                Log.e("fail", "Failed to create temporary file.", e);
                                 return;
                             }
                             ContentResolver resolver = getContentResolver();
@@ -1363,7 +1324,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
         String[] seperate1 = ticket_id.split("=");
 
-        String ticket = seperate1[0];  //"/"
+        String ticket = seperate1[0];
         Log.d("sp1", ticket);
 
         String ticket2 = seperate1[1];
@@ -1372,7 +1333,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
         String[] seperate2 = video_file_id.split("=");
 
-        String ticket1 = seperate2[0];  //"/"
+        String ticket1 = seperate2[0];
         Log.d("sp2", ticket1);
 
         String ticket3 = seperate2[1];
@@ -1380,7 +1341,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
         String[] seper = signature.split("=");
 
-        String ticke = seper[0];  //"/"
+        String ticke = seper[0];
         Log.d("sp3", ticke);
 
         String tick = seper[1];
@@ -1388,7 +1349,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
         String[] sepera = v6.split("=");
 
-        String str = sepera[0];  //"/"
+        String str = sepera[0];
         Log.d("str", str);
 
         String str1 = sepera[1];
@@ -1396,7 +1357,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
         String[] sucess = redirect_url.split("=");
 
-        String urlRIDERCT = sucess[0];  //"/"
+        String urlRIDERCT = sucess[0];
         Log.d("urlRIDERCT", urlRIDERCT);
 
         String redirect_url123 = sucess[1];
@@ -1447,14 +1408,12 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                     mProgressDialog.dismiss();
                 try {
                     if (response.isSuccessful()) {
-//                        SendVideotoSecApi();
                         submitlist.add(new UploadFilesModel(iframe,"VIDEO"));
                         setAdapter();
                         imagePathList.clear();
                         lnrImages.setVisibility(View.GONE);
                         lblvideo.setText("Upload Video");
                         btnadd.setEnabled(false);
-//                        submitlist.add(link);
 
                         if(submitlist.size()==0){
                             rcysubmissions.setVisibility(View.GONE);
@@ -1489,8 +1448,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     }
 
 //PDF
-
-
     private void showToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
@@ -1568,11 +1525,8 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
     private void submitquiz() {
        String child_id = Util_SharedPreference.getChildIdFromSP(this);
-        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
-
-
-            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+       String baseURL = TeacherUtil_SharedPreference.getBaseUrl(this);
+       TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -1595,9 +1549,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 jsonarray.add(jsonObjectlist);
             }
         jsonObject.add("Attachment", jsonarray);
-
-
-
         Log.d("jsonObject", jsonObject.toString());
 
         Call<JsonArray> call = apiService.SubmitResponseForSkill(jsonObject);
@@ -1614,7 +1565,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
                         try {
                             JSONArray  js = new JSONArray(response.body().toString());
-//                            JSONObject jsonObject = new JSONObject(response.body().toString());
 
                             if (js.length() > 0) {
                                 JSONObject jsonObject = js.getJSONObject(0);
@@ -1633,23 +1583,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             e.printStackTrace();
                         }
 
-
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response.body().toString());
-//                            int status = jsonObject.getInt("Status");
-//                            String message = jsonObject.getString("Message");
-//
-//                            if (status == 1) {
-//                                showAlert(message);
-//                            }
-//
-//                            else {
-//                                showAlert(getResources().getString(R.string.no_records));
-//                            }
-//
-//                        } catch (Exception e) {
-//                            Log.e("TextMsg:Exception", e.getMessage());
-//                        }
                     } else {
                         Toast.makeText(ParentSubmitLSRW.this, "Server Response Failed", Toast.LENGTH_SHORT).show();
                     }
@@ -1664,7 +1597,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                // showToast("Server Connection Failed");
                 Toast.makeText(ParentSubmitLSRW.this, "Server Connection Failed", Toast.LENGTH_SHORT).show();
 
             }
@@ -1674,8 +1606,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
     private void showAlert(String msg, final int strStatus) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        //Setting Dialog Title
         alertDialog.setTitle("Alert");
 
         alertDialog.setMessage(msg);
@@ -1695,10 +1625,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
             }
         });
-
-
         AlertDialog dialog = alertDialog.create();
-
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 

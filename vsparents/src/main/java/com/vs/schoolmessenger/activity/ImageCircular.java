@@ -36,10 +36,8 @@ import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.ImageCircularListAdapterNEW;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
-import com.vs.schoolmessenger.model.CircularDates;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
@@ -73,8 +71,6 @@ public class ImageCircular extends AppCompatActivity {
     String selDate;
     private int iRequestCode;
 
-    SqliteDB myDb;
-    ArrayList<MessageModel> arrayList;
 
     ImageView imgSearch;
     EditText Searchable;
@@ -213,38 +209,6 @@ public class ImageCircular extends AppCompatActivity {
 
     }
 
-    private void LoadoffLineData() {
-
-        previousDate=TeacherUtil_SharedPreference.getImageDate(ImageCircular.this);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String currentDate = df.format(c.getTime());
-        if (previousDate.equals("") || previousDate.compareTo(currentDate)<0)
-        {
-            LoadMorecircularsImageAPI();
-
-        }
-        else {
-            myDb = new SqliteDB(ImageCircular.this);
-            if (myDb.checkImages()) {
-                msgModelList.clear();
-                totalOfflineData.clear();
-                totalOfflineData.addAll(myDb.getImages(childID));
-
-                totalmsgModelList.addAll(totalOfflineData);
-
-                msgModelList.addAll(totalmsgModelList);
-                imgAdapter.notifyDataSetChanged();
-                LoadMore.setVisibility(View.GONE);
-
-            }
-            else {
-                showAlertRecords("No Records Found..");
-            }
-        }
-    }
-
-
-
     private void seeMoreButtonVisiblity() {
         if (isNewVersion.equals("1")) {
             LoadMore.setVisibility(View.VISIBLE);
@@ -304,7 +268,6 @@ public class ImageCircular extends AppCompatActivity {
 
                         if (strStatus.equals("1")) {
                             MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
                             OfflinemsgModelList.clear();
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
@@ -389,140 +352,14 @@ public class ImageCircular extends AppCompatActivity {
 
     }
 
-    private boolean isNetworkConnected() {
 
-        ConnectivityManager connMgr = (ConnectivityManager) ImageCircular.this
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        return connMgr.getActiveNetworkInfo() != null;
-    }
 
     private void showToast(String msg) {
         Toast.makeText(ImageCircular.this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void prepareData() {
-        for (int i = 0; i < android_image_urls.length; i++) {
-            MessageModel model = new MessageModel();
-            model.setMsgID(String.valueOf(i));
-            long unixTime = System.currentTimeMillis() / 1000L;
-            model.setMsgTitle(String.valueOf(unixTime));
-            model.setMsgContent(android_image_urls[i]);
-            model.setMsgDate("10 May 2017");
-            model.setMsgTime("11:30 AM");
-            model.setMsgReadStatus(android_image_status[i]);
-            msgModelList.add(model);
-        }
 
-        imgAdapter.notifyDataSetChanged();
-    }
 
-    private void circularsForGivenDateAPI2() {
-        try {
-            JSONArray js = new JSONArray("[{\"ID\":\"168173\",\"URL\":\"http://vs3.voicesnapforschools.com/files//22-01-2018/2010/File_20180122180022795.png\",\"Date\":\"22-01-2018\",\"Time\":\"18:00:23\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"1\",\"Query\":null,\"Question\":null},{\"ID\":\"167349\",\"URL\":\"http://vs3.voicesnapforschools.com/files//22-01-2018/2010/File_20180122144128692.png\",\"Date\":\"22-01-2018\",\"Time\":\"14:41:29\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"1\",\"Query\":null,\"Question\":null}]");
-            if (js.length() > 0) {
-                JSONObject jsonObject = js.getJSONObject(0);
-                String strDate = jsonObject.getString("ID");
-                String strTotalSMS = jsonObject.getString("URL");
-
-                if (!strDate.equals("")) {
-                    MessageModel msgModel;
-                    Log.d("json length", js.length() + "");
-
-                    imgAdapter.clearAllData();
-
-                    for (int i = 0; i < js.length(); i++) {
-                        jsonObject = js.getJSONObject(i);
-                        msgModel = new MessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
-                                jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"),false);
-                        msgModelList.add(msgModel);
-                    }
-
-                    imgAdapter.notifyDataSetChanged();
-
-                } else {
-                    showToast(strTotalSMS);
-                }
-            } else {
-                showToast("Server Response Failed. Try again");
-            }
-
-        } catch (Exception e) {
-            Log.e("TextMsg:Exception", e.getMessage());
-        }
-    }
-
-    private void circularsForGivenDateAPI() {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-        String strChildID = Util_SharedPreference.getChildIdFromSP(ImageCircular.this);
-        String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(ImageCircular.this);
-
-        Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonArray jsonReqArray = Util_JsonRequest.getJsonArray_GetFiles(selDate, strChildID, strSchoolID, MSG_TYPE_IMAGE);
-        Call<JsonArray> call = apiService.GetFiles(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("TextMsg:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        String strDate = jsonObject.getString("ID");
-                        String strTotalSMS = jsonObject.getString("URL");
-
-                        if (!strDate.equals("")) {
-                            MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
-
-                            imgAdapter.clearAllData();
-
-                            for (int i = 0; i < js.length(); i++) {
-                                jsonObject = js.getJSONObject(i);
-                                msgModel = new MessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
-                                        jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"),false);
-                                msgModelList.add(msgModel);
-                            }
-
-                            imgAdapter.notifyDataSetChanged();
-
-                        } else {
-                            showToast(strTotalSMS);
-                        }
-                    } else {
-                        showToast("Server Response Failed. Try again");
-                    }
-
-                } catch (Exception e) {
-                    Log.e("TextMsg:Exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast("Check your Internet connectivity");
-                Log.d("TextMsg:Failure", t.toString());
-            }
-        });
-    }
 
     private void circularsImageAPI() {
 
@@ -686,7 +523,6 @@ public class ImageCircular extends AppCompatActivity {
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.v("SDCard_Permission", "Permission: " + permissions[0] + "was " + grantResults[0]);
-                    //resume tasks needing this permission
                     circularsImageAPI();
                 }
                 return;

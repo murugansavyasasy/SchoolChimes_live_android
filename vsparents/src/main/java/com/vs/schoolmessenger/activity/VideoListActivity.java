@@ -29,22 +29,16 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.VideosAdapter;
-import com.vs.schoolmessenger.assignment.AssignmentViewClass;
-import com.vs.schoolmessenger.assignment.ParentAssignmentListActivity;
-import com.vs.schoolmessenger.assignment.VideoUpload;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.VideoModelClass;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -62,14 +56,11 @@ public class VideoListActivity extends AppCompatActivity {
     public ArrayList<VideoModelClass> OfflinevideoList = new ArrayList<>();
 
     VideosAdapter imgAdapter;
-    String videoId;
     TextView lblNoMessages;
     String isNewVersion;
     TextView LoadMore;
 
     Calendar c;
-    String previousDate;
-    SqliteDB myDb;
 
     ImageView imgSearch;
     EditText Searchable;
@@ -273,7 +264,6 @@ public class VideoListActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
-                Log.e("Response Failure", t.getMessage());
                 showToast("Server Connection Failed");
             }
 
@@ -401,8 +391,6 @@ public class VideoListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-
-                Log.e("Response Failure", t.getMessage());
                 showToast("Server Connection Failed");
             }
 

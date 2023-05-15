@@ -40,8 +40,6 @@ import retrofit2.Response;
 public class StaffListActivity extends AppCompatActivity {
     ActivityStaffListBinding binding;
     StaffListChat staffList;
-
-
     StaffChatListAdapter adapter;
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -130,7 +128,6 @@ public class StaffListActivity extends AppCompatActivity {
         mProgressDialog.show();
         String childID= Util_SharedPreference.getChildIdFromSP(StaffListActivity.this);
         String schoolid= Util_SharedPreference.getSchoolIdFromSP(StaffListActivity.this);
-        Log.d("parentschlid",schoolid);
           String Code= TeacherUtil_SharedPreference.getShCountryCode(StaffListActivity.this);
           String mobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(StaffListActivity.this);
         final JsonObject jsonObject=new JsonObject();
@@ -191,7 +188,6 @@ public class StaffListActivity extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("TextMsg:Failure", t.toString());
             }
         });
     }

@@ -154,7 +154,6 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         Log.d("OTp timer",otp_Timer);
 
         otpHandler(otp_Timer);
-        Log.d("OTp timer",otp_Timer);
 
         btnBackToLogin = (TextView) findViewById(R.id.btnBackToLogin);
 
@@ -231,9 +230,7 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        if (mSmsBroadcastReceiver != null) {
-//            unregisterReceiver(mSmsBroadcastReceiver);
-//        }
+
     }
 
 

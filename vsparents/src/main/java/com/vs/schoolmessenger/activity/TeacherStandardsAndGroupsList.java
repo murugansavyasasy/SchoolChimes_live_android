@@ -82,20 +82,15 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
     String fileNameDateTime;
 
-    AmazonS3 s3Client;
-    TransferUtility transferUtility;
     S3Uploader s3uploaderObj;
 
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType="";
 
-    String flag="";
     String uploadFilePath="";
-    String SuccessFilePath="";
     int pathIndex=0;
 
-    String[] UploadedURLStringArray;
     private  ArrayList<String> UploadedS3URlList = new ArrayList<>();
     TextView lblStandard;
 
@@ -188,86 +183,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
         }
     }
 
-    private void groupListAPI() {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
-
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-        JsonObject jsonReqArray = constructJsonArrayMgtSchoolStd();
-        Call<JsonArray> call = apiService.GetSchoolStrengthBySchoolID(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("StudentsList:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        Log.d("json length", js.length() + "");
-                        for (int i = 0; i < js.length(); i++) {
-                            JSONArray jSONArray = jsonObject.getJSONArray("Groups");
-                            TeacherClassGroupModel classgrp;
-                            cbListGroups = new CheckBox[jSONArray.length()];
-                            for (int j = 0; j < jSONArray.length(); j++) {
-                                JSONObject jsonObjectgroups = jSONArray.getJSONObject(j);
-                                classgrp = new TeacherClassGroupModel(jsonObjectgroups.getString("GroupName"), jsonObjectgroups.getString("GroupId"), false);
-                                listGroups.add(classgrp);
-                                Log.d("Exception1", "except1");
-                                LayoutInflater inflater = getLayoutInflater();
-                                View addView1 = inflater.inflate(R.layout.teacher_section_list, null, false);
-                                Log.d("Exception2", "except2");
-                                gridlayoutgroups.addView(addView1);
-                                cbListGroups[j] = (CheckBox) addView1.findViewById(R.id.ch_section);
-                                cbListGroups[j].setText(listGroups.get(j).getStrName());
-                                final int finalI = j;
-                                Log.d("Exception3", "except3");
-                                cbListGroups[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        listGroups.get(finalI).setbSelected(isChecked);
-
-                                        if (isChecked)
-                                            iSelStdGrpCount++;
-                                        else iSelStdGrpCount--;
-                                    }
-                                });
-                            }
-
-                            }
-
-                        cbToAll.setChecked(true);
-
-                    } else {
-                        showToast(getResources().getString(R.string.no_records));
-                    }
-
-                } catch (Exception e) {
-                    Log.e("GroupList:Excep", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("GroupList:Failure", t.toString());
-            }
-        });
-    }
 
 
     private void standardsListAPI() {
@@ -287,7 +202,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -309,7 +223,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
-                        Log.d("json length", js.length() + "");
                         for (int i = 0; i < js.length(); i++) {
                             JSONArray jSONArray = jsonObject.getJSONArray("Standards");
                             TeacherClassGroupModel classstd;
@@ -323,15 +236,12 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                                 if(!StandardID.equals("0")) {
                                     classstd = new TeacherClassGroupModel(jsonObjectgroups.getString("StandardName"), jsonObjectgroups.getString("StandardID"), false);
                                     listClasses.add(classstd);
-                                    Log.d("Exception1", "except1std");
                                     LayoutInflater inflater = getLayoutInflater();
                                     View addView1 = inflater.inflate(R.layout.teacher_section_list, null, false);
-                                    Log.d("Exception2", "except2std");
                                     gridlayoutSection.addView(addView1);
                                     cbListStd[j] = (CheckBox) addView1.findViewById(R.id.ch_section);
                                     cbListStd[j].setText(listClasses.get(j).getStrName());
                                     final int finalI = j;
-                                    Log.d("Exception3", "except3std");
                                     cbListStd[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -360,16 +270,12 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                                 if(!GroupID.equals("0")) {
                                     classgrp = new TeacherClassGroupModel(jsonObjectgroups.getString("GroupName"), jsonObjectgroups.getString("GroupID"), false);
                                     listGroups.add(classgrp);
-                                    Log.d("Exception1", "except1");
                                     LayoutInflater inflater = getLayoutInflater();
-                                    // inflate the header description layout and add it to the linear layout:
                                     View addView1 = inflater.inflate(R.layout.teacher_section_list, null, false);
-                                    Log.d("Exception2", "except2");
                                     gridlayoutgroups.addView(addView1);
                                     cbListGroups[j] = (CheckBox) addView1.findViewById(R.id.ch_section);
                                     cbListGroups[j].setText(listGroups.get(j).getStrName());
                                     final int finalI = j;
-                                    Log.d("Exception3", "except3");
                                     cbListGroups[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -413,7 +319,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("GroupList:Failure", t.toString());
             }
         });
     }
@@ -515,7 +420,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
             case PRINCIPAL_PHOTOS:
                 if (cbToAll.isChecked()) {
                     if(!strfilepathPDF.equals("")){
-                        //sendPDFCircularApiEntireSchool();s
                         contentType="application/pdf";
                         slectedImagePath.clear();
                         slectedImagePath.add(strfilepathPDF);
@@ -524,7 +428,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                         }
                     else {
                         slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
-                        //SendImageCircularAPIentireschool();s
                         contentType="image/png";
                         UploadedS3URlList.clear();
                         uploadFileToAWSs3(pathIndex,"IMG");
@@ -535,7 +438,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                     if(iSelStdGrpCount>0) {
 
                         if (!strfilepathPDF.equals("")) {
-                            //sendPDFCircularApistdGrp();d
 
                             contentType="application/pdf";
                             slectedImagePath.clear();
@@ -543,7 +445,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                             UploadedS3URlList.clear();
                             uploadFileToAWSs3(pathIndex,".pdf");
                         } else {
-                           // SendImageCircularAPIstdgrp();d
                             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
                             contentType="image/png";
                             UploadedS3URlList.clear();
@@ -605,20 +506,11 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
             }
 
         }
-
-
-        else {
-            // Toast.makeText(this, "Null Path", Toast.LENGTH_SHORT).show();
-        }
-
-
-
     }
 
     private void SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(String fileType) {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         JsonObject jsonReqArray = SendGroupAndStandardJson(fileType);
@@ -663,7 +555,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 hideLoading();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -694,7 +585,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -704,12 +594,10 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("Stdcode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
 
@@ -749,170 +637,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
         }
     }
 
-    private void sendPDFCircularApistdGrp() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-        File file = new File(strfilepathPDF);
-        Log.d("FILE_Path", strfilepathPDF);
-
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), file);
-
-        MultipartBody.Part bodyFile =
-                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-
-
-
-
-//        // add another part within the multipart request
-        JsonObject jsonReqArray =   constructResultJsonArray("0",".pdf");
-        RequestBody requestBody =
-                RequestBody.create(
-                        MultipartBody.FORM, jsonReqArray.toString());
-        final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
-        Call<JsonArray> call = apiService.SendImageToGroupsAndStandards(requestBody, bodyFile);
-
-
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
-
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
-
-
-                            if ((strStatus.toLowerCase()).equals("1")) {
-
-                                showAlert(strMsg);
-                            } else {
-                                showAlert(strMsg);
-                            }
-                        } else {
-                            showToast(getResources().getString(R.string.no_records));
-                        }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
-                showToast(t.toString());
-            }
-        });
-    }
-
-    private void sendPDFCircularApiEntireSchool() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-
-        File file = new File(strfilepathPDF);
-        Log.d("FILE_Path", strfilepathPDF);
-
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), file);
-
-        MultipartBody.Part bodyFile =
-                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-
-        JsonObject jsonReqArray = constructResultJsonArrayentireschool("0",".pdf");
-        RequestBody requestBody =
-                RequestBody.create(
-                        MultipartBody.FORM, jsonReqArray.toString());
-        final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
-        Call<JsonArray> call = apiService.SendImageToGroupsAndStandards(requestBody, bodyFile);
-
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
-
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
-
-
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg);
-
-                            } else {
-                                showAlert(strMsg);
-                            }
-                        } else {
-                            showToast(getResources().getString(R.string.no_records));
-                        }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
-                showToast(t.toString());
-            }
-        });
-    }
 
 
     private JsonObject constructJsonArrayMgtSchoolStd() {
@@ -920,8 +645,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
         try {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
 
-            Log.d("req",jsonObjectSchool.toString());
-            Log.d("schoolid", SchoolID);
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }
@@ -933,7 +656,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         File file = new File(filepath);
@@ -945,7 +667,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
         MultipartBody.Part bodyFile =
                 MultipartBody.Part.createFormData("voice", file.getName(), requestFile);
 
-//        // add another part within the multipart request
         JsonObject jsonReqArray = constructJsonArraySchoolsvoiceprincipal();
         RequestBody requestBody =
                 RequestBody.create(
@@ -990,7 +711,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
                     } catch (Exception e) {
                         showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
                     }
                 }
             }
@@ -1000,7 +720,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -1022,7 +741,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -1032,12 +750,9 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
-
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -1054,7 +769,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         File file = new File(filepath);
@@ -1121,7 +835,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -1197,7 +910,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -1207,12 +919,10 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -1228,7 +938,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
@@ -1272,7 +981,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
                     } catch (Exception e) {
                         showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
                     }
                 }
             }
@@ -1282,7 +990,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -1304,7 +1011,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -1314,12 +1020,10 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -1335,9 +1039,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-//        // add another part within the multipart request
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
         mProgressDialog.setIndeterminate(true);
@@ -1389,7 +1091,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -1411,7 +1112,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -1421,12 +1121,10 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -1443,7 +1141,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
@@ -1496,7 +1193,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -1520,7 +1216,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -1530,12 +1225,10 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -1551,7 +1244,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
@@ -1606,7 +1298,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -1630,7 +1321,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -1640,12 +1330,10 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -1658,92 +1346,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
     }
 
 
-    private void SendImageCircularAPIstdgrp() {
-
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-
-        slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
-        Log.d("pathList_size", String.valueOf(slectedImagePath.size()));
-
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-
-
-
-        MultipartBody.Part[] surveyImagesParts = new MultipartBody.Part[slectedImagePath.size()];
-        for (int index = 0; index < slectedImagePath.size(); index++) {
-
-            //  Log.d(TAG, "requestUploadSurvey: survey image " + index + "  " + surveyModel.getPicturesList().get(index).getImagePath());
-            File file = new File(slectedImagePath.get(index));
-            RequestBody surveyBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            surveyImagesParts[index] = MultipartBody.Part.createFormData("image", file.getName(), surveyBody);
-        }
-
-
-        JsonObject jsonReqArray =   constructResultJsonArray("1","IMG");
-        RequestBody requestBody =
-                RequestBody.create(
-                        MultipartBody.FORM, jsonReqArray.toString());
-        final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
-        Call<JsonArray> call = apiService.sendMultipleImagesToGroupAndStand(requestBody, surveyImagesParts);
-
-
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
-
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
-
-
-                            if ((strStatus.toLowerCase()).equals("1")) {
-
-                                showAlert(strMsg);
-                            } else {
-                                showAlert(strMsg);
-                            }
-                        } else {
-                            showToast(getResources().getString(R.string.no_records));
-                        }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
-                showToast(t.toString());
-            }
-        });
-    }
 
 
     private JsonObject constructResultJsonArray(String multiple,String filetype) {
@@ -1763,7 +1365,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -1773,12 +1374,10 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -1791,91 +1390,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
     }
 
 
-    private void SendImageCircularAPIentireschool() {
-
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-
-        slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
-
-        Log.d("pathList_size", String.valueOf(slectedImagePath.size()));
-
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-
-        MultipartBody.Part[] surveyImagesParts = new MultipartBody.Part[slectedImagePath.size()];
-        for (int index = 0; index < slectedImagePath.size(); index++) {
-
-
-            File file = new File(slectedImagePath.get(index));
-            RequestBody surveyBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            surveyImagesParts[index] = MultipartBody.Part.createFormData("image", file.getName(), surveyBody);
-        }
-
-
-
-        JsonObject jsonReqArray = constructResultJsonArrayentireschool("1","IMG");
-        RequestBody requestBody =
-                RequestBody.create(
-                        MultipartBody.FORM, jsonReqArray.toString());
-        final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
-        Call<JsonArray> call = apiService.sendMultipleImagesToGroupAndStand(requestBody, surveyImagesParts);
-
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
-
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
-
-
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg);
-
-                            } else {
-                                showAlert(strMsg);
-                            }
-                        } else {
-                            showToast(getResources().getString(R.string.no_records));
-                        }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
-                showToast(t.toString());
-            }
-        });
-    }
 
 
     private JsonObject constructResultJsonArrayentireschool(String multiple,String filetype) {
@@ -1895,7 +1409,6 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -1905,12 +1418,10 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());

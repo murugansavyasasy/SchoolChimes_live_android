@@ -431,6 +431,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                                 isPrincipalMenuNames.add(itemtemp);
                             }
 
+                          //  isPrincipalMenuNames.add("Lesson Plan_30");
 
                             String alert_message = jsonObject.getString("alert_message");
                             if(!alert_message.equals("")){

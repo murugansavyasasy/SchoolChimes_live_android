@@ -38,12 +38,12 @@ import retrofit2.Callback;
 
 public class ViewQuizResult extends AppCompatActivity {
     String quiz_id, child_id;
-    TextView lblrightanswer,lblwronganswer,lblnotanswer;
+    TextView lblrightanswer, lblwronganswer, lblnotanswer;
     RecyclerView rcyquestions;
-//    QuizSubmissions quizSubmissions;
 
     QuizSubmissionResultAdapter mAdapter;
     private ArrayList<QuizSubmissions> msgModelList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,18 +61,18 @@ public class ViewQuizResult extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        lblrightanswer=findViewById(R.id.lblrightanswer);
-        lblwronganswer=findViewById(R.id.lblwronganswer);
-        lblnotanswer=findViewById(R.id.lblnotanswer);
-        rcyquestions=findViewById(R.id.rcyquestions);
+        lblrightanswer = findViewById(R.id.lblrightanswer);
+        lblwronganswer = findViewById(R.id.lblwronganswer);
+        lblnotanswer = findViewById(R.id.lblnotanswer);
+        rcyquestions = findViewById(R.id.rcyquestions);
 
-        mAdapter = new QuizSubmissionResultAdapter(msgModelList, this,"1");
+        mAdapter = new QuizSubmissionResultAdapter(msgModelList, this, "1");
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rcyquestions.setLayoutManager(mLayoutManager);
         rcyquestions.setItemAnimator(new DefaultItemAnimator());
         rcyquestions.setAdapter(mAdapter);
         rcyquestions.getRecycledViewPool().setMaxRecycledViews(0, 80);
-        quiz_id = String.valueOf(getIntent().getIntExtra("id",0));
+        quiz_id = String.valueOf(getIntent().getIntExtra("id", 0));
         quizresultapi();
     }
 
@@ -85,13 +85,12 @@ public class ViewQuizResult extends AppCompatActivity {
     private void quizresultapi() {
         child_id = Util_SharedPreference.getChildIdFromSP(this);
 
-        String isNewVersionn= TeacherUtil_SharedPreference.getNewVersion(this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -102,7 +101,6 @@ public class ViewQuizResult extends AppCompatActivity {
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("StudentID", child_id);
-//        jsonObject.addProperty("QuizId", Integer.parseInt(quiz_id));
         jsonObject.addProperty("QuizId", quiz_id);
 
 
@@ -118,51 +116,44 @@ public class ViewQuizResult extends AppCompatActivity {
                     Log.d("login:code-res", response.code() + " - " + response.toString());
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
-//                        msgModelList.clear();
                         try {
                             JSONObject jsonObject = new JSONObject(response.body().toString());
                             int status = jsonObject.getInt("status");
                             String message = jsonObject.getString("message");
 
-                            if (status==1) {
+                            if (status == 1) {
 
                                 JSONObject data = new JSONObject(jsonObject.getString("data"));
 
-                                    QuizSubmissions msgModel;
-                                    Log.d("json length", data.length() + "");
+                                QuizSubmissions msgModel;
 
-//                                    for (int i = 0; i < data.length(); i++) {
+                                lblrightanswer.setText(data.getString("rightAnswer"));
+                                lblwronganswer.setText(data.getString("wrongAnswer"));
+                                lblnotanswer.setText(data.getString("unAnswer"));
 
-                                        lblrightanswer.setText(data.getString("rightAnswer"));
-                                        lblwronganswer.setText(data.getString("wrongAnswer"));
-                                        lblnotanswer.setText(data.getString("unAnswer"));
 
-//                                    }
-                                    JSONArray quiz = data.getJSONArray("quizArray");
-                                    for (int i = 0; i < quiz.length(); i++) {
-                                        jsonObject = quiz.getJSONObject(i);
-                                        msgModel = new QuizSubmissions(jsonObject.getInt("id"),
-                                                jsonObject.getInt("quizId"),
-                                                jsonObject.getString("question"),
-                                                jsonObject.getString("aOption"),
-                                                jsonObject.getString("bOption"),
-                                                jsonObject.getString("cOption"),
-                                                jsonObject.getString("dOption"),
-                                                jsonObject.getString("mark"),
-                                                jsonObject.getString("answer"),
-                                                jsonObject.getString("studentAnswer"),
-                                                jsonObject.getString("correctAnswer")
-                                        );
-                                        msgModelList.add(msgModel);
-                                    }
+                                JSONArray quiz = data.getJSONArray("quizArray");
+                                for (int i = 0; i < quiz.length(); i++) {
+                                    jsonObject = quiz.getJSONObject(i);
+                                    msgModel = new QuizSubmissions(jsonObject.getInt("id"),
+                                            jsonObject.getInt("quizId"),
+                                            jsonObject.getString("question"),
+                                            jsonObject.getString("aOption"),
+                                            jsonObject.getString("bOption"),
+                                            jsonObject.getString("cOption"),
+                                            jsonObject.getString("dOption"),
+                                            jsonObject.getString("mark"),
+                                            jsonObject.getString("answer"),
+                                            jsonObject.getString("studentAnswer"),
+                                            jsonObject.getString("correctAnswer")
+                                    );
+                                    msgModelList.add(msgModel);
+                                }
 
-                                    mAdapter.notifyDataSetChanged();
-
+                                mAdapter.notifyDataSetChanged();
 
 
                             } else {
-//                                recycle_paidlist.setAdapter(mAdapter);
-//                                mAdapter.notifyDataSetChanged();
                                 showAlert(message);
 
                             }
@@ -184,7 +175,6 @@ public class ViewQuizResult extends AppCompatActivity {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                // showToast("Server Connection Failed");
                 Toast.makeText(ViewQuizResult.this, "Server Connection Failed", Toast.LENGTH_SHORT).show();
 
             }
@@ -193,8 +183,6 @@ public class ViewQuizResult extends AppCompatActivity {
 
     private void showAlert(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        //Setting Dialog Title
         alertDialog.setTitle("Alert");
 
         alertDialog.setMessage(msg);
@@ -217,25 +205,5 @@ public class ViewQuizResult extends AppCompatActivity {
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
-    private void showRecordsFound(String name) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        //Setting Dialog Title
-        alertDialog.setTitle("Alert");
-
-        alertDialog.setMessage(name);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                dialog.dismiss();
-
-
-
-            }
-        });
-
-        alertDialog.show();
-    }
 
 }

@@ -51,7 +51,6 @@ import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
@@ -77,7 +76,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     String strChildName, child_ID;
     public static Profiles childItem = new Profiles();
     TextView tv_schoolname, tvSchoolAddress;
-    SqliteDB myDb;
     ImageView aHome_nivSchoolLogo;
     RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
@@ -311,6 +309,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             for (String itemtemp : name) {
                                 isParentMenuNames.add(itemtemp);
                             }
+
+                           // isParentMenuNames.add("Certificate Requests_25");
 
                             contact_alert_title = jsonObject.getString("contact_alert_title");
                             contact_alert_Content = jsonObject.getString("contact_alert_content");
@@ -854,14 +854,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         ChildMenuAdapter myAdapter = new ChildMenuAdapter(HomeActivity.this, R.layout.child_menu_item, menuList, BookLink,rytParent);
                         idGridMenus.setAdapter(myAdapter);
 
-                        myDb = new SqliteDB(HomeActivity.this);
-                        if (myDb.checkCountDetails(child_ID)) {
-                            myDb.updateCountDetails(emgvoicecount, voicemsgcount, textmessagecount, photoscount,
-                                    documentcount, noticeboard, examtest, schoolevent, homework, child_ID);
-                        } else {
-                            myDb.addCountDetails(emgvoicecount, voicemsgcount, textmessagecount, photoscount,
-                                    documentcount, noticeboard, examtest, schoolevent, homework, child_ID);
-                        }
+
 
                     } else {
                         showToast(getResources().getString(R.string.no_records));

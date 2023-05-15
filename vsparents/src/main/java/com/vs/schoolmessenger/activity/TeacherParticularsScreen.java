@@ -57,9 +57,7 @@ public class TeacherParticularsScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_particulars_screen);
 
-//        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        }
+
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         Log.d("Reqcode", String.valueOf(iRequestCode));
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -75,7 +73,6 @@ public class TeacherParticularsScreen extends AppCompatActivity {
         tv_staffcount = (TextView) findViewById(R.id.parti_tv2);
         tv_studentcount = (TextView) findViewById(R.id.parti_tv4);
 
-//        if(iRequestCode == PRINCIPAL_SCHOOLSTRENGTH && (listschooldetails.size()).)
 
         if((TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherParticularsScreen.this).equals(LOGIN_TYPE_PRINCIPAL))&&(listschooldetails.size()==1)){
             SchoolID= TeacherUtil_Common.Principal_SchoolId ;
@@ -85,14 +82,11 @@ public class TeacherParticularsScreen extends AppCompatActivity {
             SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
             TeacherUtil_Common.Principal_SchoolId = SchoolID;
             StaffID = getIntent().getExtras().getString("STAFF_ID", "");
-//        TeacherUtil_Common.Principal_StaffId = StaffID;
             Log.d("SchoolID", SchoolID + " " + StaffID);
 
         }
 
-//        tempListItems();
-//        createGroupList();
-//        createCollection();
+
 
         ParticularsListAPI();
     }
@@ -107,41 +101,18 @@ public class TeacherParticularsScreen extends AppCompatActivity {
             }
         }
     }
-    private void tempListItems() {
-        listGropus.add(new TeacherABS_Section("A", "50"));
-        listGropus.add(new TeacherABS_Section("B", "52"));
-        listGropus.add(new TeacherABS_Section("C", "49"));
-        listGropus.add(new TeacherABS_Section("D", "55"));
-    }
 
-//    private void createGroupList() {
-//        for (int i = 0; i < 5; i++) {
-//            listHeaderParent.add(new TeacherABS_Standard("" + (i + 1), (i + 200) + ""));
-//        }
-//    }
+
 
     private void backToResultActvity(String msg) {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("MESSAGE", msg);
-//        returnIntent.putExtra("STD_SEC", stdSec);
         setResult(iRequestCode, returnIntent);
         finish();
     }
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-//        finish();
         backToResultActvity("BACK");
-    }
-    private void createCollection() {
-        mapStandardsAndGroups = new LinkedHashMap<>();
-        listClassGroupsCollection = new ArrayList<>();
-        for (TeacherABS_Standard groupclass : listHeaderParent) {
-//            if (groupclass.equals(LIST_STANDARDS))
-            loadSubList(listGropus);
-
-            mapStandardsAndGroups.put(groupclass, listClassGroupsCollection);
-        }
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -156,7 +127,6 @@ public class TeacherParticularsScreen extends AppCompatActivity {
     private void loadSubList(ArrayList<TeacherABS_Section> laptopModels) {
 
         for (TeacherABS_Section model : laptopModels) {
-            Log.e("SECTION", model.getSection());
             listClassGroupsCollection.add(model);
         }
     }
@@ -181,7 +151,6 @@ public class TeacherParticularsScreen extends AppCompatActivity {
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -196,7 +165,6 @@ public class TeacherParticularsScreen extends AppCompatActivity {
 
                 Log.d("StudentsList:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
-                    Log.d("StudentsList:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
@@ -207,11 +175,6 @@ public class TeacherParticularsScreen extends AppCompatActivity {
                         tv_staffcount.setText(totstaffstrength);
                         tv_studentcount.setText(totstudstrength);
 
-                        Log.d("json length", js.length() + "");
-//                        for (int i = 0; i < js.length(); i++)
-//                        {
-//                            mapStandardsAndGroups = new LinkedHashMap<>();
-//                            listClassGroupsCollection = new ArrayList<>();
                             JSONArray jSONArray = jsonObject.getJSONArray("Standards");
 
                             for (int j = 0; j < jSONArray.length(); j++)
@@ -220,12 +183,7 @@ public class TeacherParticularsScreen extends AppCompatActivity {
                                 TeacherABS_Standard abs_standard;
 
                                 abs_standard = new TeacherABS_Standard(jsonObjectgroups.getString("StdName"), jsonObjectgroups.getString("TotalStudents"));
-                                Log.d("STD&SEC", jsonObjectgroups.getString("StdName") + jsonObjectgroups.getString("TotalStudents"));
-//                                listHeaderParent.add(abs_standard);
-//                                Log.d("Size", String.valueOf(listHeaderParent.size()));
-//                                Log.d("tttt", jsonObjectgroups.toString());
                                 JSONArray jSONArraysection = jsonObjectgroups.getJSONArray("Sections");
-//                                Log.d("jSONArraysection",jsonObjectgroups.getJSONArray("Sections")+"");
 
                                 if (jSONArraysection.length() > 0) {
                                     listGropus = new ArrayList<>();
@@ -251,7 +209,6 @@ public class TeacherParticularsScreen extends AppCompatActivity {
                                         listGropus.add(abs_section);
                                     }
                                     abs_standard.setSections(listGropus);
-                                    Log.d("Sections","No Sections assigned");
                                     listHeaderParent.add(abs_standard);
                                 }
 
@@ -260,7 +217,6 @@ public class TeacherParticularsScreen extends AppCompatActivity {
 
 
                             mapStandardsAndGroups = new LinkedHashMap<>();
-//                            listClassGroupsCollection = new ArrayList<>();
                             for (TeacherABS_Standard groupclass : listHeaderParent) {
                                 listClassGroupsCollection = new ArrayList<>();
                                 loadSubList(groupclass.getSections());
@@ -284,10 +240,7 @@ public class TeacherParticularsScreen extends AppCompatActivity {
                             }
                         });
 
-
-
-                            expListView.setAdapter(absenteesExpandableListAdapter);
-//                        }
+                        expListView.setAdapter(absenteesExpandableListAdapter);
 
                     } else {
                         showToast(getResources().getString(R.string.no_records));
@@ -303,7 +256,6 @@ public class TeacherParticularsScreen extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("SubjectHandling:Failure", t.toString());
             }
         });
     }
@@ -313,7 +265,6 @@ public class TeacherParticularsScreen extends AppCompatActivity {
         JsonObject jsonObjectSchool = new JsonObject();
         try {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
-            Log.d("schoolid", SchoolID);
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }

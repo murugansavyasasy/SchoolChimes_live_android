@@ -22,8 +22,6 @@ public class TextBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.textbook_web);
 
-
-
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
 
@@ -36,9 +34,6 @@ public class TextBookActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-
-
 
         Bundle extras = getIntent().getExtras();
         String url = extras.getString("url");
@@ -60,8 +55,6 @@ public class TextBookActivity extends AppCompatActivity {
                     }
             }
         });
-
-        // webView.setWebViewClient(new WebViewClient());
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);

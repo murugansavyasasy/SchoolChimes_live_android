@@ -169,7 +169,6 @@ public class ToStaffGroupList extends AppCompatActivity {
             String baseURL= TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -190,7 +189,6 @@ public class ToStaffGroupList extends AppCompatActivity {
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
                         TeacherClassGroupModel classgrp;
                         cbListGroups = new CheckBox[js.length()];
                             for (int j = 0; j < js.length(); j++) {
@@ -217,14 +215,12 @@ public class ToStaffGroupList extends AppCompatActivity {
                                     });
                                 } else {
                                     showErrorAlert(GroupName);
-                                    //showToast(GroupName);
                                 }
                             }
 
 
                     } else {
                         showErrorAlert(getResources().getString(R.string.no_records));
-                        // showToast(getResources().getString(R.string.no_records));
                     }
 
                 } catch (Exception e) {
@@ -237,7 +233,6 @@ public class ToStaffGroupList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("GroupList:Failure", t.toString());
             }
         });
     }
@@ -332,8 +327,6 @@ public class ToStaffGroupList extends AppCompatActivity {
 
     private void VimeoAPi() {
 
-        Log.d("StrVideoSize",strsize);
-        Log.d("Videofilepath",filepath);
 
         OkHttpClient client1;
         client1 = new OkHttpClient.Builder()
@@ -763,7 +756,6 @@ public class ToStaffGroupList extends AppCompatActivity {
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ToStaffGroupList.this);
@@ -815,7 +807,6 @@ public class ToStaffGroupList extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -835,11 +826,9 @@ public class ToStaffGroupList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
 
@@ -868,8 +857,6 @@ public class ToStaffGroupList extends AppCompatActivity {
                 } else {
                     dialog.cancel();
                 }
-
-
             }
         });
 
@@ -878,7 +865,6 @@ public class ToStaffGroupList extends AppCompatActivity {
         dialog.show();
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
-
     }
 
     private void showErrorAlert(String strMsg) {
@@ -994,12 +980,10 @@ public class ToStaffGroupList extends AppCompatActivity {
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
 
 

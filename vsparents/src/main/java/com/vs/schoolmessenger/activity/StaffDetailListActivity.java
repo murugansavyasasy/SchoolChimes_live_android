@@ -38,8 +38,6 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 
 public class StaffDetailListActivity extends AppCompatActivity {
     ActivityStaffDetailListBinding binding;
-
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));

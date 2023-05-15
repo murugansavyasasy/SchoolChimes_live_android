@@ -40,10 +40,6 @@ import retrofit2.Callback;
 
 public class StaffLibraryDetails extends AppCompatActivity {
 
-
-    TextView lblBookID, lblBookName, lblIssuedDate, lblDueDate;
-
-
     String Staff_ID;
     TeacherSchoolsModel schoolmodel;
 
@@ -62,11 +58,7 @@ public class StaffLibraryDetails extends AppCompatActivity {
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.staff_library_details);
 
-
-
         library_student_list = (RecyclerView) findViewById(R.id.library_student_list);
-
-
         schoolmodel = (TeacherSchoolsModel) getIntent().getSerializableExtra("TeacherSchoolsModel");
         Staff_ID = schoolmodel.getStrStaffID();
 
@@ -165,7 +157,6 @@ public class StaffLibraryDetails extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 Log.e("Response Failure", t.getMessage());
-                // showToast("Server Connection Failed");
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
 
             }
@@ -174,11 +165,8 @@ public class StaffLibraryDetails extends AppCompatActivity {
 
     private void showRecordsFound(String no_records_found) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(StaffLibraryDetails.this);
-
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(no_records_found);
-
-
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

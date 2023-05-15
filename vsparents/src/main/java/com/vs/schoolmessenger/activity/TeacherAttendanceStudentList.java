@@ -130,7 +130,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         targetCode = selSection.getStdSecCode();
         s3uploaderObj = new S3Uploader(TeacherAttendanceStudentList.this);
-        Log.d("Tot - Sele", selSection.getTotStudents() + " - " + selSection.getSelectedStudentsCount());
         rvStudentList = (RecyclerView) findViewById(R.id.attenStudent_rvStudentList);
         adapter = new TeacherStudendListAdapter(TeacherAttendanceStudentList.this, this, studentList,iRequestCode);
 
@@ -415,7 +414,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         }
 
         if(UploadedS3URlList.size()<slectedImagePath.size()) {
-            Log.d("upload file", uploadFilePath);
             if (uploadFilePath != null) {
                 showLoading();
                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());

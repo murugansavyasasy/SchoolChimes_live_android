@@ -22,7 +22,7 @@ import ss.com.bannerslider.Slider;
 
 public class ParentQuizScreen extends AppCompatActivity implements View.OnClickListener {
 
-LinearLayout menu_Knowledge_Enhancement,menu_Exam;
+    LinearLayout menu_Knowledge_Enhancement,menu_Exam;
     Slider slider;
     ImageView adImage;
     @Override

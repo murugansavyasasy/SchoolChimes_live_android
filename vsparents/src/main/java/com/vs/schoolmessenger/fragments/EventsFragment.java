@@ -22,14 +22,10 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.activity.MessageDatesScreen;
-import com.vs.schoolmessenger.activity.PdfCircular;
-import com.vs.schoolmessenger.activity.SendToVoiceSpecificSection;
 import com.vs.schoolmessenger.adapter.TextCircularListAdapternew;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 

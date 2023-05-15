@@ -152,13 +152,11 @@ public class StaffDisplayVideos extends AppCompatActivity {
                                 videoList.add(report);
 
                             } else {
-                                //showToast(jsonObject.getString("URL"));
                                 alert(jsonObject.getString("URL"));
                             }
                         }
                         textAdapter.notifyDataSetChanged();
                     } else {
-                        //showToast(getResources().getString(R.string.no_records));
                         alert(getResources().getString(R.string.no_records));
                     }
 

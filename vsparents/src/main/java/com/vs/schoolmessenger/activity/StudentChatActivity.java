@@ -55,7 +55,6 @@ public class StudentChatActivity extends AppCompatActivity {
     int chatCount;
     int offset = 0;
     int limit;
-    int alertoffset = 0;
 
 
     boolean isLoading = false;

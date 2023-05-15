@@ -120,8 +120,6 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
 
         stffDetails();
 
-        Log.d("list", String.valueOf(staffList.size()));
-
         mAdapter = new StaffDetailsAdapter(staffList, StaffDetailsForParent.this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         library_student_list.setLayoutManager(mLayoutManager);
@@ -356,9 +354,6 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
 
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(StaffDetailsForParent.this);
 
-
-        Log.d("Help:Mob-Query", mobNumber + " - " + strMsg);
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetHelp(mobNumber, strMsg);
         Call<JsonArray> call = apiService.GetHelpnew(jsonReqArray);
@@ -488,25 +483,6 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
 
-
-
-//        if (schools_list != null) {
-//            for (int i = 0; i < schools_list.size(); i++) {
-//                final TeacherSchoolsModel model = schools_list.get(i);
-//                IDs = IDs + model.getStrStaffID() + "~";
-//
-//            }
-//        }
-//        if (childList != null) {
-//            for (int i = 0; i < childList.size(); i++) {
-//                final Profiles model = childList.get(i);
-//                IDs = IDs + model.getChildID() + "~";
-//            }
-//        }
-//
-//        IDs = IDs.substring(0, IDs.length() - 1);
-        //Log.d("IDS", IDs);
-
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
@@ -582,7 +558,6 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                             showToast(message);
 
                             Locale myLocale = new Locale(lang);
-                            //saveLocale(lang);
                             Locale.setDefault(myLocale);
                             Configuration config = new Configuration();
                             config.locale = myLocale;
@@ -607,7 +582,6 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
 
-                Log.d("VersionCheck:Failure", t.toString());
             }
         });
     }
@@ -623,8 +597,6 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-
                 dialog.cancel();
 
                 TeacherUtil_SharedPreference.putInstall(StaffDetailsForParent.this, "1");

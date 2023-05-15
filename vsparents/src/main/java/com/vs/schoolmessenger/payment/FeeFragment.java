@@ -13,6 +13,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -65,12 +66,14 @@ public class FeeFragment extends Fragment {
         settings.setDomStorageEnabled(true);
         web_view.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         web_view.setScrollbarFadingEnabled(true);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             web_view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         } else {
             web_view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
         web_view.loadUrl(PaymentUrl);
+
         web_view.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 if (progress < 100) {

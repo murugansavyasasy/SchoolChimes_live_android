@@ -14,12 +14,12 @@
         <TextView
             android:id="@+id/lblname"
             android:layout_width="200dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_14ssp"
             android:padding="2dp"
             android:gravity="left"
-            android:textColor="@color/clr_black"
+            android:textColor="@color/clr_yellow"
             />
         <TextView
             android:layout_width="wrap_content"

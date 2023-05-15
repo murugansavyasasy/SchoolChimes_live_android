@@ -25,7 +25,6 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -67,7 +66,6 @@ public class ChangePasswordScreen extends AppCompatActivity {
     boolean bEyeVisible = false;
     boolean bEyeVisible1 = false;
 
-    SqliteDB myDb;
     ArrayList<Profiles> arrayList;
     ArrayList<String> schoolNamelist = new ArrayList<>();
     String IMEINumber="";
@@ -361,11 +359,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
                                     arrayList = new ArrayList<>();
                                     arrayList.addAll(arrChildList);
-                                    myDb = new SqliteDB(ChangePasswordScreen.this);
-                                    if (myDb.checkChildDetails()) {
-                                        myDb.deleteChildDetails();
-                                    }
-                                    myDb.addChildDetails((ArrayList<Profiles>) arrChildList, ChangePasswordScreen.this);
+
                                     pubStArrChildList.addAll(arrChildList);
 
                                     TeacherUtil_SharedPreference.putStaffLoginInfoToSP(ChangePasswordScreen.this, number, confirm_password, true);
@@ -425,11 +419,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
                                     arrayList = new ArrayList<>();
                                     arrayList.addAll(arrChildList);
-                                    myDb = new SqliteDB(ChangePasswordScreen.this);
-                                    if (myDb.checkChildDetails()) {
-                                        myDb.deleteChildDetails();
-                                    }
-                                    myDb.addChildDetails((ArrayList<Profiles>) arrChildList, ChangePasswordScreen.this);
+
                                     pubStArrChildList.addAll(arrChildList);
 
                                     TeacherUtil_SharedPreference.putStaffLoginInfoToSP(ChangePasswordScreen.this, number, confirm_password, true);
@@ -750,11 +740,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
                                     arrayList = new ArrayList<>();
                                     arrayList.addAll(arrChildList);
-                                    myDb = new SqliteDB(ChangePasswordScreen.this);
-                                    if (myDb.checkChildDetails()) {
-                                        myDb.deleteChildDetails();
-                                    }
-                                    myDb.addChildDetails((ArrayList<Profiles>) arrChildList, ChangePasswordScreen.this);
+
                                     pubStArrChildList.addAll(arrChildList);
 
                                     // Util_SharedPreference.putParentLoginInfoToSP(TeacherSignInScreen.this, strMobile, strPassword, true);
@@ -828,11 +814,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
                                     arrayList = new ArrayList<>();
                                     arrayList.addAll(arrChildList);
-                                    myDb = new SqliteDB(ChangePasswordScreen.this);
-                                    if (myDb.checkChildDetails()) {
-                                        myDb.deleteChildDetails();
-                                    }
-                                    myDb.addChildDetails((ArrayList<Profiles>) arrChildList, ChangePasswordScreen.this);
+
                                     pubStArrChildList.addAll(arrChildList);
 
                                     // Util_SharedPreference.putParentLoginInfoToSP(TeacherSignInScreen.this, strMobile, strPassword, true);
@@ -901,11 +883,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
                                     arrayList = new ArrayList<>();
                                     arrayList.addAll(arrChildList);
-                                    myDb = new SqliteDB(ChangePasswordScreen.this);
-                                    if (myDb.checkChildDetails()) {
-                                        myDb.deleteChildDetails();
-                                    }
-                                    myDb.addChildDetails((ArrayList<Profiles>) arrChildList, ChangePasswordScreen.this);
+
                                     pubStArrChildList.addAll(arrChildList);
 
                                     // Util_SharedPreference.putParentLoginInfoToSP(TeacherSignInScreen.this, strMobile, strPassword, true);
@@ -956,11 +934,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
                                     arrayList = new ArrayList<>();
                                     arrayList.addAll(arrChildList);
-                                    myDb = new SqliteDB(ChangePasswordScreen.this);
-                                    if (myDb.checkChildDetails()) {
-                                        myDb.deleteChildDetails();
-                                    }
-                                    myDb.addChildDetails((ArrayList<Profiles>) arrChildList, ChangePasswordScreen.this);
+
                                     pubStArrChildList.addAll(arrChildList);
 
                                     // Util_SharedPreference.putParentLoginInfoToSP(TeacherSignInScreen.this, strMobile, strPassword, true);
@@ -1127,13 +1101,6 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
                                     arrayList = new ArrayList<>();
                                     arrayList.addAll(arrChildList);
-                                    myDb = new SqliteDB(ChangePasswordScreen.this);
-                                    if (myDb.checkChildDetails()) {
-                                        myDb.deleteChildDetails();
-                                    }
-                                    myDb.addChildDetails((ArrayList<Profiles>) arrChildList, ChangePasswordScreen.this);
-
-
                                     pubStArrChildList.addAll(arrChildList);
 
                                     TeacherUtil_SharedPreference.putStaffLoginInfoToSP(ChangePasswordScreen.this, number, confirm_password, true);

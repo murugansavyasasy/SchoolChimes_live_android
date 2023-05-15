@@ -56,7 +56,6 @@ public class MarksListScreen extends AppCompatActivity {
         marks_list_recycle=(RecyclerView) findViewById(R.id.marks_list_recycle);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
-
         child_ID= Util_SharedPreference.getChildIdFromSP(MarksListScreen.this);
         school_ID= Util_SharedPreference.getSchoolIdFromSP(MarksListScreen.this);
         Exam_ID = getIntent().getExtras().getString("exam_id");
@@ -73,8 +72,6 @@ public class MarksListScreen extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-
 
             mAdapter = new MarkListAdapter(mark_list_item, MarksListScreen.this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

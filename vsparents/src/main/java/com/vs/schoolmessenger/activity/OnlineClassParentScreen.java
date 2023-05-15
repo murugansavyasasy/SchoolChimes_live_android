@@ -55,7 +55,6 @@ import ss.com.bannerslider.Slider;
 
 public  class OnlineClassParentScreen extends AppCompatActivity implements OnItemClickOnlineClass {
 
-
     public ArrayList<OnlineClassModel> msgModelList = new ArrayList<>();
     RecyclerView rvTextMsgList;
     OnlineClassAdapter textAdapter;

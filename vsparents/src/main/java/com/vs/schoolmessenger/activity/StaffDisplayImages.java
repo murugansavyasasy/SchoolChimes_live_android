@@ -37,7 +37,7 @@ public class StaffDisplayImages extends AppCompatActivity {
 
     ImageView voice_ToolBarIvBack;
 
-    String selDate, strMsgType,staff_id,school_id;
+    String selDate,staff_id,school_id;
     private int iRequestCode;
 
     Boolean is_Archive;
@@ -78,7 +78,6 @@ public class StaffDisplayImages extends AppCompatActivity {
         rvVoiceList.setItemAnimator(new DefaultItemAnimator());
         imageAdapter = new StaffDisplayImageAdapter(msgModelList, StaffDisplayImages.this,is_Archive);
         rvVoiceList.setAdapter(imageAdapter);
-       // circularsForGivenDateAPI2();
 
     }
 
@@ -122,9 +121,6 @@ public class StaffDisplayImages extends AppCompatActivity {
         jsonObject.addProperty("CircularDate", selDate);
         jsonObject.addProperty("Type", "IMAGE");
 
-        Log.d(" jsonObject12344555", String.valueOf(jsonObject));
-
-       // Call<JsonArray> call = apiService.GetFilesStaff(jsonObject);
 
         Call<JsonArray> call;
         if(isNewVersion.equals("1")&&is_Archive){
@@ -150,7 +146,6 @@ public class StaffDisplayImages extends AppCompatActivity {
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
                         TeacherMessageModel msgModel;
-                        Log.d("json length", js.length() + "");
 
                         imageAdapter.clearAllData();
                         for (int i = 0; i < js.length(); i++) {
@@ -181,67 +176,11 @@ public class StaffDisplayImages extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Unreadcount:Failure", t.toString());
             }
         });
 
     }
 
-
-    private void prepareData() {
-      //  voiceAdapter.clearAllData();
-        for (int i = 0; i < android_image_urls.length; i++) {
-            TeacherMessageModel model = new TeacherMessageModel();
-            model.setMsgID(String.valueOf(i));
-            long unixTime = System.currentTimeMillis() / 1000L;
-            model.setMsgTitle(String.valueOf(unixTime));
-            model.setMsgContent(android_image_urls[i]);
-            model.setMsgDate("10 May 2017");
-            model.setMsgTime("11:30 AM");
-            model.setMsgReadStatus(android_image_status[i]);
-            msgModelList.add(model);
-        }
-
-        //voiceAdapter.notifyDataSetChanged();
-    }
-
-    private void circularsForGivenDateAPI2() {
-
-        // "[{\"CircularDate\":\"29-12-2017\",\"ChildID\":\"326069\",\"SchoolID\":\"2030\",\"Type\":\"VOICE\"}]"
-
-        try {
-            JSONArray js = new JSONArray("[{\"ID\":\"2450051\",\"URL\":\"http://vs3.voicesnapforschools.com/files/29-12-2017/2030/9731860063_20171229_124325_81.wav\",\"Date\":\"29-12-2017\",\"Time\":\"12:43:23\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"0\",\"Query\":null,\"Question\":null},{\"ID\":\"2440510\",\"URL\":\"http://vs3.voicesnapforschools.com/files/29-12-2017/2030/9731860063_20171229_075037_176.wav\",\"Date\":\"29-12-2017\",\"Time\":\"07:50:32\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"0\",\"Query\":null,\"Question\":null}]");
-            if (js.length() > 0) {
-                JSONObject jsonObject = js.getJSONObject(0);
-                String strDate = jsonObject.getString("ID");
-                String strTotalSMS = jsonObject.getString("URL");
-
-                if (!strDate.equals("")) {
-                    TeacherMessageModel msgModel;
-                    Log.d("json length", js.length() + "");
-
-                 //   voiceAdapter.clearAllData();
-                    for (int i = 0; i < js.length(); i++) {
-                        jsonObject = js.getJSONObject(i);
-                        msgModel = new TeacherMessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
-                                jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                jsonObject.getString("Date"), jsonObject.getString("Time"),jsonObject.getString("Description"));
-                        msgModelList.add(msgModel);
-                    }
-
-                   // voiceAdapter.notifyDataSetChanged();
-
-                } else {
-                    showToast(strTotalSMS);
-                }
-            } else {
-                showToast(getResources().getString(R.string.check_internet));
-            }
-
-        } catch (Exception e) {
-            Log.e("TextMsg:Exception", e.getMessage());
-        }
-    }
     private void showToast(String msg) {
         Toast.makeText(StaffDisplayImages.this, msg, Toast.LENGTH_SHORT).show();
     }

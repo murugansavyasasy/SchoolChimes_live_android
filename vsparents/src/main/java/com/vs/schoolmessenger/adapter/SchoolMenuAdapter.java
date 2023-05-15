@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.vs.schoolmessenger.LessonPlan.Activity.LessonPlanActivity;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.DailyFeeCollectionActivity;
 import com.vs.schoolmessenger.activity.FeedBackDetails;
@@ -76,6 +79,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_DAILY_COL
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EMERGENCY;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EVENTS;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_LESSON_PLAN;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MEETING_URL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MESSAGESFROMMANAGEMENT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_NOTICE_BOARD;
@@ -214,8 +218,8 @@ public class SchoolMenuAdapter extends ArrayAdapter {
         }
 
         if (isPrincipalMenuNames.get(position).contains("_18")) {
-                imgMenu.setImageResource(R.drawable.c_ebook);
-                textView.setText(MenuName.substring(0, MenuName.length() - 3));
+            imgMenu.setImageResource(R.drawable.c_ebook);
+            textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
 
         if (isPrincipalMenuNames.get(position).contains("_19")) {
@@ -266,6 +270,11 @@ public class SchoolMenuAdapter extends ArrayAdapter {
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
 
+        if (isPrincipalMenuNames.get(position).contains("_30")) {
+            imgMenu.setImageResource(R.drawable.lesson_plan);
+            textView.setText(MenuName.substring(0, MenuName.length() - 3));
+        }
+
 
         return v;
 
@@ -279,12 +288,10 @@ public class SchoolMenuAdapter extends ArrayAdapter {
         if (substring.equals("_0")) {
             isVoicePermissionGranded(MenuName);
 
-        }
-       else if (substring.equals("_1")) {
-             isVoicePermissionGranded(MenuName);
+        } else if (substring.equals("_1")) {
+            isVoicePermissionGranded(MenuName);
 
-       }
-        else if (substring.equals("_2")) {
+        } else if (substring.equals("_2")) {
             goToNextScreen(MenuName);
 
 
@@ -302,24 +309,20 @@ public class SchoolMenuAdapter extends ArrayAdapter {
 
             goToNextScreen(MenuName);
 
-        }
-        else if (substring.equals("_7")) {
+        } else if (substring.equals("_7")) {
 
             goToNextScreen(MenuName);
 
-        }
-        else if (substring.equals("_8")) {
+        } else if (substring.equals("_8")) {
             goToNextScreen(MenuName);
 
         } else if (substring.equals("_9")) {
 
             goToNextScreen(MenuName);
 
-        }
-        else if (substring1.equals("_10")) {
+        } else if (substring1.equals("_10")) {
             isVoicePermissionGranded(MenuName);
-        }
-       else if (substring1.equals("_11")) {
+        } else if (substring1.equals("_11")) {
 
             goToNextScreen(MenuName);
 
@@ -370,51 +373,88 @@ public class SchoolMenuAdapter extends ArrayAdapter {
 
         } else if (substring1.equals("_27")) {
             goToNextScreen(MenuName);
-       }
-        else if (substring1.equals("_28")) {
+        } else if (substring1.equals("_28")) {
+            goToNextScreen(MenuName);
+        } else if (substring1.equals("_29")) {
             goToNextScreen(MenuName);
         }
 
-        else if (substring1.equals("_29")) {
+        else if (substring1.equals("_30")) {
             goToNextScreen(MenuName);
         }
-
     }
 
     private boolean isCameraPermission(String MenuName) {
 
-        Dexter.withActivity((Activity) context)
-                .withPermissions(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA
-                )
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            isCameraPermission = true;
-                            goToNextScreen(MenuName);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO,
+                            Manifest.permission.CAMERA
+                    )
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isCameraPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+                                settingsCameraPermission();
+                            }
                         }
-                        else {
-                            settingsCameraPermission();
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
                         }
-                    }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).
-                withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
+                        }
+                    })
+                    .onSameThread()
+                    .check();
 
-                    }
-                })
-                .onSameThread()
-                .check();
+        }
+        else {
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA
+                    )
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isCameraPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+                                settingsCameraPermission();
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
+
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+
+        }
 
         return isCameraPermission;
     }
@@ -451,39 +491,80 @@ public class SchoolMenuAdapter extends ArrayAdapter {
 
     public boolean isVoicePermissionGranded(String MenuName) {
 
-        Dexter.withActivity((Activity) context)
-                .withPermissions(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO
-                        )
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            isPermission = true;
-                            goToNextScreen(MenuName);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO,
+                            Manifest.permission.RECORD_AUDIO
+                    )
+
+
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+                                settingsStoragePermission();
+
+                            }
                         }
-                        else {
-                            settingsStoragePermission();
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
 
                         }
-                    }
+                    })
+                    .onSameThread()
+                    .check();
+        } else {
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.RECORD_AUDIO
+                    )
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).
-                withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
 
-                    }
-                })
-                .onSameThread()
-                .check();
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+                                settingsStoragePermission();
+
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
+
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+
+        }
+
 
         return isPermission;
     }
@@ -525,58 +606,55 @@ public class SchoolMenuAdapter extends ArrayAdapter {
 
         if (substring.equals("_0")) {
 
-                Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
-                inVoice.putExtra("EMERGENCY", true);
-                inVoice.putExtra("TeacherSchoolsModel", Teacher_AA_Test.schoolmodel);
+            Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
+            inVoice.putExtra("EMERGENCY", true);
+            inVoice.putExtra("TeacherSchoolsModel", Teacher_AA_Test.schoolmodel);
 
-                if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
-                    inVoice.putExtra("REQUEST_CODE", GH_EMERGENCY);
-                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
-                    inVoice.putExtra("REQUEST_CODE", GH_VOICE);
-                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
-                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_EMERGENCY);
-                }
-                context.startActivity(inVoice);
+            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
+                inVoice.putExtra("REQUEST_CODE", GH_EMERGENCY);
+            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
+                inVoice.putExtra("REQUEST_CODE", GH_VOICE);
+            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
+                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_EMERGENCY);
+            }
+            context.startActivity(inVoice);
 
 
+        } else if (substring.equals("_1")) {
 
-        }
-        else if (substring.equals("_1")) {
-
-                if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
-                    if (TeacherUtil_Common.listschooldetails.size() == 1) {
-                        Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
-                        inVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE);
-                        inVoice.putExtra("EMERGENCY", false);
-                        context.startActivity(inVoice);
-                    } else {
-                        Intent inVoice = new Intent(context, TeacherSchoolList.class);
-                        inVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE);
-                        inVoice.putExtra("EMERGENCY", false);
-                        context.startActivity(inVoice);
-                    }
-                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
-                    if (TeacherUtil_Common.listschooldetails.size() == 1) {
-                        Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
-                        inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
-                        inVoice.putExtra("EMERGENCY", false);
-                        context.startActivity(inVoice);
-                    } else {
-                        Intent inVoice = new Intent(context, TeacherSchoolList.class);
-                        inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
-                        inVoice.putExtra("EMERGENCY", false);
-                        context.startActivity(inVoice);
-                    }
-                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
-
+            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
+                if (TeacherUtil_Common.listschooldetails.size() == 1) {
                     Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
-                    inVoice.putExtra("REQUEST_CODE", GH_VOICE);
+                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE);
+                    inVoice.putExtra("EMERGENCY", false);
+                    context.startActivity(inVoice);
+                } else {
+                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE);
                     inVoice.putExtra("EMERGENCY", false);
                     context.startActivity(inVoice);
                 }
+            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
+                if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                    Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
+                    inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
+                    inVoice.putExtra("EMERGENCY", false);
+                    context.startActivity(inVoice);
+                } else {
+                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                    inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
+                    inVoice.putExtra("EMERGENCY", false);
+                    context.startActivity(inVoice);
+                }
+            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
 
-        }
-        else if (substring.equals("_2")) {
+                Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
+                inVoice.putExtra("REQUEST_CODE", GH_VOICE);
+                inVoice.putExtra("EMERGENCY", false);
+                context.startActivity(inVoice);
+            }
+
+        } else if (substring.equals("_2")) {
 
             if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
                 if (TeacherUtil_Common.listschooldetails.size() == 1) {
@@ -622,13 +700,12 @@ public class SchoolMenuAdapter extends ArrayAdapter {
 
         } else if (substring.equals("_5")) {
 
-                Intent inImg = new Intent(context, TeacherPhotosScreen.class);
-                if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL))
-                    inImg.putExtra("REQUEST_CODE", PRINCIPAL_PHOTOS);
-                else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER))
-                    inImg.putExtra("REQUEST_CODE", STAFF_PHOTOS);
-                context.startActivity(inImg);
-
+            Intent inImg = new Intent(context, TeacherPhotosScreen.class);
+            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL))
+                inImg.putExtra("REQUEST_CODE", PRINCIPAL_PHOTOS);
+            else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER))
+                inImg.putExtra("REQUEST_CODE", STAFF_PHOTOS);
+            context.startActivity(inImg);
 
 
         } else if (substring.equals("_6")) {
@@ -650,8 +727,7 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                 context.startActivity(inAbsstaff);
             }
 
-        }
-        else if (substring.equals("_7")) {
+        } else if (substring.equals("_7")) {
 
             if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
                 if (TeacherUtil_Common.listschooldetails.size() == 1) {
@@ -669,8 +745,7 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                 context.startActivity(inParti);
             }
 
-        }
-        else if (substring.equals("_8")) {
+        } else if (substring.equals("_8")) {
             Intent inCallsSMS = new Intent(context, TeacherCallsSmsUsages.class);
             context.startActivity(inCallsSMS);
 
@@ -692,29 +767,27 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                 context.startActivity(inHwText);
             }
 
-        }
-        else if (substring1.equals("_10")) {
-                if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
-                    if (TeacherUtil_Common.listschooldetails.size() == 1) {
-                        Intent inHomeWorkVoice = new Intent(context, TeacherEmergencyVoice.class);
-                        inHomeWorkVoice.putExtra("EMERGENCY", false);
-                        inHomeWorkVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE_HW);
-                        context.startActivity(inHomeWorkVoice);
-                    } else {
-                        Intent inHomeWorkVoice = new Intent(context, TeacherSchoolList.class);
-                        inHomeWorkVoice.putExtra("EMERGENCY", false);
-                        inHomeWorkVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE_HW);
-                        context.startActivity(inHomeWorkVoice);
-                    }
-                } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
+        } else if (substring1.equals("_10")) {
+            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
+                if (TeacherUtil_Common.listschooldetails.size() == 1) {
                     Intent inHomeWorkVoice = new Intent(context, TeacherEmergencyVoice.class);
                     inHomeWorkVoice.putExtra("EMERGENCY", false);
-                    inHomeWorkVoice.putExtra("REQUEST_CODE", STAFF_VOICE_HW);
+                    inHomeWorkVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE_HW);
+                    context.startActivity(inHomeWorkVoice);
+                } else {
+                    Intent inHomeWorkVoice = new Intent(context, TeacherSchoolList.class);
+                    inHomeWorkVoice.putExtra("EMERGENCY", false);
+                    inHomeWorkVoice.putExtra("REQUEST_CODE", PRINCIPAL_VOICE_HW);
                     context.startActivity(inHomeWorkVoice);
                 }
+            } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
+                Intent inHomeWorkVoice = new Intent(context, TeacherEmergencyVoice.class);
+                inHomeWorkVoice.putExtra("EMERGENCY", false);
+                inHomeWorkVoice.putExtra("REQUEST_CODE", STAFF_VOICE_HW);
+                context.startActivity(inHomeWorkVoice);
+            }
 
-        }
-        else if (substring1.equals("_11")) {
+        } else if (substring1.equals("_11")) {
 
             if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
                 if (TeacherUtil_Common.listschooldetails.size() == 1) {
@@ -808,13 +881,13 @@ public class SchoolMenuAdapter extends ArrayAdapter {
             context.startActivity(offers);
 
         } else if (substring1.equals("_22")) {
-                Intent assignment = new Intent(context, AssignmentActivity.class);
-                context.startActivity(assignment);
+            Intent assignment = new Intent(context, AssignmentActivity.class);
+            context.startActivity(assignment);
 
 
         } else if (substring1.equals("_23")) {
-                Intent videovimeo = new Intent(context, VideoUpload.class);
-                context.startActivity(videovimeo);
+            Intent videovimeo = new Intent(context, VideoUpload.class);
+            context.startActivity(videovimeo);
 
 
         } else if (substring1.equals("_24")) {
@@ -862,37 +935,44 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                 }
             }
 
-        }
-
-        else if (substring1.equals("_27")) {
+        } else if (substring1.equals("_27")) {
             Intent online = new Intent(context, ParentQuizScreen.class);
             online.putExtra("Type", "SChool");
             context.startActivity(online);
+        } else if (substring1.equals("_28")) {
+            if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                Intent inVoice = new Intent(context, DailyFeeCollectionActivity.class);
+                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_DAILY_COLLECTION);
+                context.startActivity(inVoice);
+
+            } else {
+                Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_DAILY_COLLECTION);
+                context.startActivity(inVoice);
+            }
+        } else if (substring1.equals("_29")) {
+            if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                Intent inVoice = new Intent(context, StudentReportActivity.class);
+                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
+                context.startActivity(inVoice);
+            } else {
+                Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
+                context.startActivity(inVoice);
+            }
+
         }
 
-        else if (substring1.equals("_28")) {
-                if (TeacherUtil_Common.listschooldetails.size() == 1) {
-                    Intent inVoice = new Intent(context, DailyFeeCollectionActivity.class);
-                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_DAILY_COLLECTION);
-                    context.startActivity(inVoice);
-
-                } else {
-                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
-                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_DAILY_COLLECTION);
-                    context.startActivity(inVoice);
-                }
-        }
-
-        else if (substring1.equals("_29")) {
-                if (TeacherUtil_Common.listschooldetails.size() == 1) {
-                    Intent inVoice = new Intent(context, StudentReportActivity.class);
-                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
-                    context.startActivity(inVoice);
-                } else {
-                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
-                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
-                    context.startActivity(inVoice);
-                }
+        else if (substring1.equals("_30")) {
+            if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                Intent inVoice = new Intent(context, LessonPlanActivity.class);
+                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_LESSON_PLAN);
+                context.startActivity(inVoice);
+            } else {
+                Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_LESSON_PLAN);
+                context.startActivity(inVoice);
+            }
 
         }
 

@@ -38,7 +38,6 @@ import com.vs.schoolmessenger.adapter.PdfCircularListAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
@@ -46,10 +45,8 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
@@ -57,7 +54,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ss.com.bannerslider.Slider;
 
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
 
 public class PdfCircular extends AppCompatActivity {
 
@@ -70,7 +66,6 @@ public class PdfCircular extends AppCompatActivity {
     String selDate;
     private int iRequestCode;
 
-    SqliteDB myDb;
     ArrayList<MessageModel> arrayList;
 
     private final String android_image_urls[] = {
@@ -84,7 +79,6 @@ public class PdfCircular extends AppCompatActivity {
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
-    String previousDate;
 
     ImageView imgSearch;
     EditText Searchable;
@@ -235,10 +229,7 @@ public class PdfCircular extends AppCompatActivity {
         String strChildID = Util_SharedPreference.getChildIdFromSP(PdfCircular.this);
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(PdfCircular.this);
 
-        Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
         String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(PdfCircular.this);
-
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetEmergencyvoice(strChildID, strSchoolID,"PDF",MobileNumber);
         Call<JsonArray> call = apiService.LoadMoreGetEmergencyVoiceOrImageOrPDF(jsonReqArray);
@@ -255,7 +246,6 @@ public class PdfCircular extends AppCompatActivity {
 
                 LoadMore.setVisibility(View.GONE);
                 lblNoMessages.setVisibility(View.GONE);
-
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
@@ -337,28 +327,6 @@ public class PdfCircular extends AppCompatActivity {
             }
     }
 
-    private void showSettingsAlert1() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(PdfCircular.this);
-
-        alertDialog.setTitle(R.string.alert);
-
-        alertDialog.setMessage(R.string.connect_internet);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                finish();
-
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-    }
 
     private boolean isNetworkConnected() {
 
@@ -371,137 +339,8 @@ public class PdfCircular extends AppCompatActivity {
         Toast.makeText(PdfCircular.this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void prepareData() {
-        for (int i = 0; i < android_image_urls.length; i++) {
-            MessageModel model = new MessageModel();
-            model.setMsgID(String.valueOf(i));
-            long unixTime = System.currentTimeMillis() / 1000L;
-            model.setMsgTitle(String.valueOf(unixTime));
-            model.setMsgContent(android_image_urls[i]);
-            model.setMsgDate("10 May 2017");
-            model.setMsgTime("11:30 AM");
-            model.setMsgReadStatus(android_image_status[i]);
-            msgModelList.add(model);
-        }
 
-        pdfAdapter.notifyDataSetChanged();
-    }
 
-    private void circularsForGivenDateAPI2() {
-        try {
-            JSONArray js = new JSONArray("");
-            if (js.length() > 0) {
-                JSONObject jsonObject = js.getJSONObject(0);
-                String strDate = jsonObject.getString("ID");
-                String strTotalSMS = jsonObject.getString("URL");
-
-                if (!strDate.equals("")) {
-                    MessageModel msgModel;
-                    Log.d("json length", js.length() + "");
-
-                    pdfAdapter.clearAllData();
-
-                    for (int i = 0; i < js.length(); i++) {
-                        jsonObject = js.getJSONObject(i);
-                        msgModel = new MessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
-                                jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                jsonObject.getString("Date"), jsonObject.getString("Time"),jsonObject.getString("Description"),false);
-
-                        msgModel.setStrQueryAvailable(jsonObject.getString("Query").toLowerCase());
-                        msgModel.setStrQuestion(jsonObject.getString("Question"));
-
-                        msgModelList.add(msgModel);
-                    }
-
-                    pdfAdapter.notifyDataSetChanged();
-
-                } else {
-                    showToast(strTotalSMS);
-                }
-            } else {
-                showToast(getResources().getString(R.string.no_records));
-            }
-
-        } catch (Exception e) {
-            Log.e("TextMsg:Exception", e.getMessage());
-        }
-    }
-
-    private void circularsForGivenDateAPI() {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-        String strChildID = Util_SharedPreference.getChildIdFromSP(PdfCircular.this);
-        String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(PdfCircular.this);
-
-        Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonArray jsonReqArray = Util_JsonRequest.getJsonArray_GetFiles(selDate, strChildID, strSchoolID, MSG_TYPE_PDF);
-        Call<JsonArray> call = apiService.GetFiles(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("TextMsg:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        String strDate = jsonObject.getString("ID");
-                        String strTotalSMS = jsonObject.getString("URL");
-
-                        if (!strDate.equals("")) {
-                            MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
-
-                            pdfAdapter.clearAllData();
-
-                            for (int i = 0; i < js.length(); i++) {
-                                jsonObject = js.getJSONObject(i);
-                                msgModel = new MessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
-                                        jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"),jsonObject.getString("Description"),false);
-
-                                msgModel.setStrQueryAvailable(jsonObject.getString("Query").toLowerCase());
-                                msgModel.setStrQuestion(jsonObject.getString("Question"));
-
-                                msgModelList.add(msgModel);
-                            }
-
-                            pdfAdapter.notifyDataSetChanged();
-
-                        } else {
-                            showToast(strTotalSMS);
-                        }
-                    } else {
-                        showToast("Server Response Failed. Try again");
-                    }
-
-                } catch (Exception e) {
-                    Log.e("TextMsg:Exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast("Check your Internet connectivity");
-                Log.d("TextMsg:Failure", t.toString());
-            }
-        });
-    }
     private void circularsPdfAPI() {
 
         String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(PdfCircular.this);
@@ -562,7 +401,6 @@ public class PdfCircular extends AppCompatActivity {
 
                         if (strStatus.equals("1")) {
                             MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 msgModel = new MessageModel(jsonObject.getString("MessageID"), jsonObject.getString("Subject"),
@@ -624,12 +462,8 @@ public class PdfCircular extends AppCompatActivity {
 
     private void showRecordsfound(String strMessage) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(PdfCircular.this);
-
-
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(strMessage);
-
-
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -38,11 +38,8 @@ public class FAQScreen extends AppCompatActivity {
 
     WebView pdfPopup_webView;
     ProgressDialog pDialog;
-
     String pdfURL="";
-
     RecyclerView faq_recycle;
-    private List<FAQModel> FAQList = new ArrayList<>();
     public FAQAdapter mAdapter;
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     private ArrayList<Profiles> childList = new ArrayList<>();
@@ -170,14 +167,10 @@ public class FAQScreen extends AppCompatActivity {
 
         pdfPopup_webView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
-                //Make the bar disappear after URL is loaded, and changes string to Loading...
-//                setTitle("Loading...");
+
                 pDialog.show();
                 setProgress(progress * 100); //Make the bar disappear after URL is loaded
-
-                // Return the app name after finish loading
                 if (progress == 100) {
-//                    setTitle(R.string.app_name);
                     pDialog.dismiss();
 
 

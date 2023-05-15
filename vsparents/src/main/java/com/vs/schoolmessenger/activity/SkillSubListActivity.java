@@ -153,7 +153,6 @@ public class SkillSubListActivity extends AppCompatActivity {
             mProgressDialog.show();
 
         String strChildID = Util_SharedPreference.getChildIdFromSP(this);
-        String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(this);
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("StudentID", strChildID);
@@ -185,8 +184,6 @@ public class SkillSubListActivity extends AppCompatActivity {
                         textAdapter.clearAllData();
                         msgModelList.clear();
                         SkillAttachmentModel msgModel;
-
-
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject js = data.getJSONObject(i);
                             msgModel = new SkillAttachmentModel( js.getString("ContentId"),js.getString("Attachment"), js.getString("Type"), js.getString("Order"),js.getString("SkillId"));

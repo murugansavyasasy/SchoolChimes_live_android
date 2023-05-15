@@ -109,13 +109,11 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     String schoolId, staffId;
 
 
-    String strDate, strCurrentDate, timeString, strTime;//strDuration
     int selDay, selMonth, selYear;
     String selHour, selMin;
     int minimumHour, minimumMinute;
     private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
-    private static final String FRAG_TAG_TIME_PICKER = "fragment_time_picker_name";
-    String strfromdate, strtodate, strreason, strdatevalue;
+    String strfromdate, strdatevalue;
     TextView Date;
 
     Spinner spinnerList;
@@ -136,13 +134,11 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     String HistoryContent = "";
     String HistoryDescription = "";
 
-    LinearLayoutManager layoutManager;
     LinearLayout selectSpinner;
     int count = 0;
 
     RadioGroup TextRadio;
     RadioButton radioGeneralText, radioSmsHistory;
-    private PopupWindow popupWindow;
     Button btnStaffGroups;
 
 
@@ -365,7 +361,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String selectedItemText = (String) parent.getItemAtPosition(position);
-                Log.d("selectedvalue", selectedItemText);
 
                 if (position == 0) {
                     NestedScrollView.setVisibility(View.VISIBLE);
@@ -621,8 +616,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         }
         Log.d("Request", jsonObject.toString());
-
-
         Call<JsonArray> call = apiService.GetSMSHistory(jsonObject);
 
         call.enqueue(new Callback<JsonArray>() {
@@ -789,7 +782,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     }
 
     private void datePicker() {
-        Log.d("Date_click1", "Datepick");
         Calendar today = Calendar.getInstance();
         MonthAdapter.CalendarDay minDate = new MonthAdapter.CalendarDay(today);
         CalendarDatePickerDialogFragment cdp = new CalendarDatePickerDialogFragment()
@@ -800,7 +792,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 .setDateRange(minDate, null)
                 .setDoneText(getResources().getString(R.string.teacher_btn_ok))
                 .setCancelText(getResources().getString(R.string.teacher_cancel));
-//                .setThemeDark(true);
         cdp.show(getSupportFragmentManager(), FRAG_TAG_DATE_PICKER);
     }
 
@@ -808,15 +799,11 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     private void listSchoolsAPI() {
         i_schools_count = 0;
         for (int i = 0; i < listschooldetails.size(); i++) {
-            Log.d("test3", "test3" + listschooldetails.size());
             TeacherSchoolsModel ss = listschooldetails.get(i);
-            Log.d("test4", "test4");
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
                     ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending());
-            Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
-            Log.d("Testing", "8***********************");
         }
 
         if (iRequestCode == PRINCIPAL_TEXT) {
@@ -949,7 +936,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
     public void validation() {
         strmessage = etMessage.getText().toString().trim();
-        Log.d("Message", strmessage);
     }
 
     @Override
@@ -1136,13 +1122,10 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             for (int i = 0; i < seletedschoollist.size(); i++) {
                 JsonObject jsonObjectschoolId = new JsonObject();
                 jsonObjectschoolId.addProperty("SchoolId", seletedschoollist.get(i).getStrSchoolID());
-                Log.d("selectsize", String.valueOf(seletedschoollist.size()));
-                Log.d("schoolid", seletedschoollist.get(i).getStrSchoolID());
                 jsonObjectschoolId.addProperty("StaffID", seletedschoollist.get(i).getStrStaffID());
                 jsonArrayschool.add(jsonObjectschoolId);
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchool.add("School", jsonArrayschool);
             Log.d("Final_Array", jsonObjectSchool.toString());
 

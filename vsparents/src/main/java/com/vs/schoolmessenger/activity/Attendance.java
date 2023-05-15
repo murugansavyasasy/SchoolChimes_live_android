@@ -41,7 +41,6 @@ import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
@@ -99,7 +98,6 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     TextView lblNoMessages;
     String isNewVersion;
     TextView LoadMore;
-    SqliteDB myDb;
     Calendar c;
     String previousDate;
     ImageView imgSearch;

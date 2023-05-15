@@ -39,7 +39,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
     Button SendToEntireSchool, SendToStansGroups, SendToSpecificSection;
     String SchoolID, StaffID, filepath, duration, tittle, strmessage, strdate, strtime, strfilepathimage;
     int iRequestCode;
-
     ArrayList<TeacherClassGroupModel> listClasses, listGroups;
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -109,8 +108,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
                 inPrincipal.putExtra("DURATION", duration);
                 inPrincipal.putExtra("TITTLE", tittle);
                 inPrincipal.putExtra("MESSAGE", strmessage);
-
-                Log.d("tittle", tittle);
                 startActivity(inPrincipal);
 
 
@@ -263,7 +260,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -273,7 +269,6 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }

@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -25,7 +24,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.Telephony;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -63,14 +61,12 @@ import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
 import com.vs.schoolmessenger.R;
 
 import com.vs.schoolmessenger.adapter.NewupdatesAdapter;
-import com.vs.schoolmessenger.adapter.PaymentTypeAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherCountryList;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -79,6 +75,7 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -110,7 +107,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
     String strMobile, strPassword;
     ArrayList<Profiles> arrChildList = new ArrayList<>();
 
-    SqliteDB myDb;
     ArrayList<Profiles> arrayList;
     ArrayList<String> schoolNamelist = new ArrayList<>();
 
@@ -148,6 +144,11 @@ public class TeacherSplashScreen extends AppCompatActivity {
         lblInstall = (TextView) findViewById(R.id.lblInstall);
         rytParent = (RelativeLayout) findViewById(R.id.rytParent);
 
+        try {
+            File dir = TeacherSplashScreen.this.getCacheDir();
+            Boolean a = deleteDirCache(dir);
+        } catch (Exception e) { e.printStackTrace();}
+
 
         appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
         installStateUpdatedListener = state -> {
@@ -157,7 +158,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 lnrSnackBar.setVisibility(View.GONE);
                 removeInstallStateUpdateListener();
             }
-
         };
         appUpdateManager.registerListener(installStateUpdatedListener);
 
@@ -189,6 +189,22 @@ public class TeacherSplashScreen extends AppCompatActivity {
         }
     }
 
+    private Boolean deleteDirCache(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDirCache(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
 
 
     @Override
@@ -291,30 +307,10 @@ public class TeacherSplashScreen extends AppCompatActivity {
         if (isNetworkConnected()) {
             lnrInternetConnection.setVisibility(View.GONE);
             isContactPermissionGranted();
-        } else {
-            if (TeacherUtil_SharedPreference.getChild(TeacherSplashScreen.this).equals("1")) {
-                String princi = TeacherUtil_SharedPreference.getPrincipal(TeacherSplashScreen.this);
-                String Staff = TeacherUtil_SharedPreference.getStaff(TeacherSplashScreen.this);
-                String Parent = TeacherUtil_SharedPreference.getParent(TeacherSplashScreen.this);
-                String Grouphead = TeacherUtil_SharedPreference.getGroupHead(TeacherSplashScreen.this);
-                String Admin = TeacherUtil_SharedPreference.getAdmin(TeacherSplashScreen.this);
-
-                if (princi.equals("true") && Parent.equals("true")) {
-                    offLineChildList();
-                } else if (Staff.equals("true") && Parent.equals("true")) {
-                    offLineChildList();
-                } else if (Admin.equals("true") && Parent.equals("true")) {
-                    offLineChildList();
-                } else if (Grouphead.equals("true") && Parent.equals("true")) {
-                    offLineChildList();
-                } else if (Parent.equals("true")) {
-                    onlyParent();
-                }
-
-            } else {
-                lnrInternetConnection.setVisibility(View.VISIBLE);
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.connect_internet), Toast.LENGTH_SHORT).show();
-            }
+        }
+        else {
+            lnrInternetConnection.setVisibility(View.VISIBLE);
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.connect_internet), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -386,64 +382,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 
-
-    private void onlyParent() {
-        myDb = new SqliteDB(TeacherSplashScreen.this);
-
-        if (myDb.checkChildDetails()) {
-            arrChildList.addAll(myDb.getChildDetails());
-        } else {
-            showSettingsAlert1();
-        }
-
-        pubStArrChildList.addAll(arrChildList);
-        Intent inHome = new Intent(TeacherSplashScreen.this, ChildrenScreen.class);
-        inHome.putExtra("CHILD_LIST", arrChildList);
-        startActivity(inHome);
-        finish();
-    }
-
-    private void offLineChildList() {
-        myDb = new SqliteDB(TeacherSplashScreen.this);
-
-        if (myDb.checkChildDetails()) {
-            arrChildList.addAll(myDb.getChildDetails());
-        } else {
-            showSettingsAlert1();
-        }
-        pubStArrChildList.addAll(arrChildList);
-
-        ArrayList<TeacherSchoolsModel> list = TeacherUtil_SharedPreference.getlistSchoolDetails(TeacherSplashScreen.this, "listSchoolDetails");
-        TeacherUtil_Common.listschooldetails = list;
-
-        if (list.size() == 1) {
-            String strStaffId = TeacherUtil_SharedPreference.getStaffID(TeacherSplashScreen.this);
-            String strSchoolId = TeacherUtil_SharedPreference.getSchoolID(TeacherSplashScreen.this);
-
-            TeacherUtil_Common.Principal_staffId = strStaffId;
-            Log.d("staff", TeacherUtil_Common.Principal_staffId);
-            TeacherUtil_Common.Principal_SchoolId = strSchoolId;
-            Log.d("school", TeacherUtil_Common.Principal_SchoolId);
-        }
-
-        String strSchoolId = TeacherUtil_SharedPreference.getSchoolID(TeacherSplashScreen.this);
-        String strStaffId1 = TeacherUtil_SharedPreference.getStaffID(TeacherSplashScreen.this);
-        String schoolname = TeacherUtil_SharedPreference.getSchoolName(TeacherSplashScreen.this);
-        String schooladdress = TeacherUtil_SharedPreference.getStaffAddress(TeacherSplashScreen.this);
-
-
-        Intent inHome = new Intent(TeacherSplashScreen.this, ChildrenScreen.class);
-        inHome.putExtra("CHILD_LIST", arrChildList);
-        inHome.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
-        inHome.putExtra("schoolname", schoolname);
-        inHome.putExtra("Staff_ID1", strStaffId1);
-        inHome.putExtra("schooladdress", schooladdress);
-        inHome.putExtra("TeacherSchoolsModel", TeacherUtil_SharedPreference.getschoolmodel(TeacherSplashScreen.this, "schoolmodel"));
-        inHome.putExtra("schoollist", TeacherUtil_SharedPreference.getschoollist(TeacherSplashScreen.this, "schoollist"));
-        inHome.putExtra("list", TeacherUtil_SharedPreference.getlistSchoolDetails(TeacherSplashScreen.this, "listSchoolDetails"));
-        startActivity(inHome);
-        finish();
-    }
     private void showSettingsAlert1() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherSplashScreen.this);
         alertDialog.setTitle(R.string.alert);
@@ -1359,11 +1297,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                                 arrayList = new ArrayList<>();
                                 arrayList.addAll(arrChildList);
-                                myDb = new SqliteDB(TeacherSplashScreen.this);
-                                if (myDb.checkChildDetails()) {
-                                    myDb.deleteChildDetails();
-                                }
-                                myDb.addChildDetails((ArrayList<Profiles>) arrChildList, TeacherSplashScreen.this);
+
                                 pubStArrChildList.addAll(arrChildList);
 
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(TeacherSplashScreen.this, strMobile, strPassword, true);
@@ -1423,11 +1357,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                                 arrayList = new ArrayList<>();
                                 arrayList.addAll(arrChildList);
-                                myDb = new SqliteDB(TeacherSplashScreen.this);
-                                if (myDb.checkChildDetails()) {
-                                    myDb.deleteChildDetails();
-                                }
-                                myDb.addChildDetails((ArrayList<Profiles>) arrChildList, TeacherSplashScreen.this);
+
                                 pubStArrChildList.addAll(arrChildList);
 
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(TeacherSplashScreen.this, strMobile, strPassword, true);

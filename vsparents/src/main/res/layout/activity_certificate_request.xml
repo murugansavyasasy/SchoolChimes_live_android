@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/img_app_bg"
+    tools:context=".activity.CertificateRequestActivity">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/clr_white"
+        app:tabIndicatorColor="@color/clr_white"
+        app:tabTextColor="@color/clr_white"
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        />
+
+    <FrameLayout
+        android:layout_above="@+id/lnrAdView"
+        android:layout_below="@+id/tabs"
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:id="@+id/lnrAdView"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bannerView"
+            android:layout_marginTop="10dp"
+            layout="@layout/ads_view"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

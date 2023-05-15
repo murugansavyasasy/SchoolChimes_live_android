@@ -113,8 +113,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
     private ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
     private ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
     private int i_schools_count = 0;
-    TeacherSchoolsModel schoolsModel = null;
-    //    boolean bIsGroupHead;
     private int iRequestCode;
     boolean bEmergency;
     int iMaxRecDur;

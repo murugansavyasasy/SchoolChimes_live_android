@@ -37,13 +37,11 @@ import com.vs.schoolmessenger.adapter.DatesListAdapter;
 import com.vs.schoolmessenger.interfaces.DatesListListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.DatesModel;
-import com.vs.schoolmessenger.model.ExamGroupHeader;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
@@ -52,8 +50,6 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -82,7 +78,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
     private int iRequestCode;
 
-    SqliteDB myDb;
     ArrayList<DatesModel> arrayList;
     TextView lblNoMessages;
 
@@ -1008,23 +1003,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         JsonObject jsonObject = new JsonObject();
 
 
-
-//        if (schools_list != null) {
-//            for (int i = 0; i < schools_list.size(); i++) {
-//                final TeacherSchoolsModel model = schools_list.get(i);
-//                IDs = IDs + model.getStrStaffID() + "~";
-//
-//            }
-//        }
-//        if (childList != null) {
-//            for (int i = 0; i < childList.size(); i++) {
-//                final Profiles model = childList.get(i);
-//                IDs = IDs + model.getChildID() + "~";
-//            }
-//        }
-//
-//        IDs = IDs.substring(0, IDs.length() - 1);
-        //Log.d("IDS", IDs);
 
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {

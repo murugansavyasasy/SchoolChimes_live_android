@@ -86,7 +86,6 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
     private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
     private static final String FRAG_TAG_TIME_PICKER = "fragment_time_picker_name";
 
-    //String[] meetingPlatforms = {"Google Meet","Zoom","Microsoft Teams" };
     ArrayAdapter<String> platforms;
 
 

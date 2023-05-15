@@ -114,7 +114,6 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
             public void stdSec_addClass(TeacherSectionModel stdSec) {
                 if (stdSec != null) {
                     listSelectedStandards.add(stdSec);
-                    Log.e("AddCheck", stdSec.getStdSecCode()+"-"+stdSec.getSubject());
                     i_standards_count++;
                     enableDisableNext();
 
@@ -184,7 +183,6 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
     }
 
     private void enableDisableNext() {
-        Log.d("i_standards_count", "count: " + i_standards_count);
         if (i_standards_count > 0)
             btnConfirm.setEnabled(true);
         else btnConfirm.setEnabled(false);
@@ -238,9 +236,7 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
 
             }
 
-            Log.e("B4_Notify","******");
             adapter.notifyDataSetChanged();
-            Log.e("After_Notify","******");
         } else if (requestCode == ADD_TEMP_CLASS_STATUS) {
             String message = data.getStringExtra("MESSAGE");
             if (message.equals("OK")) {
@@ -250,11 +246,9 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
                 for (int i = 0; i < sectionList.size(); i++) {
                     if (((sectionList.get(i).getStdSecCode()).equals(newSection.getStdSecCode()))
                             && ((sectionList.get(i).getSubjectCode()).equals(newSection.getSubjectCode()))) {
-                        Log.d("XXX", i + " Already Available");
                         bExist = true;
                         break;
                     } else {
-                        Log.d("XXX", i + " New StdSec and Subject");
                     }
                 }
 

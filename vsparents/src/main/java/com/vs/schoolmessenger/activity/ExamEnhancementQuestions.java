@@ -105,7 +105,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     public QuestionForQuizAdapter mAdapter;
     RelativeLayout ryttime;
     RadioButton radioButton;
-    //    SqliteDB myDb;
     String currenttime24,pdfuri,videourl,imageurl,quetime;
     PopupWindow popupWindow,popupimage,popuppdfWindow;
     @Override
@@ -140,7 +139,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         imgVideo = findViewById(R.id.imgVideo);
         imgShadow = findViewById(R.id.imgShadow);
         imgplay = findViewById(R.id.imgplay);
-//        myWebView = findViewById(R.id.myWebView);
         videoview = findViewById(R.id.videoview);
         rcyquestions = findViewById(R.id.rcyquestions);
         rgoptions = findViewById(R.id.rgoptions);
@@ -193,16 +191,13 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
 
         if (adapterpos == msgModelList.size() && msgModelList.size() != 0) {
-//            btnnext.setEnabled(false);
             imgnext.setImageResource(R.drawable.bg_next_disable);
             lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
         } else {
-//            btnnext.setEnabled(true);
             imgnext.setImageResource(R.drawable.bg_next_enable);
             lblnext.setTextColor(getResources().getColor(R.color.clr_black));
         }
         if (adapterpos == 0) {
-//            btnprevious.setEnabled(false);
             imgprev.setImageResource(R.drawable.bg_prev_disable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
         } else {
@@ -340,23 +335,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             long quereadseconds = Quetime.getTime() / 1000L;
             long totalsec=Endseconds-startseconds;
             long quesec=quereadseconds-startseconds;
-
-//            long difference = End.getTime() - Start.getTime();
-//            int days = (int) (difference / (1000*60*60*24));
-//            int hours = (int) ((difference - (1000*60*60*24*days)) / (1000*60*60));
-//            int min = (int) (difference - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
-//            if(hours < 0){
-//                hours+=24;
-//            }if(min < 0){
-//                float  newone = (float)min/60 ;
-//                min +=60;
-//                hours =(int) (hours +newone);}
-//            String c = hours+":"+min;
-//            Log.d("ANSWER",c);
-//            long hoursintosec=hours*60*60;
-//            long minintosec=min*60;
-//            long totalsec=hoursintosec+minintosec;
-
 
             Log.d("totalsec", String.valueOf(totalsec));
             iMaxRecDur = 0;
@@ -512,27 +490,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 }
             }
 
-//            if(lblduration.getText().toString().equals("Exam Time:00:00")||lblduration.getText().toString().equals("Exam Time:0:00")){
-//                if(answerlist.size()!=0) {
-//                    if(questionlist.size()!=msgModelList.size()){
-//
-//                        for(int i=0;i<msgModelList.size();i++){
-//                            if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
-//                                String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
-//                                answerlist.add(emptyque);
-//                            }
-//                        }
-//
-//                    }
-//
-//                     if(answerlist.size()==msgModelList.size()) {
-//                        submitquiz();
-//                    }
-//
-//                }else{
-//                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
-//                }
-//            }
             if(lblduration.getText().toString().equals("Exam Time:01:00")||lblduration.getText().toString().equals("Exam Time:1:00")){
                 showAlert("Please submit your exam on time or else exam will be submitted automatically");
             }
@@ -542,7 +499,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 recTimerHandler.postDelayed(this, 1000);
             }
 
-//                lblduration.setVisibility(View.GONE);
 
             lblduration.setText("Exam Time:"+milliSecondsToTimer(recTime * 1000));
             if(lblduration.getText().toString().equals("Exam Time:00:00")||lblduration.getText().toString().equals("Exam Time:0:00")){
@@ -732,11 +688,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                         Log.d("Response", response.body().toString());
 
                         try {
-//                            JSONArray  js = new JSONArray(response.body().toString());
                             JSONObject jsonObject = new JSONObject(response.body().toString());
-
-//                            if (js.length() > 0) {
-//                                JSONObject jsonObject = js.getJSONObject(0);
                             int strStatus = jsonObject.getInt("Status");
                             String strMsg = jsonObject.getString("Message");
 
@@ -747,28 +699,10 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                             else {
                                 showAlertfinish(strMsg);
                             }
-//                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response.body().toString());
-//                            int status = jsonObject.getInt("Status");
-//                            String message = jsonObject.getString("Message");
-//
-//                            if (status == 1) {
-//                                showAlert(message);
-//                            }
-//
-//                            else {
-//                                showAlert(getResources().getString(R.string.no_records));
-//                            }
-//
-//                        } catch (Exception e) {
-//                            Log.e("TextMsg:Exception", e.getMessage());
-//                        }
                     } else {
                         Toast.makeText(ExamEnhancementQuestions.this, "Server Response Failed", Toast.LENGTH_SHORT).show();
                     }
@@ -783,7 +717,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                // showToast("Server Connection Failed");
                 Toast.makeText(ExamEnhancementQuestions.this, "Server Connection Failed", Toast.LENGTH_SHORT).show();
 
             }
@@ -793,8 +726,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
     private void showAlert(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        //Setting Dialog Title
         alertDialog.setTitle("Alert");
 
         alertDialog.setMessage(msg);
@@ -803,17 +734,14 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             public void onClick(DialogInterface dialog, int which) {
 
                 dialog.cancel();
-//                finish();
 
             }
         });
 
 
         AlertDialog dialog = alertDialog.create();
-
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
@@ -821,7 +749,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     private void showAlertfinish(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-        //Setting Dialog Title
         alertDialog.setTitle("Alert");
 
         alertDialog.setMessage(msg);
@@ -846,16 +773,12 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     }
     private void showAlertApi(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        //Setting Dialog Title
         alertDialog.setTitle("Alert");
 
         alertDialog.setMessage(msg);
         alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-//                dialog.cancel();
                 submitquiz();
                 dialog.cancel();
             }
@@ -914,7 +837,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             System.out.println("Time: " + parts[3] );
             String currenttime24add=parts[3];
 
-            // ***********compare with current time and start time
 
             String _24HourTime11 = info.getTimeForQuestionReading()+":00";
             Log.d("starttime",_24HourTime11);
@@ -1036,21 +958,17 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             btnsubmit.setEnabled(true);
         }
         if (adapterpos == msgModelList.size()-1 && msgModelList.size() != 0) {
-//            btnnext.setEnabled(false);
             imgnext.setImageResource(R.drawable.bg_next_disable);
             lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
         } else {
-//            btnnext.setEnabled(true);
             imgnext.setImageResource(R.drawable.bg_next_enable);
             lblnext.setTextColor(getResources().getColor(R.color.clr_black));
         }
         if(adapterpos==0){
-//            btnprevious.setEnabled(false);
             imgprev.setImageResource(R.drawable.bg_prev_disable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
         }
         else{
-//            btnprevious.setEnabled(true);
             imgprev.setImageResource(R.drawable.bg_prev_enable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_black));
         }
@@ -1079,31 +997,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                     .into(imgview);
             imageurl=menu.getFileUrl();
 
-//                final ProgressDialog mProgressDialog = new ProgressDialog(this);
-//                mProgressDialog.setIndeterminate(true);
-//                mProgressDialog.setMessage("Loading...");
-//                mProgressDialog.setCancelable(false);
-//                if (!this.isFinishing()) {
-//                    mProgressDialog.show();
-//                }
-//                Glide.with(ExamEnhancementQuestions.this)
-//                        .load(imageurl)
-//                        .listener(new RequestListener<Drawable>() {
-//                            @Override
-//                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                                mProgressDialog.dismiss();
-//                                onBackPressed();
-//                                return false;
-//                            }
-//                            @Override
-//                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                                mProgressDialog.dismiss();
-//                                return false;
-//                            }
-//                        })
-//                        .into(imgview);
-//
-//            mProgressDialog.dismiss();
+
         }
         else{
             imgview.setVisibility(View.GONE);
@@ -1121,7 +1015,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
     @Override
     public void removeclass(QuestionForQuiz menu) {
-//        rgoptions.removeAllViews();
     }
     private void showvideopopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -1169,7 +1062,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             public void onProgressChanged(WebView view, int progress) {
                 setProgress(progress * 100);
                 if (progress == 100) {
-//                    myWebView.loadUrl(playurl);
                 }
             }
         });
@@ -1395,12 +1287,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 browserIntent.setPackage("com.android.chrome");
                 startActivity(browserIntent);
-//                showpdfpopup();
-//                Intent i=new Intent(ExamEnhancementQuestions.this,PdfQuizScreen.class);
-//                i.putExtra("TYPE","PDF");
-//                i.putExtra("CONTENT",pdfuri);
 
-//                startActivity(i);
                 break;
 
             case R.id.imgVideo:

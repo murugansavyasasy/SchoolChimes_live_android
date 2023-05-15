@@ -165,15 +165,11 @@ public class TeacherNoticeBoard extends AppCompatActivity {
     private void listSchoolsAPI() {
         i_schools_count = 0;
         for (int i = 0; i < listschooldetails.size(); i++) {
-            Log.d("test3", "test3" + listschooldetails.size());
             TeacherSchoolsModel ss = listschooldetails.get(i);
-            Log.d("test4", "test4");
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
                     ss.getStrStaffID(), ss.getStrStaffName(), true,ss.getBookEnable(),ss.getOnlineLink(),ss.getIsPaymentPending());
-            Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
-            Log.d("Testing", "8***********************");
         }
 
 
@@ -262,14 +258,12 @@ public class TeacherNoticeBoard extends AppCompatActivity {
 
     public void validation() {
         strmessage = etMessage.getText().toString().trim();
-        Log.d("Message", strmessage);
     }
 
 
     private void SendEmergencyVoiceGroupheadAPI() {
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherNoticeBoard.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherNoticeBoard.this);
@@ -323,7 +317,6 @@ public class TeacherNoticeBoard extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -332,14 +325,10 @@ public class TeacherNoticeBoard extends AppCompatActivity {
     private void showAlert(String strMsg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherNoticeBoard.this);
 
-        //Setting Dialog Title
         alertDialog.setTitle(R.string.alert);
 
-        //Setting Dialog Message
         alertDialog.setMessage(strMsg);
 
-        //On Pressing Setting button
-        // On pressing cancel button
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -347,7 +336,6 @@ public class TeacherNoticeBoard extends AppCompatActivity {
                 onBackPressed();
                 dialog.cancel();
                 finish();
-//                locationtrack();
 
             }
         });
@@ -360,7 +348,6 @@ public class TeacherNoticeBoard extends AppCompatActivity {
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
 
-        // alertDialog.show();
     }
 
     private JsonObject constructJsonArrayMgtSchoolsGrouphead() {
@@ -369,20 +356,16 @@ public class TeacherNoticeBoard extends AppCompatActivity {
         try {
             jsonObjectSchool.addProperty("TopicHeading", strdescription);
             jsonObjectSchool.addProperty("TopicBody", strmessage);
-//            jsonObjectSchool.addProperty("CallerType", "A");
 
             JsonArray jsonArrayschool = new JsonArray();
 
             for (int i = 0; i < seletedschoollist.size(); i++) {
                 JsonObject jsonObjectschoolId = new JsonObject();
                 jsonObjectschoolId.addProperty("SchoolId", seletedschoollist.get(i).getStrSchoolID());
-                Log.d("selectsize", String.valueOf(seletedschoollist.size()));
-                Log.d("schoolid", seletedschoollist.get(i).getStrSchoolID());
                 jsonObjectschoolId.addProperty("StaffID", seletedschoollist.get(i).getStrStaffID());
                 jsonArrayschool.add(jsonObjectschoolId);
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchool.add("Schools", jsonArrayschool);
             Log.d("Final_Array", jsonObjectSchool.toString());
 

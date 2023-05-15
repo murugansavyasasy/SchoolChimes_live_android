@@ -89,7 +89,6 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
             TeacherUtil_Common.Principal_SchoolId = SchoolID;
             StaffID = getIntent().getExtras().getString("STAFF_ID", "");
             TeacherUtil_Common.Principal_staffId = StaffID;
-            Log.d("SchoolID", SchoolID + " " + StaffID);
         }
         Searchable.addTextChangedListener(new TextWatcher() {
             @Override
@@ -130,9 +129,7 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         absenteesDateReportAdapter = new TeachersAbsenteesDateReportAdapter(TeacherAbsenteesReport.this, dateList, new TeacherAbsenteesDateListener() {
             @Override
             public void onItemClick(TeacherAbsenteesDates item) {
-                Log.d(TAG, "Selected Date: " + item.getDate());
                 Intent in = new Intent(TeacherAbsenteesReport.this, TeacherAbsenteesByStandardWise.class);
-
                 in.putExtra("LIST_STDS", item.getStandards());
                 startActivity(in);
 
@@ -254,7 +251,6 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                                         TeacherABS_Standard abs_standard;
 
                                         abs_standard = new TeacherABS_Standard(jsonObjectgroups.getString("ClassName"), jsonObjectgroups.getString("TotalAbsentees"));
-                                        Log.d("STD&SEC", jsonObjectgroups.getString("ClassName") + jsonObjectgroups.getString("TotalAbsentees"));
                                         abs_standard.setSid(jsonObjectgroups.getString("ClassId"));
 
 
@@ -265,7 +261,6 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                                                 JSONObject jsonObjectsections = jSONArraysection.getJSONObject(k);
                                                 TeacherABS_Section abs_section;
                                                 abs_section = new TeacherABS_Section(jsonObjectsections.getString("SectionName"), jsonObjectsections.getString("TotalAbsentees"));
-                                                Log.d("childlist", abs_section.getSection());
                                                 listSections.add(abs_section);
                                             }
                                             abs_standard.setSections(listSections);
@@ -302,8 +297,6 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         try {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
             jsonObjectSchool.addProperty("StaffID", StaffID);
-            Log.d("schoolid", SchoolID);
-            Log.d("AbsenteeReport:req", jsonObjectSchool.toString());
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }

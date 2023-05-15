@@ -46,7 +46,6 @@ import java.util.List;
 
 public class LSRWListActivity extends AppCompatActivity {
 
-
     public ArrayList<lsrwModelClass> msgModelList = new ArrayList<>();
     RecyclerView recycleview;
     LSRWAdapter textAdapter;

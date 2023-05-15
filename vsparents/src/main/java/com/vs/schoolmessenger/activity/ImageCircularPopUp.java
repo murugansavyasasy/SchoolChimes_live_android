@@ -38,7 +38,6 @@ public class ImageCircularPopUp extends AppCompatActivity {
     TeacherMessageModel imgMsgModel;
     MessageModel MsgModel;
     TextView tvTitle, tvTime, tvStatus, tvdescription;
-
     ImageView ivImage;
     private ZoomageView demoView;
     String isNewVersion;
@@ -56,7 +55,6 @@ public class ImageCircularPopUp extends AppCompatActivity {
 
 
         imgMsgModel = (TeacherMessageModel) getIntent().getSerializableExtra("IMAGE_ITEM");
-       // imgMsgModel = (MessageModel) getIntent().getSerializableExtra("IMAGE_ITEM");
 
         isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ImageCircularPopUp.this);
         is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
@@ -142,39 +140,6 @@ public class ImageCircularPopUp extends AppCompatActivity {
                 .into(demoView);
 
 
-//        Glide.with(ImageCircularPopUp.this).load(imgMsgModel.getMsgContent())
-//                .asBitmap()
-//                .thumbnail(0.5f)
-////                .crossFade()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(new SimpleTarget<Bitmap>() {
-//                    @Override
-//                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-//
-//
-//                        ivImage.setImageBitmap(bitmap);
-//                        demoView.setImageBitmap(bitmap);
-//                        mProgressDialog.dismiss();
-//
-//                        if (imgMsgModel.getMsgReadStatus().equals("0"))
-//                            ChangeMsgReadStatus.changeReadStatus(ImageCircularPopUp.this, imgMsgModel.getMsgID(), MSG_TYPE_IMAGE, imgMsgModel.getMsgDate(), new OnRefreshListener() {
-//                                @Override
-//                                public void onRefreshItem() {
-//                                    imgMsgModel.setMsgReadStatus("1");
-//                                    if (imgMsgModel.getMsgReadStatus().equals("0"))
-//                                        tvStatus.setVisibility(View.VISIBLE);
-//                                    else tvStatus.setVisibility(View.GONE);
-//                                }
-//                            });
-//                    }
-//
-//                    @Override
-//                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-//                        super.onLoadFailed(e, errorDrawable);
-//                        onBackPressed();
-//                        showToast(getResources().getString(R.string.check_internet));
-//                    }
-//                });
 
     }
 

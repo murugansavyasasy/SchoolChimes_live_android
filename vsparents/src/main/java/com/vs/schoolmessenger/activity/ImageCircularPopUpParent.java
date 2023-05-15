@@ -18,9 +18,7 @@ import com.jsibbold.zoomage.ZoomageView;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.MessageModel;
-import com.vs.schoolmessenger.model.TeacherMessageModel;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 import androidx.annotation.Nullable;
@@ -38,7 +36,6 @@ public class ImageCircularPopUpParent extends AppCompatActivity {
     String isNewVersion;
     Boolean is_Archive;
 
-    SqliteDB myDb;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));

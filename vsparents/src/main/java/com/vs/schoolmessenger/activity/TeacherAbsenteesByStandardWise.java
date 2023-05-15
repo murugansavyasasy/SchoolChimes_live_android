@@ -39,7 +39,6 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
 public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
 
     ExpandableListView expListView;
-    ArrayList<TeacherABS_Section> listGropus = new ArrayList<>();
     Map<TeacherABS_Standard, ArrayList<TeacherABS_Section>> mapStandardsAndGroups;
     ArrayList<TeacherABS_Standard> listHeaderParent = new ArrayList<>();
     TeacherAbsenteesExpandableListAdapter absenteesExpandableListAdapter;
@@ -92,7 +91,6 @@ public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
     }
 
     private void loadSubList(ArrayList<TeacherABS_Section> laptopModels) {
-        Log.d("SectionCount", "" + laptopModels.size());
         listClassGroupsCollection = new ArrayList<>();
         for (TeacherABS_Section model : laptopModels)
             listClassGroupsCollection.add(model);
@@ -102,7 +100,6 @@ public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
     private void loadStdSections() {
         mapStandardsAndGroups = new LinkedHashMap<>();
         for (TeacherABS_Standard groupclass : listHeaderParent) {
-            Log.d("STD", groupclass.getStandard());
             loadSubList(groupclass.getSections());
             mapStandardsAndGroups.put(groupclass, listClassGroupsCollection);
         }

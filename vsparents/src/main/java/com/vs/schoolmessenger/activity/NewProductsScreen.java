@@ -37,9 +37,7 @@ public class NewProductsScreen extends AppCompatActivity {
 
         TeacherUtil_SharedPreference.putNewProduct(NewProductsScreen.this,"1");
         MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(NewProductsScreen.this);
-        Log.d("MobileNumber",MobileNumber);
         OfferLink=TeacherUtil_SharedPreference.getNewProductLink(NewProductsScreen.this);
-        Log.d("products_OfferLink",OfferLink+MobileNumber);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);

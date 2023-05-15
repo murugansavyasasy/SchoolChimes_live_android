@@ -227,8 +227,6 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-
                 dialog.cancel();
                 finish();
 
@@ -239,7 +237,6 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         AlertDialog dialog = alertDialog.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
 
@@ -469,13 +466,8 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                 String ID = model.getStrLanguageID();
                 String code = model.getScriptCode();
 
-                Log.d("code", code);
-                Log.d("ID", ID);
 
                 changeLanguage(code, ID);
-
-
-
                 dialog.cancel();
 
 
@@ -604,11 +596,8 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                         LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),ExamCircularActivity.this);
                         LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),ExamCircularActivity.this);
 
-
-
                         if (Integer.parseInt(status) > 0) {
                             showToast(message);
-
                             Locale myLocale = new Locale(lang);
                             //saveLocale(lang);
                             Locale.setDefault(myLocale);
@@ -761,8 +750,6 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
-
-
     }
 }
 

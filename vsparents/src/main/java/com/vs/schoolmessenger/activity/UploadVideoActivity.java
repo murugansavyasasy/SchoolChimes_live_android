@@ -141,16 +141,12 @@ public class UploadVideoActivity extends AppCompatActivity implements View.OnCli
     private void listSchoolsAPI() {
         i_schools_count = 0;
         for (int i = 0; i < listschooldetails.size(); i++) {
-            Log.d("test3", "test3" + listschooldetails.size());
             TeacherSchoolsModel ss = listschooldetails.get(i);
-            Log.d("test4", "test4");
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
                     ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending());
 
-            Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
-            Log.d("Testing", "8***********************");
         }
         if (iRequestCode == PRINCIPAL_VIDEOS) {
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
@@ -258,9 +254,7 @@ public class UploadVideoActivity extends AppCompatActivity implements View.OnCli
                     File file = new File(filePath);
                     VideoFileSize = file.length();
                     VideoFileSize = VideoFileSize/1024;
-                    Log.d("FileSizeKB","Video size:"+VideoFileSize+"KB");
                     VideoFileSize=VideoFileSize/1024;
-                    Log.d("fileSizeMB","Video size:"+VideoFileSize+"MB");
 
 
 
@@ -269,7 +263,6 @@ public class UploadVideoActivity extends AppCompatActivity implements View.OnCli
                     rytVideoClick.setVisibility(View.GONE);
                     videoView.setVisibility(View.GONE);
 
-                    // imgVideo.setBackgroundResource(R.drawable.play_button);
                     Bitmap bMap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MICRO_KIND);
                     imgVideo.setImageBitmap(bMap);
                     imgPlay.setVisibility(View.VISIBLE);
@@ -306,9 +299,6 @@ public class UploadVideoActivity extends AppCompatActivity implements View.OnCli
                 intoSec.putExtra("REQUEST_CODE", iRequestCode);
                 intoSec.putExtra("TO", "SEC");
 
-//                intoSec.putExtra("FILEPATH", strCompressedImagePath);
-//                intoSec.putExtra("FILE_PATH_PDF", strPDfFilePath);
-//                intoSec.putExtra("PATH_LIST", imagePathList);
 
                 intoSec.putExtra("TITTLE", strtittle);
                 startActivityForResult(intoSec, iRequestCode);
@@ -320,9 +310,6 @@ public class UploadVideoActivity extends AppCompatActivity implements View.OnCli
                 intoStu.putExtra("REQUEST_CODE", iRequestCode);
                 intoStu.putExtra("TO", "STU");
 
-//                intoStu.putExtra("FILEPATH", strCompressedImagePath);
-//                intoStu.putExtra("FILE_PATH_PDF", strPDfFilePath);
-//                intoStu.putExtra("PATH_LIST", imagePathList);
 
                 intoStu.putExtra("TITTLE", strtittle1);
                 startActivityForResult(intoStu, iRequestCode);

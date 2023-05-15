@@ -3,16 +3,19 @@ package com.vs.schoolmessenger.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.vs.schoolmessenger.LessonPlan.Activity.LessonPlanActivity;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
 import com.vs.schoolmessenger.assignment.ImageAssignmentActivity;
@@ -36,6 +39,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANC
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_CHAT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_DAILY_COLLECTION;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_LESSON_PLAN;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MEETING_URL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MESSAGESFROMMANAGEMENT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_SCHOOLSTRENGTH;
@@ -94,7 +98,7 @@ public class TeacherSchoolList extends AppCompatActivity {
             Log.d("test4", "test4");
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
-                    ss.getStrStaffID(), ss.getStrStaffName(), true,ss.getBookEnable(),ss.getOnlineLink(),ss.getIsPaymentPending());
+                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending());
             Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
             Log.d("Testing", "8***********************");
@@ -224,15 +228,15 @@ public class TeacherSchoolList extends AppCompatActivity {
             rvSchoolsList.setAdapter(schoolsListAdapter);
         }
 
-        if(iRequestCode == PRINCIPAL_MEETING_URL || iRequestCode == STAFF_MEETING_URL){
+        if (iRequestCode == PRINCIPAL_MEETING_URL || iRequestCode == STAFF_MEETING_URL) {
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
                     new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
                             Intent inPrincipal = new Intent(TeacherSchoolList.this, TeacherMeetingURLScreen.class);
 
-                                inPrincipal.putExtra("REQUEST_CODE", iRequestCode);
-                                inPrincipal.putExtra("SCHOOL_ID", item.getStrSchoolID());
+                            inPrincipal.putExtra("REQUEST_CODE", iRequestCode);
+                            inPrincipal.putExtra("SCHOOL_ID", item.getStrSchoolID());
                             inPrincipal.putExtra("STAFF_ID", item.getStrStaffID());
                             startActivityForResult(inPrincipal, iRequestCode);
                         }
@@ -246,7 +250,7 @@ public class TeacherSchoolList extends AppCompatActivity {
             rvSchoolsList.setAdapter(schoolsListAdapter);
         }
 
-        if(iRequestCode == PRINCIPAL_MESSAGESFROMMANAGEMENT){
+        if (iRequestCode == PRINCIPAL_MESSAGESFROMMANAGEMENT) {
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
                     new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
                         @Override
@@ -271,38 +275,34 @@ public class TeacherSchoolList extends AppCompatActivity {
 
         if (iRequestCode == PRINCIPAL_ASSIGNMENT) {
 
-           final String Type = getIntent().getExtras().getString("Type", "");
+            final String Type = getIntent().getExtras().getString("Type", "");
 
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
                     new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
-                            TeacherUtil_Common.Principal_SchoolId=item.getStrSchoolID();
-                            TeacherUtil_Common.Principal_staffId=item.getStrStaffID();
+                            TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
+                            TeacherUtil_Common.Principal_staffId = item.getStrStaffID();
 
-                            if(Type.equals("Message")) {
+                            if (Type.equals("Message")) {
                                 Intent inPrincipal = new Intent(TeacherSchoolList.this, MessageAssignmentActivity.class);
                                 startActivity(inPrincipal);
-                            }
-                            else if(Type.equals("Voice")){
+                            } else if (Type.equals("Voice")) {
                                 Intent inPrincipal = new Intent(TeacherSchoolList.this, VoiceAssignmentActivity.class);
                                 startActivity(inPrincipal);
-                            }
-                            else if(Type.equals("Image")){
+                            } else if (Type.equals("Image")) {
                                 Intent inPrincipal = new Intent(TeacherSchoolList.this, ImageAssignmentActivity.class);
                                 startActivity(inPrincipal);
-                            }
-                            else if(Type.equals("Pdf")){
+                            } else if (Type.equals("Pdf")) {
                                 Intent inPrincipal = new Intent(TeacherSchoolList.this, PdfAssignmentActivity.class);
                                 startActivity(inPrincipal);
-                            }
-                            else if(Type.equals("View")){
+                            } else if (Type.equals("View")) {
                                 ViewAssignment fragment1 = new ViewAssignment();
                                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction().disallowAddToBackStack();
                                 ft.detach(fragment1);
                                 ft.attach(fragment1);
                                 Bundle bundle = new Bundle();
-                                bundle.putString("view","1");
+                                bundle.putString("view", "1");
                                 fragment1.setArguments(bundle);
                                 ft.commit();
                             }
@@ -317,7 +317,7 @@ public class TeacherSchoolList extends AppCompatActivity {
             rvSchoolsList.setAdapter(schoolsListAdapter);
         }
 
-        if(iRequestCode==VIDEO_GALLERY){
+        if (iRequestCode == VIDEO_GALLERY) {
             final String Type = getIntent().getExtras().getString("Type", "");
             final String title = getIntent().getExtras().getString("TITLE", "");
             final String content = getIntent().getExtras().getString("CONTENT", "");
@@ -328,14 +328,14 @@ public class TeacherSchoolList extends AppCompatActivity {
                     new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
-                            TeacherUtil_Common.Principal_SchoolId=item.getStrSchoolID();
-                            TeacherUtil_Common.Principal_staffId=item.getStrStaffID();
+                            TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
+                            TeacherUtil_Common.Principal_staffId = item.getStrStaffID();
 
-                            if(Type.equals("Recipient")) {
+                            if (Type.equals("Recipient")) {
                                 Intent inPrincipal = new Intent(TeacherSchoolList.this, VideoPrincipalRecipient.class);
                                 inPrincipal.putExtra("REQUEST_CODE", VIDEO_GALLERY);
 
-                                inPrincipal.putExtra("TITLE",title);
+                                inPrincipal.putExtra("TITLE", title);
                                 inPrincipal.putExtra("CONTENT", content);
                                 inPrincipal.putExtra("FILEPATH", filepath);
                                 inPrincipal.putExtra("FILE_SIZE", size);
@@ -352,18 +352,18 @@ public class TeacherSchoolList extends AppCompatActivity {
             rvSchoolsList.setItemAnimator(new DefaultItemAnimator());
             rvSchoolsList.setAdapter(schoolsListAdapter);
         }
-        if(iRequestCode==PRINCIPAL_CHAT){
+        if (iRequestCode == PRINCIPAL_CHAT) {
 
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
                     new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
-                            TeacherUtil_Common.Principal_SchoolId=item.getStrSchoolID();
-                            TeacherUtil_Common.Principal_staffId=item.getStrStaffID();
+                            TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
+                            TeacherUtil_Common.Principal_staffId = item.getStrStaffID();
 
-                               Intent inPrincipal = new Intent(TeacherSchoolList.this, StaffDetailListActivity.class);
-                                inPrincipal.putExtra("REQUEST_CODE", PRINCIPAL_CHAT);
-                                startActivity(inPrincipal);
+                            Intent inPrincipal = new Intent(TeacherSchoolList.this, StaffDetailListActivity.class);
+                            inPrincipal.putExtra("REQUEST_CODE", PRINCIPAL_CHAT);
+                            startActivity(inPrincipal);
 
 
                         }
@@ -378,15 +378,15 @@ public class TeacherSchoolList extends AppCompatActivity {
         }
 
 
-        if(iRequestCode == PRINCIPAL_STUDENT_REPORT){
+        if (iRequestCode == PRINCIPAL_STUDENT_REPORT) {
 
 
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
                     new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
-                            TeacherUtil_Common.Principal_SchoolId=item.getStrSchoolID();
-                            TeacherUtil_Common.Principal_staffId=item.getStrStaffID();
+                            TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
+                            TeacherUtil_Common.Principal_staffId = item.getStrStaffID();
 
                             Intent inPrincipal = new Intent(TeacherSchoolList.this, StudentReportActivity.class);
                             inPrincipal.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
@@ -406,17 +406,16 @@ public class TeacherSchoolList extends AppCompatActivity {
             rvSchoolsList.setAdapter(schoolsListAdapter);
 
 
-
         }
 
-        if(iRequestCode == PRINCIPAL_DAILY_COLLECTION){
+        if (iRequestCode == PRINCIPAL_DAILY_COLLECTION) {
 
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
                     new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
-                            TeacherUtil_Common.Principal_SchoolId=item.getStrSchoolID();
-                            TeacherUtil_Common.Principal_staffId=item.getStrStaffID();
+                            TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
+                            TeacherUtil_Common.Principal_staffId = item.getStrStaffID();
 
                             Intent inPrincipal = new Intent(TeacherSchoolList.this, DailyFeeCollectionActivity.class);
                             inPrincipal.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
@@ -438,34 +437,53 @@ public class TeacherSchoolList extends AppCompatActivity {
         }
 
 
+        if (iRequestCode == PRINCIPAL_LESSON_PLAN) {
+            TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
+                    new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
+                        @Override
+                        public void onItemClick(TeacherSchoolsModel item) {
+                            TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
+                            TeacherUtil_Common.Principal_staffId = item.getStrStaffID();
+
+                            Intent inPrincipal = new Intent(TeacherSchoolList.this, LessonPlanActivity.class);
+                            inPrincipal.putExtra("REQUEST_CODE", PRINCIPAL_LESSON_PLAN);
+                            inPrincipal.putExtra("SCHOOL_ID", item.getStrSchoolID());
+                            inPrincipal.putExtra("STAFF_ID", item.getStrStaffID());
+                            startActivity(inPrincipal);
 
 
+                        }
+                    });
 
-        if(iRequestCode==PRINCIPAL_TEXT){
+            rvSchoolsList.hasFixedSize();
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TeacherSchoolList.this);
+            rvSchoolsList.setLayoutManager(layoutManager);
+            rvSchoolsList.addItemDecoration(new DividerItemDecoration(TeacherSchoolList.this, LinearLayoutManager.VERTICAL));
+            rvSchoolsList.setItemAnimator(new DefaultItemAnimator());
+            rvSchoolsList.setAdapter(schoolsListAdapter);
+
+        }
+
+
+        if (iRequestCode == PRINCIPAL_TEXT) {
 
             generealTextScreen();
 
-            }
+        }
 
-        if(iRequestCode==STAFF_TEXT){
+        if (iRequestCode == STAFF_TEXT) {
             generealTextScreen();
+        }
 
 
-            }
-
-
-
-        if(iRequestCode==STAFF_VOICE){
+        if (iRequestCode == STAFF_VOICE) {
             voiceScreen();
-            }
+        }
 
-        if(iRequestCode==PRINCIPAL_VOICE){
+        if (iRequestCode == PRINCIPAL_VOICE) {
 
             voiceScreen();
-            }
-
-
-
+        }
 
 
     }

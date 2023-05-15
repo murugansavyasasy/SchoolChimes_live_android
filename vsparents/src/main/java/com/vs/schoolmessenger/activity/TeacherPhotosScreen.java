@@ -87,10 +87,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
     public static final String IMAGE_FOLDER_NAME = "School Messenger/image";
     public static final String IMAGE_FILE_NAME = "imageCircular.png";
 
-    public static int IMAGE_UPLOAD_STATUS = 123;
 
-    // school list
-//    boolean bIsPrincipal;
     private int iRequestCode;
     RecyclerView rvSchoolsList;
     String loginType;
@@ -99,15 +96,10 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
     private ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
     private int i_schools_count = 0;
 
-    // Compress...
-    private File actualImage;
-    private File compressedImage;
+
     String strCompressedImagePath, strPDfFilePath = "";
 
     boolean bEnableListView = false;
-
-    String imageEncoded;
-    List<String> imagesEncodedList;
 
     private ArrayList<String> imagePathList = new ArrayList<>();
 
@@ -125,14 +117,11 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
     ImageView imgColorShaddow;
     Boolean alertshow=false;
 
-    private Uri fileUri;
 
-    ClipData mClipData;
     String imageFilePath;
     File photoFile;
     Button btnStaffGroups;
 
-    // private ArrayList<Imagess> images = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -402,15 +391,11 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
     private void listSchoolsAPI() {
         i_schools_count = 0;
         for (int i = 0; i < listschooldetails.size(); i++) {
-            Log.d("test3", "test3" + listschooldetails.size());
             TeacherSchoolsModel ss = listschooldetails.get(i);
-            Log.d("test4", "test4");
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
                     ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending());
-            Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
-            Log.d("Testing", "8***********************");
         }
         if (iRequestCode == PRINCIPAL_PHOTOS) {
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
@@ -516,36 +501,8 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
 
     }
 
-    private void showToast(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-    }
 
 
-
-    private Uri getCaptureImageOutputUri() {
-        Uri outputFileUri = null;
-        File getImage = getExternalCacheDir();
-        if (getImage != null) {
-            outputFileUri = Uri.fromFile(new File(getImageFilename()));
-            Log.d("outputurivalue", outputFileUri.toString());
-        }
-        return outputFileUri;
-    }
-
-
-    private String getImageFilename() {
-        String filepath = Environment.getExternalStorageDirectory().getPath();
-        File fileDir = new File(filepath, IMAGE_FOLDER_NAME);
-
-        if (!fileDir.exists()) {
-            fileDir.mkdirs();
-        }
-
-        File fileNamePath = new File(fileDir, IMAGE_FILE_NAME);
-        strSelectedImgFilePath = fileNamePath.getPath();
-        Log.d("FILE_PATH", strSelectedImgFilePath);
-        return strSelectedImgFilePath; //+ System.currentTimeMillis()
-    }
 
     private void alert(String strStudName) {
         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(TeacherPhotosScreen.this);
@@ -728,8 +685,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                         }
                     }
 
-                    //  deleteTempFiles(getCacheDir());
-
                     long pathlength = outputFile.length();
                     if (pathlength <= sizekb) {
 
@@ -781,9 +736,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                         lblClickImage.setVisibility(View.GONE);
                         img1.setEnabled(true);
 
-                        Log.d("File_path", imageFilePath);
                         imagePathList.add(imageFilePath);
-                        Log.d("size", String.valueOf(imagePathList.size()));
                         Glide.with(this).load(imageFilePath).into(img1);
                     } else {
                         String filecontent = TeacherUtil_SharedPreference.getFilecontent(TeacherPhotosScreen.this);
@@ -798,7 +751,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
 
                     bEnableListView = false;
                     imagePathList.clear();
-                    Log.d("size1", String.valueOf(imagePathList.size()));
                     lblClickImage.setVisibility(View.VISIBLE);
                     frmImageClick.setEnabled(true);
                     btnChangeImage.setEnabled(false);
@@ -814,7 +766,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
 
             bEnableListView = false;
             imagePathList.clear();
-            Log.d("size1", String.valueOf(imagePathList.size()));
             lblClickImage.setVisibility(View.VISIBLE);
             frmImageClick.setEnabled(true);
             btnChangeImage.setEnabled(false);

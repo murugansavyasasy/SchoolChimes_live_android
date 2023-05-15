@@ -40,18 +40,15 @@ import com.vs.schoolmessenger.model.ExamDateListClass;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
@@ -82,7 +79,6 @@ public class TextCircular extends AppCompatActivity {
 
     public ArrayList<ExamDateListClass> exams = new ArrayList<>();
 
-    SqliteDB myDb;
     ArrayList<MessageModel> arrayList;
 
     ArrayList<ExamDateListClass> subjects;
@@ -121,7 +117,6 @@ public class TextCircular extends AppCompatActivity {
         }
         else
         {
-            //selDate = getIntent().getExtras().getString("HEADER", "");
             selDate = "Notice Board";
         }
 
@@ -324,7 +319,6 @@ public class TextCircular extends AppCompatActivity {
         String strChildID = Util_SharedPreference.getChildIdFromSP(TextCircular.this);
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(TextCircular.this);
 
-        Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_Getnoticeboard(strChildID, strSchoolID);
@@ -352,7 +346,6 @@ public class TextCircular extends AppCompatActivity {
 
                         if (strStatus.equals("1")) {
                             MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
 
                            OfflinemsgModelList.clear();
                             for (int i = 0; i < js.length(); i++) {
@@ -386,14 +379,12 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("TextMsg:Failure", t.toString());
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        //TeacherUtil_SharedPreference.putOnBackPressed(TextCircular.this,"1");
         if(iRequestCode==MENU_TEXT){
             TeacherUtil_SharedPreference.putOnBackPressedText(TextCircular.this,"1");
         }
@@ -470,30 +461,6 @@ public class TextCircular extends AppCompatActivity {
 
     }
 
-    private void showSettingsAlert1() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(TextCircular.this);
-
-        alertDialog.setTitle(R.string.alert);
-
-
-        alertDialog.setMessage(R.string.connect_internet);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                finish();
-
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-    }
 
     private boolean isNetworkConnected() {
 
@@ -502,139 +469,10 @@ public class TextCircular extends AppCompatActivity {
         return connMgr.getActiveNetworkInfo() != null;
     }
 
-    private void voiceMsgType(String msgType) {
-        strMsgType = msgType;
-        circularsForGivenDateAPI2();
-    }
+
 
     private void showToast(String msg) {
         Toast.makeText(TextCircular.this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    private void prepareData() {
-        textAdapter.clearAllData();
-        for (int i = 0; i < 3; i++) {
-            MessageModel model = new MessageModel();
-            model.setMsgID(String.valueOf(i));
-            long unixTime = System.currentTimeMillis() / 1000L;
-            model.setMsgTitle(String.valueOf(unixTime));
-            model.setMsgContent(i + " " + getResources().getString(R.string.sample_txt_msg));
-            model.setMsgDate("10 May 2017");
-            model.setMsgTime("11:30 AM");
-            model.setMsgReadStatus("1");
-            msgModelList.add(model);
-        }
-
-        textAdapter.notifyDataSetChanged();
-    }
-
-    private void circularsForGivenDateAPI() {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-        String strChildID = Util_SharedPreference.getChildIdFromSP(TextCircular.this);
-        String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(TextCircular.this);
-
-        Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonArray jsonReqArray = Util_JsonRequest.getJsonArray_GetFiles(selDate, strChildID, strSchoolID, MSG_TYPE_SMS);
-        Call<JsonArray> call = apiService.GetFiles(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("TextMsg:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        String strDate = jsonObject.getString("ID");
-                        String strTotalSMS = jsonObject.getString("URL");
-
-                        if (!strDate.equals("")) {
-                            MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
-
-                            textAdapter.clearAllData();
-
-                            for (int i = 0; i < js.length(); i++) {
-                                jsonObject = js.getJSONObject(i);
-                                msgModel = new MessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
-                                        jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"),jsonObject.getString("Description"),false);
-                                msgModelList.add(msgModel);
-                            }
-
-                            textAdapter.notifyDataSetChanged();
-
-                        } else {
-                            showToast(strTotalSMS);
-                        }
-                    } else {
-                        showToast("No Records found. Try again");
-                    }
-
-                } catch (Exception e) {
-                    Log.e("TextMsg:Exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast("Check your Internet connectivity");
-                Log.d("TextMsg:Failure", t.toString());
-            }
-        });
-    }
-
-
-    private void circularsForGivenDateAPI2() {
-        try {
-            JSONArray js = new JSONArray("[{\"ID\":\"7344083\",\"URL\":\"Assalamu alaikum, MASHAA ALLAH aaj Vision Olympics for Parents bahot kamiyab raha, ham Vision International School ki taraf se sabhi parents ko aaj ke din her ek sports Mai Shamil hoker iss sports day ko kamiyab kerne ke liye shukriya Ada kerta hai\\nand Due to the same reason the school is announcing for holiday tomorrow that is on Monday 15 Jan 2018.\\n-Vision International School.\",\"Date\":\"14-01-2018\",\"Time\":\"19:14:45\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"0\",\"Query\":null,\"Question\":null},{\"ID\":\"7344083\",\"URL\":\"Assalamu alaikum, MASHAA ALLAH aaj Vision Olympics for Parents bahot kamiyab raha, ham Vision International School ki taraf se sabhi parents ko aaj ke din her ek sports Mai Shamil hoker iss sports day ko kamiyab kerne ke liye shukriya Ada kerta hai\\nand Due to the same reason the school is announcing for holiday tomorrow that is on Monday 15 Jan 2018.\\n-Vision International School.\",\"Date\":\"14-01-2018\",\"Time\":\"19:14:45\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"0\",\"Query\":null,\"Question\":null},{\"ID\":\"7332886\",\"URL\":\"Assalamu alaikum Vision Olympics Parents ke liye abhi Kuch hi pal mai shuru hone wala hai. Parents se darkhwast hai ke O is moukhe Mai Shamil hoker iska bharoose fayada uthaye.\\n-Vision International School.\",\"Date\":\"14-01-2018\",\"Time\":\"09:33:36\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"0\",\"Query\":null,\"Question\":null},{\"ID\":\"7332886\",\"URL\":\"Assalamu alaikum Vision Olympics Parents ke liye abhi Kuch hi pal mai shuru hone wala hai. Parents se darkhwast hai ke O is moukhe Mai Shamil hoker iska bharoose fayada uthaye.\\n-Vision International School.\",\"Date\":\"14-01-2018\",\"Time\":\"09:33:36\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"0\",\"Query\":null,\"Question\":null}]");
-            if (js.length() > 0) {
-                JSONObject jsonObject = js.getJSONObject(0);
-                String strDate = jsonObject.getString("ID");
-                String strTotalSMS = jsonObject.getString("URL");
-
-                if (!strDate.equals("")) {
-                    MessageModel msgModel;
-                    Log.d("json length", js.length() + "");
-
-                    textAdapter.clearAllData();
-
-                    for (int i = 0; i < js.length(); i++) {
-                        jsonObject = js.getJSONObject(i);
-                        msgModel = new MessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
-                                jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                jsonObject.getString("Date"), jsonObject.getString("Time"),jsonObject.getString("Description"),false);
-                        msgModelList.add(msgModel);
-                    }
-
-                    textAdapter.notifyDataSetChanged();
-
-                } else {
-                    showToast(strTotalSMS);
-                }
-            } else {
-                showToast(getResources().getString(R.string.check_internet));
-            }
-
-        } catch (Exception e) {
-            Log.e("TextMsg:Exception", e.getMessage());
-        }
     }
 
 
@@ -726,7 +564,6 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("TextMsg:Failure", t.toString());
             }
         });
     }
@@ -754,8 +591,6 @@ public class TextCircular extends AppCompatActivity {
 
         String strChildID = Util_SharedPreference.getChildIdFromSP(TextCircular.this);
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(TextCircular.this);
-
-        Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_Getnoticeboard(strChildID, strSchoolID);
@@ -824,7 +659,6 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("TextMsg:Failure", t.toString());
             }
         });
     }
@@ -850,8 +684,6 @@ public class TextCircular extends AppCompatActivity {
 
         String strChildID = Util_SharedPreference.getChildIdFromSP(TextCircular.this);
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(TextCircular.this);
-
-        Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_Getnoticeboard(strChildID, strSchoolID);
@@ -884,7 +716,6 @@ public class TextCircular extends AppCompatActivity {
 
                         if (strStatus.equals("1")) {
                             MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
 
                             tvadapter.clearAllData();
                             totalmsgModelList.clear();
@@ -939,7 +770,6 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("TextMsg:Failure", t.toString());
             }
         });
     }
@@ -965,7 +795,6 @@ public class TextCircular extends AppCompatActivity {
         String strChildID = Util_SharedPreference.getChildIdFromSP(TextCircular.this);
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(TextCircular.this);
 
-        Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_Getnoticeboard(strChildID, strSchoolID);
@@ -991,7 +820,6 @@ public class TextCircular extends AppCompatActivity {
 
                         if (strStatus.equals("1")) {
                             MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
 
                             tvadapter.clearAllData();
 
@@ -1025,7 +853,6 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("TextMsg:Failure", t.toString());
             }
         });
     }
@@ -1053,7 +880,6 @@ public class TextCircular extends AppCompatActivity {
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
 
-        //alertDialog.show();
     }
 
     private void circularsHomeworkAPI() {
@@ -1079,8 +905,6 @@ public class TextCircular extends AppCompatActivity {
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(TextCircular.this);
 
         String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(TextCircular.this);
-
-        Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_Gethomework(strChildID, selDate,"TEXT",strSchoolID,MobileNumber);
@@ -1111,7 +935,6 @@ public class TextCircular extends AppCompatActivity {
                         JSONObject jsonObject = js.getJSONObject(0);
 
                             MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
 
                             textAdapter.clearAllData();
 
@@ -1145,7 +968,6 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("TextMsg:Failure", t.toString());
             }
         });
     }

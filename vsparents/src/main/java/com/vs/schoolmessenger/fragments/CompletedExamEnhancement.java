@@ -28,7 +28,6 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.ExamEnhancement;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -50,7 +49,6 @@ public class CompletedExamEnhancement extends Fragment {
     private ArrayList<ExamEnhancement> msgModelList = new ArrayList<>();
 
     public ExamEnhancementAdapter mAdapter;
-    SqliteDB myDb;
     ArrayList<MessageModel> arrayList;
     String isNewVersion;
     TextView LoadMore;

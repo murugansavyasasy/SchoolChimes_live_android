@@ -126,8 +126,6 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
         strPDFFilepath = getIntent().getExtras().getString("FILE_PATH_PDF", "");
         strVideoFilePath = getIntent().getExtras().getString("VIDEO_FILE_PATH", "");
-        Log.d("SchoolID", SchoolID);
-        Log.d("StaffID", StaffID);
 
         if ((listschooldetails.size() == 1)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
@@ -499,7 +497,6 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -509,7 +506,6 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
@@ -607,7 +603,6 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -617,7 +612,6 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
@@ -754,7 +748,6 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 if (listClasses.get(i).isbSelected()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("TargetCode", listClasses.get(i).getStrID());
-                    Log.d("schoolid", listClasses.get(i).getStrID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
             }
@@ -764,7 +757,6 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 if (listGroups.get(i).isbSelected()) {
                     JsonObject jsonObjectgroups = new JsonObject();
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
-                    Log.d("schoolid", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }

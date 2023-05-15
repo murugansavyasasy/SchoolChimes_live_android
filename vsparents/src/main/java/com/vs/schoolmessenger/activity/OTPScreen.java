@@ -132,7 +132,6 @@ public class OTPScreen extends AppCompatActivity {
     }
 
     private void MobileNumberApi() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(OTPScreen.this);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -149,7 +148,6 @@ public class OTPScreen extends AppCompatActivity {
         jsonObject.addProperty("CountryID",CountryID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-       // Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePassword(mobilenumber);
         Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePasswordByCountryID(jsonObject);
 
         call.enqueue(new Callback<JsonArray>() {
@@ -169,15 +167,10 @@ public class OTPScreen extends AppCompatActivity {
                         if (js.length() > 0) {
                             JSONObject jsonObject = js.getJSONObject(0);
 
-                            String numberExists = jsonObject.getString("isNumberExists");
-                            String passwordUpdated = jsonObject.getString("isPasswordUpdated");
                             String OTPSent = jsonObject.getString("OTPSent");
-                            String OTP = jsonObject.getString("OTP");
-                            String Status = jsonObject.getString("Status");
                             String Message = jsonObject.getString("Message");
                             if(OTPSent.equals("1")){
                                 showAlert(getResources().getString(R.string.otp_sent));
-
                             }
 
                         }
@@ -205,17 +198,6 @@ public class OTPScreen extends AppCompatActivity {
         handler.removeCallbacks(yourRunnable);
     }
 
-    private void starthandler() {
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!condition) {
-                    alertShow();
-                }
-            }
-        }, 30000);
-    }
 
     private void verifyOTP() {
 
@@ -329,9 +311,6 @@ public class OTPScreen extends AppCompatActivity {
         alertDialog.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 againOtpApi();
-
-
-
             }
         });
         alertDialog.setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
@@ -361,7 +340,6 @@ public class OTPScreen extends AppCompatActivity {
         jsonObject.addProperty("CountryID",CountryID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        //Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePassword(num);
         Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePasswordByCountryID(jsonObject);
 
         call.enqueue(new Callback<JsonArray>() {
@@ -378,10 +356,7 @@ public class OTPScreen extends AppCompatActivity {
                         if (js.length() > 0) {
                             JSONObject jsonObject = js.getJSONObject(0);
 
-                            String numberExists = jsonObject.getString("isNumberExists");
-                            String passwordUpdated = jsonObject.getString("isPasswordUpdated");
                             String OTPSent = jsonObject.getString("OTPSent");
-                            String Status = jsonObject.getString("Status");
                             String Message = jsonObject.getString("Message");
 
                             if (OTPSent.equals("1")) {

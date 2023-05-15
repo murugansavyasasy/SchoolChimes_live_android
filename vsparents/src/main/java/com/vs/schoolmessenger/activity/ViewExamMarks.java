@@ -1,10 +1,12 @@
 package com.vs.schoolmessenger.activity;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,6 +20,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.ElementExamListAdapter;
@@ -30,32 +33,38 @@ import com.vs.schoolmessenger.model.Subgroup;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
+
 public class ViewExamMarks extends AppCompatActivity {
-    String child_id,schoolid,examid;
+    String child_id, schoolid, examid;
     android.widget.ScrollView ScrollView;
     ExpandableListView expSubjects;
-    RecyclerView rcyElements,rcyGroups;
+    RecyclerView rcyElements, rcyGroups;
     ElementExamListAdapter elementExamListAdapter;
     GroupExamListAdapter groupExamListAdapter;
     ExamMarksExpandableListAdapter examMarksExpandableListAdapter;
-    HashMap<String, ArrayList<String>> mapchild=new HashMap<>();
-    List<String> mapParent=new ArrayList<>();
+    HashMap<String, ArrayList<String>> mapchild = new HashMap<>();
+    List<String> mapParent = new ArrayList<>();
 
-    List<Element> elementList=new ArrayList<>();
-    List<Group> groupList=new ArrayList<>();
+    List<Element> elementList = new ArrayList<>();
+    List<Group> groupList = new ArrayList<>();
     ConstraintLayout parentlayout;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +90,7 @@ public class ViewExamMarks extends AppCompatActivity {
         rcyGroups = findViewById(R.id.rcyGroups);
         rcyElements = findViewById(R.id.rcyElements);
         parentlayout = findViewById(R.id.parentlayout);
-        examid=getIntent().getStringExtra("examid");
+        examid = getIntent().getStringExtra("examid");
         child_id = Util_SharedPreference.getChildIdFromSP(this);
         schoolid = Util_SharedPreference.getSchoolIdFromSP(this);
         expSubjects.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -103,7 +112,8 @@ public class ViewExamMarks extends AppCompatActivity {
             }
         });
         expSubjects.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            int lastExpandedPosition=-1;
+            int lastExpandedPosition = -1;
+
             @Override
             public void onGroupExpand(int groupPosition) {
 
@@ -116,6 +126,7 @@ public class ViewExamMarks extends AppCompatActivity {
         });
         marksApi();
     }
+
     private void marksApi() {
         String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
         if (isNewVersionn.equals("1")) {
@@ -133,9 +144,9 @@ public class ViewExamMarks extends AppCompatActivity {
         TeacherMessengerApiInterface apiService =
                 TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("SchoolID",schoolid );
+        jsonObject.addProperty("SchoolID", schoolid);
         jsonObject.addProperty("ChildID", child_id);
-        jsonObject.addProperty("ExamID",examid);
+        jsonObject.addProperty("ExamID", examid);
         Log.d("jsonObject", jsonObject.toString());
         Call<JsonObject> call = apiService.GetStudentExamMark(jsonObject);
         call.enqueue(new Callback<JsonObject>() {
@@ -159,29 +170,29 @@ public class ViewExamMarks extends AppCompatActivity {
                                 parentlayout.setVisibility(View.VISIBLE);
                                 ScrollView.setVisibility(View.VISIBLE);
                                 JSONArray data = jsonObject.getJSONArray("Data");
-                                for (int k=0;k<data.length();k++){
+                                for (int k = 0; k < data.length(); k++) {
 
                                     JSONObject subjects = data.getJSONObject(k);
 
-                                    JSONArray subjectarray=subjects.getJSONArray("subjects");
-                                    JSONArray elementsarray=subjects.getJSONArray("elements");
-                                    JSONArray groupsarray=subjects.getJSONArray("groups");
+                                    JSONArray subjectarray = subjects.getJSONArray("subjects");
+                                    JSONArray elementsarray = subjects.getJSONArray("elements");
+                                    JSONArray groupsarray = subjects.getJSONArray("groups");
 
-                                    for (int l=0;l<subjectarray.length();l++){
+                                    for (int l = 0; l < subjectarray.length(); l++) {
                                         JSONObject splits = subjectarray.getJSONObject(l);
                                         String subjectname = splits.getString("subjectname");
                                         String maxmark = splits.getString("maxmark");
                                         String markobt = splits.getString("markobt");
                                         String is_fail = splits.getString("is_fail");
 
-                                        JSONArray splitarray=splits.getJSONArray("split");
-                                        String subjectcreds=subjectname+" : "+markobt+" / "+maxmark +"_"+is_fail;
+                                        JSONArray splitarray = splits.getJSONArray("split");
+                                        String subjectcreds = subjectname + " : " + markobt + " / " + maxmark + "_" + is_fail;
 
-                                        if(splitarray.length()!=0) {
+                                        if (splitarray.length() != 0) {
                                             mapParent.add(subjectcreds);
 
-                                            ArrayList<String> marks=new ArrayList<>();
-                                            for (int m=0;m<splitarray.length();m++) {
+                                            ArrayList<String> marks = new ArrayList<>();
+                                            for (int m = 0; m < splitarray.length(); m++) {
 
                                                 JSONObject splitsmarks = splitarray.getJSONObject(m);
 
@@ -189,48 +200,48 @@ public class ViewExamMarks extends AppCompatActivity {
                                                 String splitmaxmark = splitsmarks.getString("maxmark");
                                                 String splitmarkobt = splitsmarks.getString("markobt");
                                                 String fail = splits.getString("is_fail");
-                                                Log.d("name",name);
-                                                String splitscreds=name+" : "+splitmarkobt+" / "+splitmaxmark+"_"+fail;
+                                                Log.d("name", name);
+                                                String splitscreds = name + " : " + splitmarkobt + " / " + splitmaxmark + "_" + fail;
                                                 marks.add(splitscreds);
 
-                                                mapchild.put(subjectcreds,marks);
+                                                mapchild.put(subjectcreds, marks);
 
                                             }
                                         }
                                     }
 
-                                    for (int n=0;n<elementsarray.length();n++){
+                                    for (int n = 0; n < elementsarray.length(); n++) {
 
                                         JSONObject elements = elementsarray.getJSONObject(n);
                                         String elementname = elements.getString("name");
                                         String elementmark = elements.getString("mark");
 
-                                        Element element=new Element(elementmark,elementname);
+                                        Element element = new Element(elementmark, elementname);
 
                                         elementList.add(element);
 
                                     }
 
-                                    for (int p=0;p<groupsarray.length();p++){
+                                    for (int p = 0; p < groupsarray.length(); p++) {
 
                                         JSONObject groups = groupsarray.getJSONObject(p);
                                         String groupname = groups.getString("name");
                                         String groupmark = groups.getString("mark");
-                                        JSONArray subgrouparray=groups.getJSONArray("subgroups");
+                                        JSONArray subgrouparray = groups.getJSONArray("subgroups");
 
-                                        List<Subgroup> subgrouplist=new ArrayList<>();
-                                        for (int i=0;i<subgrouparray.length();i++){
+                                        List<Subgroup> subgrouplist = new ArrayList<>();
+                                        for (int i = 0; i < subgrouparray.length(); i++) {
 
                                             JSONObject subgroup = subgrouparray.getJSONObject(i);
                                             String subgroupname = subgroup.getString("name");
                                             String subgroupmark = subgroup.getString("mark");
-                                            Subgroup subgroup1=new Subgroup(subgroupmark,subgroupname);
+                                            Subgroup subgroup1 = new Subgroup(subgroupmark, subgroupname);
                                             subgrouplist.add(subgroup1);
                                             Log.d("size", String.valueOf(subgrouplist.size()));
 
                                         }
 
-                                        Group group=new Group(groupname,groupmark,subgrouplist);
+                                        Group group = new Group(groupname, groupmark, subgrouplist);
                                         groupList.add(group);
 
                                     }
@@ -239,7 +250,7 @@ public class ViewExamMarks extends AppCompatActivity {
                                 examMarksExpandableListAdapter = new
                                         ExamMarksExpandableListAdapter(ViewExamMarks.this, mapParent, mapchild);
                                 expSubjects.setAdapter(examMarksExpandableListAdapter);
-                                if(elementList.size()!=0) {
+                                if (elementList.size() != 0) {
                                     rcyElements.setVisibility(View.VISIBLE);
 
                                     RecyclerView.LayoutManager layoutManager = new
@@ -248,14 +259,13 @@ public class ViewExamMarks extends AppCompatActivity {
                                     rcyElements.setLayoutManager(layoutManager);
                                     rcyElements.setItemAnimator(new DefaultItemAnimator());
                                     elementExamListAdapter = new
-                                            ElementExamListAdapter(ViewExamMarks.this,elementList );
+                                            ElementExamListAdapter(ViewExamMarks.this, elementList);
                                     rcyElements.setAdapter(elementExamListAdapter);
-                                }
-                                else{
+                                } else {
 
                                     rcyElements.setVisibility(View.GONE);
                                 }
-                                if(groupList.size()!=0) {
+                                if (groupList.size() != 0) {
                                     rcyGroups.setVisibility(View.VISIBLE);
 
                                     RecyclerView.LayoutManager layoutManagergroup = new
@@ -264,10 +274,9 @@ public class ViewExamMarks extends AppCompatActivity {
                                     rcyGroups.setLayoutManager(layoutManagergroup);
                                     rcyGroups.setItemAnimator(new DefaultItemAnimator());
                                     groupExamListAdapter = new
-                                            GroupExamListAdapter(ViewExamMarks.this,groupList);
+                                            GroupExamListAdapter(ViewExamMarks.this, groupList);
                                     rcyGroups.setAdapter(groupExamListAdapter);
-                                }
-                                else{
+                                } else {
 
                                     rcyGroups.setVisibility(View.GONE);
                                 }
@@ -276,7 +285,6 @@ public class ViewExamMarks extends AppCompatActivity {
                                 showAlertfinish(message);
                             }
                         } catch (Exception e) {
-                            Log.e("marks:Exception", e.getMessage());
                         }
                     } else {
                         Toast.makeText(ViewExamMarks.this, "Server Response Failed",
@@ -286,21 +294,21 @@ public class ViewExamMarks extends AppCompatActivity {
                     Log.e("Response Exception", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-// showToast("Server Connection Failed");
                 Toast.makeText(ViewExamMarks.this, "Server Connection Failed",
                         Toast.LENGTH_SHORT).show();
 
             }
         });
     }
+
     private void showAlertfinish(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-//Setting Dialog Title
         alertDialog.setTitle("Alert");
         alertDialog.setMessage(msg);
         alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {

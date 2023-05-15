@@ -58,7 +58,6 @@ public class ParentKnowledgeEnhancementScreen extends AppCompatActivity implemen
             }
         });
         complete=getIntent().getIntExtra("complete",0);
-        Log.d("complete", String.valueOf(complete));
         instance=this;
         getAllWidgets();
         bindWidgetsWithAnEvent();
@@ -88,15 +87,8 @@ public class ParentKnowledgeEnhancementScreen extends AppCompatActivity implemen
         allTabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                if(complete==0) {
                     setCurrentTabFragment(tab.getPosition());
-//                }
-//                else if(complete==1){
-//                    setCurrentTabFragment(1);
-//                }
-//                else{
-//                    setCurrentTabFragment(tab.getPosition());
-//                }
+
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {

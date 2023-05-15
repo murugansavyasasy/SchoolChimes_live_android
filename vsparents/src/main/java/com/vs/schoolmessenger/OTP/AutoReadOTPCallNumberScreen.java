@@ -45,7 +45,6 @@ import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.GenericTextWatcher;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -90,7 +89,6 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
     String Grouphead,Principal,Staff,Admin,Parent;
     String strMobile, strPassword;
     public static String staf, grouphead, admin;
-    SqliteDB myDb;
     ArrayList<Profiles> arrayList;
     ArrayList<Profiles> arrChildList = new ArrayList<>();
     ArrayList<String> schoolNamelist = new ArrayList<>();
@@ -295,9 +293,6 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
     protected void onDestroy() {
         super.onDestroy();
 
-//        if (mSmsBroadcastReceiver != null) {
-//            unregisterReceiver(mSmsBroadcastReceiver);
-//        }
     }
 
     @Override
@@ -535,11 +530,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
 
                                 arrayList = new ArrayList<>();
                                 arrayList.addAll(arrChildList);
-                                myDb = new SqliteDB(AutoReadOTPCallNumberScreen.this);
-                                if (myDb.checkChildDetails()) {
-                                    myDb.deleteChildDetails();
-                                }
-                                myDb.addChildDetails((ArrayList<Profiles>) arrChildList, AutoReadOTPCallNumberScreen.this);
+
                                 pubStArrChildList.addAll(arrChildList);
 
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(AutoReadOTPCallNumberScreen.this, strMobile, strPassword, true);
@@ -599,11 +590,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
 
                                 arrayList = new ArrayList<>();
                                 arrayList.addAll(arrChildList);
-                                myDb = new SqliteDB(AutoReadOTPCallNumberScreen.this);
-                                if (myDb.checkChildDetails()) {
-                                    myDb.deleteChildDetails();
-                                }
-                                myDb.addChildDetails((ArrayList<Profiles>) arrChildList, AutoReadOTPCallNumberScreen.this);
+
                                 pubStArrChildList.addAll(arrChildList);
 
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(AutoReadOTPCallNumberScreen.this, strMobile, strPassword, true);

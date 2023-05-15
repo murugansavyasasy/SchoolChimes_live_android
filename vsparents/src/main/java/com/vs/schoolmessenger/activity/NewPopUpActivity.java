@@ -15,9 +15,7 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 public class NewPopUpActivity extends AppCompatActivity {
     MediaPlayer mp;
-    String Status;
     String notificationcheck;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

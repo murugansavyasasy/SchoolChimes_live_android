@@ -21,14 +21,12 @@ public class TextBookForParent extends AppCompatActivity {
 
     private WebView webView;
     ProgressDialog pDialog;
-
     Slider slider;
     ImageView adImage;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.textbook_web);
-
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
@@ -44,8 +42,6 @@ public class TextBookForParent extends AppCompatActivity {
         Slider.init(new PicassoImageLoadingService(TextBookForParent.this));
         slider = findViewById(R.id.banner);
          adImage = findViewById(R.id.adImage);
-
-
 
         Bundle extras = getIntent().getExtras();
         String url = extras.getString("url");

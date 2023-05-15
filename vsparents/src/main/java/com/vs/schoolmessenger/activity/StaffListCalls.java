@@ -414,7 +414,6 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
                                 }
                             }
 
-                            Log.e("bill_size", String.valueOf(staff_list.size()));
                             select_All.setChecked(false);
 
                             mAdapter.notifyDataSetChanged();
@@ -445,19 +444,14 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
     @Override
     public void student_addClass(StaffList student) {
         if (student != null) {
-
             i_students_count++;
-
         }
     }
 
     @Override
     public void student_removeClass(StaffList student) {
         if (student != null) {
-
             i_students_count--;
-
-
         }
     }
 

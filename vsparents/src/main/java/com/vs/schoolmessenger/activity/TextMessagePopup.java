@@ -26,9 +26,7 @@ import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_SMS;
 public class TextMessagePopup extends AppCompatActivity {
 
     TeacherMessageModel textMsgModel;
-
     TextView tvTitle, tvTime, tvStatus, tvMsgContent,tvdescription;
-
     String isNewVersion;
     Boolean is_Archive;
 

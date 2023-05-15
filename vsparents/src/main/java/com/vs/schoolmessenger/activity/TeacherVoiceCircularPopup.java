@@ -108,11 +108,6 @@ public class TeacherVoiceCircularPopup extends AppCompatActivity {
             tvdescription.setVisibility(View.VISIBLE);
         }
 
-
-
-
-
-
         if (voiceModel.getMsgReadStatus().equals("0")) {
 
 

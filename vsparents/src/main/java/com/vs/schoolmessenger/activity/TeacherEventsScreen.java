@@ -176,15 +176,11 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
     private void listSchoolsAPI() {
         i_schools_count = 0;
         for (int i = 0; i < listschooldetails.size(); i++) {
-            Log.d("test3", "test3" + listschooldetails.size());
             TeacherSchoolsModel ss = listschooldetails.get(i);
-            Log.d("test4", "test4");
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
                     ss.getStrStaffID(), ss.getStrStaffName(), true,ss.getBookEnable(),ss.getOnlineLink(),ss.getIsPaymentPending());
-            Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
-            Log.d("Testing", "8***********************");
         }
         if (iRequestCode == PRINCIPAL_EVENTS) {
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
@@ -273,10 +269,7 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
         else return false;
     }
 
-    public void validation() {
-        strmessage = etMessage.getText().toString().trim();
-        Log.d("Message", strmessage);
-    }
+
 
 
 
@@ -354,7 +347,6 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
         timeString = formatter.format(new Date(cal.getTimeInMillis()));
         SimpleDateFormat formatter1 = new SimpleDateFormat("HH:mm ", Locale.US);
         strTime = formatter1.format(new Date(cal.getTimeInMillis()));
-        Log.d("TIME", strTime + "  " + timeString);
 
         return timeString;
     }

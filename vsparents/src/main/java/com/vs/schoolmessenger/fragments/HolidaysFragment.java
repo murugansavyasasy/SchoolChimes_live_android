@@ -22,19 +22,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.HolidaysAdapter;
-import com.vs.schoolmessenger.assignment.StudentSelectAssignment;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.HolidayModel;
-import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -50,7 +46,6 @@ public class HolidaysFragment extends Fragment {
     private ArrayList<HolidayModel> totalmsgModelList = new ArrayList<>();
 
     public HolidaysAdapter mAdapter;
-    SqliteDB myDb;
     TextView lblNoMessages;
     String isNewVersion;
     TextView LoadMore;
@@ -162,11 +157,7 @@ public class HolidaysFragment extends Fragment {
                                     }
 
                                 }
-                                myDb = new SqliteDB(getActivity());
-                                if(myDb.checkHolidays()){
-                                    myDb.deleteHolidays();
-                                }
-                                myDb.addHolidays( (ArrayList<HolidayModel>) OfflinemsgModelList, getActivity());
+
 
                                 mAdapter.notifyDataSetChanged();
                             } else {

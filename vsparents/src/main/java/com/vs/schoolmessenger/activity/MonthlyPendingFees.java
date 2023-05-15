@@ -39,8 +39,7 @@ import retrofit2.Callback;
 
 public class MonthlyPendingFees extends AppCompatActivity {
 
-    String child_id, school_id, amount, invoive_id;
-
+    String child_id, school_id;
     RecyclerView monthly_fees_recycle;
     private ArrayList<MonthlyPending> monthly_list = new ArrayList<>();
     public MonthlyPendingAdapter mAdapter;
@@ -191,8 +190,6 @@ public class MonthlyPendingFees extends AppCompatActivity {
 
             }
         });
-
-
         AlertDialog dialog = alertDialog.create();
 
         dialog.setCanceledOnTouchOutside(false);

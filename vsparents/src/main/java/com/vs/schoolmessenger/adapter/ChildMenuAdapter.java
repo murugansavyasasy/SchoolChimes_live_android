@@ -26,6 +26,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.ApplyLeave;
 import com.vs.schoolmessenger.activity.Attendance;
+import com.vs.schoolmessenger.activity.CertificateRequestActivity;
 import com.vs.schoolmessenger.activity.DatesList;
 import com.vs.schoolmessenger.activity.EventsTapScreen;
 import com.vs.schoolmessenger.activity.ExamCircularActivity;
@@ -262,6 +263,12 @@ public class ChildMenuAdapter extends ArrayAdapter {
             setUnReadCount(unReadCount, lblUnreadCount);
         }
 
+        if (MenuName.contains("_25")) {
+            imgMenu.setImageResource(R.drawable.certificate_request);
+            textView.setText(MenuName.substring(0, MenuName.length() - 3));
+            setUnReadCount(unReadCount, lblUnreadCount);
+        }
+
         return v;
     }
 
@@ -371,56 +378,108 @@ public class ChildMenuAdapter extends ArrayAdapter {
         else if (substring1.equals("_24")) {
             goToNextScreen(MenuName);
         }
+
+        else if (substring1.equals("_25")) {
+            goToNextScreen(MenuName);
+        }
     }
 
     private boolean isCameraPermissions(String MenuName) {
 
-        Dexter.withActivity((Activity) context)
-                .withPermissions(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.RECORD_AUDIO
-                )
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            isCameraPermission = true;
-                            goToNextScreen(MenuName);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO,
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.RECORD_AUDIO
+                    )
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isCameraPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+
+                                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getParentStorageandCameraPermission(context);
+
+                                if (isPermissionDeniedCount.equals("2")) {
+                                    settingsCameraPermission();
+                                } else if (isPermissionDeniedCount.equals("1")) {
+                                    TeacherUtil_SharedPreference.putParentStorageandCameraPermission(context, "2");
+                                } else {
+                                    TeacherUtil_SharedPreference.putParentStorageandCameraPermission(context, "1");
+                                }
+                            }
                         }
-                        else {
 
-                            String isPermissionDeniedCount = TeacherUtil_SharedPreference.getParentStorageandCameraPermission(context);
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
 
-                            if(isPermissionDeniedCount.equals("2")){
-                                settingsCameraPermission();
-                            }
+                            //  Toast.makeText(context, "Error occurred! ", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+        }
 
-                            else if(isPermissionDeniedCount.equals("1")) {
-                                TeacherUtil_SharedPreference.putParentStorageandCameraPermission(context, "2");
-                            }
-                            else {
-                                TeacherUtil_SharedPreference.putParentStorageandCameraPermission(context, "1");
+        else {
+
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.RECORD_AUDIO
+                    )
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isCameraPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+
+                                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getParentStorageandCameraPermission(context);
+
+                                if (isPermissionDeniedCount.equals("2")) {
+                                    settingsCameraPermission();
+                                } else if (isPermissionDeniedCount.equals("1")) {
+                                    TeacherUtil_SharedPreference.putParentStorageandCameraPermission(context, "2");
+                                } else {
+                                    TeacherUtil_SharedPreference.putParentStorageandCameraPermission(context, "1");
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).
-                withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
 
-                      //  Toast.makeText(context, "Error occurred! ", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .onSameThread()
-                .check();
+                            //  Toast.makeText(context, "Error occurred! ", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+
+        }
 
         return isCameraPermission;
     }
@@ -458,49 +517,93 @@ public class ChildMenuAdapter extends ArrayAdapter {
 
     private boolean isPermissionGranded(String MenuName){
 
-        Dexter.withActivity((Activity) context)
-                .withPermissions(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            isPermission = true;
-                            goToNextScreen(MenuName);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO
+                    )
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+
+                                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getParentStoragePermission(context);
+
+                                if (isPermissionDeniedCount.equals("2")) {
+                                    settingsStoragePermission();
+                                } else if (isPermissionDeniedCount.equals("1")) {
+                                    TeacherUtil_SharedPreference.putParentStoragePermission(context, "2");
+                                } else {
+                                    TeacherUtil_SharedPreference.putParentStoragePermission(context, "1");
+                                }
+                            }
                         }
-                        else {
 
-                            String isPermissionDeniedCount = TeacherUtil_SharedPreference.getParentStoragePermission(context);
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
 
-                            if(isPermissionDeniedCount.equals("2")){
-                                settingsStoragePermission();
-                            }
-                            else if(isPermissionDeniedCount.equals("1")) {
-                                TeacherUtil_SharedPreference.putParentStoragePermission(context, "2");
-                            }
-                            else {
-                                TeacherUtil_SharedPreference.putParentStoragePermission(context, "1");
+                            //  Toast.makeText(context, "Error occurred! ", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+        }
+        else {
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+
+                                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getParentStoragePermission(context);
+
+                                if (isPermissionDeniedCount.equals("2")) {
+                                    settingsStoragePermission();
+                                } else if (isPermissionDeniedCount.equals("1")) {
+                                    TeacherUtil_SharedPreference.putParentStoragePermission(context, "2");
+                                } else {
+                                    TeacherUtil_SharedPreference.putParentStoragePermission(context, "1");
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).
-                withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
 
-                      //  Toast.makeText(context, "Error occurred! ", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .onSameThread()
-                .check();
+                            //  Toast.makeText(context, "Error occurred! ", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+
+        }
 
         return isPermission;
     }
@@ -714,6 +817,13 @@ public class ChildMenuAdapter extends ArrayAdapter {
         else if (substring1.equals("_24")) {
             Intent profile=new Intent(context, ProfileLinkScreen.class);
             context.startActivity(profile);
+
+        }
+
+        else if (substring1.equals("_25")) {
+            Constants.Menu_ID = menuIDTwo;
+            Intent inNext = new Intent(context, CertificateRequestActivity.class);
+            context.startActivity(inNext);
 
         }
 

@@ -68,22 +68,16 @@ public class PdfQuizScreen extends AppCompatActivity {
     TextView txtmsg, txtType,txtTitle;
     TextView tvDuartion, tvTotDuration;
 
-    SkillAttachmentModel skillmodel;
     String path, AttachmentType,Content;
     ProgressDialog pDialog;
 
     ImageButton imgplaypause;
     MediaPlayer mediaPlayer = new MediaPlayer();
     int iRequestCode;
-    int mediaFileLengthInMilliseconds = 0;
-    Handler handler = new Handler();
-    int iMediaDuration = 0;
     SeekBar myplayerseekber;
     String isNewVersion;
 
 
-    private static final String VOICE_FOLDER = "School Voice/Voice";
-    //    LinearLayout lnrImages;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -131,10 +125,6 @@ public class PdfQuizScreen extends AppCompatActivity {
 
         AttachmentType=getIntent().getStringExtra("TYPE");
         Content=getIntent().getStringExtra("CONTENT");
-        Log.d("content",Content);
-//        skillmodel = (SkillAttachmentModel) getIntent().getSerializableExtra("attachement");
-//        AttachmentType=skillmodel.getType();
-//        Content=skillmodel.getAttachment();
 
         SetViewType();
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -173,8 +163,6 @@ public class PdfQuizScreen extends AppCompatActivity {
     }
 
     private  void ViewPdf(){
-//        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Content));
-//        startActivity(browserIntent);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading");
         pDialog.setCancelable(false);

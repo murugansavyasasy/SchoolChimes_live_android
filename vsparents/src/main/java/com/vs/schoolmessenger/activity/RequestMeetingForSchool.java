@@ -143,7 +143,6 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
                     case 2:
 
                         break;
-                    // ...
                 }
 
 
@@ -160,57 +159,6 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
             }
         });
 
-    }
-
-    private void showAlert1(String no_pending_records_found) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(RequestMeetingForSchool.this);
-
-        //Setting Dialog Title
-        alertDialog.setTitle(R.string.alert);
-
-        alertDialog.setMessage(no_pending_records_found);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.cancel();
-
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-        // alertDialog.show();
-    }
-
-    private void showAlert(String no_pending_records_found) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(RequestMeetingForSchool.this);
-
-        alertDialog.setTitle(R.string.alert);
-
-        alertDialog.setMessage(no_pending_records_found);
-
-
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-
-            }
-        });
-
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     public void next() {
@@ -256,132 +204,6 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
         }
     }
 
-    private void setupHelpPopUp() {
-
-        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.popup_help_txt, null);
-
-        pHelpWindow = new PopupWindow(layout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
-        pHelpWindow.setContentView(layout);
-
-        ImageView ivClose = (ImageView) layout.findViewById(R.id.popupHelp_ivClose);
-        ivClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pHelpWindow.dismiss();
-                hideKeyBoard();
-            }
-        });
-
-        final EditText etmsg = (EditText) layout.findViewById(R.id.popupHelp_etMsg);
-
-
-
-        final TextView tvTxtCount = (TextView) layout.findViewById(R.id.popupHelp_tvTxtCount);
-        etmsg.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText("" + (460 - (s.length())));
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        TextView tvSend = (TextView) layout.findViewById(R.id.popupHelp_tvSend);
-        tvSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String strMsg = etmsg.getText().toString().trim();
-
-                if (strMsg.length() > 0)
-                    helpAPI(strMsg);
-                else
-                    showToast(getResources().getString(R.string.enter_message));
-            }
-        });
-
-    }
-
-    private void helpAPI(String strMsg) {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-
-        String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(RequestMeetingForSchool.this);
-
-
-        Log.d("Help:Mob-Query", mobNumber + " - " + strMsg);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetHelp(mobNumber, strMsg);
-        Call<JsonArray> call = apiService.GetHelpnew(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Help:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("Help:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        String strStatus = jsonObject.getString("Status");
-                        String strMessage = jsonObject.getString("Message");
-
-
-                        if ((strStatus.toLowerCase()).equals("1")) {
-                            showToast(strMessage);
-                            if (pHelpWindow.isShowing()) {
-                                pHelpWindow.dismiss();
-                                hideKeyBoard();
-                            }
-                        } else {
-                            showToast(strMessage);
-                        }
-                    } else {
-                        showToast(String.valueOf(getResources().getText(R.string.else_error_message)));
-                    }
-
-                } catch (Exception e) {
-                    showToast(String.valueOf(getResources().getText(R.string.catch_message)));
-                    Log.e("Help:Exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Help:Failure", t.toString());
-            }
-        });
-    }
-
-    private void hideKeyBoard() {
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
-
-
-    }
 
     private void showLanguageListPopup() {
         LanguageList = TeacherUtil_SharedPreference.getLanguages(RequestMeetingForSchool.this, "Language");
@@ -407,15 +229,7 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
                 final Languages model = LanguageList.get(selectedPosition);
                 String ID = model.getStrLanguageID();
                 String code = model.getScriptCode();
-
-                Log.d("code", code);
-                Log.d("ID", ID);
-
                 changeLanguage(code, ID);
-
-
-
-
                 dialog.cancel();
 
 
@@ -450,28 +264,9 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
         IDs = "";
         String countryId = TeacherUtil_SharedPreference.getCountryID(RequestMeetingForSchool.this);
 
-
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
 
-
-
-//        if (schools_list != null) {
-//            for (int i = 0; i < schools_list.size(); i++) {
-//                final TeacherSchoolsModel model = schools_list.get(i);
-//                IDs = IDs + model.getStrStaffID() + "~";
-//
-//            }
-//        }
-//        if (childList != null) {
-//            for (int i = 0; i < childList.size(); i++) {
-//                final Profiles model = childList.get(i);
-//                IDs = IDs + model.getChildID() + "~";
-//            }
-//        }
-//
-//        IDs = IDs.substring(0, IDs.length() - 1);
-        //Log.d("IDS", IDs);
 
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {
@@ -548,7 +343,6 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
                             showToast(message);
 
                             Locale myLocale = new Locale(lang);
-                            //saveLocale(lang);
                             Locale.setDefault(myLocale);
                             Configuration config = new Configuration();
                             config.locale = myLocale;

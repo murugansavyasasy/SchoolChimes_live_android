@@ -45,7 +45,6 @@ import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
-import com.vs.schoolmessenger.util.SqliteDB;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
@@ -54,7 +53,6 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -70,7 +68,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
     String strChildName;
     Profiles childItem = new Profiles();
-
     int iTotMsgUnreadCount = 0;
     TextView tvSchoolName, tvSchoolAddress, tvMsgCount;
     NetworkImageView nivThumbNailSchoolImg;
@@ -83,7 +80,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     private ArrayList<CircularDates> OfflinedatesList = new ArrayList<>();
 
 
-    SqliteDB myDb;
     ArrayList<CircularDates> arrayList;
 
     private PopupWindow pHelpWindow;
@@ -96,7 +92,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
-    String previousDate;
 
     ImageView imgSearch;
     EditText Searchable;
@@ -347,30 +342,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
     }
 
-    private void showSettingsAlert1() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MessageDatesScreen.this);
-
-        //Setting Dialog Title
-        alertDialog.setTitle(R.string.alert);
-
-        alertDialog.setMessage(R.string.connect_internet);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                finish();
-
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-    }
 
     private boolean isNetworkConnected() {
 
@@ -389,80 +360,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         Toast.makeText(MessageDatesScreen.this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void getAllCirculars() {
-//        for (int i = 0; i < 2; i++)
-        {
-            CircularDates circular = new CircularDates();
-            circular.setCircularDate("05 Jan 2017");
-            circular.setCircularDay("Monday");
-            circular.setVoiceTotCount("2");
-            circular.setVoiceUnreadCount("40");
-            circular.setTextTotCount("3");
-            circular.setTextUnreadCount("55");
-            circular.setImageTotCount("1");
-            circular.setImageUnreadCount("10");
-            circular.setPdfTotCount("10");
-            circular.setPdfUnreadCount("10");
-            datesList.add(circular);
-
-            circular = new CircularDates();
-            circular.setCircularDate("06 May 2017");
-            circular.setCircularDay("Tuesday");
-            circular.setVoiceTotCount("1");
-            circular.setVoiceUnreadCount("1");
-            circular.setTextTotCount("2");
-            circular.setTextUnreadCount("2");
-            circular.setImageTotCount("1");
-            circular.setImageUnreadCount("1");
-            circular.setPdfTotCount("1");
-            circular.setPdfUnreadCount("0");
-            datesList.add(circular);
-        }
-    }
-
-    private void recentCircularsDateWiseAPI2() {
-        try {
-            JSONArray js = new JSONArray("[{\"Date\":\"17-01-2018\",\"Day\":\"Wednesday\",\"TotalSMS\":\"0\",\"UnreadSMS\":\"0\",\"TotalPDF\":\"0\",\"UnreadPDF\":\"0\",\"TotalIMG\":\"0\",\"UnreadIMG\":\"0\",\"TotalVOICE\":\"1\",\"UnreadVOICE\":\"0\"},{\"Date\":\"13-01-2018\",\"Day\":\"Saturday\",\"TotalSMS\":\"0\",\"UnreadSMS\":\"0\",\"TotalPDF\":\"0\",\"UnreadPDF\":\"0\",\"TotalIMG\":\"0\",\"UnreadIMG\":\"0\",\"TotalVOICE\":\"1\",\"UnreadVOICE\":\"0\"},{\"Date\":\"05-01-2018\",\"Day\":\"Friday\",\"TotalSMS\":\"1\",\"UnreadSMS\":\"0\",\"TotalPDF\":\"1\",\"UnreadPDF\":\"0\",\"TotalIMG\":\"2\",\"UnreadIMG\":\"2\",\"TotalVOICE\":\"2\",\"UnreadVOICE\":\"0\"}]");
-            if (js.length() > 0) {
-                JSONObject jsonObject = js.getJSONObject(0);
-                String strDate = jsonObject.getString("Date");
-                String strTotalSMS = jsonObject.getString("TotalSMS");
-
-                if (!strDate.equals("")) {
-                    CircularDates cirDates;
-                    Log.d("json length", js.length() + "");
-
-                    dateListAdapter.clearAllData();
-                    iTotMsgUnreadCount = 0;
-
-                    for (int i = 0; i < js.length(); i++) {
-                        jsonObject = js.getJSONObject(i);
-                        cirDates = new CircularDates(jsonObject.getString("Date"), jsonObject.getString("Day"),
-                                jsonObject.getString("TotalVOICE"), jsonObject.getString("UnreadVOICE"),
-                                jsonObject.getString("TotalSMS"), jsonObject.getString("UnreadSMS"),
-                                jsonObject.getString("TotalIMG"), jsonObject.getString("UnreadIMG"),
-                                jsonObject.getString("TotalPDF"), jsonObject.getString("UnreadPDF"),false);
-                        datesList.add(cirDates);
-
-                        iTotMsgUnreadCount = iTotMsgUnreadCount + Integer.parseInt(jsonObject.getString("UnreadVOICE"))
-                                + Integer.parseInt(jsonObject.getString("UnreadSMS")) + Integer.parseInt(jsonObject.getString("UnreadIMG"))
-                                + Integer.parseInt(jsonObject.getString("UnreadPDF"));
-                    }
-
-                    tvMsgCount.setText("" + iTotMsgUnreadCount);
-                    dateListAdapter.notifyDataSetChanged();
-
-                } else {
-                    showToast(strTotalSMS);
-                }
-            } else {
-                showToast("Server Response Failed. Try again");
-            }
-
-        } catch (Exception e) {
-            Log.e("MsgDates:Exception", e.getMessage());
-        }
-    }
 
     private void recentCircularsDateWiseAPI() {
         String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
@@ -717,9 +614,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(MessageDatesScreen.this);
 
-
-        Log.d("Help:Mob-Query", mobNumber + " - " + strMsg);
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetHelp(mobNumber, strMsg);
         Call<JsonArray> call = apiService.GetHelpnew(jsonReqArray);
@@ -804,14 +698,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 String ID = model.getStrLanguageID();
                 String code = model.getScriptCode();
 
-                Log.d("code", code);
-                Log.d("ID", ID);
-
                 changeLanguage(code, ID);
-
-
-
-
                 dialog.cancel();
 
 
@@ -850,24 +737,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
 
-
-
-//        if (schools_list != null) {
-//            for (int i = 0; i < schools_list.size(); i++) {
-//                final TeacherSchoolsModel model = schools_list.get(i);
-//                IDs = IDs + model.getStrStaffID() + "~";
-//
-//            }
-//        }
-//        if (childList != null) {
-//            for (int i = 0; i < childList.size(); i++) {
-//                final Profiles model = childList.get(i);
-//                IDs = IDs + model.getChildID() + "~";
-//            }
-//        }
-//
-//        IDs = IDs.substring(0, IDs.length() - 1);
-        //Log.d("IDS", IDs);
 
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {
@@ -944,7 +813,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                             showToast(message);
 
                             Locale myLocale = new Locale(lang);
-                            //saveLocale(lang);
                             Locale.setDefault(myLocale);
                             Configuration config = new Configuration();
                             config.locale = myLocale;
@@ -974,44 +842,4 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         });
     }
 
-    private void showLogoutAlert() {
-        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(MessageDatesScreen.this);
-        alertDialog.setTitle(R.string.txt_menu_logout);
-        alertDialog.setMessage(R.string.want_to_logut);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-
-                dialog.cancel();
-
-                TeacherUtil_SharedPreference.putInstall(MessageDatesScreen.this, "1");
-                TeacherUtil_SharedPreference.putOTPNum(MessageDatesScreen.this, "");
-                TeacherUtil_SharedPreference.putMobileNumberScreen(MessageDatesScreen.this, "");
-
-                TeacherUtil_SharedPreference.clearStaffSharedPreference(MessageDatesScreen.this);
-                startActivity(new Intent(MessageDatesScreen.this, TeacherSignInScreen.class));
-                finish();
-
-
-            }
-        });
-        alertDialog.setPositiveButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        android.app.AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-        Button negativebutton = dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
-        negativebutton.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-
-    }
 }

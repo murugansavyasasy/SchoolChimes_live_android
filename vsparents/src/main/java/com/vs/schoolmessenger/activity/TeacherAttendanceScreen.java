@@ -64,7 +64,6 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
     private ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
 
     String strStdName,strstdcode, strSecName, strSecCode, strTotalStudents;
-    public static int MARK_ATTENDASNCE_STATUS = 111;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -283,7 +282,6 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
             jsonObjectSchool.addProperty("StaffID", Principal_staffId);
             jsonObjectSchool.addProperty("isAttendance", "0");
 
-            Log.d("staffstd&sec", jsonObjectSchool.toString());
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }
@@ -306,8 +304,6 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
-        String schoolID = TeacherUtil_SharedPreference.getSchoolIdFromSP(TeacherAttendanceScreen.this);
-        String staffID = TeacherUtil_SharedPreference.getStaffIdFromSP(TeacherAttendanceScreen.this);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = constructJsonArrayPresent();

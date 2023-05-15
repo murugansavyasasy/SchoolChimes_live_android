@@ -56,10 +56,7 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
     private List<LeaveRequestDetails> leaveHistoryList = new ArrayList<>();
     private RecyclerView Leave_History_recycle;
     public LeaveRequestAdapter mAdapter;
-
     boolean login;
-
-
     ImageView imgSearch;
     TextView Searchable;
 

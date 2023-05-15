@@ -91,8 +91,6 @@ public class TeacherExtandablegroupclasslist extends AppCompatActivity {
             public void classGropItem_addClass(String type, TeacherClassGroupModel classGroup) {
                 // 0-Class, 1-group
 
-                Log.d("TYPE", type);
-
                 if (type.equals(LIST_STANDARDS) && classGroup != null) {
                     listStandardsSELECTED.add(classGroup);
                 } else {
@@ -104,7 +102,6 @@ public class TeacherExtandablegroupclasslist extends AppCompatActivity {
 
             @Override
             public void classGropItem_removeClass(String type, TeacherClassGroupModel classGroup) {
-                Log.d("TYPE", type);
 
                 if (type.equals(LIST_STANDARDS) && classGroup != null) {
                     listStandardsSELECTED.remove(classGroup);
@@ -117,10 +114,8 @@ public class TeacherExtandablegroupclasslist extends AppCompatActivity {
         });
         expListView.setAdapter(expListAdapter);
         int len = expListView.getCount();
-        Log.d("LENGTH", len + "");
 
         for (int i = 0; i < len; i++) {
-            Log.d("POSITION", i + "");
             expListView.expandGroup(i);
         }
 
@@ -198,7 +193,6 @@ public class TeacherExtandablegroupclasslist extends AppCompatActivity {
             btnConfirm.setEnabled(true);
         else btnConfirm.setEnabled(false);
 
-        Log.d("ENABLE/DISABLE-CLASS", "Selected: " + listStandardsSELECTED.size());
-        Log.d("ENABLE/DISABLE-GROUP", "Selected: " + listGropusSELECTED.size());
+
     }
 }

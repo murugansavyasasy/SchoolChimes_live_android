@@ -41,8 +41,6 @@ public class StudentMarksDetails extends AppCompatActivity {
 
     String child_ID, school_ID, Exam_ID;
 
-    private List<ExamList> Exam_list = new ArrayList<>();
-    private List<String> Exam_Names = new ArrayList<>();
     private ArrayList<SubjectAndMarkList> mark_list = new ArrayList<>();
 
     public MarkListAdapter mAdapter;
@@ -97,12 +95,9 @@ public class StudentMarksDetails extends AppCompatActivity {
 
         getStudentMarks();
 
-        Log.d("size12", String.valueOf(mark_list.size()));
-
         btnDisplayMarks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("size123456", String.valueOf(mark_list.size()));
                 Intent marklist = new Intent(StudentMarksDetails.this, MarksListScreen.class);
                 marklist.putExtra("list", mark_list);
                 startActivity(marklist);
@@ -181,7 +176,6 @@ public class StudentMarksDetails extends AppCompatActivity {
                                 mark_list.add(values);
                             }
 
-                            Log.d("size1234", String.valueOf(mark_list.size()));
 
 
                         }
@@ -204,6 +198,4 @@ public class StudentMarksDetails extends AppCompatActivity {
             }
         });
     }
-
-
 }

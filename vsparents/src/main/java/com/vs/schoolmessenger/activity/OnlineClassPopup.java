@@ -25,9 +25,7 @@ import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_ONLINECLASS;
 public class OnlineClassPopup extends AppCompatActivity {
 
     OnlineClassModel textMsgModel;
-
     TextView  lblURL, tvMsgContent,tvdescription;
-
     String isNewVersion;
 
     @Override
@@ -60,7 +58,6 @@ public class OnlineClassPopup extends AppCompatActivity {
         lblURL= (TextView) findViewById(R.id.lblURL);
         registerForContextMenu(tvdescription);
 
-
         tvdescription.setText(textMsgModel.getDescription());
         tvMsgContent.setText(textMsgModel.getTopic());
         lblURL.setText(textMsgModel.getUrl());
@@ -92,7 +89,6 @@ public class OnlineClassPopup extends AppCompatActivity {
                                     ContextMenu.ContextMenuInfo menuInfo) {
 
         menu.add(0, v.getId(),0, "Copy");
-//        menu.setHeaderTitle("Copy text"); //setting header title for menu
         TextView textView = (TextView) v;
         ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText("text", textView.getText());

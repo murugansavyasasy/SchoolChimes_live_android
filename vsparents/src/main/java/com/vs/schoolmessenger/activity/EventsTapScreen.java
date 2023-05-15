@@ -223,7 +223,6 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
     public void next() {
       //  viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-
     }
 
     @Override
@@ -291,10 +290,6 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
                 Log.d("ID", ID);
 
                 changeLanguage(code, ID);
-
-
-
-
                 dialog.cancel();
 
 
@@ -332,28 +327,8 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
         IDs = "";
         String countryId = TeacherUtil_SharedPreference.getCountryID(EventsTapScreen.this);
 
-
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
-
-
-
-//        if (schools_list != null) {
-//            for (int i = 0; i < schools_list.size(); i++) {
-//                final TeacherSchoolsModel model = schools_list.get(i);
-//                IDs = IDs + model.getStrStaffID() + "~";
-//
-//            }
-//        }
-//        if (childList != null) {
-//            for (int i = 0; i < childList.size(); i++) {
-//                final Profiles model = childList.get(i);
-//                IDs = IDs + model.getChildID() + "~";
-//            }
-//        }
-//
-//        IDs = IDs.substring(0, IDs.length() - 1);
-        //Log.d("IDS", IDs);
 
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {
@@ -460,283 +435,10 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    private void putParentNamestoSharedPref(String isParent) {
-        String[] name4 = isParent.split(",");
-        for (String itemtemp : name4) {
-            isParentMenuNames.add(itemtemp);
-
-        }
-        TeacherUtil_SharedPreference.putParentMenuNames(isParentMenuNames, EventsTapScreen.this);
-
-    }
-
-    private void putGroupHeadtoSharedPref(String idGroupHead) {
-        String[] name3 = idGroupHead.split(",");
-        for (String itemtemp : name3) {
-            isGroupHedMenuNames.add(itemtemp);
-
-        }
-
-        TeacherUtil_SharedPreference.putGroupHeadNames(isGroupHedMenuNames, EventsTapScreen.this);
-
-    }
-
-    private void putAdminNamestoSharedPref(String isAdmin) {
-        String[] name2 = isAdmin.split(",");
-        for (String itemtemp : name2) {
-            isAdminMenuNames.add(itemtemp);
-
-        }
-
-        TeacherUtil_SharedPreference.putAdminNames(isAdminMenuNames, EventsTapScreen.this);
-
-    }
-
-    private void putStaffNamestoSharedPref(String isStaff) {
-        String[] name1 = isStaff.split(",");
-        for (String itemtemp : name1) {
-            isIsStaffMenuNames.add(itemtemp);
-
-        }
-
-        TeacherUtil_SharedPreference.putStaffNames(isIsStaffMenuNames, EventsTapScreen.this);
-
-    }
-
-    private void putPrincipalNametoSharedPref(String isPrincipal) {
-        String[] name = isPrincipal.split(",");
-        for (String itemtemp : name) {
-            isPrincipalMenuNames.add(itemtemp);
-
-        }
-        TeacherUtil_SharedPreference.putPrincipalNames(isPrincipalMenuNames, EventsTapScreen.this);
-
-    }
-
-    private void putParentIdstoSharedPref(String isParentID) {
-        String[] items4 = isParentID.split(",");
-        for (String itemtemp : items4) {
-            int result = Integer.parseInt(itemtemp);
-            isParentMenuID.add(result);
-
-        }
-
-        TeacherUtil_SharedPreference.putparentIDs(isParentMenuID, EventsTapScreen.this);
-
-    }
-
-    private void putGroupHeadIdstosharedPref(String idGroupHeadID) {
-        String[] items3 = idGroupHeadID.split(",");
-        for (String itemtemp : items3) {
-            int result = Integer.parseInt(itemtemp);
-            isGroupHedMenuID.add(result);
-
-        }
-        TeacherUtil_SharedPreference.putGroupHeadIDs(isGroupHedMenuID, EventsTapScreen.this);
-    }
-
-    private void putAdminIdstoSharedPref(String isAdminID) {
-        String[] items2 = isAdminID.split(",");
-        for (String itemtemp : items2) {
-            int result = Integer.parseInt(itemtemp);
-            isAdminMenuID.add(result);
-
-        }
-        TeacherUtil_SharedPreference.putAdminIDs(isAdminMenuID, EventsTapScreen.this);
-    }
-
-    private void putStaffIdstoSharedPref(String isStaffID) {
-        String[] items1 = isStaffID.split(",");
-        for (String itemtemp : items1) {
-            int result = Integer.parseInt(itemtemp);
-            isStaffMenuID.add(result);
-
-        }
-        TeacherUtil_SharedPreference.putStaffIDs(isStaffMenuID, EventsTapScreen.this);
-    }
-
-    private void putPrincipalIdstoSharedPref(String isPrincipalID) {
-        String[] items = isPrincipalID.split(",");
-        for (String itemtemp : items) {
-            int result = Integer.parseInt(itemtemp);
-            isPrincipalMenuID.add(result);
-
-        }
-        TeacherUtil_SharedPreference.putPrincipalIDs(isPrincipalMenuID, EventsTapScreen.this);
-    }
-
-
-    private void showLogoutAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(EventsTapScreen.this);
-        alertDialog.setTitle(R.string.txt_menu_logout);
-        alertDialog.setMessage(R.string.want_to_logut);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-
-                dialog.cancel();
-
-                TeacherUtil_SharedPreference.putInstall(EventsTapScreen.this, "1");
-                TeacherUtil_SharedPreference.putOTPNum(EventsTapScreen.this, "");
-                TeacherUtil_SharedPreference.putMobileNumberScreen(EventsTapScreen.this, "");
-
-                TeacherUtil_SharedPreference.clearStaffSharedPreference(EventsTapScreen.this);
-                startActivity(new Intent(EventsTapScreen.this, TeacherSignInScreen.class));
-                finish();
-
-
-            }
-        });
-        alertDialog.setPositiveButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-        Button negativebutton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        negativebutton.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-
-    }
-
-    private void setupHelpPopUp() {
-
-        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.popup_help_txt, null);
-
-        pHelpWindow = new PopupWindow(layout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
-        pHelpWindow.setContentView(layout);
-
-        ImageView ivClose = (ImageView) layout.findViewById(R.id.popupHelp_ivClose);
-        ivClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pHelpWindow.dismiss();
-                hideKeyBoard();
-
-            }
-        });
-
-        final EditText etmsg = (EditText) layout.findViewById(R.id.popupHelp_etMsg);
-
-
-
-        final TextView tvTxtCount = (TextView) layout.findViewById(R.id.popupHelp_tvTxtCount);
-        etmsg.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText("" + (460 - (s.length())));
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        TextView tvSend = (TextView) layout.findViewById(R.id.popupHelp_tvSend);
-        tvSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String strMsg = etmsg.getText().toString().trim();
-
-                if (strMsg.length() > 0)
-                    helpAPI(strMsg);
-                else
-                    showToast(getResources().getString(R.string.enter_message));
-            }
-        });
-
-    }
-
-    private void helpAPI(String strMsg) {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-
-        String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(EventsTapScreen.this);
-
-
-        Log.d("Help:Mob-Query", mobNumber + " - " + strMsg);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetHelp(mobNumber, strMsg);
-        Call<JsonArray> call = apiService.GetHelpnew(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Help:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("Help:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        String strStatus = jsonObject.getString("Status");
-                        String strMessage = jsonObject.getString("Message");
-
-
-                        if ((strStatus.toLowerCase()).equals("1")) {
-                            showToast(strMessage);
-                            if (pHelpWindow.isShowing()) {
-                                pHelpWindow.dismiss();
-                                hideKeyBoard();
-                            }
-                        } else {
-                            showToast(strMessage);
-                        }
-                    } else {
-                        showToast(String.valueOf(getResources().getText(R.string.else_error_message)));
-                    }
-
-                } catch (Exception e) {
-                    showToast(String.valueOf(getResources().getText(R.string.catch_message)));
-                    Log.e("Help:Exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Help:Failure", t.toString());
-            }
-        });
-    }
 
     private void showToast(String strMessage) {
         Toast.makeText(EventsTapScreen.this, strMessage, Toast.LENGTH_SHORT).show();
     }
 
-    private void hideKeyBoard() {
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
-
-
-    }
 }
 

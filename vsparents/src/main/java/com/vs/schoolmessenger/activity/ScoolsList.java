@@ -43,8 +43,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ScoolsList extends AppCompatActivity implements SchoolsListener {
-
-
     ImageView schoollist_ToolBarIvBack;
     RecyclerView school_list_recyle;
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
@@ -98,19 +96,10 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             Duration = extras.getString("DURATION","");
 
             voicetype=extras.getString("VOICE","");
-
-
         }
-
-        Log.d("screen", SchoolsScreen);
-
-
         if (SchoolsScreen.equals("groupHeadEmergency")||SchoolsScreen.equals("text")||SchoolsScreen.equals("PrincipalEmergency")||SchoolsScreen.equals("groupheadvoice")) {
             btnSend.setVisibility(View.VISIBLE);
         }
-        Log.d("size12", String.valueOf(schools_list.size()));
-
-
 
         schoollist_ToolBarIvBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -421,10 +410,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-
-
-
         JsonObject jsonReqArray = jsonArrayObjectFromPrincipalEmergencyVoiceHistory();
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
@@ -485,7 +470,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
     }
 
     private JsonObject jsonArrayObjectFromPrincipalEmergencyVoiceHistory() {
-        // String tittletext = et_tittle.getText().toString();
         JsonObject jsonObjectSchool = new JsonObject();
         try {
             jsonObjectSchool.addProperty("Description", voiceTitle);
@@ -534,7 +518,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         MultipartBody.Part bodyFile =
                 MultipartBody.Part.createFormData("voice", file.getName(), requestFile);
 
-//        // add another part within the multipart request
         JsonObject jsonReqArray = constructJsonArrayMgtSchoolsprincipal();
         RequestBody requestBody =
                 RequestBody.create(
@@ -614,19 +597,15 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 if (schools_list.get(i).isSelectStatus()) {
                     JsonObject jsonObjectschoolId = new JsonObject();
                     jsonObjectschoolId.addProperty("SchoolId", schools_list.get(i).getStrSchoolID());
-                    Log.d("selectsize", String.valueOf(schools_list.size()));
-                    Log.d("schoolid", schools_list.get(i).getStrSchoolID());
                     jsonObjectschoolId.addProperty("StaffID", schools_list.get(i).getStrStaffID());
                     jsonArrayschool.add(jsonObjectschoolId);
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchool.add("School", jsonArrayschool);
             Log.d("Final_Array", jsonObjectSchool.toString());
 
         } catch (Exception e) {
-            Log.d("ASDF", e.toString());
         }
 
         return jsonObjectSchool;
@@ -647,7 +626,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         MultipartBody.Part bodyFile =
                 MultipartBody.Part.createFormData("voice", file.getName(), requestFile);
 
-//        // add another part within the multipart request
         JsonObject jsonReqArray = constructJsonArrayMgtEmergencyGrouphead();
         RequestBody requestBody =
                 RequestBody.create(
@@ -728,8 +706,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                     jsonArrayschool.add(jsonObjectschoolIdgrouphead);
                 }
             }
-
-            Log.d("TTgroup", "1");
             jsonObjectSchoolgrouphead.add("School", jsonArrayschool);
             Log.d("Final_Array", jsonObjectSchoolgrouphead.toString());
 
@@ -808,7 +784,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
             }
         });
@@ -835,7 +810,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 }
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchoolgrouphead.add("School", jsonArrayschool);
             Log.d("Final_Array", jsonObjectSchoolgrouphead.toString());
 
@@ -922,13 +896,10 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             for (int i = 0; i < schools_list.size(); i++) {
                 JsonObject jsonObjectschoolId = new JsonObject();
                 jsonObjectschoolId.addProperty("SchoolId", schools_list.get(i).getStrSchoolID());
-                Log.d("selectsize", String.valueOf(schools_list.size()));
-                Log.d("schoolid", schools_list.get(i).getStrSchoolID());
                 jsonObjectschoolId.addProperty("StaffID", schools_list.get(i).getStrStaffID());
                 jsonArrayschool.add(jsonObjectschoolId);
             }
 
-            Log.d("TTgroup", "1");
             jsonObjectSchool.add("School", jsonArrayschool);
             Log.d("Final_Array", jsonObjectSchool.toString());
 
@@ -942,15 +913,11 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
     private void showAlert(String strMsg, final String status) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ScoolsList.this);
 
-        //Setting Dialog Title
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(strMsg);
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-
-
                 if (status.equals("1")) {
                     dialog.cancel();
                     Intent homescreen = new Intent(ScoolsList.this, Teacher_AA_Test.class);
@@ -983,16 +950,12 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
     @Override
     public void schools_add(TeacherSchoolsModel student) {
-
-
         schools_list.add(student);
     }
 
     @Override
     public void schools_remove(TeacherSchoolsModel student) {
-
         schools_list.remove(student);
-
     }
 }
 
