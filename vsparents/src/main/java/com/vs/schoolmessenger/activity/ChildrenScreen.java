@@ -211,7 +211,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onClick(View v) {
                     if (isNetworkConnected()) {
-
+                        TeacherUtil_Common.school_scroll_to_position = 0;
                         Intent i = new Intent(ChildrenScreen.this, Teacher_AA_Test.class);
                         i.putExtra("schoolname", schoolname);
                         i.putExtra("schooladdress", schooladdress);

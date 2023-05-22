@@ -3,24 +3,24 @@ package com.vs.schoolmessenger.model;
 import java.util.List;
 
 public class CertificateListModelItem{
-	private Integer status;
-	private String message;
+	private String Status;
+	private String Message;
 	private List<CertificateListDataItem> data;
 
-	public void setStatus(Integer status){
-		this.status = status;
+	public void setStatus(String status){
+		this.Status = status;
 	}
 
-	public Integer getStatus(){
-		return status;
+	public String getStatus(){
+		return Status;
 	}
 
 	public void setMessage(String message){
-		this.message = message;
+		this.Message = message;
 	}
 
 	public String getMessage(){
-		return message;
+		return Message;
 	}
 
 	public void setData(List<CertificateListDataItem> data){

@@ -12,6 +12,7 @@ import android.os.Message;
 import android.os.Process;
 import android.provider.MediaStore;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
@@ -33,7 +34,7 @@ import java.util.HashSet;
 /**
  * Created by Darshan on 4/14/2015.
  */
-public class AlbumSelectActivity extends HelperActivity {
+public class AlbumSelectActivity extends AppCompatActivity {
     private ArrayList<Album> albums;
 
     private TextView errorDisplay;
@@ -60,7 +61,6 @@ public class AlbumSelectActivity extends HelperActivity {
 
 
         actionBar = getSupportActionBar();
-
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -92,6 +92,8 @@ public class AlbumSelectActivity extends HelperActivity {
     protected void onStart() {
         super.onStart();
 
+        loadAlbums();
+
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -103,7 +105,7 @@ public class AlbumSelectActivity extends HelperActivity {
 
                     case Constants.FETCH_STARTED: {
 
-                        gridView.setVisibility(View.INVISIBLE);
+                        gridView.setVisibility(View.VISIBLE);
                         break;
                     }
 
@@ -142,7 +144,7 @@ public class AlbumSelectActivity extends HelperActivity {
         };
         getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, false, observer);
 
-        checkPermission();
+//        checkPermission();
     }
 
     @Override
@@ -321,16 +323,16 @@ public class AlbumSelectActivity extends HelperActivity {
         message.sendToTarget();
     }
 
-    @Override
-    protected void permissionGranted() {
-        Message message = handler.obtainMessage();
-        message.what = Constants.PERMISSION_GRANTED;
-        message.sendToTarget();
-    }
-
-    @Override
-    protected void hideViews() {
-
-        gridView.setVisibility(View.INVISIBLE);
-    }
+//    @Override
+//    protected void permissionGranted() {
+//        Message message = handler.obtainMessage();
+//        message.what = Constants.PERMISSION_GRANTED;
+//        message.sendToTarget();
+//    }
+//
+//    @Override
+//    protected void hideViews() {
+//
+//        gridView.setVisibility(View.VISIBLE);
+//    }
 }

@@ -7,21 +7,30 @@ import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.vs.schoolmessenger.R;
@@ -48,8 +57,12 @@ public class PdfWebView extends AppCompatActivity {
     TextView btnDownload;
     private static final String PDF_FEE_FOLDER = "//SchoolChimesFeeReceipt";
     private static final String PDF_CIRCULAR_FOLDER = "//SchoolChimesPDF";
+    private static final String PDF_CERTIFICATE_FOLDER = "//SchoolChimesCertificates";
 
     static ProgressDialog mProgressDialog;
+
+
+    private long downloadId;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -81,19 +94,50 @@ public class PdfWebView extends AppCompatActivity {
         progressDialog.setCancelable(false);
         receiptWebView = findViewById(R.id.receiptWebView);
         btnDownload = findViewById(R.id.btnDownload);
+
+        registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+//                String fileName = "certificate.pdf";
+//
+//               File dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath() + "CERTIFICATES");
+//               if (!dir.exists()) {
+//                    dir.mkdirs();
+//                }
+//
+//                File futureStudioIconFile1 = new File(dir, fileName);
+//                // https://developer.android.com/reference/android/app/DownloadManager.Request
+//                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(PdfURL))
+//                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+//                        .setTitle("downloaded")
+//                        .setDescription("file")
+//                        .setDestinationInExternalFilesDir(getApplicationContext(), dir.getPath(), fileName)
+//                        .setTitle(fileName)
+//                        .setMimeType("application/pdf");
+//
+//                DownloadManager dm = (DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+//                downloadId = dm.enqueue(request); // add download request to the queue
+
 
                 if(Title.equals("Circular")){
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
                     downLoadFeeReceipt(timeStamp+"_Circular" +".pdf",PDF_CIRCULAR_FOLDER);
                 }
-                else {
+                else if(Title.equals("Fee Receipt")) {
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
                     downLoadFeeReceipt(timeStamp+"_FeeReceipt" +".pdf",PDF_FEE_FOLDER);
+                }
+                else {
+                    long unixTime = System.currentTimeMillis() / 1000L;
+                    String timeStamp = String.valueOf(unixTime);
+                    downLoadFeeReceipt(timeStamp+"_Certificates" +".pdf",PDF_CERTIFICATE_FOLDER);
                 }
 
             }
@@ -124,6 +168,46 @@ public class PdfWebView extends AppCompatActivity {
             }
         });
     }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(onDownloadComplete);
+    }
+
+
+    private final BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get the download ID received with the broadcast
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+
+            // Check if the ID matches our download ID
+            if (downloadId == id) {
+                Log.d("ID", "Download ID: " + downloadId);
+
+                // Get file URI
+                DownloadManager dm = (DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+                DownloadManager.Query query = new DownloadManager.Query();
+                query.setFilterById(downloadId);
+                Cursor c = dm.query(query);
+                if (c.moveToFirst()) {
+                    int colIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                    if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(colIndex)) {
+                        Log.d("Complete", "Download Complete");
+                        Toast.makeText(PdfWebView.this, "Download Complete", Toast.LENGTH_SHORT).show();
+
+                        String uriString = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                        Log.d("URI", "URI: " + uriString);
+                    } else {
+                        Log.d("status code", "Download Unsuccessful, Status Code: " + c.getInt(colIndex));
+                        Toast.makeText(PdfWebView.this, "Download Unsuccessful", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }
+    };
 
     private void downLoadFeeReceipt(String filename,String folder) {
 

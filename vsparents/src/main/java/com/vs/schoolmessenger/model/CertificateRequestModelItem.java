@@ -1,22 +1,22 @@
 package com.vs.schoolmessenger.model;
 
 public class CertificateRequestModelItem{
-	private String status;
-	private String message;
+	private String Status;
+	private String Message;
 
 	public void setStatus(String status){
-		this.status = status;
+		this.Status = status;
 	}
 
 	public String getStatus(){
-		return status;
+		return Status;
 	}
 
 	public void setMessage(String message){
-		this.message = message;
+		this.Message = message;
 	}
 
 	public String getMessage(){
-		return message;
+		return Message;
 	}
 }

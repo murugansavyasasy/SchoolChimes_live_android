@@ -952,7 +952,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
-
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity

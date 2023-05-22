@@ -124,11 +124,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:indeterminate="false"
             android:max="100"
             android:minWidth="200dp"
-            android:minHeight="20dp"
+            android:minHeight="10dp"
             android:progress="0" />
 
 
@@ -163,14 +163,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:padding="1dp">
 
             <Button
                 android:id="@+id/btnViewLesson"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/bg_shadow_white_card"
                 android:paddingHorizontal="5dp"

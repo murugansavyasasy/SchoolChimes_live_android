@@ -321,7 +321,6 @@ public class PdfCircular extends AppCompatActivity {
         super.onResume();
 
         ShowAds.getAds(this,adImage,slider,"");
-        if (isWriteExternalPermissionGranted())
             if (isNetworkConnected()) {
                 circularsPdfAPI();
             }

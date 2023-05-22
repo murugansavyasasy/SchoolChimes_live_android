@@ -12,12 +12,13 @@
         android:id="@+id/lnrTab"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
+        android:paddingBottom="20dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/lnrAllClasses"
-            android:background="@drawable/rect_chimes_stroke"
+            android:background="@drawable/bg_stroke_teacherprimary"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"

@@ -17,6 +17,7 @@ import com.vs.schoolmessenger.app.AppController;
 import com.vs.schoolmessenger.interfaces.OnProfileItemClickListener;
 import com.vs.schoolmessenger.model.Image;
 import com.vs.schoolmessenger.model.Profiles;
+import com.vs.schoolmessenger.util.TeacherUtil_Common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +103,7 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    TeacherUtil_Common.scroll_to_position = 0;
                     listener.onItemClick(item);
 
                 }

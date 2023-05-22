@@ -51,6 +51,7 @@ import com.vs.schoolmessenger.assignment.ParentAssignmentListActivity;
 import com.vs.schoolmessenger.model.ParentMenuModel;
 import com.vs.schoolmessenger.payment.FeesTab;
 import com.vs.schoolmessenger.util.Constants;
+import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -113,6 +114,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
         lnrMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TeacherUtil_Common.scroll_to_position = position;
                 menuOnClick(model.getMenu_name());
             }
         });

@@ -346,7 +346,6 @@ public class VoiceCircular extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         ShowAds.getAds(this,adImage,slider,"");
-        if (isWriteExternalPermissionGranted()) {
             switch (iRequestCode) {
                 case MENU_EMERGENCY:
 
@@ -373,7 +372,7 @@ public class VoiceCircular extends AppCompatActivity {
 
                     break;
             }
-        }
+
     }
 
     private boolean isNetworkConnected() {

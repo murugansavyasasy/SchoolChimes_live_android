@@ -36,12 +36,22 @@
             android:padding="3dp">
 
             <TextView
-                android:id="@+id/lblDateTime"
+                android:id="@+id/lblMeetingDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/clr_black"
+                android:textColor="@color/clr_yellow"
+                android:textSize="12dp"
+                android:text="MEETING DATE TIME : "/>
+
+            <TextView
+                android:layout_toRightOf="@+id/lblMeetingDate"
+                android:id="@+id/lblDateTime"
                 android:textSize="14dp"
-                tools:text="9:00"/>
+                android:textColor="@color/clr_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
         </RelativeLayout>
         <RelativeLayout
             android:layout_marginTop="5dp"
@@ -49,12 +59,21 @@
             android:layout_height="wrap_content"
             android:padding="3dp">
             <TextView
+                android:id="@+id/lblMeeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/clr_yellow"
+                android:textSize="12dp"
+                android:text="MEETING TYPE : "/>
+
+            <TextView
+                android:layout_toRightOf="@+id/lblMeeting"
                 android:id="@+id/lblMeetingType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_black"
                 android:textSize="14dp"
-                tools:text="GOOGLE MEET"/>
+                tools:text="MEETING TYPE : "/>
 
             <ImageView
                 android:layout_width="40dp"
@@ -71,12 +90,21 @@
             android:layout_height="wrap_content"
             android:padding="3dp">
             <TextView
+                android:id="@+id/lblSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/clr_yellow"
+                android:textSize="12dp"
+                android:text="SUBJECT : "/>
+
+            <TextView
+                android:layout_toRightOf="@+id/lblSub"
                 android:id="@+id/lblSubject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_black"
                 android:textSize="14dp"
-                tools:text="ENGLISH"/>
+                tools:text="SUBJECT"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rytCreatedon"
@@ -85,6 +113,15 @@
             android:layout_height="wrap_content"
             android:padding="3dp">
             <TextView
+                android:id="@+id/lblCreated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/clr_yellow"
+                android:textSize="12dp"
+                android:text="CREATED ON : "/>
+
+            <TextView
+                android:layout_toRightOf="@+id/lblCreated"
                 android:id="@+id/lblcreatedon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,12 +136,21 @@
             android:layout_height="wrap_content"
             android:padding="3dp">
             <TextView
+                android:id="@+id/lblTar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/clr_yellow"
+                android:textSize="12dp"
+                android:text="TARGET TYPE : "/>
+
+            <TextView
+                android:layout_toRightOf="@+id/lblTar"
                 android:id="@+id/lblTarget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_black"
                 android:textSize="14dp"
-                tools:text="ENGLISH"/>
+                tools:text="TARGET TYPE"/>
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
@@ -125,7 +171,7 @@
             android:layout_gravity="left"
             android:gravity="center"
             android:textStyle="bold"
-            tools:text="@string/tamil" />
+            android:text="@string/tamil" />
         <TextView
             android:id="@+id/lblDescription"
             android:layout_width="wrap_content"
@@ -135,7 +181,7 @@
             android:textSize="14dp"
             android:layout_gravity="left"
             android:gravity="center"
-            tools:text="@string/tamil" />
+            android:text="@string/tamil" />
 
         <TextView
             android:id="@+id/lblURL"
@@ -149,7 +195,7 @@
             android:linksClickable="true"
             android:layout_gravity="left"
             android:gravity="center"
-            tools:text="@string/tamil" />
+            android:text="@string/tamil" />
     </LinearLayout>
 
     <TextView
@@ -180,7 +226,7 @@
             android:gravity="center"
             android:textColor="@color/clr_black"
             android:textSize="15sp"
-            tools:text="11.30 AM"
+            android:text="11.30 AM"
             android:visibility="gone"/>
 
         <TextView
@@ -194,7 +240,7 @@
             android:visibility="gone"
             android:textColor="@color/clr_black"
             android:textSize="15sp"
-            tools:text="11.30 AM" />
+            android:text="11.30 AM" />
 
     </LinearLayout>
     <RelativeLayout

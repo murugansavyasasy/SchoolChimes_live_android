@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,24 +48,30 @@ public class OnlineClassByStaffAdapter extends RecyclerView.Adapter<OnlineClassB
 
         holder.lblTopic.setText(msgModel.getTopic());
         holder.lblDescription.setText(msgModel.getDescription());
-        holder.lblDateTime.setText("MEETING DATE & TIME : " +msgModel.getMeetingdatetime());
-        holder.lblMeetingType.setText("MEETING TYPE : "+msgModel.getMeetingtype());
+        holder.lblDateTime.setText( msgModel.getMeetingdatetime());
+        holder.lblMeetingType.setText(msgModel.getMeetingtype());
         holder.lblURL.setText(msgModel.getUrl());
-        holder.lblSubject.setText("SUBJECT : "+msgModel.getSubject_name());
-        holder.lblcreatedon.setText("CREATED ON : "+msgModel.getCreated_on());
-        holder.lblTarget.setText("TARGET TYPE : "+msgModel.getTarget_type());
+        holder.lblSubject.setText( msgModel.getSubject_name());
+        holder.lblcreatedon.setText(msgModel.getCreated_on());
+        holder.lblTarget.setText(msgModel.getTarget_type());
 
-        if(msgModel.getSubject_name().equals("")){
+
+        holder.lblTar.setTypeface(holder.lblTar.getTypeface(), Typeface.BOLD);
+        holder.lblCreated.setTypeface(holder.lblCreated.getTypeface(), Typeface.BOLD);
+        holder.lblSub.setTypeface(holder.lblSub.getTypeface(), Typeface.BOLD);
+        holder.lblMeeting.setTypeface(holder.lblMeeting.getTypeface(), Typeface.BOLD);
+        holder.lblMeetingDate.setTypeface(holder.lblMeetingDate.getTypeface(), Typeface.BOLD);
+
+
+        if (msgModel.getSubject_name().equals("")) {
             holder.rytSubject.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             holder.rytSubject.setVisibility(View.VISIBLE);
         }
 
-        if(msgModel.getCan_cancel()==1){
+        if (msgModel.getCan_cancel() == 1) {
             holder.lblCancel.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             holder.lblCancel.setVisibility(View.GONE);
         }
     }
@@ -76,9 +83,11 @@ public class OnlineClassByStaffAdapter extends RecyclerView.Adapter<OnlineClassB
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView lblTopic, lblDescription, lblURL, lblSubject, lblMeetingType,lblDateTime,lblNew,lblCancel,lblTarget,lblcreatedon;
+        TextView lblTopic, lblDescription, lblURL, lblSubject, lblMeetingType, lblDateTime, lblNew, lblCancel, lblTarget, lblcreatedon;
         RelativeLayout rytSubject;
         LinearLayout lnrParent;
+
+        TextView lblTar, lblCreated, lblSub, lblMeeting, lblMeetingDate;
 
         public MyViewHolder(View view) {
             super(view);
@@ -95,6 +104,13 @@ public class OnlineClassByStaffAdapter extends RecyclerView.Adapter<OnlineClassB
             lblcreatedon = (TextView) view.findViewById(R.id.lblcreatedon);
             rytSubject = (RelativeLayout) view.findViewById(R.id.rytSubject);
             lnrParent = (LinearLayout) view.findViewById(R.id.lnrParent);
+
+            lblTar = (TextView) view.findViewById(R.id.lblTar);
+            lblCreated = (TextView) view.findViewById(R.id.lblCreated);
+            lblSub = (TextView) view.findViewById(R.id.lblSub);
+            lblMeeting = (TextView) view.findViewById(R.id.lblMeeting);
+            lblMeetingDate = (TextView) view.findViewById(R.id.lblMeetingDate);
+
         }
 
         public void bind(final OnlineClassByStaffModel item, final OnlineClassStaffListener listener) {

@@ -324,10 +324,8 @@ public class ImageCircular extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         ShowAds.getAds(this,adImage,slider,"");
+        circularsImageAPI();
 
-        if (isWriteExternalPermissionGranted()) {
-            circularsImageAPI();
-        }
     }
 
     private void showSettingsAlert1() {

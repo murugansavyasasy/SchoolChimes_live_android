@@ -51,6 +51,7 @@ import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
+import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
@@ -310,7 +311,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 isParentMenuNames.add(itemtemp);
                             }
 
-                           // isParentMenuNames.add("Certificate Requests_25");
+                            //isParentMenuNames.add("Certificate Requests_25");
 
                             contact_alert_title = jsonObject.getString("contact_alert_title");
                             contact_alert_Content = jsonObject.getString("contact_alert_content");
@@ -852,6 +853,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                         }
                         ChildMenuAdapter myAdapter = new ChildMenuAdapter(HomeActivity.this, R.layout.child_menu_item, menuList, BookLink,rytParent);
+                        idGridMenus.setSelection(TeacherUtil_Common.scroll_to_position);
                         idGridMenus.setAdapter(myAdapter);
 
 

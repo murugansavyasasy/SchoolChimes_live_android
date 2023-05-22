@@ -53,6 +53,13 @@ public class LessonPlanAdapter extends RecyclerView.Adapter<LessonPlanAdapter.My
             holder.lblPercentage.setText("0" + "%");
         }
 
+        if(profile.getTotalItems().equals("0")){
+            holder.btnViewLesson.setVisibility(View.GONE);
+        }
+        else {
+            holder.btnViewLesson.setVisibility(View.VISIBLE);
+        }
+
         holder.btnViewLesson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

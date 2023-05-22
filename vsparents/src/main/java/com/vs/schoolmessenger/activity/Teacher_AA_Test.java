@@ -63,6 +63,7 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -431,7 +432,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                                 isPrincipalMenuNames.add(itemtemp);
                             }
 
-                          //  isPrincipalMenuNames.add("Lesson Plan_30");
+                            //isPrincipalMenuNames.add("Lesson Plan_30");
 
                             String alert_message = jsonObject.getString("alert_message");
                             if(!alert_message.equals("")){
@@ -469,6 +470,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                         }
                         setupBottomBar();
                         SchoolMenuAdapter myAdapter=new SchoolMenuAdapter(Teacher_AA_Test.this,R.layout.school_menu_card_item,isPrincipalMenuNames,BookLink,rytParent);
+                        idGridMenus.setSelection(TeacherUtil_Common.school_scroll_to_position);
                         idGridMenus.setAdapter(myAdapter);
                     }
                 } catch (Exception e) {

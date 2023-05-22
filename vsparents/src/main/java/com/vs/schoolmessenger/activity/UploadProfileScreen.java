@@ -1,6 +1,8 @@
 package com.vs.schoolmessenger.activity;
 
+import android.Manifest;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -30,6 +32,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.UploadedDocsAdapter;
 import com.vs.schoolmessenger.aws.S3Uploader;
@@ -112,6 +121,72 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.profile_screen);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            Dexter.withActivity((Activity) UploadProfileScreen.this)
+                    .withPermissions(
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO,
+                            Manifest.permission.CAMERA
+                    )
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                            } else {
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
+
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+
+        }
+        else {
+            Dexter.withActivity((Activity) UploadProfileScreen.this)
+                    .withPermissions(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA
+                    )
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                            } else {
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
+
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+
+        }
+
+
 
 
         String Title=TeacherUtil_SharedPreference.getUploadProfileTitle(UploadProfileScreen.this);
@@ -441,9 +516,25 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         rytCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+//                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                photoFile = createImageFile();
+//                Log.d("photoFile", photoFile.toString());
+//                if (photoFile != null) {
+//                    Uri photoURI = FileProvider.getUriForFile(UploadProfileScreen.this, "com.vs.schoolmessenger.provider", photoFile);
+//                    intent.putExtra(MediaStore.EXTRA_OUTPUT,
+//                            photoURI);
+//                    startActivityForResult(intent, 3);
+//                    popupWindow.dismiss();
+//                }
+
+
                 Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                photoFile = createImageFile();
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Log.d("photoFile", photoFile.toString());
                 if (photoFile != null) {
                     Uri photoURI = FileProvider.getUriForFile(UploadProfileScreen.this, "com.vs.schoolmessenger.provider", photoFile);
@@ -457,7 +548,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         });
     }
 
-    private File createImageFile() {
+    private File createImageFile() throws IOException {
         String timeStamp =
                 new SimpleDateFormat("yyyyMMdd_HHmmss",
                         Locale.getDefault()).format(new Date());
@@ -574,7 +665,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                     if (pathlength <= maxSize) {
                         Uri imageUri = Uri.fromFile(file);
                         Glide.with(UploadProfileScreen.this)
-                                .load(imageUri)
+                                .load(imageFilePath)
                                 .into(imgProfile);
 
                         lblAddProfile.setText("Change Profile");

@@ -169,8 +169,6 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
 
                 holder.lnrViews.addView(lnr);
             }
-
-
         }
 
 
@@ -302,11 +300,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                         String message = response.body().getMessage();
 
                         if (status == 1) {
-                            Toast.makeText(context, message,
-                                    Toast.LENGTH_SHORT).show();
-
-//                            dateList.remove(data);
-//                            notifyDataSetChanged();
+                            Toast.makeText(context, message,Toast.LENGTH_SHORT).show();
                             notifyItemRemoved(position);
                         } else {
                             showAlertfinish(message);

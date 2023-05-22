@@ -6,9 +6,9 @@ import com.vs.schoolmessenger.LessonPlan.Model.EditLessonModel;
 import com.vs.schoolmessenger.LessonPlan.Model.LessonPlanModel;
 import com.vs.schoolmessenger.LessonPlan.Model.Response;
 import com.vs.schoolmessenger.LessonPlan.Model.ViewLessonPlanModel;
-import com.vs.schoolmessenger.model.CertificateListModel;
-import com.vs.schoolmessenger.model.CertificateRequestModel;
-import com.vs.schoolmessenger.model.CertificateTypeModel;
+import com.vs.schoolmessenger.model.CertificateListModelItem;
+import com.vs.schoolmessenger.model.CertificateRequestModelItem;
+import com.vs.schoolmessenger.model.CertificateTypeModelItemItem;
 import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
 import com.vs.schoolmessenger.payment.Model.FeeDetailsItems;
 import com.vs.schoolmessenger.util.Util_UrlMethods;
@@ -474,13 +474,13 @@ public interface TeacherMessengerApiInterface {
 
 
     @GET("other-req/certificate-types")
-    Call<CertificateTypeModel> getCertificateTypes();
+    Call<List<CertificateTypeModelItemItem>> getCertificateTypes();
 
     @POST("other-req/create-other-req")
-    Call<CertificateRequestModel> createCertificateRequest(@Body JsonObject jsonObject);
+    Call<List<CertificateRequestModelItem>> createCertificateRequest(@Body JsonObject jsonObject);
 
     @POST("parent-request-list")
-    Call<CertificateListModel> getParentCertificateList(@Body JsonObject jsonObject);
+    Call<List<CertificateListModelItem>> getParentCertificateList(@Body JsonObject jsonObject);
 
 
     @POST("GetStudentExamMarks")

@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.assignment.PdfAppRead;
 import com.vs.schoolmessenger.model.CertificateListDataItem;
+import com.vs.schoolmessenger.payment.PdfWebView;
 
 import java.util.List;
 
@@ -31,13 +34,29 @@ public class CertificatesListAdapter extends RecyclerView.Adapter<CertificatesLi
         final CertificateListDataItem profile = dateList.get(position);
         holder.lblCertificateType.setText(profile.getRequestedFor());
         holder.lblReason.setText(profile.getReason());
-        holder.lblStatus.setText(profile.getUrgencyLevel());
+        holder.lblStatus.setText(profile.getIsIssuedOnApp());
         holder.lblCreatedOn.setText(profile.getCreatedOn());
+
+        if( profile.getCertificateUrl() != null){
+            if (!profile.getCertificateUrl().equals("")){
+                holder.btnViewCertificate.setVisibility(View.VISIBLE);
+            }
+            else {
+               holder.btnViewCertificate.setVisibility(View.GONE);
+            }
+        }
+        else {
+            holder.btnViewCertificate.setVisibility(View.GONE);
+        }
 
 
         holder.btnViewCertificate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent receipt = new Intent(context, PdfWebView.class);
+                receipt.putExtra("URL",profile.getCertificateUrl());
+                receipt.putExtra("tittle",profile.getRequestedFor());
+                context.startActivity(receipt);
 
             }
         });

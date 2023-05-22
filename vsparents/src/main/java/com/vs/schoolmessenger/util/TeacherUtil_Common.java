@@ -100,6 +100,8 @@ public class TeacherUtil_Common {
 
 
     public static String lesson_request_type = "";
+    public static int scroll_to_position = 0;
+    public static int school_scroll_to_position = 0;
 
     public static List<EditDataItem> EditDataList = new ArrayList<EditDataItem>();
 

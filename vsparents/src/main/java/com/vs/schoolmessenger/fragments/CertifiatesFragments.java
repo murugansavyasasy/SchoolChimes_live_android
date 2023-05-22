@@ -22,7 +22,6 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.CertificatesListAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.CertificateListDataItem;
-import com.vs.schoolmessenger.model.CertificateListModel;
 import com.vs.schoolmessenger.model.CertificateListModelItem;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -75,11 +74,11 @@ public class CertifiatesFragments extends Fragment {
         Log.d("request",jsonObject.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        Call<CertificateListModel> call = apiService.getParentCertificateList(jsonObject);
+        Call<List<CertificateListModelItem>> call = apiService.getParentCertificateList(jsonObject);
 
-        call.enqueue(new Callback<CertificateListModel>() {
+        call.enqueue(new Callback<List<CertificateListModelItem>>() {
             @Override
-            public void onResponse(Call<CertificateListModel> call, retrofit2.Response<CertificateListModel> response) {
+            public void onResponse(Call<List<CertificateListModelItem>> call, retrofit2.Response<List<CertificateListModelItem>> response) {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
@@ -89,12 +88,12 @@ public class CertifiatesFragments extends Fragment {
                         Gson gson = new Gson();
                         String json = gson.toJson(response.body());
                         Log.d("Lessons_Response", json);
-                        List<CertificateListModelItem> data = response.body().getCertificateListModel();
+                        List<CertificateListModelItem> data = response.body();
 
-                        int status = data.get(0).getStatus();
+                        String status = data.get(0).getStatus();
                         String message = data.get(0).getMessage();
 
-                        if (status == 1) {
+                        if (status.equals("1")) {
                             certificateList.clear();
                             certificateList = data.get(0).getData();
 
@@ -119,7 +118,7 @@ public class CertifiatesFragments extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<CertificateListModel> call, Throwable t) {
+            public void onFailure(Call<List<CertificateListModelItem>> call, Throwable t) {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 Log.e("Response Failure", t.getMessage());
@@ -136,9 +135,7 @@ public class CertifiatesFragments extends Fragment {
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.cancel();
-                getActivity().finish();
 
             }
         });

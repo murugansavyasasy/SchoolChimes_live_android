@@ -12,6 +12,8 @@ import android.os.Message;
 import android.os.Process;
 import android.provider.MediaStore;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ActionMode;
@@ -41,7 +43,7 @@ import java.util.HashSet;
 /**
  * Created by Darshan on 4/18/2015.
  */
-public class ImageSelectActivity extends HelperActivity {
+public class ImageSelectActivity extends AppCompatActivity {
     private ArrayList<Image> images = new ArrayList<>();
     private String album;
     private TextView errorDisplay;
@@ -110,6 +112,7 @@ public class ImageSelectActivity extends HelperActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        loadImages();
 
         handler = new Handler() {
             @Override
@@ -122,7 +125,7 @@ public class ImageSelectActivity extends HelperActivity {
 
                     case Constants.FETCH_STARTED: {
 
-                        gridView.setVisibility(View.INVISIBLE);
+                        gridView.setVisibility(View.VISIBLE);
                         break;
                     }
 
@@ -176,7 +179,7 @@ public class ImageSelectActivity extends HelperActivity {
         };
         getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, false, observer);
 
-        checkPermission();
+//        checkPermission();
     }
 
     @Override
@@ -439,16 +442,16 @@ public class ImageSelectActivity extends HelperActivity {
         message.sendToTarget();
     }
 
-    @Override
-    protected void permissionGranted() {
-        sendMessage(Constants.PERMISSION_GRANTED);
-    }
-
-    @Override
-    protected void hideViews() {
-
-        gridView.setVisibility(View.INVISIBLE);
-    }
+//    @Override
+//    protected void permissionGranted() {
+//        sendMessage(Constants.PERMISSION_GRANTED);
+//    }
+//
+//    @Override
+//    protected void hideViews() {
+//
+//        gridView.setVisibility(View.VISIBLE);
+//    }
 
 }
 

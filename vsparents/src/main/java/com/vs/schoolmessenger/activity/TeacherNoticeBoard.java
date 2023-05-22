@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.LessonPlan.Model.EditDataItem;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -36,12 +39,17 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.EditDataList;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_HEAD;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
@@ -62,6 +70,9 @@ public class TeacherNoticeBoard extends AppCompatActivity {
 
     String loginType;
     private int iRequestCode;
+    TextView lblFromDate, lblToDate;
+    DatePickerDialog datePickerDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +83,8 @@ public class TeacherNoticeBoard extends AppCompatActivity {
         btnNext = (Button) findViewById(R.id.nb_btnmsg);
         etMessage = (EditText) findViewById(R.id.nb_txtmessage);
         tvcount = (TextView) findViewById(R.id.nb_msgcount);
+        lblFromDate = (TextView) findViewById(R.id.lblFromDate);
+        lblToDate = (TextView) findViewById(R.id.lblToDate);
         etMessage.addTextChangedListener(mTextEditorWatcher);
 
         etMessage.setOnTouchListener(new View.OnTouchListener() {
@@ -86,6 +99,27 @@ public class TeacherNoticeBoard extends AppCompatActivity {
                     }
                 }
                 return false;
+            }
+        });
+
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        lblFromDate.setText(formattedDate);
+        lblToDate.setText(formattedDate);
+
+        lblFromDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDatePicker(1);
+            }
+        });
+        lblToDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDatePicker(2);
+
             }
         });
 
@@ -124,8 +158,6 @@ public class TeacherNoticeBoard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validation();
-
-
                 Log.d("SelectedCount", "" + i_schools_count);
                 if (i_schools_count > 0) {
                     SendEmergencyVoiceGroupheadAPI();
@@ -151,6 +183,41 @@ public class TeacherNoticeBoard extends AppCompatActivity {
             rvSchoolsList.setVisibility(View.VISIBLE);
             listSchoolsAPI();
         }
+    }
+
+    private void openDatePicker(int type) {
+
+        // calender class's instance and get current date , month and year from calender
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR); // current year
+        int mMonth = c.get(Calendar.MONTH); // current month
+        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        // date picker dialog
+        datePickerDialog = new DatePickerDialog(TeacherNoticeBoard.this, R.style.DatePickerTheme,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        // set day of month , month and year value in the edit text
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        String dateString = format.format(calendar.getTime());
+
+                        if(type == 1){
+                            lblFromDate.setText(dateString);
+                        }
+                        else {
+                           lblToDate.setText(dateString);
+                        }
+                    }
+                }, mYear, mMonth, mDay);
+
+       // datePickerDialog.getDatePicker().setMaxDate(c.getTimeInMillis());
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePickerDialog.show();
     }
 
     @Override
@@ -356,6 +423,8 @@ public class TeacherNoticeBoard extends AppCompatActivity {
         try {
             jsonObjectSchool.addProperty("TopicHeading", strdescription);
             jsonObjectSchool.addProperty("TopicBody", strmessage);
+            jsonObjectSchool.addProperty("FromDate", lblFromDate.getText().toString());
+            jsonObjectSchool.addProperty("ToDate", lblToDate.getText().toString());
 
             JsonArray jsonArrayschool = new JsonArray();
 

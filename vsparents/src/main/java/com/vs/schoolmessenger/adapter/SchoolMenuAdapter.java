@@ -138,6 +138,7 @@ public class SchoolMenuAdapter extends ArrayAdapter {
         lnrMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TeacherUtil_Common.school_scroll_to_position = position;
                 menuOnClick(MenuName);
 
             }

@@ -107,27 +107,39 @@ public class LessonPlanActivity extends AppCompatActivity {
         lnrAllClasses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mAdapter != null) {
+                    mAdapter.clearAllData();
+                }
                 getLessonPlans("allclass");
                 TeacherUtil_Common.lesson_request_type = "allclass";
 
-                lnrAllClasses.setBackground(getResources().getDrawable(R.drawable.rect_chimes_stroke));
+                lnrAllClasses.setBackground(getResources().getDrawable(R.drawable.bg_stroke_teacherprimary));
                 lnrYourHandled.setBackground(getResources().getDrawable(R.drawable.bg_rect_white));
             }
         });
         lnrYourHandled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mAdapter != null) {
+                    mAdapter.clearAllData();
+                }
+
                 getLessonPlans("myclass");
                 TeacherUtil_Common.lesson_request_type = "myclass";
 
                 lnrAllClasses.setBackground(getResources().getDrawable(R.drawable.bg_rect_white));
-                lnrYourHandled.setBackground(getResources().getDrawable(R.drawable.rect_chimes_stroke));
+                lnrYourHandled.setBackground(getResources().getDrawable(R.drawable.bg_stroke_teacherprimary));
 
             }
         });
 
-        getLessonPlans(type);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getLessonPlans(type);
     }
 
     private void getLessonPlans(String type) {
@@ -202,7 +214,6 @@ public class LessonPlanActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                finish();
             }
         });
 

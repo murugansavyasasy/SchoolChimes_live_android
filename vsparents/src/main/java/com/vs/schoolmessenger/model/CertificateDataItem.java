@@ -1,22 +1,14 @@
 package com.vs.schoolmessenger.model;
 
 public class CertificateDataItem {
-	private String certificateName;
-	private Integer id;
-
-	public void setCertificateName(String certificateName){
-		this.certificateName = certificateName;
-	}
+	private String certificate_name;
+	private int id;
 
 	public String getCertificateName(){
-		return certificateName;
+		return certificate_name;
 	}
 
-	public void setId(Integer id){
-		this.id = id;
-	}
-
-	public Integer getId(){
+	public int getId(){
 		return id;
 	}
 }

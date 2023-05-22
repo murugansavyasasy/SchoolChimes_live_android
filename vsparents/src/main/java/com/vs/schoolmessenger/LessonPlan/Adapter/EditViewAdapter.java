@@ -114,6 +114,13 @@ public class EditViewAdapter extends RecyclerView.Adapter<EditViewAdapter.MyView
 
             holder.spinners.setAdapter(adapter);
 
+            if(data.getIsdisable() == 1){
+                holder.spinners.setEnabled(false);
+            }
+            else {
+                holder.spinners.setEnabled(true);
+            }
+
             if(data.getIsdisable() == 0) {
                 holder.spinners.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override

@@ -21,10 +21,8 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.CertificateDataItem;
-import com.vs.schoolmessenger.model.CertificateRequestModel;
 import com.vs.schoolmessenger.model.CertificateRequestModelItem;
-import com.vs.schoolmessenger.model.CertificateTypeModel;
-import com.vs.schoolmessenger.model.CertificateTypeModelItem;
+import com.vs.schoolmessenger.model.CertificateTypeModelItemItem;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
@@ -39,13 +37,14 @@ public class RequestCertificateFragment extends Fragment {
     String childID = "";
     String SchoolID = "";
 
-    Spinner spinnerCertificates;
+    Spinner spinnerCertificates,spinnerUrgency;
     EditText txtReason;
     Button btnRequestCertificate;
 
-    String selectedSpinnerValue = "";
+    String selectedSpinnerValue = "",selectedUrgencyLevel = "";
 
     String[] values;
+    String[] urgencyLevel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +53,7 @@ public class RequestCertificateFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.request_certificate_fragment, container, false);
 
         spinnerCertificates = rootView.findViewById(R.id.spinnerCertificates);
+        spinnerUrgency = rootView.findViewById(R.id.spinnerUrgency);
         txtReason = rootView.findViewById(R.id.txtReason);
         btnRequestCertificate = rootView.findViewById(R.id.btnRequestCertificate);
 
@@ -65,7 +65,12 @@ public class RequestCertificateFragment extends Fragment {
         btnRequestCertificate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestCertificate();
+                if(!txtReason.getText().toString().equals("")) {
+                    requestCertificate();
+                }
+                else {
+                    showAlert("Please enter the reason");
+                }
             }
         });
 
@@ -88,15 +93,15 @@ public class RequestCertificateFragment extends Fragment {
         jsonObject.addProperty("student_id", childID);
         jsonObject.addProperty("requested_for", selectedSpinnerValue);
         jsonObject.addProperty("reason", txtReason.getText().toString());
-        jsonObject.addProperty("urgency_level", "Urgent");
+        jsonObject.addProperty("urgency_level", selectedUrgencyLevel);
         Log.d("request",jsonObject.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        Call<CertificateRequestModel> call = apiService.createCertificateRequest(jsonObject);
+        Call<List<CertificateRequestModelItem>> call = apiService.createCertificateRequest(jsonObject);
 
-        call.enqueue(new Callback<CertificateRequestModel>() {
+        call.enqueue(new Callback<List<CertificateRequestModelItem>>() {
             @Override
-            public void onResponse(Call<CertificateRequestModel> call, retrofit2.Response<CertificateRequestModel> response) {
+            public void onResponse(Call<List<CertificateRequestModelItem>> call, retrofit2.Response<List<CertificateRequestModelItem>> response) {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
@@ -106,12 +111,13 @@ public class RequestCertificateFragment extends Fragment {
                         Gson gson = new Gson();
                         String json = gson.toJson(response.body());
                         Log.d("Lessons_Response", json);
-                        List<CertificateRequestModelItem> data = response.body().getCertificateRequestModel();
+                        List<CertificateRequestModelItem> data = response.body();
 
                         String status = data.get(0).getStatus();
                         String message = data.get(0).getMessage();
 
                         if (status.equals("1")) {
+                            txtReason.setText("");
                             showAlert(message);
                         }
                         else {
@@ -128,7 +134,7 @@ public class RequestCertificateFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<CertificateRequestModel> call, Throwable t) {
+            public void onFailure(Call<List<CertificateRequestModelItem>> call, Throwable t) {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 Log.e("Response Failure", t.getMessage());
@@ -149,11 +155,11 @@ public class RequestCertificateFragment extends Fragment {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        Call<CertificateTypeModel> call = apiService.getCertificateTypes();
+        Call<List<CertificateTypeModelItemItem>> call = apiService.getCertificateTypes();
 
-        call.enqueue(new Callback<CertificateTypeModel>() {
+        call.enqueue(new Callback<List<CertificateTypeModelItemItem>>() {
             @Override
-            public void onResponse(Call<CertificateTypeModel> call, retrofit2.Response<CertificateTypeModel> response) {
+            public void onResponse(Call<List<CertificateTypeModelItemItem>> call, retrofit2.Response<List<CertificateTypeModelItemItem>> response) {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
@@ -162,8 +168,10 @@ public class RequestCertificateFragment extends Fragment {
                     if (response.code() == 200 || response.code() == 201) {
                         Gson gson = new Gson();
                         String json = gson.toJson(response.body());
+
                         Log.d("Lessons_Response", json);
-                        List<CertificateTypeModelItem> data = response.body().getCertificateTypeModel();
+
+                        List<CertificateTypeModelItemItem> data = response.body();
 
                         String status = data.get(0).getStatus();
                         String message = data.get(0).getMessage();
@@ -171,10 +179,17 @@ public class RequestCertificateFragment extends Fragment {
                         if (status.equals("1")) {
                             List<CertificateDataItem> certificates = data.get(0).getData();
 
-                            values = new String[certificates.size()+1];
-                            values[0] = "Select Certificate";
+                            List<String> urgency = data.get(0).getUrgenctLevelList();
+
+                            urgencyLevel = new String[urgency.size()];
+                            for (int j = 0; j<urgency.size();j++){
+                                urgencyLevel[j] = urgency.get(j);
+                            }
+
+
+                            values = new String[certificates.size()];
                             for (int i = 0; i < certificates.size(); i++) {
-                                values[i+1] = certificates.get(i).getCertificateName();
+                                values[i] = certificates.get(i).getCertificateName();
                             }
 
                             ArrayAdapter adapter
@@ -189,9 +204,32 @@ public class RequestCertificateFragment extends Fragment {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                                    if(position != 0) {
-                                        selectedSpinnerValue = values[position-1];
-                                    }
+                                        selectedSpinnerValue = values[position];
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+
+
+
+                            ArrayAdapter adapter2
+                                    = new ArrayAdapter(
+                                    getActivity(),
+                                    R.layout.text_spinner, R.id.text1,
+                                    urgencyLevel);
+
+                            spinnerUrgency.setAdapter(adapter2);
+
+                            spinnerUrgency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                    selectedUrgencyLevel = urgencyLevel[position];
+
                                 }
 
                                 @Override
@@ -216,7 +254,7 @@ public class RequestCertificateFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<CertificateTypeModel> call, Throwable t) {
+            public void onFailure(Call<List<CertificateTypeModelItemItem>> call, Throwable t) {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 Log.e("Response Failure", t.getMessage());
@@ -233,9 +271,7 @@ public class RequestCertificateFragment extends Fragment {
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.cancel();
-                getActivity().finish();
 
             }
         });
