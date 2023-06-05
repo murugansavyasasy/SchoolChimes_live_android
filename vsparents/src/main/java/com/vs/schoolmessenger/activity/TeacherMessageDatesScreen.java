@@ -299,6 +299,7 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("MemberId", staff_id);
         jsonObject.addProperty("SchoolId", school_id);
+        Log.d("req",jsonObject.toString());
         Call<JsonArray> call = apiService.GetMessageCount(jsonObject);
         call.enqueue(new Callback<JsonArray>() {
 
@@ -312,6 +313,7 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
+                    Log.d("response",response.body().toString());
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
                         TeacherCircularDates cirDates;

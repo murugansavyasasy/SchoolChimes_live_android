@@ -1,11 +1,16 @@
 package com.vs.schoolmessenger.LessonPlan.Adapter;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_LESSON_PLAN;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,12 +18,21 @@ import com.vs.schoolmessenger.LessonPlan.Activity.ViewLessonPlanActivity;
 import com.vs.schoolmessenger.LessonPlan.Model.LessPlanData;
 import com.vs.schoolmessenger.R;
 
+import org.w3c.dom.Text;
+
+import java.security.PublicKey;
 import java.util.List;
 
 public class LessonPlanAdapter extends RecyclerView.Adapter<LessonPlanAdapter.MyViewHolder> {
 
     private List<LessPlanData> dateList;
     Context context;
+    int requestCode;
+
+    private int progressStatus=0;
+    Point maxSizePoint = new Point();
+    final int maxX = maxSizePoint.x;
+
 
     @Override
     public LessonPlanAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,8 +61,33 @@ public class LessonPlanAdapter extends RecyclerView.Adapter<LessonPlanAdapter.My
             int percentage = Integer.parseInt(profile.getPercentageValue());
             holder.progressBar.setProgress(percentage);
             holder.lblPercentage.setText(String.valueOf(percentage) + "%");
+
+
+            holder.lblPercent.setText(String.valueOf(percentage) + "%");
+            ((LinearLayout.LayoutParams)holder.lblZero.getLayoutParams()).weight = (float) 10;
+
+            if(percentage == 100){
+                holder.lblPercent.setVisibility(View.GONE);
+                ((LinearLayout.LayoutParams)holder.lblEmptyWhite.getLayoutParams()).weight = (float) 90;
+            }
+            else  if(percentage == 0){
+                holder.lblPercent.setVisibility(View.GONE);
+                ((LinearLayout.LayoutParams)holder.lblZero.getLayoutParams()).weight = (float) 10;
+                ((LinearLayout.LayoutParams)holder.lblEmptyWhite.getLayoutParams()).weight = (float) 90;
+            }
+            else {
+                holder.lblPercent.setVisibility(View.VISIBLE);
+                ((LinearLayout.LayoutParams)holder.lblPercent.getLayoutParams()).weight = (float) percentage-10;
+                ((LinearLayout.LayoutParams)holder.lblEmptyWhite.getLayoutParams()).weight = (float) 100-percentage-10;
+            }
+
         }
         else {
+
+            holder.lblPercent.setVisibility(View.GONE);
+            ((LinearLayout.LayoutParams)holder.lblZero.getLayoutParams()).weight = (float) 10;
+            ((LinearLayout.LayoutParams)holder.lblEmptyWhite.getLayoutParams()).weight = (float) 90;
+
             holder.progressBar.setProgress(0);
             holder.lblPercentage.setText("0" + "%");
         }
@@ -65,6 +104,8 @@ public class LessonPlanAdapter extends RecyclerView.Adapter<LessonPlanAdapter.My
             public void onClick(View view) {
                 Intent i = new Intent(context, ViewLessonPlanActivity.class);
                 i.putExtra("section_subject_id", profile.getSectionSubjectId());
+                i.putExtra("REQUEST_CODE", requestCode);
+
                 context.startActivity(i);
             }
         });
@@ -80,6 +121,10 @@ public class LessonPlanAdapter extends RecyclerView.Adapter<LessonPlanAdapter.My
         public Button btnViewLesson;
         public TextView lblStaffName, lblClassName, lblSectionName, lblSubjectNo, lblTotalItems, lblCompletedItems, lblOutOfCompleted,
                 lblPercentage,lblStatus,lblCompleted,lblStaff;
+
+        public TextView   lblZero,lblPercent,lblEmptyWhite;
+
+
         public ProgressBar progressBar;
 
         public MyViewHolder(View view) {
@@ -94,12 +139,19 @@ public class LessonPlanAdapter extends RecyclerView.Adapter<LessonPlanAdapter.My
             lblPercentage = (TextView) view.findViewById(R.id.lblPercentage);
             btnViewLesson = (Button) view.findViewById(R.id.btnViewLesson);
             progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+            lblZero = (TextView) view.findViewById(R.id.lblZero);
+            lblPercent = (TextView) view.findViewById(R.id.lblPercent);
+            lblEmptyWhite = (TextView) view.findViewById(R.id.lblEmptyWhite);
+
+
         }
     }
 
-    public LessonPlanAdapter(List<LessPlanData> dateList, Context context) {
+    public LessonPlanAdapter(List<LessPlanData> dateList,int requestCode, Context context) {
         this.context = context;
         this.dateList = dateList;
+        this.requestCode = requestCode;
     }
 
     public void clearAllData() {

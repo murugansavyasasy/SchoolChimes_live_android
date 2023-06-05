@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -117,6 +118,9 @@
 
 
 
+
+
+
         <ProgressBar
             android:id="@+id/progressBar"
             style="@style/CustomProgressBar"
@@ -127,13 +131,55 @@
             android:layout_marginTop="10dp"
             android:indeterminate="false"
             android:max="100"
+            android:visibility="visible"
             android:minWidth="200dp"
             android:minHeight="10dp"
             android:progress="0" />
 
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/bpWhite"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/lblZero"
+                android:layout_width="0dp"
+                android:layout_weight="0"
+                android:text="0%"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="@color/clr_black"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/lblPercent"
+                android:layout_width="0dp"
+                android:layout_weight="0"
+                android:text=""
+                android:textSize="@dimen/_14ssp"
+                android:gravity="right"
+                android:textColor="@color/clr_black"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/lblEmptyWhite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="100%"
+                android:textSize="@dimen/_14ssp"
+                android:gravity="right"
+                android:textColor="@color/clr_black"
+                android:layout_weight="0"/>
+        </LinearLayout>
+
 
         <RelativeLayout
             android:layout_marginTop="5dp"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

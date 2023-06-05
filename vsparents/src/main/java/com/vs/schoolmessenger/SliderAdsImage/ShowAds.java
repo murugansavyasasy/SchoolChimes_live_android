@@ -31,6 +31,7 @@ public class ShowAds {
     public static Runnable myRunnable;
     public static int i = 0;
     public static String redirectURL = "";
+    public static int addID = 0;
     public static String advertisementName = "";
     public static void getAds(Activity activity, ImageView image, Slider slider, String Menu_Type) {
         stop();
@@ -116,8 +117,6 @@ public class ShowAds {
         handler.removeCallbacks(myRunnable);
     }
 
-
-
     private static void rotateAds(Activity activity, ImageView image) {
          String adTimeInterval = TeacherUtil_SharedPreference.getAdTimeInterval(activity);
          long delay = Long.parseLong(adTimeInterval);
@@ -129,6 +128,7 @@ public class ShowAds {
                     Intent intent = new Intent(activity, SpecificAdDetails.class);
                     intent.putExtra("AdredirectURl", redirectURL);
                     intent.putExtra("advertisementName", advertisementName);
+                    intent.putExtra("addID", String.valueOf(addID));
                     activity.startActivity(intent);
                 }
             }
@@ -137,6 +137,7 @@ public class ShowAds {
             public void run() {
                 redirectURL = adsList.get(i).getRedirectURL();
                 advertisementName = adsList.get(i).getAdName();
+                addID = adsList.get(i).getID();
                 Glide.with(activity.getApplicationContext()).load(adsList.get(i).getAdImage()).into(image);
                 i++;
                 if (i > adsList.size() - 1) {

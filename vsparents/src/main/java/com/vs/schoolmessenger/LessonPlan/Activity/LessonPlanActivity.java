@@ -9,9 +9,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +36,7 @@ import com.vs.schoolmessenger.activity.DailyFeeCollectionActivity;
 import com.vs.schoolmessenger.adapter.PaymentTypeAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
+import com.vs.schoolmessenger.model.DatesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -54,6 +58,13 @@ public class LessonPlanActivity extends AppCompatActivity {
     private List<LessPlanData> lessonDataList = new ArrayList<LessPlanData>();
     String type = "";
 
+    EditText Searchable;
+
+    ImageView imgSearch;
+
+    private int iRequestCode;
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -70,6 +81,9 @@ public class LessonPlanActivity extends AppCompatActivity {
         lblAllClasses = (TextView) findViewById(R.id.lblAllClasses);
         lblYouHandled = (TextView) findViewById(R.id.lblYouHandled);
 
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Lesson Plan");
@@ -81,7 +95,10 @@ public class LessonPlanActivity extends AppCompatActivity {
             }
         });
 
-       if(TeacherUtil_SharedPreference.getLoginTypeContextFromSP(LessonPlanActivity.this).equals(LOGIN_TYPE_TEACHER)){
+        iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
+
+
+        if(TeacherUtil_SharedPreference.getLoginTypeContextFromSP(LessonPlanActivity.this).equals(LOGIN_TYPE_TEACHER)){
            lnrTab.setVisibility(View.GONE);
            type = "myclass";
            TeacherUtil_Common.lesson_request_type = type;
@@ -133,7 +150,56 @@ public class LessonPlanActivity extends AppCompatActivity {
             }
         });
 
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (mAdapter == null)
+                    return;
+
+                if (mAdapter.getItemCount() < 1) {
+                    rvLessonPlans.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvLessonPlans.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvLessonPlans.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
+            }
+        });
+
+
+    }
+
+    private void filterlist(String s) {
+        List<LessPlanData> temp = new ArrayList();
+        for (LessPlanData d : lessonDataList) {
+
+            if (d.getClassName().toLowerCase().contains(s.toLowerCase()) || d.getStaffName().toLowerCase().contains(s.toLowerCase()) ||
+                    d.getSectionName().toLowerCase().contains(s.toLowerCase()) || d.getSubjectName().toLowerCase().contains(s.toLowerCase()) ||
+                    d.getTotalItems().toLowerCase().contains(s.toLowerCase())) {
+                temp.add(d);
+            }
+
+        }
+        mAdapter.updateList(temp);
     }
 
     @Override
@@ -173,7 +239,7 @@ public class LessonPlanActivity extends AppCompatActivity {
                         lessonDataList.clear();
                         if(status == 1) {
                             lessonDataList = response.body().getData();
-                            mAdapter = new LessonPlanAdapter(lessonDataList, LessonPlanActivity.this);
+                            mAdapter = new LessonPlanAdapter(lessonDataList,iRequestCode, LessonPlanActivity.this);
                             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                             rvLessonPlans.setLayoutManager(mLayoutManager);
                             rvLessonPlans.setItemAnimator(new DefaultItemAnimator());

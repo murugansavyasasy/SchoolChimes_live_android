@@ -1,21 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
 
     <RelativeLayout
-        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/rytParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rytParent">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvViewLessonPlans"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:padding="10dp" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+        <LinearLayout
+            android:paddingHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lnrViews"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblYetToStart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Yet to Start"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textColor="@color/clr_white"
+                android:background="@drawable/rect_bg_yet_to_start"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/lblInProgress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="In Progress"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textColor="@color/clr_white"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/rect_bg_in_progress"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/lblCompleted"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:textColor="@color/clr_white"
+                android:background="@drawable/rect_bg_completed"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Completed" />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/lblAll"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrViews"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/rect_bg_all_lessons"
+            android:gravity="center"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:text="All"
+            android:textColor="@color/clr_white" />
+
+        <RelativeLayout
+            android:layout_below="@+id/lblAll"
+            android:id="@+id/rytSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/bg_shadow_white_card"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spinners"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="0dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_drop_down" />
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_below="@+id/rytSpinner"
+            android:id="@+id/rytSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp"
+            android:layout_marginBottom="2dp">
+
+            <EditText
+                android:id="@+id/Searchable"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_search_shadow"
+                android:hint="Search"
+                android:paddingLeft="15dp"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:id="@+id/imgSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/search_icon" />
+
+        </RelativeLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvViewLessonPlans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rytSearch"
+            android:clipToPadding="false"
+            android:padding="5dp" />
+
+
     </RelativeLayout>
 
 

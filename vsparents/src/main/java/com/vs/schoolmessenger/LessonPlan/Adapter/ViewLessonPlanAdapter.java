@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.LessonPlan.Adapter;
 
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.EditDataList;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_LESSON_PLAN;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -60,6 +61,8 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
     public List<EditDataItem> afterEditedList = new ArrayList<EditDataItem>();
 
     String LastIconStatus = "";
+
+    int requestcode;
 
 
     @Override
@@ -122,17 +125,14 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
             String name = dataArray.get(i).getName();
             String value = dataArray.get(i).getValue();
 
-
-            if(!value.equals("")) {
+            if( value != null) {
                 LinearLayout.LayoutParams lnrParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lnrParams.setMargins(10, 25, 10, 0);
 
                 LinearLayout lnr = new LinearLayout(context);
                 lnr.setOrientation(LinearLayout.HORIZONTAL);
                 lnr.setLayoutParams(lnrParams);
-
                 lnr.removeAllViews();
-
 
                 LinearLayout.LayoutParams edParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 edParams.weight = 4.0f;
@@ -146,7 +146,6 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                 lblName.setLayoutParams(edParams);
                 lnr.addView(lblName);
 
-
                 LinearLayout.LayoutParams SymbolParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 SymbolParams.weight = 2.0f;
 
@@ -157,7 +156,6 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                 lblSymbol.setLayoutParams(SymbolParams);
                 lnr.addView(lblSymbol);
 
-
                 TextView lblValue = new TextView(context);
                 lblValue.setTextColor(context.getResources().getColor(R.color.clr_black));
                 lblValue.setTextAppearance(context, R.style.textStyle);
@@ -166,11 +164,9 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                 lblValue.setText(value);
                 lblValue.setLayoutParams(edParams);
                 lnr.addView(lblValue);
-
                 holder.lnrViews.addView(lnr);
             }
         }
-
 
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,18 +192,28 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
             @Override
             public void onClick(View view) {
                 showConfirmationAlert(data, position);
-
             }
         });
 
+        if(TeacherUtil_Common.lesson_request_type.equals("allclass")){
+            holder.btnDelete.setVisibility(View.GONE);
+        }
+        else {
+            holder.btnDelete.setVisibility(View.VISIBLE);
+        }
 
         holder.imgYetStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!LastIconStatus.equals("Yet to start")) {
-                    statusIconUpdate(data, holder.imgYetStart, holder.imgInProgress, holder.imgCompleted,
-                            holder.lblYetToStart, holder.lblInProgress, holder.lblCompleted,
-                            holder.vwStageOne, holder.vwStageTwo, "Yet to start");
+
+                    if(!TeacherUtil_Common.lesson_request_type.equals("allclass")) {
+
+                        statusIconUpdate(data, holder.imgYetStart, holder.imgInProgress, holder.imgCompleted,
+                                holder.lblYetToStart, holder.lblInProgress, holder.lblCompleted,
+                                holder.vwStageOne, holder.vwStageTwo, "Yet to start");
+
+                    }
                 }
             }
         });
@@ -216,9 +222,13 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
             @Override
             public void onClick(View view) {
                 if(!LastIconStatus.equals("In Progress")) {
-                    statusIconUpdate(data, holder.imgYetStart, holder.imgInProgress, holder.imgCompleted,
-                            holder.lblYetToStart, holder.lblInProgress, holder.lblCompleted,
-                            holder.vwStageOne, holder.vwStageTwo, "In Progress");
+
+                    if(!TeacherUtil_Common.lesson_request_type.equals("allclass")) {
+                        statusIconUpdate(data, holder.imgYetStart, holder.imgInProgress, holder.imgCompleted,
+                                holder.lblYetToStart, holder.lblInProgress, holder.lblCompleted,
+                                holder.vwStageOne, holder.vwStageTwo, "In Progress");
+
+                    }
                 }
             }
         });
@@ -227,9 +237,13 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
             @Override
             public void onClick(View view) {
                 if(!LastIconStatus.equals("Completed")) {
-                    statusIconUpdate(data, holder.imgYetStart, holder.imgInProgress, holder.imgCompleted,
-                            holder.lblYetToStart, holder.lblInProgress, holder.lblCompleted,
-                            holder.vwStageOne, holder.vwStageTwo, "Completed");
+                    if(!TeacherUtil_Common.lesson_request_type.equals("allclass")) {
+
+                        statusIconUpdate(data, holder.imgYetStart, holder.imgInProgress, holder.imgCompleted,
+                                holder.lblYetToStart, holder.lblInProgress, holder.lblCompleted,
+                                holder.vwStageOne, holder.vwStageTwo, "Completed");
+
+                    }
 
                 }
 
@@ -709,10 +723,11 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
         }
     }
 
-    public ViewLessonPlanAdapter(List<ViewDataItem> dateList, Context context, RelativeLayout rytParent) {
+    public ViewLessonPlanAdapter(List<ViewDataItem> dateList,int requestcode, Context context, RelativeLayout rytParent) {
         this.context = context;
         this.dateList = dateList;
         this.rytParent = rytParent;
+        this.requestcode = requestcode;
     }
 
     public void clearAllData() {

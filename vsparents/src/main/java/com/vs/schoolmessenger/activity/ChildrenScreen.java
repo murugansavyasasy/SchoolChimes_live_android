@@ -369,8 +369,15 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rytHelp:
-                if (schools_list.size() >0 && childList.size()>0) {
-                    showMoreMenu(v);
+
+                if(schools_list !=null && childList != null) {
+                    if (schools_list.size() > 0 && childList.size() > 0) {
+                        showMoreMenu(v);
+                    }
+                    else {
+                        Intent faq = new Intent(ChildrenScreen.this, FAQScreen.class);
+                        startActivity(faq);
+                    }
                 }
                 else {
                     Intent faq = new Intent(ChildrenScreen.this, FAQScreen.class);

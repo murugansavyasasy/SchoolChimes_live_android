@@ -19,7 +19,6 @@
         app:srcCompat="@drawable/school_chimes_trans_splash" />
 
 
-
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"

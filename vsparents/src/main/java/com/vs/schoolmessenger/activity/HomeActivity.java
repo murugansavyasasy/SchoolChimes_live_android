@@ -311,8 +311,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 isParentMenuNames.add(itemtemp);
                             }
 
-                            //isParentMenuNames.add("Certificate Requests_25");
-
                             contact_alert_title = jsonObject.getString("contact_alert_title");
                             contact_alert_Content = jsonObject.getString("contact_alert_content");
                             contact_display_name = jsonObject.getString("contact_display_name");

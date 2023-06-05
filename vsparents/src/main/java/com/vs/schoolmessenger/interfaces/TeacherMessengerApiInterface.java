@@ -524,6 +524,9 @@ public interface TeacherMessengerApiInterface {
     @POST("get-ads")
     Call<JsonArray> getAds(@Body JsonObject jsonObject);
 
+    @POST("ads-viewer")
+    Call<JsonArray> adsviewer(@Body JsonObject jsonObject);
+
     @POST("GetLeaveRequests")
     Call<JsonArray> GetLeaveRequests(@Body JsonObject jsonObject);
 

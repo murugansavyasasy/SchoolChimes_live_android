@@ -22,7 +22,7 @@
             <LinearLayout
 
                 android:id="@+id/lnrBase"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
-                    android:padding="7dp"
+                    android:padding="1dp"
                     android:text="@string/terms_conditions"
                     android:textColor="@color/teacher_colorPrimary"
                     android:textSize="25dp"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lnrBase"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
                 android:orientation="vertical">
 

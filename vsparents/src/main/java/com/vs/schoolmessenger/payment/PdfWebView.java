@@ -90,7 +90,7 @@ public class PdfWebView extends AppCompatActivity {
         });
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading receipt...");
+        progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         receiptWebView = findViewById(R.id.receiptWebView);
         btnDownload = findViewById(R.id.btnDownload);

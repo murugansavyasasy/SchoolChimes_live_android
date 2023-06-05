@@ -13,4 +13,7 @@
         <attr name="aspectRatio" format="float"/>
         <attr name="quality" format="string"/>
     </declare-styleable>
+
+
+
 </resources>

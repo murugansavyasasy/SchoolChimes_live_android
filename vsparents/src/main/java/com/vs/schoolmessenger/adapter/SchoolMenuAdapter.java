@@ -92,6 +92,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE_HW;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_ATTENDANCE;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_LESSON_PLAN;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_MEETING_URL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PHOTOS;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT;
@@ -965,13 +966,22 @@ public class SchoolMenuAdapter extends ArrayAdapter {
         }
 
         else if (substring1.equals("_30")) {
-            if (TeacherUtil_Common.listschooldetails.size() == 1) {
+
+            if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_PRINCIPAL)) {
+                if (TeacherUtil_Common.listschooldetails.size() == 1) {
+                    Intent inVoice = new Intent(context, LessonPlanActivity.class);
+                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_LESSON_PLAN);
+                    context.startActivity(inVoice);
+                } else {
+                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
+                    inVoice.putExtra("REQUEST_CODE", PRINCIPAL_LESSON_PLAN);
+                    context.startActivity(inVoice);
+                }
+
+            }
+            else if(TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
                 Intent inVoice = new Intent(context, LessonPlanActivity.class);
-                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_LESSON_PLAN);
-                context.startActivity(inVoice);
-            } else {
-                Intent inVoice = new Intent(context, TeacherSchoolList.class);
-                inVoice.putExtra("REQUEST_CODE", PRINCIPAL_LESSON_PLAN);
+                inVoice.putExtra("REQUEST_CODE", STAFF_LESSON_PLAN);
                 context.startActivity(inVoice);
             }
 

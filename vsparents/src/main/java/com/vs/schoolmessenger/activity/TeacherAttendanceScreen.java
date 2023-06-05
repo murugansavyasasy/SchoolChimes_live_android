@@ -282,6 +282,8 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
             jsonObjectSchool.addProperty("StaffID", Principal_staffId);
             jsonObjectSchool.addProperty("isAttendance", "0");
 
+            Log.d("request",jsonObjectSchool.toString());
+
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }

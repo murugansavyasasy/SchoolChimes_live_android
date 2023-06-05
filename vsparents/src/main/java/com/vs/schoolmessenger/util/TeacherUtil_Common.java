@@ -74,6 +74,7 @@ public class TeacherUtil_Common {
     public static final int PRINCIPAL_DAILY_COLLECTION= 8225;
 
     public static final int PRINCIPAL_LESSON_PLAN= 8226;
+    public static final int STAFF_LESSON_PLAN= 8227;
 
 
     public static final int STAFF_MEETING_URL= 8224;

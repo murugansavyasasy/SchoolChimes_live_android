@@ -7,6 +7,7 @@
     android:background="@color/bpTransparent_black"
     android:orientation="vertical">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,6 +19,11 @@
         android:background="@drawable/rect_popup_white"
         android:orientation="vertical">
 
+
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/lnrEditViews"
@@ -48,13 +54,14 @@
 
         </LinearLayout>
 
+        </ScrollView>
 
         <RelativeLayout
+            android:layout_below="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:padding="5dp">
 
             <TextView

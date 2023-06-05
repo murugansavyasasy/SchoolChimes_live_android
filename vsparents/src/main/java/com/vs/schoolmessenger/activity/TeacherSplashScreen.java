@@ -117,7 +117,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     Button btnRetry;
     PopupWindow popupWindow;
     ProgressDialog pDialog;
-    String trmsAndConditions = "https://gradit.voicesnap.com/School/SchoolTermsConditions";
+    String trmsAndConditions = "https://schoolchimes.com/vs_web/terms_conditions/";
 
     private AppUpdateManager appUpdateManager;
     private InstallStateUpdatedListener installStateUpdatedListener;

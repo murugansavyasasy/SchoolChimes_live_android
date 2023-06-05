@@ -302,7 +302,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                     startActivityForResult(intent, 3);
                     popupWindow.dismiss();
                 }
-
             }
         });
 
