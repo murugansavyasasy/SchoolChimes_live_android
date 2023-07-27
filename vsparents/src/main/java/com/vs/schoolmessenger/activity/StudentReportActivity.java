@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
@@ -100,7 +101,14 @@ public class StudentReportActivity extends AppCompatActivity{
         if ((listschooldetails.size() == 1)) {
             school_ID = TeacherUtil_Common.Principal_SchoolId;
             staff_ID = TeacherUtil_Common.Principal_staffId;
-        } else {
+        }
+
+        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(StudentReportActivity.this).equals(LOGIN_TYPE_TEACHER)){
+            school_ID = TeacherUtil_Common.Principal_SchoolId;
+            staff_ID = TeacherUtil_Common.Principal_staffId;
+        }
+
+        else {
             school_ID = getIntent().getExtras().getString("SCHOOL_ID", "");
             staff_ID = getIntent().getExtras().getString("STAFF_ID", "");
         }

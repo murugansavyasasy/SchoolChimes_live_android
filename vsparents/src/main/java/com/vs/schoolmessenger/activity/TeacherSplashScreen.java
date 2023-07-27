@@ -130,7 +130,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
     private PopupWindow whatsNewPopupWindow;
     RelativeLayout rytParent;
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -147,7 +146,9 @@ public class TeacherSplashScreen extends AppCompatActivity {
         try {
             File dir = TeacherSplashScreen.this.getCacheDir();
             Boolean a = deleteDirCache(dir);
-        } catch (Exception e) { e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
@@ -179,13 +180,12 @@ public class TeacherSplashScreen extends AppCompatActivity {
         TeacherUtil_SharedPreference.putScreen(TeacherSplashScreen.this, "Screen_shots");
         networkCheck();
 
-        String getLastDate= TeacherUtil_SharedPreference.getCurrentDate(TeacherSplashScreen.this);
+        String getLastDate = TeacherUtil_SharedPreference.getCurrentDate(TeacherSplashScreen.this);
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        if(!date.equals(getLastDate)){
-            TeacherUtil_SharedPreference.putNewProduct(TeacherSplashScreen.this,"0");
-        }
-        else {
-            TeacherUtil_SharedPreference.putNewProduct(TeacherSplashScreen.this,"1");
+        if (!date.equals(getLastDate)) {
+            TeacherUtil_SharedPreference.putNewProduct(TeacherSplashScreen.this, "0");
+        } else {
+            TeacherUtil_SharedPreference.putNewProduct(TeacherSplashScreen.this, "1");
         }
     }
 
@@ -199,7 +199,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 }
             }
             return dir.delete();
-        } else if(dir!= null && dir.isFile()) {
+        } else if (dir != null && dir.isFile()) {
             return dir.delete();
         } else {
             return false;
@@ -214,10 +214,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
         if (requestCode == FLEXIBLE_APP_UPDATE_REQ_CODE) {
             if (resultCode == RESULT_CANCELED) {
                 checkAutoLoginAndSDcardPermission();
-            }
-            else if (resultCode == RESULT_OK) {
-            }
-            else {
+            } else if (resultCode == RESULT_OK) {
+            } else {
                 checkFlexibleUpdate();
             }
         } else if (requestCode == IMMEDIATE_APP_UPDATE_REQ_CODE) {
@@ -238,8 +236,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 startImmediateUpdateFlow(appUpdateInfo);
             } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                 startImmediateUpdateFlow(appUpdateInfo);
-            }
-            else {
+            } else {
                 checkAutoLoginAndSDcardPermission();
             }
         });
@@ -253,12 +250,12 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 startFlexibleUpdateFlow(appUpdateInfo);
             } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
                 popupSnackBarForCompleteUpdate();
-            }
-            else {
+            } else {
                 checkAutoLoginAndSDcardPermission();
             }
         });
     }
+
     private void startFlexibleUpdateFlow(AppUpdateInfo appUpdateInfo) {
         try {
             appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.FLEXIBLE, this, TeacherSplashScreen.FLEXIBLE_APP_UPDATE_REQ_CODE);
@@ -274,6 +271,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private void popupSnackBarForCompleteUpdate() {
         lnrSnackBar.setVisibility(View.VISIBLE);
         lblInstall.setOnClickListener(new View.OnClickListener() {
@@ -307,8 +305,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
         if (isNetworkConnected()) {
             lnrInternetConnection.setVisibility(View.GONE);
             isContactPermissionGranted();
-        }
-        else {
+        } else {
             lnrInternetConnection.setVisibility(View.VISIBLE);
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.connect_internet), Toast.LENGTH_SHORT).show();
         }
@@ -417,12 +414,10 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         if (forget.equals("1")) {
                             TeacherUtil_SharedPreference.putForgetPasswordOTP(TeacherSplashScreen.this, "0");
                             otpCallApi();
-                        }
-                        else {
+                        } else {
                             checkAppUpdateAPI();
                         }
-                    }
-                    else {
+                    } else {
                         appTermsAndConditions("1");
 
                     }
@@ -730,8 +725,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 countryNameList.add(countryList.getStrCountyName());
                             }
                             showCountryListBox();
-                        }
-                        else {
+                        } else {
                             showToast(getResources().getString(R.string.no_records));
                             finish();
                         }
@@ -771,7 +765,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         item.getStrCountyName(), item.getStrCountyMobileLength(), item.getStrCountyCode(),
                         item.getStrBaseURL());
 
-                TeacherUtil_SharedPreference.putBaseURL(TeacherSplashScreen.this,item.getStrBaseURL());
+                TeacherUtil_SharedPreference.putBaseURL(TeacherSplashScreen.this, item.getStrBaseURL());
                 CountrID = TeacherUtil_SharedPreference.getCountryID(TeacherSplashScreen.this);
                 BASE_URL = item.getStrBaseURL();
                 TeacherSchoolsApiClient.changeApiBaseUrl(item.getStrBaseURL());
@@ -794,7 +788,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     }
 
 
-    private void checkUpdateFirstTime(){
+    private void checkUpdateFirstTime() {
         String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(strBaseURL);
 
@@ -1007,7 +1001,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                     public void onClick(View v) {
                                         dialog.dismiss();
                                         nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle,
-                                                VersionAlertContent, PlaystoreMarketId, PlayStoreLink,InAppUpdate,NewVersion,NewUpdates);
+                                                VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
                                     }
                                 });
 
@@ -1016,7 +1010,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                             }
                         } else {
                             nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle,
-                                    VersionAlertContent, PlaystoreMarketId, PlayStoreLink,InAppUpdate,NewVersion,NewUpdates);
+                                    VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
                         }
 
                     } else {
@@ -1043,7 +1037,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     }
 
 
-    private void whatsNewPopup(String inAppUpdate, String strUpdateAvailable, String strForceUpdate, String playstoreMarketId, String playStoreLink,String new_version,String new_updates){
+    private void whatsNewPopup(String inAppUpdate, String strUpdateAvailable, String strForceUpdate, String playstoreMarketId, String playStoreLink, String new_version, String new_updates) {
         bForceUpdate = strForceUpdate.equals("1");
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -1078,10 +1072,9 @@ public class TeacherSplashScreen extends AppCompatActivity {
         paymentAdapter.notifyDataSetChanged();
 
 
-        if(bForceUpdate){
+        if (bForceUpdate) {
             btnNotNow.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             btnNotNow.setVisibility(View.VISIBLE);
         }
 
@@ -1093,14 +1086,13 @@ public class TeacherSplashScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 whatsNewPopupWindow.dismiss();
-                if(inAppUpdate.equals("1")) {
+                if (inAppUpdate.equals("1")) {
                     if (strUpdateAvailable.equals("1") && strForceUpdate.equals("1")) {
                         checkImmediateUpdate();
                     } else if (strUpdateAvailable.equals("1") && strForceUpdate.equals("0")) {
                         checkFlexibleUpdate();
                     }
-                }
-                else {
+                } else {
                     TeacherUtil_SharedPreference.putAppTermsAndConditions(TeacherSplashScreen.this, "");
                     final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                     try {
@@ -1128,13 +1120,13 @@ public class TeacherSplashScreen extends AppCompatActivity {
         });
     }
 
-    private void nextStep(String strUpdateAvailable, String strForceUpdate, String versionAlertTitle, String versionAlertContent, String playstoreMarketId, String playStoreLink,String InAppUpdate,String new_version,String new_updates) {
+    private void nextStep(String strUpdateAvailable, String strForceUpdate, String versionAlertTitle, String versionAlertContent, String playstoreMarketId, String playStoreLink, String InAppUpdate, String new_version, String new_updates) {
 
         if (strUpdateAvailable.equals("1")) {
             bForceUpdate = strForceUpdate.equals("1");
             TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, getString(R.string.teacher_app_version_id));
 
-            whatsNewPopup(InAppUpdate,strUpdateAvailable,strForceUpdate,playstoreMarketId,playStoreLink,new_version,new_updates);
+            whatsNewPopup(InAppUpdate, strUpdateAvailable, strForceUpdate, playstoreMarketId, playStoreLink, new_version, new_updates);
 
 //            if(InAppUpdate.equals("1")) {
 //
@@ -1172,8 +1164,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
     }
 
-    private void getUserDetails(){
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherSplashScreen.this);
+    private void getUserDetails() {
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherSplashScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherSplashScreen.this);
@@ -1226,9 +1218,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                             Boolean is_parent = jsonObject.getBoolean("is_parent");
                             Boolean is_staff = jsonObject.getBoolean("is_staff");
-                            TeacherUtil_SharedPreference.putIsStaff(TeacherSplashScreen.this,is_staff);
-                            TeacherUtil_SharedPreference.putIsParent(TeacherSplashScreen.this,is_parent);
-
+                            TeacherUtil_SharedPreference.putIsStaff(TeacherSplashScreen.this, is_staff);
+                            TeacherUtil_SharedPreference.putIsParent(TeacherSplashScreen.this, is_parent);
 
 
                             TeacherUtil_Common.maxEmergencyvoicecount = jsonObject.getInt("MaxEmergencyVoiceDuration");
@@ -1238,7 +1229,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                             TeacherUtil_Common.maxHomeWorkSMSCount = jsonObject.getInt("MaxHomeWorkSMSCount");
 
 
-                            if (is_staff  && is_parent) {
+                            if (is_staff && is_parent) {
 
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
 
@@ -1315,30 +1306,25 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 inHome.putExtra("schooladdress", schooladdress);
                                 inHome.putExtra("TeacherSchoolsModel", schoolmodel);
                                 inHome.putExtra("list", listschooldetails);
-                                if(role.equals("p1")){
+                                if (role.equals("p1")) {
                                     strlogin = LOGIN_TYPE_HEAD;
-                                }
-                                else if(role.equals("p2")){
+                                } else if (role.equals("p2")) {
                                     strlogin = LOGIN_TYPE_PRINCIPAL;
 
-                                }
-                                else if(role.equals("p3")){
+                                } else if (role.equals("p3")) {
                                     strlogin = LOGIN_TYPE_TEACHER;
 
-                                }
-                                else if(role.equals("p4")){
+                                } else if (role.equals("p4")) {
                                     strlogin = LOGIN_TYPE_ADMIN;
 
-                                }
-                                else if(role.equals("p5")){
+                                } else if (role.equals("p5")) {
                                     strlogin = LOGIN_TYPE_OFFICE_STAFF;
                                 }
 
                                 startActivity(inHome);
                                 finish();
 
-                            }
-                            else  if (!is_staff  && is_parent) {
+                            } else if (!is_staff && is_parent) {
 
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(TeacherSplashScreen.this, strMobile, strPassword, true);
                                 JSONArray jSONArray = jsonObject.getJSONArray("ChildDetails");
@@ -1447,18 +1433,24 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 TeacherUtil_Common.Principal_staffId = strStaffId1;
                                 TeacherUtil_Common.Principal_SchoolId = strSchoolId;
 
-
-                                Intent i = new Intent(TeacherSplashScreen.this, Teacher_AA_Test.class);
-                                i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
-                                i.putExtra("schoolname", schoolname);
-                                i.putExtra("Staff_ID1", strStaffId1);
-                                i.putExtra("schooladdress", schooladdress);
-                                i.putExtra("TeacherSchoolsModel", schoolmodel);
-                                i.putExtra("list", listschooldetails);
-                                Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
-                                startActivity(i);
-                                strlogin = LOGIN_TYPE_TEACHER;
-                                finish();
+                                if (listschooldetails.size() == 1) {
+                                    Intent i = new Intent(TeacherSplashScreen.this, Teacher_AA_Test.class);
+                                    i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
+                                    i.putExtra("schoolname", schoolname);
+                                    i.putExtra("Staff_ID1", strStaffId1);
+                                    i.putExtra("schooladdress", schooladdress);
+                                    i.putExtra("TeacherSchoolsModel", schoolmodel);
+                                    i.putExtra("list", listschooldetails);
+                                    Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
+                                    startActivity(i);
+                                    strlogin = LOGIN_TYPE_TEACHER;
+                                    finish();
+                                } else if (listschooldetails.size() > 1) {
+                                    Intent i = new Intent(TeacherSplashScreen.this, SelectStaffSchools.class);
+                                    startActivity(i);
+                                    strlogin = LOGIN_TYPE_TEACHER;
+                                    finish();
+                                }
                             } else if (role.equals("p4")) {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {
@@ -1535,7 +1527,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
                             startActivity(inChangePass);
                         } else {
                             startActivity(new Intent(TeacherSplashScreen.this, TeacherSignInScreen.class));
-                            finish();                        }
+                            finish();
+                        }
 
                     } else {
                         showToast("No Records Found..");
@@ -1559,8 +1552,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
         });
     }
 
-    private void validateUser(){
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherSplashScreen.this);
+    private void validateUser() {
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherSplashScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -1574,7 +1567,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
         String androidId = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        JsonObject json_object = TeacherUtil_JsonRequest.getJsonArray_ValidateUser(strMobile,androidId,strPassword);
+        JsonObject json_object = TeacherUtil_JsonRequest.getJsonArray_ValidateUser(strMobile, androidId, strPassword);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.ValidateUser(json_object);
         call.enqueue(new Callback<JsonArray>() {
@@ -1592,15 +1585,14 @@ public class TeacherSplashScreen extends AppCompatActivity {
                             JSONObject jsonObject = js.getJSONObject(0);
                             String Status = jsonObject.getString("Status");
                             String Message = jsonObject.getString("Message");
-                            if(Status.equals("1")) {
+                            if (Status.equals("1")) {
                                 String numberExists = jsonObject.getString("isNumberExists");
                                 String passwordUpdated = jsonObject.getString("isPasswordUpdated");
                                 String click_here = jsonObject.getString("MoreInfo");
                                 String redirect_to_otp;
-                                if(jsonObject.has("redirect_to_otp")){
+                                if (jsonObject.has("redirect_to_otp")) {
                                     redirect_to_otp = jsonObject.getString("redirect_to_otp");
-                                }
-                                else {
+                                } else {
                                     redirect_to_otp = "";
                                 }
                                 TeacherUtil_SharedPreference.putNoteMessage(TeacherSplashScreen.this, click_here);
@@ -1608,27 +1600,23 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                                 if (numberExists.equals("1") && passwordUpdated.equals("1")) {
 
-                                    if(redirect_to_otp.equals("1")){
+                                    if (redirect_to_otp.equals("1")) {
                                         Intent inChangePass = new Intent(TeacherSplashScreen.this, AutoReadOTPCallNumberScreen.class);
                                         startActivity(inChangePass);
                                         finish();
-                                    }
-                                    else {
+                                    } else {
                                         getUserDetails();
                                     }
-                                }
-                                else if (numberExists.equals("1") && passwordUpdated.equals("0")) {
+                                } else if (numberExists.equals("1") && passwordUpdated.equals("0")) {
                                     Util_SharedPreference.putForget(TeacherSplashScreen.this, "New");
                                     Intent inChangePass = new Intent(TeacherSplashScreen.this, OTPCallNumberScreen.class);
                                     inChangePass.putExtra("Type", "New");
                                     inChangePass.putExtra("note_message", click_here);
                                     startActivity(inChangePass);
-                                }
-                                else {
+                                } else {
                                     goToSignInScreen(Message);
                                 }
-                            }
-                            else {
+                            } else {
                                 goToSignInScreen(Message);
                             }
                         }
@@ -1700,28 +1688,28 @@ public class TeacherSplashScreen extends AppCompatActivity {
     }
 
     private void checkAutoLoginAndSDcardPermission() {
-       // if (isWriteExternalPermissionGranted()) {
+        // if (isWriteExternalPermissionGranted()) {
 
-            if (TeacherUtil_SharedPreference.getAutoLoginStatusFromSP(TeacherSplashScreen.this)) {
-                loginAPInew();
+        if (TeacherUtil_SharedPreference.getAutoLoginStatusFromSP(TeacherSplashScreen.this)) {
+            loginAPInew();
 
+        } else {
+            String value = TeacherUtil_SharedPreference.getInstall(TeacherSplashScreen.this);
+            String otpValue = TeacherUtil_SharedPreference.getOTPNum(TeacherSplashScreen.this);
+            String mobilescreen = TeacherUtil_SharedPreference.getMobileNumberScreen(TeacherSplashScreen.this);
+
+            if (mobilescreen.equals("1")) {
+                openMobileNumbeScreen();
+            } else if (otpValue.equals("1")) {
+                openMobileNumbeScreen();
+            } else if (value.equals("1")) {
+                openSingInScreen();
             } else {
-                String value = TeacherUtil_SharedPreference.getInstall(TeacherSplashScreen.this);
-                String otpValue = TeacherUtil_SharedPreference.getOTPNum(TeacherSplashScreen.this);
-                String mobilescreen = TeacherUtil_SharedPreference.getMobileNumberScreen(TeacherSplashScreen.this);
-
-                if (mobilescreen.equals("1")) {
-                    openMobileNumbeScreen();
-                } else if (otpValue.equals("1")) {
-                    openMobileNumbeScreen();
-                } else if (value.equals("1")) {
-                    openSingInScreen();
-                } else {
-                    openMobileNumbeScreen();
-                }
-
+                openMobileNumbeScreen();
             }
-      //  }
+
+        }
+        //  }
 
 
     }

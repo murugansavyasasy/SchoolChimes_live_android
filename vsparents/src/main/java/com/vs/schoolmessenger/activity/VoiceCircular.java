@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -91,6 +92,8 @@ public class VoiceCircular extends AppCompatActivity {
     Slider slider;
     ImageView adImage;
 
+    AdView mAdView;
+
     RelativeLayout voice_rlToolbar;
 
 
@@ -126,6 +129,8 @@ public class VoiceCircular extends AppCompatActivity {
         Slider.init(new PicassoImageLoadingService(VoiceCircular.this));
         slider = findViewById(R.id.banner);
         adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
         Searchable = (EditText) findViewById(R.id.Searchable);
         imgSearch = (ImageView) findViewById(R.id.imgSearch);
@@ -345,7 +350,7 @@ public class VoiceCircular extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
             switch (iRequestCode) {
                 case MENU_EMERGENCY:
 

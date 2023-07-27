@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -99,6 +100,8 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     Slider slider;
     ImageView adImage;
 
+    AdView mAdView;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -128,6 +131,8 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         Slider.init(new PicassoImageLoadingService(MessageDatesScreen.this));
         slider = findViewById(R.id.banner);
          adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
@@ -333,7 +338,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
 
         if (isNetworkConnected()) {
             recentCircularsDateWiseAPI();

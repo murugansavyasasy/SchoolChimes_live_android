@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -81,6 +83,9 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
     Slider slider;
     ImageView adImage;
 
+    AdView mAdView;
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -111,7 +116,8 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
 
         Slider.init(new PicassoImageLoadingService(StudentLibraryDetails.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
 
 
         child_ID = getIntent().getExtras().getString("CHILD_ID");
@@ -184,7 +190,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
     }
 
     private void filterlist(String s) {

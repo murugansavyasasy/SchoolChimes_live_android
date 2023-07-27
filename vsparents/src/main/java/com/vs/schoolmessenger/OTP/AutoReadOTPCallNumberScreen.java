@@ -36,6 +36,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.ChildrenScreen;
 import com.vs.schoolmessenger.activity.MobileNumberScreen;
 import com.vs.schoolmessenger.activity.PasswordScreen;
+import com.vs.schoolmessenger.activity.SelectStaffSchools;
 import com.vs.schoolmessenger.activity.TeacherChangePassword;
 import com.vs.schoolmessenger.activity.TeacherSignInScreen;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
@@ -681,17 +682,26 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                 TeacherUtil_Common.Principal_SchoolId = strSchoolId;
 
 
-                                Intent i = new Intent(AutoReadOTPCallNumberScreen.this, Teacher_AA_Test.class);
-                                i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
-                                i.putExtra("schoolname", schoolname);
-                                i.putExtra("Staff_ID1", strStaffId1);
-                                i.putExtra("schooladdress", schooladdress);
-                                i.putExtra("TeacherSchoolsModel", schoolmodel);
-                                i.putExtra("list", listschooldetails);
-                                Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
-                                startActivity(i);
-                                strlogin = LOGIN_TYPE_TEACHER;
-                                finish();
+                                if(listschooldetails.size() == 1) {
+                                    Intent i = new Intent(AutoReadOTPCallNumberScreen.this, Teacher_AA_Test.class);
+                                    i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
+                                    i.putExtra("schoolname", schoolname);
+                                    i.putExtra("Staff_ID1", strStaffId1);
+                                    i.putExtra("schooladdress", schooladdress);
+                                    i.putExtra("TeacherSchoolsModel", schoolmodel);
+                                    i.putExtra("list", listschooldetails);
+                                    Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
+                                    startActivity(i);
+                                    strlogin = LOGIN_TYPE_TEACHER;
+                                    finish();
+                                }
+
+                                else if(listschooldetails.size() > 1){
+                                    Intent i = new Intent(AutoReadOTPCallNumberScreen.this, SelectStaffSchools.class);
+                                    startActivity(i);
+                                    strlogin = LOGIN_TYPE_TEACHER;
+                                    finish();
+                                }
                             } else if (role.equals("p4")) {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {

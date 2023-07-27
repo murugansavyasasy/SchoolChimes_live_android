@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -96,6 +97,9 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     ImageView adImage;
     String Title = "";
 
+    AdView mAdView;
+
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -132,6 +136,8 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         rytHelp = (RelativeLayout) findViewById(R.id.rytHelp);
         rytPassword = (RelativeLayout) findViewById(R.id.rytPassword);
         rytLogout = (RelativeLayout) findViewById(R.id.rytLogout);
+        mAdView = findViewById(R.id.adView);
+
 
         rytLogout.setOnClickListener(this);
         rytHelp.setOnClickListener(this);
@@ -448,7 +454,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
 
         if (iRequestCode == MENU_TEXT) {
             if (isNetworkConnected()) {

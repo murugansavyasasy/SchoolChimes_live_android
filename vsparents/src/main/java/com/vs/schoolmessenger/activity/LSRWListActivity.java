@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
@@ -54,6 +55,9 @@ public class LSRWListActivity extends AppCompatActivity {
     EditText Searchable;
     Slider slider;
     ImageView adImage;
+
+    AdView mAdView;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -85,6 +89,8 @@ public class LSRWListActivity extends AppCompatActivity {
         Slider.init(new PicassoImageLoadingService(LSRWListActivity.this));
         slider = findViewById(R.id.banner);
          adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -148,7 +154,7 @@ public class LSRWListActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
 
         getLsrwListApi();
 

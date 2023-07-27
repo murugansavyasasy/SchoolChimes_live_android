@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.BuildConfig;
@@ -109,6 +110,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private PopupWindow SettingspopupWindow;
 
+    AdView mAdView;
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -161,6 +165,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         rytPassword.setOnClickListener(this);
         rytHome.setOnClickListener(this);
 
+        mAdView = findViewById(R.id.adView);
 
         aHome_nivSchoolLogo = (ImageView) findViewById(R.id.aHome_nivSchoolLogo);
         String url = childItem.getSchoolThumbnailImgUrl();
@@ -709,7 +714,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard");
+        ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard",mAdView);
         getMenuDetails();
     }
 

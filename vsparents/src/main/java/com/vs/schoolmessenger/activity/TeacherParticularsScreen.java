@@ -36,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 
@@ -77,6 +78,10 @@ public class TeacherParticularsScreen extends AppCompatActivity {
         if((TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherParticularsScreen.this).equals(LOGIN_TYPE_PRINCIPAL))&&(listschooldetails.size()==1)){
             SchoolID= TeacherUtil_Common.Principal_SchoolId ;
             StaffID= TeacherUtil_Common.Principal_staffId;
+        }
+        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherParticularsScreen.this).equals(LOGIN_TYPE_TEACHER)){
+            SchoolID = TeacherUtil_Common.Principal_SchoolId;
+            StaffID = TeacherUtil_Common.Principal_staffId;
         }
         else {
             SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");

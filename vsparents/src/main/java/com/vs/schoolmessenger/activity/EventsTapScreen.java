@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -102,6 +104,8 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
     Slider slider;
     LinearLayout lnrAdView;
     ImageView adImage;
+    AdView mAdView;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -123,6 +127,8 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
         rytHelp = (RelativeLayout) findViewById(R.id.rytHelp);
         rytPassword = (RelativeLayout) findViewById(R.id.rytPassword);
         rytLogout = (RelativeLayout) findViewById(R.id.rytLogout);
+        mAdView = findViewById(R.id.adView);
+
 
         lnrAdView = (LinearLayout) findViewById(R.id.lnrAdView);
         lnrAdView.setVisibility(View.VISIBLE);
@@ -166,7 +172,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
     }
 
     private void setupTabLayout() {

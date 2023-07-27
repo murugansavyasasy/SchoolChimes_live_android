@@ -4,9 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+import android.view.View;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.vs.schoolmessenger.LessonPlan.Model.EditDataItem;
-import com.vs.schoolmessenger.LessonPlan.Model.ViewDataItem;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 
@@ -125,6 +133,58 @@ public class TeacherUtil_Common {
             }
         }
         return false;
+    }
+
+
+    public static void showGoogleAds(final Activity activity, AdView mAdView){
+
+        mAdView.setVisibility(View.VISIBLE);
+        mAdView.setAdListener(new AdListener() {
+            @Override
+
+            public void onAdClicked() {
+                Log.d("adClicked","Clicked");
+                // Code to be executed when the user clicks on an ad.
+            }
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+            @Override
+
+            public void onAdFailedToLoad(LoadAdError adError) {
+                Log.d("failed",adError.toString());
+                // Code to be executed when an ad request fails.
+            }
+            @Override
+            public void onAdImpression() {
+                // Code to be executed when an impression is recorded
+                // for an ad.
+
+            }
+
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+        });
+
+        MobileAds.initialize(activity, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+                Log.d("initializationStatus", initializationStatus.toString());
+            }
+
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
     }
 
     public static String milliSecondsToTimer(long milliseconds) {

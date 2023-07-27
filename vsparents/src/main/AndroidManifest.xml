@@ -35,6 +35,9 @@
         android:theme="@style/AppTheme.FullScreen"
         android:usesCleartextTraffic="true">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4334956274721233~7391722789"/>
 
         <activity android:name=".activity.PdfQuizScreen"
             android:launchMode="singleTop"
@@ -623,7 +626,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
-
             android:theme="@style/Teacher_AppTheme.NoActionBar.Login"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
@@ -720,6 +722,14 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.Teacher_AA_Test"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:theme="@style/Teacher_AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:name=".activity.SelectStaffSchools"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
@@ -1253,6 +1263,8 @@
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="false"
             />
+
+
     </application>
 
 </manifest>

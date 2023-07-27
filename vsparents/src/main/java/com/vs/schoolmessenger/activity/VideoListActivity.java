@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -66,6 +67,9 @@ public class VideoListActivity extends AppCompatActivity {
     EditText Searchable;
     Slider slider;
     ImageView adImage;
+
+    AdView mAdView;
+
     RelativeLayout voice_rlToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +108,9 @@ public class VideoListActivity extends AppCompatActivity {
 
         Slider.init(new PicassoImageLoadingService(VideoListActivity.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -283,7 +289,7 @@ public class VideoListActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
         VideoListApi();
     }
 

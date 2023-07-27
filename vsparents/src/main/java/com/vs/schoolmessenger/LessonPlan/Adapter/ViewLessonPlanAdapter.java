@@ -57,6 +57,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
     RelativeLayout rytParent;
 
     int SelectedPosition = 0;
+    int currentPosition = 0;
 
     public List<EditDataItem> afterEditedList = new ArrayList<EditDataItem>();
 
@@ -205,9 +206,16 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
         holder.imgYetStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(currentPosition != position){
+                    LastIconStatus = "";
+                }
+
+
                 if(!LastIconStatus.equals("Yet to start")) {
 
                     if(!TeacherUtil_Common.lesson_request_type.equals("allclass")) {
+                        currentPosition = position;
 
                         statusIconUpdate(data, holder.imgYetStart, holder.imgInProgress, holder.imgCompleted,
                                 holder.lblYetToStart, holder.lblInProgress, holder.lblCompleted,
@@ -221,9 +229,15 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
         holder.imgInProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(currentPosition != position){
+                    LastIconStatus = "";
+                }
                 if(!LastIconStatus.equals("In Progress")) {
 
                     if(!TeacherUtil_Common.lesson_request_type.equals("allclass")) {
+                        currentPosition = position;
+
                         statusIconUpdate(data, holder.imgYetStart, holder.imgInProgress, holder.imgCompleted,
                                 holder.lblYetToStart, holder.lblInProgress, holder.lblCompleted,
                                 holder.vwStageOne, holder.vwStageTwo, "In Progress");
@@ -236,8 +250,13 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
         holder.imgCompleted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(currentPosition != position){
+                    LastIconStatus = "";
+                }
                 if(!LastIconStatus.equals("Completed")) {
                     if(!TeacherUtil_Common.lesson_request_type.equals("allclass")) {
+                        currentPosition = position;
 
                         statusIconUpdate(data, holder.imgYetStart, holder.imgInProgress, holder.imgCompleted,
                                 holder.lblYetToStart, holder.lblInProgress, holder.lblCompleted,

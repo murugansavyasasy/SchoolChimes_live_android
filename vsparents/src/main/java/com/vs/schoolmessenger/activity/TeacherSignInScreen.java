@@ -1,18 +1,13 @@
 package com.vs.schoolmessenger.activity;
 
-import android.Manifest;
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.Settings;
 
 import androidx.core.app.ActivityCompat;
@@ -20,47 +15,47 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.telephony.TelephonyManager;
 import android.text.InputFilter;
-import android.text.SpannableString;
 import android.text.method.PasswordTransformationMethod;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherProfiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
-
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
 
 import static com.vs.schoolmessenger.fcmservices.MyFirebaseMessagingService.pubStArrChildList;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
@@ -69,33 +64,26 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_OFFICE_S
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.loginJsonObject;
 
 
 public class TeacherSignInScreen extends AppCompatActivity implements View.OnClickListener {
     Button btnSignIn;
     EditText etMobile, etPassword;
     TextView tvForgotPassword;
-
     ImageView ivEye;
     boolean bEyeVisible = false;
     int PERMISSION_ALL = 1, mobnumberlength;
-
     String strMobile, strPassword, strmobilenumberlength, num;
     ArrayList<String> loginTypeList = new ArrayList<>();
     TeacherProfiles staffInfo;
-
     public static String par, princi, staf, grouphead, admin;
-
     ArrayList<Profiles> arrayList;
-
     ArrayList<Profiles> arrChildList = new ArrayList<>();
     ArrayList<String> schoolNamelist = new ArrayList<>();
+    AdView mAdView;
+    ImageView adImage;
+    Slider slider;
 
-    TelephonyManager telephonyManager;
-    String IMEINumber = "";
-    PopupWindow pLogoutwindow;
-    JSONObject jsonObjectdetailsStaff;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -131,18 +119,22 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
         ivEye = (ImageView) findViewById(R.id.login_ivEye);
         ivEye.setOnClickListener(this);
 
+        slider = findViewById(R.id.banner);
+        adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
 
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("Ondestroy", "Ondestroy");
-
     }
 
-
+    protected void onResume() {
+        super.onResume();
+        Constants.Menu_ID = "100";
+        ShowAds.getAds(TeacherSignInScreen.this, adImage, slider, "Signin",mAdView);
+    }
     private void passwordVisibilityOnOff() {
         if (bEyeVisible) {
             etPassword.setTransformationMethod(new PasswordTransformationMethod());
@@ -690,17 +682,27 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
                                 TeacherUtil_Common.Principal_SchoolId = strSchoolId;
 
 
-                                Intent i = new Intent(TeacherSignInScreen.this, Teacher_AA_Test.class);
-                                i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
-                                i.putExtra("schoolname", schoolname);
-                                i.putExtra("Staff_ID1", strStaffId1);
-                                i.putExtra("schooladdress", schooladdress);
-                                i.putExtra("TeacherSchoolsModel", schoolmodel);
-                                i.putExtra("list", listschooldetails);
-                                Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
-                                startActivity(i);
-                                strlogin = LOGIN_TYPE_TEACHER;
-                                finish();
+                                if(listschooldetails.size() == 1) {
+                                    Intent i = new Intent(TeacherSignInScreen.this, Teacher_AA_Test.class);
+                                    i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
+                                    i.putExtra("schoolname", schoolname);
+                                    i.putExtra("Staff_ID1", strStaffId1);
+                                    i.putExtra("schooladdress", schooladdress);
+                                    i.putExtra("TeacherSchoolsModel", schoolmodel);
+                                    i.putExtra("list", listschooldetails);
+                                    Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
+                                    startActivity(i);
+                                    strlogin = LOGIN_TYPE_TEACHER;
+                                    finish();
+                                }
+                                else if(listschooldetails.size() > 1){
+                                    Intent i = new Intent(TeacherSignInScreen.this, SelectStaffSchools.class);
+                                    startActivity(i);
+                                    strlogin = LOGIN_TYPE_TEACHER;
+                                    finish();
+                                }
+
+
                             } else if (role.equals("p4")) {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {

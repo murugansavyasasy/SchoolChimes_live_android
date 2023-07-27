@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -89,6 +90,7 @@ public class PasswordScreen extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     JSONObject jsonObjectdetailsStaff;
 
     @Override
@@ -143,8 +145,8 @@ public class PasswordScreen extends AppCompatActivity {
 
     private void validatePassword() {
         String mobilenumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(PasswordScreen.this);
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(PasswordScreen.this);
-         Log.d("BASE URL",baseURL);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PasswordScreen.this);
+        Log.d("BASE URL", baseURL);
 
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -178,15 +180,13 @@ public class PasswordScreen extends AppCompatActivity {
                         String strStatus = jsonObject.getString("Status");
                         String strMessage = jsonObject.getString("Message");
 
-                        if(strStatus.equals("1")){
+                        if (strStatus.equals("1")) {
                             getUserDetails();
-                        }
-                        else {
+                        } else {
                             showToast(strMessage);
                         }
 
-                    }
-                    else {
+                    } else {
                         showToast("Invalid password");
                     }
 
@@ -194,6 +194,7 @@ public class PasswordScreen extends AppCompatActivity {
                     Log.e("ForgotPassword:Ex", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing())
@@ -230,7 +231,7 @@ public class PasswordScreen extends AppCompatActivity {
     }
 
     private void forgotPasswordAPI(final String mobilenumber) {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(PasswordScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PasswordScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -240,11 +241,11 @@ public class PasswordScreen extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        String CountryID=TeacherUtil_SharedPreference.getCountryID(PasswordScreen.this);
+        String CountryID = TeacherUtil_SharedPreference.getCountryID(PasswordScreen.this);
         Log.d("ForgotPassword:Mob", mobilenumber);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_ForgetPassword(mobilenumber,CountryID);
+        JsonObject jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_ForgetPassword(mobilenumber, CountryID);
         Call<JsonArray> call = apiService.ForgetPassword(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
 
@@ -268,7 +269,7 @@ public class PasswordScreen extends AppCompatActivity {
                         String click_here = jsonObject.getString("MoreInfo");
                         String redirectToSignScreenMessage = jsonObject.getString("ForgetOTPMesage");
 
-                        TeacherUtil_SharedPreference.putDialNumbers(PasswordScreen.this,numbers);
+                        TeacherUtil_SharedPreference.putDialNumbers(PasswordScreen.this, numbers);
 
                         hideKeyBoard();
 
@@ -278,9 +279,9 @@ public class PasswordScreen extends AppCompatActivity {
                             TeacherUtil_SharedPreference.putStaffLoginInfoToSP(PasswordScreen.this, mobilenumber, password, false);
                             TeacherUtil_SharedPreference.putForgetPasswordOTP(PasswordScreen.this, "1");
                             Intent inChangePass = new Intent(PasswordScreen.this, OTPCallNumberScreen.class);
-                            inChangePass.putExtra("Dial_numbers",numbers);
-                            inChangePass.putExtra("Type","forget");
-                            inChangePass.putExtra("note_message",click_here);
+                            inChangePass.putExtra("Dial_numbers", numbers);
+                            inChangePass.putExtra("Type", "forget");
+                            inChangePass.putExtra("note_message", click_here);
                             startActivity(inChangePass);
 
                         } else {
@@ -295,6 +296,7 @@ public class PasswordScreen extends AppCompatActivity {
                     Log.e("ForgotPassword:Ex", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing())
@@ -315,8 +317,8 @@ public class PasswordScreen extends AppCompatActivity {
         }
     }
 
-    private void getUserDetails(){
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(PasswordScreen.this);
+    private void getUserDetails() {
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PasswordScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(PasswordScreen.this);
         mProgressDialog.setIndeterminate(true);
@@ -379,8 +381,8 @@ public class PasswordScreen extends AppCompatActivity {
 
                             Boolean is_parent = jsonObject.getBoolean("is_parent");
                             Boolean is_staff = jsonObject.getBoolean("is_staff");
-                            TeacherUtil_SharedPreference.putIsStaff(PasswordScreen.this,is_staff);
-                            TeacherUtil_SharedPreference.putIsParent(PasswordScreen.this,is_parent);
+                            TeacherUtil_SharedPreference.putIsStaff(PasswordScreen.this, is_staff);
+                            TeacherUtil_SharedPreference.putIsParent(PasswordScreen.this, is_parent);
 
 
                             TeacherUtil_Common.maxEmergencyvoicecount = jsonObject.getInt("MaxEmergencyVoiceDuration");
@@ -389,7 +391,7 @@ public class PasswordScreen extends AppCompatActivity {
                             TeacherUtil_Common.maxGeneralSMSCount = jsonObject.getInt("MaxGeneralSMSCount");
                             TeacherUtil_Common.maxHomeWorkSMSCount = jsonObject.getInt("MaxHomeWorkSMSCount");
 
-                            if (is_staff  && is_parent) {
+                            if (is_staff && is_parent) {
 
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
 
@@ -467,30 +469,25 @@ public class PasswordScreen extends AppCompatActivity {
                                 inHome.putExtra("TeacherSchoolsModel", schoolmodel);
                                 inHome.putExtra("list", listschooldetails);
 
-                                if(role.equals("p1")){
+                                if (role.equals("p1")) {
                                     strlogin = LOGIN_TYPE_HEAD;
-                                }
-                                else if(role.equals("p2")){
+                                } else if (role.equals("p2")) {
                                     strlogin = LOGIN_TYPE_PRINCIPAL;
 
-                                }
-                                else if(role.equals("p3")){
+                                } else if (role.equals("p3")) {
                                     strlogin = LOGIN_TYPE_TEACHER;
 
-                                }
-                                else if(role.equals("p4")){
+                                } else if (role.equals("p4")) {
                                     strlogin = LOGIN_TYPE_ADMIN;
 
-                                }
-                                else if(role.equals("p5")){
+                                } else if (role.equals("p5")) {
                                     strlogin = LOGIN_TYPE_OFFICE_STAFF;
                                 }
 
                                 startActivity(inHome);
                                 finish();
 
-                            }
-                            else  if (!is_staff  && is_parent) {
+                            } else if (!is_staff && is_parent) {
 
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(PasswordScreen.this, number, password, true);
                                 JSONArray jSONArray = jsonObject.getJSONArray("ChildDetails");
@@ -599,18 +596,26 @@ public class PasswordScreen extends AppCompatActivity {
                                 TeacherUtil_Common.Principal_staffId = strStaffId1;
                                 TeacherUtil_Common.Principal_SchoolId = strSchoolId;
 
+                                if (listschooldetails.size() == 1) {
+                                    Intent i = new Intent(PasswordScreen.this, Teacher_AA_Test.class);
+                                    i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
+                                    i.putExtra("schoolname", schoolname);
+                                    i.putExtra("Staff_ID1", strStaffId1);
+                                    i.putExtra("schooladdress", schooladdress);
+                                    i.putExtra("TeacherSchoolsModel", schoolmodel);
+                                    i.putExtra("list", listschooldetails);
+                                    Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
+                                    startActivity(i);
+                                    strlogin = LOGIN_TYPE_TEACHER;
+                                    finish();
+                                } else if (listschooldetails.size() > 1) {
+                                    Intent i = new Intent(PasswordScreen.this, SelectStaffSchools.class);
+                                    startActivity(i);
+                                    strlogin = LOGIN_TYPE_TEACHER;
+                                    finish();
+                                }
 
-                                Intent i = new Intent(PasswordScreen.this, Teacher_AA_Test.class);
-                                i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
-                                i.putExtra("schoolname", schoolname);
-                                i.putExtra("Staff_ID1", strStaffId1);
-                                i.putExtra("schooladdress", schooladdress);
-                                i.putExtra("TeacherSchoolsModel", schoolmodel);
-                                i.putExtra("list", listschooldetails);
-                                Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
-                                startActivity(i);
-                                strlogin = LOGIN_TYPE_TEACHER;
-                                finish();
+
                             } else if (role.equals("p4")) {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {
@@ -698,6 +703,7 @@ public class PasswordScreen extends AppCompatActivity {
                     finish();
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing())
@@ -729,7 +735,6 @@ public class PasswordScreen extends AppCompatActivity {
 
 
     }
-
 
 
     private void showToast(String message) {

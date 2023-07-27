@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -96,6 +97,9 @@ public class ImageCircular extends AppCompatActivity {
     Slider slider;
     ImageView adImage;
 
+    AdView mAdView;
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -148,6 +152,8 @@ public class ImageCircular extends AppCompatActivity {
         Slider.init(new PicassoImageLoadingService(ImageCircular.this));
         slider = findViewById(R.id.banner);
          adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -323,7 +329,7 @@ public class ImageCircular extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
         circularsImageAPI();
 
     }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdView;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
@@ -25,6 +26,9 @@ public class ParentQuizScreen extends AppCompatActivity implements View.OnClickL
     LinearLayout menu_Knowledge_Enhancement,menu_Exam;
     Slider slider;
     ImageView adImage;
+
+    AdView mAdView;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -42,6 +46,8 @@ public class ParentQuizScreen extends AppCompatActivity implements View.OnClickL
          Slider.init(new PicassoImageLoadingService(ParentQuizScreen.this));
          slider = findViewById(R.id.banner);
          adImage = findViewById(R.id.adImage);
+         mAdView = findViewById(R.id.adView);
+
 
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -60,7 +66,7 @@ public class ParentQuizScreen extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
     }
 
 

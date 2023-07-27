@@ -154,6 +154,10 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             schoolId = TeacherUtil_Common.Principal_SchoolId;
             staffId = TeacherUtil_Common.Principal_staffId;
         }
+        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherGeneralText.this).equals(LOGIN_TYPE_TEACHER)){
+            schoolId = TeacherUtil_Common.Principal_SchoolId;
+            staffId = TeacherUtil_Common.Principal_staffId;
+        }
         else {
             schoolId = getIntent().getExtras().getString("SCHOOL_ID", "");
             staffId = getIntent().getExtras().getString("STAFF_ID", "");

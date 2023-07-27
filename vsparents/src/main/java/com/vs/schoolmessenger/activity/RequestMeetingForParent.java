@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.ActionBar;
@@ -73,6 +75,9 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
 
     Slider slider;
     ImageView adImage;
+
+    AdView mAdView;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -94,6 +99,8 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
         rytHelp = (RelativeLayout) findViewById(R.id.rytHelp);
         rytPassword = (RelativeLayout) findViewById(R.id.rytPassword);
         rytLogout = (RelativeLayout) findViewById(R.id.rytLogout);
+        mAdView = findViewById(R.id.adView);
+
 
         rytLogout.setOnClickListener(this);
         rytHelp.setOnClickListener(this);
@@ -173,7 +180,7 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
     }
 
 

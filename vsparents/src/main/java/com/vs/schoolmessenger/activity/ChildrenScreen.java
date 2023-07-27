@@ -1,5 +1,8 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.Manifest;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
@@ -211,16 +214,41 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onClick(View v) {
                     if (isNetworkConnected()) {
-                        TeacherUtil_Common.school_scroll_to_position = 0;
-                        Intent i = new Intent(ChildrenScreen.this, Teacher_AA_Test.class);
-                        i.putExtra("schoolname", schoolname);
-                        i.putExtra("schooladdress", schooladdress);
-                        i.putExtra("TeacherSchoolsModel", schoolmodel);
-                        i.putExtra("schoollist", myArray);
-                        i.putExtra("list", schools_list);
-                        Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
-                        i.putExtra("bottom_menu", "1");
-                        startActivity(i);
+
+                        String loginType = TeacherUtil_SharedPreference.getLoginTypeFromSP(ChildrenScreen.this);
+                        if(loginType.equals(LOGIN_TYPE_TEACHER)){
+                            TeacherUtil_Common.school_scroll_to_position = 0;
+
+                            if(listschooldetails.size() == 1){
+                                Intent i = new Intent(ChildrenScreen.this, Teacher_AA_Test.class);
+                                i.putExtra("schoolname", schoolname);
+                                i.putExtra("schooladdress", schooladdress);
+                                i.putExtra("TeacherSchoolsModel", schoolmodel);
+                                i.putExtra("schoollist", myArray);
+                                i.putExtra("list", schools_list);
+                                Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
+                                i.putExtra("bottom_menu", "1");
+                                startActivity(i);
+                            }
+                            else if(listschooldetails.size() > 1) {
+                                Intent i = new Intent(ChildrenScreen.this, SelectStaffSchools.class);
+                                startActivity(i);
+                            }
+                        }
+
+
+                        else {
+                            TeacherUtil_Common.school_scroll_to_position = 0;
+                            Intent i = new Intent(ChildrenScreen.this, Teacher_AA_Test.class);
+                            i.putExtra("schoolname", schoolname);
+                            i.putExtra("schooladdress", schooladdress);
+                            i.putExtra("TeacherSchoolsModel", schoolmodel);
+                            i.putExtra("schoollist", myArray);
+                            i.putExtra("list", schools_list);
+                            Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
+                            i.putExtra("bottom_menu", "1");
+                            startActivity(i);
+                        }
 
                     } else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.connect_internet), Toast.LENGTH_LONG).show();

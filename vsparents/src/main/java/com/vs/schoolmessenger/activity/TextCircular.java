@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -94,6 +95,8 @@ public class TextCircular extends AppCompatActivity {
 
     Slider slider;
     ImageView adImage;
+    AdView mAdView;
+
 
     RelativeLayout voice_rlToolbar;
 
@@ -129,6 +132,8 @@ public class TextCircular extends AppCompatActivity {
         Slider.init(new PicassoImageLoadingService(TextCircular.this));
         slider = findViewById(R.id.banner);
          adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
         ImageView ivBack = (ImageView) findViewById(R.id.text_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -415,7 +420,7 @@ public class TextCircular extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
         switch (iRequestCode) {
             case MENU_TEXT:
                 if (isNetworkConnected()) {

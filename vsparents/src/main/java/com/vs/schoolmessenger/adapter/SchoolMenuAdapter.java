@@ -637,17 +637,11 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                     context.startActivity(inVoice);
                 }
             } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
-                if (TeacherUtil_Common.listschooldetails.size() == 1) {
                     Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
                     inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
                     inVoice.putExtra("EMERGENCY", false);
                     context.startActivity(inVoice);
-                } else {
-                    Intent inVoice = new Intent(context, TeacherSchoolList.class);
-                    inVoice.putExtra("REQUEST_CODE", STAFF_VOICE);
-                    inVoice.putExtra("EMERGENCY", false);
-                    context.startActivity(inVoice);
-                }
+
             } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
 
                 Intent inVoice = new Intent(context, TeacherEmergencyVoice.class);
@@ -669,15 +663,10 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                     context.startActivity(inHomeWorkVoice);
                 }
             } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
-                if (TeacherUtil_Common.listschooldetails.size() == 1) {
                     Intent inHomeWorkVoice = new Intent(context, TeacherGeneralText.class);
                     inHomeWorkVoice.putExtra("REQUEST_CODE", STAFF_TEXT);
                     context.startActivity(inHomeWorkVoice);
-                } else {
-                    Intent inHomeWorkVoice = new Intent(context, TeacherSchoolList.class);
-                    inHomeWorkVoice.putExtra("REQUEST_CODE", STAFF_TEXT);
-                    context.startActivity(inHomeWorkVoice);
-                }
+
             } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_HEAD)) {
 
                 Intent inHomeWorkVoice = new Intent(context, TeacherGeneralText.class);
@@ -926,15 +915,10 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                     context.startActivity(inHomeWorkVoice);
                 }
             } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(context).equals(LOGIN_TYPE_TEACHER)) {
-                if (TeacherUtil_Common.listschooldetails.size() == 1) {
                     Intent inHomeWorkVoice = new Intent(context, TeacherMeetingURLScreen.class);
                     inHomeWorkVoice.putExtra("REQUEST_CODE", STAFF_MEETING_URL);
                     context.startActivity(inHomeWorkVoice);
-                } else {
-                    Intent inHomeWorkVoice = new Intent(context, TeacherSchoolList.class);
-                    inHomeWorkVoice.putExtra("REQUEST_CODE", STAFF_MEETING_URL);
-                    context.startActivity(inHomeWorkVoice);
-                }
+
             }
 
         } else if (substring1.equals("_27")) {

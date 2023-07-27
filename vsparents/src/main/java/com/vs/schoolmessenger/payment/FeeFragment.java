@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -16,6 +17,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.activity.ProfileLinkScreen;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -25,6 +27,11 @@ public class FeeFragment extends Fragment {
     String SchoolID = "";
     String PaymentUrl="";
     WebView web_view;
+    ProgressDialog pDialog;
+
+    private WebSettings webSettings;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +51,8 @@ public class FeeFragment extends Fragment {
 
         Log.d("URL",PaymentUrl);
         loadWebView("");
+
+
 
         return rootView;
     }
@@ -75,6 +84,13 @@ public class FeeFragment extends Fragment {
         web_view.loadUrl(PaymentUrl);
 
         web_view.setWebChromeClient(new WebChromeClient() {
+
+            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                Log.d("Webview Error", consoleMessage.message() + " -- From line "
+                        + consoleMessage.lineNumber() + " of "
+                        + consoleMessage.sourceId());
+                return super.onConsoleMessage(consoleMessage);
+            }
             public void onProgressChanged(WebView view, int progress) {
                 if (progress < 100) {
                     progressDialog.show();

@@ -644,6 +644,8 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
         JsonObject jsonObjectSchool = new JsonObject();
         try {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
+            Log.d("req",jsonObjectSchool.toString());
+
 
         } catch (Exception e) {
             Log.d("ASDF", e.toString());

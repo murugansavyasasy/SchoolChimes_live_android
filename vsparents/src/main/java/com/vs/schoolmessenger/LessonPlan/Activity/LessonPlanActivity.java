@@ -33,6 +33,7 @@ import com.vs.schoolmessenger.LessonPlan.Model.LessPlanData;
 import com.vs.schoolmessenger.LessonPlan.Model.LessonPlanModel;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.DailyFeeCollectionActivity;
+import com.vs.schoolmessenger.activity.TeacherGeneralText;
 import com.vs.schoolmessenger.adapter.PaymentTypeAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
@@ -113,7 +114,12 @@ public class LessonPlanActivity extends AppCompatActivity {
         if ((listschooldetails.size() == 1)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
-        } else {
+        }
+        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(LessonPlanActivity.this).equals(LOGIN_TYPE_TEACHER)){
+            SchoolID = TeacherUtil_Common.Principal_SchoolId;
+            StaffID = TeacherUtil_Common.Principal_staffId;
+        }
+        else {
             SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
             StaffID = getIntent().getExtras().getString("STAFF_ID", "");
         }

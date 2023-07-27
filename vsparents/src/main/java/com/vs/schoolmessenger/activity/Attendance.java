@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -105,6 +106,8 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
     Slider slider;
     ImageView adImage;
+    AdView mAdView;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -131,6 +134,8 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
         Searchable = (EditText) findViewById(R.id.Searchable);
         imgSearch = (ImageView) findViewById(R.id.imgSearch);
+        mAdView = findViewById(R.id.adView);
+
 
         Slider.init(new PicassoImageLoadingService(Attendance.this));
         slider = findViewById(R.id.banner);
@@ -227,7 +232,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
     }
 
 

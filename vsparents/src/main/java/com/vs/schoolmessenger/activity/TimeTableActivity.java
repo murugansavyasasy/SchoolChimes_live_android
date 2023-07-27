@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
@@ -54,6 +55,9 @@ public class TimeTableActivity extends AppCompatActivity {
 
     Slider slider;
     ImageView adImage;
+
+    AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +82,9 @@ public class TimeTableActivity extends AppCompatActivity {
 
         Slider.init(new PicassoImageLoadingService(TimeTableActivity.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
 
         dayAdapter = new TimeTableDayAdapter(this, DayList, new TimeTableDayListener() {
@@ -137,7 +143,7 @@ public class TimeTableActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
 //        getTimeTableApi();
 
     }

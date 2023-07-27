@@ -16,8 +16,8 @@ android {
         applicationId "com.vs.schoolmessenger"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 89
-        versionName "7.6.12"
+        versionCode 90
+        versionName "7.6.13"
         flavorDimensions "default"
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -141,6 +141,10 @@ dependencies {
 
     implementation 'com.ss.bannerslider:bannerslider:2.0.0'
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation 'com.google.android.gms:play-services-ads:22.2.0'
+
+
 
 
 

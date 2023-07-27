@@ -170,7 +170,13 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
         if ((listschooldetails.size() == 1)) {
             schoolId = TeacherUtil_Common.Principal_SchoolId;
             staffId = TeacherUtil_Common.Principal_staffId;
-        } else {
+        }
+
+        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherEmergencyVoice.this).equals(LOGIN_TYPE_TEACHER)){
+            schoolId = TeacherUtil_Common.Principal_SchoolId;
+            staffId = TeacherUtil_Common.Principal_staffId;
+        }
+        else {
             schoolId = getIntent().getExtras().getString("SCHOOL_ID", "");
             staffId = getIntent().getExtras().getString("STAFF_ID", "");
         }

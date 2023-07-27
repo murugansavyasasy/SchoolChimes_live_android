@@ -8,6 +8,8 @@ buildscript {
             name 'Google'
         }
         google()
+        mavenCentral()
+
     }
     dependencies {
         //classpath 'com.android.tools.build:gradle:4.2.2'
@@ -22,6 +24,8 @@ allprojects {
         jcenter()
         maven {url"https://jitpack.io"}
         google()
+        mavenCentral()
+
 
     }
 }

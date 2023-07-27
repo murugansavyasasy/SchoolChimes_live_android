@@ -45,6 +45,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 
@@ -84,7 +85,13 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         if ((TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherAbsenteesReport.this).equals(LOGIN_TYPE_PRINCIPAL)) && (listschooldetails.size() == 1)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
-        } else {
+        }
+
+        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherAbsenteesReport.this).equals(LOGIN_TYPE_TEACHER)){
+            SchoolID = TeacherUtil_Common.Principal_SchoolId;
+            StaffID = TeacherUtil_Common.Principal_staffId;
+        }
+        else {
             SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
             TeacherUtil_Common.Principal_SchoolId = SchoolID;
             StaffID = getIntent().getExtras().getString("STAFF_ID", "");

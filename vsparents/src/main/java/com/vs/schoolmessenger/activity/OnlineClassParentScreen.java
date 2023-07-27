@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -65,6 +66,8 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
     Slider slider;
     ImageView adImage;
     RelativeLayout voice_rlToolbar;
+    AdView mAdView;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -100,6 +103,8 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
         Slider.init(new PicassoImageLoadingService(OnlineClassParentScreen.this));
         slider = findViewById(R.id.banner);
         adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
         Searchable.addTextChangedListener(new TextWatcher() {
             @Override
@@ -179,7 +184,7 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
     @Override
     public void onResume(){
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
 
         getOnlineClasses();
 

@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdView;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
@@ -23,6 +24,9 @@ public class TextBookForParent extends AppCompatActivity {
     ProgressDialog pDialog;
     Slider slider;
     ImageView adImage;
+
+    AdView mAdView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,8 @@ public class TextBookForParent extends AppCompatActivity {
         Slider.init(new PicassoImageLoadingService(TextBookForParent.this));
         slider = findViewById(R.id.banner);
          adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
         Bundle extras = getIntent().getExtras();
         String url = extras.getString("url");
@@ -70,7 +76,7 @@ public class TextBookForParent extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
     }
 
     @Override

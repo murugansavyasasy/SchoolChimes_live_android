@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -73,6 +74,9 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
     Slider slider;
     LinearLayout lnrAction;
 
+    AdView mAdView;
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -100,8 +104,10 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
         Slider.init(new PicassoImageLoadingService(ParentAssignmentListActivity.this));
         slider = findViewById(R.id.banner);
         ImageView adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
 
-        ShowAds.getAds(ParentAssignmentListActivity.this,adImage,slider,"");
+
+        ShowAds.getAds(ParentAssignmentListActivity.this,adImage,slider,"",mAdView);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

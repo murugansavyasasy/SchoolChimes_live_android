@@ -1943,7 +1943,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
             jsonObjectSchool.addProperty("StaffID", StaffID);
             jsonObjectSchool.addProperty("isAttendance", "0");
-
+            Log.d("req",jsonObjectSchool.toString());
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }

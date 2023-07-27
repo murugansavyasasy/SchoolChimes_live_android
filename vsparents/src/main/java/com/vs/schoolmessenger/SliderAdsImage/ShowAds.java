@@ -9,12 +9,15 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.activity.TeacherSignInScreen;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.adsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
+import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
@@ -33,7 +36,7 @@ public class ShowAds {
     public static String redirectURL = "";
     public static int addID = 0;
     public static String advertisementName = "";
-    public static void getAds(Activity activity, ImageView image, Slider slider, String Menu_Type) {
+    public static void getAds(final Activity activity, ImageView image, Slider slider, String Menu_Type,AdView mAdView) {
         stop();
         Log.d("Menu_ID", Constants.Menu_ID);
         String baseURL = TeacherUtil_SharedPreference.getReportURL(activity);
@@ -73,11 +76,30 @@ public class ShowAds {
 
                         if (status.equals("1")) {
                             JSONArray data = jsonObject.getJSONArray("data");
+                            boolean google_ad = jsonObject.getBoolean("google_ad");
+                            boolean enable_ad = jsonObject.getBoolean("enable_ad");
+
+                            if(enable_ad){
+                                if(google_ad){
+                                   mAdView.setVisibility(View.VISIBLE);
+                                   image.setVisibility(View.GONE);
+                                   TeacherUtil_Common.showGoogleAds(activity,mAdView);
+                                }
+                                else {
+                                    mAdView.setVisibility(View.GONE);
+                                    image.setVisibility(View.VISIBLE);
+                                }
+                            }
+                            else {
+                                image.setVisibility(View.GONE);
+                                mAdView.setVisibility(View.GONE);
+                            }
+
                             adsModel ads;
                             adsList.clear();
 
                             if(data.length() > 0) {
-                                image.setVisibility(View.VISIBLE);
+                                //image.setVisibility(View.GONE);
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject object = data.getJSONObject(i);
                                     ads = new adsModel(object.getInt("id"), object.getString("advertisementName"), object.getString("contentUrl"), object.getString("redirectUrl"));
@@ -88,7 +110,7 @@ public class ShowAds {
 
                             }
                             else {
-                                image.setVisibility(View.GONE);
+                                //image.setVisibility(View.GONE);
                             }
 
 

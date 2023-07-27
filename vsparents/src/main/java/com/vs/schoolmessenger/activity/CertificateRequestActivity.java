@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.tabs.TabLayout;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
@@ -30,6 +31,9 @@ public class CertificateRequestActivity extends AppCompatActivity{
     private CertifiatesFragments fragmentTwo;
     Slider slider;
     LinearLayout lnrAdView;
+
+    AdView mAdView;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -54,13 +58,15 @@ public class CertificateRequestActivity extends AppCompatActivity{
         });
 
         lnrAdView = (LinearLayout) findViewById(R.id.lnrAdView);
+        mAdView = findViewById(R.id.adView);
+
         lnrAdView.setVisibility(View.VISIBLE);
 
         Slider.init(new PicassoImageLoadingService(CertificateRequestActivity.this));
         slider = findViewById(R.id.banner);
         ImageView adImage = findViewById(R.id.adImage);
 
-        ShowAds.getAds(CertificateRequestActivity.this,adImage,slider,"");
+        ShowAds.getAds(CertificateRequestActivity.this,adImage,slider,"",mAdView);
 
         instance=this;
         getAllWidgets();

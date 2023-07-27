@@ -67,6 +67,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MEETING_URL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
@@ -178,7 +179,14 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
         if ((listschooldetails.size() == 1)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
-        } else {
+        }
+
+        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherMeetingURLScreen.this).equals(LOGIN_TYPE_TEACHER)){
+            SchoolID = TeacherUtil_Common.Principal_SchoolId;
+            StaffID = TeacherUtil_Common.Principal_staffId;
+        }
+
+        else {
             SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
             StaffID = getIntent().getExtras().getString("STAFF_ID", "");
         }

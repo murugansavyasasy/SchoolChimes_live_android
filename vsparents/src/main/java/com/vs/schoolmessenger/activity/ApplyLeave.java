@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -65,6 +66,8 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     Button btnLeaveHistory;
     Slider slider;
     ImageView adImage;
+    AdView mAdView;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -85,6 +88,8 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         Slider.init(new PicassoImageLoadingService(ApplyLeave.this));
         slider = findViewById(R.id.banner);
         adImage = findViewById(R.id.adImage);
+        mAdView = findViewById(R.id.adView);
+
 
         btnLeaveHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +149,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"Dashboard");
+        ShowAds.getAds(this,adImage,slider,"Dashboard",mAdView);
     }
 
     private void setMinDateTime() {

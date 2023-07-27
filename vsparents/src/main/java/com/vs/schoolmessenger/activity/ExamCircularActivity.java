@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -84,6 +85,9 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
     Slider slider;
     ImageView adImage;
 
+    AdView mAdView;
+
+
 //    @Override
 //    protected void attachBaseContext(Context newBase) {
 //        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -102,6 +106,8 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         rytHelp = (RelativeLayout) findViewById(R.id.rytHelp);
         rytPassword = (RelativeLayout) findViewById(R.id.rytPassword);
         rytLogout = (RelativeLayout) findViewById(R.id.rytLogout);
+        mAdView = findViewById(R.id.adView);
+
 
         rytLogout.setOnClickListener(this);
         rytHelp.setOnClickListener(this);
@@ -207,7 +213,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"");
+        ShowAds.getAds(this,adImage,slider,"",mAdView);
     }
 
     private boolean isNetworkConnected() {
