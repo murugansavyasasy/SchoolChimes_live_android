@@ -51,6 +51,7 @@ import com.vs.schoolmessenger.model.ParentMenuModel;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -714,6 +715,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        Constants.Menu_ID = "101";
         ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard",mAdView);
         getMenuDetails();
     }
