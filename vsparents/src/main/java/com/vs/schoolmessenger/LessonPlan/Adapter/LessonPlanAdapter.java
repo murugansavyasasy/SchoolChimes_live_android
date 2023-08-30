@@ -49,6 +49,7 @@ public class LessonPlanAdapter extends RecyclerView.Adapter<LessonPlanAdapter.My
         holder.lblStaffName.setText(profile.getStaffName());
         holder.lblClassName.setText(profile.getClassName());
         holder.lblSectionName.setText(" - "+profile.getSectionName());
+        holder.lblSubjectName.setText(profile.getSubjectName());
         holder.lblStatus.setText(profile.getItemsCompleted());
 
         holder.lblStaff.setTypeface(holder.lblStaff.getTypeface(), Typeface.BOLD);
@@ -120,7 +121,7 @@ public class LessonPlanAdapter extends RecyclerView.Adapter<LessonPlanAdapter.My
 
         public Button btnViewLesson;
         public TextView lblStaffName, lblClassName, lblSectionName, lblSubjectNo, lblTotalItems, lblCompletedItems, lblOutOfCompleted,
-                lblPercentage,lblStatus,lblCompleted,lblStaff;
+                lblPercentage,lblStatus,lblCompleted,lblStaff,lblSubjectName;
 
         public TextView   lblZero,lblPercent,lblEmptyWhite;
 
@@ -133,6 +134,7 @@ public class LessonPlanAdapter extends RecyclerView.Adapter<LessonPlanAdapter.My
             lblStaffName = (TextView) view.findViewById(R.id.lblStaffName);
             lblClassName = (TextView) view.findViewById(R.id.lblClassName);
             lblSectionName = (TextView) view.findViewById(R.id.lblSectionName);
+            lblSubjectName = (TextView) view.findViewById(R.id.lblSubjectName);
             lblStatus = (TextView) view.findViewById(R.id.lblStatus);
             lblCompleted = (TextView) view.findViewById(R.id.lblCompleted);
             lblStaff = (TextView) view.findViewById(R.id.lblStaff);
