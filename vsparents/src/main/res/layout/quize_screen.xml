@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         ads:adSize="@string/ads_size"
-        ads:adUnitId="@string/ads_unit_sixteen"
+        ads:adUnitId="@string/ads_unit_one"
         tools:ignore="MissingConstraints">
     </com.google.android.gms.ads.AdView>
 

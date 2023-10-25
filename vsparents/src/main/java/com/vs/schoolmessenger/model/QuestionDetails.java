@@ -10,7 +10,6 @@ public class QuestionDetails {
     public QuestionDetails(String Id, String Qustn) {
         this.QustnID = Id;
         this.Question = Qustn;
-
     }
 
     public QuestionDetails() {}

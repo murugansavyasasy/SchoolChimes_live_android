@@ -53,19 +53,7 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_video_select);
-//        setView(findViewById(R.id.layout_album_select));
-
-
         actionBar = getSupportActionBar();
-//        if (actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setHomeAsUpIndicator(R.drawable
-//            .ic_clear);
-//
-//            actionBar.setDisplayShowTitleEnabled(true);
-//            actionBar.setTitle(R.string.album_view);
-//        }
-
         Intent intent = getIntent();
         if (intent == null) {
             finish();
@@ -148,9 +136,7 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
         stopThread();
-
         getContentResolver().unregisterContentObserver(observer);
         observer = null;
 
@@ -279,7 +265,6 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
                 } while (cursor.moveToPrevious());
                 cursor.close();
             }
-//            cursor.close();
 
             if (albumVideos == null) {
                 albumVideos = new ArrayList<>();

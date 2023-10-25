@@ -139,6 +139,21 @@
             android:textColor="@color/clr_black"
             android:textSize="14sp" />
 
+        <TextView
+            android:layout_toLeftOf="@+id/imageView1"
+            android:id="@+id/lblClickToView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardText_tvShortMsg"
+            android:gravity="center"
+            android:autoLink="web"
+            android:visibility="gone"
+            android:linksClickable="true"
+            android:padding="10dp"
+            android:text="Click to view"
+            android:textColor="@color/bpBlue"
+            android:textSize="14sp" />
+
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="20dp"

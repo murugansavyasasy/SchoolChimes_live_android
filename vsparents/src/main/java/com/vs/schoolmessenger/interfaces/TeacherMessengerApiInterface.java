@@ -684,6 +684,10 @@ public interface TeacherMessengerApiInterface {
     @GET("config")
     Call<JsonObject> Videoplay();
 
+    @GET("userinfo")
+    Call<JsonObject> getLinkedInprofiles(@Header("Authorization") String BearerToken);
+
+
 
     @POST("SendVideoFromAppForEnitireSchool")
     Call<JsonArray> SendVideoFromAppForEnitireSchool(@Body JsonObject jsonObject);

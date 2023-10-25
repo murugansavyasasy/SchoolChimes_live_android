@@ -47,6 +47,7 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
@@ -57,10 +58,14 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.BuildConfig;
+import com.vs.schoolmessenger.LessonPlan.Activity.LessonPlanActivity;
+import com.vs.schoolmessenger.LessonPlan.Adapter.LessonPlanAdapter;
+import com.vs.schoolmessenger.LessonPlan.Model.LessonPlanModel;
 import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
 import com.vs.schoolmessenger.R;
 
 import com.vs.schoolmessenger.adapter.NewupdatesAdapter;
+import com.vs.schoolmessenger.fcmservices.TokenUpdateScheduler;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
@@ -143,6 +148,9 @@ public class TeacherSplashScreen extends AppCompatActivity {
         lblInstall = (TextView) findViewById(R.id.lblInstall);
         rytParent = (RelativeLayout) findViewById(R.id.rytParent);
 
+        TokenUpdateScheduler.scheduleTokenUpdate(TeacherSplashScreen.this);
+
+
         try {
             File dir = TeacherSplashScreen.this.getCacheDir();
             Boolean a = deleteDirCache(dir);
@@ -188,6 +196,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
             TeacherUtil_SharedPreference.putNewProduct(TeacherSplashScreen.this, "1");
         }
     }
+
 
     private Boolean deleteDirCache(File dir) {
         if (dir != null && dir.isDirectory()) {

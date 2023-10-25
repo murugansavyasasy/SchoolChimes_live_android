@@ -117,7 +117,7 @@
     <string name="teacher_app_sub_title">for Parents</string>
     <string name="teacher_school_msg">Chimes \t</string>
 
-    <string name="teacher_app_version_id">75</string>
+    <string name="teacher_app_version_id">77</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -670,62 +670,11 @@
 <!--    <string name="ads_size">MEDIUM_RECTANGLE</string>-->
 <!--    <string name="ads_size">SMART_BANNER</string>-->
 
-
 <!--    test unit id-->
 <!--    <string name="ads_unit_one">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_two">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_three">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_four">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_five">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_six">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_seven">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_eight">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_nine">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_ten">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_leven">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_twele">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_thirteen">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_fourteen">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_fifteen">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_sixteen">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_seventeen">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_eighteen">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_nineteen">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_twenty">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_twentyone">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_twentytwo">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_twentythree">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="ads_unit_twentyfour">ca-app-pub-3940256099942544/6300978111</string>-->
-
-
-
 
     <!--    production unit ids-->
     <string name="ads_unit_one">ca-app-pub-4334956274721233/1811829719</string>
-    <string name="ads_unit_two">ca-app-pub-4334956274721233/4487664757</string>
-    <string name="ads_unit_three">ca-app-pub-4334956274721233/6323173377</string>
-    <string name="ads_unit_four">ca-app-pub-4334956274721233/5727173354</string>
-    <string name="ads_unit_five">ca-app-pub-4334956274721233/8026033639</string>
-    <string name="ads_unit_six">ca-app-pub-4334956274721233/6712951962</string>
-    <string name="ads_unit_seven">ca-app-pub-4334956274721233/6744741550</string>
-    <string name="ads_unit_eight">ca-app-pub-4334956274721233/3101010011</string>
-    <string name="ads_unit_nine">ca-app-pub-4334956274721233/9696124368</string>
-    <string name="ads_unit_ten">ca-app-pub-4334956274721233/3697010038</string>
-    <string name="ads_unit_leven">ca-app-pub-4334956274721233/4397779810</string>
-    <string name="ads_unit_twele">ca-app-pub-4334956274721233/1771616479</string>
-    <string name="ads_unit_thirteen">ca-app-pub-4334956274721233/9548419741</string>
-    <string name="ads_unit_fourteen">ca-app-pub-4334956274721233/5140015844</string>
-    <string name="ads_unit_fifteen">ca-app-pub-4334956274721233/2513852508</string>
-    <string name="ads_unit_sixteen">ca-app-pub-4334956274721233/1070846691</string>
-    <string name="ads_unit_seventeen">ca-app-pub-4334956274721233/8935790628</string>
-    <string name="ads_unit_eighteen">ca-app-pub-4334956274721233/2794991908</string>
-    <string name="ads_unit_nineteen">ca-app-pub-4334956274721233/7866251534</string>
-    <string name="ads_unit_twenty">ca-app-pub-4334956274721233/5240088193</string>
-    <string name="ads_unit_twentyone">ca-app-pub-4334956274721233/9147543616</string>
-    <string name="ads_unit_twentytwo">ca-app-pub-4334956274721233/2613924856</string>
-    <string name="ads_unit_twentythree">ca-app-pub-4334956274721233/5519289799</string>
-    <string name="ads_unit_twentyfour">ca-app-pub-4334956274721233/5801095471</string>
-
 
 
 </resources>

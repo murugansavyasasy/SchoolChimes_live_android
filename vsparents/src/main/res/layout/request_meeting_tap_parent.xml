@@ -49,7 +49,7 @@
         android:layout_above="@+id/lnrBottom"
         android:layout_marginTop="10dp"
         ads:adSize="@string/ads_size"
-        ads:adUnitId="@string/ads_unit_two">
+        ads:adUnitId="@string/ads_unit_one">
     </com.google.android.gms.ads.AdView>
 
 

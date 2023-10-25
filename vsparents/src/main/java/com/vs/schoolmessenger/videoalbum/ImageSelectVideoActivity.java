@@ -39,9 +39,6 @@ import java.util.HashSet;
 public class ImageSelectVideoActivity extends HelperVideoActivity {
     private ArrayList<Video> videos =new ArrayList<>();
 
-
-
-
     private String album;
 
     private TextView errorDisplay;

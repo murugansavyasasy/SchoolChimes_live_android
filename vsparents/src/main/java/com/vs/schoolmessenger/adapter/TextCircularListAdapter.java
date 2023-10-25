@@ -47,7 +47,12 @@ public class TextCircularListAdapter extends RecyclerView.Adapter<TextCircularLi
         holder.tvTitle.setText(msgModel.getMsgTitle());
         holder.tvDate.setText(msgModel.getMsgDate());
         holder.tvTime.setText(msgModel.getMsgTime());
+
+
         holder.tvMsgContent.setText(msgModel.getMsgContent());
+        holder.tvMsgContent.setVisibility(View.GONE);
+        holder.lblClickToView.setVisibility(View.VISIBLE);
+
         holder.tvDescription.setText(msgModel.getMsgdescription());
         if(msgModel.getMsgdescription().equals("")){
             holder.tvDescription.setVisibility(View.GONE);
@@ -74,7 +79,7 @@ public class TextCircularListAdapter extends RecyclerView.Adapter<TextCircularLi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTitle, tvDate, tvTime, tvStatus, tvMsgContent,tvDescription;
+        TextView tvTitle, tvDate, tvTime, tvStatus, tvMsgContent,tvDescription,lblClickToView;
 
         public MyViewHolder(View view) {
             super(view);
@@ -85,6 +90,7 @@ public class TextCircularListAdapter extends RecyclerView.Adapter<TextCircularLi
             tvStatus = (TextView) view.findViewById(R.id.cardText_tvNew);
             tvMsgContent = (TextView) view.findViewById(R.id.cardText_tvShortMsg);
             tvDescription = (TextView) view.findViewById(R.id.tv_description_text);
+            lblClickToView = (TextView) view.findViewById(R.id.lblClickToView);
         }
 
         public void bind(final MessageModel item, final OnMsgItemClickListener listener) {

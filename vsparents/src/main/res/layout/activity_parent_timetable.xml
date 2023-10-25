@@ -94,7 +94,7 @@
         ads:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         ads:adSize="@string/ads_size"
-        ads:adUnitId="@string/ads_unit_eighteen"
+        ads:adUnitId="@string/ads_unit_one"
         tools:ignore="MissingConstraints">
     </com.google.android.gms.ads.AdView>
 

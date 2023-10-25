@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 
 import android.view.View;
@@ -22,16 +23,20 @@ public class HelperVideoActivity extends AppCompatActivity {
     protected View view;
 
     private final int maxLines = 4;
+
     private final String[] permissions = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
 
     protected void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            permissionGranted();
+        permissionGranted();
 
-        } else {
-            ActivityCompat.requestPermissions(this, permissions, ConstantsVideo.PERMISSION_REQUEST_CODE);
-        }
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//            permissionGranted();
+//
+//        } else {
+//            ActivityCompat.requestPermissions(this, permissions, ConstantsVideo.PERMISSION_REQUEST_CODE);
+//        }
+
     }
 
     private void requestPermission() {

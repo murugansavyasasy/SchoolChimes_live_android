@@ -4,7 +4,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('/Users/apple/Desktop/KEYSTORES_FOR_ALL_APPS/schoolapp_keystore/schoolmessenger_publish')
+            storeFile file('/Users/admin/Desktop/KEYSTORES_FOR_ALL_APPS/schoolapp_keystore/schoolmessenger_publish')
             storePassword 'vsandroid123'
             keyAlias 'messenger'
             keyPassword 'android123'
@@ -16,7 +16,7 @@ android {
         applicationId "com.vs.schoolmessenger"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 92
+        versionCode 94
         versionName "7.6.14"
         flavorDimensions "default"
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
@@ -143,6 +143,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'com.google.android.gms:play-services-ads:22.2.0'
+
 
 
 

@@ -140,7 +140,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         ads:adSize="@string/ads_size"
-        ads:adUnitId="@string/ads_unit_ten">
+        ads:adUnitId="@string/ads_unit_one">
     </com.google.android.gms.ads.AdView>
 
 

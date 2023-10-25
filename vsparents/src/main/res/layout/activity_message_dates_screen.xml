@@ -238,7 +238,7 @@
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/lnrBottom"
         ads:adSize="@string/ads_size"
-        ads:adUnitId="@string/ads_unit_twentyfour">
+        ads:adUnitId="@string/ads_unit_one">
     </com.google.android.gms.ads.AdView>
 
 
