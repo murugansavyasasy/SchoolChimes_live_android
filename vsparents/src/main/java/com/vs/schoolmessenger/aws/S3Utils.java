@@ -33,7 +33,7 @@ public class S3Utils {
 
         URL url = s3client.generatePresignedUrl(generatePresignedUrlRequest);
         String fileUrl = url.toString().substring(0, url.toString().indexOf('?'));
-        Log.e("s", fileUrl);
+        Log.e("aws_url", fileUrl);
         return fileUrl;
     }
 }

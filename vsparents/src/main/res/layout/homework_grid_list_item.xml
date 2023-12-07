@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?><!-- XML implementation of Card Layout -->
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cardParent"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_shadow_white_card"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp">
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="33dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center"
+            android:src="@drawable/home_work_calendar" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/lblDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="12-09-2032"
+            android:textColor="@color/bpBlue"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="15dp"
+            android:textAlignment="center" />
+
+
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_circle_shape"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/lblHomeworkCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:layout_centerInParent="true"
+            android:textColor="@color/clr_black"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="13dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

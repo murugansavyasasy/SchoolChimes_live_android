@@ -14,6 +14,9 @@
         <attr name="quality" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="TemplateView">
+        <attr name="gnt_template_type" format="reference"/>
+    </declare-styleable>
 
 
 </resources>

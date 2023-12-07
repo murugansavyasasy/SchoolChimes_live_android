@@ -12,8 +12,6 @@ import android.provider.Settings;
 
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.telephony.TelephonyManager;
 import android.text.InputFilter;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -22,17 +20,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
@@ -84,7 +74,6 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
     ImageView adImage;
     Slider slider;
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -103,11 +92,8 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
         strmobilenumberlength = TeacherUtil_SharedPreference.getMobileNumberLengthFromSP(TeacherSignInScreen.this);
         mobnumberlength = Integer.parseInt(strmobilenumberlength);
 
-
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(mobnumberlength);
-        //fArray[0] = new InputFilter.LengthFilter(10);
-
         etMobile.setFilters(fArray);
 
         tvForgotPassword = (TextView) findViewById(R.id.login_tvForgotPassword);
@@ -348,7 +334,6 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
                         TeacherUtil_SharedPreference.putDialNumbers(TeacherSignInScreen.this, numbers);
 
                         hideKeyBoard();
-                        //showForgotPasswordAlert(strStatus, "Forgot Password", strMessage);
 
                         if (strStatus.equals("1")) {
                             TeacherUtil_SharedPreference.putForgetMessage(TeacherSignInScreen.this, redirectToSignScreenMessage);
@@ -828,36 +813,6 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
     }
 
 
-    private void showForgotPasswordAlert(final String status, String title, String msg) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                TeacherSignInScreen.this);
-        AlertDialog alertDialog;
-
-        builder.setCancelable(false);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        builder.setIcon(R.drawable.teacher_ic_voice_snap);
-
-        builder.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                if (status.equals("1")) {
-                    Util_SharedPreference.putForget(TeacherSignInScreen.this, "forget");
-
-                    TeacherUtil_SharedPreference.putStaffLoginInfoToSP(TeacherSignInScreen.this, strMobile, "", false);
-                    Intent inChangePass1 = new Intent(TeacherSignInScreen.this, TeacherChangePassword.class);
-                    startActivity(inChangePass1);
-                }
-
-            }
-        });
-
-        alertDialog = builder.create();
-        alertDialog.show();
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.teacher_colorPrimaryDark));
-
-
-    }
 
 
 }

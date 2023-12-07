@@ -277,6 +277,16 @@
                 android:text="@string/teacher_select_school"
                 android:visibility="gone" />
 
+            <Button
+                android:id="@+id/btnGHStandardGroups"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/send_to_standard_groups"
+                android:visibility="gone" />
+
 
             <Button
                 android:id="@+id/btnStaffGroups"
@@ -352,7 +362,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
@@ -365,6 +374,16 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/select_reciepients"
                 android:textColor="@color/bpWhite"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnGHHistoryStandardGroups"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/send_to_standard_groups"
                 android:visibility="gone" />
 
             <Button

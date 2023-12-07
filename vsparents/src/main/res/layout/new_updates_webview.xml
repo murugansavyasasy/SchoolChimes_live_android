@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bpWhite"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_margin="10dp"
+        android:id="@+id/btnDownload"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:text="Download"
+        android:visibility="gone"
+        android:layout_gravity="right"
+        android:textColor="@color/bpWhite"
+        android:background="@color/colorPrimary"
+        android:layout_height="40dp"/>
+
+    <WebView
+        android:visibility="visible"
+        android:background="#ffffff"
+        android:id="@+id/receiptWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

@@ -112,18 +112,35 @@ public class TeacherDownloadFileFromURL {
     public static boolean writeResponseBodyToDisk(ResponseBody body, String folder, String fileName,Activity activity) {
         try {
 
-            String filepath;
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            {
-                filepath=activity.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+//            String filepath;
+//            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+//            {
+//                filepath=activity.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+//
+//            }
+//            else{
+//                filepath = Environment.getExternalStorageDirectory().getPath();
+//            }
+//
+//            File file = new File(filepath, folder);
+//            File dir = new File(file.getAbsolutePath());
+//
+//            if (!dir.exists()) {
+//                dir.mkdirs();
+//                System.out.println("Dir: " + dir);
+//            }
+//
+//            File futureStudioIconFile = new File(dir, fileName);//"Hai.mp3"
 
+            final File dir;
+            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                dir = new File(Environment.getExternalStorageDirectory().getPath()
+                        + folder);
+            } else {
+                dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                        + folder);
             }
-            else{
-                filepath = Environment.getExternalStorageDirectory().getPath();
-            }
-
-            File file = new File(filepath, folder);
-            File dir = new File(file.getAbsolutePath());
+            System.out.println("body: " + body);
 
             if (!dir.exists()) {
                 dir.mkdirs();
@@ -131,6 +148,12 @@ public class TeacherDownloadFileFromURL {
             }
 
             File futureStudioIconFile = new File(dir, fileName);//"Hai.mp3"
+
+            if (!futureStudioIconFile.exists())
+            {
+                File futureStudioIconFile1 = new File(dir, fileName);
+                futureStudioIconFile=futureStudioIconFile1;
+            }
 
             // todo change the file location/name according to your needs
 

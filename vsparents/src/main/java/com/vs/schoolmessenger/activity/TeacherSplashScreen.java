@@ -72,6 +72,7 @@ import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherCountryList;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -83,6 +84,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -131,7 +133,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
     LinearLayout lnrSnackBar;
     TextView lblInstall;
-
     private PopupWindow whatsNewPopupWindow;
     RelativeLayout rytParent;
 
@@ -448,11 +449,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
+        LoadingView.showProgress(TeacherSplashScreen.this);
+
         String number = TeacherUtil_SharedPreference.getMobileNumberFromSP(TeacherSplashScreen.this);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonObject = new JsonObject();
@@ -465,8 +463,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
                 try {
-                    if (mProgressDialog.isShowing())
-                        mProgressDialog.dismiss();
+                    LoadingView.hideProgress();
                     Log.d("login:code-res", response.code() + " - " + response.toString());
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
@@ -635,15 +632,13 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
     public boolean isWriteExternalPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) == PackageManager.PERMISSION_GRANTED ) {
 
                 Log.v("WRITE_EXTERNAL_STORAGE", "Permission is granted");
                 return true;
             } else {
                 Log.v("EWRITE_EXTERNAL_STORAG", "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
                 return false;
 
             }
@@ -695,12 +690,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     }
 
     private void countryListAPI() {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
+        LoadingView.showProgress(TeacherSplashScreen.this);
         String strBase = BASE_URL;
         TeacherSchoolsApiClient.changeApiBaseUrl(strBase);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -710,8 +700,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+                LoadingView.hideProgress();
+
 
                 Log.d("GetCountry:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
@@ -750,8 +740,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+                LoadingView.hideProgress();
+
                 showToast(getResources().getString(R.string.check_internet));
                 finish();
             }
@@ -800,14 +790,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     private void checkUpdateFirstTime() {
         String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(strBaseURL);
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
+        LoadingView.showProgress(TeacherSplashScreen.this);
         String countyID = TeacherUtil_SharedPreference.getCountryID(TeacherSplashScreen.this);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = TeacherUtil_JsonRequest.getJsonArray_VersionCheck(getString(R.string.teacher_app_version_id), getString(R.string.teacher_app_id), "Android", countyID);
@@ -816,8 +799,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+                LoadingView.hideProgress();
 
                 Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
@@ -892,8 +874,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+                LoadingView.hideProgress();
                 showToast(getResources().getString(R.string.check_internet));
                 finish();
                 Log.d("VersionCheck:Failure", t.toString());
@@ -904,13 +885,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     private void checkAppUpdateAPI() {
         String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(strBaseURL);
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
+        LoadingView.showProgress(TeacherSplashScreen.this);
 
         String countyID = TeacherUtil_SharedPreference.getCountryID(TeacherSplashScreen.this);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -920,8 +895,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+                LoadingView.hideProgress();
 
                 Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
@@ -1036,8 +1010,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+                LoadingView.hideProgress();
                 showToast(getResources().getString(R.string.check_internet));
                 finish();
                 Log.d("VersionCheck:Failure", t.toString());
@@ -1177,12 +1150,15 @@ public class TeacherSplashScreen extends AppCompatActivity {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherSplashScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(TeacherSplashScreen.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
+//        final ProgressDialog mProgressDialog = new ProgressDialog(TeacherSplashScreen.this);
+//        mProgressDialog.setIndeterminate(true);
+//        mProgressDialog.setMessage("Loading...");
+//        mProgressDialog.setCancelable(false);
+//        if (!this.isFinishing())
+//            mProgressDialog.show();
+
+        LoadingView.showProgress(TeacherSplashScreen.this);
+
 
         String androidId = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -1199,8 +1175,10 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
+
+                LoadingView.hideProgress();
                 Log.d("Login:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Login:Res", response.body().toString());
@@ -1552,8 +1530,10 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
+
+                LoadingView.hideProgress();
                 showToast(getResources().getString(R.string.check_internet));
                 finish();
                 Log.d("Login:Failure", t.toString());
@@ -1565,11 +1545,14 @@ public class TeacherSplashScreen extends AppCompatActivity {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherSplashScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
+//        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+//        mProgressDialog.setIndeterminate(true);
+//        mProgressDialog.setMessage("Loading...");
+//        mProgressDialog.setCancelable(false);
+//        mProgressDialog.show();
+
+        LoadingView.showProgress(TeacherSplashScreen.this);
+
 
         strMobile = TeacherUtil_SharedPreference.getMobileNumberFromSP(TeacherSplashScreen.this);
         strPassword = TeacherUtil_SharedPreference.getPasswordFromSP(TeacherSplashScreen.this);
@@ -1583,8 +1566,10 @@ public class TeacherSplashScreen extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
                 try {
-                    if (mProgressDialog.isShowing())
-                        mProgressDialog.dismiss();
+//                    if (mProgressDialog.isShowing())
+//                        mProgressDialog.dismiss();
+
+                    LoadingView.hideProgress();
                     Log.d("login:code-res", response.code() + " - " + response.toString());
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());

@@ -134,6 +134,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
     private ArrayList<String> UploadedS3URlList = new ArrayList<>();
 
+    String HOMEWORK_TYPE = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +155,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         duration = getIntent().getExtras().getString("DURATION", "");
         filepath = getIntent().getExtras().getString("FILEPATH", "");
         llSubject = (LinearLayout) findViewById(R.id.staffStdSecSub_llSubject);
-
 
 
 
@@ -243,7 +244,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
                 JsonArray jsonArrayschoolstd = new JsonArray();
                 for (int i = 0; i < seletedSectionsList.size(); i++) {
                     TeacherSectionsListNEW sectionsListNEW = seletedSectionsList.get(i);
@@ -305,7 +305,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             slectedImagePath.add(strPDFFilepath);
                             UploadedS3URlList.clear();
                             uploadFileToAWSs3(pathIndex, ".pdf","");
-                        } else {
+                        }
+                        else {
                             contentType = "image/png";
                             UploadedS3URlList.clear();
                             uploadFileToAWSs3(pathIndex, "IMG","");
@@ -322,7 +323,35 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                     }
                     if (iRequestCode == STAFF_TEXT_HW || iRequestCode == PRINCIPAL_TEXT_HW) {
                         if(strSubjectCode!=null) {
-                            SendTextToEntireSectionHW();
+
+
+                            if (!strPDFFilepath.equals("")) {
+                                HOMEWORK_TYPE = "PDF";
+                                contentType = "application/pdf";
+                                slectedImagePath.clear();
+                                slectedImagePath.add(strPDFFilepath);
+                                UploadedS3URlList.clear();
+                                uploadHWAttachments(pathIndex, ".pdf","");
+                            }
+
+                            else if(!filepath.equals("")){
+                                HOMEWORK_TYPE = "VOICE";
+                                contentType = "audio/mp3";
+                                slectedImagePath.clear();
+                                slectedImagePath.add(filepath);
+                                UploadedS3URlList.clear();
+                                uploadHWAttachments(pathIndex, ".mp3","");
+                            }
+
+                            else {
+                                HOMEWORK_TYPE = "IMAGE";
+                                contentType = "image/png";
+                                UploadedS3URlList.clear();
+                                uploadHWAttachments(pathIndex, "IMG","");
+                            }
+
+
+//                            SendTextToEntireSectionHW();
                         }
                         else {
                             showToast("Please select the subject");
@@ -551,6 +580,56 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
     }
 
+    private void uploadHWAttachments(int pathind, final String fileType, final String type) {
+
+        Log.d("upload_file", String.valueOf(slectedImagePath.size()));
+        pathIndex = pathind;
+        progressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
+        for (int index = pathIndex; index < slectedImagePath.size(); index++) {
+            uploadFilePath = slectedImagePath.get(index);
+            break;
+        }
+
+        if (UploadedS3URlList.size() < slectedImagePath.size()) {
+            if (uploadFilePath != null) {
+                showLoading();
+                fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
+                fileNameDateTime = "File_" + fileNameDateTime;
+                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime);
+                s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
+                    @Override
+                    public void onUploadSuccess(String response) {
+                        if (response.equalsIgnoreCase("Success")) {
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime);
+                            if (!TextUtils.isEmpty(urlFromS3)) {
+                                UploadedS3URlList.add(urlFromS3);
+                                uploadHWAttachments(pathIndex + 1, fileType, type);
+
+                                if (slectedImagePath.size() == UploadedS3URlList.size()) {
+                                    SendTextToEntireSectionHW();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onUploadError(String response) {
+                        hideLoading();
+                        Log.d("error", "Error Uploading");
+                    }
+                });
+
+
+            }
+
+        } else {
+
+            Log.d("upload_file", "error");
+        }
+
+
+    }
+
     private void sendOnlineClassToSections() {
 
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherStaffStandardSection.this);
@@ -727,11 +806,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             }
 
         } else {
-
             Log.d("upload_file", "error");
         }
-
-
     }
 
     private void SendMultipleImagePDFAsStaffToEntireSectionWithCloudURL(String fileType, String type) {
@@ -2338,7 +2414,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
         JsonObject jsonReqArray = constructJsonArraySMSHW();
-        Call<JsonArray> call = apiService.InsertHomeWorkText(jsonReqArray);
+        Call<JsonArray> call = apiService.InsertHomeWork(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -2358,7 +2434,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
                             if ((strStatus.toLowerCase()).equals("1")) {
-
                                 showAlert(strMsg, strStatus);
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -2390,22 +2465,35 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
 
-
+           String CountrID = TeacherUtil_SharedPreference.getCountryID(TeacherStaffStandardSection.this);
+            jsonObjectSchoolstdgrp.addProperty("CountryID", CountrID);
             jsonObjectSchoolstdgrp.addProperty("SchoolID", SchoolID);
             jsonObjectSchoolstdgrp.addProperty("StaffID", StaffID);
             jsonObjectSchoolstdgrp.addProperty("SubCode", strSubjectCode);
             jsonObjectSchoolstdgrp.addProperty("HomeworkTopic", Description);
             jsonObjectSchoolstdgrp.addProperty("HomeworkText", strmessage);//getIntent().getExtras().getString("MEDIA_DURATION", "0")
-
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < seletedSectionsList.size(); i++) {
                 TeacherSectionsListNEW sectionsListNEW = seletedSectionsList.get(i);
                 JsonObject jsonObjectclass = new JsonObject();
                 jsonObjectclass.addProperty("ID", sectionsListNEW.getStrSectionCode());
                 jsonArrayschoolstd.add(jsonObjectclass);
-
             }
             jsonObjectSchoolstdgrp.add("Seccode", jsonArrayschoolstd);
+
+            JsonArray jsonFiles = new JsonArray();
+            if(!HOMEWORK_TYPE.equals("")) {
+                for (int i = 0; i < UploadedS3URlList.size(); i++) {
+                    JsonObject jsonObjectclass = new JsonObject();
+                    jsonObjectclass.addProperty("path", UploadedS3URlList.get(i));
+                    jsonObjectclass.addProperty("type", HOMEWORK_TYPE);
+                    jsonFiles.add(jsonObjectclass);
+                }
+                jsonObjectSchoolstdgrp.add("FilePath", jsonFiles);
+            }
+            else {
+                jsonObjectSchoolstdgrp.add("FilePath", jsonFiles);
+            }
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
 
         } catch (Exception e) {

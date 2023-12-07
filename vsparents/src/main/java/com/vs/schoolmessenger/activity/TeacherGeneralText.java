@@ -1,53 +1,61 @@
 package com.vs.schoolmessenger.activity;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Environment;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.SmsHistoryAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
-import com.vs.schoolmessenger.assignment.ContentAdapter;
-import com.vs.schoolmessenger.assignment.VideoUpload;
 import com.vs.schoolmessenger.interfaces.SmsHistoryListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSchoolsListener;
@@ -61,15 +69,21 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.vs.schoolmessenger.util.Constants.imagepathList;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_TEXT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_HEAD;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
@@ -77,14 +91,18 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT_HW;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE_HW;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_EXAM;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_HW;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE_HW;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FILE_NAME;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FOLDER_NAME;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.maxGeneralSMSCount;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.maxHomeWorkSMSCount;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.milliSecondsToTimer;
 
 
 public class TeacherGeneralText extends AppCompatActivity implements View.OnClickListener, CalendarDatePickerDialogFragment.OnDateSetListener, SmsHistoryListener {
@@ -134,12 +152,42 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     String HistoryContent = "";
     String HistoryDescription = "";
 
-    LinearLayout selectSpinner;
+    LinearLayout selectSpinner,lnrAddVoice;
     int count = 0;
 
     RadioGroup TextRadio;
     RadioButton radioGeneralText, radioSmsHistory;
-    Button btnStaffGroups;
+    Button btnStaffGroups,btnAttachments;
+
+    public static PopupWindow popupWindow;
+
+    File photoFile;
+    String imageFilePath;
+    private ArrayList<String> imagePathList = new ArrayList<>();
+    String strPDfFilePath = "";
+
+    ImageButton imgBtnPlayPause;
+    SeekBar seekBar;
+    MediaRecorder recorder;
+    Handler recTimerHandler = new Handler();
+    boolean bIsRecording = false;
+    int iMediaDuration = 0;
+    File futureStudioIconFile;
+    int mediaFileLengthInMilliseconds = 0;
+
+    private MediaPlayer mediaPlayer;
+    TextView tvPlayDuration, tvRecordDuration, tvRecordTitle, tvEmergTitle;
+
+    ImageView ivRecord,imgClose;
+    RelativeLayout rlVoicePreview;
+    TextView emergVoice_tvTitle,lblAttachments;
+    int recTime;
+
+    int iMaxRecDur;
+    Handler handler = new Handler();
+
+    String voice_file_path = "";
+    LinearLayout lnrAttachments;
 
 
     @Override
@@ -165,6 +213,17 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         tvheader = (TextView) findViewById(R.id.genTextPopup_tvTitle);
         btnNext = (Button) findViewById(R.id.genText_btnmsg);
         etMessage = (EditText) findViewById(R.id.genText_txtmessage);
+        lblAttachments = (TextView) findViewById(R.id.lblAttachments);
+        lnrAttachments = (LinearLayout) findViewById(R.id.lnrAttachments);
+
+
+
+        lnrAttachments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openPreviewPopup();
+            }
+        });
 
         etMessage.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent event) {
@@ -181,6 +240,27 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             }
         });
 
+        imgBtnPlayPause = (ImageButton) findViewById(R.id.myAudioPlayer_imgBtnPlayPause);
+        imgBtnPlayPause.setOnClickListener(this);
+        seekBar = (SeekBar) findViewById(R.id.myAudioPlayer_seekBar);
+        tvPlayDuration = (TextView) findViewById(R.id.myAudioPlayer_tvDuration);
+        rlVoicePreview = (RelativeLayout) findViewById(R.id.emergVoice_rlPlayPreview);
+        ivRecord = (ImageView) findViewById(R.id.emergVoice_ivRecord);
+        ivRecord.setOnClickListener(this);
+        tvRecordDuration = (TextView) findViewById(R.id.emergVoice_tvRecDuration);
+        tvRecordTitle = (TextView) findViewById(R.id.emergVoice_tvRecTitle);
+        tvEmergTitle = (TextView) findViewById(R.id.emergVoice_tvEmergenyTitle);
+        imgClose = (ImageView) findViewById(R.id.imgClose);
+        imgClose.setOnClickListener(this);
+
+
+        setupAudioPlayer();
+
+        if (iRequestCode == PRINCIPAL_TEXT_HW || iRequestCode == STAFF_TEXT_HW) {
+            iMaxRecDur = TeacherUtil_Common.maxHWVoiceDuration;// 181; // 3 mins
+            tvEmergTitle.setText(getText(R.string.teacher_txt_general_title));
+        }
+
         et_tittle = (EditText) findViewById(R.id.genText_txtTitle);
         tvcount = (TextView) findViewById(R.id.genText_msgcount);
         tvtotcount = (TextView) findViewById(R.id.genText_count);
@@ -196,6 +276,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         btn_Select_receipients = (Button) findViewById(R.id.btn_Select_receipients);
         btnSelectSchool = (Button) findViewById(R.id.btnSelectSchool);
         selectSpinner = (LinearLayout) findViewById(R.id.selectSpinner);
+        lnrAddVoice = (LinearLayout) findViewById(R.id.lnrAddVoice);
 
 
         rvSchoolsList = (RecyclerView) findViewById(R.id.genText_rvSchoolsList);
@@ -209,7 +290,11 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         btnToStudents.setEnabled(false);
 
         btnStaffGroups = (Button) findViewById(R.id.btnStaffGroups);
+        btnAttachments = (Button) findViewById(R.id.btnAttachments);
         btnStaffGroups.setOnClickListener(this);
+        btnAttachments.setOnClickListener(this);
+        btnAttachments.setEnabled(false);
+
         btnStaffGroups.setEnabled(false);
 
 
@@ -437,6 +522,8 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             etMessage.setHint(getResources().getText(R.string.teacher_txt_typemsg));
             etMessage.addTextChangedListener(mTextEditorWatcher1);
 
+            btnAttachments.setVisibility(View.VISIBLE);
+
         } else if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
             tvheader.setText(getResources().getText(R.string.teacher_txt_composeExammsg));
             String totcount = String.valueOf(maxGeneralSMSCount);
@@ -532,15 +619,40 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
     }
 
-
-
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onResume() {
+        super.onResume();
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etMessage.getWindowToken(), 0);
+    }
 
+    private void setupAudioPlayer() {
+        mediaPlayer = new MediaPlayer();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                imgBtnPlayPause.setImageResource(R.drawable.teacher_ic_play);
+                imgBtnPlayPause.setBackgroundColor(getResources().getColor(R.color.teacher_colorPrimary));
+                mediaPlayer.seekTo(0);
+            }
+        });
+
+        seekBar.setMax(99); // It means 100% .0-99
+        seekBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.myAudioPlayer_seekBar) {
+//                    if (holder.mediaPlayer.isPlaying())
+                    {
+                        SeekBar sb = (SeekBar) v;
+                        int playPositionInMillisecconds = (mediaFileLengthInMilliseconds / 100) * sb.getProgress();
+//                        Log.d("Position: ", ""+playPositionInMillisecconds);
+                        mediaPlayer.seekTo(playPositionInMillisecconds);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private void showAlertMessage(String strMsg) {
@@ -900,7 +1012,28 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
+        if (mediaPlayer.isPlaying())
+            mediaPlayer.stop();
+
+        if (bIsRecording)
+            stop_RECORD();
         backToResultActvity("SENT");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            imgBtnPlayPause.setImageResource(R.drawable.teacher_ic_play);
+            imgBtnPlayPause.setBackgroundColor(getResources().getColor(R.color.teacher_colorPrimary));
+        }
+
+        if (bIsRecording)
+            stop_RECORD();
+
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etMessage.getWindowToken(), 0);
     }
 
     private void showToast(String msg) {
@@ -923,6 +1056,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             btnToSections.setEnabled(isReady);
             btnToStudents.setEnabled(isReady);
             btnStaffGroups.setEnabled(isReady);
+            btnAttachments.setEnabled(isReady);
 
             btn_Select_receipients.setEnabled(isReady);
             btnSelectSchool.setEnabled(isReady);
@@ -973,6 +1107,9 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 intoSec.putExtra("TITTLE", strtittle);
                 intoSec.putExtra("MESSAGE", message);
                 intoSec.putExtra("TO", "SEC");
+                intoSec.putExtra("PATH_LIST", imagePathList);
+                intoSec.putExtra("FILE_PATH_PDF", strPDfFilePath);
+                intoSec.putExtra("FILEPATH", voice_file_path);
                 Log.d("SECTION", "SEC");
                 startActivityForResult(intoSec, iRequestCode);
                 break;
@@ -1009,10 +1146,608 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 datePicker();
                 break;
 
+            case R.id.btnAttachments:
+                attachmentsPopup();
+                break;
+
+            case R.id.imgClose:
+                lnrAddVoice.setVisibility(View.GONE);
+
+                break;
+
+            case R.id.myAudioPlayer_imgBtnPlayPause:
+                recVoicePlayPause();
+                break;
+
+            case R.id.emergVoice_ivRecord:
+                if (bIsRecording) {
+                    stop_RECORD();
+                }
+                else {
+                    ivRecord.setEnabled(false);
+                    start_RECORD();
+                }
+                break;
+
 
             default:
                 break;
         }
+    }
+
+    private void start_RECORD() {
+        ivRecord.setBackgroundResource(R.drawable.teacher_bg_record_stop);
+        ivRecord.setImageResource(R.drawable.teacher_ic_stop);
+        rlVoicePreview.setVisibility(View.GONE);
+        rvSchoolsList.setVisibility(View.GONE);
+        tvRecordTitle.setText(getText(R.string.teacher_txt_stop_record));
+        if ((loginType.equals(LOGIN_TYPE_TEACHER)) || ((iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW || iRequestCode == STAFF_TEXT_EXAM || iRequestCode == PRINCIPAL_VOICE || iRequestCode == STAFF_VOICE || iRequestCode == PRINCIPAL_VOICE_HW))) {
+            btnToSections.setEnabled(false);
+            btnToStudents.setEnabled(false);
+            btnStaffGroups.setEnabled(false);
+
+            btnSelectSchool.setEnabled(false);
+            btn_Select_receipients.setEnabled(false);
+
+        } else btnNext.setEnabled(false);
+
+        btnSelectSchool.setEnabled(false);
+        btn_Select_receipients.setEnabled(false);
+
+        try {
+            recorder = new MediaRecorder();
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            //recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            recorder.setAudioEncodingBitRate(256000);
+            recorder.setAudioSamplingRate(44100);
+            recorder.setOutputFile(getRecFilename());
+            recorder.prepare();
+            recorder.start();
+            recTimeUpdation();
+
+            bIsRecording = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("AudioException", String.valueOf(e));
+        }
+    }
+
+    private void recTimeUpdation() {
+        recTime = 1;
+        recTimerHandler.postDelayed(runson, 1000);
+
+    }
+
+    private String getRecFilename() {
+
+        String filepath;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+        {
+            filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+        }
+        else{
+            filepath = Environment.getExternalStorageDirectory().getPath();
+        }
+
+        File fileDir = new File(filepath, VOICE_FOLDER_NAME);
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+
+        File fileNamePath = new File(fileDir, VOICE_FILE_NAME);
+        Log.d("fileNamePath",fileNamePath.getPath());
+        return (fileNamePath.getPath());
+
+    }
+
+    private Runnable runson = new Runnable() {
+        @Override
+        public void run() {
+            tvRecordDuration.setText(milliSecondsToTimer(recTime * 1000));
+            if(!tvRecordDuration.getText().toString().equals("00:00")){
+                ivRecord.setEnabled(true);
+            }
+
+            recTime = recTime + 1;
+            if (recTime != iMaxRecDur)
+                recTimerHandler.postDelayed(this, 1000);
+            else
+                stop_RECORD();
+        }
+    };
+
+    private void stop_RECORD() {
+        recorder.stop();
+        recTimerHandler.removeCallbacks(runson);
+        bIsRecording = false;
+        tvRecordTitle.setText(getText(R.string.teacher_txt_start_record));
+        if (loginType.equals(LOGIN_TYPE_TEACHER) || (iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW || iRequestCode == STAFF_TEXT_EXAM || iRequestCode == PRINCIPAL_VOICE || iRequestCode == STAFF_VOICE || iRequestCode == PRINCIPAL_VOICE_HW)) {
+            btnToSections.setEnabled(true);
+            btnToStudents.setEnabled(true);
+            btnStaffGroups.setEnabled(true);
+
+            btnSelectSchool.setEnabled(true);
+            btn_Select_receipients.setEnabled(true);
+
+        } else btnNext.setEnabled(true);
+
+        btnSelectSchool.setEnabled(true);
+        btn_Select_receipients.setEnabled(true);
+
+        ivRecord.setBackgroundResource(R.drawable.teacher_bg_record_start);
+        ivRecord.setImageResource(R.drawable.teacher_ic_mic);
+
+
+        if(!tvRecordDuration.getText().toString().equals("00:00")){
+            rlVoicePreview.setVisibility(View.VISIBLE);
+        }
+
+
+        if (loginType.equals(LOGIN_TYPE_HEAD)) {
+            rvSchoolsList.setVisibility(View.GONE);
+        } else if (loginType.equals(LOGIN_TYPE_PRINCIPAL)) {
+            rvSchoolsList.setVisibility(View.GONE);
+        } else {
+            rvSchoolsList.setVisibility(View.GONE);
+        }
+
+        fetchSong();
+    }
+
+    private void fetchSong() {
+        Log.d("FetchSong", "Start***************************************");
+        try {
+            String filepath;
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            {
+                filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+            }
+            else{
+                filepath = Environment.getExternalStorageDirectory().getPath();
+            }
+            File file = new File(filepath, VOICE_FOLDER_NAME);
+            File dir = new File(file.getAbsolutePath());
+
+            if (!dir.exists()) {
+                dir.mkdirs();
+                System.out.println("Dir: " + dir);
+            }
+
+            futureStudioIconFile = new File(dir, VOICE_FILE_NAME);
+            System.out.println("FILE_PATH:" + futureStudioIconFile.getPath());
+
+            voice_file_path = futureStudioIconFile.getPath();
+
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(futureStudioIconFile.getPath());
+            mediaPlayer.prepare();
+            iMediaDuration = (int) (mediaPlayer.getDuration() / 1000.0);
+//            seekBar.setProgress(0);
+//            seekBar.setMax(99);
+
+        } catch (Exception e) {
+            Log.d("in Fetch Song", e.toString());
+        }
+
+        Log.d("FetchSong", "END***************************************");
+    }
+
+    private void recVoicePlayPause() {
+
+        mediaFileLengthInMilliseconds = mediaPlayer.getDuration(); // gets the song length in milliseconds from URL
+
+        if (!mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+            imgBtnPlayPause.setImageResource(R.drawable.teacher_ic_pause);
+            imgBtnPlayPause.setBackgroundColor(getResources().getColor(R.color.teacher_clr_red));
+        } else {
+            mediaPlayer.pause();
+            imgBtnPlayPause.setImageResource(R.drawable.teacher_ic_play);
+            imgBtnPlayPause.setBackgroundColor(getResources().getColor(R.color.teacher_colorPrimary));
+        }
+
+        primarySeekBarProgressUpdater(mediaFileLengthInMilliseconds);
+    }
+
+    private void primarySeekBarProgressUpdater(final int fileLength) {
+        int iProgress = (int) (((float) mediaPlayer.getCurrentPosition() / fileLength) * 100);
+        seekBar.setProgress(iProgress); // This math construction give a percentage of "was playing"/"song length"
+
+        if (mediaPlayer.isPlaying()) {
+            Runnable notification = new Runnable() {
+                public void run() {
+                    tvPlayDuration.setText(milliSecondsToTimer(mediaPlayer.getCurrentPosition()));
+                    primarySeekBarProgressUpdater(fileLength);
+                }
+            };
+            handler.postDelayed(notification, 1000);
+        }
+    }
+
+
+    private void attachmentsPopup() {
+
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_attachments);
+        TextView close = bottomSheetDialog.findViewById(R.id.lblClose);
+        RelativeLayout rytGallery = bottomSheetDialog.findViewById(R.id.rytGallery);
+        RelativeLayout rytCamera = bottomSheetDialog.findViewById(R.id.rytCamera);
+        RelativeLayout rytPdf = bottomSheetDialog.findViewById(R.id.rytPdf);
+        RelativeLayout rytVoice = bottomSheetDialog.findViewById(R.id.rytVoice);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        rytGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(TeacherGeneralText.this, AlbumSelectActivity.class);
+                startActivityForResult(i, 1);
+                imagePathList.clear();
+                imagepathList = 0;
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        rytCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imagePathList.clear();
+                imagepathList = 0;
+
+                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.d("photoFile", photoFile.toString());
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(TeacherGeneralText.this, "com.vs.schoolmessenger.provider", photoFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                            photoURI);
+                    startActivityForResult(intent, 3);
+                    bottomSheetDialog.dismiss();
+
+                }
+
+            }
+        });
+
+        rytPdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imagePathList.clear();
+                imagepathList = 0;
+                Intent intent = new Intent();
+                intent.setType("application/pdf");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
+                bottomSheetDialog.dismiss();
+
+
+            }
+        });
+        rytVoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lnrAddVoice.setVisibility(View.VISIBLE);
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        bottomSheetDialog.show();
+
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir =
+                getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        btnToSections.setEnabled(true);
+        btnToStudents.setEnabled(true);
+        btnStaffGroups.setEnabled(true);
+        lnrAttachments.setVisibility(View.VISIBLE);
+        if (requestCode == 1 && null != data) {
+
+            try {
+                if (resultCode == RESULT_OK) {
+                    strPDfFilePath = "";
+                    voice_file_path = "";
+                    imagePathList = data.getStringArrayListExtra("images");
+                    imageFilePath = imagePathList.get(0);
+                    openPreviewPopup();
+                    lblAttachments.setText("Attachments +"+String.valueOf(imagePathList.size()));
+                    imagepathList = imagePathList.size();
+
+                }
+            }
+            catch (Exception e){
+
+            }
+
+
+        } else if (requestCode == 2) {
+
+            try {
+                if (data != null && resultCode == RESULT_OK) {
+                    voice_file_path = "";
+
+                    Uri uri = data.getData();
+                    File outputDir = TeacherGeneralText.this.getCacheDir(); // context being the Activity pointer
+                    File outputFile = File.createTempFile("School_document", ".pdf", outputDir);
+                    try (InputStream in = getContentResolver().openInputStream(uri)) {
+                        if(in == null) return;
+                        try (OutputStream out = getContentResolver().openOutputStream(Uri.fromFile(outputFile))) {
+                            if(out == null) return;
+                            // Transfer bytes from in to out
+                            byte[] buf = new byte[1024];
+                            int len;
+                            while ((len = in.read(buf)) > 0) {
+                                out.write(buf, 0, len);
+                            }
+                        }
+                    }
+
+                    imagePathList.add(outputFile.getPath());
+                    strPDfFilePath = outputFile.getPath();
+                    lblAttachments.setText("Attachments +"+String.valueOf(imagePathList.size()));
+                    imagepathList = imagePathList.size();
+
+                    openPreviewPopup();
+
+                }
+            }
+            catch (Exception e){
+                alert("Please choose pdf file to send");
+            }
+
+
+        } else if (requestCode == 3) {
+
+            try {
+                if (resultCode == RESULT_OK) {
+                    strPDfFilePath = "";
+                    voice_file_path = "";
+                    String imagesize = TeacherUtil_SharedPreference.getImagesize(TeacherGeneralText.this);
+                    long sizekb = (1024 * 1024) * Integer.parseInt(imagesize);
+                    Log.d("length", String.valueOf(sizekb));
+                    File img = new File(imageFilePath);
+                    long length = img.length();
+                    Log.d("length", String.valueOf(length));
+
+                    lblAttachments.setText("Attachments +"+String.valueOf(imagePathList.size()));
+                    imagepathList = imagePathList.size();
+
+                    if (length <= sizekb) {
+                        imagePathList.add(imageFilePath);
+                        openPreviewPopup();
+                    } else {
+                        String filecontent = TeacherUtil_SharedPreference.getFilecontent(TeacherGeneralText.this);
+                        alert(filecontent);
+                    }
+
+                } else if (resultCode == RESULT_CANCELED) {
+                    imagePathList.clear();
+                    lnrAttachments.setVisibility(View.GONE);
+                    imagepathList = 0;
+                }
+
+            }
+            catch (Exception e){
+
+            }
+        } else {
+            imagePathList.clear();
+            imagepathList = 0;
+            lnrAttachments.setVisibility(View.GONE);
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void openPreviewPopup() {
+
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_preview_popup);
+
+        ImageView imgClose1 = bottomSheetDialog.findViewById(R.id.imgClose1);
+        ImageView imgClose2 = bottomSheetDialog.findViewById(R.id.imgClose2);
+        ImageView imgClose3 = bottomSheetDialog.findViewById(R.id.imgClose3);
+        ImageView imgClose4 = bottomSheetDialog.findViewById(R.id.imgClose4);
+
+        ShapeableImageView img1 = bottomSheetDialog.findViewById(R.id.img1);
+        ShapeableImageView img2 = bottomSheetDialog.findViewById(R.id.img2);
+        ShapeableImageView img3 = bottomSheetDialog.findViewById(R.id.img3);
+        ShapeableImageView img4 = bottomSheetDialog.findViewById(R.id.img4);
+
+        LinearLayout lnrView1 = bottomSheetDialog.findViewById(R.id.lnrView1);
+        LinearLayout lnrView2 = bottomSheetDialog.findViewById(R.id.lnrView2);
+        LinearLayout lnrView3 = bottomSheetDialog.findViewById(R.id.lnrView3);
+        LinearLayout lnrView4 = bottomSheetDialog.findViewById(R.id.lnrView4);
+
+        TextView lblClose = bottomSheetDialog.findViewById(R.id.lblClose);
+        TextView lblNext = bottomSheetDialog.findViewById(R.id.lblNext);
+
+        lblClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        imgClose1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imagePathList.remove(0);
+                lnrView1.setVisibility(View.GONE);
+                visibleAttachments(bottomSheetDialog);
+                if(imagePathList.size() == 0){
+                    bottomSheetDialog.dismiss();
+                }
+
+            }
+        });
+        imgClose2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imagePathList.remove(1);
+                lnrView2.setVisibility(View.GONE);
+
+                visibleAttachments(bottomSheetDialog);
+
+                if(imagePathList.size() == 0){
+                    bottomSheetDialog.dismiss();
+                }
+            }
+        });
+
+        imgClose3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imagePathList.remove(2);
+                lnrView3.setVisibility(View.GONE);
+                visibleAttachments(bottomSheetDialog);
+                if(imagePathList.size() == 0){
+                    bottomSheetDialog.dismiss();
+                }
+            }
+        });
+
+        imgClose4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imagePathList.remove(3);
+                lnrView4.setVisibility(View.GONE);
+                visibleAttachments(bottomSheetDialog);
+                if(imagePathList.size() == 0){
+                    bottomSheetDialog.dismiss();
+                }
+            }
+        });
+        lblNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+
+                Intent intoSec = new Intent(TeacherGeneralText.this, TeacherStaffStandardSection.class);
+                String strtittle = et_tittle.getText().toString();
+                String message = etMessage.getText().toString();
+                intoSec.putExtra("REQUEST_CODE", iRequestCode);
+                intoSec.putExtra("SCHOOL_ID", schoolId);
+                intoSec.putExtra("STAFF_ID", staffId);
+                intoSec.putExtra("TITTLE", strtittle);
+                intoSec.putExtra("MESSAGE", message);
+                intoSec.putExtra("TO", "SEC");
+                intoSec.putExtra("PATH_LIST", imagePathList);
+                intoSec.putExtra("FILE_PATH_PDF", strPDfFilePath);
+                intoSec.putExtra("FILEPATH", voice_file_path);
+                Log.d("SECTION", "SEC");
+                startActivityForResult(intoSec, iRequestCode);
+            }
+        });
+
+        if(imagePathList.size() == 1){
+
+            if(strPDfFilePath.equals("")) {
+                Glide.with(this).load(imagePathList.get(0)).into(img1);
+            }
+            else {
+                img1.setImageResource(R.drawable.pdf_image);
+            }
+
+            lnrView1.setVisibility(View.VISIBLE);
+            lnrView2.setVisibility(View.GONE);
+            lnrView3.setVisibility(View.GONE);
+            lnrView4.setVisibility(View.GONE);
+        }
+
+       else if(imagePathList.size() == 2){
+            Glide.with(this).load(imagePathList.get(0)).into(img1);
+            Glide.with(this).load(imagePathList.get(1)).into(img2);
+
+            lnrView1.setVisibility(View.VISIBLE);
+            lnrView2.setVisibility(View.VISIBLE);
+            lnrView3.setVisibility(View.GONE);
+            lnrView4.setVisibility(View.GONE);
+       }
+        else if(imagePathList.size() == 3){
+            Glide.with(this).load(imagePathList.get(0)).into(img1);
+            Glide.with(this).load(imagePathList.get(1)).into(img2);
+            Glide.with(this).load(imagePathList.get(2)).into(img3);
+
+            lnrView1.setVisibility(View.VISIBLE);
+            lnrView2.setVisibility(View.VISIBLE);
+            lnrView3.setVisibility(View.VISIBLE);
+            lnrView4.setVisibility(View.GONE);
+        }
+        else if(imagePathList.size() == 4){
+            Glide.with(this).load(imagePathList.get(0)).into(img1);
+            Glide.with(this).load(imagePathList.get(1)).into(img2);
+            Glide.with(this).load(imagePathList.get(2)).into(img3);
+            Glide.with(this).load(imagePathList.get(3)).into(img4);
+
+            lnrView1.setVisibility(View.VISIBLE);
+            lnrView2.setVisibility(View.VISIBLE);
+            lnrView3.setVisibility(View.VISIBLE);
+            lnrView4.setVisibility(View.VISIBLE);
+        }
+
+        bottomSheetDialog.show();
+
+
+    }
+
+    private void visibleAttachments(BottomSheetDialog bottomSheetDialog) {
+        lblAttachments.setText("Attachments +"+String.valueOf(imagePathList.size()));
+        imagepathList = imagePathList.size();
+
+        if(imagePathList.size() > 0){
+            lnrAttachments.setVisibility(View.VISIBLE);
+        }
+        else {
+            lnrAttachments.setVisibility(View.GONE);
+            bottomSheetDialog.dismiss();
+
+        }
+    }
+
+    private void alert(String s) {
+        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(TeacherGeneralText.this);
+        alertDialog.setTitle(R.string.alert);
+        alertDialog.setMessage(s);
+        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+
+        alertDialog.show();
     }
 
     private void SendEmergencyVoiceGroupheadAPI() {

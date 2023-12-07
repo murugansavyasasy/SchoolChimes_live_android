@@ -76,6 +76,43 @@
             android:layout_marginTop="5dp"
             android:background="@android:color/transparent" />
 
+        <TextView
+            android:id="@+id/attendance_tv4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Attendance type"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/attendance_spinType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/attendance_tv5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Sessions"
+            android:visibility="gone"
+            android:textColor="@color/teacher_clr_grey"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:visibility="gone"
+            android:id="@+id/attendance_spinSession"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent" />
+
+
         <Button
             android:id="@+id/attendance_btnMarkAllPresent"
             style="@style/Teacher_btn_green"
@@ -88,10 +125,11 @@
 
         <TextView
             android:id="@+id/attendance_tv3"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/teacher_or"
+            android:layout_gravity="center"
             android:textColor="@color/teacher_clr_grey"
             android:textSize="16sp"
             android:textStyle="bold" />

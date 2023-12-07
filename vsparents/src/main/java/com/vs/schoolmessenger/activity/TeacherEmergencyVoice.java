@@ -152,6 +152,8 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
     TextView emergVoice_tvTitle;
     Button btnStaffGroups;
 
+    Button btnGHStandardGroups,btnGHHistoryStandardGroups;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -162,7 +164,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_emergency_voice);
-
 
         bEmergency = getIntent().getExtras().getBoolean("EMERGENCY", true);
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
@@ -213,8 +214,13 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
         rlVoicePreview.setVisibility(View.GONE);
 
         btnStaffGroups = (Button) findViewById(R.id.btnStaffGroups);
+        btnGHStandardGroups = (Button) findViewById(R.id.btnGHStandardGroups);
+        btnGHHistoryStandardGroups = (Button) findViewById(R.id.btnGHHistoryStandardGroups);
         btnStaffGroups.setOnClickListener(this);
+        btnGHHistoryStandardGroups.setOnClickListener(this);
+        btnGHStandardGroups.setOnClickListener(this);
         btnStaffGroups.setEnabled(false);
+        btnGHStandardGroups.setEnabled(false);
 
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherEmergencyVoice.this);
@@ -300,7 +306,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
                 pickFilepathFromVoiceHistory(0);
 
                 if (count > 0) {
-
                     Intent inPrincipal = new Intent(TeacherEmergencyVoice.this, SendToVoiceSpecificSection.class);
                     inPrincipal.putExtra("REQUEST_CODE", iRequestCode);
                     TeacherUtil_Common.Principal_SchoolId = schoolId;
@@ -323,8 +328,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
         btnSelectSchool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 selectVoiceType();
 
                 String strtittle = et_tittle.getText().toString();
@@ -345,10 +348,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
                 selectVoiceType();
                 count = 0;
                 pickFilepathFromVoiceHistory(0);
-
-
                 if (count > 0) {
-
                     Intent schoolslist = new Intent(TeacherEmergencyVoice.this, ScoolsList.class);
                     schoolslist.putExtra("TeacherSchoolsModel", listschooldetails);
                     schoolslist.putExtra("schools", VoiceType);
@@ -359,11 +359,8 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
                     startActivity(schoolslist);
 
                 } else {
-
                     showAlertMessage(getResources().getString(R.string.select_atleast_one_school));
                 }
-
-
             }
         });
 
@@ -507,6 +504,10 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
             listSchoolsAPI();
             btnToSections.setVisibility(View.GONE);
             btnToStudents.setVisibility(View.GONE);
+
+            if(iRequestCode == GH_VOICE) {
+                btnGHStandardGroups.setVisibility(View.VISIBLE);
+            }
         } else if (loginType.equals(LOGIN_TYPE_PRINCIPAL)) {
             if (iRequestCode == PRINCIPAL_EXAM_TEST) {
                 rvSchoolsList.setVisibility(View.GONE);
@@ -711,8 +712,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
                                     data.setSelectedStaus(false);
                                     voiceHistoryList.add(data);
                                 }
-
-
                             }
                             voiceHistoryAdapter.notifyDataSetChanged();
                         } else {
@@ -774,7 +773,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
 
         loginType = TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherEmergencyVoice.this);
 
-
         if (loginType.equals(LOGIN_TYPE_TEACHER)) {
 
             if (iRequestCode == STAFF_VOICE) {
@@ -823,18 +821,20 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
                 btnNext.setVisibility(View.GONE);
                 btnSelectSchool.setVisibility(View.VISIBLE);
                 btn_Select_receipients.setVisibility(View.GONE);
-
+                btnGHHistoryStandardGroups.setVisibility(View.VISIBLE);
 
                 btnSmsHistoryStandard.setVisibility(View.GONE);
                 btnSmsHistorySectionOrStudents.setVisibility(View.GONE);
                 btnSlectSchool.setVisibility(View.VISIBLE);
                 btnHistorySlectReceipients.setVisibility(View.GONE);
+
             } else if (iRequestCode == GH_EMERGENCY) {
                 btnToSections.setVisibility(View.GONE);
                 btnToStudents.setVisibility(View.GONE);
                 btnNext.setVisibility(View.GONE);
                 btnSelectSchool.setVisibility(View.VISIBLE);
                 btn_Select_receipients.setVisibility(View.GONE);
+                btnGHHistoryStandardGroups.setVisibility(View.GONE);
 
 
                 btnSmsHistoryStandard.setVisibility(View.GONE);
@@ -964,6 +964,49 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
                 startActivityForResult(intoStu2, iRequestCode);
                 break;
 
+            case R.id.btnGHStandardGroups:
+
+                String strtittle3 = et_tittle.getText().toString();
+                Intent inVoice = new Intent(TeacherEmergencyVoice.this, TeacherSchoolList.class);
+                inVoice.putExtra("REQUEST_CODE", GH_VOICE);
+                inVoice.putExtra("EMERGENCY", false);
+                inVoice.putExtra("SCHOOL_ID", schoolId);
+                inVoice.putExtra("STAFF_ID", staffId);
+                inVoice.putExtra("FILEPATH", String.valueOf(futureStudioIconFile.getPath()));
+                inVoice.putExtra("DURATION", duration);
+                inVoice.putExtra("TITTLE", strtittle3);
+                inVoice.putExtra("VOICE", "");
+                startActivity(inVoice);
+
+
+                break;
+            case R.id.btnGHHistoryStandardGroups:
+                selectVoiceType();
+                count = 0;
+                pickFilepathFromVoiceHistory(0);
+                String title = et_tittle.getText().toString();
+                if (count > 0) {
+                    Intent schoolslist = new Intent(TeacherEmergencyVoice.this, TeacherSchoolList.class);
+                    schoolslist.putExtra("REQUEST_CODE", GH_VOICE);
+                    schoolslist.putExtra("EMERGENCY", false);
+                    schoolslist.putExtra("SCHOOL_ID", schoolId);
+                    schoolslist.putExtra("STAFF_ID", staffId);
+                    schoolslist.putExtra("TeacherSchoolsModel", listschooldetails);
+                    schoolslist.putExtra("schools", VoiceType);
+                    schoolslist.putExtra("FILEPATH", FilePath);
+                    schoolslist.putExtra("DURATION", duration);
+                    schoolslist.putExtra("TITTLE", title);
+                    schoolslist.putExtra("VOICE", "VoiceHistory");
+                    startActivity(schoolslist);
+
+                } else {
+                    showAlertMessage("Please select atleast one message");
+                }
+
+
+                break;
+
+
             case R.id.myAudioPlayer_imgBtnPlayPause:
                 recVoicePlayPause();
                 break;
@@ -975,7 +1018,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
                 else {
                     ivRecord.setEnabled(false);
                     start_RECORD();
-
                 }
                 break;
         }
@@ -1483,11 +1525,17 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements View.OnC
             btnToSections.setEnabled(true);
             btnToStudents.setEnabled(true);
             btnStaffGroups.setEnabled(true);
-
             btnSelectSchool.setEnabled(true);
             btn_Select_receipients.setEnabled(true);
 
-        } else btnNext.setEnabled(true);
+        }
+
+        else btnNext.setEnabled(true);
+
+        if(loginType.equals(LOGIN_TYPE_HEAD)){
+            btnGHStandardGroups.setEnabled(true);
+        }
+
 
         btnSelectSchool.setEnabled(true);
         btn_Select_receipients.setEnabled(true);

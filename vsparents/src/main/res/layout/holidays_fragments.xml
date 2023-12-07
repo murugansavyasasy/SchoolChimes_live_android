@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:agendaCalendar="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        app:abbreviationsBarColor="@color/bpWhite"
+        app:abbreviationsLabelsColor="@color/clr_black"
+        app:daysLabelsColor="@color/clr_black"
+        app:disabledDaysLabelsColor="@color/card_grey"
+        app:headerColor="@color/bpRed"
+        app:headerLabelColor="@color/bpWhite"
+        app:highlightedDaysLabelsColor="@color/clr_orange"
+        app:pagesColor="@color/clr_report"
+        app:selectionColor="@color/clr_orange"
+        app:selectionLabelColor="@color/bpBlue"
+        app:todayLabelColor="@color/bpRed"
+        app:type="many_days_picker" />
+
+    <org.naishadhparmar.zcustomcalendar.CustomCalendar
+        android:id="@+id/custom_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:day_of_week_length="1"
+        android:visibility="visible"
+        app:day_of_week_start_from="sunday"
+        app:month_year_format="full_month__with_year"
+        app:row_height="50dp" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/holidaysRecycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
+
+
+</LinearLayout>

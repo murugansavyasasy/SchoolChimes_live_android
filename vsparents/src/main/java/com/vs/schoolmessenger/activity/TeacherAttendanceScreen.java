@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -25,6 +26,7 @@ import com.vs.schoolmessenger.model.TeacherSectionsListNEW;
 import com.vs.schoolmessenger.model.TeacherStandardSectionsListModel;
 import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
@@ -38,6 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.vs.schoolmessenger.util.Constants.attendanceType;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
@@ -47,13 +50,23 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 public class TeacherAttendanceScreen extends AppCompatActivity {
 
-    Spinner spinStandard, spinSection;
+    Spinner spinStandard, spinSection,attendance_spinSession,attendance_spinType;
     ArrayAdapter<String> adaStd;
     ArrayAdapter<String> adaSection;
+
+    ArrayAdapter<String> adaAttendanceTypes;
+    ArrayAdapter<String> adaSessionTypes;
+
     Button btnMarkAllPresent, btnSelectStudents;
+
+    TextView attendance_tv5;
 
     List<String> listStd = new ArrayList<>();
     List<String> listStdcode = new ArrayList<>();
+
+    List<String> listAttendanceTypes = new ArrayList<>();
+    List<String> listSessionTypes = new ArrayList<>();
+
     List<String> listSection;
     List<String> listSectionID;
     List<TeacherSectionsListNEW> arrSectionCollections;
@@ -64,6 +77,9 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
     private ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
 
     String strStdName,strstdcode, strSecName, strSecCode, strTotalStudents;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,21 +112,31 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
         });
 
         btnSelectStudents = (Button) findViewById(R.id.attendance_btnSelectStudents);
+        attendance_tv5 = (TextView) findViewById(R.id.attendance_tv5);
         btnSelectStudents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TeacherSectionModel stdSec = new TeacherSectionModel(false, strStdName, strSecName, strSecCode, "English", "101", strTotalStudents, "0", false);
-                Intent inStud = new Intent(TeacherAttendanceScreen.this, TeacherAttendanceStudentList.class);
-                inStud.putExtra("STD_SEC", stdSec);
-                inStud.putExtra("SECCODE", strSecCode);
-                inStud.putExtra("STDCODE", strstdcode);
-                inStud.putExtra("REQUEST_CODE", iRequestCode);
-                startActivityForResult(inStud, iRequestCode);
+                if(!attendanceType.equals("")) {
+                    TeacherSectionModel stdSec = new TeacherSectionModel(false, strStdName, strSecName, strSecCode, "English", "101", strTotalStudents, "0", false);
+                    Intent inStud = new Intent(TeacherAttendanceScreen.this, TeacherAttendanceStudentList.class);
+                    inStud.putExtra("STD_SEC", stdSec);
+                    inStud.putExtra("SECCODE", strSecCode);
+                    inStud.putExtra("STDCODE", strstdcode);
+                    inStud.putExtra("REQUEST_CODE", iRequestCode);
+                    startActivityForResult(inStud, iRequestCode);
+                }
+                else {
+                    showToast("Kindly select the attendance type");
+
+                }
             }
         });
 
         spinStandard = (Spinner) findViewById(R.id.attendance_spinStandard);
         spinSection = (Spinner) findViewById(R.id.attendance_spinSection);
+
+        attendance_spinType = (Spinner) findViewById(R.id.attendance_spinType);
+        attendance_spinSession = (Spinner) findViewById(R.id.attendance_spinSession);
 
         spinStandard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -151,6 +177,74 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
 
             }
         });
+
+        listAttendanceTypes.clear();
+        listSessionTypes.clear();
+
+        listAttendanceTypes.add("Select attendance type");
+        listAttendanceTypes.add("Full Day");
+        listAttendanceTypes.add("Half Day");
+
+        listSessionTypes.add("First Half");
+        listSessionTypes.add("Second Half");
+        attendance_spinType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(listAttendanceTypes.get(position).equals("Half Day")){
+                    attendanceType = "H";
+                }
+                else if(listAttendanceTypes.get(position).equals("Full Day")) {
+                    attendanceType = "F";
+                }
+                else {
+                    attendanceType = "";
+                }
+
+                if(attendanceType.equals("H")){
+                    attendance_tv5.setVisibility(View.VISIBLE);
+                    attendance_spinSession.setVisibility(View.VISIBLE);
+                }
+                else {
+                    Constants.sessionType = "";
+                    attendance_tv5.setVisibility(View.GONE);
+                    attendance_spinSession.setVisibility(View.GONE);
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        attendance_spinSession.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(listSessionTypes.get(position).equals("First Half")){
+                    Constants.sessionType = "FH";
+                }
+                else {
+                    Constants.sessionType = "SH";
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+        adaAttendanceTypes = new ArrayAdapter<>(TeacherAttendanceScreen.this, R.layout.teacher_spin_title, listAttendanceTypes);
+        adaAttendanceTypes.setDropDownViewResource(R.layout.teacher_spin_dropdown);
+        attendance_spinType.setAdapter(adaAttendanceTypes);
+
+        adaSessionTypes = new ArrayAdapter<>(TeacherAttendanceScreen.this, R.layout.teacher_spin_title, listSessionTypes);
+        adaSessionTypes.setDropDownViewResource(R.layout.teacher_spin_dropdown);
+        attendance_spinSession.setAdapter(adaSessionTypes);
+
         standardsAndSectoinsListAPI();
     }
 
@@ -389,6 +483,8 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
             jsonObjectSchool.addProperty("ClassId", strstdcode);
             jsonObjectSchool.addProperty("SectionID", strSecCode);
             jsonObjectSchool.addProperty("AllPresent", "T");
+            jsonObjectSchool.addProperty("AttendanceType", attendanceType);
+            jsonObjectSchool.addProperty("SessionType", Constants.sessionType);
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < listschooldetails.size(); i++) {
             }
@@ -416,7 +512,12 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
 
         builder.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                sendAttenAPIPresent();
+                if(!attendanceType.equals("")) {
+                    sendAttenAPIPresent();
+                }
+                else {
+                    showToast("Kindly select the attendance type");
+                }
             }
         });
         alertDialog = builder.create();

@@ -114,10 +114,10 @@
 
     <string name="teacher_app_title">Schools V4</string>
     <string name="teacher_app_name">Voicesnap Schools</string>
-    <string name="teacher_app_sub_title">for Parents</string>
-    <string name="teacher_school_msg">Chimes \t</string>
+    <string name="teacher_app_sub_title"></string>
+    <string name="teacher_school_msg"></string>
 
-    <string name="teacher_app_version_id">77</string>
+    <string name="teacher_app_version_id">81</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -248,7 +248,7 @@
     <string name="teacher_pop_response_btn_clear">Clear</string>
     <string name="teacher_pop_response_hint_msg">Enter message here..</string>
     <string name="teacher_pop_response_txt_count">460</string>
-    <string name="teacher_for_schools">for Schools</string>
+    <string name="teacher_for_schools"></string>
     <string name="teacher_choosen_recipient">Choosen Recipient</string>
     <string name="teacher_Select_school">Select Schools</string>
 
@@ -642,7 +642,7 @@
     <string name="viewMarks">View Marks</string>
     <string name="viewProgress">View report card</string>
 
-    <string name="app_version">7.6.14</string>
+    <string name="app_version">7.6.15</string>
 
 
     <string name="lbl_Yet_to_start">Yet to start</string>
@@ -666,7 +666,7 @@
 
 
     <string name="ads_size">BANNER</string>
-<!--    <string name="ads_size">LARGE_BANNER</string>-->
+    <string name="large_banner">LARGE_BANNER</string>
 <!--    <string name="ads_size">MEDIUM_RECTANGLE</string>-->
 <!--    <string name="ads_size">SMART_BANNER</string>-->
 
@@ -675,6 +675,8 @@
 
     <!--    production unit ids-->
     <string name="ads_unit_one">ca-app-pub-4334956274721233/1811829719</string>
+    <string name="native_ads_unit_one">ca-app-pub-4334956274721233/3918899445</string>
+
 
 
 </resources>

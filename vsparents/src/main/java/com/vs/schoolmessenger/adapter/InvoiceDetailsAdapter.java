@@ -130,11 +130,9 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
                                     Intent receipt = new Intent(context, PdfWebView.class);
                                     receipt.putExtra("URL",invoicePdf);
                                     receipt.putExtra("tittle","Fee Receipt");
+                                    receipt.putExtra("ID",invoiceId);
                                     context.startActivity(receipt);
 
-//                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-//                                            Uri.parse(invoicePdf));
-//                                    context.startActivity(browserIntent);
                                 }
                                 else{
                                     showAlertfinish(message);

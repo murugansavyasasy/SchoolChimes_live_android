@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.ImageListAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
@@ -189,7 +190,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 showFilePickPopup();
-                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
 
             }
         });
@@ -198,7 +198,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 showFilePickPopup();
-                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
             }
         });
 
@@ -255,32 +254,44 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
     }
 
     private void showFilePickPopup() {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.choose_file_popup, null);
-        popupWindow = new PopupWindow(layout, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setContentView(layout);
 
-        TextView lblChooseGallery = (TextView) layout.findViewById(R.id.lblChooseGallery);
-        TextView lblChoosePdfFile = (TextView) layout.findViewById(R.id.lblChoosePdfFile);
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_attachments);
+        TextView close = bottomSheetDialog.findViewById(R.id.lblClose);
+        RelativeLayout rytGallery = bottomSheetDialog.findViewById(R.id.rytGallery);
+        RelativeLayout rytCamera = bottomSheetDialog.findViewById(R.id.rytCamera);
+        RelativeLayout rytPdf = bottomSheetDialog.findViewById(R.id.rytPdf);
+        RelativeLayout rytVoice = bottomSheetDialog.findViewById(R.id.rytVoice);
+        rytVoice.setVisibility(View.GONE);
 
-
-        final LinearLayout lnrGalleryOrCamera = (LinearLayout) layout.findViewById(R.id.lnrGalleryOrCamera);
-        TextView lblGallery = (TextView) layout.findViewById(R.id.lblGallery);
-        TextView lblCamera = (TextView) layout.findViewById(R.id.lblCamera);
-
-        lblChooseGallery.setOnClickListener(new View.OnClickListener() {
+        close.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                lnrGalleryOrCamera.setVisibility(View.VISIBLE);
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
 
             }
         });
 
-
-        lblCamera.setOnClickListener(new View.OnClickListener() {
+        rytGallery.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                Intent i = new Intent(TeacherPhotosScreen.this, AlbumSelectActivity.class);
+                startActivityForResult(i, 1);
+                img1.setImageBitmap(null);
+                img2.setImageBitmap(null);
+                img3.setImageBitmap(null);
+                img4.setImageBitmap(null);
+                lblImageCount.setText("");
+                imagePathList.clear();
+                bottomSheetDialog.dismiss();
 
+
+            }
+        });
+
+        rytCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 img1.setImageBitmap(null);
                 img2.setImageBitmap(null);
                 img3.setImageBitmap(null);
@@ -300,42 +311,26 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                     intent.putExtra(MediaStore.EXTRA_OUTPUT,
                             photoURI);
                     startActivityForResult(intent, 3);
-                    popupWindow.dismiss();
+                    bottomSheetDialog.dismiss();
                 }
-            }
-        });
-
-        lblGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(TeacherPhotosScreen.this, AlbumSelectActivity.class);
-                startActivityForResult(i, 1);
-                img1.setImageBitmap(null);
-                img2.setImageBitmap(null);
-                img3.setImageBitmap(null);
-                img4.setImageBitmap(null);
-                lblImageCount.setText("");
-                imagePathList.clear();
-                popupWindow.dismiss();
-
 
             }
         });
 
-
-        lblChoosePdfFile.setOnClickListener(new View.OnClickListener() {
+        rytPdf.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setType("application/pdf");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
-                popupWindow.dismiss();
+                bottomSheetDialog.dismiss();
+
 
             }
         });
 
+        bottomSheetDialog.show();
     }
 
     private File createImageFile() throws IOException {

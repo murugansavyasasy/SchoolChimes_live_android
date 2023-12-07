@@ -259,7 +259,7 @@
             android:textColor="@color/teacher_clr_grey"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="Chimes " />
+         />
 
         <TextView
             android:layout_width="wrap_content"

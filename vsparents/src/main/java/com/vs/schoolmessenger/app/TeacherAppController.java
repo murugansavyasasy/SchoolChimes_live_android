@@ -34,7 +34,7 @@ public class TeacherAppController extends Application
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
-                                .setDefaultFontPath("fonts/zawgyione.ttf")
+                                .setDefaultFontPath("fonts/roboto_regular.ttf")
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
                 .build());

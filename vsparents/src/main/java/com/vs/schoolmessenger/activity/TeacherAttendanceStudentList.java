@@ -26,7 +26,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherStudendListAdapter;
-import com.vs.schoolmessenger.assignment.StudentSelectAssignment;
 import com.vs.schoolmessenger.aws.S3Uploader;
 import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -35,6 +34,7 @@ import com.vs.schoolmessenger.model.SubjectDetails;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherStudentsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
@@ -55,6 +55,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.vs.schoolmessenger.activity.SubjectListScreen.SubjectDetailsList;
+import static com.vs.schoolmessenger.util.Constants.attendanceType;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANCE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
@@ -1032,6 +1033,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             jsonObjectSchool.addProperty("ClassId", stdcode);
             jsonObjectSchool.addProperty("SectionID", sectioncode);
             jsonObjectSchool.addProperty("AllPresent", "F");
+            jsonObjectSchool.addProperty("AttendanceType", attendanceType);
+            jsonObjectSchool.addProperty("SessionType", Constants.sessionType);
 
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < studentList.size(); i++) {

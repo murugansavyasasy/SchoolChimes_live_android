@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.Constants.isOnBackPressed;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,14 +9,12 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,30 +23,44 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdOptions;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
-import com.vs.schoolmessenger.adapter.CircularsDateListAdapter;
-import com.vs.schoolmessenger.app.AppController;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
+import com.vs.schoolmessenger.adapter.HomeWorkDateWiseAdapter;
+import com.vs.schoolmessenger.adapter.HomeWorkGridAdapter;
+import com.vs.schoolmessenger.interfaces.OnItemHomeworkClick;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.CircularDates;
+import com.vs.schoolmessenger.model.HomeWorkData;
+import com.vs.schoolmessenger.model.HomeWorkModel;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
+import com.vs.schoolmessenger.util.NativeTemplateStyle;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
@@ -67,21 +81,11 @@ import ss.com.bannerslider.Slider;
 
 public class MessageDatesScreen extends AppCompatActivity implements View.OnClickListener {
 
-    String strChildName;
     Profiles childItem = new Profiles();
-    int iTotMsgUnreadCount = 0;
-    TextView tvSchoolName, tvSchoolAddress, tvMsgCount;
-    NetworkImageView nivThumbNailSchoolImg;
-    ImageLoader imageLoader;
 
-    RecyclerView rvDatesList;
-    private CircularsDateListAdapter dateListAdapter;
     private ArrayList<CircularDates> datesList = new ArrayList<>();
     private ArrayList<CircularDates> totaldatesList = new ArrayList<>();
     private ArrayList<CircularDates> OfflinedatesList = new ArrayList<>();
-
-
-    ArrayList<CircularDates> arrayList;
 
     private PopupWindow pHelpWindow;
     RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
@@ -102,6 +106,13 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
     AdView mAdView;
 
+    private ArrayList<HomeWorkData> HomeWorkData = new ArrayList<>();
+    GridView rvGridHW;
+    HomeWorkGridAdapter mAdapter;
+    RelativeLayout rytParent;
+    TemplateView native_ads;
+    ImageView adsClose;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -112,11 +123,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_dates_screen);
         c = Calendar.getInstance();
-        childItem = (Profiles) getIntent().getSerializableExtra("Profiles");
-        Util_SharedPreference.putSelecedChildInfoToSP(MessageDatesScreen.this, childItem.getChildID(), childItem.getChildName(), childItem.getSchoolID(),
-                childItem.getSchoolName(), childItem.getSchoolAddress(), childItem.getSchoolThumbnailImgUrl(),childItem.getStandard(),childItem.getSection());
-
-        strChildName = childItem.getChildName();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_dates);
@@ -130,24 +136,36 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
         Slider.init(new PicassoImageLoadingService(MessageDatesScreen.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
-
 
         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
+        rytParent=(RelativeLayout) findViewById(R.id.rytParent);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoadMorerecentCircularsDateWiseAPI();
+                native_ads.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+                LoadMoreGetHomeWorkDetails();
 
             }
         });
 
-         isNewVersion=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
+        MobileAds.initialize(this);
+        native_ads = findViewById(R.id.my_template);
+        adsClose = findViewById(R.id.lblClose);
+        adsClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                native_ads.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+            }
+        });
 
+
+        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
         seeMoreButtonVisiblity();
-
 
         rytLanguage = (RelativeLayout) findViewById(R.id.rytLanguage);
         rytHome = (RelativeLayout) findViewById(R.id.rytHome);
@@ -169,20 +187,19 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (dateListAdapter == null)
+                if (mAdapter == null)
                     return;
 
-                if (dateListAdapter.getItemCount() < 1) {
-                    rvDatesList.setVisibility(View.GONE);
+                if (mAdapter.getCount() < 1) {
+                    rvGridHW.setVisibility(View.GONE);
                     if (Searchable.getText().toString().isEmpty()) {
-                        rvDatesList.setVisibility(View.VISIBLE);
+                        rvGridHW.setVisibility(View.VISIBLE);
                     }
 
                 } else {
-                    rvDatesList.setVisibility(View.VISIBLE);
+                    rvGridHW.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -198,41 +215,195 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 filterlist(editable.toString());
             }
         });
+        rvGridHW = (GridView) findViewById(R.id.GridHW);
+    }
+
+
+    private void LoadMoreGetHomeWorkDetails() {
+        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
+        if(isNewVersionn.equals("1")){
+            String ReportURL=TeacherUtil_SharedPreference.getReportURL(MessageDatesScreen.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
+        }
+        else {
+            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(MessageDatesScreen.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        }
+
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
+        if (!this.isFinishing())
+            mProgressDialog.show();
+
+
+        String strChildID = Util_SharedPreference.getChildIdFromSP(MessageDatesScreen.this);
+        String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(MessageDatesScreen.this);
+
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetMessageCount(strChildID, strSchoolID);
+        Call<List<HomeWorkModel>> call = apiService.getHomeWorkDetails_Archive(jsonReqArray);
+        call.enqueue(new Callback<List<HomeWorkModel>>() {
+
+            @Override
+            public void onResponse(Call<List<HomeWorkModel>> call, Response<List<HomeWorkModel>> response) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+
+                Log.d("MsgDates:Code", response.code() + " - " + response.toString());
+                if (response.code() == 200 || response.code() == 201)
+                    Log.d("MsgDates:Res", response.body().toString());
+                Gson gson = new Gson();
+                String json = gson.toJson(response.body());
+                Log.d("Archive_Response", json);
+                LoadMore.setVisibility(View.GONE);
+                isOnBackPressed = false;
+                lblNoMessages.setVisibility(View.GONE);
+
+                try {
+                    String status = response.body().get(0).getStatus();
+                    String message = response.body().get(0).getMessage();
+                    if(status.equals("1")){
+
+                        ArrayList<HomeWorkData> data = new ArrayList<>();
+                        data = (ArrayList<com.vs.schoolmessenger.model.HomeWorkData>) response.body().get(0).getData();
+                        HomeWorkData.addAll(data);
+                        mAdapter = new HomeWorkGridAdapter(MessageDatesScreen.this, HomeWorkData,rytParent,new OnItemHomeworkClick() {
+                            @Override
+                            public void onMsgItemClick(HomeWorkData item) {
+
+                            }
+                        });
+                        rvGridHW.setAdapter((ListAdapter) mAdapter);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    else {
+                        showrecordsFound(message);
+                     }
+
+                } catch (Exception e) {
+                    Log.e("MsgDates:Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HomeWorkModel>> call, Throwable t) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+                showToast(getResources().getString(R.string.check_internet));
+                Log.d("MsgDates:Failure", t.toString());
+            }
+        });
+    }
+
+    private void getHomeWorkDetails() {
+        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
+        if(isNewVersionn.equals("1")){
+            String ReportURL=TeacherUtil_SharedPreference.getReportURL(MessageDatesScreen.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
+        }
+        else {
+            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(MessageDatesScreen.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        }
+
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
+        if (!this.isFinishing())
+            mProgressDialog.show();
+
+        String strChildID = Util_SharedPreference.getChildIdFromSP(MessageDatesScreen.this);
+        String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(MessageDatesScreen.this);
+
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetMessageCount(strChildID, strSchoolID);
+        Call<List<HomeWorkModel>> call = apiService.getHomeWorkDetails(jsonReqArray);
+        call.enqueue(new Callback<List<HomeWorkModel>>() {
+
+            @Override
+            public void onResponse(Call<List<HomeWorkModel>> call, Response<List<HomeWorkModel>> response) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+
+                Log.d("MsgDates:Code", response.code() + " - " + response.toString());
+                if (response.code() == 200 || response.code() == 201)
+                    Log.d("MsgDates:Res", response.body().toString());
+
+                Gson gson = new Gson();
+                String json = gson.toJson(response.body());
+                Log.d("Response", json);
+
+                try {
+
+                    String status = response.body().get(0).getStatus();
+                    String message = response.body().get(0).getMessage();
+                    HomeWorkData.clear();
+                    if(status.equals("1")){
+                        HomeWorkData = (ArrayList<com.vs.schoolmessenger.model.HomeWorkData>) response.body().get(0).getData();
+
+                        if(HomeWorkData.size() < 4){
+                            native_ads.setVisibility(View.VISIBLE);
+                            adsClose.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            native_ads.setVisibility(View.GONE);
+                            adsClose.setVisibility(View.GONE);
+
+                        }
+
+                        mAdapter = new HomeWorkGridAdapter(MessageDatesScreen.this, HomeWorkData,rytParent,new OnItemHomeworkClick() {
+                            @Override
+                            public void onMsgItemClick(HomeWorkData item) {
+
+                            }
+                        });
+                        rvGridHW.setAdapter((ListAdapter) mAdapter);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    else {
+                        native_ads.setVisibility(View.VISIBLE);
+                        if(isNewVersion.equals("1")){
+                            lblNoMessages.setVisibility(View.VISIBLE);
+                            lblNoMessages.setText(message);
+                                if(isOnBackPressed) {
+                                    LoadMoreGetHomeWorkDetails();
+                                }
+                        }
+                        else {
+                            lblNoMessages.setVisibility(View.GONE);
+                            showrecordsFound(message);
+                        }
+                    }
 
 
 
+                } catch (Exception e) {
+                    Log.e("MsgDates:Exception", e.getMessage());
+                }
+            }
 
-        tvMsgCount = (TextView) findViewById(R.id.dates_tvMsgCount);
-        tvSchoolAddress = (TextView) findViewById(R.id.dates_tvSchoolAddress);
-        tvSchoolName = (TextView) findViewById(R.id.dates_tvSchoolName);
-        tvMsgCount.setText(childItem.getMsgCount());
-        tvSchoolName.setText(childItem.getSchoolName());
-        tvSchoolAddress.setText(childItem.getSchoolAddress());
-
-
-        nivThumbNailSchoolImg = (NetworkImageView) findViewById(R.id.dates_nivThumbnailSchoolImg);
-        imageLoader = AppController.getInstance().getImageLoader();
-        nivThumbNailSchoolImg.setImageUrl(childItem.getSchoolThumbnailImgUrl(), imageLoader);
-
-        rvDatesList = (RecyclerView) findViewById(R.id.dates_rvChildList);
-        dateListAdapter = new CircularsDateListAdapter(MessageDatesScreen.this, datesList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        rvDatesList.setHasFixedSize(true);
-        rvDatesList.setLayoutManager(mLayoutManager);
-        rvDatesList.setItemAnimator(new DefaultItemAnimator());
-        rvDatesList.setAdapter(dateListAdapter);
+            @Override
+            public void onFailure(Call<List<HomeWorkModel>> call, Throwable t) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+                showToast(getResources().getString(R.string.check_internet));
+                Log.d("MsgDates:Failure", t.toString());
+            }
+        });
     }
 
     private void filterlist(String s) {
-        List<CircularDates> temp = new ArrayList();
-        for (CircularDates d : datesList) {
-
-            if (d.getCircularDate().toLowerCase().contains(s.toLowerCase()) || d.getCircularDay().toLowerCase().contains(s.toLowerCase()) ) {
+        List<HomeWorkData> temp = new ArrayList();
+        for (HomeWorkData d : HomeWorkData) {
+            if (d.getDate().toLowerCase().contains(s.toLowerCase())  ) {
                 temp.add(d);
             }
 
         }
-        dateListAdapter.updateList(temp);
+        mAdapter.updateList((ArrayList<com.vs.schoolmessenger.model.HomeWorkData>) temp);
     }
 
     private void seeMoreButtonVisiblity() {
@@ -244,110 +415,33 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             lblNoMessages.setVisibility(View.GONE);
         }
     }
-
-    private void LoadMorerecentCircularsDateWiseAPI() {
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(MessageDatesScreen.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(MessageDatesScreen.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        }
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-        final String strChildID = childItem.getChildID();
-        final String strSchoolID = childItem.getSchoolID();
-        Log.d("MsgDates:Child-SchoolID", strChildID + " - " + strSchoolID);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetMessageCount(strChildID, strSchoolID);
-        Call<JsonArray> call = apiService.LoadMoreGetHomeWorkCount(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("MsgDates:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("MsgDates:Res", response.body().toString());
-                LoadMore.setVisibility(View.GONE);
-                lblNoMessages.setVisibility(View.GONE);
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-
-
-                        String strDate = jsonObject.getString("HomeworkDate");
-                        String strTotalSMS = jsonObject.getString("TextCount");
-
-                        if (!strDate.equals("")) {
-                            CircularDates cirDates;
-                            Log.d("json length", js.length() + "");
-
-                            for (int i = 0; i < js.length(); i++) {
-                                jsonObject = js.getJSONObject(i);
-                                cirDates = new CircularDates(jsonObject.getString("HomeworkDate"), jsonObject.getString("HomeworkDay"),
-                                        jsonObject.getString("VoiceCount"),"0",
-                                        jsonObject.getString("TextCount"),"0",jsonObject.getBoolean("is_Archive"));
-                                datesList.add(cirDates);
-                                OfflinedatesList.add(cirDates);
-
-                                iTotMsgUnreadCount = iTotMsgUnreadCount + Integer.parseInt(jsonObject.getString("VoiceCount"))
-                                        + Integer.parseInt(jsonObject.getString("TextCount")) ;
-
-                            }
-
-                            tvMsgCount.setText("" + iTotMsgUnreadCount);
-                            arrayList = new ArrayList<>();
-                            arrayList.addAll(datesList);
-                            dateListAdapter.notifyDataSetChanged();
-
-                        } else {
-                            showrecordsFound(strTotalSMS);
-                        }
-                    } else {
-                        showrecordsFound(getResources().getString(R.string.no_records));
-                    }
-
-                } catch (Exception e) {
-                    Log.e("MsgDates:Exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("MsgDates:Failure", t.toString());
-            }
-        });
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        // ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAdvancedNativeAds.getAds(this,adImage,slider,"",native_ads,adsClose);
 
-        if (isNetworkConnected()) {
-            recentCircularsDateWiseAPI();
+        if(HomeWorkDateWiseAdapter.mediaPlayer != null) {
+            if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
+                HomeWorkDateWiseAdapter.mediaPlayer.stop();
+            }
         }
-
-
+        if (isNetworkConnected()) {
+            LoadMore.setVisibility(View.VISIBLE);
+            getHomeWorkDetails();
+        }
     }
 
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if(HomeWorkDateWiseAdapter.mediaPlayer != null) {
+            if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
+                HomeWorkDateWiseAdapter.mediaPlayer.stop();
+            }
+        }
+    }
     private boolean isNetworkConnected() {
 
         ConnectivityManager connMgr = (ConnectivityManager) MessageDatesScreen.this
@@ -357,145 +451,21 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
+        if(HomeWorkDateWiseAdapter.mediaPlayer != null) {
+            if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
+                HomeWorkDateWiseAdapter.mediaPlayer.stop();
+            }
+        }
         finish();
     }
-
-
     private void showToast(String msg) {
         Toast.makeText(MessageDatesScreen.this, msg, Toast.LENGTH_SHORT).show();
     }
-
-
-    private void recentCircularsDateWiseAPI() {
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(MessageDatesScreen.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(MessageDatesScreen.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        }
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-        final String strChildID = childItem.getChildID();
-        final String strSchoolID = childItem.getSchoolID();
-        Log.d("MsgDates:Child-SchoolID", strChildID + " - " + strSchoolID);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetMessageCount(strChildID, strSchoolID);
-        Call<JsonArray> call = apiService.GetHomeWorkCount(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("MsgDates:Code", response.code() + " - " + response.toString());
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("MsgDates:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-
-
-                        String strDate = jsonObject.getString("HomeworkDate");
-                        String strTotalSMS = jsonObject.getString("TextCount");
-
-                        dateListAdapter.clearAllData();
-                        iTotMsgUnreadCount = 0;
-                        totaldatesList.clear();
-                        datesList.clear();
-
-                        if(isNewVersion.equals("1")){
-                            LoadMore.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            LoadMore.setVisibility(View.GONE);
-                            lblNoMessages.setVisibility(View.GONE);
-                        }
-
-                        if (!strDate.equals("")) {
-                            CircularDates cirDates;
-                            Log.d("json length", js.length() + "");
-
-                            for (int i = 0; i < js.length(); i++) {
-                                jsonObject = js.getJSONObject(i);
-                                cirDates = new CircularDates(jsonObject.getString("HomeworkDate"), jsonObject.getString("HomeworkDay"),
-                                        jsonObject.getString("VoiceCount"),"0",
-                                        jsonObject.getString("TextCount"),"0",false);
-                                datesList.add(cirDates);
-                                totaldatesList.add(cirDates);
-
-                                iTotMsgUnreadCount = iTotMsgUnreadCount + Integer.parseInt(jsonObject.getString("VoiceCount"))
-                                        + Integer.parseInt(jsonObject.getString("TextCount")) ;
-
-                            }
-
-                            tvMsgCount.setText("" + iTotMsgUnreadCount);
-
-
-                            arrayList = new ArrayList<>();
-                            arrayList.addAll(datesList);
-                            dateListAdapter.notifyDataSetChanged();
-
-                        } else {
-
-                            if(isNewVersion.equals("1")){
-                                lblNoMessages.setVisibility(View.VISIBLE);
-                                lblNoMessages.setText(strTotalSMS);
-
-                                String loadMoreCall=TeacherUtil_SharedPreference.getOnBackMethodHWTEXT(MessageDatesScreen.this);
-                                if(loadMoreCall.equals("1")){
-                                    TeacherUtil_SharedPreference.putOnBackPressedHWTEXT(MessageDatesScreen.this,"");
-                                    LoadMorerecentCircularsDateWiseAPI();
-                                }
-                            }
-                            else {
-                                lblNoMessages.setVisibility(View.GONE);
-                                showrecordsFound(strTotalSMS);
-                            }
-
-
-
-                        }
-                    } else {
-                        showrecordsFound(getResources().getString(R.string.no_records));
-                    }
-
-                } catch (Exception e) {
-                    Log.e("MsgDates:Exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("MsgDates:Failure", t.toString());
-            }
-        });
-    }
-
     private void showrecordsFound(String s) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MessageDatesScreen.this);
-
         alertDialog.setTitle(R.string.alert);
-
         //Setting Dialog Message
         alertDialog.setMessage(s);
-
-
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -504,13 +474,9 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
             }
         });
-
-
-
         AlertDialog dialog = alertDialog.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
@@ -519,7 +485,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rytHome:
-
                 Intent homescreen=new Intent(MessageDatesScreen.this,HomeActivity.class);
                 homescreen.putExtra("HomeScreen","1");
                 homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -531,8 +496,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
                 Intent faq=new Intent(MessageDatesScreen.this,FAQScreen.class);
                 startActivity(faq);
-
-
 
                 break;
             case R.id.rytLanguage:
@@ -546,8 +509,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             case R.id.rytLogout:
 
                 Util_Common.popUpMenu(MessageDatesScreen.this,v,"1");
-
-
                 break;
 
 
@@ -572,9 +533,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         });
 
         final EditText etmsg = (EditText) layout.findViewById(R.id.popupHelp_etMsg);
-
-
-
         final TextView tvTxtCount = (TextView) layout.findViewById(R.id.popupHelp_tvTxtCount);
         etmsg.addTextChangedListener(new TextWatcher() {
             @Override
@@ -592,7 +550,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
             }
         });
-
         TextView tvSend = (TextView) layout.findViewById(R.id.popupHelp_tvSend);
         tvSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -615,10 +572,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
-
-
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(MessageDatesScreen.this);
-
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetHelp(mobNumber, strMsg);
         Call<JsonArray> call = apiService.GetHelpnew(jsonReqArray);
@@ -639,8 +593,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         JSONObject jsonObject = js.getJSONObject(0);
                         String strStatus = jsonObject.getString("Status");
                         String strMessage = jsonObject.getString("Message");
-
-
                         if ((strStatus.toLowerCase()).equals("1")) {
                             showToast(strMessage);
                             if (pHelpWindow.isShowing()) {
@@ -674,8 +626,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
-
-
     }
 
     private void showLanguageListPopup() {
@@ -702,7 +652,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 final Languages model = LanguageList.get(selectedPosition);
                 String ID = model.getStrLanguageID();
                 String code = model.getScriptCode();
-
                 changeLanguage(code, ID);
                 dialog.cancel();
 
@@ -738,15 +687,12 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         IDs = "";
         String countryId = TeacherUtil_SharedPreference.getCountryID(MessageDatesScreen.this);
 
-
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
-
 
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
-
                 jsonObject.addProperty("type","staff");
                 jsonObject.addProperty("id",model.getStrStaffID());
                 jsonObject.addProperty("schoolid",model.getStrSchoolID());
@@ -799,8 +745,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         String status = jsonObject.getString("Status");
                         String message = jsonObject.getString("Message");
 
-
-
                         LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),MessageDatesScreen.this);
                         LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),MessageDatesScreen.this);
                         LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),MessageDatesScreen.this);
@@ -811,8 +755,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),MessageDatesScreen.this);
                         LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),MessageDatesScreen.this);
                         LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),MessageDatesScreen.this);
-
-
 
                         if (Integer.parseInt(status) > 0) {
                             showToast(message);
@@ -846,5 +788,4 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             }
         });
     }
-
 }

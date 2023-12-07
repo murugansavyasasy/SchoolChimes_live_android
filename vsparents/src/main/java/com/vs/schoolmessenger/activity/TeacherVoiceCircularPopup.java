@@ -211,36 +211,13 @@ public class TeacherVoiceCircularPopup extends AppCompatActivity {
         Log.d("FetchSong", "Start***************************************");
         try {
 
-
-            String filepath;
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            {
-                filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
-
-            }
-            else{
-                filepath = Environment.getExternalStorageDirectory().getPath();
-            }
-            File file = new File(filepath, VOICE_FOLDER);
-            File dir = new File(file.getAbsolutePath());
-
-            if (!dir.exists()) {
-                dir.mkdirs();
-                System.out.println("Dir: " + dir);
-            }
-
-
-//            final File dir;
-//            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-//                dir = new File(Environment.getExternalStorageDirectory().getPath()
-//                        + VOICE_FOLDER);
-//            } else {
-//                dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
-//                        + VOICE_FOLDER);
-//            }
-
-            if (!dir.exists()) {
-                dir.mkdirs();
+            final File dir;
+            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                dir = new File(Environment.getExternalStorageDirectory().getPath()
+                        + VOICE_FOLDER);
+            } else {
+                dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                        + VOICE_FOLDER);
             }
             Log.d("ID",voiceModel.getMsgID());
             Log.d("content",voiceModel.getMsgContent());

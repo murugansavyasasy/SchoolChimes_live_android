@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_top_corner_rect"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_margin="10dp"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="90dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+
+
+    <TextView
+        android:id="@+id/lblClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Close"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/bpRed"
+        android:textSize="@dimen/_16sdp"/>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/lnrView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgClose1"
+                android:layout_gravity="right"
+                android:layout_marginRight="0dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_rounded_close"/>
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_gravity="center"
+                android:id="@+id/img1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/image_c"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrView2"
+            android:layout_marginLeft="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgClose2"
+                android:layout_gravity="right"
+                android:layout_marginRight="0dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_rounded_close"/>
+
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_gravity="center"
+                android:id="@+id/img2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/image_c"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView"/>
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/lnrView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgClose3"
+                android:layout_gravity="right"
+                android:layout_marginRight="0dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_rounded_close"/>
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_gravity="center"
+                android:id="@+id/img3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/image_c"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrView4"
+            android:layout_marginLeft="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgClose4"
+                android:layout_gravity="right"
+                android:layout_marginRight="0dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_rounded_close"/>
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_gravity="center"
+                android:id="@+id/img4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/image_c"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:id="@+id/lblNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="SEND TO STANDARD OR SECTIONS"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/bpBlue"
+        android:textSize="@dimen/_16sdp"/>
+
+
+
+
+
+</LinearLayout>

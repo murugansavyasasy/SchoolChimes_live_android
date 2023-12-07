@@ -152,6 +152,7 @@ public class ExamListAdapter extends
                                     Intent receipt = new Intent(context, PdfWebView.class);
                                     receipt.putExtra("URL",progresslink);
                                     receipt.putExtra("tittle","Report Card");
+                                    receipt.putExtra("ID",exam.getId());
                                     context.startActivity(receipt);
 
 //                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,

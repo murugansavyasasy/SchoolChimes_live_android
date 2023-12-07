@@ -1,5 +1,11 @@
 package com.vs.schoolmessenger.util;
 
+import com.vs.schoolmessenger.model.HomeWorkData;
+import com.vs.schoolmessenger.model.NewUpdatesData;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Constants {
     public static final String STAFF_ID = "StaffID";
     public static  final String SUBJECT = "Subject";
@@ -55,6 +61,21 @@ public class Constants {
     public static String  Other_Services = "25";
     public static String  Online_Meeting = "26";
     public static String  Online_Quiz = "27";
+
+
+
+    public static String  attendanceType = "";
+    public static String  sessionType = "";
+
+
+    public static HomeWorkData homeWorkData = null;
+    public static Boolean isOnBackPressed = false;
+    public static int imagepathList = 0;
+
+    public  static String updates = "updates_gif";
+
+
+
 
 
 

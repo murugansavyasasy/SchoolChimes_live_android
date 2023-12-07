@@ -33,6 +33,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.barteksc.pdfviewer.PDFView;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.VoiceCircularPopup;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -61,8 +63,11 @@ public class PdfWebView extends AppCompatActivity {
 
     static ProgressDialog mProgressDialog;
 
-
     private long downloadId;
+
+    PDFView pdfView;
+
+    static String pdfFilePath;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -89,12 +94,72 @@ public class PdfWebView extends AppCompatActivity {
             }
         });
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.setCancelable(false);
+        pdfView = findViewById(R.id.pdfView);
+
+        if(Title.equals("Circular")){
+
+            String MsgID = getIntent().getExtras().getString("ID", "");
+            final File dir;
+            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                dir = new File(Environment.getExternalStorageDirectory().getPath()
+                        + PDF_CIRCULAR_FOLDER);
+            } else {
+                dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                        + PDF_CIRCULAR_FOLDER);
+            }
+            if (!dir.exists()) {
+                dir.mkdirs();
+                System.out.println("Dir: " + dir);
+            }
+            File futureStudioIconFile = new File(dir, MsgID+"_Circular" +".pdf");//"Hai.mp3"
+
+
+            if (futureStudioIconFile.exists())
+            {
+                pdfView.fromFile(new File(futureStudioIconFile.getPath()))
+                        .load();
+            }
+            else {
+                downLoadFeeReceipt(MsgID + "_Circular" + ".pdf", PDF_CIRCULAR_FOLDER, "isOpen");
+            }
+        }
+        else if(Title.equals("Fee Receipt")) {
+            String InvoiceID = getIntent().getExtras().getString("ID", "");
+
+            final File dir;
+            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                dir = new File(Environment.getExternalStorageDirectory().getPath()
+                        + PDF_FEE_FOLDER);
+            } else {
+                dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
+                        + PDF_FEE_FOLDER);
+            }
+            if (!dir.exists()) {
+                dir.mkdirs();
+                System.out.println("Dir: " + dir);
+            }
+            File futureStudioIconFile = new File(dir, InvoiceID+"_FeeReceipt" +".pdf");//"Hai.mp3"
+
+
+            if (futureStudioIconFile.exists())
+            {
+                pdfView.fromFile(new File(futureStudioIconFile.getPath()))
+                        .load();
+            }
+            else {
+                downLoadFeeReceipt(InvoiceID+"_FeeReceipt" + ".pdf", PDF_FEE_FOLDER, "isOpen");
+            }
+
+        }
+        else {
+            long unixTime = System.currentTimeMillis() / 1000L;
+            String timeStamp = String.valueOf(unixTime);
+            downLoadFeeReceipt(timeStamp+"_Certificates" +".pdf",PDF_CERTIFICATE_FOLDER,"isOpen");
+        }
+
+
         receiptWebView = findViewById(R.id.receiptWebView);
         btnDownload = findViewById(R.id.btnDownload);
-
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
 
@@ -102,42 +167,20 @@ public class PdfWebView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-//                String fileName = "certificate.pdf";
-//
-//               File dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath() + "CERTIFICATES");
-//               if (!dir.exists()) {
-//                    dir.mkdirs();
-//                }
-//
-//                File futureStudioIconFile1 = new File(dir, fileName);
-//                // https://developer.android.com/reference/android/app/DownloadManager.Request
-//                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(PdfURL))
-//                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-//                        .setTitle("downloaded")
-//                        .setDescription("file")
-//                        .setDestinationInExternalFilesDir(getApplicationContext(), dir.getPath(), fileName)
-//                        .setTitle(fileName)
-//                        .setMimeType("application/pdf");
-//
-//                DownloadManager dm = (DownloadManager)getSystemService(DOWNLOAD_SERVICE);
-//                downloadId = dm.enqueue(request); // add download request to the queue
-
-
                 if(Title.equals("Circular")){
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
-                    downLoadFeeReceipt(timeStamp+"_Circular" +".pdf",PDF_CIRCULAR_FOLDER);
+                    downLoadFeeReceipt(timeStamp+"_Circular" +".pdf",PDF_CIRCULAR_FOLDER,"");
                 }
                 else if(Title.equals("Fee Receipt")) {
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
-                    downLoadFeeReceipt(timeStamp+"_FeeReceipt" +".pdf",PDF_FEE_FOLDER);
+                    downLoadFeeReceipt(timeStamp+"_FeeReceipt" +".pdf",PDF_FEE_FOLDER,"");
                 }
                 else {
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
-                    downLoadFeeReceipt(timeStamp+"_Certificates" +".pdf",PDF_CERTIFICATE_FOLDER);
+                    downLoadFeeReceipt(timeStamp+"_Certificates" +".pdf",PDF_CERTIFICATE_FOLDER,"");
                 }
 
             }
@@ -160,10 +203,8 @@ public class PdfWebView extends AppCompatActivity {
         receiptWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 if (progress < 100) {
-                    progressDialog.show();
                 }
                 if (progress == 100) {
-                    progressDialog.dismiss();
                 }
             }
         });
@@ -209,11 +250,16 @@ public class PdfWebView extends AppCompatActivity {
         }
     };
 
-    private void downLoadFeeReceipt(String filename,String folder) {
+    private void downLoadFeeReceipt(String filename,String folder,String type) {
 
         mProgressDialog = new ProgressDialog(PdfWebView.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Downloading...");
+        if(type.equals("isOpen")){
+            mProgressDialog.setMessage("Please wait...");
+        }
+        else {
+            mProgressDialog.setMessage("Downloading...");
+        }
         mProgressDialog.setCancelable(false);
         if (!PdfWebView.this.isFinishing())
             mProgressDialog.show();
@@ -240,7 +286,14 @@ public class PdfWebView extends AppCompatActivity {
                         protected void onPostExecute(Boolean status) {
                             super.onPostExecute(status);
                             if (status) {
+                                if(type.equals("isOpen")){
+                                    pdfView.fromFile(new File(pdfFilePath))
+                                            .load();
+                                }
+                                else {
                                     showAlert(PdfWebView.this, "Success", "File stored in: " + folder + "/" + filename);
+
+                                }
                             }
                         }
                     }.execute();
@@ -282,7 +335,6 @@ public class PdfWebView extends AppCompatActivity {
             {
                 File futureStudioIconFile1 = new File(dir, fileName);
                 futureStudioIconFile=futureStudioIconFile1;
-
             }
 
             System.out.println("futureStudioIconFile: " + futureStudioIconFile);
@@ -291,6 +343,9 @@ public class PdfWebView extends AppCompatActivity {
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
+
+            pdfFilePath = futureStudioIconFile.getPath();
+
 
             try {
                 byte[] fileReader = new byte[4096];

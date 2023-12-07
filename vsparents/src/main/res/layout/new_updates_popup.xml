@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="30dp"
+    android:id="@+id/rytParent"
+    android:background="@color/bpTransparent_black"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lnrParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_rect_white"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/imgClose"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:visibility="gone"
+            android:src="@drawable/ic_rounded_close" />
+
+        <TextView
+            android:id="@+id/lblTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Pending Amount"
+            android:textColor="@color/clr_black"
+            android:textSize="18dp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsdScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/lnrContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lblContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:lineSpacingExtra="5dp"
+                    android:text="Our Services will be deactivated soon due to outstanding bill due (Rs. 5000.0). Please contact your account manager for more details. Kindly ignore if already paid."
+                    android:textColor="@color/clr_black"
+                    android:textSize="16dp" />
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="300dp"
+                    android:layout_marginVertical="15dp"
+                    android:paddingHorizontal="20dp"
+                    android:scaleType="fitCenter"
+                    app:shapeAppearanceOverlay="@style/roundedCornersImageView"
+                    app:srcCompat="@drawable/image_c" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp">
+
+
+            <TextView
+                android:id="@+id/lblSkip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="SKIP"
+                android:paddingVertical="10dp"
+                android:textColor="@color/bpRed"
+                android:textSize="15dp"
+                android:visibility="visible" />
+
+
+            <TextView
+                android:id="@+id/lblPrevious"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="PREVIOUS"
+                android:paddingVertical="10dp"
+                android:textColor="@color/bpBlue"
+                android:textSize="15dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/lblNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="NEXT"
+                android:paddingVertical="10dp"
+                android:textColor="@color/bpBlue"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
+

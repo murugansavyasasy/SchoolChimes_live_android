@@ -93,14 +93,13 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
                     System.out.println("VOICE_FOLDER1: " + VOICE_FOLDER);
 
                     String filename = String.valueOf(circular.getMsgID());
-                    DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "");
+                    DownloadFileFromURL. downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "");
 
 
                 }
                 else {
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
-
                     System.out.println("Title: " + circular.getMsgTitle());
                     System.out.println("msg_type: " + MSG_TYPE_VOICE);
                     System.out.println("circular: " + circular);

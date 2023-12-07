@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.Constants.updates;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,17 +11,20 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 
 import android.os.Handler;
 import android.provider.ContactsContract;
@@ -27,6 +32,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -38,6 +45,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdView;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.BuildConfig;
@@ -45,14 +53,21 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.ChildMenuAdapter;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.interfaces.OnItemHomeworkClick;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
+import com.vs.schoolmessenger.interfaces.UpdatesListener;
+import com.vs.schoolmessenger.model.HomeWorkData;
 import com.vs.schoolmessenger.model.Languages;
+import com.vs.schoolmessenger.model.NewUpdatesData;
+import com.vs.schoolmessenger.model.NewUpdatesModel;
 import com.vs.schoolmessenger.model.ParentMenuModel;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
+import com.vs.schoolmessenger.payment.PdfWebView;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
+import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -64,7 +79,11 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
@@ -104,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     int Contact_Count = 0;
     int exist_Count = 0;
 
-    String contact_alert_title = "", contact_alert_Content = "", contact_display_name = "", contact_numbers = "",contact_button = "";
+    String contact_alert_title = "", contact_alert_Content = "", contact_display_name = "", contact_numbers = "", contact_button = "";
     String[] contacts;
     String Display_Name = "";
 
@@ -112,7 +131,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private PopupWindow SettingspopupWindow;
 
     AdView mAdView;
+    String redirect_url = "";
+    String image_url = "";
+    String title = "";
+    String content = "";
 
+    List<NewUpdatesData> newUpdatesDataList = new ArrayList<NewUpdatesData>();
+
+    int initial_pos = 0;
+
+    PopupWindow updatespopupWindow;
+    PopupWindow updatesManualPopup;
+
+    ChildMenuAdapter myAdapter;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -144,7 +175,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 onBackPressed();
             }
         });
-
 
         Slider.init(new PicassoImageLoadingService(HomeActivity.this));
         slider = findViewById(R.id.banner);
@@ -190,15 +220,412 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void getNewUpdates(boolean dailyCheck) {
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        String Role = TeacherUtil_SharedPreference.getRole(HomeActivity.this);
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("staff_role", Role);
+        jsonObject.addProperty("member_id", childItem.getChildID());
+        jsonObject.addProperty("instituteid", childItem.getSchoolID());
+        Log.d("jsonObjectReq", jsonObject.toString());
+        Call<NewUpdatesModel> call = apiService.getNewUpdateDetails(jsonObject);
+
+        call.enqueue(new Callback<NewUpdatesModel>() {
+            @Override
+            public void onResponse(Call<NewUpdatesModel> call, retrofit2.Response<NewUpdatesModel> response) {
+                try {
+
+                    Log.d("daily:code-res", response.code() + " - " + response.toString());
+                    newUpdatesDataList.clear();
+                    if (response.code() == 200 || response.code() == 201) {
+                        Gson gson = new Gson();
+                        String json = gson.toJson(response.body());
+                        Log.d("updates_Response", json);
+                        int status = response.body().getStatus();
+                        String message = response.body().getMessage();
+
+                        if (status == 1) {
+                            newUpdatesDataList = response.body().getData();
+                            if (newUpdatesDataList.size() > 0) {
+
+                                String name = menuList.get(0).getMenu_name();
+                                if(!name.equals(updates)) {
+                                    ParentMenuModel data = new ParentMenuModel(updates, "0");
+                                    menuList.add(0, data);
+                                    myAdapter.notifyDataSetChanged();
+                                }
+
+
+                                String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(HomeActivity.this);
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                String formattedDate = df.format(c.getTime());
+                                SharedPreferences sharedPrefs = getSharedPreferences("DisplayTimePref", 0);
+                                SharedPreferences.Editor prefsEditor = sharedPrefs.edit();
+                                prefsEditor.putString("displayedTime", formattedDate).commit();
+                                prefsEditor.apply();
+
+                                Log.d("initial_pos1",pos);
+
+                                if (dailyCheck) {
+                                    initial_pos = 0;
+
+                                    if(updatesManualPopup == null){
+                                        manualUpdatesPopup();
+                                    }
+                                   else if(!updatesManualPopup.isShowing()) {
+                                        manualUpdatesPopup();
+                                    }
+
+                                }
+                                else {
+                                    if (newUpdatesDataList.size() - 1 > Integer.parseInt(pos)) {
+                                        newUpdatesPoup();
+                                    }
+                                    else {
+                                        String date = sharedPrefs.getString("displayedTime", "");
+                                        if (!date.equals(formattedDate)) {
+                                            TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(HomeActivity.this, String.valueOf(0));
+                                            newUpdatesPoup();
+
+                                        }
+                                    }
+                                }
+
+
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    Log.e("Response Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewUpdatesModel> call, Throwable t) {
+                Log.e("Response Failure", t.getMessage());
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    private void manualUpdatesPopup() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.new_updates_popup, null);
+        updatesManualPopup = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        updatesManualPopup.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                updatesManualPopup.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        ImageView imgClose = (ImageView) layout.findViewById(R.id.imgClose);
+        ImageView img = (ImageView) layout.findViewById(R.id.img);
+
+        TextView lblTitle = (TextView) layout.findViewById(R.id.lblTitle);
+        TextView lblContent = (TextView) layout.findViewById(R.id.lblContent);
+        TextView lblSkip = (TextView) layout.findViewById(R.id.lblSkip);
+        TextView lblNext = (TextView) layout.findViewById(R.id.lblNext);
+        TextView lblPrevious = (TextView) layout.findViewById(R.id.lblPrevious);
+        LinearLayout lnrParent = (LinearLayout) layout.findViewById(R.id.lnrParent);
+        LinearLayout lnrContent = (LinearLayout) layout.findViewById(R.id.lnrContent);
+
+        Typeface roboto_bold = Typeface.createFromAsset(getAssets(), "fonts/roboto_bold.ttf");
+        Typeface roboto_regular = Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.ttf");
+
+        lblTitle.setTypeface(roboto_bold);
+        lblSkip.setTypeface(roboto_bold);
+        lblNext.setTypeface(roboto_bold);
+        lblPrevious.setTypeface(roboto_bold);
+        lblContent.setTypeface(roboto_regular);
+
+
+        Animation slide_in_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.enter);
+        Animation slide_out_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right);
+
+        title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+        content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+        image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+        redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+
+        lblTitle.setText(title);
+        lblContent.setText(content);
+        Glide.with(HomeActivity.this)
+                .load(image_url)
+                .into(img);
+
+
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initial_pos = 0;
+                updatesManualPopup.dismiss();
+            }
+        });
+
+        lblSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatesManualPopup.dismiss();
+            }
+        });
+
+        lblNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lblPrevious.setVisibility(View.VISIBLE);
+                initial_pos = initial_pos + 1;
+                if (initial_pos == newUpdatesDataList.size() - 1) {
+                    lblNext.setVisibility(View.GONE);
+                }
+
+                title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+                content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+                image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+                redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+
+                lblTitle.setText(title);
+                lblContent.setText(content);
+                Glide.with(HomeActivity.this)
+                        .load(image_url)
+                        .into(img);
+
+                img.startAnimation(slide_in_anim);
+                lblContent.startAnimation(slide_in_anim);
+
+
+            }
+        });
+
+        lblPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (initial_pos != 0) {
+                    initial_pos = initial_pos - 1;
+                }
+
+                if (initial_pos == 0) {
+                    lblPrevious.setVisibility(View.GONE);
+                }
+
+                if (initial_pos != newUpdatesDataList.size() - 1) {
+                    lblNext.setVisibility(View.VISIBLE);
+                }
+
+                title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+                content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+                image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+                redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+
+                lblTitle.setText(title);
+                lblContent.setText(content);
+                Glide.with(HomeActivity.this)
+                        .load(image_url)
+                        .into(img);
+
+                img.startAnimation(slide_out_anim);
+                lblContent.startAnimation(slide_out_anim);
+
+
+            }
+        });
+
+        lnrContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updatesManualPopup.dismiss();
+                if (!redirect_url.equals("")) {
+                    Intent receipt = new Intent(HomeActivity.this, NewUpdateWebView.class);
+                    receipt.putExtra("URL", redirect_url);
+                    receipt.putExtra("tittle", title);
+                    startActivity(receipt);
+                }
+            }
+        });
+
+    }
+
+    private void newUpdatesPoup() {
+        String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(HomeActivity.this);
+        initial_pos = Integer.parseInt(pos);
+        Log.d("initial_pos2", String.valueOf(initial_pos));
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.new_updates_popup, null);
+        updatespopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        updatespopupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                updatespopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        ImageView imgClose = (ImageView) layout.findViewById(R.id.imgClose);
+        ImageView img = (ImageView) layout.findViewById(R.id.img);
+
+        TextView lblTitle = (TextView) layout.findViewById(R.id.lblTitle);
+        TextView lblContent = (TextView) layout.findViewById(R.id.lblContent);
+        TextView lblSkip = (TextView) layout.findViewById(R.id.lblSkip);
+        TextView lblNext = (TextView) layout.findViewById(R.id.lblNext);
+        TextView lblPrevious = (TextView) layout.findViewById(R.id.lblPrevious);
+        LinearLayout lnrParent = (LinearLayout) layout.findViewById(R.id.lnrParent);
+        LinearLayout lnrContent = (LinearLayout) layout.findViewById(R.id.lnrContent);
+
+        Typeface roboto_bold = Typeface.createFromAsset(getAssets(), "fonts/roboto_bold.ttf");
+        Typeface roboto_regular = Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.ttf");
+
+        lblTitle.setTypeface(roboto_bold);
+        lblSkip.setTypeface(roboto_bold);
+        lblNext.setTypeface(roboto_bold);
+        lblPrevious.setTypeface(roboto_bold);
+        lblContent.setTypeface(roboto_regular);
+
+
+        Animation slide_in_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.enter);
+        Animation slide_out_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right);
+
+        title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+        content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+        image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+        redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+
+        lblTitle.setText(title);
+        lblContent.setText(content);
+        Glide.with(HomeActivity.this)
+                .load(image_url)
+                .into(img);
+
+
+        if (initial_pos == newUpdatesDataList.size() - 1) {
+            lblNext.setVisibility(View.GONE);
+        }
+
+        if (initial_pos == 0) {
+            lblPrevious.setVisibility(View.GONE);
+        }
+
+        if (initial_pos != newUpdatesDataList.size() - 1) {
+            lblNext.setVisibility(View.VISIBLE);
+        }
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initial_pos = 0;
+                updatespopupWindow.dismiss();
+            }
+        });
+
+        lblSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(HomeActivity.this);
+                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(HomeActivity.this, String.valueOf(Integer.parseInt(pos)+1));
+                updatespopupWindow.dismiss();
+            }
+        });
+
+        lblNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lblPrevious.setVisibility(View.VISIBLE);
+
+                String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(HomeActivity.this);
+                initial_pos = Integer.parseInt(pos) + 1;
+
+                if (initial_pos == newUpdatesDataList.size() - 1) {
+                    lblNext.setVisibility(View.GONE);
+                }
+
+                title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+                content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+                image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+                redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(HomeActivity.this, String.valueOf(initial_pos));
+
+                lblTitle.setText(title);
+                lblContent.setText(content);
+                Glide.with(HomeActivity.this)
+                        .load(image_url)
+                        .into(img);
+
+                img.startAnimation(slide_in_anim);
+                lblContent.startAnimation(slide_in_anim);
+
+
+            }
+        });
+
+        lblPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(HomeActivity.this);
+                initial_pos = Integer.parseInt(pos);
+
+                if (initial_pos != 0) {
+                    initial_pos = Integer.parseInt(pos) - 1;
+                }
+
+                if (initial_pos == 0) {
+                    lblPrevious.setVisibility(View.GONE);
+                }
+
+                if (initial_pos != newUpdatesDataList.size() - 1) {
+                    lblNext.setVisibility(View.VISIBLE);
+                }
+
+                title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+                content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+                image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+                redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(HomeActivity.this, String.valueOf(initial_pos));
+
+                lblTitle.setText(title);
+                lblContent.setText(content);
+                Glide.with(HomeActivity.this)
+                        .load(image_url)
+                        .into(img);
+
+                img.startAnimation(slide_out_anim);
+                lblContent.startAnimation(slide_out_anim);
+
+
+            }
+        });
+
+        lnrContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updatespopupWindow.dismiss();
+                if (!redirect_url.equals("")) {
+                    Intent receipt = new Intent(HomeActivity.this, NewUpdateWebView.class);
+                    receipt.putExtra("URL", redirect_url);
+                    receipt.putExtra("tittle", title);
+                    startActivity(receipt);
+                }
+            }
+        });
+    }
+
     private void getContactPermission() {
         // Check the SDK version and whether the permission is already granted or not.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS,Manifest.permission.SCHEDULE_EXACT_ALARM}, PERMISSIONS_REQUEST_READ_CONTACTS);
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SCHEDULE_EXACT_ALARM}, PERMISSIONS_REQUEST_READ_CONTACTS);
             //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
         } else {
             checkIfContactsExist();
             // Android version is lesser than 6.0 or the permission is already granted.
-          Log.d("Granded","Granded");
+            Log.d("Granded", "Granded");
         }
     }
 
@@ -212,14 +639,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 String isPermissionDeniedCount = TeacherUtil_SharedPreference.getReadContactsPermission(HomeActivity.this);
 
-               if(isPermissionDeniedCount.equals("2")){
-                   settingsContactPermission();
-               }
-
-               else if(isPermissionDeniedCount.equals("1")) {
+                if (isPermissionDeniedCount.equals("2")) {
+                    settingsContactPermission();
+                } else if (isPermissionDeniedCount.equals("1")) {
                     TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "2");
-                }
-                else {
+                } else {
                     TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "1");
                 }
             }
@@ -252,9 +676,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     SettingspopupWindow.dismiss();
                     startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
-                }
-                catch (Exception e){
-                    Log.d("saveexception",e.toString());
+                } catch (Exception e) {
+                    Log.d("saveexception", e.toString());
                 }
             }
         });
@@ -274,13 +697,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         jsonObject.addProperty("schoolid", childItem.getSchoolID());
         jsonArray.add(jsonObject);
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
         JsonObject jsonObjectlanguage = new JsonObject();
         jsonObjectlanguage.add("MemberData", jsonArray);
         jsonObjectlanguage.addProperty("LanguageId", "1");
@@ -293,8 +709,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+
 
                 Log.d("GetMenuDetails:code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
@@ -324,7 +739,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             contact_button = jsonObject.getString("contact_button_content");
 
 
-                            if(!contact_numbers.equals("")) {
+                            if (!contact_numbers.equals("")) {
                                 contacts = contact_numbers.split(",");
                                 getContactPermission();
                             }
@@ -348,8 +763,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
             }
         });
@@ -360,9 +773,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         exist_Count = 0;
         ContentResolver contentResolver = HomeActivity.this.getContentResolver();
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        String[] projection = new String[] { ContactsContract.PhoneLookup._ID };
+        String[] projection = new String[]{ContactsContract.PhoneLookup._ID};
         String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?";
-        String[] selectionArguments = { contact_display_name };
+        String[] selectionArguments = {contact_display_name};
         Cursor cursor = contentResolver.query(uri, projection, selection, selectionArguments, null);
         exist_Count = cursor.getCount();
         if (cursor != null) {
@@ -383,9 +796,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
                         Display_Name = cur.getString(indexName);
                         Log.d("Display_Name", Display_Name);
-                            if (!Display_Name.equals(contact_display_name)) {
-                                Contact_Count = Contact_Count - 1;
-                            }
+                        if (!Display_Name.equals(contact_display_name)) {
+                            Contact_Count = Contact_Count - 1;
+                        }
                     }
                 } finally {
                     if (cur != null)
@@ -393,8 +806,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
-        if (contacts.length != Contact_Count ) {
-            if(exist_Count == 0 || exist_Count < contacts.length) {
+        if (contacts.length != Contact_Count) {
+            if (exist_Count == 0 || exist_Count < contacts.length) {
                 contactSaveContent();
             }
         }
@@ -465,9 +878,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
             startActivityForResult(intent, 100);
 
-        }
-        catch (Exception e){
-            Log.d("saveContactError",e.toString());
+        } catch (Exception e) {
+            Log.d("saveContactError", e.toString());
         }
 
     }
@@ -716,7 +1128,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         Constants.Menu_ID = "101";
-        ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard",mAdView);
+        ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
         getMenuDetails();
     }
 
@@ -769,6 +1181,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         String exam_marks = jsonObject.getString("EXAMMARKS");
 
                         menuList.clear();
+
+                        if (updatespopupWindow == null) {
+                            getNewUpdates(false);
+                        } else {
+                            if (!updatespopupWindow.isShowing()) {
+                                getNewUpdates(false);
+                            }
+                        }
 
                         for (int i = 0; i < isParentMenuNames.size(); i++) {
                             String name = isParentMenuNames.get(i);
@@ -857,10 +1277,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
                         }
-                        ChildMenuAdapter myAdapter = new ChildMenuAdapter(HomeActivity.this, R.layout.child_menu_item, menuList, BookLink,rytParent);
+                        myAdapter = new ChildMenuAdapter(HomeActivity.this, R.layout.child_menu_item, menuList, BookLink, rytParent, new UpdatesListener() {
+                            @Override
+                            public void onMsgItemClick(String name) {
+                                if (name.equals(updates)) {
+                                    if (newUpdatesDataList.size() > 0) {
+                                        getNewUpdates(true);
+                                    }
+                                }
+                            }
+                        });
                         idGridMenus.setSelection(TeacherUtil_Common.scroll_to_position);
                         idGridMenus.setAdapter(myAdapter);
-
 
 
                     } else {

@@ -209,7 +209,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(R.string.role);
 
             aHome_llSchoollayout.setVisibility(View.VISIBLE);
-            aHome_tvSchoolName.setText("Logged As "+ role_display);
+            aHome_tvSchoolName.setText(role_display);
             aHome_llSchoollayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -2,7 +2,6 @@ package com.vs.schoolmessenger.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -14,11 +13,14 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,6 +41,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -51,18 +55,26 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.BuildConfig;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.FeePendingAlertAdapter;
 import com.vs.schoolmessenger.adapter.SchoolMenuAdapter;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.fcmservices.Config;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
+import com.vs.schoolmessenger.interfaces.UpdatesListener;
 import com.vs.schoolmessenger.model.Languages;
+import com.vs.schoolmessenger.model.NewUpdatesData;
+import com.vs.schoolmessenger.model.NewUpdatesModel;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.Constants;
+import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -76,13 +88,18 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ss.com.bannerslider.Slider;
+
+import static com.vs.schoolmessenger.util.Constants.updates;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
 
 public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickListener {
@@ -123,7 +140,19 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     private PopupWindow SettingspopupWindow;
     private PopupWindow ContactpopupWindow;
 
+    AdView mAdView;
+    Slider slider;
+    ImageView adImage;
+    private List<NewUpdatesData> newUpdatesDataList = new ArrayList<NewUpdatesData>();
 
+    int initial_pos = 0;
+    String redirect_url = "";
+    String image_url = "";
+    String title = "";
+    String content = "";
+
+    SchoolMenuAdapter myAdapter;
+    PopupWindow updatesManualPopup;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -140,6 +169,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         changeLanguageInitial(lang);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
+
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -225,8 +255,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         nivSchoolLogo = (ImageView) findViewById(R.id.aHome_nivSchoolLogo);
 
         String display_name = TeacherUtil_SharedPreference.getDisplayRoleMessage(Teacher_AA_Test.this);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.logged);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("As "+display_name);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(display_name);
 
         if (Role.equals("p3")) {
             Bundle extras = getIntent().getExtras();
@@ -276,6 +306,11 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 changeLoginType();
             }
         });
+        mAdView = findViewById(R.id.adView);
+        Slider.init(new PicassoImageLoadingService(Teacher_AA_Test.this));
+        slider = findViewById(R.id.banner);
+        adImage = findViewById(R.id.adImage);
+
         rytLanguage = (RelativeLayout) findViewById(R.id.rytLanguage);
         rytHelp = (RelativeLayout) findViewById(R.id.rytHelp);
         rytPassword = (RelativeLayout) findViewById(R.id.rytPassword);
@@ -292,14 +327,412 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             rytHome.setVisibility(View.VISIBLE);
         }
 
-        getMenuDetails();
-
         String alertMessage =TeacherUtil_SharedPreference.getLoginMessage(Teacher_AA_Test.this);
         if(!alertMessage.equals("Success")) {
             if (Role.equals("p1") || Role.equals("p2")) {
                 showPaymentPendingAlert();
             }
         }
+
+    }
+
+    private void manualUpdatesPopup(){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.new_updates_popup, null);
+        updatesManualPopup = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        updatesManualPopup.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                updatesManualPopup.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        ImageView imgClose = (ImageView) layout.findViewById(R.id.imgClose);
+        ImageView img = (ImageView) layout.findViewById(R.id.img);
+
+        TextView lblTitle = (TextView) layout.findViewById(R.id.lblTitle);
+        TextView lblContent = (TextView) layout.findViewById(R.id.lblContent);
+        TextView lblSkip = (TextView) layout.findViewById(R.id.lblSkip);
+        TextView lblNext = (TextView) layout.findViewById(R.id.lblNext);
+        TextView lblPrevious = (TextView) layout.findViewById(R.id.lblPrevious);
+        LinearLayout lnrParent = (LinearLayout) layout.findViewById(R.id.lnrParent);
+        LinearLayout lnrContent = (LinearLayout) layout.findViewById(R.id.lnrContent);
+
+        Typeface roboto_bold = Typeface.createFromAsset(getAssets(), "fonts/roboto_bold.ttf");
+        Typeface roboto_regular = Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.ttf");
+
+        lblTitle.setTypeface(roboto_bold);
+        lblSkip.setTypeface(roboto_bold);
+        lblNext.setTypeface(roboto_bold);
+        lblPrevious.setTypeface(roboto_bold);
+        lblContent.setTypeface(roboto_regular);
+
+
+        Animation slide_in_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.enter);
+        Animation slide_out_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right);
+
+        title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+        content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+        image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+        redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+
+        lblTitle.setText(title);
+        lblContent.setText(content);
+        Glide.with(Teacher_AA_Test.this)
+                .load(image_url)
+                .into(img);
+
+
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initial_pos = 0;
+                updatesManualPopup.dismiss();
+            }
+        });
+
+        lblSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatesManualPopup.dismiss();
+            }
+        });
+
+        lblNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lblPrevious.setVisibility(View.VISIBLE);
+                initial_pos = initial_pos + 1;
+                if (initial_pos == newUpdatesDataList.size() - 1) {
+                    lblNext.setVisibility(View.GONE);
+                }
+
+                title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+                content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+                image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+                redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+
+                lblTitle.setText(title);
+                lblContent.setText(content);
+                Glide.with(Teacher_AA_Test.this)
+                        .load(image_url)
+                        .into(img);
+
+                img.startAnimation(slide_in_anim);
+                lblContent.startAnimation(slide_in_anim);
+
+
+            }
+        });
+
+        lblPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (initial_pos != 0) {
+                    initial_pos = initial_pos - 1;
+                }
+
+                if (initial_pos == 0) {
+                    lblPrevious.setVisibility(View.GONE);
+                }
+
+                if (initial_pos != newUpdatesDataList.size() - 1) {
+                    lblNext.setVisibility(View.VISIBLE);
+                }
+
+                title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+                content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+                image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+                redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+
+                lblTitle.setText(title);
+                lblContent.setText(content);
+                Glide.with(Teacher_AA_Test.this)
+                        .load(image_url)
+                        .into(img);
+
+                img.startAnimation(slide_out_anim);
+                lblContent.startAnimation(slide_out_anim);
+
+
+            }
+        });
+
+        lnrContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updatesManualPopup.dismiss();
+                if (!redirect_url.equals("")) {
+                    Intent receipt = new Intent(Teacher_AA_Test.this, NewUpdateWebView.class);
+                    receipt.putExtra("URL", redirect_url);
+                    receipt.putExtra("tittle", title);
+                    startActivity(receipt);
+                }
+            }
+        });
+
+    }
+
+    private void newUpdatesPoup() {
+        String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(Teacher_AA_Test.this);
+        initial_pos = Integer.parseInt(pos);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.new_updates_popup, null);
+        PopupWindow popupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        popupWindow.setContentView(layout);
+        rytParent.post(new Runnable() {
+            public void run() {
+                popupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        ImageView imgClose = (ImageView) layout.findViewById(R.id.imgClose);
+        ImageView img = (ImageView) layout.findViewById(R.id.img);
+
+        TextView lblTitle = (TextView) layout.findViewById(R.id.lblTitle);
+        TextView lblContent = (TextView) layout.findViewById(R.id.lblContent);
+        TextView lblSkip = (TextView) layout.findViewById(R.id.lblSkip);
+        TextView lblNext = (TextView) layout.findViewById(R.id.lblNext);
+        TextView lblPrevious = (TextView) layout.findViewById(R.id.lblPrevious);
+        LinearLayout lnrParent = (LinearLayout) layout.findViewById(R.id.lnrParent);
+        LinearLayout lnrContent = (LinearLayout) layout.findViewById(R.id.lnrContent);
+
+        Typeface roboto_bold=Typeface.createFromAsset(getAssets(), "fonts/roboto_bold.ttf");
+        Typeface roboto_regular=Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.ttf");
+
+        lblTitle.setTypeface(roboto_bold);
+        lblSkip.setTypeface(roboto_bold);
+        lblNext.setTypeface(roboto_bold);
+        lblPrevious.setTypeface(roboto_bold);
+        lblContent.setTypeface(roboto_regular);
+
+        Animation slide_in_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.enter);
+        Animation slide_out_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right);
+
+        title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+        content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+        image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+        redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+
+        lblTitle.setText(title);
+        lblContent.setText(content);
+        Glide.with(Teacher_AA_Test.this)
+                .load(image_url)
+                .into(img);
+
+        if(initial_pos == newUpdatesDataList.size()-1){
+            lblNext.setVisibility(View.GONE);
+        }
+
+        if(initial_pos == 0){
+            lblPrevious.setVisibility(View.GONE);
+        }
+
+        if(initial_pos != newUpdatesDataList.size()-1){
+            lblNext.setVisibility(View.VISIBLE);
+        }
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initial_pos = 0;
+                popupWindow.dismiss();
+            }
+        });
+
+        lblSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(Teacher_AA_Test.this);
+                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this, String.valueOf(Integer.parseInt(pos)+1));
+                popupWindow.dismiss();
+            }
+        });
+
+        lblNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lblPrevious.setVisibility(View.VISIBLE);
+
+                String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(Teacher_AA_Test.this);
+                initial_pos = Integer.parseInt(pos) + 1;
+
+                if(initial_pos == newUpdatesDataList.size()-1){
+                    lblNext.setVisibility(View.GONE);
+                }
+
+                title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+                content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+                image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+                redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this,String.valueOf(initial_pos));
+
+                lblTitle.setText(title);
+                lblContent.setText(content);
+                Glide.with(Teacher_AA_Test.this)
+                        .load(image_url)
+                        .into(img);
+
+                img.startAnimation(slide_in_anim);
+                lblContent.startAnimation(slide_in_anim);
+
+            }
+        });
+
+        lblPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(Teacher_AA_Test.this);
+                initial_pos = Integer.parseInt(pos);
+
+                if(initial_pos != 0) {
+                    initial_pos = Integer.parseInt(pos) - 1;
+                }
+
+                if(initial_pos == 0){
+                    lblPrevious.setVisibility(View.GONE);
+                }
+
+                if(initial_pos != newUpdatesDataList.size()-1){
+                    lblNext.setVisibility(View.VISIBLE);
+                }
+
+                title = newUpdatesDataList.get(initial_pos).getUpdate_name();
+                content = newUpdatesDataList.get(initial_pos).getUpdate_description();
+                image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
+                redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
+                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this,String.valueOf(initial_pos));
+
+                lblTitle.setText(title);
+                lblContent.setText(content);
+                Glide.with(Teacher_AA_Test.this)
+                        .load(image_url)
+                        .into(img);
+
+                img.startAnimation(slide_out_anim);
+                lblContent.startAnimation(slide_out_anim);
+
+            }
+        });
+
+        lnrContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                if(!redirect_url.equals("")) {
+                    Intent receipt = new Intent(Teacher_AA_Test.this, NewUpdateWebView.class);
+                    receipt.putExtra("URL", redirect_url);
+                    receipt.putExtra("tittle", title);
+                    startActivity(receipt);
+                }
+            }
+        });
+
+    }
+
+    private void getNewUpdates(boolean dailyCheck) {
+        String institute_id = "";
+        String member_id = "";
+        if (schools_list != null) {
+            for (int i = 0; i < schools_list.size(); i++) {
+                final TeacherSchoolsModel model = schools_list.get(i);
+                institute_id = institute_id +model.getStrSchoolID()+"~";
+                member_id = member_id +model.getStrStaffID()+"~";
+            }
+        }
+        institute_id = institute_id.substring(0, institute_id.length() - 1);
+        member_id = member_id.substring(0, member_id.length() - 1);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("staff_role", Role);
+        jsonObject.addProperty("member_id", member_id);
+        jsonObject.addProperty("instituteid", institute_id);
+        Log.d("jsonObjectReq", jsonObject.toString());
+        Call<NewUpdatesModel> call = apiService.getNewUpdateDetails(jsonObject);
+
+        call.enqueue(new Callback<NewUpdatesModel>() {
+            @Override
+            public void onResponse(Call<NewUpdatesModel> call, retrofit2.Response<NewUpdatesModel> response) {
+                try {
+                    Log.d("daily:code-res", response.code() + " - " + response.toString());
+                    newUpdatesDataList.clear();
+                    if (response.code() == 200 || response.code() == 201) {
+                        Gson gson = new Gson();
+                        String json = gson.toJson(response.body());
+                        Log.d("Response", json);
+                        int status = response.body().getStatus();
+                        String message = response.body().getMessage();
+                        if(status == 1){
+                            newUpdatesDataList = response.body().getData();
+                            if(newUpdatesDataList.size() > 0) {
+
+                                String name = isPrincipalMenuNames.get(0).toString();
+                                if(!name.equals(updates)) {
+                                    isPrincipalMenuNames.add(0, updates);
+                                    myAdapter.notifyDataSetChanged();
+                                }
+
+                                String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(Teacher_AA_Test.this);
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                String formattedDate = df.format(c.getTime());
+
+                                SharedPreferences sharedPrefs = getSharedPreferences("DisplayTimePref", 0);
+                                SharedPreferences.Editor prefsEditor = sharedPrefs.edit();
+                                prefsEditor.putString("displayedTime", formattedDate).commit();
+                                prefsEditor.apply();
+
+                                if (dailyCheck) {
+                                    initial_pos = 0;
+                                    if(updatesManualPopup == null){
+                                        manualUpdatesPopup();
+                                    }
+                                    else if(!updatesManualPopup.isShowing()) {
+                                        manualUpdatesPopup();
+                                    }
+                                }
+                                else {
+                                    if (newUpdatesDataList.size() - 1 > Integer.parseInt(pos)) {
+                                        newUpdatesPoup();
+                                    }
+                                    else {
+                                        String date = sharedPrefs.getString("displayedTime", "");
+                                        if (!date.equals(formattedDate)) {
+                                            TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this, String.valueOf(0));
+                                            newUpdatesPoup();
+
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    Log.e("Response Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewUpdatesModel> call, Throwable t) {
+
+                Log.e("Response Failure", t.getMessage());
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 
@@ -310,7 +743,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
         } else {
             checkIfContactsExist();
-            // Android version is lesser than 6.0 or the permission is already granted.
             Log.d("Granded","Granded");
         }
     }
@@ -389,13 +821,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             }
         }
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
         JsonObject jsonObjectlanguage = new JsonObject();
         jsonObjectlanguage.add("MemberData", jsonArray);
         jsonObjectlanguage.addProperty("LanguageId", "1");
@@ -407,8 +832,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+
 
                 Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
@@ -417,7 +841,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-
                         JSONObject jsonObject = js.getJSONObject(0);
                         String status = jsonObject.getString("Status");
                         String message = jsonObject.getString("Message");
@@ -432,6 +855,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                                 isPrincipalMenuNames.add(itemtemp);
                             }
 
+                            getNewUpdates(false);
 
                             String alert_message = jsonObject.getString("alert_message");
                             if(!alert_message.equals("")){
@@ -453,7 +877,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                                 contacts = contact_numbers.split(",");
                                 getContactPermission();
                             }
-
                         }
 
                         selectedLoginType();
@@ -468,7 +891,16 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             }
                         }
                         setupBottomBar();
-                        SchoolMenuAdapter myAdapter=new SchoolMenuAdapter(Teacher_AA_Test.this,R.layout.school_menu_card_item,isPrincipalMenuNames,BookLink,rytParent);
+                         myAdapter=new SchoolMenuAdapter(Teacher_AA_Test.this,R.layout.school_menu_card_item,isPrincipalMenuNames,BookLink,rytParent,new UpdatesListener() {
+                            @Override
+                            public void onMsgItemClick(String name) {
+                                if(name.equals(updates)){
+                                    if(newUpdatesDataList.size()>0) {
+                                        getNewUpdates(true);
+                                    }
+                                }
+                            }
+                        });
                         idGridMenus.setSelection(TeacherUtil_Common.school_scroll_to_position);
                         idGridMenus.setAdapter(myAdapter);
                     }
@@ -478,8 +910,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             }
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
                 Log.d("VersionCheck:Failure", t.toString());
             }
@@ -626,10 +1056,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     private void updateDeviceTokenAPI(String strDeviceToken) {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
+
 
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(Teacher_AA_Test.this);
         Log.d("UpdateToken:mob-Token", mobNumber + " - " + strDeviceToken);
@@ -640,8 +1067,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+
                 Log.d("UpdateToken:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("UpdateToken:Res", response.body().toString());
@@ -660,8 +1086,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+
                 Log.d("UpdateToken:Failure", t.toString());
             }
         });
@@ -735,6 +1160,9 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         TeacherUtil_SharedPreference.putCurrentDate(Teacher_AA_Test.this, date);
 
+        Constants.Menu_ID = "102";
+        ShowAds.getAds(Teacher_AA_Test.this, adImage, slider, "school_dashboard",mAdView);
+        getMenuDetails();
     }
     private void setupBottomBar() {
         bottomNavigationView = (BottomNavigationView)
@@ -956,12 +1384,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     }
 
     private void helpAPI(String msg) {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
+        LoadingView.showProgress(Teacher_AA_Test.this);
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(Teacher_AA_Test.this);
         Log.d("Help:Mob-Query", mobNumber + " - " + msg);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -971,9 +1394,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
+                LoadingView.hideProgress();
                 Log.d("Help:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Help:Res", response.body().toString());
@@ -1003,8 +1424,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             }
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+                LoadingView.hideProgress();
                 showToast(getResources().getString(R.string.check_internet));
             }
         });

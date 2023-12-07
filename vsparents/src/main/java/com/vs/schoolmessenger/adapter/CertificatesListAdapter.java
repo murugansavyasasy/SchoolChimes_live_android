@@ -49,7 +49,6 @@ public class CertificatesListAdapter extends RecyclerView.Adapter<CertificatesLi
             holder.btnViewCertificate.setVisibility(View.GONE);
         }
 
-
         holder.btnViewCertificate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

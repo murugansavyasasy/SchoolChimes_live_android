@@ -46,7 +46,6 @@
         android:layout_above="@+id/bannerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -108,9 +107,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/lnrBottom"
-        ads:adSize="@string/ads_size"
+        ads:adSize="@string/large_banner"
         ads:adUnitId="@string/ads_unit_one">
     </com.google.android.gms.ads.AdView>
+
 
 
     <LinearLayout

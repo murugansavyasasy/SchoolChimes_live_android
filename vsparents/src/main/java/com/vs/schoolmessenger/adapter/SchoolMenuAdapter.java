@@ -57,6 +57,7 @@ import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.activity.TextBookActivity;
 import com.vs.schoolmessenger.assignment.AssignmentActivity;
 import com.vs.schoolmessenger.assignment.VideoUpload;
+import com.vs.schoolmessenger.interfaces.UpdatesListener;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -64,6 +65,7 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.vs.schoolmessenger.util.Constants.updates;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_EMERGENCY;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_NOTICE_BOARD;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_TEXT;
@@ -101,6 +103,8 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_HW;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE_HW;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class SchoolMenuAdapter extends ArrayAdapter {
 
     ArrayList<String> isPrincipalMenuNames = new ArrayList<>();
@@ -111,13 +115,16 @@ public class SchoolMenuAdapter extends ArrayAdapter {
     Boolean isCameraPermission = false;
     private PopupWindow SettingsStoragepopupWindow;
     private PopupWindow SettingsStorageCamerapopupWindow;
+    private final UpdatesListener listener;
 
-    public SchoolMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent) {
+
+    public SchoolMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent,UpdatesListener listener) {
         super(context, textViewResourceId, objects);
         isPrincipalMenuNames = objects;
         this.context = context;
         this.bookLink = BookLink;
         this.rytParent = rytParent;
+        this.listener = listener;
     }
 
     @Override
@@ -134,145 +141,216 @@ public class SchoolMenuAdapter extends ArrayAdapter {
         TextView textView = (TextView) v.findViewById(R.id.lblMenuName);
         ImageView imgMenu = (ImageView) v.findViewById(R.id.imgMenu);
         LinearLayout lnrMenu = (LinearLayout) v.findViewById(R.id.lnrMenu);
+        GifImageView gifImage = (GifImageView) v.findViewById(R.id.gifImage);
+
         String MenuName = isPrincipalMenuNames.get(position);
 
         lnrMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TeacherUtil_Common.school_scroll_to_position = position;
+                listener.onMsgItemClick(MenuName);
                 menuOnClick(MenuName);
-
             }
         });
 
+        if (MenuName.equals(updates)) {
+            gifImage.setVisibility(View.VISIBLE);
+            imgMenu.setVisibility(View.GONE);
+            lnrMenu.setBackgroundDrawable(null);
+            textView.setText("");
+        }
+
         if (isPrincipalMenuNames.get(position).contains("_0")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_emergency);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
 
         if (isPrincipalMenuNames.get(position).contains("_1")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_genvoice);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
         if (isPrincipalMenuNames.get(position).contains("_2")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_smstoall);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
         if (isPrincipalMenuNames.get(position).contains("_3")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_notice_board);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
         if (isPrincipalMenuNames.get(position).contains("_4")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_events);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
         if (isPrincipalMenuNames.get(position).contains("_5")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_image);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
         if (isPrincipalMenuNames.get(position).contains("_6")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_reportattn);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
         if (isPrincipalMenuNames.get(position).contains("_7")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_strenght);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
         if (isPrincipalMenuNames.get(position).contains("_8")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.teacher_f_attendance_report);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
         if (isPrincipalMenuNames.get(position).contains("_9")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_texthw);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
         }
         if (isPrincipalMenuNames.get(position).contains("_10")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_voicehomewrk);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_11")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_exam);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_12")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_atteednace);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_13")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.teacher_managementmessage);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_14")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_feedback);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_15")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.library_image);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_16")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_concall);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_17")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.request);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
 
         if (isPrincipalMenuNames.get(position).contains("_18")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_ebook);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
 
         if (isPrincipalMenuNames.get(position).contains("_19")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.meeting);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_20")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_emergency);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_21")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.information);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_22")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.assignment);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_23")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.videoimg);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_24")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_staffetails);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_25")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.new_products);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
         if (isPrincipalMenuNames.get(position).contains("_26")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.onlineclass);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
 
         }
         if (isPrincipalMenuNames.get(position).contains("_27")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.online_quiz);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
 
         if (isPrincipalMenuNames.get(position).contains("_28")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.daily_collection_report);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
 
         if (isPrincipalMenuNames.get(position).contains("_29")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.student_report);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
 
         if (isPrincipalMenuNames.get(position).contains("_30")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.lesson_plan);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
         }
@@ -319,9 +397,7 @@ public class SchoolMenuAdapter extends ArrayAdapter {
             goToNextScreen(MenuName);
 
         } else if (substring.equals("_9")) {
-
-            goToNextScreen(MenuName);
-
+            isHomeWorkPermission(MenuName);
         } else if (substring1.equals("_10")) {
             isVoicePermissionGranded(MenuName);
         } else if (substring1.equals("_11")) {
@@ -489,6 +565,89 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                 context.startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
             }
         });
+    }
+
+    public boolean isHomeWorkPermission(String MenuName) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO,
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.CAMERA
+
+                    )
+
+
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+                                settingsStoragePermission();
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
+
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+        } else {
+            Dexter.withActivity((Activity) context)
+                    .withPermissions(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.CAMERA
+
+                    )
+
+
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            // check if all permissions are granted
+                            if (report.areAllPermissionsGranted()) {
+                                isPermission = true;
+                                goToNextScreen(MenuName);
+                            } else {
+                                settingsStoragePermission();
+
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).
+                    withErrorListener(new PermissionRequestErrorListener() {
+                        @Override
+                        public void onError(DexterError error) {
+
+                        }
+                    })
+                    .onSameThread()
+                    .check();
+
+        }
+
+
+        return isPermission;
     }
 
     public boolean isVoicePermissionGranded(String MenuName) {

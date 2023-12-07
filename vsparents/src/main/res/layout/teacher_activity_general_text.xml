@@ -7,6 +7,7 @@
     android:padding="5dp"
     tools:context=".activity.TeacherGeneralText">
 
+
     <RelativeLayout
         android:id="@+id/genTextMsg_rlToolbar"
         android:layout_width="match_parent"
@@ -40,27 +41,25 @@
     </RelativeLayout>
 
 
-
-
     <LinearLayout
         android:id="@+id/selectSpinner"
-        android:visibility="gone"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/genTextMsg_rlToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_below="@+id/genTextMsg_rlToolbar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/bg_white_primary_shadow"
-        android:layout_marginTop="5dp">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <RadioGroup
             android:id="@+id/TextRadio"
-            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:visibility="visible">
 
             <RadioButton
                 android:id="@+id/radioGeneralText"
@@ -69,34 +68,34 @@
                 android:text="@string/text_new_msg" />
 
             <RadioButton
-                android:layout_marginTop="3dp"
                 android:id="@+id/radioSmsHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:text="@string/text_compose_history" />
         </RadioGroup>
 
 
         <Spinner
-            android:visibility="gone"
             android:id="@+id/spinnerList"
-            android:spinnerMode="dropdown"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:spinnerMode="dropdown"
+            android:visibility="gone" />
     </LinearLayout>
 
 
     <androidx.core.widget.NestedScrollView
 
         android:id="@+id/ComposeMessgeNested"
-        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/genText_relativeLayoutFoot"
         android:layout_below="@+id/selectSpinner"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/genText_composemsg"
@@ -235,8 +234,6 @@
             </RelativeLayout>
 
 
-
-
             <EditText
                 android:id="@+id/genText_txtmessage"
                 android:layout_width="match_parent"
@@ -249,15 +246,14 @@
                 android:hint="@string/teacher_txt_typemsg"
                 android:inputType="textMultiLine"
 
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-
                 android:maxLines="15"
                 android:minLines="7"
-                android:padding="7dp"
-                android:textSize="12dp" />
+                android:overScrollMode="always"
 
+                android:padding="7dp"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:textSize="12dp" />
 
 
             <LinearLayout
@@ -267,9 +263,9 @@
                 android:layout_alignParentRight="true"
                 android:background="@color/teacher_clr_card_grey"
                 android:gravity="right"
-                android:visibility="gone"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/genText_msgcount"
@@ -304,10 +300,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/genText_rvSchoolsList"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@color/teacher_clr_window_bg" />
+                android:background="@color/teacher_clr_window_bg"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/genText_btnmsg"
@@ -323,22 +319,146 @@
             <Button
                 android:id="@+id/btnStaffGroups"
                 style="@style/Teacher_btn_login"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/teacher_to_staff_groups" />
+                android:text="@string/teacher_to_staff_groups"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnSelectSchool"
                 style="@style/Teacher_btn_login"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/teacher_select_school" />
+                android:text="@string/teacher_select_school"
+                android:visibility="gone" />
+
+
+            <LinearLayout
+                android:id="@+id/lnrAddVoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/teacher_clr_card_grey">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imgClose"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_close_black" />
+
+                        <TextView
+                            android:id="@+id/emergVoice_tvEmergenyTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="You can record upto 3 minutes"
+                            android:textColor="@color/teacher_clr_black"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/emergVoice_tvRecTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:text="@string/teacher_txt_start_record"
+                            android:textColor="@color/teacher_clr_black"
+                            android:textSize="14sp" />
+
+
+                        <ImageView
+                            android:id="@+id/emergVoice_ivRecord"
+                            android:layout_width="@dimen/dim_rec_oval"
+                            android:layout_height="@dimen/dim_rec_oval"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/teacher_bg_record_start"
+                            android:clickable="true"
+                            android:padding="15dp"
+                            android:src="@drawable/teacher_ic_mic" />
+
+
+                        <TextView
+                            android:id="@+id/emergVoice_tvRecDuration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:text="00:00"
+                            android:textColor="@color/teacher_clr_black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/emergVoice_rlPlayPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/teacher_clr_white"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/emergVoice_tvPreviewVoiceMsg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:padding="3dp"
+                        android:text="@string/teacher_txt_PreviewVoice"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="10sp" />
+
+                    <include
+                        layout="@layout/teacher_my_audio_player"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/emergVoice_tvPreviewVoiceMsg"
+                        android:layout_marginTop="5dp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btnAttachments"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/imgAttachment"
+                android:text="Add attachments"
+                android:visibility="gone" />
+
 
             <Button
                 android:id="@+id/genText_btnToSections"
@@ -359,26 +479,52 @@
                 android:text="@string/teacher_staff_to_students" />
 
 
+            <LinearLayout
+                android:id="@+id/lnrAttachments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_attachment" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/lblAttachments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_gravity="center"
+                    android:textColor="@color/bpWhite" />
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btn_Select_School"
-                android:visibility="gone"
                 style="@style/Teacher_btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/teacher_select_school" />
+                android:text="@string/teacher_select_school"
+                android:visibility="gone" />
 
 
             <Button
                 android:id="@+id/btn_Select_receipients"
-                android:visibility="gone"
                 style="@style/Teacher_btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/select_reciepients" />
+                android:text="@string/select_reciepients"
+                android:visibility="gone" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -386,18 +532,20 @@
 
     <RelativeLayout
         android:id="@+id/rytSmsHistory"
-        android:visibility="gone"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/genText_relativeLayoutFoot"
         android:layout_below="@+id/selectSpinner"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_height="match_parent">
+        android:visibility="gone">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
             android:layout_above="@+id/btn"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/SmsHistoryRecycle"
                 android:layout_width="match_parent"
@@ -409,36 +557,34 @@
 
         <LinearLayout
             android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:orientation="vertical"
             android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btnHistorySlectReceipients"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
                 style="@style/Teacher_btn_login"
-                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/bpWhite"
+                android:layout_marginTop="10dp"
                 android:text="@string/select_reciepients"
-               />
+                android:textColor="@color/bpWhite"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnSlectSchool"
-                android:layout_marginTop="10dp"
+                style="@style/Teacher_btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Teacher_btn_login"
-                android:visibility="gone"
                 android:layout_gravity="center"
-                android:textColor="@color/bpWhite"
+                android:layout_marginTop="10dp"
                 android:text="@string/teacher_select_school"
-               >
+                android:textColor="@color/bpWhite"
+                android:visibility="gone">
 
             </Button>
 
@@ -449,8 +595,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:text="@string/teacher_staff_to_sections" />
+                android:text="@string/teacher_staff_to_sections"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnSmsHistorySectionOrStudents"
@@ -459,8 +605,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:text="@string/teacher_staff_to_students" />
+                android:text="@string/teacher_staff_to_students"
+                android:visibility="gone" />
 
 
         </LinearLayout>
@@ -485,7 +631,7 @@
             android:textColor="@color/teacher_clr_grey"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="Chimes " />
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -497,9 +643,9 @@
             android:text="@string/teacher_for_schools"
             android:textColor="@color/teacher_clr_grey"
             android:textSize="10sp"
-            android:textStyle="bold"
-             />
+            android:textStyle="bold" />
 
     </RelativeLayout>
-
 </RelativeLayout>
+
+

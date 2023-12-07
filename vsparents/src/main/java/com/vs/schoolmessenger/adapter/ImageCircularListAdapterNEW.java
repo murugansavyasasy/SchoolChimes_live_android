@@ -50,7 +50,7 @@ public class ImageCircularListAdapterNEW extends RecyclerView.Adapter<ImageCircu
     private ArrayList<MessageModel> imageDataList;
     private Context context;
 
-    private static final String IMAGE_FOLDER = "//SchoolChimes Images";
+    private static final String IMAGE_FOLDER = "//SchoolChimesImages";
 
     String name;
     private ArrayList<String> myList = new ArrayList<>();
@@ -120,7 +120,7 @@ public class ImageCircularListAdapterNEW extends RecyclerView.Adapter<ImageCircu
             public void onClick(View v) {
                 DownloadFileFromURL.downloadSampleFile((Activity) context, msgModel, IMAGE_FOLDER, msgModel.getMsgID() + ".png", MSG_TYPE_IMAGE,"");
 
-                    }
+            }
         });
     }
 

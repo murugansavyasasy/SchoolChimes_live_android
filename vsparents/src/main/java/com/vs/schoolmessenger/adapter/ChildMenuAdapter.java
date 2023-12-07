@@ -4,11 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +22,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -35,6 +42,7 @@ import com.vs.schoolmessenger.activity.HomeActivity;
 import com.vs.schoolmessenger.activity.ImageCircular;
 import com.vs.schoolmessenger.activity.LSRWListActivity;
 import com.vs.schoolmessenger.activity.MessageDatesScreen;
+import com.vs.schoolmessenger.activity.NewUpdateWebView;
 import com.vs.schoolmessenger.activity.OnlineClassParentScreen;
 import com.vs.schoolmessenger.activity.ParentQuizScreen;
 import com.vs.schoolmessenger.activity.PdfCircular;
@@ -48,6 +56,9 @@ import com.vs.schoolmessenger.activity.TimeTableActivity;
 import com.vs.schoolmessenger.activity.VideoListActivity;
 import com.vs.schoolmessenger.activity.VoiceCircular;
 import com.vs.schoolmessenger.assignment.ParentAssignmentListActivity;
+import com.vs.schoolmessenger.interfaces.OnItemHomeworkClick;
+import com.vs.schoolmessenger.interfaces.UpdatesListener;
+import com.vs.schoolmessenger.model.NewUpdatesData;
 import com.vs.schoolmessenger.model.ParentMenuModel;
 import com.vs.schoolmessenger.payment.FeesTab;
 import com.vs.schoolmessenger.util.Constants;
@@ -55,10 +66,13 @@ import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import com.vs.schoolmessenger.BuildConfig;
 
+import static com.vs.schoolmessenger.util.Constants.updates;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_ATTENDANCE;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_DOCUMENTS;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_EMERGENCY;
@@ -68,6 +82,8 @@ import static com.vs.schoolmessenger.util.Util_Common.MENU_NOTICE_BOARD;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_PHOTOS;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_TEXT;
 import static com.vs.schoolmessenger.util.Util_Common.MENU_VOICE;
+
+import pl.droidsonroids.gif.GifImageView;
 
 
 public class ChildMenuAdapter extends ArrayAdapter {
@@ -84,12 +100,17 @@ public class ChildMenuAdapter extends ArrayAdapter {
     private PopupWindow SettingsStorageCamerapopupWindow;
 
 
-    public ChildMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent) {
+    private final UpdatesListener listener;
+
+
+    public ChildMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent,UpdatesListener listener) {
         super(context, textViewResourceId, objects);
         isPrincipalMenuNames = objects;
         this.context = context;
         this.bookLink = BookLink;
         this.rytParent = rytParent;
+        this.listener = listener;
+
     }
 
     @Override
@@ -107,6 +128,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
         TextView lblUnreadCount = (TextView) v.findViewById(R.id.lblUnreadCount);
         ImageView imgMenu = (ImageView) v.findViewById(R.id.imgMenu);
         LinearLayout lnrMenu = (LinearLayout) v.findViewById(R.id.lnrMenu);
+        GifImageView gifImage = (GifImageView) v.findViewById(R.id.gifImage);
         ParentMenuModel model = isPrincipalMenuNames.get(position);
         String MenuName = model.getMenu_name();
         String unReadCount = model.getUnread_count();
@@ -115,157 +137,218 @@ public class ChildMenuAdapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 TeacherUtil_Common.scroll_to_position = position;
+                listener.onMsgItemClick(model.getMenu_name());
                 menuOnClick(model.getMenu_name());
             }
         });
 
         lblUnreadCount.setText(unReadCount);
 
+        if (MenuName.equals(updates)) {
+            gifImage.setVisibility(View.VISIBLE);
+            imgMenu.setVisibility(View.GONE);
+            lnrMenu.setBackgroundDrawable(null);
+            textView.setText("");
+            setUnReadCount(unReadCount, lblUnreadCount);
+        }
+
         if (MenuName.contains("_0")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_emergency);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
         }
 
         if (MenuName.contains("_1")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_genvoice);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_2")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_messages);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_3")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_homework);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_4")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_exam);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_5")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_esammark);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_6")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.file);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_7")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_notice_board);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_8")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_events);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_9")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_atteednace);
             textView.setText(MenuName.substring(0, MenuName.length() - 2));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_10")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.leaverequest);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_11")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_feeshand);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_12")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.image_c);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_13")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_library);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_14")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_staffetails);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_15")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.c_ebook);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_16")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.meeting);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_17")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
         }
 
         if (MenuName.contains("_18")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.assignment);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
         }
 
         if (MenuName.contains("_19")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.videoimg);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
 
         }
         if (MenuName.contains("_20")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.onlineclass);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
         }
         if (MenuName.contains("_21")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.idea);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
         }
         if (MenuName.contains("_22")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.lsrw);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
         }
         if (MenuName.contains("_23")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.time_table);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
         }
 
         if (MenuName.contains("_24")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.student_profile);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
         }
 
         if (MenuName.contains("_25")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
             imgMenu.setImageResource(R.drawable.certificate_request);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
@@ -287,6 +370,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
         String substring1 = MenuName.substring(Math.max(MenuName.length() - 3, 0));
         String menuIDSingle = MenuName.substring(Math.max(MenuName.length() - 1, 0));
         String menuIDTwo = MenuName.substring(Math.max(MenuName.length() - 2, 0));
+
 
         if (substring.equals("_0")) {
             isPermissionGranded(MenuName);
@@ -385,6 +469,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
             goToNextScreen(MenuName);
         }
     }
+
 
     private boolean isCameraPermissions(String MenuName) {
 
@@ -826,9 +911,6 @@ public class ChildMenuAdapter extends ArrayAdapter {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, CertificateRequestActivity.class);
             context.startActivity(inNext);
-
         }
-
     }
-
 }

@@ -22,8 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -55,7 +53,6 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
     String staff_id, school_id;
 
     TeacherSchoolsModel schoolmodel;
-
 
     RecyclerView rvDatesList;
     private TeacherCircularsDateListAdapter dateListAdapter;

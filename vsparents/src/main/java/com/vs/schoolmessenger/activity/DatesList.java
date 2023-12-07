@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
@@ -19,16 +20,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.WindowMetrics;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.ads.mediation.admob.AdMobAdapter;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -96,10 +109,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     Slider slider;
     ImageView adImage;
     String Title = "";
-
     AdView mAdView;
-
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -190,7 +200,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
          LoadMore=(TextView) findViewById(R.id.btnSeeMore);
          lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
          LoadMore.setEnabled(true);
-
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -201,8 +210,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 else if(iRequestCode==MENU_VOICE){
                    LaodMoreDatewisetListVoiceAPI();
                 }
-
-
             }
         });
 
@@ -238,6 +245,8 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         rvDateList.setAdapter(datesListAdapter);
 
     }
+
+
 
 
 
@@ -299,8 +308,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
                 LoadMore.setVisibility(View.GONE);
                 lblNoMessages.setVisibility(View.GONE);
-
-
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
@@ -1078,8 +1085,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                         LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),DatesList.this);
                         LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),DatesList.this);
                         LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),DatesList.this);
-
-
 
                         if (Integer.parseInt(status) > 0) {
                             showToast(message);

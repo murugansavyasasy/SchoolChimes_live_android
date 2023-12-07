@@ -374,7 +374,6 @@ public class TeacherUtil_SharedPreference {
     public static void putChildVisible(Activity activity,String autoupdate){
         SharedPreferences prefs = activity.getSharedPreferences("CHILD_VISIBLE", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
-
         ed.putString(childFeeVisible, autoupdate);
         Log.d("CHILD_VISIBLE", "autoupdate Data stored in SP");
         ed.commit();
@@ -458,6 +457,17 @@ public class TeacherUtil_SharedPreference {
     }
     public static String getNewVersion(Context activity) {
         String strupdate = activity.getSharedPreferences(NewVersion, MODE_PRIVATE).getString(isNewVersion, "1");
+        return strupdate;
+    }
+
+    public static void putLastVisibleUpdatesPosition(Activity activity,String value){
+        SharedPreferences prefs = activity.getSharedPreferences("POPUP", MODE_PRIVATE);
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.putString("position", value);
+        ed.commit();
+    }
+    public static String getLastVisibleUpdatesPosition(Context activity) {
+        String strupdate = activity.getSharedPreferences("POPUP", MODE_PRIVATE).getString("position", "0");
         return strupdate;
     }
 

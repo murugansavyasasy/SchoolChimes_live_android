@@ -64,7 +64,7 @@
             android:textColor="@color/teacher_clr_grey"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="Chimes " />
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
             android:textColor="@color/teacher_clr_grey"
             android:textSize="10sp"
             android:textStyle="bold"
-            tools:text="for schools" />
+          />
 
     </RelativeLayout>
     </LinearLayout>

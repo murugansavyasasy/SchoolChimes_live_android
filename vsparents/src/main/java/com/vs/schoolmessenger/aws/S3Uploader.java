@@ -37,8 +37,6 @@ public class S3Uploader {
         TransferObserver observer = transferUtility.upload(AWSKeys.BUCKET_NAME, fileNameDateTime+"_"+mediaUrl,
                 file, CannedAccessControlList.PublicRead);
 
-        Log.d("media_upload", "media_upload");
-
         observer.setTransferListener(new UploadListener());
     }
 

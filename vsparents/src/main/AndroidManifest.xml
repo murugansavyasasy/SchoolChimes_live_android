@@ -19,7 +19,6 @@
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
-
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
@@ -457,7 +456,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
+            android:theme="@style/AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <activity
+            android:name=".activity.HomeworkListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -564,7 +570,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
-
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -572,7 +577,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false"
-
             android:theme="@style/AppTheme.Home"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -1252,6 +1256,15 @@
         <activity
             android:hardwareAccelerated="true"
             android:name=".payment.PdfWebView"
+            android:launchMode="singleTop"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:hardwareAccelerated="true"
+            android:name=".activity.NewUpdateWebView"
             android:launchMode="singleTop"
             android:exported="false"
             android:screenOrientation="portrait"

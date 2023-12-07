@@ -49,6 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_VOICE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EMERGENCY;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EVENTS;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_NOTICE_BOARD;
@@ -95,6 +96,8 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
     private  ArrayList<String> UploadedS3URlList = new ArrayList<>();
 
     ArrayList<String> slectedImagePath = new ArrayList<String>();
+
+    boolean isStandardDisable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,7 +192,7 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
 
                 Log.d("StudentsList:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
-                    Log.d("StudentsList:Res", response.body().toString());
+                    Log.d("StandardGroups", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
@@ -217,11 +220,22 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
                                     cbListStd[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                            listClasses.get(finalI).setbSelected(isChecked);
+                                            if(isStandardDisable) {
+                                                cbListStd[finalI].setChecked(false);
+                                                listClasses.get(finalI).setbSelected(false);
+                                            }
+                                            else {
+                                                listClasses.get(finalI).setbSelected(isChecked);
+                                                if (isChecked)
+                                                    iSelStdGrpCount++;
+                                                else iSelStdGrpCount--;
+                                            }
 
-                                            if (isChecked)
-                                                iSelStdGrpCount++;
-                                            else iSelStdGrpCount--;
+
+//                                            listClasses.get(finalI).setbSelected(isChecked);
+//                                            if (isChecked)
+//                                                iSelStdGrpCount++;
+//                                            else iSelStdGrpCount--;
                                         }
                                     });
                                 } else {
@@ -250,6 +264,21 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
                                     cbListGroups[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                                            if(listGroups.get(finalI).getStrName().equalsIgnoreCase("All Student Group")){
+                                                if(isChecked){
+                                                    isStandardDisable = true;
+                                                    for (int i =0;i<listClasses.size();i++){
+                                                        cbListStd[i].setChecked(false);
+                                                        listClasses.get(i).setbSelected(false);
+                                                    }
+                                                }
+                                                else {
+                                                    isStandardDisable = false;
+                                                }
+                                            }
+
+
                                             listGroups.get(finalI).setbSelected(isChecked);
 
                                             if (isChecked)
@@ -332,6 +361,34 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
                 break;
 
             case PRINCIPAL_VOICE:
+                if (cbToAll.isChecked()) {
+                    if (voicetype.equals("VoiceHistory")) {
+                        SendToVoiceFromVoiceHistory();
+                    } else {
+                        SendVoiceAPIEntireschool();
+                    }
+                } else {
+                    if(voicetype.equals("VoiceHistory")){
+                        if(iSelStdGrpCount>0) {
+                            SendToVoiceFromVoiceHistory();
+                        }
+                        else {
+                            showToast(getResources().getString(R.string.select_participants));
+                        }
+                    }
+                    else {
+                        if(iSelStdGrpCount>0) {
+                            SendImageAPI();
+                        }
+                        else {
+                            showToast(getResources().getString(R.string.select_participants));
+                        }
+                    }
+                }
+                break;
+
+
+            case GH_VOICE:
                 if (cbToAll.isChecked()) {
                     if (voicetype.equals("VoiceHistory")) {
                         SendToVoiceFromVoiceHistory();

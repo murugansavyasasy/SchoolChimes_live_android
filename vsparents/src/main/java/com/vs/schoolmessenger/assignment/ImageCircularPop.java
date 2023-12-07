@@ -124,43 +124,6 @@ public class ImageCircularPop extends AppCompatActivity {
                     }
                 })
                 .into(demoView);
-
-//        Glide.with(ImageCircularPop.this).load(imgitem)
-//                .asBitmap()
-//                .thumbnail(0.5f)
-////                .crossFade()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(new SimpleTarget<Bitmap>() {
-//                    @Override
-//                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-//
-//
-//                        ivImage.setImageBitmap(bitmap);
-//                        demoView.setImageBitmap(bitmap);
-//                        mProgressDialog.dismiss();
-//
-////                        if (imgMsgModel.getMsgReadStatus().equals("0"))
-////                            ChangeMsgReadStatus.changeReadStatus(ImageCircularPop.this, imgMsgModel.getMsgID(), MSG_TYPE_IMAGE, imgMsgModel.getMsgDate(), new OnRefreshListener() {
-////                                @Override
-////                                public void onRefreshItem() {
-////                                    imgMsgModel.setMsgReadStatus("1");
-////                                    if (imgMsgModel.getMsgReadStatus().equals("0"))
-////                                        tvStatus.setVisibility(View.VISIBLE);
-////                                    else tvStatus.setVisibility(View.GONE);
-////                                }
-////                            });
-//                    }
-//
-//                    @Override
-//                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-//                        super.onLoadFailed(e, errorDrawable);
-//                        onBackPressed();
-//                        showToast(getResources().getString(R.string.check_internet));
-//                    }
-//                });
-
-
-
     }
 
     private void showToast(String msg) {

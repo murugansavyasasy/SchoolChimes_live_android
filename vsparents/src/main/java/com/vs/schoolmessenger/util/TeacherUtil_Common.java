@@ -6,15 +6,22 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.vs.schoolmessenger.LessonPlan.Model.EditDataItem;
+import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 
@@ -107,14 +114,11 @@ public class TeacherUtil_Common {
     public static String Principal_staffId = "";
     public static String staff_schoolId = "";
 
-
     public static String lesson_request_type = "";
     public static int scroll_to_position = 0;
     public static int school_scroll_to_position = 0;
 
     public static List<EditDataItem> EditDataList = new ArrayList<EditDataItem>();
-
-
 
     public static boolean isNetworkAvailable(Activity activity) {
         ConnectivityManager connectivity = (ConnectivityManager) activity
@@ -133,6 +137,32 @@ public class TeacherUtil_Common {
             }
         }
         return false;
+    }
+
+    public static void showNativeAds(final Activity activity, TemplateView native_ads, ImageView adsClose){
+         AdLoader adLoader = new AdLoader.Builder(activity, activity.getResources().getString(R.string.native_ads_unit_one))
+                .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        NativeTemplateStyle styles = new NativeTemplateStyle.Builder().build();
+                        native_ads.setStyles(styles);
+                        native_ads.setNativeAd(nativeAd);
+                        native_ads.setVisibility(View.VISIBLE);
+                        adsClose.setVisibility(View.VISIBLE);
+                    }
+                }).withAdListener(new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError var1) {
+                        native_ads.setVisibility(View.GONE);
+                        adsClose.setVisibility(View.GONE);
+                    }
+
+                })
+                .build();
+
+        adLoader.loadAd(new AdRequest.Builder().build());
+
+
     }
 
 

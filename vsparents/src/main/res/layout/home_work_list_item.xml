@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:padding="20dp"
+        android:background="@drawable/bg_shadow_white_card"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/imgHeader"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/homework"/>
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/imgHeader"
+            android:id="@+id/lblSubject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Homework title"
+            android:textSize="15dp"
+            android:textColor="@color/clr_pink"
+            android:fontFamily="@font/roboto_bold"/>
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/lblSubject"
+            android:id="@+id/lblTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Homework title"
+            android:textSize="13dp"
+            android:textColor="@color/clr_black"
+            android:fontFamily="@font/roboto_bold"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/lblTitle"
+            android:id="@+id/lblContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fathom’s features page helps potential prospects understand how their companies can analyse user performance without spying on them through a dedicated suite of features and functionalities, prospects understand how their companies can analyse"
+            android:textSize="13dp"
+            android:lineSpacingExtra="5dp"
+            android:textColor="@color/clr_black"
+            android:fontFamily="@font/roboto_regular"/>
+
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:id="@+id/rytImages"
+            android:visibility="visible"
+            android:layout_below="@+id/lblContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_alignParentLeft="true"
+                android:id="@+id/img1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/image_c"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/img1"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/img2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/image_c"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView"/>
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/img2"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/img3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/image_c"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView"/>
+
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/img3"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/img4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/image_c"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView"/>
+
+
+            <TextView
+                android:id="@+id/lblImagePreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="Preview"
+                android:visibility="gone"
+                android:textColor="@color/tab_indicator"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytPDF"
+            android:layout_below="@+id/rytImages"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgPDF"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/pdf_image"
+                android:visibility="visible" />
+
+
+            <TextView
+                android:id="@+id/lblPDFPreview"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/tab_indicator"
+                android:textSize="15dp"
+                android:text="Preview"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="visible"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/rytPDF"
+            android:id="@+id/rytVoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <include
+                layout="@layout/my_audio_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/voicePopup_tvMsg"
+                android:layout_marginTop="10dp" />
+
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.adsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
+import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
@@ -48,21 +49,12 @@ public class ShowAds {
         jsonObject.addProperty("MemberType", "student");
         jsonObject.addProperty("MenuId", Constants.Menu_ID);
         jsonObject.addProperty("SchoolId", schoolId);
-        final ProgressDialog mProgressDialog = new ProgressDialog(activity);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!activity.isFinishing())
-            mProgressDialog.show();
         Log.d("Request", jsonObject.toString());
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.getAds(jsonObject);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
                 Log.d("GetMenuDetails:code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("GetMenuDetails:Res", response.body().toString());
@@ -110,7 +102,6 @@ public class ShowAds {
 
                             }
                             else {
-                                //image.setVisibility(View.GONE);
                             }
 
 
@@ -124,8 +115,6 @@ public class ShowAds {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
                 Log.d("VersionCheck:Failure", t.toString());
             }
         });

@@ -10,6 +10,8 @@ import com.vs.schoolmessenger.model.CertificateListModelItem;
 import com.vs.schoolmessenger.model.CertificateRequestModelItem;
 import com.vs.schoolmessenger.model.CertificateTypeModelItemItem;
 import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
+import com.vs.schoolmessenger.model.HomeWorkModel;
+import com.vs.schoolmessenger.model.NewUpdatesModel;
 import com.vs.schoolmessenger.payment.Model.FeeDetailsItems;
 import com.vs.schoolmessenger.util.Util_UrlMethods;
 
@@ -235,10 +237,11 @@ public interface TeacherMessengerApiInterface {
     @POST("InsertHomeWorkVoice")
     Call<JsonArray> InsertHomeWorkVoice(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
-    @POST("InsertHomeWorkText")
-    Call<JsonArray> InsertHomeWorkText(@Body JsonObject jsonObject);
+    @POST("InsertHomeWork")
+    Call<JsonArray> InsertHomeWork(@Body JsonObject jsonObject);
 
-    @POST("SendAbsenteesSMS")
+//    @POST("SendAbsenteesSMS")
+    @POST("SendAbsenteesSMSWithSessionType")
     Call<JsonArray> SendAbsenteesSMS(@Body JsonObject jsonObject);
 
 
@@ -431,6 +434,12 @@ public interface TeacherMessengerApiInterface {
     @POST("GetHomeWorkCount")
     Call<JsonArray> GetHomeWorkCount(@Body JsonObject jsonObject);
 
+    @POST("GetHomeWork")
+    Call<List<HomeWorkModel>> getHomeWorkDetails(@Body JsonObject jsonObject);
+
+    @POST("GetHomeWork_archive")
+    Call<List<HomeWorkModel>> getHomeWorkDetails_Archive(@Body JsonObject jsonObject);
+
     @POST("GetHomeWorkCount_Archive")
     Call<JsonArray> LoadMoreGetHomeWorkCount(@Body JsonObject jsonObject);
 
@@ -452,6 +461,10 @@ public interface TeacherMessengerApiInterface {
 
     @POST("daily-collection-fee-app")
     Call<List<DailyFeeCollectionModelItem>> getDailyCollection(@Body JsonObject jsonObject);
+
+
+    @POST("new-update-details-app")
+    Call<NewUpdatesModel> getNewUpdateDetails(@Body JsonObject jsonObject);
 
 
     @GET("lesson-plan/get_lesson_plan_staff_report_App")

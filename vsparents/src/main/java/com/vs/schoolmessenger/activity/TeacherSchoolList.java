@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_VOICE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ABSENTEES;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ASSIGNMENT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANCE;
@@ -64,6 +65,8 @@ public class TeacherSchoolList extends AppCompatActivity {
     TeacherSchoolListForPrincipalAdapter schoolsListAdapter;
     boolean singleschoollogin = false;
 
+    String schoolId,staffId,filePath,duration,title,voiceType;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -76,6 +79,14 @@ public class TeacherSchoolList extends AppCompatActivity {
 
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         singleschoollogin = getIntent().getExtras().getBoolean("SINGLESCHOOLLOGIN", false);
+
+        if(iRequestCode == GH_VOICE){
+            filePath = getIntent().getExtras().getString("FILEPATH", "");
+            duration = getIntent().getExtras().getString("DURATION", "");
+            title = getIntent().getExtras().getString("TITTLE", "");
+            voiceType = getIntent().getExtras().getString("VOICE", "");
+
+        }
         Log.d("Requestcode", String.valueOf(iRequestCode));
         rvSchoolsList = (RecyclerView) findViewById(R.id.schoolList_rvSchoolsList);
         ImageView ivBack = (ImageView) findViewById(R.id.schoollist_ToolBarIvBack);
@@ -404,8 +415,6 @@ public class TeacherSchoolList extends AppCompatActivity {
             rvSchoolsList.addItemDecoration(new DividerItemDecoration(TeacherSchoolList.this, LinearLayoutManager.VERTICAL));
             rvSchoolsList.setItemAnimator(new DefaultItemAnimator());
             rvSchoolsList.setAdapter(schoolsListAdapter);
-
-
         }
 
         if (iRequestCode == PRINCIPAL_DAILY_COLLECTION) {
@@ -462,6 +471,31 @@ public class TeacherSchoolList extends AppCompatActivity {
             rvSchoolsList.setItemAnimator(new DefaultItemAnimator());
             rvSchoolsList.setAdapter(schoolsListAdapter);
 
+        }
+
+        if (iRequestCode == GH_VOICE) {
+            schoolsListAdapter =
+                    new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
+                        @Override
+                        public void onItemClick(TeacherSchoolsModel item) {
+                            Intent inPrincipal = new Intent(TeacherSchoolList.this, VoiceStandardAndGroupList.class);
+                            inPrincipal.putExtra("REQUEST_CODE", iRequestCode);
+                            inPrincipal.putExtra("SCHOOL_ID", item.getStrSchoolID());
+                            inPrincipal.putExtra("STAFF_ID", item.getStrStaffID());
+                            inPrincipal.putExtra("FILEPATH", filePath);
+                            inPrincipal.putExtra("DURATION", duration);
+                            inPrincipal.putExtra("TITTLE", title);
+                            inPrincipal.putExtra("VOICE", voiceType);
+                            startActivity(inPrincipal);
+                        }
+                    });
+
+            rvSchoolsList.hasFixedSize();
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TeacherSchoolList.this);
+            rvSchoolsList.setLayoutManager(layoutManager);
+            rvSchoolsList.addItemDecoration(new DividerItemDecoration(TeacherSchoolList.this, LinearLayoutManager.VERTICAL));
+            rvSchoolsList.setItemAnimator(new DefaultItemAnimator());
+            rvSchoolsList.setAdapter(schoolsListAdapter);
         }
 
 

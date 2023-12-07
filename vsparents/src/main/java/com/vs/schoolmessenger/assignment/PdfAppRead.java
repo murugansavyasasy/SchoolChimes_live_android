@@ -154,6 +154,7 @@ public class PdfAppRead extends AppCompatActivity {
         Intent receipt = new Intent(PdfAppRead.this, PdfWebView.class);
         receipt.putExtra("URL",strURL);
         receipt.putExtra("tittle","Circular");
+        receipt.putExtra("ID",pdfModel.getMsgID());
         startActivity(receipt);
         finish();
 
