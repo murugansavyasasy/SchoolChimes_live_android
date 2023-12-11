@@ -576,8 +576,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void uploadHWAttachments(int pathind, final String fileType, final String type) {
@@ -622,8 +620,9 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
             }
 
-        } else {
-
+        }
+        else {
+            SendTextToEntireSectionHW();
             Log.d("upload_file", "error");
         }
 

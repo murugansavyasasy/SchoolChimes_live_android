@@ -365,6 +365,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 .load(image_url)
                 .into(img);
 
+        if(newUpdatesDataList.size() ==1){
+            lblNext.setVisibility(View.GONE);
+        }
+
 
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -505,6 +509,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Glide.with(HomeActivity.this)
                 .load(image_url)
                 .into(img);
+
+        if(newUpdatesDataList.size() ==1){
+            lblNext.setVisibility(View.GONE);
+        }
 
 
         if (initial_pos == newUpdatesDataList.size() - 1) {

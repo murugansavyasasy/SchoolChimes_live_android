@@ -382,6 +382,10 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 .load(image_url)
                 .into(img);
 
+        if(newUpdatesDataList.size() ==1){
+            lblNext.setVisibility(View.GONE);
+        }
+
 
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -549,6 +553,10 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 popupWindow.dismiss();
             }
         });
+
+        if(newUpdatesDataList.size() == 1){
+            lblNext.setVisibility(View.GONE);
+        }
 
         lblNext.setOnClickListener(new View.OnClickListener() {
             @Override
