@@ -270,7 +270,7 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 studentsModel = new TeacherStudentsModel(jsonObject.getString("StudentID"), jsonObject.getString("StudentName")
-                                        , jsonObject.getString("StudentAdmissionNo"), false);
+                                        , jsonObject.getString("StudentAdmissionNo"),jsonObject.getString("RollNO"), false);
                                 studentList.add(studentsModel);
                             }
 

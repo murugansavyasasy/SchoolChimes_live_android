@@ -7,6 +7,7 @@ import android.content.Context;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vs.schoolmessenger.R;
@@ -50,7 +52,6 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-
         Log.d("request_code", String.valueOf(requestCode));
 
         if (requestCode == PRINCIPAL_ATTENDANCE || requestCode == STAFF_ATTENDANCE) {
@@ -67,6 +68,21 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
         final TeacherStudentsModel profile = studentlist.get(position);
         holder.tvstudentid.setText(profile.getAdmisionNo());
         holder.tvstudentname.setText(profile.getStudentName());
+        holder.lblRollNo.setText(profile.getRollNo());
+
+        if(requestCode == 12){
+            if(!profile.getRollNo().equals("") && profile.getRollNo().equals("null")) {
+                holder.rytRollNo.setVisibility(View.VISIBLE);
+            }
+            else {
+                holder.rytRollNo.setVisibility(View.GONE);
+            }
+        }
+        else {
+            holder.rytRollNo.setVisibility(View.GONE);
+        }
+
+        holder.tvstudentid.setTypeface(holder.tvstudentid.getTypeface(), Typeface.BOLD);
 
         holder.cbSelect.setOnCheckedChangeListener(null);
         holder.cbSelect.setChecked(profile.isSelectStatus());
@@ -127,19 +143,22 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvstudentid, tvstudentname;
+        public TextView tvstudentid, tvstudentname,lblRollNo;
         CheckBox cbSelect;
         LinearLayout lnrPresent, lnrAbsent;
+        RelativeLayout rytRollNo;
 
         public MyViewHolder(View view) {
             super(view);
 
             tvstudentid = (TextView) view.findViewById(R.id.Student_id);
             tvstudentname = (TextView) view.findViewById(R.id.Student_name);
+            lblRollNo = (TextView) view.findViewById(R.id.lblRollNo);
 
             cbSelect = (CheckBox) view.findViewById(R.id.Student_cbSelect);
             lnrPresent = (LinearLayout) view.findViewById(R.id.lnrPresent);
             lnrAbsent = (LinearLayout) view.findViewById(R.id.lnrAbsent);
+            rytRollNo = (RelativeLayout) view.findViewById(R.id.rytRollNo);
 
 
         }

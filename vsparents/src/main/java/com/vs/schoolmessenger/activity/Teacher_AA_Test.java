@@ -386,7 +386,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             lblNext.setVisibility(View.GONE);
         }
 
-
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

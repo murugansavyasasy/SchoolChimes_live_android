@@ -467,6 +467,8 @@ public interface TeacherMessengerApiInterface {
     Call<NewUpdatesModel> getNewUpdateDetails(@Body JsonObject jsonObject);
 
 
+
+
     @GET("lesson-plan/get_lesson_plan_staff_report_App")
     Call<LessonPlanModel> getLessonPlans(@Query("request_type") String request_type, @Query("institute_id") String institute_id, @Query("user_id") String user_id);
 

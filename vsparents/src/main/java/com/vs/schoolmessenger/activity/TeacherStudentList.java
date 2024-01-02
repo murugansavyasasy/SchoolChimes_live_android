@@ -184,7 +184,7 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 studentsModel = new TeacherStudentsModel(jsonObject.getString("StudentID"), jsonObject.getString("StudentName")
-                                        , jsonObject.getString("StudentAdmissionNo"), true);
+                                        , jsonObject.getString("StudentAdmissionNo"),"", true);
                                 studentList.add(studentsModel);
                             }
 

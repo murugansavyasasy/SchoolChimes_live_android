@@ -4,59 +4,108 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
     <RelativeLayout
+        android:layout_toLeftOf="@+id/rytSelect"
         android:id="@+id/ryt"
-        android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:layout_marginLeft="7dp"
+        android:padding="3dp">
 
-    <TextView
-        android:id="@+id/Student_id"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/Student_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/teacher_clr_black"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            tools:text="John Deo" />
+
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/Student_name"
+            android:id="@+id/rytRollNo"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lblRoll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/clr_black"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:text="Roll No      : " />
+
+            <TextView
+                android:layout_toRightOf="@+id/lblRoll"
+                android:id="@+id/lblRollNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="14dp"
+                tools:text="123" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/rytRollNo"
+            android:id="@+id/rytAdmissionNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lbladdMis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/clr_black"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:text="Admission No : " />
+
+            <TextView
+                android:layout_toRightOf="@+id/lbladdMis"
+                android:id="@+id/Student_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/teacher_clr_black"
+                android:textSize="14dp"
+                tools:text="209345" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rytSelect"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:padding="3dp"
-        android:textColor="@color/teacher_clr_black"
-        android:textSize="14dp"
-        android:textStyle="bold"
-        tools:text="209345" />
-
-    <TextView
-        android:id="@+id/Student_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="14dp"
-        android:layout_toRightOf="@+id/Student_id"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:padding="3dp"
-        android:textColor="@color/teacher_clr_black"
-        android:textSize="14dp"
-        android:textStyle="bold"
-        tools:text="John Deo" />
+        android:layout_height="wrap_content">
+
 
     <CheckBox
         android:id="@+id/Student_cbSelect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:checked="true" />
 
 
     <LinearLayout
         android:id="@+id/lnrAbsent"
         android:visibility="gone"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginRight="10dp"
-        android:layout_centerVertical="true"
         android:background="@drawable/bg_circle_absent"
         android:orientation="vertical">
 
@@ -75,13 +124,10 @@
 
     <LinearLayout
         android:id="@+id/lnrPresent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_width="25dp"
         android:visibility="gone"
         android:layout_height="25dp"
         android:layout_marginRight="10dp"
-        android:layout_centerVertical="true"
         android:background="@drawable/bg_circle_present"
         android:orientation="vertical">
 
@@ -98,6 +144,7 @@
     </LinearLayout>
 
     </RelativeLayout>
+
 
     <View
         android:id="@+id/view_tittle"

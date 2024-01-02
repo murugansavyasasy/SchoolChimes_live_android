@@ -226,7 +226,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         String Role = TeacherUtil_SharedPreference.getRole(HomeActivity.this);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("staff_role", Role);
+        jsonObject.addProperty("staff_role", "parent");
         jsonObject.addProperty("member_id", childItem.getChildID());
         jsonObject.addProperty("instituteid", childItem.getSchoolID());
         Log.d("jsonObjectReq", jsonObject.toString());

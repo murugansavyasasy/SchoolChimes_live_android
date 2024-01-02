@@ -7,15 +7,16 @@ import java.io.Serializable;
  */
 
 public class TeacherStudentsModel implements Serializable {
-    private String studentID, studentName, admisionNo;
+    private String studentID, studentName, admisionNo,rollNo;
     boolean selectStatus;
 
     public TeacherStudentsModel(){}
 
-    public TeacherStudentsModel(String studentID, String studentName, String admisionNo, boolean selectStatus) {
+    public TeacherStudentsModel(String studentID, String studentName, String admisionNo,String rollNo, boolean selectStatus) {
         this.studentID = studentID;
         this.studentName = studentName;
         this.admisionNo = admisionNo;
+        this.rollNo = rollNo;
         this.selectStatus = selectStatus;
     }
 
@@ -41,6 +42,14 @@ public class TeacherStudentsModel implements Serializable {
 
     public void setAdmisionNo(String admisionNo) {
         this.admisionNo = admisionNo;
+    }
+
+    public String getRollNo() {
+        return rollNo;
+    }
+
+    public void setRollNo(String admisionNo) {
+        this.rollNo = admisionNo;
     }
 
     public boolean isSelectStatus() {
