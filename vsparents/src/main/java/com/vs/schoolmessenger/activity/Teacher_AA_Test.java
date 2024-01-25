@@ -154,6 +154,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     SchoolMenuAdapter myAdapter;
     PopupWindow updatesManualPopup;
 
+    private static final String CONTACTS_PERMISSION = android.Manifest.permission.READ_CONTACTS;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -170,6 +172,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
 
+        checkAndRequestPermission();
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -185,6 +188,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 }
             }
         };
+
         displayFirebaseRegId();
         Role = TeacherUtil_SharedPreference.getRole(Teacher_AA_Test.this);
         if (Role.equals("p1")) {
@@ -355,6 +359,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         TextView lblSkip = (TextView) layout.findViewById(R.id.lblSkip);
         TextView lblNext = (TextView) layout.findViewById(R.id.lblNext);
         TextView lblPrevious = (TextView) layout.findViewById(R.id.lblPrevious);
+        TextView lblClose = (TextView) layout.findViewById(R.id.lblClose);
+
         LinearLayout lnrParent = (LinearLayout) layout.findViewById(R.id.lnrParent);
         LinearLayout lnrContent = (LinearLayout) layout.findViewById(R.id.lnrContent);
 
@@ -384,9 +390,19 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
         if(newUpdatesDataList.size() ==1){
             lblNext.setVisibility(View.GONE);
+            lblClose.setVisibility(View.VISIBLE);
+
         }
 
         imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initial_pos = 0;
+                updatesManualPopup.dismiss();
+            }
+        });
+
+        lblClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initial_pos = 0;
@@ -408,6 +424,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 initial_pos = initial_pos + 1;
                 if (initial_pos == newUpdatesDataList.size() - 1) {
                     lblNext.setVisibility(View.GONE);
+                    lblClose.setVisibility(View.VISIBLE);
                 }
 
                 title = newUpdatesDataList.get(initial_pos).getUpdate_name();
@@ -442,6 +459,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
                 if (initial_pos != newUpdatesDataList.size() - 1) {
                     lblNext.setVisibility(View.VISIBLE);
+                    lblClose.setVisibility(View.GONE);
+
                 }
 
                 title = newUpdatesDataList.get(initial_pos).getUpdate_name();
@@ -499,6 +518,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         TextView lblSkip = (TextView) layout.findViewById(R.id.lblSkip);
         TextView lblNext = (TextView) layout.findViewById(R.id.lblNext);
         TextView lblPrevious = (TextView) layout.findViewById(R.id.lblPrevious);
+        TextView lblClose = (TextView) layout.findViewById(R.id.lblClose);
+
         LinearLayout lnrParent = (LinearLayout) layout.findViewById(R.id.lnrParent);
         LinearLayout lnrContent = (LinearLayout) layout.findViewById(R.id.lnrContent);
 
@@ -527,6 +548,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
         if(initial_pos == newUpdatesDataList.size()-1){
             lblNext.setVisibility(View.GONE);
+            lblClose.setVisibility(View.VISIBLE);
+
         }
 
         if(initial_pos == 0){
@@ -535,8 +558,17 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
         if(initial_pos != newUpdatesDataList.size()-1){
             lblNext.setVisibility(View.VISIBLE);
+            lblClose.setVisibility(View.GONE);
+
         }
         imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initial_pos = 0;
+                popupWindow.dismiss();
+            }
+        });
+        lblClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initial_pos = 0;
@@ -555,6 +587,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
         if(newUpdatesDataList.size() == 1){
             lblNext.setVisibility(View.GONE);
+            lblClose.setVisibility(View.VISIBLE);
+
         }
 
         lblNext.setOnClickListener(new View.OnClickListener() {
@@ -567,6 +601,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
                 if(initial_pos == newUpdatesDataList.size()-1){
                     lblNext.setVisibility(View.GONE);
+                    lblClose.setVisibility(View.VISIBLE);
                 }
 
                 title = newUpdatesDataList.get(initial_pos).getUpdate_name();
@@ -604,6 +639,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
                 if(initial_pos != newUpdatesDataList.size()-1){
                     lblNext.setVisibility(View.VISIBLE);
+                    lblClose.setVisibility(View.GONE);
+
                 }
 
                 title = newUpdatesDataList.get(initial_pos).getUpdate_name();
@@ -746,50 +783,63 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     private void getContactPermission() {
         // Check the SDK version and whether the permission is already granted or not.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS,Manifest.permission.SCHEDULE_EXACT_ALARM}, PERMISSIONS_REQUEST_READ_CONTACTS);
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
         } else {
             checkIfContactsExist();
-            Log.d("Granded","Granded");
+            Log.d("Granted", "Granted");
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission is granted
-                getContactPermission();
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             } else {
-                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getReadContactsPermission(Teacher_AA_Test.this);
-
-                if(isPermissionDeniedCount.equals("2")){
-                    settingsContactPermission();
-                }
-
-                else if(isPermissionDeniedCount.equals("1")) {
-                    TeacherUtil_SharedPreference.putReadContactsPermission(Teacher_AA_Test.this, "2");
-                }
-                else {
-                    TeacherUtil_SharedPreference.putReadContactsPermission(Teacher_AA_Test.this, "1");
-
-                }
-
+                settingsContactPermission();
             }
         }
     }
 
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                           int[] grantResults) {
+//        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // Permission is granted
+//                getContactPermission();
+//            } else {
+//                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getReadContactsPermission(Teacher_AA_Test.this);
+//
+//                if(isPermissionDeniedCount.equals("2")){
+//                    settingsContactPermission();
+//                }
+//
+//                else if(isPermissionDeniedCount.equals("1")) {
+//                    TeacherUtil_SharedPreference.putReadContactsPermission(Teacher_AA_Test.this, "2");
+//                }
+//                else {
+//                    TeacherUtil_SharedPreference.putReadContactsPermission(Teacher_AA_Test.this, "1");
+//
+//                }
+//
+//            }
+//        }
+//    }
+
     private void settingsContactPermission() {
+
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.settings_app_permission, null);
         SettingspopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
         SettingspopupWindow.setContentView(layout);
-        rytParent.post(new Runnable() {
-            public void run() {
-                SettingspopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
-            }
-        });
+
+        if (!SettingspopupWindow.isShowing()) {
+            rytParent.post(new Runnable() {
+                public void run() {
+                    SettingspopupWindow.showAtLocation(rytParent, Gravity.CENTER, 0, 0);
+                }
+            });
+        }
 
         TextView lblNotNow = (TextView) layout.findViewById(R.id.lblNotNow);
         TextView lblSettings = (TextView) layout.findViewById(R.id.lblSettings);
@@ -797,6 +847,11 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 SettingspopupWindow.dismiss();
+                String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                TeacherUtil_SharedPreference.putCurrentDate(Teacher_AA_Test.this, date);
+                Constants.Menu_ID = "102";
+                ShowAds.getAds(Teacher_AA_Test.this, adImage, slider, "school_dashboard", mAdView);
+                getMenuDetails();
             }
         });
 
@@ -804,8 +859,12 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 SettingspopupWindow.dismiss();
-                startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
-
+                startActivity(
+                        new Intent(
+                                android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", getPackageName(), null)
+                        )
+                );
             }
         });
     }
@@ -880,7 +939,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             contact_button = jsonObject.getString("contact_button_content");
 
 
-                            if(!contact_numbers.equals("")) {
+                            if (!contact_numbers.equals("")) {
                                 contacts = contact_numbers.split(",");
                                 getContactPermission();
                             }
@@ -1013,33 +1072,27 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
     private void saveContacts() {
 
-            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.conatct_school);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-            ArrayList<ContentValues> data = new ArrayList<ContentValues>();
-            for (int i = 0; i < contacts.length; i++) {
-                ContentValues row = new ContentValues();
-                row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-                row.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
-                row.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
-                data.add(row);
-            }
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.conatct_school);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
 
-
-            for (int i = 0; i < contacts.length; i++) {
-                ContentValues row = new ContentValues();
-                row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
-                row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
-                data.add(row);
-            }
-
-            intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
-            intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
-            startActivityForResult(intent, 100);
-
+        ArrayList<ContentValues> data = new ArrayList<ContentValues>();
+        Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+        ContentValues row = new ContentValues();
+        row.put(ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
+        row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
+        data.add(row);
+        for (int i = 0; i < contacts.length; i++) {
+            ContentValues row_Number = new ContentValues();
+            row_Number.put(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+            row_Number.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
+            row_Number.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+            data.add(row_Number);
+        }
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
+        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
+        startActivityForResult(intent, 100);
     }
 
     private void selectedLoginType() {
@@ -1162,14 +1215,38 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
-        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        TeacherUtil_SharedPreference.putCurrentDate(Teacher_AA_Test.this, date);
+        if (hasPermission()) {
+            String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            TeacherUtil_SharedPreference.putCurrentDate(Teacher_AA_Test.this, date);
+            Constants.Menu_ID = "102";
+            ShowAds.getAds(Teacher_AA_Test.this, adImage, slider, "school_dashboard", mAdView);
+            getMenuDetails();
+        }
+    }
 
-        Constants.Menu_ID = "102";
-        ShowAds.getAds(Teacher_AA_Test.this, adImage, slider, "school_dashboard",mAdView);
-        getMenuDetails();
+    private void checkAndRequestPermission() {
+        // Check if the permission is granted
+        if (!hasPermission()) {
+            // Request the permission
+            requestPermission();
+        }
+    }
+
+    private boolean hasPermission() {
+        // Check if you have the necessary permission
+        // Return true if the permission is granted, false otherwise
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return checkSelfPermission(CONTACTS_PERMISSION) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;  // If targeting SDK < 23, permission is granted at installation time
+    }
+
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SCHEDULE_EXACT_ALARM}, PERMISSIONS_REQUEST_READ_CONTACTS);
+        }
     }
     private void setupBottomBar() {
         bottomNavigationView = (BottomNavigationView)

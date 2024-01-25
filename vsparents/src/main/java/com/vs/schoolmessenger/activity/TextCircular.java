@@ -248,7 +248,6 @@ public class TextCircular extends AppCompatActivity {
          seeMoreButtonVisiblity();
 
 
-
         if(iRequestCode==MENU_NOTICE_BOARD || iRequestCode == MENU_EVENTS){
             tvadapter = new TextCircularListAdapternew(msgModelList, TextCircular.this);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());

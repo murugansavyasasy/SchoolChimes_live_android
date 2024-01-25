@@ -122,6 +122,21 @@
                 android:textColor="@color/bpBlue"
                 android:textSize="15dp" />
 
+            <TextView
+                android:id="@+id/lblClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_btn_reject"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Close"
+                android:visibility="gone"
+                android:paddingVertical="10dp"
+                android:textColor="@color/bpWhite"
+                android:paddingHorizontal="10dp"
+                android:textSize="15dp" />
+
         </RelativeLayout>
     </LinearLayout>
 

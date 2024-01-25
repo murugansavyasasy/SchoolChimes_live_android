@@ -841,7 +841,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
 
                         String version = getString(R.string.teacher_app_version_id);
-                        if (!("98".equals(version))) {
+                        if (!("108".equals(version))) {
                             TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, version);
                             checkAppUpdateAPI();
                         } else {

@@ -24,7 +24,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.NestedScrollView;
 
 import android.os.Handler;
 import android.provider.ContactsContract;
@@ -48,26 +47,21 @@ import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.vs.schoolmessenger.BuildConfig;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.ChildMenuAdapter;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
-import com.vs.schoolmessenger.interfaces.OnItemHomeworkClick;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.UpdatesListener;
-import com.vs.schoolmessenger.model.HomeWorkData;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.NewUpdatesData;
 import com.vs.schoolmessenger.model.NewUpdatesModel;
 import com.vs.schoolmessenger.model.ParentMenuModel;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
-import com.vs.schoolmessenger.payment.PdfWebView;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
-import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -144,6 +138,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     PopupWindow updatesManualPopup;
 
     ChildMenuAdapter myAdapter;
+    private static final String CONTACTS_PERMISSION = android.Manifest.permission.READ_CONTACTS;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -175,6 +170,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 onBackPressed();
             }
         });
+
+        checkAndRequestPermission();
 
         Slider.init(new PicassoImageLoadingService(HomeActivity.this));
         slider = findViewById(R.id.banner);
@@ -338,6 +335,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         TextView lblSkip = (TextView) layout.findViewById(R.id.lblSkip);
         TextView lblNext = (TextView) layout.findViewById(R.id.lblNext);
         TextView lblPrevious = (TextView) layout.findViewById(R.id.lblPrevious);
+        TextView lblClose = (TextView) layout.findViewById(R.id.lblClose);
+
         LinearLayout lnrParent = (LinearLayout) layout.findViewById(R.id.lnrParent);
         LinearLayout lnrContent = (LinearLayout) layout.findViewById(R.id.lnrContent);
 
@@ -365,8 +364,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 .load(image_url)
                 .into(img);
 
-        if(newUpdatesDataList.size() ==1){
+
+        if(newUpdatesDataList.size() == 1){
             lblNext.setVisibility(View.GONE);
+            lblClose.setVisibility(View.VISIBLE);
+
         }
 
 
@@ -377,6 +379,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 updatesManualPopup.dismiss();
             }
         });
+        lblClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initial_pos = 0;
+                updatesManualPopup.dismiss();
+            }
+        });
+
 
         lblSkip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -392,6 +402,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 initial_pos = initial_pos + 1;
                 if (initial_pos == newUpdatesDataList.size() - 1) {
                     lblNext.setVisibility(View.GONE);
+                    lblClose.setVisibility(View.VISIBLE);
                 }
 
                 title = newUpdatesDataList.get(initial_pos).getUpdate_name();
@@ -426,6 +437,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (initial_pos != newUpdatesDataList.size() - 1) {
                     lblNext.setVisibility(View.VISIBLE);
+                    lblClose.setVisibility(View.GONE);
+
                 }
 
                 title = newUpdatesDataList.get(initial_pos).getUpdate_name();
@@ -483,6 +496,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         TextView lblSkip = (TextView) layout.findViewById(R.id.lblSkip);
         TextView lblNext = (TextView) layout.findViewById(R.id.lblNext);
         TextView lblPrevious = (TextView) layout.findViewById(R.id.lblPrevious);
+        TextView lblClose = (TextView) layout.findViewById(R.id.lblClose);
         LinearLayout lnrParent = (LinearLayout) layout.findViewById(R.id.lnrParent);
         LinearLayout lnrContent = (LinearLayout) layout.findViewById(R.id.lnrContent);
 
@@ -512,11 +526,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         if(newUpdatesDataList.size() ==1){
             lblNext.setVisibility(View.GONE);
+            lblClose.setVisibility(View.VISIBLE);
+
         }
 
 
         if (initial_pos == newUpdatesDataList.size() - 1) {
             lblNext.setVisibility(View.GONE);
+            lblClose.setVisibility(View.VISIBLE);
+
         }
 
         if (initial_pos == 0) {
@@ -525,8 +543,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         if (initial_pos != newUpdatesDataList.size() - 1) {
             lblNext.setVisibility(View.VISIBLE);
+            lblClose.setVisibility(View.GONE);
+
         }
         imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initial_pos = 0;
+                updatespopupWindow.dismiss();
+            }
+        });
+        lblClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initial_pos = 0;
@@ -553,6 +580,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (initial_pos == newUpdatesDataList.size() - 1) {
                     lblNext.setVisibility(View.GONE);
+                    lblClose.setVisibility(View.VISIBLE);
                 }
 
                 title = newUpdatesDataList.get(initial_pos).getUpdate_name();
@@ -590,6 +618,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (initial_pos != newUpdatesDataList.size() - 1) {
                     lblNext.setVisibility(View.VISIBLE);
+                    lblClose.setVisibility(View.GONE);
                 }
 
                 title = newUpdatesDataList.get(initial_pos).getUpdate_name();
@@ -628,37 +657,46 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void getContactPermission() {
         // Check the SDK version and whether the permission is already granted or not.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SCHEDULE_EXACT_ALARM}, PERMISSIONS_REQUEST_READ_CONTACTS);
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
         } else {
             checkIfContactsExist();
-            // Android version is lesser than 6.0 or the permission is already granted.
-            Log.d("Granded", "Granded");
+
+            Log.d("Granted", "Granted");
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission is granted
-                getContactPermission();
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             } else {
-                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getReadContactsPermission(HomeActivity.this);
-
-                if (isPermissionDeniedCount.equals("2")) {
-                    settingsContactPermission();
-                } else if (isPermissionDeniedCount.equals("1")) {
-                    TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "2");
-                } else {
-                    TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "1");
-                }
+                settingsContactPermission();
             }
         }
     }
 
-    private void settingsContactPermission() {
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                           int[] grantResults) {
+//        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // Permission is granted
+//                getContactPermission();
+//            } else {
+//                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getReadContactsPermission(HomeActivity.this);
+//
+//                if (isPermissionDeniedCount.equals("2")) {
+//                    settingsContactPermission();
+//                } else if (isPermissionDeniedCount.equals("1")) {
+//                    TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "2");
+//                } else {
+//                    TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "1");
+//                }
+//            }
+//        }
+//    }
+
+    private void settingsContactPermission()  {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.settings_app_permission, null);
         SettingspopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
@@ -675,6 +713,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 SettingspopupWindow.dismiss();
+                Constants.Menu_ID = "101";
+                ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
+                getMenuDetails();
             }
         });
 
@@ -683,7 +724,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 try {
                     SettingspopupWindow.dismiss();
-                    startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+                    startActivity(
+                            new Intent(
+                                    android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                    Uri.fromParts("package", getPackageName(), null)
+                            )
+                    );
                 } catch (Exception e) {
                     Log.d("saveexception", e.toString());
                 }
@@ -858,38 +904,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void saveContacts() {
-        try {
-            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.conatct_school);
-            // Bitmap bit = Bitmap.createScaledBitmap(b, 100, 100, false);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
 
-            Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-            ArrayList<ContentValues> data = new ArrayList<ContentValues>();
-            for (int i = 0; i < contacts.length; i++) {
-                ContentValues row = new ContentValues();
-                row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-                row.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
-                row.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
-                data.add(row);
-            }
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.conatct_school);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
 
-            for (int i = 0; i < contacts.length; i++) {
-                ContentValues row = new ContentValues();
-                row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
-                row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
-                data.add(row);
-            }
-            intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
-            intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
-            startActivityForResult(intent, 100);
-
-        } catch (Exception e) {
-            Log.d("saveContactError", e.toString());
+        ArrayList<ContentValues> data = new ArrayList<ContentValues>();
+        Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+        ContentValues row = new ContentValues();
+        row.put(ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
+        row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
+        data.add(row);
+        for (int i = 0; i < contacts.length; i++) {
+            ContentValues row_Number = new ContentValues();
+            row_Number.put(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+            row_Number.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);
+            row_Number.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+            data.add(row_Number);
         }
-
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, contact_display_name);
+        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
+        startActivityForResult(intent, 100);
     }
 
     public void deleteCache(Activity activity) {
@@ -1135,9 +1171,33 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        Constants.Menu_ID = "101";
-        ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
-        getMenuDetails();
+        if (hasPermission()) {
+            Constants.Menu_ID = "101";
+            ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
+            getMenuDetails();
+        }
+    }
+
+    private void checkAndRequestPermission() {
+        // Check if the permission is granted
+        if (!hasPermission()) {
+            // Request the permission
+            requestPermission();
+        }
+    }
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SCHEDULE_EXACT_ALARM}, PERMISSIONS_REQUEST_READ_CONTACTS);
+        }
+    }
+
+    private boolean hasPermission() {
+        // Check if you have the necessary permission
+        // Return true if the permission is granted, false otherwise
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return checkSelfPermission(CONTACTS_PERMISSION) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;  // If targeting SDK < 23, permission is granted at installation time
     }
 
     private void UnreadCount() {
