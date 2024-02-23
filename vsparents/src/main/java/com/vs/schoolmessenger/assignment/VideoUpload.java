@@ -1,5 +1,10 @@
 package com.vs.schoolmessenger.assignment;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.VIDEO_GALLERY;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,7 +23,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,21 +35,12 @@ import android.widget.VideoView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.activity.AlbumSelectActivity;
-import com.vs.schoolmessenger.activity.TeacherEmergencyVoice;
 import com.vs.schoolmessenger.activity.TeacherSchoolList;
 import com.vs.schoolmessenger.activity.ToStaffGroupList;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -67,37 +62,36 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Future;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICEASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.VIDEO_GALLERY;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class VideoUpload extends AppCompatActivity {
     private static final int REQUEST = 1;
     private static final int SELECT_IMAGE = 2;
 
-    Button btnchange,btnRecipients,btnStdSec,btnSchool;
+    Button btnchange, btnRecipients, btnStdSec, btnSchool;
     RelativeLayout frmImageClick;
     VideoView img1, img2, img3, img4;
-    ImageView imgback,imgplay1,imgplay2,imgplay3,imgplay4;
-   public static ArrayList<String> imagePathList = new ArrayList<>();
-   public static ArrayList<String> contentlist = new ArrayList<>();
+    ImageView imgback, imgplay1, imgplay2, imgplay3, imgplay4;
+    public static ArrayList<String> imagePathList = new ArrayList<>();
+    public static ArrayList<String> contentlist = new ArrayList<>();
     String path;
-    Boolean alertshow=false;
+    Boolean alertshow = false;
     LinearLayout lnrImages;
     TextView lblClickImage;
-    EditText edgallery,edtitle;
+    EditText edgallery, edtitle;
 
     private PopupWindow popupWindow;
 
-    String OrganisationId,ManagementID;
-    String filetype = "1", recievertype = "2", description,imagesize,filecontent;
+    String OrganisationId, ManagementID;
+    String filetype = "1", recievertype = "2", description, imagesize, filecontent;
     String result;
-    String imageFilePath,loginType;
-    File photoFile,file;
-    long length,sizekb,total;
+    String imageFilePath, loginType;
+    File photoFile, file;
+    long length, sizekb, total;
     Intent resume;
     ContentAdapter contentadapter;
     private Future<Void> mFuture;
@@ -108,6 +102,7 @@ public class VideoUpload extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,10 +114,10 @@ public class VideoUpload extends AppCompatActivity {
         img3 = (VideoView) findViewById(R.id.img3);
         img4 = (VideoView) findViewById(R.id.img4);
         imgback = (ImageView) findViewById(R.id.videos_ToolBarIvBack);
-        imgplay1=findViewById(R.id.lblImageCount1);
-        imgplay2=findViewById(R.id.lblImageCount2);
-        imgplay3=findViewById(R.id.lblImageCount3);
-        imgplay4=findViewById(R.id.lblImageCount4);
+        imgplay1 = findViewById(R.id.lblImageCount1);
+        imgplay2 = findViewById(R.id.lblImageCount2);
+        imgplay3 = findViewById(R.id.lblImageCount3);
+        imgplay4 = findViewById(R.id.lblImageCount4);
 
         edgallery = (EditText) findViewById(R.id.abtgallery);
         edtitle = (EditText) findViewById(R.id.title);
@@ -132,8 +127,8 @@ public class VideoUpload extends AppCompatActivity {
         frmImageClick = (RelativeLayout) findViewById(R.id.frmImageClick);
         btnchange = (Button) findViewById(R.id.btnchange);
         btnRecipients = (Button) findViewById(R.id.btnRecipients);
-        btnStdSec= (Button) findViewById(R.id.emergVoice_btnToSections);
-        btnSchool= (Button) findViewById(R.id.emergVoice_btnToStudents);
+        btnStdSec = (Button) findViewById(R.id.emergVoice_btnToSections);
+        btnSchool = (Button) findViewById(R.id.emergVoice_btnToStudents);
 
         lblClickImage.setVisibility(View.VISIBLE);
         btnchange.setEnabled(false);
@@ -157,8 +152,7 @@ public class VideoUpload extends AppCompatActivity {
 
             btnStaffGroups.setVisibility(View.VISIBLE);
 
-        }
-        else if (loginType.equals(LOGIN_TYPE_PRINCIPAL)){
+        } else if (loginType.equals(LOGIN_TYPE_PRINCIPAL)) {
             btnStdSec.setVisibility(View.GONE);
 
             btnSchool.setVisibility(View.GONE);
@@ -171,16 +165,16 @@ public class VideoUpload extends AppCompatActivity {
                 Log.d("filepath", String.valueOf(file));
                 length = file.length();
 
-                sizekb=  (1000)*Integer.parseInt(String.valueOf(length));
+                sizekb = (1000) * Integer.parseInt(String.valueOf(length));
                 Log.d("length", String.valueOf(sizekb));
-                if(edtitle.getText().toString().equals("")){
+                if (edtitle.getText().toString().equals("")) {
                     alert("Please Enter Title");
-                }
-                else if (edgallery.getText().toString().equals("")){
+                } else if (edgallery.getText().toString().equals("")) {
                     alert("Please Enter Description");
 
-                }
-                else {
+                } else if (imagePathList.isEmpty()) {
+                    alert("Please Choose Video");
+                } else {
                     if (listschooldetails.size() == 1) {
                         Intent inAtten = new Intent(VideoUpload.this, VideoPrincipalRecipient.class);
                         inAtten.putExtra("REQUEST_CODE", VIDEO_GALLERY);
@@ -206,15 +200,16 @@ public class VideoUpload extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("filepath", String.valueOf(file));
-                sizekb=  file.length();
-                if(edtitle.getText().toString().equals("")){
+                sizekb = file.length();
+                if (edtitle.getText().toString().equals("")) {
                     alert("Please Enter Title");
-                }
-                else if (edgallery.getText().toString().equals("")){
+                } else if (edgallery.getText().toString().equals("")) {
                     alert("Please Enter Description");
 
-                }
-                else {
+                } else if (imagePathList.isEmpty()) {
+                    alert("Please Choose Video");
+
+                } else {
                     Intent i = new Intent(VideoUpload.this, RecipientVideoActivity.class);
                     i.putExtra("REQUEST_CODE", VIDEO_GALLERY);
                     i.putExtra("SEC", "0");
@@ -232,16 +227,17 @@ public class VideoUpload extends AppCompatActivity {
                 Log.d("filepath", String.valueOf(file));
                 length = file.length();
 
-                total=0;
-                sizekb=  (1000)*Integer.parseInt(String.valueOf(length));
-                if(edtitle.getText().toString().equals("")){
+                total = 0;
+                sizekb = (1000) * Integer.parseInt(String.valueOf(length));
+                if (edtitle.getText().toString().equals("")) {
                     alert("Please Enter Title");
-                }
-                else if (edgallery.getText().toString().equals("")){
+                } else if (edgallery.getText().toString().equals("")) {
                     alert("Please Enter Description");
 
-                }
-                else {
+                } else if (imagePathList.isEmpty()) {
+                    alert("Please Choose Video");
+
+                } else {
                     Intent i = new Intent(VideoUpload.this, RecipientVideoActivity.class);
                     i.putExtra("REQUEST_CODE", VIDEO_GALLERY);
                     i.putExtra("SEC", "1");
@@ -261,16 +257,14 @@ public class VideoUpload extends AppCompatActivity {
                 Log.d("filepath", String.valueOf(file));
                 length = file.length();
 
-                total=0;
-                sizekb=  (1000)*Integer.parseInt(String.valueOf(length));
-                if(edtitle.getText().toString().equals("")){
+                total = 0;
+                sizekb = (1000) * Integer.parseInt(String.valueOf(length));
+                if (edtitle.getText().toString().equals("")) {
                     alert("Please Enter Title");
-                }
-                else if (edgallery.getText().toString().equals("")){
+                } else if (edgallery.getText().toString().equals("")) {
                     alert("Please Enter Description");
 
-                }
-                else {
+                } else {
                     Intent i = new Intent(VideoUpload.this, ToStaffGroupList.class);
                     i.putExtra("REQUEST_CODE", VIDEO_GALLERY);
                     i.putExtra("TITTLE", edtitle.getText().toString());
@@ -287,9 +281,10 @@ public class VideoUpload extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 imagePathList.clear();
-
                 Intent intent;
                 intent = new Intent(VideoUpload.this, AlbumVideoSelectVideoActivity.class);
+                lnrImages.setVisibility(View.GONE);
+                lblClickImage.setVisibility(View.VISIBLE);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 startActivityForResult(intent, SELECT_IMAGE);
             }
@@ -299,27 +294,23 @@ public class VideoUpload extends AppCompatActivity {
             public void onClick(View v) {
                 imagePathList.clear();
                 videotermsapi();
-
-
             }
         });
 
         imgplay1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("enter1","enter1");
-
-                Intent tostart = new Intent(Intent.ACTION_VIEW);
-                tostart.setDataAndType(Uri.parse(imagePathList.get(0)), "video/*");
-                startActivity(tostart);
+                Log.d("enter1", "enter1");
+                if (!imagePathList.isEmpty()) {
+                    Intent tostart = new Intent(Intent.ACTION_VIEW);
+                    tostart.setDataAndType(Uri.parse(imagePathList.get(0)), "video/*");
+                    startActivity(tostart);
+                } else {
+                    alert("Please Choose Video");
+                }
             }
         });
-
-
-
-
     }
-
 
 
     private void dialogbox() {
@@ -360,12 +351,12 @@ public class VideoUpload extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.d("requestcode", String.valueOf(requestCode));
-        long total=0;
-        long sizekb=0;
-        imagesize= TeacherUtil_SharedPreference.getVideosize(VideoUpload.this);
+        long total = 0;
+        long sizekb = 0;
+        imagesize = TeacherUtil_SharedPreference.getVideosize(VideoUpload.this);
 
         Log.d("length", String.valueOf(imagesize));
-        sizekb=  (1024 * 1024)*Integer.parseInt(imagesize);
+        sizekb = (1024 * 1024) * Integer.parseInt(imagesize);
         Log.d("length", String.valueOf(sizekb));
 
         if (resultCode != Activity.RESULT_CANCELED) {
@@ -390,7 +381,7 @@ public class VideoUpload extends AppCompatActivity {
                 frmImageClick.setEnabled(false);
 
                 Uri videoUri = data.getData();
-                imageFilePath= FileUtils.getPath( this,videoUri);
+                imageFilePath = FileUtils.getPath(this, videoUri);
 
                 imagePathList.add(imageFilePath);
                 Log.d("File_path_image", imageFilePath);
@@ -425,11 +416,11 @@ public class VideoUpload extends AppCompatActivity {
                         File img = new File(path.get(0));
                         long pathlength = img.length();
 
-                        String check=img.toString();
-                        check=check.substring(check.lastIndexOf(".")+1);
-                        Log.d("check",check);
-                        if(check.equalsIgnoreCase("mp4")||check.equalsIgnoreCase("mov")||
-                                check.equalsIgnoreCase("flv")||check.equalsIgnoreCase("avi")||
+                        String check = img.toString();
+                        check = check.substring(check.lastIndexOf(".") + 1);
+                        Log.d("check", check);
+                        if (check.equalsIgnoreCase("mp4") || check.equalsIgnoreCase("mov") ||
+                                check.equalsIgnoreCase("flv") || check.equalsIgnoreCase("avi") ||
                                 check.equalsIgnoreCase("wmv")) {
                             if (pathlength <= sizekb) {
                                 img1.setVideoPath(path.get(0));
@@ -450,12 +441,12 @@ public class VideoUpload extends AppCompatActivity {
                                 }
                                 ContentResolver resolver = getContentResolver();
                                 final ParcelFileDescriptor parcelFileDescriptor;
-                                File file1=new File(imagePathList.get(0));
+                                File file1 = new File(imagePathList.get(0));
                                 try {
 
                                     parcelFileDescriptor = resolver.openFileDescriptor(Uri.fromFile(file1), "r");
                                 } catch (FileNotFoundException e) {
-                                    Log.w("Could not open '" +Uri.fromFile(file1) + "'", e);
+                                    Log.w("Could not open '" + Uri.fromFile(file1) + "'", e);
                                     return;
                                 }
                                 assert parcelFileDescriptor != null;
@@ -487,15 +478,15 @@ public class VideoUpload extends AppCompatActivity {
                                     @Override
                                     public void onTranscodeCanceled() {
                                         progressBar.dismiss();
-                                        onTranscodeFinished(false,parcelFileDescriptor);
-                                        file=new File(imagePathList.get(0));
+                                        onTranscodeFinished(false, parcelFileDescriptor);
+                                        file = new File(imagePathList.get(0));
                                     }
 
                                     @Override
                                     public void onTranscodeFailed(Exception exception) {
                                         progressBar.dismiss();
                                         onTranscodeFinished(false, parcelFileDescriptor);
-                                        file=new File(imagePathList.get(0));
+                                        file = new File(imagePathList.get(0));
 
                                     }
                                 };
@@ -506,8 +497,7 @@ public class VideoUpload extends AppCompatActivity {
                                 filecontent = TeacherUtil_SharedPreference.getVideoalert(VideoUpload.this);
                                 alert(filecontent);
                             }
-                        }
-                        else{
+                        } else {
                             alert("Please Choose Valid Video format to send");
                         }
 
@@ -524,8 +514,7 @@ public class VideoUpload extends AppCompatActivity {
                 btnStaffGroups.setEnabled(false);
                 lblClickImage.setVisibility(View.VISIBLE);
 
-            }
-            else {
+            } else {
                 btnchange.setEnabled(true);
                 btnRecipients.setEnabled(true);
                 btnStdSec.setEnabled(true);
@@ -535,7 +524,7 @@ public class VideoUpload extends AppCompatActivity {
         }
     }
 
-    private void onTranscodeFinished(boolean isSuccess,  ParcelFileDescriptor parcelFileDescriptor) {
+    private void onTranscodeFinished(boolean isSuccess, ParcelFileDescriptor parcelFileDescriptor) {
         final ProgressDialog progressBar = new ProgressDialog(VideoUpload.this);
         progressBar.setCancelable(false);
         progressBar.setMessage("loading");
@@ -582,13 +571,12 @@ public class VideoUpload extends AppCompatActivity {
 
     private void videotermsapi() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(VideoUpload.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(VideoUpload.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(VideoUpload.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(VideoUpload.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(VideoUpload.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(VideoUpload.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -608,17 +596,17 @@ public class VideoUpload extends AppCompatActivity {
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
                         if (js.length() > 0) {
-                            for (int i=0;i<js.length();i++){
-                            JSONObject jsonObject = js.getJSONObject(i);
-                            String strStatus = jsonObject.getString("result");
-                            String strMsg = jsonObject.getString("Message");
+                            for (int i = 0; i < js.length(); i++) {
+                                JSONObject jsonObject = js.getJSONObject(i);
+                                String strStatus = jsonObject.getString("result");
+                                String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                String strcontent = jsonObject.getString("Content");
-                                contentlist.add(strcontent);
-                                Log.d("siz", String.valueOf(contentlist.size()));
+                                if ((strStatus.toLowerCase()).equals("1")) {
+                                    String strcontent = jsonObject.getString("Content");
+                                    contentlist.add(strcontent);
+                                    Log.d("siz", String.valueOf(contentlist.size()));
 
-                            }
+                                }
                             }
                         }
                         showFilePickPopup();
@@ -639,9 +627,11 @@ public class VideoUpload extends AppCompatActivity {
             }
         });
     }
+
     private void showToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
+
     private void alert(String strStudName) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(VideoUpload.this);
 
@@ -660,4 +650,3 @@ public class VideoUpload extends AppCompatActivity {
     }
 
 }
-

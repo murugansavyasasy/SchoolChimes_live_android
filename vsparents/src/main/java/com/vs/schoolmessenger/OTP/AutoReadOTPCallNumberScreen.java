@@ -658,6 +658,17 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
 
                             } else if (role.equals("p3")) {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
+
+                                for (int i = 0; i < jSONArray1.length(); i++) {
+                                    JSONObject jsonObjectdetailsgrouphead = jSONArray1.getJSONObject(i);
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolID"),
+                                            jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
+                                            , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
+                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending")
+                                    );
+                                    Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
+                                    listschooldetails.add(schoolmodel);
+                                }
                                 JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(0);
                                 schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
                                         jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
@@ -665,7 +676,6 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                         jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending")
                                 );
                                 Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
-                                listschooldetails.add(schoolmodel);
 
 
                                 String logo = jsonObjectdetailsStaff.getString("SchoolLogo");

@@ -62,6 +62,7 @@ import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
+import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -738,6 +739,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getMenuDetails() {
+        LoadingView.showProgress(HomeActivity.this);
+
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         IDs = "";
@@ -763,6 +766,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                LoadingView.hideProgress();
 
 
                 Log.d("GetMenuDetails:code", response.code() + " - " + response.toString());
@@ -817,6 +821,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
+                LoadingView.hideProgress();
+
                 showToast(getResources().getString(R.string.check_internet));
             }
         });
@@ -1334,6 +1340,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             } else if (substring1.equals("_23")) {
                                 count = "0";
                             }
+                            else if (substring1.equals("_24")) {
+                                count = "0";
+                            }
+                            else if (substring1.equals("_25")) {
+                                count = "0";
+                            }
 
 
                             if (!substring1.equals("_15")) {
@@ -1355,7 +1367,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                             }
                         });
-                        idGridMenus.setSelection(TeacherUtil_Common.scroll_to_position);
+                       // idGridMenus.setSelection(TeacherUtil_Common.scroll_to_position);
                         idGridMenus.setAdapter(myAdapter);
 
 

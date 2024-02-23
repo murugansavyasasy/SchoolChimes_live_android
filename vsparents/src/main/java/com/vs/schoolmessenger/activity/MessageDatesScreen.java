@@ -418,6 +418,12 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (isNetworkConnected()) {
+            LoadMore.setVisibility(View.VISIBLE);
+            getHomeWorkDetails();
+        }
+
         // ShowAds.getAds(this,adImage,slider,"",mAdView);
         ShowAdvancedNativeAds.getAds(this,adImage,slider,"",native_ads,adsClose);
 
@@ -426,10 +432,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 HomeWorkDateWiseAdapter.mediaPlayer.stop();
             }
         }
-        if (isNetworkConnected()) {
-            LoadMore.setVisibility(View.VISIBLE);
-            getHomeWorkDetails();
-        }
+
     }
 
 

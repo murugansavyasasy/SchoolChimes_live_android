@@ -65,6 +65,11 @@ public class ProfileLinkScreen extends AppCompatActivity {
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(ProfileLink+ChildId);
 

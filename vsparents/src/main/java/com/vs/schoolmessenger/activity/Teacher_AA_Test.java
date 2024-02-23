@@ -870,6 +870,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getMenuDetails() {
+        LoadingView.showProgress(Teacher_AA_Test.this);
+
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         IDs = "";
@@ -898,6 +900,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                LoadingView.hideProgress();
 
 
                 Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
@@ -967,7 +970,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                                 }
                             }
                         });
-                        idGridMenus.setSelection(TeacherUtil_Common.school_scroll_to_position);
+                       // idGridMenus.setSelection(TeacherUtil_Common.school_scroll_to_position);
                         idGridMenus.setAdapter(myAdapter);
                     }
                 } catch (Exception e) {
@@ -976,6 +979,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             }
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
+                LoadingView.hideProgress();
+
                 showToast(getResources().getString(R.string.check_internet));
                 Log.d("VersionCheck:Failure", t.toString());
             }
@@ -1185,8 +1190,17 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     public void onBackPressed() {
         Boolean is_staff = TeacherUtil_SharedPreference.getIsStaff(Teacher_AA_Test.this);
         Boolean is_parent = TeacherUtil_SharedPreference.getIsParent(Teacher_AA_Test.this);
+
         if (is_staff && is_parent) {
             finish();
+        }
+        else  if(is_staff){
+            if(schools_list.size() > 1){
+                finish();
+            }
+            else {
+                ExitAlert();
+            }
         }
         else {
             ExitAlert();
