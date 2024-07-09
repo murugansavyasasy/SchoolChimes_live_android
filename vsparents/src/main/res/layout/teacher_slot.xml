@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp">
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="5dp"
+            android:layout_height="70dp"
+            android:background="@color/clr_criomson"
+
+            ></View>
+
+        <TextView
+            android:id="@+id/lblSubjectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/view"
+            android:fontFamily="@font/arlrdbd"
+            android:text="Tamil"
+            android:textColor="@color/clr_black"
+            android:textSize="15dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/lblTeacherName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblSubjectName"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:layout_toRightOf="@+id/view"
+            android:fontFamily="@font/arlrdbd"
+            android:text="Sathish"
+            android:textColor="@color/clr_black"
+            android:textSize="15dp">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/imgDown"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_below="@+id/lblSubjectName"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_drop_down">
+
+        </ImageView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewViewTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgDown"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="@dimen/_10sdp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -40,6 +40,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANC
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_CHAT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_DAILY_COLLECTION;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_FEE_PENDING_REPORT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_LESSON_PLAN;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MEETING_URL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MESSAGESFROMMANAGEMENT;
@@ -49,6 +50,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT_HW;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE_HW;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_MEETING_URL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE;
@@ -109,7 +111,7 @@ public class TeacherSchoolList extends AppCompatActivity {
             Log.d("test4", "test4");
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
-                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending());
+                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(),ss.getIsSchoolType());
             Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
             Log.d("Testing", "8***********************");
@@ -122,11 +124,14 @@ public class TeacherSchoolList extends AppCompatActivity {
                     new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
-                            Intent inPrincipal = new Intent(TeacherSchoolList.this, TeacherAbsenteesReport.class);
+                        //    Intent inPrincipal = new Intent(TeacherSchoolList.this, TeacherAbsenteesReport.class);
+                            Intent inPrincipal = new Intent(TeacherSchoolList.this, SchoolAbsenteesReport.class);
                             inPrincipal.putExtra("REQUEST_CODE", iRequestCode);
                             inPrincipal.putExtra("SCHOOL_ID", item.getStrSchoolID());
                             inPrincipal.putExtra("STAFF_ID", item.getStrStaffID());
                             startActivityForResult(inPrincipal, iRequestCode);
+                            Util_Common.isPosition=0;
+                            Util_Common.isPositionSection = 0;
                         }
                     });
 
@@ -283,6 +288,29 @@ public class TeacherSchoolList extends AppCompatActivity {
             rvSchoolsList.setAdapter(schoolsListAdapter);
         }
 
+        if (iRequestCode == PRINCIPAL_FEE_PENDING_REPORT) {
+            TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
+                    new TeacherSchoolListForPrincipalAdapter(TeacherSchoolList.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
+                        @Override
+                        public void onItemClick(TeacherSchoolsModel item) {
+
+                            Intent inVoice = new Intent(TeacherSchoolList.this, FeePendingReport.class);
+                            inVoice.putExtra("REQUEST_CODE", iRequestCode);
+                            inVoice.putExtra("SCHOOL_ID", item.getStrSchoolID());
+                            inVoice.putExtra("STAFF_ID",  item.getStrStaffID());
+                            startActivity(inVoice);
+                            //startActivityForResult(inPrincipal, iRequestCode);
+                        }
+                    });
+
+            rvSchoolsList.hasFixedSize();
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TeacherSchoolList.this);
+            rvSchoolsList.setLayoutManager(layoutManager);
+            rvSchoolsList.addItemDecoration(new DividerItemDecoration(TeacherSchoolList.this, LinearLayoutManager.VERTICAL));
+            rvSchoolsList.setItemAnimator(new DefaultItemAnimator());
+            rvSchoolsList.setAdapter(schoolsListAdapter);
+        }
+
 
         if (iRequestCode == PRINCIPAL_ASSIGNMENT) {
 
@@ -426,7 +454,8 @@ public class TeacherSchoolList extends AppCompatActivity {
                             TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
                             TeacherUtil_Common.Principal_staffId = item.getStrStaffID();
 
-                            Intent inPrincipal = new Intent(TeacherSchoolList.this, DailyFeeCollectionActivity.class);
+                            //Intent inPrincipal = new Intent(TeacherSchoolList.this, DailyFeeCollectionActivity.class);
+                            Intent inPrincipal = new Intent(TeacherSchoolList.this, DailyCollectionFee.class);
                             inPrincipal.putExtra("REQUEST_CODE", PRINCIPAL_STUDENT_REPORT);
                             inPrincipal.putExtra("SCHOOL_ID", item.getStrSchoolID());
                             inPrincipal.putExtra("STAFF_ID", item.getStrStaffID());
@@ -553,6 +582,7 @@ public class TeacherSchoolList extends AppCompatActivity {
                         inPrincipal.putExtra("EMERGENCY", false);
                         inPrincipal.putExtra("SCHOOL_ID", item.getStrSchoolID());
                         inPrincipal.putExtra("STAFF_ID", item.getStrStaffID());
+                        Util_Common.isSchoolType=item.getIsSchoolType();
                         startActivityForResult(inPrincipal, iRequestCode);
                     }
                 });

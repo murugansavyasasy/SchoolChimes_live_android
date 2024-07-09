@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/rlyDatepick"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:padding="5dp"-->
+    <!--        android:weightSum="1"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/crdDailyCollectionFromDate"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="15dp"-->
+    <!--            android:layout_marginRight="@dimen/_10sdp"-->
+    <!--            android:layout_weight="0.5">-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/lblDateFrom"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:drawableRight="@drawable/ic_date"-->
+    <!--                android:gravity="center"-->
+    <!--                android:padding="@dimen/_10sdp"-->
+    <!--                android:text=""-->
+    <!--                android:textColor="@color/bpblack"-->
+    <!--                android:textSize="14dp"></TextView>-->
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/crdDailyCollectionTodate"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="15dp"-->
+    <!--            android:layout_weight="0.5"-->
+    <!--            app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/lblDateTo"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:drawableRight="@drawable/ic_date"-->
+    <!--                android:gravity="center"-->
+    <!--                android:padding="@dimen/_10sdp"-->
+    <!--                android:text=""-->
+    <!--                android:textColor="@color/bpblack"-->
+    <!--                android:textSize="14dp"></TextView>-->
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--    </LinearLayout>-->
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/lnrFeeCategory"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="@dimen/_20sdp"-->
+    <!--        android:background="@color/exm_clr"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:weightSum="0.9"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/rlyDatepick">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/lblCategory"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="0.3"-->
+    <!--            android:background="@color/teacher_clr_btn_login"-->
+    <!--            android:gravity="center"-->
+    <!--            android:padding="11dp"-->
+    <!--            android:text="CATEGORY"-->
+    <!--            android:textColor="@color/bpWhite"-->
+    <!--            android:textSize="14dp"-->
+    <!--            android:textStyle="bold"></TextView>-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/lblClass"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="0.3"-->
+    <!--            android:gravity="center"-->
+    <!--            android:padding="11dp"-->
+    <!--            android:text="CLASS"-->
+    <!--            android:textColor="@color/bpblack"-->
+    <!--            android:textSize="14dp"-->
+    <!--            android:textStyle="bold"></TextView>-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/lblMode"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="0.3"-->
+    <!--            android:gravity="center"-->
+    <!--            android:padding="11dp"-->
+    <!--            android:text="MODE"-->
+    <!--            android:textColor="@color/bpblack"-->
+    <!--            android:textSize="14dp"-->
+    <!--            android:textStyle="bold">-->
+
+    <!--        </TextView>-->
+    <!--    </LinearLayout>-->
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:weightSum="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:text="From Date"
+                            android:layout_weight="0.5"
+                            android:textColor="@color/clr_black"
+                            android:textSize="15dp">
+
+                        </TextView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:text="To Date"
+                            android:textColor="@color/clr_black"
+                            android:textSize="15dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/rlyDatepick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/crdDailyCollectionFromDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_weight="0.5">
+
+
+                            <TextView
+                                android:id="@+id/lblDateFrom"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableRight="@drawable/ic_date"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"
+                                android:text=""
+                                android:textColor="@color/bpblack"
+                                android:textSize="14dp"></TextView>
+
+                        </androidx.cardview.widget.CardView>
+
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/crdDailyCollectionTodate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/lblDateTo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableRight="@drawable/ic_date"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"
+                                android:text=""
+                                android:textColor="@color/bpblack"
+                                android:textSize="14dp"></TextView>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lnrFeeCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@color/exm_clr"
+                        android:orientation="horizontal"
+                        android:weightSum="0.9"
+                        app:layout_constraintTop_toBottomOf="@+id/rlyDatepick">
+
+                        <TextView
+                            android:id="@+id/lblCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:background="@color/is_dailycollection_header"
+                            android:gravity="center"
+                            android:padding="11dp"
+                            android:text="CATEGORY"
+                            android:textColor="@color/bpWhite"
+                            android:textSize="14dp"
+                            android:textStyle="bold"></TextView>
+
+                        <TextView
+                            android:id="@+id/lblClass"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:gravity="center"
+                            android:padding="11dp"
+                            android:text="CLASS"
+                            android:textColor="@color/bpblack"
+                            android:textSize="14dp"
+                            android:textStyle="bold"></TextView>
+
+                        <TextView
+                            android:id="@+id/lblMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:gravity="center"
+                            android:padding="11dp"
+                            android:text="MODE"
+                            android:textColor="@color/bpblack"
+                            android:textSize="14dp"
+                            android:textStyle="bold">
+
+                        </TextView>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rlySection"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/SpinnerSection"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_20sdp"
+                            android:background="@drawable/bg_black_white_box"
+                            android:padding="@dimen/_10sdp"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </Spinner>
+
+                    </RelativeLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcy_DailyReport"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+        </RelativeLayout>
+    </FrameLayout>
+
+
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/rlySection">-->
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/rcy_DailyReport"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:padding="10dp"-->
+
+    <!--            ></androidx.recyclerview.widget.RecyclerView>-->
+    <!--    </RelativeLayout>-->
+
+
+    <TextView
+        android:id="@+id/lblNoRecords"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Records Found"
+        android:textColor="@color/clr_black"
+        android:textSize="15dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+</androidx.constraintlayout.widget.ConstraintLayout>

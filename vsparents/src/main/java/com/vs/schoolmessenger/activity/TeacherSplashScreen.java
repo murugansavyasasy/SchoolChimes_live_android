@@ -76,6 +76,7 @@ import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -486,8 +487,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
                             } else {
                                 checkAppUpdateAPI();
                             }
-
-
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
@@ -539,8 +538,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
         btnAgree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String androidId = Settings.Secure.getString(getContentResolver(),
-                        Settings.Secure.ANDROID_ID);
+                String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
                 termsAndConditionsAgreeApi(androidId);
                 if (newinstallOrUpdate.equals("1")) {
                     popupWindow.dismiss();
@@ -554,16 +552,12 @@ public class TeacherSplashScreen extends AppCompatActivity {
                     if (update.equals("")) {
                         TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, version);
                         countryListAPI();
-
                     } else {
                         checkAutoLoginAndSDcardPermission();
                     }
                 }
-
             }
         });
-
-
     }
 
     private void termsAndConditionsAgreeApi(String androidId) {
@@ -580,14 +574,12 @@ public class TeacherSplashScreen extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
                 try {
-
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
                     } else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
-
                 } catch (Exception e) {
                     Log.e("Response Exception", e.getMessage());
                 }
@@ -632,15 +624,13 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
     public boolean isWriteExternalPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) == PackageManager.PERMISSION_GRANTED ) {
-
+            if (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) == PackageManager.PERMISSION_GRANTED) {
                 Log.v("WRITE_EXTERNAL_STORAGE", "Permission is granted");
                 return true;
             } else {
                 Log.v("EWRITE_EXTERNAL_STORAG", "Permission is revoked");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
                 return false;
-
             }
         } else {
             Log.v("WRITE_EXTERNAL_STORAGE", "Permission is granted");
@@ -664,7 +654,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         openMobileNumbeScreen();
                     } else if (otpValue.equals("1")) {
                         openMobileNumbeScreen();
-
                     } else if (value.equals("1")) {
                         openSingInScreen();
                     } else {
@@ -788,6 +777,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
 
     private void checkUpdateFirstTime() {
+
         String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(strBaseURL);
         LoadingView.showProgress(TeacherSplashScreen.this);
@@ -801,7 +791,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 LoadingView.hideProgress();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -841,7 +831,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
 
                         String version = getString(R.string.teacher_app_version_id);
-                        if (!("108".equals(version))) {
+                        if (!("200".equals(version))) {
                             TeacherUtil_SharedPreference.putautoupdateToSP(TeacherSplashScreen.this, version);
                             checkAppUpdateAPI();
                         } else {
@@ -1227,7 +1217,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true,
                                             jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"));
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"));
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetailsStaff.getString("SchoolName"));
@@ -1241,6 +1231,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                     String strStaffId = object.getString("StaffID");
                                     TeacherUtil_Common.Principal_staffId = strStaffId;
                                     TeacherUtil_Common.Principal_SchoolId = strSchoolId;
+                                    Util_Common.isSchoolType = object.getInt("school_type");
 
                                     TeacherUtil_SharedPreference.putShoolID(TeacherSplashScreen.this, strSchoolId);
                                     TeacherUtil_SharedPreference.putStaffID(TeacherSplashScreen.this, strStaffId);
@@ -1348,7 +1339,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetails.getString("SchoolName"), jsonObjectdetails.getString("SchoolID"),
                                             jsonObjectdetails.getString("city"), jsonObjectdetails.getString("SchoolAddress"), jsonObjectdetails.getString("SchoolLogo")
                                             , jsonObjectdetails.getString("StaffID"), jsonObjectdetails.getString("StaffName"), true, jsonObjectdetails.getString("isBooksEnabled"),
-                                            jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"));
+                                            jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"), jsonObjectdetails.getInt("school_type"));
                                     Log.d("value1", jsonObjectdetails.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetails.getString("SchoolName"));
@@ -1357,6 +1348,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                         String strStaffId = jsonObjectdetails.getString("StaffID");
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
+                                        Util_Common.isSchoolType = jsonObjectdetails.getInt("school_type");
 
 
                                         String logo = jsonObjectdetails.getString("SchoolLogo");
@@ -1380,7 +1372,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolID"),
                                             jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
                                             , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending")
+                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type")
                                     );
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -1403,7 +1395,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolID"),
                                             jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
                                             , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending")
+                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type")
                                     );
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -1413,10 +1405,9 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
                                         jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                         , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                        jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending")
+                                        jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type")
                                 );
                                 Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
-
 
                                 String logo = jsonObjectdetailsStaff.getString("SchoolLogo");
                                 TeacherUtil_SharedPreference.putSchoolLogo(TeacherSplashScreen.this, logo);
@@ -1430,6 +1421,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                                 TeacherUtil_Common.Principal_staffId = strStaffId1;
                                 TeacherUtil_Common.Principal_SchoolId = strSchoolId;
+                                Util_Common.isSchoolType = jsonObjectdetailsStaff.getInt("school_type");
 
                                 if (listschooldetails.size() == 1) {
                                     Intent i = new Intent(TeacherSplashScreen.this, Teacher_AA_Test.class);
@@ -1456,7 +1448,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending")
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type")
                                     );
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -1466,6 +1458,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                         String strStaffId = jsonObjectdetailsStaff.getString("StaffID");
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
+                                        Util_Common.isSchoolType = jsonObjectdetailsStaff.getInt("school_type");
 
                                     }
 
@@ -1488,16 +1481,16 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending")
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type")
                                     );
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
-
                                     if (listschooldetails.size() == 1) {
                                         String strSchoolId = jsonObjectdetailsStaff.getString("SchoolID");
                                         String strStaffId = jsonObjectdetailsStaff.getString("StaffID");
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
+                                        Util_Common.isSchoolType = jsonObjectdetailsStaff.getInt("school_type");
 
                                     }
 

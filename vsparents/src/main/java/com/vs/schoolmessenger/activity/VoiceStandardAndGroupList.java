@@ -33,6 +33,7 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -617,7 +618,14 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
+      //  Call<JsonArray> call = apiService.SendVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
+        } else {
+            call = apiService.SendVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
+        }
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -690,6 +698,17 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
                 }
             }
 
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             JsonArray jsonArrayschoolgrp = new JsonArray();
             for (int i = 0; i < listGroups.size(); i++) {
                 if (listGroups.get(i).isbSelected()) {
@@ -749,7 +768,14 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceToGroupsAndStandards(requestBody, bodyFile);
+     //   Call<JsonArray> call = apiService.SendVoiceToGroupsAndStandards(requestBody, bodyFile);
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleToGroupsAndStandards(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceToGroupsAndStandards(requestBody, bodyFile);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -832,6 +858,19 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
                 }
             }
 
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
+
+
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
@@ -851,7 +890,7 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         File file = new File(filepath);
-        Log.d("FILE_Path", filepath);
+        Log.d("FILE_Path_", filepath);
         RequestBody requestFile =
                 RequestBody.create(
                         MediaType.parse("multipart/form-data"), file);
@@ -871,7 +910,14 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceToGroupsAndStandards(requestBody, bodyFile);
+     //   Call<JsonArray> call = apiService.SendVoiceToGroupsAndStandards(requestBody, bodyFile);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleToGroupsAndStandards(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceToGroupsAndStandards(requestBody, bodyFile);
+        }
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -980,6 +1026,17 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
+            }
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
             }
 
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);

@@ -446,9 +446,11 @@ public class StudentReportActivity extends AppCompatActivity{
                                     String dob = jsonObject.getString("dob");
                                     String className = jsonObject.getString("className");
                                     String sectionName = jsonObject.getString("sectionName");
+                                    String fatherName = jsonObject.getString("fatherName");
+                                    String classTeacher = jsonObject.getString("classTeacher");
 
                                     data = new StudentReportModel(studentId, studentName,primaryMobile,admissionNo,gender,
-                                            dob,classId,className,sectionId,sectionName);
+                                            dob,classId,className,sectionId,sectionName,fatherName,classTeacher);
                                     Exam_list.add(data);
 
                                 }

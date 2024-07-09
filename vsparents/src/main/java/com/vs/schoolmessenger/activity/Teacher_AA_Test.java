@@ -17,20 +17,16 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -52,7 +48,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -81,10 +76,8 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,15 +85,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ss.com.bannerslider.Slider;
-
 import static com.vs.schoolmessenger.util.Constants.updates;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
+
 
 public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickListener {
 
@@ -132,25 +124,21 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     Boolean BookEnabled = false;
     int Contact_Count = 0;
     int exist_Count = 0;
-
     String contact_alert_title="",contact_alert_Content="",contact_display_name="",contact_numbers="",contact_button = "";
     String[] contacts ;
     String Display_Name = "";
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private PopupWindow SettingspopupWindow;
     private PopupWindow ContactpopupWindow;
-
     AdView mAdView;
     Slider slider;
     ImageView adImage;
     private List<NewUpdatesData> newUpdatesDataList = new ArrayList<NewUpdatesData>();
-
     int initial_pos = 0;
     String redirect_url = "";
     String image_url = "";
     String title = "";
     String content = "";
-
     SchoolMenuAdapter myAdapter;
     PopupWindow updatesManualPopup;
 
@@ -920,6 +908,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
                             String[] name = menu_name.split(",");
                             isPrincipalMenuNames.clear();
+
                             for (String itemtemp : name) {
                                 isPrincipalMenuNames.add(itemtemp);
                             }

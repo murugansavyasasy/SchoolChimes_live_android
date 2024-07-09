@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Environment;
+
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +66,6 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
         holder.lbldate.setText(circular.getMsgDate());
         holder.lblDescription.setText(circular.getMsgdescription());
 
-
         if (circular.getSelectedStatus()) {
             holder.slectCheckbox.setChecked(true);
             prevSelection = position;
@@ -80,20 +82,15 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
 
                 if (isChecked) {
                     circular.setSelectedStaus(true);
-
                     onContactsListener.voiceHistoryAddList(circular);
-
                     if (prevSelection >= 0) {
                         circularList.get(prevSelection).setSelectedStaus(false);
                         notifyItemChanged(prevSelection);
                     }
                     prevSelection = position;
+                } else {
+                    onContactsListener.voiceHistoryRemoveList(circular);
                 }
-
-                else {
-                     onContactsListener.voiceHistoryRemoveList(circular);
-                }
-
             }
         });
 
@@ -116,9 +113,7 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
 
                     DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "Voice_History");
 
-                }
-
-                else {
+                } else {
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
 
@@ -140,13 +135,10 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
                         }
                     }
 
-
                     String root_sd;
-                    if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.Q)
-                    {
+                    if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
                         root_sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-                    }
-                    else{
+                    } else {
                         root_sd = Environment.getExternalStorageDirectory().getPath();
                     }
 
@@ -168,12 +160,10 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
                             Intent inPdfPopup = new Intent(context, VoiceCircularPopup.class);
                             inPdfPopup.putExtra("VOICE_ITEM", circular);
                             context.startActivity(inPdfPopup);
-
-
                         }
                     }
 
-                    if (!myList.contains(filename+"_"+circular.getMsgTitle()+".mp3")) {
+                    if (!myList.contains(filename + "_" + circular.getMsgTitle() + ".mp3")) {
                         Toast.makeText(context, context.getResources().getString(R.string.connect_internet), Toast.LENGTH_LONG).show();
 
                     }
@@ -184,7 +174,6 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
 
             }
         });
-
 
 
     }
@@ -212,13 +201,10 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
     }
 
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lbldate, lblDescription;
         public Button btnView;
         public CheckBox slectCheckbox;
-
-
 
 
         public MyViewHolder(View view) {
@@ -235,12 +221,13 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                 }
             });
         }
     }
 
-    public VoiceHistoryAdapter(Context context,VoiceHistoryListener listener,ArrayList<MessageModel> circularList) {
+    public VoiceHistoryAdapter(Context context, VoiceHistoryListener listener, ArrayList<MessageModel> circularList) {
         this.context = context;
         this.circularList = circularList;
         this.onContactsListener = listener;

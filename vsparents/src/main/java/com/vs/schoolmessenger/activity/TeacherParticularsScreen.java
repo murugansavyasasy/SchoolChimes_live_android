@@ -160,6 +160,7 @@ public class TeacherParticularsScreen extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
         JsonObject jsonReqArray = constructJsonArrayMgtSchoolStd();
+        Log.d("Request",jsonReqArray.toString());
         Call<JsonArray> call = apiService.GetSchoolStrengthBySchoolID(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
 
@@ -169,6 +170,7 @@ public class TeacherParticularsScreen extends AppCompatActivity {
                     mProgressDialog.dismiss();
 
                 Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentStrenthResponse",response.body().toString());
                 if (response.code() == 200 || response.code() == 201)
 
                 try {
@@ -195,7 +197,7 @@ public class TeacherParticularsScreen extends AppCompatActivity {
                                     for (int k = 0; k < jSONArraysection.length(); k++) {
                                         JSONObject jsonObjectsections = jSONArraysection.getJSONObject(k);
                                         TeacherABS_Section abs_section;
-                                        abs_section = new TeacherABS_Section(jsonObjectsections.getString("SecName"), jsonObjectsections.getString("TotalStudents"));
+                                        abs_section = new TeacherABS_Section(jsonObjectsections.getString("SecName"), jsonObjectsections.getString("TotalStudents"), jsonObjectsections.getString("SectionId"));
                                         Log.d("childlist", abs_section.getSection());
                                         listGropus.add(abs_section);
                                     }
@@ -209,7 +211,7 @@ public class TeacherParticularsScreen extends AppCompatActivity {
                                     for (int k = 0; k < jSONArraysection.length(); k++) {
                                         JSONObject jsonObjectsections = jSONArraysection.getJSONObject(k);
                                         TeacherABS_Section abs_section;
-                                        abs_section = new TeacherABS_Section("", "");
+                                        abs_section = new TeacherABS_Section("", "","");
                                         Log.d("childlist", abs_section.getSection());
                                         listGropus.add(abs_section);
                                     }

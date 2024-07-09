@@ -263,7 +263,6 @@ public class VideoUpload extends AppCompatActivity {
                     alert("Please Enter Title");
                 } else if (edgallery.getText().toString().equals("")) {
                     alert("Please Enter Description");
-
                 } else {
                     Intent i = new Intent(VideoUpload.this, ToStaffGroupList.class);
                     i.putExtra("REQUEST_CODE", VIDEO_GALLERY);

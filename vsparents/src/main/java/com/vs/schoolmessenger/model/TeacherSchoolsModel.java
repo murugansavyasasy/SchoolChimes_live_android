@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Created by voicesnap on 6/7/2017.
  */
 
-public class TeacherSchoolsModel implements Serializable{
+public class TeacherSchoolsModel implements Serializable {
     String strSchoolName;
     String strSchoolID;
     String strSchoolLogoUrl;
@@ -15,10 +15,11 @@ public class TeacherSchoolsModel implements Serializable{
     String strCity;
     String strStaffID;
     String strStaffName;
+
+    int isSchoolType;
     ArrayList<TeacherClassGroupModel> listClasses, listGroups;
     ArrayList<TeacherSchoolsModel> listSchools;
     boolean selectStatus;
-
     String onlineLink;
     String BookEnable;
     String isPaymentPending;
@@ -26,8 +27,8 @@ public class TeacherSchoolsModel implements Serializable{
     public TeacherSchoolsModel() {
     }
 
-    public TeacherSchoolsModel(String strSchoolName, String strSchoolID, String strCity, String  strSchoolAddress, String strSchoolLogoUrl, String strStaffID, String strStaffName, boolean selectStatus,
-    String bookEnable,String Link,String isPayment){
+    public TeacherSchoolsModel(String strSchoolName, String strSchoolID, String strCity, String strSchoolAddress, String strSchoolLogoUrl, String strStaffID, String strStaffName, boolean selectStatus,
+                               String bookEnable, String Link, String isPayment, int isSchoolType) {
 
         this.strSchoolName = strSchoolName;
         this.strSchoolID = strSchoolID;
@@ -37,10 +38,10 @@ public class TeacherSchoolsModel implements Serializable{
         this.strStaffID = strStaffID;
         this.strStaffName = strStaffName;
         this.selectStatus = selectStatus;
-
         this.onlineLink = Link;
         this.BookEnable = bookEnable;
         this.isPaymentPending = isPayment;
+        this.isSchoolType = isSchoolType;
     }
 
 
@@ -51,8 +52,6 @@ public class TeacherSchoolsModel implements Serializable{
         this.strSchoolAddress = strSchoolAddress;
         this.selectStatus = selectStatus;
     }
-
-
 
 
     public String getBookEnable() {
@@ -71,6 +70,14 @@ public class TeacherSchoolsModel implements Serializable{
         this.isPaymentPending = bookEnable;
     }
 
+    public int getIsSchoolType() {
+        return isSchoolType;
+    }
+
+    public void setIsSchoolType(int isSchoolType) {
+        this.isSchoolType = isSchoolType;
+    }
+
 
     public String getOnlineLink() {
         return onlineLink;
@@ -79,7 +86,6 @@ public class TeacherSchoolsModel implements Serializable{
     public void setOnlineLink(String link) {
         this.onlineLink = link;
     }
-
 
 
     public String getStrCity() {

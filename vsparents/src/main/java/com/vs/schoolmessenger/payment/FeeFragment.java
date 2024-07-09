@@ -103,6 +103,7 @@ public class FeeFragment extends Fragment {
         web_view.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Log.d("Override_URL",url);
                 view.loadUrl(url);
                 return true;
             }

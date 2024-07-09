@@ -170,8 +170,6 @@
     </androidx.cardview.widget.CardView>
 
 
-
-
     <GridView
         android:id="@+id/idGridMenus"
         android:layout_width="match_parent"
@@ -212,7 +210,6 @@
     </com.google.android.gms.ads.AdView>
 
     </LinearLayout>
-
 
 
     <LinearLayout

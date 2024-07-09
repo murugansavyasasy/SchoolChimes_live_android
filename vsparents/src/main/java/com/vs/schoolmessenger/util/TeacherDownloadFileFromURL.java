@@ -95,6 +95,7 @@ public class TeacherDownloadFileFromURL {
                         }
                     }.execute();
                 } else {
+                    Log.d("failed","failed");
                     Log.d("DOWNLOADING...", "server contact failed");
                 }
 

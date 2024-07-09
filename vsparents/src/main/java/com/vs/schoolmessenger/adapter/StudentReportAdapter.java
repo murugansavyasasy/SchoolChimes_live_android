@@ -47,7 +47,7 @@ public class StudentReportAdapter extends RecyclerView.Adapter<StudentReportAdap
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView lblStudentName, lblClassName, lblSectionName, lblAdmissionNo, lblGender, lblDOB, lblMobile;
+        public TextView lblStudentName, lblClassName, lblSectionName, lblAdmissionNo, lblGender, lblDOB, lblMobile,lblClassTeacher,lblFather;
         Button btnCall, btnSendSms;
 
         public MyViewHolder(View view) {
@@ -61,6 +61,9 @@ public class StudentReportAdapter extends RecyclerView.Adapter<StudentReportAdap
             lblMobile = (TextView) view.findViewById(R.id.lblMobile);
             btnCall = view.findViewById(R.id.btnCall);
             btnSendSms = view.findViewById(R.id.btnSendSms);
+            lblClassTeacher = view.findViewById(R.id.lblClassTeacher);
+            lblFather = view.findViewById(R.id.lblFather);
+
         }
     }
     public StudentReportAdapter(List<StudentReportModel> lib_list, Context context) {
@@ -88,6 +91,8 @@ public class StudentReportAdapter extends RecyclerView.Adapter<StudentReportAdap
         holder.lblGender.setText(exam.getGender());
         holder.lblDOB.setText(exam.getDob());
         holder.lblMobile.setText(exam.getPrimaryMobile());
+        holder.lblClassTeacher.setText(exam.getClassTeacher());
+        holder.lblFather.setText(exam.getFatherName());
 
         holder.btnCall.setOnClickListener(new View.OnClickListener() {
             @Override

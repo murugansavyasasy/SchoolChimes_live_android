@@ -28,6 +28,7 @@ import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.VimeoUploader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -61,31 +62,32 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VIDEOS;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 
-public class VideoPrincipalRecipient extends AppCompatActivity implements View.OnClickListener {
+public class VideoPrincipalRecipient extends AppCompatActivity implements View.OnClickListener, VimeoUploader.UploadCompletionListener {
 
 
     Button SendToEntireSchool, SendToStansGroups, SendToSpecificSection;
 
-    String  SchoolID,StaffID,filepath,duration,tittle,strmessage,strdate,strtime,strfilepathimage;
-    int iRequestCode=0;
+    String SchoolID, StaffID, filepath, duration, tittle, strmessage, strdate, strtime, strfilepathimage;
+    int iRequestCode = 0;
 
     ArrayList<TeacherClassGroupModel> listClasses, listGroups;
 
-    String voicetype="";
-    String PRINCIPAL_IMAGE="";
+    String voicetype = "";
+    String PRINCIPAL_IMAGE = "";
 
     ArrayList<String> slectedImagePath = new ArrayList<String>();
-    String strPDFFilepath,strVideoFilePath,VideoDescription,upload_link,link,iframe;
+    String strPDFFilepath, strVideoFilePath, VideoDescription, upload_link, link, iframe;
     String ticket_id;
     String video_file_id;
     String signature;
     String v6;
-    String redirect_url,strsize;
+    String redirect_url, strsize;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -95,15 +97,14 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         setContentView(R.layout.sens_specific_section);
 
 
-
         SendToEntireSchool = (Button) findViewById(R.id.SendToEntireSchool);
         SendToEntireSchool.setOnClickListener(this);
         SendToStansGroups = (Button) findViewById(R.id.SendToStansGroups);
         SendToStansGroups.setOnClickListener(this);
         SendToSpecificSection = (Button) findViewById(R.id.SendToSpecificSection);
         SendToSpecificSection.setOnClickListener(this);
-        
-        
+
+
         ImageView ivBack = (ImageView) findViewById(R.id.emergVoice_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,14 +114,13 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         });
 
 
-
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         SchoolID = Principal_SchoolId;
         StaffID = Principal_staffId;
 
-        if(TeacherUtil_Common.listschooldetails.size()==1){
-            SchoolID=TeacherUtil_Common.Principal_SchoolId;
-            StaffID=TeacherUtil_Common.Principal_staffId;
+        if (TeacherUtil_Common.listschooldetails.size() == 1) {
+            SchoolID = TeacherUtil_Common.Principal_SchoolId;
+            StaffID = TeacherUtil_Common.Principal_staffId;
         }
         filepath = getIntent().getExtras().getString("FILEPATH", "");
         strsize = getIntent().getExtras().getString("FILE_SIZE", "");
@@ -140,41 +140,40 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         strPDFFilepath = getIntent().getExtras().getString("FILE_PATH_PDF", "");
         strVideoFilePath = getIntent().getExtras().getString("VIDEO_FILE_PATH", "");
 
-        if(strPDFFilepath.equals("")){
+        if (strPDFFilepath.equals("")) {
             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
         }
 
 
+    }
 
-        }
-
-        public void onClick(View v) {
-        switch(v.getId()) {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.SendToEntireSchool:
                 showAlert("Do you want to send the video");
                 break;
             case R.id.SendToStansGroups:
 
-                    Intent inPrincipal = new Intent(VideoPrincipalRecipient.this, GroupListVideoActivity.class);
-                    inPrincipal.putExtra("REQUEST_CODE", iRequestCode);
+                Intent inPrincipal = new Intent(VideoPrincipalRecipient.this, GroupListVideoActivity.class);
+                inPrincipal.putExtra("REQUEST_CODE", iRequestCode);
                 inPrincipal.putExtra("FILEPATH", filepath);
                 inPrincipal.putExtra("FILE_SIZE", strsize);
-                inPrincipal.putExtra("CONTENT",strmessage );
+                inPrincipal.putExtra("CONTENT", strmessage);
                 inPrincipal.putExtra("TITLE", tittle);
-                    startActivityForResult(inPrincipal, iRequestCode);
+                startActivityForResult(inPrincipal, iRequestCode);
 
                 break;
 
             case R.id.SendToSpecificSection:
 
-                    Intent intoSec = new Intent(VideoPrincipalRecipient.this, RecipientVideoActivity.class);
-                    intoSec.putExtra("REQUEST_CODE", iRequestCode);
-                    intoSec.putExtra("SEC", "1");
-                    intoSec.putExtra("FILEPATH", filepath);
-                    intoSec.putExtra("FILE_SIZE", strsize);
-                    intoSec.putExtra("CONTENT",strmessage );
-                    intoSec.putExtra("TITLE", tittle);
-                    startActivityForResult(intoSec, iRequestCode);
+                Intent intoSec = new Intent(VideoPrincipalRecipient.this, RecipientVideoActivity.class);
+                intoSec.putExtra("REQUEST_CODE", iRequestCode);
+                intoSec.putExtra("SEC", "1");
+                intoSec.putExtra("FILEPATH", filepath);
+                intoSec.putExtra("FILE_SIZE", strsize);
+                intoSec.putExtra("CONTENT", strmessage);
+                intoSec.putExtra("TITLE", tittle);
+                startActivityForResult(intoSec, iRequestCode);
 
                 break;
         }
@@ -188,8 +187,8 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         alertDialog.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            VimeoAPi();
-
+                // VimeoAPi();
+                uploadVimeoVideo();
             }
         });
 
@@ -208,6 +207,25 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
     }
 
+    private void uploadVimeoVideo() {
+        String authToken = TeacherUtil_SharedPreference.getVideotoken(VideoPrincipalRecipient.this);
+        VimeoUploader.uploadVideo(VideoPrincipalRecipient.this, tittle, strmessage, authToken, filepath, this);
+    }
+
+    @Override
+    public void onUploadComplete(boolean success, String isIframe, String isLink) {
+        Log.d("Vime_Video_upload", String.valueOf(success));
+        Log.d("VimeoIframe", isIframe);
+        Log.d("link", isLink);
+
+        if (success) {
+            iframe = isIframe;
+            link = isLink;
+            SendVideotoSecApi();
+        } else {
+            showAlertfinal("Video sending failed.Retry", "0");
+        }
+    }
 
 
     private void showAlert1(String strMsg, final String status) {
@@ -221,7 +239,6 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
             public void onClick(DialogInterface dialog, int which) {
 
 
-
                 if (status.equals("1")) {
                     dialog.cancel();
                     Intent homescreen = new Intent(VideoPrincipalRecipient.this, Teacher_AA_Test.class);
@@ -232,7 +249,6 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
                 } else {
                     dialog.cancel();
                 }
-
 
 
             }
@@ -258,12 +274,12 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         try {
             jsonObjectSchoolstdgrp.addProperty("Title", tittle);
             jsonObjectSchoolstdgrp.addProperty("Description", strmessage);
-            jsonObjectSchoolstdgrp.addProperty("SchoolId",Principal_SchoolId);
-            jsonObjectSchoolstdgrp.addProperty("ProcessBy",Principal_staffId );
+            jsonObjectSchoolstdgrp.addProperty("SchoolId", Principal_SchoolId);
+            jsonObjectSchoolstdgrp.addProperty("ProcessBy", Principal_staffId);
             jsonObjectSchoolstdgrp.addProperty("Iframe", iframe);//getIntent().getExtras().getString("MEDIA_DURATION", "0")
             jsonObjectSchoolstdgrp.addProperty("URL", link);//getIntent().getExtras().getString("MEDIA_DURATION", "0")
 
-            Log.d("reqVideo",jsonObjectSchoolstdgrp.toString());
+            Log.d("reqVideo", jsonObjectSchoolstdgrp.toString());
 
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
@@ -274,19 +290,19 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
 
     void SendVideotoSecApi() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(VideoPrincipalRecipient.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(VideoPrincipalRecipient.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(VideoPrincipalRecipient.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
-        mProgressDialog.setCancelable(false);
+//        final ProgressDialog mProgressDialog = new ProgressDialog(VideoPrincipalRecipient.this);
+//        mProgressDialog.setIndeterminate(true);
+//        mProgressDialog.setMessage("Uploading...");
+//        mProgressDialog.setCancelable(false);
 
-        if (!this.isFinishing())
-            mProgressDialog.show();
+      //  if (!this.isFinishing())
+          //  mProgressDialog.show();
         JsonObject jsonReqArray = JsonVideotoSection();
         Call<JsonArray> call = apiService.SendVideoFromAppForEnitireSchool(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
@@ -294,8 +310,8 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
             public void onResponse(Call<JsonArray> call,
                                    Response<JsonArray> response) {
 
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
@@ -309,10 +325,10 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlertfinal(strMsg,strStatus);
+                                showAlertfinal(strMsg, strStatus);
 
                             } else {
-                                showAlertfinal(strMsg,strStatus);
+                                showAlertfinal(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -328,8 +344,8 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
                 Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
@@ -368,39 +384,39 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         JsonObject object = new JsonObject();
 
         JsonObject jsonObjectclasssec = new JsonObject();
-        jsonObjectclasssec.addProperty("approach","post");
-        jsonObjectclasssec.addProperty("size",String.valueOf(strsize) );
+        jsonObjectclasssec.addProperty("approach", "post");
+        jsonObjectclasssec.addProperty("size", String.valueOf(strsize));
 
         JsonObject jsonprivacy = new JsonObject();
-        jsonprivacy.addProperty("view","unlisted");
+        jsonprivacy.addProperty("view", "unlisted");
 
         JsonObject jsonshare = new JsonObject();
-        jsonshare.addProperty("share","false");
+        jsonshare.addProperty("share", "false");
 
         JsonObject jsonembed = new JsonObject();
-        jsonembed.add("buttons",jsonshare);
+        jsonembed.add("buttons", jsonshare);
 
         object.add("upload", jsonObjectclasssec);
-        object.addProperty("name",tittle);
-        object.addProperty("description",strmessage);
+        object.addProperty("name", tittle);
+        object.addProperty("description", strmessage);
         object.add("privacy", jsonprivacy);
         object.add("embed", jsonembed);
-        String head="Bearer "+TeacherUtil_SharedPreference.getVideotoken(VideoPrincipalRecipient.this);
-        Log.d("header",head);
-        Call<JsonObject> call = service.VideoUpload(object,head);
+        String head = "Bearer " + TeacherUtil_SharedPreference.getVideotoken(VideoPrincipalRecipient.this);
+        Log.d("header", head);
+        Call<JsonObject> call = service.VideoUpload(object, head);
         Log.d("jsonOBJECT", object.toString());
         call.enqueue(new Callback<JsonObject>() {
 
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 int res = response.code();
                 Log.d("RESPONSE", String.valueOf(res));
                 if (response.isSuccessful()) {
                     try {
 
-                        Log.d("try","testtry");
+                        Log.d("try", "testtry");
                         JSONObject object1 = new JSONObject(response.body().toString());
                         Log.d("Response sucess", object1.toString());
 
@@ -413,25 +429,23 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
                         Log.d("c", upload_link);
                         Log.d("iframe", iframe);
 
-                        try{
-                              VIDEOUPLOAD(upload_link);
-                        }catch (Exception e) {
+                        try {
+                            VIDEOUPLOAD(upload_link);
+                        } catch (Exception e) {
                             Log.e("VIMEO Exception", e.getMessage());
-                            showAlertfinal("Video sending failed.Retry","0");
+                            showAlertfinal("Video sending failed.Retry", "0");
                         }
 
                     } catch (Exception e) {
 
                         Log.e("VIMEO Exception", e.getMessage());
-                        showAlertfinal(e.getMessage(),"0");
+                        showAlertfinal(e.getMessage(), "0");
                     }
 
 
-
-                }
-                else {
+                } else {
                     Log.d("Response fail", "fail");
-                    showAlertfinal("Video sending failed.Retry","0");
+                    showAlertfinal("Video sending failed.Retry", "0");
 
                 }
 
@@ -439,10 +453,10 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 Log.e("Response Failure", t.getMessage());
-                showAlertfinal("Video sending failed.Retry","0");
+                showAlertfinal("Video sending failed.Retry", "0");
             }
 
 
@@ -549,40 +563,38 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
             requestFile = RequestBody.create(MediaType.parse("application/offset+octet-stream"), buf);
         } catch (IOException e) {
             e.printStackTrace();
-            showAlertfinal(e.getMessage(),"0");
+            showAlertfinal(e.getMessage(), "0");
         }
 
-        Call<ResponseBody> call = service.patchVimeoVideoMetaData(ticket2,ticket3,tick,str1,redirect_url123+"www.voicesnapforschools.com", requestFile);
+        Call<ResponseBody> call = service.patchVimeoVideoMetaData(ticket2, ticket3, tick, str1, redirect_url123 + "www.voicesnapforschools.com", requestFile);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 try {
                     if (response.isSuccessful()) {
                         SendVideotoSecApi();
-                    }
-                    else{
-                        showAlertfinal("Video sending failed.Retry","0");
+                    } else {
+                        showAlertfinal("Video sending failed.Retry", "0");
                     }
                 } catch (Exception e) {
-                    showAlertfinal(e.getMessage(),"0");
+                    showAlertfinal(e.getMessage(), "0");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                showAlertfinal("Video sending failed.Retry","0");
+                showAlertfinal("Video sending failed.Retry", "0");
 
             }
         });
 
 
     }
-
 
 
     private void showAlertfinal(String msg, final String status) {
@@ -594,17 +606,16 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-               if(status.equals("1")) {
-                   dialog.cancel();
-                   Intent homescreen = new Intent(VideoPrincipalRecipient.this, Teacher_AA_Test.class);
-                   homescreen.putExtra("Homescreen", "1");
-                   homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                   startActivity(homescreen);
-                   finish();
-               }
-               else{
-                   dialog.dismiss();
-               }
+                if (status.equals("1")) {
+                    dialog.cancel();
+                    Intent homescreen = new Intent(VideoPrincipalRecipient.this, Teacher_AA_Test.class);
+                    homescreen.putExtra("Homescreen", "1");
+                    homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(homescreen);
+                    finish();
+                } else {
+                    dialog.dismiss();
+                }
 
             }
         });

@@ -257,9 +257,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
                             }
                     } else {
                         showRecords(getResources().getString(R.string.no_records));
-
                     }
-
                 } catch (Exception e) {
                     Log.e("GroupList:Excep", e.getMessage());
                 }

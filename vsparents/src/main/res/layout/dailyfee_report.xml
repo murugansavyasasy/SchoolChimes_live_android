@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rlyDateandFee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/clr_yellow_transparency"
+        android:paddingBottom="@dimen/_10sdp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/lblAmountType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:fontFamily="@font/optima"
+            android:layout_toLeftOf="@+id/lblAmount"
+            android:text=""
+            android:layout_marginRight="10dp"
+            android:textColor="@color/bpWhite"
+            android:textSize="17dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/lblAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:fontFamily="@font/optima"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="Rs.20,0000/-"
+            android:textColor="@color/bpWhite"
+            android:textSize="17dp">
+
+        </TextView>
+    </RelativeLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/rlyDateandFee">-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcyDailyCollection"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintTop_toBottomOf="@+id/rlyDateandFee"
+            android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+
+<!--    </RelativeLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

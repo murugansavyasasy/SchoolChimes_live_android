@@ -32,6 +32,7 @@ import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,6 +52,7 @@ import retrofit2.Response;
 
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VIDEOS;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.loginJsonObject;
 
 public class SendToVoiceSpecificSection extends AppCompatActivity implements View.OnClickListener {
 
@@ -92,7 +94,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
         SendToSpecificSection.setOnClickListener(this);
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(SendToVoiceSpecificSection.this);
-        if(countryID.equals("11")){
+        if (countryID.equals("11")) {
             SendToStansGroups.setText("Send to Grade/Groups");
             SendToSpecificSection.setText("Send to Grade/sections");
         }
@@ -218,7 +220,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 } else {
                     if (PRINCIPAL_IMAGE.equals("IMAGE")) {
                         if (!strPDFFilepath.equals("")) {
-                            contentType="application/pdf";
+                            contentType = "application/pdf";
                             slectedImagePath.clear();
                             slectedImagePath.add(strPDFFilepath);
                             UploadedS3URlList.clear();
@@ -226,7 +228,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
                         } else {
                             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
-                            contentType="image/png";
+                            contentType = "image/png";
                             UploadedS3URlList.clear();
                             uploadFileToAWSs3(pathIndex, "IMG");
                         }
@@ -241,9 +243,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
                 }
             }
-        });
-
-        alertDialog.setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
+        }).setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();
@@ -478,6 +478,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
                 showToast(t.toString());
+                Log.d("Exception_", t.toString());
             }
         });
     }
@@ -541,7 +542,14 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
+      //  Call<JsonArray> call = apiService.SendVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
+        } else {
+            call = apiService.SendVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
+        }
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -607,6 +615,18 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 }
             }
 
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             JsonArray jsonArrayschoolgrp = new JsonArray();
             for (int i = 0; i < listGroups.size(); i++) {
                 if (listGroups.get(i).isbSelected()) {
@@ -656,7 +676,15 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceToGroupsAndStandards(requestBody, bodyFile);
+        //  Call<JsonArray> call = apiService.SendVoiceToGroupsAndStandards(requestBody, bodyFile);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleToGroupsAndStandards(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceToGroupsAndStandards(requestBody, bodyFile);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -759,6 +787,17 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                     jsonObjectgroups.addProperty("TargetCode", listGroups.get(i).getStrID());
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
+            }
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
             }
 
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);

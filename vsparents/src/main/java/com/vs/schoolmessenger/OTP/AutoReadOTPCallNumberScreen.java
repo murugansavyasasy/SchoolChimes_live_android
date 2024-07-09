@@ -49,6 +49,7 @@ import com.vs.schoolmessenger.util.GenericTextWatcher;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -87,15 +88,15 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
     TextView btnBackToLogin;
     SmsBroadcastReceiver mSmsBroadcastReceiver;
     IntentFilter intentFilter;
-    String Grouphead,Principal,Staff,Admin,Parent;
+    String Grouphead, Principal, Staff, Admin, Parent;
     String strMobile, strPassword;
     public static String staf, grouphead, admin;
     ArrayList<Profiles> arrayList;
     ArrayList<Profiles> arrChildList = new ArrayList<>();
     ArrayList<String> schoolNamelist = new ArrayList<>();
     EditText otp_textbox_one, otp_textbox_two, otp_textbox_three, otp_textbox_four,
-            otp_textbox_five,otp_textbox_six;
-    String OTP="";
+            otp_textbox_five, otp_textbox_six;
+    String OTP = "";
     TextView lblNoteMessage;
 
     @Override
@@ -122,7 +123,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
         String otp_note = TeacherUtil_SharedPreference.getOTPNote(AutoReadOTPCallNumberScreen.this);
         lblNoteMessage.setText(otp_note);
 
-        EditText[] edit = {otp_textbox_one, otp_textbox_two, otp_textbox_three, otp_textbox_four,otp_textbox_five,otp_textbox_six};
+        EditText[] edit = {otp_textbox_one, otp_textbox_two, otp_textbox_three, otp_textbox_four, otp_textbox_five, otp_textbox_six};
         otp_textbox_one.addTextChangedListener(new GenericTextWatcher(otp_textbox_one, edit));
         otp_textbox_two.addTextChangedListener(new GenericTextWatcher(otp_textbox_two, edit));
         otp_textbox_three.addTextChangedListener(new GenericTextWatcher(otp_textbox_three, edit));
@@ -130,14 +131,14 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
         otp_textbox_five.addTextChangedListener(new GenericTextWatcher(otp_textbox_five, edit));
         otp_textbox_six.addTextChangedListener(new GenericTextWatcher(otp_textbox_six, edit));
 
-         DialNumbers = TeacherUtil_SharedPreference.getDialNumbers(AutoReadOTPCallNumberScreen.this);
-         recycleNumbers = (RecyclerView) findViewById(R.id.recycleNumbers);
+        DialNumbers = TeacherUtil_SharedPreference.getDialNumbers(AutoReadOTPCallNumberScreen.this);
+        recycleNumbers = (RecyclerView) findViewById(R.id.recycleNumbers);
 
-         Grouphead = TeacherUtil_SharedPreference.getGroupHead(AutoReadOTPCallNumberScreen.this);
-         Principal = TeacherUtil_SharedPreference.getPrincipal(AutoReadOTPCallNumberScreen.this);
-         Staff = TeacherUtil_SharedPreference.getStaff(AutoReadOTPCallNumberScreen.this);
-         Admin = TeacherUtil_SharedPreference.getAdmin(AutoReadOTPCallNumberScreen.this);
-         Parent = TeacherUtil_SharedPreference.getParent(AutoReadOTPCallNumberScreen.this);
+        Grouphead = TeacherUtil_SharedPreference.getGroupHead(AutoReadOTPCallNumberScreen.this);
+        Principal = TeacherUtil_SharedPreference.getPrincipal(AutoReadOTPCallNumberScreen.this);
+        Staff = TeacherUtil_SharedPreference.getStaff(AutoReadOTPCallNumberScreen.this);
+        Admin = TeacherUtil_SharedPreference.getAdmin(AutoReadOTPCallNumberScreen.this);
+        Parent = TeacherUtil_SharedPreference.getParent(AutoReadOTPCallNumberScreen.this);
 
         if (!DialNumbers.equals("")) {
             final Dialog dialog = new Dialog(AutoReadOTPCallNumberScreen.this);
@@ -179,8 +180,8 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
         btnSubmitOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String otp = otp_textbox_one.getText().toString()+otp_textbox_two.getText().toString()+otp_textbox_three.getText().toString()+
-                        otp_textbox_four.getText().toString()+otp_textbox_five.getText().toString()+otp_textbox_six.getText().toString();
+                String otp = otp_textbox_one.getText().toString() + otp_textbox_two.getText().toString() + otp_textbox_three.getText().toString() +
+                        otp_textbox_four.getText().toString() + otp_textbox_five.getText().toString() + otp_textbox_six.getText().toString();
 
                 TeacherUtil_SharedPreference.putOTPNum(AutoReadOTPCallNumberScreen.this, "");
                 if (!otp.equals("")) {
@@ -197,7 +198,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
     }
 
     private void MobileNumberApi() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(AutoReadOTPCallNumberScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(AutoReadOTPCallNumberScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -208,11 +209,11 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
         final String mobilenumber = getMobileNumberFromSP(AutoReadOTPCallNumberScreen.this);
         TeacherUtil_SharedPreference.putMobileNum(AutoReadOTPCallNumberScreen.this, mobilenumber);
 
-        String CountryID=TeacherUtil_SharedPreference.getCountryID(AutoReadOTPCallNumberScreen.this);
-        JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("MobileNumber",mobilenumber);
-        jsonObject.addProperty("CountryID",CountryID);
-        Log.d("Req",jsonObject.toString());
+        String CountryID = TeacherUtil_SharedPreference.getCountryID(AutoReadOTPCallNumberScreen.this);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("MobileNumber", mobilenumber);
+        jsonObject.addProperty("CountryID", CountryID);
+        Log.d("Req", jsonObject.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePasswordByCountryID(jsonObject);
@@ -234,7 +235,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                         if (js.length() > 0) {
                             JSONObject jsonObject = js.getJSONObject(0);
                             String OTPSent = jsonObject.getString("OTPSent");
-                            if(OTPSent.equals("1")){
+                            if (OTPSent.equals("1")) {
                                 showAlert(getResources().getString(R.string.otp_sent));
                             }
 
@@ -264,7 +265,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
             mSmsBroadcastReceiver = new SmsBroadcastReceiver();
             mSmsBroadcastReceiver.setOTPListener(this);
 
-             intentFilter = new IntentFilter();
+            intentFilter = new IntentFilter();
             intentFilter.addAction(SmsRetriever.SMS_RETRIEVED_ACTION);
             registerReceiver(mSmsBroadcastReceiver, intentFilter);
 
@@ -344,7 +345,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("OTP", otp);
         jsonObject.addProperty("MobileNumber", number);
-        Log.d("Req",jsonObject.toString());
+        Log.d("Req", jsonObject.toString());
 
         Call<JsonArray> call = apiService.ValidateOTP(jsonObject);
 
@@ -365,15 +366,14 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                             String Message = jsonObject.getString("Message");
 
                             if (Status.equals("1")) {
-                                 stophandler();
+                                stophandler();
                                 String strPassword = TeacherUtil_SharedPreference.getPasswordFromSP(AutoReadOTPCallNumberScreen.this);
-                                if(strPassword.equals("")) {
+                                if (strPassword.equals("")) {
                                     Intent intent = new Intent(AutoReadOTPCallNumberScreen.this, PasswordScreen.class);
                                     startActivity(intent);
                                     finish();
-                                 }
-                                else {
-                                 getUserDetails();
+                                } else {
+                                    getUserDetails();
                                 }
 
                             } else {
@@ -402,7 +402,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
 
     private void getUserDetails() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(AutoReadOTPCallNumberScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(AutoReadOTPCallNumberScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(AutoReadOTPCallNumberScreen.this);
@@ -460,8 +460,8 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
 
                             Boolean is_parent = jsonObject.getBoolean("is_parent");
                             Boolean is_staff = jsonObject.getBoolean("is_staff");
-                            TeacherUtil_SharedPreference.putIsStaff(AutoReadOTPCallNumberScreen.this,is_staff);
-                            TeacherUtil_SharedPreference.putIsParent(AutoReadOTPCallNumberScreen.this,is_parent);
+                            TeacherUtil_SharedPreference.putIsStaff(AutoReadOTPCallNumberScreen.this, is_staff);
+                            TeacherUtil_SharedPreference.putIsParent(AutoReadOTPCallNumberScreen.this, is_parent);
 
 
                             TeacherUtil_Common.maxEmergencyvoicecount = jsonObject.getInt("MaxEmergencyVoiceDuration");
@@ -471,7 +471,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                             TeacherUtil_Common.maxHomeWorkSMSCount = jsonObject.getInt("MaxHomeWorkSMSCount");
 
 
-                            if (is_staff  && is_parent) {
+                            if (is_staff && is_parent) {
 
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
 
@@ -483,10 +483,11 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true,
                                             jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"));
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"));
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetailsStaff.getString("SchoolName"));
+
 
                                 }
 
@@ -497,6 +498,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     String strStaffId = object.getString("StaffID");
                                     TeacherUtil_Common.Principal_staffId = strStaffId;
                                     TeacherUtil_Common.Principal_SchoolId = strSchoolId;
+                                    Util_Common.isSchoolType = object.getInt("school_type");
 
                                     TeacherUtil_SharedPreference.putShoolID(AutoReadOTPCallNumberScreen.this, strSchoolId);
                                     TeacherUtil_SharedPreference.putStaffID(AutoReadOTPCallNumberScreen.this, strStaffId);
@@ -550,30 +552,25 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                 inHome.putExtra("TeacherSchoolsModel", schoolmodel);
                                 inHome.putExtra("list", listschooldetails);
 
-                                if(role.equals("p1")){
+                                if (role.equals("p1")) {
                                     strlogin = LOGIN_TYPE_HEAD;
-                                }
-                                else if(role.equals("p2")){
+                                } else if (role.equals("p2")) {
                                     strlogin = LOGIN_TYPE_PRINCIPAL;
 
-                                }
-                                else if(role.equals("p3")){
+                                } else if (role.equals("p3")) {
                                     strlogin = LOGIN_TYPE_TEACHER;
 
-                                }
-                                else if(role.equals("p4")){
+                                } else if (role.equals("p4")) {
                                     strlogin = LOGIN_TYPE_ADMIN;
 
-                                }
-                                else if(role.equals("p5")){
+                                } else if (role.equals("p5")) {
                                     strlogin = LOGIN_TYPE_OFFICE_STAFF;
                                 }
 
                                 startActivity(inHome);
                                 finish();
 
-                            }
-                            else if (!is_staff && is_parent) {
+                            } else if (!is_staff && is_parent) {
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(AutoReadOTPCallNumberScreen.this, strMobile, strPassword, true);
                                 JSONArray jSONArray = jsonObject.getJSONArray("ChildDetails");
                                 Profiles childList;
@@ -599,9 +596,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                 inHome.putExtra("CHILD_LIST", arrChildList);
                                 startActivity(inHome);
                                 finish();
-                            }
-
-                            else if (role.equals("p2")) {
+                            } else if (role.equals("p2")) {
                                 JSONArray jSONArray = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray.length(); i++) {
                                     JSONObject jsonObjectdetails = jSONArray.getJSONObject(i);
@@ -609,7 +604,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetails.getString("SchoolName"), jsonObjectdetails.getString("SchoolID"),
                                             jsonObjectdetails.getString("city"), jsonObjectdetails.getString("SchoolAddress"), jsonObjectdetails.getString("SchoolLogo")
                                             , jsonObjectdetails.getString("StaffID"), jsonObjectdetails.getString("StaffName"), true, jsonObjectdetails.getString("isBooksEnabled"),
-                                            jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"));
+                                            jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"), jsonObjectdetails.getInt("school_type"));
                                     Log.d("value1", jsonObjectdetails.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetails.getString("SchoolName"));
@@ -618,8 +613,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                         String strStaffId = jsonObjectdetails.getString("StaffID");
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
-
-
+                                        Util_Common.isSchoolType = jsonObjectdetails.getInt("school_type");
                                         String logo = jsonObjectdetails.getString("SchoolLogo");
                                         TeacherUtil_SharedPreference.putSchoolLogo(AutoReadOTPCallNumberScreen.this, logo);
                                     }
@@ -641,7 +635,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolID"),
                                             jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
                                             , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending")
+                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type")
                                     );
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -664,7 +658,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolID"),
                                             jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
                                             , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending")
+                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type")
                                     );
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -673,10 +667,9 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                 schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
                                         jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                         , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                        jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending")
+                                        jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type")
                                 );
                                 Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
-
 
                                 String logo = jsonObjectdetailsStaff.getString("SchoolLogo");
                                 TeacherUtil_SharedPreference.putSchoolLogo(AutoReadOTPCallNumberScreen.this, logo);
@@ -690,9 +683,10 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
 
                                 TeacherUtil_Common.Principal_staffId = strStaffId1;
                                 TeacherUtil_Common.Principal_SchoolId = strSchoolId;
+                                Util_Common.isSchoolType = jsonObjectdetailsStaff.getInt("school_type");
 
 
-                                if(listschooldetails.size() == 1) {
+                                if (listschooldetails.size() == 1) {
                                     Intent i = new Intent(AutoReadOTPCallNumberScreen.this, Teacher_AA_Test.class);
                                     i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
                                     i.putExtra("schoolname", schoolname);
@@ -704,9 +698,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     startActivity(i);
                                     strlogin = LOGIN_TYPE_TEACHER;
                                     finish();
-                                }
-
-                                else if(listschooldetails.size() > 1){
+                                } else if (listschooldetails.size() > 1) {
                                     Intent i = new Intent(AutoReadOTPCallNumberScreen.this, SelectStaffSchools.class);
                                     startActivity(i);
                                     strlogin = LOGIN_TYPE_TEACHER;
@@ -719,7 +711,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending")
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type")
                                     );
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -729,6 +721,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                         String strStaffId = jsonObjectdetailsStaff.getString("StaffID");
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
+                                        Util_Common.isSchoolType = jsonObjectdetailsStaff.getInt("school_type");
 
                                     }
                                 }
@@ -742,16 +735,14 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                 strlogin = LOGIN_TYPE_ADMIN;
                                 finish();
 
-                            }
-
-                            else if (role.equals("p5")) {
+                            } else if (role.equals("p5")) {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {
                                     JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(i);
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending")
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type")
                                     );
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -761,7 +752,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                         String strStaffId = jsonObjectdetailsStaff.getString("StaffID");
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
-
+                                        Util_Common.isSchoolType = jsonObjectdetailsStaff.getInt("school_type");
                                     }
                                 }
 
@@ -809,6 +800,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
             }
         });
     }
+
     private void showToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
@@ -838,7 +830,6 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
 
     }
-
 
 
     private void alertShow() {
@@ -929,7 +920,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
 
     @Override
     public void onOTPReceived(String otp) {
-        Log.d("OTP Received",otp);
+        Log.d("OTP Received", otp);
         OTP = otp;
 
         otp_textbox_one.setText(String.valueOf(otp.charAt(0)));

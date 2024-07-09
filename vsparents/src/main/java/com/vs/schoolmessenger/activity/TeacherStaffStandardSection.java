@@ -43,6 +43,7 @@ import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -157,7 +158,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         llSubject = (LinearLayout) findViewById(R.id.staffStdSecSub_llSubject);
 
 
-
         voicetype = getIntent().getExtras().getString("VOICE", "");
         strPDFFilepath = getIntent().getExtras().getString("FILE_PATH_PDF", "");
         strVideoFilePath = getIntent().getExtras().getString("VIDEO_FILE_PATH", "");
@@ -225,7 +225,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
 
         if (strToWhom.equals("SEC")) {
-            if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM ) {
+            if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
                 btnSend.setVisibility(View.GONE);
                 btnSelectSubjects.setVisibility(View.VISIBLE);
 
@@ -304,25 +304,23 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             slectedImagePath.clear();
                             slectedImagePath.add(strPDFFilepath);
                             UploadedS3URlList.clear();
-                            uploadFileToAWSs3(pathIndex, ".pdf","");
-                        }
-                        else {
+                            uploadFileToAWSs3(pathIndex, ".pdf", "");
+                        } else {
                             contentType = "image/png";
                             UploadedS3URlList.clear();
-                            uploadFileToAWSs3(pathIndex, "IMG","");
+                            uploadFileToAWSs3(pathIndex, "IMG", "");
                         }
                     }
                     if (iRequestCode == STAFF_VOICE_HW || iRequestCode == PRINCIPAL_VOICE_HW) {
 
-                        if(strSubjectCode!=null) {
+                        if (strSubjectCode != null) {
                             SendVoiceToEntireSectionHW();
-                        }
-                        else {
-                          showToast("Please select the subject");
+                        } else {
+                            showToast("Please select the subject");
                         }
                     }
                     if (iRequestCode == STAFF_TEXT_HW || iRequestCode == PRINCIPAL_TEXT_HW) {
-                        if(strSubjectCode!=null) {
+                        if (strSubjectCode != null) {
 
 
                             if (!strPDFFilepath.equals("")) {
@@ -331,29 +329,24 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                                 slectedImagePath.clear();
                                 slectedImagePath.add(strPDFFilepath);
                                 UploadedS3URlList.clear();
-                                uploadHWAttachments(pathIndex, ".pdf","");
-                            }
-
-                            else if(!filepath.equals("")){
+                                uploadHWAttachments(pathIndex, ".pdf", "");
+                            } else if (!filepath.equals("")) {
                                 HOMEWORK_TYPE = "VOICE";
                                 contentType = "audio/mp3";
                                 slectedImagePath.clear();
                                 slectedImagePath.add(filepath);
                                 UploadedS3URlList.clear();
-                                uploadHWAttachments(pathIndex, ".mp3","");
-                            }
-
-                            else {
+                                uploadHWAttachments(pathIndex, ".mp3", "");
+                            } else {
                                 HOMEWORK_TYPE = "IMAGE";
                                 contentType = "image/png";
                                 UploadedS3URlList.clear();
-                                uploadHWAttachments(pathIndex, "IMG","");
+                                uploadHWAttachments(pathIndex, "IMG", "");
                             }
 
 
 //                            SendTextToEntireSectionHW();
-                        }
-                        else {
+                        } else {
                             showToast("Please select the subject");
 
                         }
@@ -375,23 +368,21 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                     }
 
-                    if(iRequestCode == PRINCIPAL_MEETING_URL){
+                    if (iRequestCode == PRINCIPAL_MEETING_URL) {
 
-                        if(strSubjectCode!=null) {
+                        if (strSubjectCode != null) {
                             sendOnlineClassToSections();
-                        }
-                        else {
+                        } else {
                             showToast("Please select the subject");
 
                         }
                     }
 
-                    if(iRequestCode == STAFF_MEETING_URL){
+                    if (iRequestCode == STAFF_MEETING_URL) {
 
-                        if(strSubjectCode!=null) {
+                        if (strSubjectCode != null) {
                             sendOnlineClassToSections();
-                        }
-                        else {
+                        } else {
                             showToast("Please select the subject");
 
                         }
@@ -470,10 +461,10 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         loginType = TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherStaffStandardSection.this);
 
 
-        if (iRequestCode ==PRINCIPAL_MEETING_URL || iRequestCode ==STAFF_MEETING_URL || iRequestCode == PRINCIPAL_VOICE_HW || iRequestCode == PRINCIPAL_TEXT_HW || iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW || iRequestCode == STAFF_TEXT_EXAM || iRequestCode == PRINCIPAL_EXAM_TEST) {
+        if (iRequestCode == PRINCIPAL_MEETING_URL || iRequestCode == STAFF_MEETING_URL || iRequestCode == PRINCIPAL_VOICE_HW || iRequestCode == PRINCIPAL_TEXT_HW || iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW || iRequestCode == STAFF_TEXT_EXAM || iRequestCode == PRINCIPAL_EXAM_TEST) {
             standardsAndSectoinsListHWAPI();
 
-            if (iRequestCode == PRINCIPAL_MEETING_URL || iRequestCode ==STAFF_MEETING_URL ||iRequestCode == PRINCIPAL_VOICE_HW || iRequestCode == PRINCIPAL_TEXT_HW || iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW) {
+            if (iRequestCode == PRINCIPAL_MEETING_URL || iRequestCode == STAFF_MEETING_URL || iRequestCode == PRINCIPAL_VOICE_HW || iRequestCode == PRINCIPAL_TEXT_HW || iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW) {
                 llSubject.setVisibility(View.VISIBLE);
             }
 
@@ -523,7 +514,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 }
 
-                if (iRequestCode == PRINCIPAL_MEETING_URL|| iRequestCode == STAFF_MEETING_URL||iRequestCode == PRINCIPAL_VOICE_HW || iRequestCode == PRINCIPAL_TEXT_HW || iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW || iRequestCode == STAFF_TEXT_EXAM || iRequestCode == PRINCIPAL_EXAM_TEST) {
+                if (iRequestCode == PRINCIPAL_MEETING_URL || iRequestCode == STAFF_MEETING_URL || iRequestCode == PRINCIPAL_VOICE_HW || iRequestCode == PRINCIPAL_TEXT_HW || iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW || iRequestCode == STAFF_TEXT_EXAM || iRequestCode == PRINCIPAL_EXAM_TEST) {
                     listSubjectName = new ArrayList<>();
                     listSubjectCode = new ArrayList<>();
                     arrSubjectCollections = new ArrayList<>();
@@ -620,8 +611,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
             }
 
-        }
-        else {
+        } else {
             SendTextToEntireSectionHW();
             Log.d("upload_file", "error");
         }
@@ -665,9 +655,9 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                             if ((strStatus.toLowerCase()).equals("1")) {
 
-                                showAlertForOnline(strMsg,strStatus);
+                                showAlertForOnline(strMsg, strStatus);
                             } else {
-                                showAlertForOnline(strMsg,strStatus);
+                                showAlertForOnline(strMsg, strStatus);
 
                             }
                         } else {
@@ -737,7 +727,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             jsonObjectSchoolstdgrp.addProperty("meeting_topic", Constants.Title);
             jsonObjectSchoolstdgrp.addProperty("meeting_id", Constants.MeetingID);
             jsonObjectSchoolstdgrp.addProperty("meeting_type", Constants.MeetingType);
-            jsonObjectSchoolstdgrp.addProperty("meeting_description",Constants.Description );
+            jsonObjectSchoolstdgrp.addProperty("meeting_description", Constants.Description);
 
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < seletedSectionsList.size(); i++) {
@@ -885,8 +875,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 JsonObject jsonObjectclass = new JsonObject();
                 jsonObjectclass.addProperty("TargetCode", strSecCode);
                 jsonArrayschoolstd.add(jsonObjectclass);
-            }
-            else {
+            } else {
                 for (int i = 0; i < seletedSectionsList.size(); i++) {
                     TeacherSectionsListNEW sectionsListNEW = seletedSectionsList.get(i);
                     JsonObject jsonObjectclass = new JsonObject();
@@ -932,13 +921,12 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
     private void getSubjectsApi() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherStaffStandardSection.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherStaffStandardSection.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherStaffStandardSection.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherStaffStandardSection.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherStaffStandardSection.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherStaffStandardSection.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -975,9 +963,9 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                     Log.d("login:code-res", response.code() + " - " + response.toString());
 
 
-                        SubjectsList.clear();
-                        listSubjectName.clear();
-                        listSubjectCode.clear();
+                    SubjectsList.clear();
+                    listSubjectName.clear();
+                    listSubjectCode.clear();
 
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
@@ -1157,7 +1145,15 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
+        //  Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
+        } else {
+            call = apiService.SendVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -1218,6 +1214,18 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             jsonObjectSchoolstdgrp.addProperty("Duration", duration);
             jsonObjectSchoolstdgrp.addProperty("filepath", filepath);
 
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             JsonArray jsonArrayschoolstd = new JsonArray();
             JsonObject jsonObjectclass = new JsonObject();
             jsonObjectclass.addProperty("TargetCode", strSecCode);
@@ -1251,7 +1259,14 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
+       // Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
+        } else {
+            call = apiService.SendVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
+        }
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -1311,6 +1326,17 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             jsonObjectSchoolstdgrp.addProperty("Duration", duration);
             jsonObjectSchoolstdgrp.addProperty("filepath", filepath);
 
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < seletedSectionsList.size(); i++) {
                 TeacherSectionsListNEW sectionsListNEW = seletedSectionsList.get(i);
@@ -1337,25 +1363,23 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherStaffStandardSection.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherStaffStandardSection.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherStaffStandardSection.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherStaffStandardSection.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherStaffStandardSection.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherStaffStandardSection.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         Call<JsonArray> call;
         JsonObject jsonReqArray;
-        if(iRequestCode == STAFF_VOICE || iRequestCode == STAFF_TEXT || iRequestCode == PRINCIPAL_VOICE ||
-                iRequestCode == PRINCIPAL_TEXT || iRequestCode == GH_VOICE || iRequestCode == GH_TEXT){
-             jsonReqArray = constructJsonArrayMgtSchoolStdHW();
+        if (iRequestCode == STAFF_VOICE || iRequestCode == STAFF_TEXT || iRequestCode == PRINCIPAL_VOICE ||
+                iRequestCode == PRINCIPAL_TEXT || iRequestCode == GH_VOICE || iRequestCode == GH_TEXT) {
+            jsonReqArray = constructJsonArrayMgtSchoolStdHW();
             call = apiService.GetStandardsAndSubjectsAsStaff(jsonReqArray);
-        }
-        else {
+        } else {
             jsonReqArray = constructJsonArrayMgtSchoolStdHW();
             call = apiService.GetStandardsAndSubjectsAsStaffWithoutNewOld(jsonReqArray);
         }
@@ -1659,7 +1683,15 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSection(requestBody, bodyFile);
+        //  Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSection(requestBody, bodyFile);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleAsStaffToEntireSection(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceAsStaffToEntireSection(requestBody, bodyFile);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -1693,7 +1725,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                     } catch (Exception e) {
                         showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
+                        Log.d("Ex_Exception", e.toString());
                     }
                 }
             }
@@ -1703,7 +1735,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                showToast(t.toString());
+                Log.d("onFailure", t.toString());
             }
         });
     }
@@ -1724,6 +1756,17 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 JsonObject jsonObjectclass = new JsonObject();
                 jsonObjectclass.addProperty("TargetCode", sectionsListNEW.getStrSectionCode());
                 jsonArrayschoolstd.add(jsonObjectclass);
+            }
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
             }
 
             jsonObjectSchoolstdgrp.add("Seccode", jsonArrayschoolstd);
@@ -1760,7 +1803,15 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSection(requestBody, bodyFile);
+        // Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSection(requestBody, bodyFile);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleAsStaffToEntireSection(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceAsStaffToEntireSection(requestBody, bodyFile);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -1792,6 +1843,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing())
@@ -1813,8 +1865,22 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             JsonObject jsonObjectclass = new JsonObject();
             jsonObjectclass.addProperty("TargetCode", strSecCode);
             jsonArrayschoolstd.add(jsonObjectclass);
+
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             jsonObjectSchoolstdgrp.add("Seccode", jsonArrayschoolstd);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
+
 
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
@@ -1859,13 +1925,12 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherStaffStandardSection.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherStaffStandardSection.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherStaffStandardSection.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherStaffStandardSection.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherStaffStandardSection.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherStaffStandardSection.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -1998,7 +2063,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
     }
 
 
-
     private JsonObject constructJsonArrayMgtSchoolStd() {
         JsonObject jsonObjectSchool = new JsonObject();
         try {
@@ -2018,13 +2082,12 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
             jsonObjectSchool.addProperty("StaffID", StaffID);
             jsonObjectSchool.addProperty("isAttendance", "0");
-            Log.d("req",jsonObjectSchool.toString());
+            Log.d("req", jsonObjectSchool.toString());
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }
         return jsonObjectSchool;
     }
-
 
 
     private void SendExamhomework() {
@@ -2464,7 +2527,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
 
-           String CountrID = TeacherUtil_SharedPreference.getCountryID(TeacherStaffStandardSection.this);
+            String CountrID = TeacherUtil_SharedPreference.getCountryID(TeacherStaffStandardSection.this);
             jsonObjectSchoolstdgrp.addProperty("CountryID", CountrID);
             jsonObjectSchoolstdgrp.addProperty("SchoolID", SchoolID);
             jsonObjectSchoolstdgrp.addProperty("StaffID", StaffID);
@@ -2481,7 +2544,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             jsonObjectSchoolstdgrp.add("Seccode", jsonArrayschoolstd);
 
             JsonArray jsonFiles = new JsonArray();
-            if(!HOMEWORK_TYPE.equals("")) {
+            if (!HOMEWORK_TYPE.equals("")) {
                 for (int i = 0; i < UploadedS3URlList.size(); i++) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("path", UploadedS3URlList.get(i));
@@ -2489,8 +2552,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                     jsonFiles.add(jsonObjectclass);
                 }
                 jsonObjectSchoolstdgrp.add("FilePath", jsonFiles);
-            }
-            else {
+            } else {
                 jsonObjectSchoolstdgrp.add("FilePath", jsonFiles);
             }
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());

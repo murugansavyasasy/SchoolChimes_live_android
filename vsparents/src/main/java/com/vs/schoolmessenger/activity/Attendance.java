@@ -7,11 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -72,13 +74,10 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     private List<DatesModel> totalDateList = new ArrayList<>();
     String strTitle;
     String date, absentcount, day;
-
     private int iRequestCode;
-
     TextView attendance_tv1;
     private PopupWindow pHelpWindow;
-
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
@@ -139,7 +138,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
         Slider.init(new PicassoImageLoadingService(Attendance.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
 
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -178,7 +177,6 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         });
 
 
-
         rytLanguage = (RelativeLayout) findViewById(R.id.rytLanguage);
         rytHome = (RelativeLayout) findViewById(R.id.rytHome);
         rytHelp = (RelativeLayout) findViewById(R.id.rytHelp);
@@ -191,9 +189,9 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         rytPassword.setOnClickListener(this);
         rytHome.setOnClickListener(this);
 
-         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
-         LoadMore.setEnabled(true);
-        lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
+        LoadMore = (TextView) findViewById(R.id.btnSeeMore);
+        LoadMore.setEnabled(true);
+        lblNoMessages = (TextView) findViewById(R.id.lblNoMessages);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -201,12 +199,11 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
             }
         });
-        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(Attendance.this);
-        if(isNewVersion.equals("1")){
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(Attendance.this);
+        if (isNewVersion.equals("1")) {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
         }
@@ -218,7 +215,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
             public void onItemClick(DatesModel item) {
                 Log.d(TAG, "Selected Date: " + item.getDate());
 
-                }
+            }
         });
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -232,7 +229,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
 
@@ -240,7 +237,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         List<DatesModel> temp = new ArrayList();
         for (DatesModel d : dateList) {
 
-            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getDay().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getDay().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -249,13 +246,12 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     }
 
     private void LoadMoreAttendenceReportAPI() {
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(Attendance.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(Attendance.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(Attendance.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(Attendance.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(Attendance.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Attendance.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -306,11 +302,10 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 //                                absentcount = jsonObject.getString("TotalAbsentees");
                                 day = jsonObject.getString("Day");
                                 DatesModel absentee;
-                                absentee = new DatesModel(date, day, absentcount,false);
+                                absentee = new DatesModel(date, day, absentcount, false);
                                 dateList.add(absentee);
                                 OfflineDateList.add(absentee);
-                            }
-                            else {
+                            } else {
                                 // showToast(strMessage);
                                 showAlertRecords(strMessage);
                             }
@@ -376,7 +371,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
                     absentcount = jsonObject.getString("TotalAbsentees");
                     day = jsonObject.getString("Day");
                     DatesModel absentee;
-                    absentee = new DatesModel(date, day, absentcount,false);
+                    absentee = new DatesModel(date, day, absentcount, false);
                     dateList.add(absentee);
 
                 }
@@ -392,13 +387,12 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     }
 
     private void AttendenceReportAPI() {
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(Attendance.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(Attendance.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(Attendance.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(Attendance.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(Attendance.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Attendance.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -441,13 +435,11 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 //                                absentcount = jsonObject.getString("TotalAbsentees");
                                 day = jsonObject.getString("Day");
                                 DatesModel absentee;
-                                absentee = new DatesModel(date, day, absentcount,false);
+                                absentee = new DatesModel(date, day, absentcount, false);
                                 dateList.add(absentee);
                                 totalDateList.add(absentee);
 
-                            }
-
-                            else {
+                            } else {
                                 showAlertRecords(strMessage);
                             }
                             datesListAdapter.notifyDataSetChanged();
@@ -500,7 +492,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
 
-      //  alertDialog.show();
+        //  alertDialog.show();
     }
 
 
@@ -527,15 +519,15 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.rytHome:
 
-                Intent homescreen=new Intent(Attendance.this,HomeActivity.class);
-                homescreen.putExtra("HomeScreen","1");
+                Intent homescreen = new Intent(Attendance.this, HomeActivity.class);
+                homescreen.putExtra("HomeScreen", "1");
                 homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homescreen);
                 finish();
 
                 break;
             case R.id.rytHelp:
-                Intent faq=new Intent(Attendance.this,FAQScreen.class);
+                Intent faq = new Intent(Attendance.this, FAQScreen.class);
                 startActivity(faq);
 
 //                setupHelpPopUp();
@@ -551,7 +543,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
                 break;
             case R.id.rytLogout:
-                Util_Common.popUpMenu(Attendance.this,v,"1");
+                Util_Common.popUpMenu(Attendance.this, v, "1");
 
                 break;
 
@@ -607,15 +599,16 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.teacher_colorPrimaryDark));
 
     }
+
     private void changeLanguage(String code, String id) {
         TeacherUtil_SharedPreference.putLanguageType(Attendance.this, code);
         languageChangeApi(id, code);
 
     }
 
-    private void languageChangeApi(String id, final String  lang) {
+    private void languageChangeApi(String id, final String lang) {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(Attendance.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Attendance.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         schools_list = TeacherUtil_SharedPreference.getChildrenScreenSchools_List(Attendance.this, "schools_list");
@@ -627,7 +620,6 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
-
 
 
 //        if (schools_list != null) {
@@ -651,9 +643,9 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -661,9 +653,9 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -704,18 +696,16 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
                         String message = jsonObject.getString("Message");
 
 
-
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),Attendance.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),Attendance.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),Attendance.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),Attendance.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),Attendance.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),Attendance.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),Attendance.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),Attendance.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),Attendance.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),Attendance.this);
-
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), Attendance.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), Attendance.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), Attendance.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), Attendance.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), Attendance.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), Attendance.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), Attendance.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), Attendance.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), Attendance.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), Attendance.this);
 
 
                         if (Integer.parseInt(status) > 0) {

@@ -7,14 +7,15 @@ import java.io.Serializable;
  */
 
 public class TeacherABS_Section implements Serializable {
-    private String section, count;
+    private String section, count,sectionId;
 
     public TeacherABS_Section() {
     }
 
-    public TeacherABS_Section(String section, String count) {
+    public TeacherABS_Section(String section, String count,String sectionId) {
         this.section = section;
         this.count = count;
+        this.sectionId=sectionId;
     }
 
     public String getSection() {
@@ -23,6 +24,13 @@ public class TeacherABS_Section implements Serializable {
 
     public void setSection(String section) {
         this.section = section;
+    }
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
     }
 
     public String getCount() {

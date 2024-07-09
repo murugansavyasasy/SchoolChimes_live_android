@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
+import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.LessonPlan.Model.EditDataItem;
@@ -39,6 +43,7 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,13 +61,18 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPA
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 
-public class TeacherNoticeBoard extends AppCompatActivity {
+public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDatePickerDialogFragment.OnDateSetListener {
 
     Button btnNext;
     EditText etMessage, etTopic;
     TextView tvcount;
     String strmessage;
     RecyclerView rvSchoolsList;
+
+    int isDateType = 1;
+
+    int selDay, selMonth, selYear;
+    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
 
     private ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
     private ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
@@ -102,9 +112,15 @@ public class TeacherNoticeBoard extends AppCompatActivity {
             }
         });
 
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, 10);
+        selDay = cal.get(Calendar.DAY_OF_MONTH);
+        selMonth = cal.get(Calendar.MONTH);// - 1;
+        selYear = cal.get(Calendar.YEAR);
+
 
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat df = new SimpleDateFormat("MMMM dd , yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
         lblFromDate.setText(formattedDate);
         lblToDate.setText(formattedDate);
@@ -112,13 +128,15 @@ public class TeacherNoticeBoard extends AppCompatActivity {
         lblFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDatePicker(1);
+                isDateType = 1;
+                openDatePicker();
             }
         });
         lblToDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDatePicker(2);
+                isDateType = 2;
+                openDatePicker();
 
             }
         });
@@ -169,10 +187,8 @@ public class TeacherNoticeBoard extends AppCompatActivity {
         });
 
 
-
         loginType = TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherNoticeBoard.this);
         if (loginType.equals(LOGIN_TYPE_PRINCIPAL)) {
-
 
             rvSchoolsList.setVisibility(View.VISIBLE);
             listSchoolsAPI();
@@ -185,46 +201,80 @@ public class TeacherNoticeBoard extends AppCompatActivity {
         }
     }
 
-    private void openDatePicker(int type) {
+    private void openDatePicker() {
+        Calendar today = Calendar.getInstance();
+        MonthAdapter.CalendarDay minDate = new MonthAdapter.CalendarDay(today);
+        CalendarDatePickerDialogFragment cdp = new CalendarDatePickerDialogFragment()
+                .setThemeCustom(R.style.MyBetterPickersRadialTimePickerDialog)
+                .setOnDateSetListener((CalendarDatePickerDialogFragment.OnDateSetListener) TeacherNoticeBoard.this)
+                .setFirstDayOfWeek(Calendar.SUNDAY)
+                .setPreselectedDate(selYear, selMonth, selDay)
+                .setDateRange(minDate, null)
+                .setDoneText(getResources().getString(R.string.teacher_btn_ok))
+                .setCancelText(getResources().getString(R.string.teacher_cancel));
+        cdp.show(getSupportFragmentManager(), FRAG_TAG_DATE_PICKER);
+    }
 
-        // calender class's instance and get current date , month and year from calender
-        final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR); // current year
-        int mMonth = c.get(Calendar.MONTH); // current month
-        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-        // date picker dialog
-        datePickerDialog = new DatePickerDialog(TeacherNoticeBoard.this, R.style.DatePickerTheme,
-                new DatePickerDialog.OnDateSetListener() {
+    @Override
+    public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
+        selDay = dayOfMonth;
+        selMonth = monthOfYear;
+        selYear = year;
 
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-                        // set day of month , month and year value in the edit text
+        String isPickingDate = selDay + "-" + (selMonth + 1) + "-" + selYear;
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMMM dd , yyyy", Locale.US);
 
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(year, monthOfYear, dayOfMonth);
-                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                        String dateString = format.format(calendar.getTime());
+        try {
+            Date date = inputDateFormat.parse(isPickingDate);
+            String outputDateStr = outputDateFormat.format(date);
+            if (isDateType == 1) {
+                if (lblToDate.getText().toString().equals("")) {
+                    lblFromDate.setText(outputDateStr);
+                } else {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d , yyyy", Locale.US);
+                    try {
+                        Date date1 = dateFormat.parse(lblToDate.getText().toString());
+                        Date date2 = dateFormat.parse(outputDateStr);
 
-                        if(type == 1){
-                            lblFromDate.setText(dateString);
+                        if (date1.compareTo(date2) < 0) {
+                            lblFromDate.setText(outputDateStr);
+                            Toast.makeText(getApplicationContext(), "Please select toDate is after fromDate", Toast.LENGTH_SHORT).show();
+                            lblToDate.setText("");
+                        } else {
+                            lblFromDate.setText(outputDateStr);
                         }
-                        else {
-                           lblToDate.setText(dateString);
-                        }
+                        enableSubmitIfReady();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                }, mYear, mMonth, mDay);
+                }
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d , yyyy", Locale.US);
+                try {
+                    Date date1 = dateFormat.parse(lblFromDate.getText().toString());
+                    Date date2 = dateFormat.parse(outputDateStr);
 
-       // datePickerDialog.getDatePicker().setMaxDate(c.getTimeInMillis());
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-        datePickerDialog.show();
+                    if (date1.compareTo(date2) > 0) {
+                        Toast.makeText(getApplicationContext(), "Please select toDate is after fromDate", Toast.LENGTH_SHORT).show();
+                        lblToDate.setText("");
+                    } else {
+                        lblToDate.setText(outputDateStr);
+                    }
+                    enableSubmitIfReady();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etMessage.getWindowToken(), 0);
 
     }
@@ -235,11 +285,9 @@ public class TeacherNoticeBoard extends AppCompatActivity {
             TeacherSchoolsModel ss = listschooldetails.get(i);
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
-                    ss.getStrStaffID(), ss.getStrStaffName(), true,ss.getBookEnable(),ss.getOnlineLink(),ss.getIsPaymentPending());
+                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType());
             arrSchoolList.add(ss);
         }
-
-
 
 
         TeacherSchoolsListAdapter schoolsListAdapter =
@@ -310,15 +358,21 @@ public class TeacherNoticeBoard extends AppCompatActivity {
         boolean isTitleReady = etMessage.getText().toString().length() > 0;
         boolean isContentReady = etTopic.getText().toString().length() > 0;
 
-
-            if (isContentReady && isTitleReady && (i_schools_count > 0)) {
-                btnNext.setEnabled(true);
-            } else if ((isContentReady && isTitleReady) && (i_schools_count == 0)) {
+        if (isContentReady && isTitleReady && (i_schools_count > 0)) {
+            if (!lblToDate.getText().toString().equals("") && !lblFromDate.getText().toString().equals("")) {
                 btnNext.setEnabled(true);
             } else {
                 btnNext.setEnabled(false);
             }
-
+        } else if ((isContentReady && isTitleReady) && (i_schools_count == 0)) {
+            if (!lblToDate.getText().toString().equals("") && !lblFromDate.getText().toString().equals("")) {
+                btnNext.setEnabled(true);
+            } else {
+                btnNext.setEnabled(false);
+            }
+        } else {
+            btnNext.setEnabled(false);
+        }
 
 
     }
@@ -329,7 +383,7 @@ public class TeacherNoticeBoard extends AppCompatActivity {
 
 
     private void SendEmergencyVoiceGroupheadAPI() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherNoticeBoard.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherNoticeBoard.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
@@ -363,8 +417,7 @@ public class TeacherNoticeBoard extends AppCompatActivity {
 
                             if ((strStatus.toLowerCase()).equals("1")) {
                                 showAlert(strMsg);
-                            }
-                            else {
+                            } else {
                                 showAlert(strMsg);
                             }
                         } else {
@@ -423,8 +476,27 @@ public class TeacherNoticeBoard extends AppCompatActivity {
         try {
             jsonObjectSchool.addProperty("TopicHeading", strdescription);
             jsonObjectSchool.addProperty("TopicBody", strmessage);
-            jsonObjectSchool.addProperty("FromDate", lblFromDate.getText().toString());
-            jsonObjectSchool.addProperty("ToDate", lblToDate.getText().toString());
+
+            SimpleDateFormat inputDateFormat = new SimpleDateFormat("MMMM dd , yyyy", Locale.US);
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+
+            // isFromDate
+            try {
+                Date date = inputDateFormat.parse(lblFromDate.getText().toString());
+                String outputDateStr = outputDateFormat.format(date);
+                jsonObjectSchool.addProperty("FromDate", outputDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            // isToDate
+            try {
+                Date date = inputDateFormat.parse(lblToDate.getText().toString());
+                String outputDateStr = outputDateFormat.format(date);
+                jsonObjectSchool.addProperty("ToDate", outputDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             JsonArray jsonArrayschool = new JsonArray();
 

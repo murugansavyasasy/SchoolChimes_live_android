@@ -22,7 +22,7 @@ public class Util_JsonRequest {
         return jsArray;
     }
 
-    public static JsonObject getJsonArray_VersionChecknew(String versionCode, String appID,String type) {
+    public static JsonObject getJsonArray_VersionChecknew(String versionCode, String appID, String type) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("VersionCode", versionCode);
         jsonObject.addProperty("AppID", appID);
@@ -95,7 +95,7 @@ public class Util_JsonRequest {
         return jsArray;
     }
 
-    public static JsonObject getJsonArray_GetEmergencyvoice(String childID, String schoolID,String type,String MobileNumber) {
+    public static JsonObject getJsonArray_GetEmergencyvoice(String childID, String schoolID, String type, String MobileNumber) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("ChildID", childID);
         jsonObject.addProperty("SchoolID", schoolID);
@@ -106,7 +106,7 @@ public class Util_JsonRequest {
     }
 
 
-    public static JsonObject getJsonArray_GetGeneralvoiceortext(String childID, String schoolID,String type,String date) {
+    public static JsonObject getJsonArray_GetGeneralvoiceortext(String childID, String schoolID, String type, String date) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("ChildID", childID);
         jsonObject.addProperty("SchoolID", schoolID);
@@ -117,7 +117,7 @@ public class Util_JsonRequest {
         return jsonObject;
     }
 
-    public static JsonObject getJsonArray_GetPDF(String childID, String schoolID,String type,String date) {
+    public static JsonObject getJsonArray_GetPDF(String childID, String schoolID, String type, String date) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("ChildID", childID);
         jsonObject.addProperty("SchoolID", schoolID);
@@ -138,7 +138,7 @@ public class Util_JsonRequest {
     }
 
 
-    public static JsonObject getJsonArray_Gethomework(String childID, String date,String type,String schoolID,String mobile) {
+    public static JsonObject getJsonArray_Gethomework(String childID, String date, String type, String schoolID, String mobile) {
         JsonObject jsonObject = new JsonObject();
 
         jsonObject.addProperty("ChildID", childID);

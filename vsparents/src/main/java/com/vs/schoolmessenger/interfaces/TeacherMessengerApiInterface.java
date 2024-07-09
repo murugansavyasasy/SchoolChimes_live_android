@@ -9,6 +9,7 @@ import com.vs.schoolmessenger.LessonPlan.Model.ViewLessonPlanModel;
 import com.vs.schoolmessenger.model.CertificateListModelItem;
 import com.vs.schoolmessenger.model.CertificateRequestModelItem;
 import com.vs.schoolmessenger.model.CertificateTypeModelItemItem;
+import com.vs.schoolmessenger.model.DailyCollection;
 import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
 import com.vs.schoolmessenger.model.HomeWorkModel;
 import com.vs.schoolmessenger.model.NewUpdatesModel;
@@ -120,9 +121,14 @@ public interface TeacherMessengerApiInterface {
     @POST("GetImageSnrMgt")
     Call<JsonArray> SendImageMgtStdGrp(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
+
     @Multipart
     @POST("SendVoiceToEntireSchools")
     Call<JsonArray> SendVoiceToEntireSchools(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
+
+    @Multipart
+    @POST("ScheduleVoiceToEntireSchools")
+    Call<JsonArray> ScheduleSendVoiceToEntireSchools(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
     @POST("SendSMSToEntireSchools")
     Call<JsonArray> SendSMSToEntireSchools(@Body JsonObject jsonObject);
@@ -155,6 +161,9 @@ public interface TeacherMessengerApiInterface {
     @POST("SendVoiceToGroupsAndStandards")
     Call<JsonArray> SendVoiceToGroupsAndStandards(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
+    @Multipart
+    @POST("ScheduleVoiceToGroupsAndStandards")
+    Call<JsonArray> ScheduleToGroupsAndStandards(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
     @POST("SendSMSToGroupsAndStandards")
     Call<JsonArray> SendSMSToGroupsAndStandards(@Body JsonObject jsonObject);
@@ -166,6 +175,11 @@ public interface TeacherMessengerApiInterface {
     @Multipart
     @POST("SendVoiceAsStaffToGroups")
     Call<JsonArray> SendVoiceAsStaffToGroups(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
+
+
+    @Multipart
+    @POST("ScheduleVoiceAsStaffToGroups")
+    Call<JsonArray> ScheduleVoiceAsStaffToGroups(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
 
     @POST("ManageSchoolEvents")
@@ -190,6 +204,33 @@ public interface TeacherMessengerApiInterface {
     @POST("GetAbsenteesCountByDate")
     Call<JsonArray> GetAbsenteesCountByDate(@Body JsonObject jsonObject);
 
+//    @POST("fee-header-wise-paid-report")
+//    Call<JsonObject> getDailyFeeReport(@Body JsonObject jsonObject);
+
+    @POST("daily-collection")
+    Call<JsonObject> getDailyFeeReport(@Body JsonObject jsonObject);
+
+//    @POST("fee-header-wise-pending-report")
+//    Call<JsonObject> getPendingAmount(@Body JsonObject jsonObject);
+
+    @POST("detailed-pending-fee-report-app")
+    Call<JsonObject> getPendingAmount(@Body JsonObject jsonObject);
+
+//    @POST("std-sec-wise-pending-report")
+//    Call<JsonObject> getSectionPendingAmount(@Body JsonObject jsonObject);
+
+    @POST("detailed-class-wise-pending-fee-report-app")
+    Call<JsonObject> getSectionPendingAmount(@Body JsonObject jsonObject);
+
+    @POST("std-sec-wise-paid-report")
+    Call<JsonObject> getDailyFeeReportClass(@Body JsonObject jsonObject);
+
+    @POST("payment-mode-wise-report")
+    Call<JsonObject> paymentmode(@Body JsonObject jsonObject);
+
+    @POST("GetAbsenteesStudentsByDate")
+    Call<JsonObject> getAttenfdanceList(@Body JsonObject jsonObject);
+
 
     @POST("InsertExam")
     Call<JsonArray> InsertExam(@Body JsonObject jsonObject);
@@ -202,6 +243,10 @@ public interface TeacherMessengerApiInterface {
     @POST("SendVoiceAsStaffToSpecificStudents")
     Call<JsonArray> SendVoiceAsStaffToSpecificStudents(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
+
+    @Multipart
+    @POST("ScheduleVoiceAsStaffToSpecificStudents")
+    Call<JsonArray> ScheduleVoiceAsStaffToSpecificStudents(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
     @POST("SendSMSAsStaffToSpecificStudents")
     Call<JsonArray> SendSMSAsStaffToSpecificStudents(@Body JsonObject jsonObject);
@@ -219,6 +264,12 @@ public interface TeacherMessengerApiInterface {
     @Multipart
     @POST("SendVoiceAsStaffToEntireSection")
     Call<JsonArray> SendVoiceAsStaffToEntireSection(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
+
+
+    @Multipart
+    @POST("ScheduleVoiceAsStaffToEntireSection")
+    Call<JsonArray> ScheduleAsStaffToEntireSection(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
+
 
     @POST("SendSMSAsStaffToEntireSection")
     Call<JsonArray> SendSMSAsStaffToEntireSection(@Body JsonObject jsonObject);
@@ -240,7 +291,7 @@ public interface TeacherMessengerApiInterface {
     @POST("InsertHomeWork")
     Call<JsonArray> InsertHomeWork(@Body JsonObject jsonObject);
 
-//    @POST("SendAbsenteesSMS")
+    //    @POST("SendAbsenteesSMS")
     @POST("SendAbsenteesSMSWithSessionType")
     Call<JsonArray> SendAbsenteesSMS(@Body JsonObject jsonObject);
 
@@ -452,7 +503,6 @@ public interface TeacherMessengerApiInterface {
     @POST("GetOverallUnreadCount")
     Call<JsonArray> GetOverallUnreadCount(@Body JsonObject jsonObject);
 
-
     @POST("GetStudentExamList")
     Call<JsonArray> GetStudentExamList(@Body JsonObject jsonObject);
 
@@ -462,18 +512,17 @@ public interface TeacherMessengerApiInterface {
     @POST("daily-collection-fee-app")
     Call<List<DailyFeeCollectionModelItem>> getDailyCollection(@Body JsonObject jsonObject);
 
-
     @POST("new-update-details-app")
     Call<NewUpdatesModel> getNewUpdateDetails(@Body JsonObject jsonObject);
-
-
-
 
     @GET("lesson-plan/get_lesson_plan_staff_report_App")
     Call<LessonPlanModel> getLessonPlans(@Query("request_type") String request_type, @Query("institute_id") String institute_id, @Query("user_id") String user_id);
 
+    @GET("academic-year-list")
+    Call<DailyCollection> getAcademicYear(@Query("institute_id") String institute_id);
+
     @GET("lesson-plan/view_lesson_plan_for_App")
-    Call<ViewLessonPlanModel> getViewLessonPlans(@Query("section_subject_id") String request_type, @Query("institute_id") String institute_id, @Query("user_id") String user_id,@Query("status_filter") String status_filter);
+    Call<ViewLessonPlanModel> getViewLessonPlans(@Query("section_subject_id") String request_type, @Query("institute_id") String institute_id, @Query("user_id") String user_id, @Query("status_filter") String status_filter);
 
     @GET("lesson-plan/get_data_to_edit_staff_lessonplan_app")
     Call<EditLessonModel> getEditDataCard(@Query("particular_id") String particular_id, @Query("request_type") String request_type, @Query("institute_id") String institute_id, @Query("user_id") String user_id);
@@ -513,7 +562,6 @@ public interface TeacherMessengerApiInterface {
     @POST("GetStudentPendingFee")
     Call<JsonObject> GetStudentPendingFee(@Body JsonObject jsonObject);
 
-
     @POST("GetSMSHistory")
     Call<JsonArray> GetSMSHistory(@Body JsonObject jsonObject);
 
@@ -524,14 +572,29 @@ public interface TeacherMessengerApiInterface {
     @POST("SendVoiceToEntireSchoolsByVoiceHistory")
     Call<JsonArray> SendVoiceToEntireSchoolsByVoiceHistory(@Body JsonObject jsonObject);
 
+
+    @POST("ScheduleVoiceToEntireSchoolsByVoiceHistory")
+    Call<JsonArray> ScheduleVoiceToEntireSchoolsByVoiceHistory(@Body JsonObject jsonObject);
+
     @POST("SendVoiceAsStaffToEntireSectionfromVoiceHistory")
     Call<JsonArray> SendVoiceAsStaffToEntireSectionfromVoiceHistory(@Body JsonObject jsonObject);
+
+    @POST("ScheduleVoiceAsStaffToEntireSectionfromVoiceHistory")
+    Call<JsonArray> ScheduleVoiceAsStaffToEntireSectionfromVoiceHistory(@Body JsonObject jsonObject);
 
     @POST("SendVoicetoSpecificStudentsfromVoiceHistory")
     Call<JsonArray> SendVoicetoSpecificStudentsfromVoiceHistory(@Body JsonObject jsonObject);
 
+    @POST("ScheduleVoicetoSpecificStudentsfromVoiceHistory")
+    Call<JsonArray> ScheduleVoicetoSpecificStudentsfromVoiceHistory(@Body JsonObject jsonObject);
+
+
     @POST("SendVoicetoGroupsStandardsfromVoiceHistory")
     Call<JsonArray> SendVoicetoGroupsStandardsfromVoiceHistory(@Body JsonObject jsonObject);
+
+
+    @POST("ScheduleVoicetoGroupsStandardsfromVoiceHistory")
+    Call<JsonArray> ScheduleVoicetoGroupsStandardsfromVoiceHistory(@Body JsonObject jsonObject);
 
     @POST("GetMenuDetails")
     Call<JsonArray> ChangeLanguage(@Body JsonObject jsonObject);
@@ -549,7 +612,7 @@ public interface TeacherMessengerApiInterface {
     Call<JsonObject> Updateleavestatus(@Body JsonObject jsonObject);
 
     @POST("ViewHolidays")
-    Call<JsonArray> ViewHolidays(@Body JsonObject jsonObject);
+    Call<JsonObject> ViewHolidays(@Body JsonObject jsonObject);
 
     @POST("ViewHolidays_Archive")
     Call<JsonArray> LoadMoreViewHolidays(@Body JsonObject jsonObject);
@@ -701,7 +764,6 @@ public interface TeacherMessengerApiInterface {
 
     @GET("userinfo")
     Call<JsonObject> getLinkedInprofiles(@Header("Authorization") String BearerToken);
-
 
 
     @POST("SendVideoFromAppForEnitireSchool")

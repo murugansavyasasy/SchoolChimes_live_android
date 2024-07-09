@@ -1,11 +1,11 @@
 package com.vs.schoolmessenger.model;
 
 public class StudentReportModel {
-    private String  studentName,primaryMobile,admissionNo,gender,dob,className,sectionName;
+    private String  studentName,primaryMobile,admissionNo,gender,dob,className,sectionName,fatherName,classTeacher;
     private int studentId,classId,sectionId;
 
     public StudentReportModel(int Id, String studentName,String primaryMobile,String admissionNo, String gender,
-                              String dob,int classId,String className,int sectionId,String sectionName) {
+                              String dob,int classId,String className,int sectionId,String sectionName,String isFatherName,String isClassTeacher) {
         this.studentId = Id;
         this.classId = classId;
         this.sectionId = sectionId;
@@ -16,6 +16,8 @@ public class StudentReportModel {
         this.dob = dob;
         this.className = className;
         this.sectionName = sectionName;
+        this.fatherName=isFatherName;
+        this.classTeacher=isClassTeacher;
     }
 
     public int getStudentId() {
@@ -96,6 +98,23 @@ public class StudentReportModel {
 
     public void setSectionName(String name) {
         this.sectionName = name;
+    }
+
+
+    public String getFatherName() {
+        return fatherName;
+    }
+
+    public void setFatherName(String name) {
+        this.fatherName = name;
+    }
+
+    public String getClassTeacher() {
+        return classTeacher;
+    }
+
+    public void setClassTeacher(String name) {
+        this.classTeacher = name;
     }
 
 

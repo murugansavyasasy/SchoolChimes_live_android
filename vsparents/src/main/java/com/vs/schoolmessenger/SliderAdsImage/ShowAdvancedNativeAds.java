@@ -39,6 +39,7 @@ public class ShowAdvancedNativeAds {
     public static String redirectURL = "";
     public static int addID = 0;
     public static String advertisementName = "";
+
     public static void getAds(final Activity activity, ImageView image, Slider slider, String Menu_Type, TemplateView mAdView, ImageView adsClose) {
         stop();
         Log.d("Menu_ID", Constants.Menu_ID);
@@ -73,18 +74,22 @@ public class ShowAdvancedNativeAds {
                             boolean google_ad = jsonObject.getBoolean("google_ad");
                             boolean enable_ad = jsonObject.getBoolean("enable_ad");
 
-                            if(enable_ad){
-                                if(google_ad){
+                            if (enable_ad) {
+                                Log.d("enableAdd", "enableAdd");
+                                if (google_ad) {
+                                    Log.d("googleadd", "googleadd");
                                     mAdView.setVisibility(View.VISIBLE);
                                     image.setVisibility(View.GONE);
-                                    TeacherUtil_Common.showNativeAds(activity,mAdView,adsClose);
-                                }
-                                else {
+                                    TeacherUtil_Common.showNativeAds(activity, mAdView, adsClose);
+                                } else {
+                                    Log.d("googleaddelse", "googleaddelse");
+
                                     mAdView.setVisibility(View.GONE);
                                     image.setVisibility(View.VISIBLE);
                                 }
-                            }
-                            else {
+                            } else {
+                                Log.d("enableAddelse", "enableAddelse");
+
                                 image.setVisibility(View.GONE);
                                 mAdView.setVisibility(View.GONE);
                             }
@@ -92,7 +97,7 @@ public class ShowAdvancedNativeAds {
                             adsModel ads;
                             adsList.clear();
 
-                            if(data.length() > 0) {
+                            if (data.length() > 0) {
                                 //image.setVisibility(View.GONE);
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject object = data.getJSONObject(i);
@@ -103,9 +108,6 @@ public class ShowAdvancedNativeAds {
                                 rotateAds(activity, image);
 
                             }
-                            else {
-                            }
-
 
                         }
                     }
@@ -137,7 +139,7 @@ public class ShowAdvancedNativeAds {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!redirectURL.equals("")) {
+                if (!redirectURL.equals("")) {
                     Intent intent = new Intent(activity, SpecificAdDetails.class);
                     intent.putExtra("AdredirectURl", redirectURL);
                     intent.putExtra("advertisementName", advertisementName);

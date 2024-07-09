@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.adapter.SchoolAttendanceReport;
 import com.vs.schoolmessenger.adapter.TeachersAbsenteesDateReportAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherAbsenteesDateListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -79,6 +80,7 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.absentess_report);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
+
         Searchable = (EditText) findViewById(R.id.Searchable);
         imgSearch = (ImageView) findViewById(R.id.imgSearch);
 
@@ -133,22 +135,22 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         });
 
         rvDateList = (RecyclerView) findViewById(R.id.absentee_rvDateList);
-        absenteesDateReportAdapter = new TeachersAbsenteesDateReportAdapter(TeacherAbsenteesReport.this, dateList, new TeacherAbsenteesDateListener() {
-            @Override
-            public void onItemClick(TeacherAbsenteesDates item) {
-                Intent in = new Intent(TeacherAbsenteesReport.this, TeacherAbsenteesByStandardWise.class);
-                in.putExtra("LIST_STDS", item.getStandards());
-                startActivity(in);
-
-                showToast(item.getDate());
-            }
-        });
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        rvDateList.setHasFixedSize(true);
-        rvDateList.setLayoutManager(mLayoutManager);
-        rvDateList.setItemAnimator(new DefaultItemAnimator());
-        rvDateList.setAdapter(absenteesDateReportAdapter);
-        AbsenteesReportListAPI();
+//        absenteesDateReportAdapter = new TeachersAbsenteesDateReportAdapter(TeacherAbsenteesReport.this, dateList, new TeacherAbsenteesDateListener() {
+//            @Override
+//            public void onItemClick(TeacherAbsenteesDates item) {
+//                Intent in = new Intent(TeacherAbsenteesReport.this, TeacherAbsenteesByStandardWise.class);
+//                in.putExtra("LIST_STDS", item.getStandards());
+//                startActivity(in);
+//
+//                showToast(item.getDate());
+//            }
+//        });
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+//        rvDateList.setHasFixedSize(true);
+//        rvDateList.setLayoutManager(mLayoutManager);
+//        rvDateList.setItemAnimator(new DefaultItemAnimator());
+//        rvDateList.setAdapter(absenteesDateReportAdapter);
+//        AbsenteesReportListAPI();
 
     }
 
@@ -244,10 +246,11 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                             date = jsonObject.getString("Date");
                             absentcount = jsonObject.getString("TotalAbsentees");
                             day = jsonObject.getString("Day");
+                            String absentdateonly = jsonObject.getString("absentdateonly");
                             TeacherAbsenteesDates absentee;
 
 
-                            absentee = new TeacherAbsenteesDates(date, day, absentcount);
+                            absentee = new TeacherAbsenteesDates(date, day, absentcount,absentdateonly);
                             ArrayList<TeacherABS_Standard> listStds = new ArrayList<>();
 
                             try
@@ -267,7 +270,7 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                                             for (int k = 0; k < jSONArraysection.length(); k++) {
                                                 JSONObject jsonObjectsections = jSONArraysection.getJSONObject(k);
                                                 TeacherABS_Section abs_section;
-                                                abs_section = new TeacherABS_Section(jsonObjectsections.getString("SectionName"), jsonObjectsections.getString("TotalAbsentees"));
+                                                abs_section = new TeacherABS_Section(jsonObjectsections.getString("SectionName"), jsonObjectsections.getString("TotalAbsentees"),jsonObjectsections.getString("SectionId"));
                                                 listSections.add(abs_section);
                                             }
                                             abs_standard.setSections(listSections);
@@ -304,6 +307,7 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         try {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
             jsonObjectSchool.addProperty("StaffID", StaffID);
+            Log.d("jsonObjectSchool",String.valueOf(jsonObjectSchool));
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }

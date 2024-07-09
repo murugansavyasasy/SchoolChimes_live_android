@@ -1,4 +1,6 @@
 package com.vs.schoolmessenger.activity;
+
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PHOTOS;
@@ -33,9 +35,12 @@ import com.vs.schoolmessenger.aws.S3Uploader;
 import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
+import com.vs.schoolmessenger.model.UploadFilesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
+import com.vs.schoolmessenger.util.VimeoUploader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -60,9 +65,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ToStaffGroupList extends AppCompatActivity {
-    GridLayout  gridlayoutgroups;
-    CheckBox[]  cbListGroups;
+public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader.UploadCompletionListener {
+    GridLayout gridlayoutgroups;
+    CheckBox[] cbListGroups;
     ArrayList<TeacherClassGroupModel> listClasses, listGroups;
     Button btnConfirm;
     String SchoolID, StaffID;
@@ -77,16 +82,16 @@ public class ToStaffGroupList extends AppCompatActivity {
 
     String urlFromS3 = null;
     ProgressDialog progressDialog;
-    String contentType="";
-    String uploadFilePath="";
-    int pathIndex=0;
-    private  ArrayList<String> UploadedS3URlList = new ArrayList<>();
+    String contentType = "";
+    String uploadFilePath = "";
+    int pathIndex = 0;
+    private ArrayList<String> UploadedS3URlList = new ArrayList<>();
 
     ArrayList<String> slectedImagePath = new ArrayList<String>();
     TextView lblStandard;
-    String  strPDFFilepath,strsize;
+    String strPDFFilepath, strsize;
 
-    String upload_link,link,iframe;
+    String upload_link, link, iframe;
     String ticket_id;
     String video_file_id;
     String signature;
@@ -127,9 +132,13 @@ public class ToStaffGroupList extends AppCompatActivity {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
         }
+        else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(ToStaffGroupList.this).equals(LOGIN_TYPE_TEACHER)) {
+            SchoolID = TeacherUtil_Common.Principal_SchoolId;
+            StaffID = TeacherUtil_Common.Principal_staffId;
+        }
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(ToStaffGroupList.this);
-        if(countryID.equals("11")){
+        if (countryID.equals("11")) {
             lblStandard.setText("Grades");
         }
         btnConfirm = (Button) findViewById(R.id.sectiongroup_btnConfirm);
@@ -160,13 +169,12 @@ public class ToStaffGroupList extends AppCompatActivity {
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(ToStaffGroupList.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(ToStaffGroupList.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ToStaffGroupList.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(ToStaffGroupList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -191,32 +199,32 @@ public class ToStaffGroupList extends AppCompatActivity {
                     if (js.length() > 0) {
                         TeacherClassGroupModel classgrp;
                         cbListGroups = new CheckBox[js.length()];
-                            for (int j = 0; j < js.length(); j++) {
-                                JSONObject jsonObjectgroups = js.getJSONObject(j);
-                                String GroupID = jsonObjectgroups.getString("GroupID");
-                                String GroupName = jsonObjectgroups.getString("GroupName");
-                                if (!GroupID.equals("0")) {
-                                    classgrp = new TeacherClassGroupModel(jsonObjectgroups.getString("GroupName"), jsonObjectgroups.getString("GroupID"), false);
-                                    listGroups.add(classgrp);
-                                    LayoutInflater inflater = getLayoutInflater();
-                                    View addView1 = inflater.inflate(R.layout.teacher_section_list, null, false);
-                                    gridlayoutgroups.addView(addView1);
-                                    cbListGroups[j] = (CheckBox) addView1.findViewById(R.id.ch_section);
-                                    cbListGroups[j].setText(listGroups.get(j).getStrName());
-                                    final int finalI = j;
-                                    cbListGroups[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                        @Override
-                                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                            listGroups.get(finalI).setbSelected(isChecked);
-                                            if (isChecked)
-                                                iSelStdGrpCount++;
-                                            else iSelStdGrpCount--;
-                                        }
-                                    });
-                                } else {
-                                    showErrorAlert(GroupName);
-                                }
+                        for (int j = 0; j < js.length(); j++) {
+                            JSONObject jsonObjectgroups = js.getJSONObject(j);
+                            String GroupID = jsonObjectgroups.getString("GroupID");
+                            String GroupName = jsonObjectgroups.getString("GroupName");
+                            if (!GroupID.equals("0")) {
+                                classgrp = new TeacherClassGroupModel(jsonObjectgroups.getString("GroupName"), jsonObjectgroups.getString("GroupID"), false);
+                                listGroups.add(classgrp);
+                                LayoutInflater inflater = getLayoutInflater();
+                                View addView1 = inflater.inflate(R.layout.teacher_section_list, null, false);
+                                gridlayoutgroups.addView(addView1);
+                                cbListGroups[j] = (CheckBox) addView1.findViewById(R.id.ch_section);
+                                cbListGroups[j].setText(listGroups.get(j).getStrName());
+                                final int finalI = j;
+                                cbListGroups[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                        listGroups.get(finalI).setbSelected(isChecked);
+                                        if (isChecked)
+                                            iSelStdGrpCount++;
+                                        else iSelStdGrpCount--;
+                                    }
+                                });
+                            } else {
+                                showErrorAlert(GroupName);
                             }
+                        }
 
 
                     } else {
@@ -242,7 +250,7 @@ public class ToStaffGroupList extends AppCompatActivity {
         try {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
             jsonObjectSchool.addProperty("StaffId", StaffID);
-            Log.d("req",jsonObjectSchool.toString());
+            Log.d("req", jsonObjectSchool.toString());
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }
@@ -269,53 +277,49 @@ public class ToStaffGroupList extends AppCompatActivity {
         switch (iRequestCode) {
 
             case STAFF_VOICE:
-                if(iSelStdGrpCount>0) {
+                if (iSelStdGrpCount > 0) {
                     SendVoiceAsStaffToGroups();
-                }
-                else {
+                } else {
                     showToast(getResources().getString(R.string.select_participants));
 
                 }
                 break;
 
             case STAFF_TEXT:
-                if(iSelStdGrpCount>0) {
+                if (iSelStdGrpCount > 0) {
                     SendSMSAsStaffToGroups();
-                }
-                else {
+                } else {
                     showToast(getResources().getString(R.string.select_participants));
                 }
                 break;
 
             case STAFF_PHOTOS:
 
-                if(iSelStdGrpCount>0) {
+                if (iSelStdGrpCount > 0) {
                     if (!strPDFFilepath.equals("")) {
-                        contentType="application/pdf";
+                        contentType = "application/pdf";
                         slectedImagePath.clear();
                         slectedImagePath.add(strPDFFilepath);
                         UploadedS3URlList.clear();
-                        uploadFileToAWSs3(pathIndex,".pdf");
+                        uploadFileToAWSs3(pathIndex, ".pdf");
                     } else {
                         slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
-                        contentType="image/png";
+                        contentType = "image/png";
                         UploadedS3URlList.clear();
-                        uploadFileToAWSs3(pathIndex,"IMG");
+                        uploadFileToAWSs3(pathIndex, "IMG");
                     }
-                }
-                else {
+                } else {
                     showToast(getResources().getString(R.string.select_participants));
                 }
 
                 break;
 
             case VIDEO_GALLERY:
-                if(iSelStdGrpCount>0) {
-                    VimeoAPi();
-                }
-                else {
+                if (iSelStdGrpCount > 0) {
+                    //   VimeoAPi();
+                    uploadVimeoVideo();
+                } else {
                     showToast(getResources().getString(R.string.select_participants));
-
                 }
 
                 break;
@@ -323,6 +327,43 @@ public class ToStaffGroupList extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    private void uploadVimeoVideo() {
+        String authToken = TeacherUtil_SharedPreference.getVideotoken(ToStaffGroupList.this);
+        VimeoUploader.uploadVideo(ToStaffGroupList.this, tittle, strmessage, authToken, filepath, this);
+    }
+
+    @Override
+    public void onUploadComplete(boolean success, String isIframe, String isLink) {
+        Log.d("Vime_Video_upload", String.valueOf(success));
+        Log.d("VimeoIframe", isIframe);
+        Log.d("link", isLink);
+
+        if (success) {
+            iframe = isIframe;
+            link = isLink;
+            SendVideoAsStaffToGroups();
+        } else {
+            alert("Video sending failed.");
+        }
+    }
+
+    private void alert(String strStudName) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ToStaffGroupList.this);
+
+
+        alertDialog.setTitle(R.string.alert);
+        alertDialog.setMessage(strStudName);
+        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+
+        alertDialog.show();
     }
 
     private void VimeoAPi() {
@@ -353,40 +394,40 @@ public class ToStaffGroupList extends AppCompatActivity {
         JsonObject object = new JsonObject();
 
         JsonObject jsonObjectclasssec = new JsonObject();
-        jsonObjectclasssec.addProperty("approach","post");
-        jsonObjectclasssec.addProperty("size",String.valueOf(strsize) );
+        jsonObjectclasssec.addProperty("approach", "post");
+        jsonObjectclasssec.addProperty("size", String.valueOf(strsize));
 
         JsonObject jsonprivacy = new JsonObject();
-        jsonprivacy.addProperty("view","unlisted");
+        jsonprivacy.addProperty("view", "unlisted");
 
         JsonObject jsonshare = new JsonObject();
-        jsonshare.addProperty("share","false");
+        jsonshare.addProperty("share", "false");
 
         JsonObject jsonembed = new JsonObject();
-        jsonembed.add("buttons",jsonshare);
+        jsonembed.add("buttons", jsonshare);
 
         object.add("upload", jsonObjectclasssec);
-        object.addProperty("name",tittle);
-        object.addProperty("description",strmessage);
+        object.addProperty("name", tittle);
+        object.addProperty("description", strmessage);
         object.add("privacy", jsonprivacy);
         object.add("embed", jsonembed);
 
-        String head="Bearer "+TeacherUtil_SharedPreference.getVideotoken(ToStaffGroupList.this);
-        Log.d("video_token",head);
-        Call<JsonObject> call = service.VideoUpload(object,head);
+        String head = "Bearer " + TeacherUtil_SharedPreference.getVideotoken(ToStaffGroupList.this);
+        Log.d("video_token", head);
+        Call<JsonObject> call = service.VideoUpload(object, head);
         Log.d("jsonOBJECT", object.toString());
         call.enqueue(new Callback<JsonObject>() {
 
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 int res = response.code();
                 Log.d("RESPONSE", String.valueOf(res));
                 if (response.isSuccessful()) {
                     try {
 
-                        Log.d("try","testtry");
+                        Log.d("try", "testtry");
                         JSONObject object1 = new JSONObject(response.body().toString());
                         Log.d("Response sucess", object1.toString());
                         JSONObject obj = object1.getJSONObject("upload");
@@ -408,22 +449,22 @@ public class ToStaffGroupList extends AppCompatActivity {
                         String upload = name.replace("upload", "");
                         Log.d("replace", upload);
 
-                        try{
+                        try {
                             VIDEOUPLOAD(upload_link);
-                        }catch (Exception e) {
+                        } catch (Exception e) {
                             Log.e("VIMEO Exception", e.getMessage());
-                            showAlertfinal("Video sending failed.Retry","0");
+                            showAlertfinal("Video sending failed.Retry", "0");
                         }
 
 
                     } catch (Exception e) {
                         Log.e("VIMEO Exception", e.getMessage());
-                        showAlertfinal(e.getMessage(),"0");
+                        showAlertfinal(e.getMessage(), "0");
                     }
 
                 } else {
                     Log.d("Response fail", "fail");
-                    showAlertfinal("Video sending failed.Retry","0");
+                    showAlertfinal("Video sending failed.Retry", "0");
 
                 }
 
@@ -431,10 +472,10 @@ public class ToStaffGroupList extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 Log.e("Response Failure", t.getMessage());
-                showAlertfinal("Video sending failed.Retry","0");
+                showAlertfinal("Video sending failed.Retry", "0");
 
             }
         });
@@ -537,33 +578,32 @@ public class ToStaffGroupList extends AppCompatActivity {
             requestFile = RequestBody.create(MediaType.parse("application/offset+octet-stream"), buf);
 
         } catch (IOException e) {
-            showAlertfinal(e.getMessage(),"0");
+            showAlertfinal(e.getMessage(), "0");
         }
 
-        Call<ResponseBody> call = service.patchVimeoVideoMetaData(ticket2,ticket3,tick,str1,redirect_url123+"www.voicesnapforschools.com", requestFile);
+        Call<ResponseBody> call = service.patchVimeoVideoMetaData(ticket2, ticket3, tick, str1, redirect_url123 + "www.voicesnapforschools.com", requestFile);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 try {
                     if (response.isSuccessful()) {
                         SendVideoAsStaffToGroups();
-                    }
-                    else{
-                        showAlertfinal("Video sending failed.Retry","0");
+                    } else {
+                        showAlertfinal("Video sending failed.Retry", "0");
                     }
                 } catch (Exception e) {
-                    showAlertfinal(e.getMessage(),"0");
+                    showAlertfinal(e.getMessage(), "0");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                showAlertfinal("Video sending failed.Retry","0");
+                showAlertfinal("Video sending failed.Retry", "0");
             }
         });
     }
@@ -577,15 +617,14 @@ public class ToStaffGroupList extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if(status.equals("1")) {
+                if (status.equals("1")) {
                     dialog.cancel();
                     Intent homescreen = new Intent(ToStaffGroupList.this, Teacher_AA_Test.class);
                     homescreen.putExtra("Homescreen", "1");
                     homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(homescreen);
                     finish();
-                }
-                else{
+                } else {
                     dialog.dismiss();
                 }
 
@@ -602,27 +641,27 @@ public class ToStaffGroupList extends AppCompatActivity {
 
     private void uploadFileToAWSs3(int pathind, final String fileType) {
 
-        pathIndex=pathind;
+        pathIndex = pathind;
         progressDialog = new ProgressDialog(ToStaffGroupList.this);
         for (int index = pathIndex; index < slectedImagePath.size(); index++) {
             uploadFilePath = slectedImagePath.get(index);
             break;
         }
-        if(UploadedS3URlList.size()<slectedImagePath.size()) {
+        if (UploadedS3URlList.size() < slectedImagePath.size()) {
             Log.d("upload file", uploadFilePath);
             if (uploadFilePath != null) {
                 showLoading();
                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-                fileNameDateTime="File_"+fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType,fileNameDateTime);
+                fileNameDateTime = "File_" + fileNameDateTime;
+                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime);
                 s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
                     @Override
                     public void onUploadSuccess(String response) {
                         if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath,fileNameDateTime);
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime);
                             if (!TextUtils.isEmpty(urlFromS3)) {
                                 UploadedS3URlList.add(urlFromS3);
-                                uploadFileToAWSs3(pathIndex + 1,fileType);
+                                uploadFileToAWSs3(pathIndex + 1, fileType);
 
                                 if (slectedImagePath.size() == UploadedS3URlList.size()) {
                                     SendMultipleImagePDFAsStaffToGroupsWithCloudURL(fileType);
@@ -648,7 +687,7 @@ public class ToStaffGroupList extends AppCompatActivity {
 
     private void SendVoiceAsStaffToGroups() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
@@ -675,7 +714,15 @@ public class ToStaffGroupList extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceAsStaffToGroups(requestBody, bodyFile);
+        //   Call<JsonArray> call = apiService.SendVoiceAsStaffToGroups(requestBody, bodyFile);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoiceAsStaffToGroups(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceAsStaffToGroups(requestBody, bodyFile);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -696,9 +743,9 @@ public class ToStaffGroupList extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strStatus,strMsg);
+                                showAlert(strStatus, strMsg);
                             } else {
-                                showAlert(strStatus,strMsg);
+                                showAlert(strStatus, strMsg);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -740,6 +787,17 @@ public class ToStaffGroupList extends AppCompatActivity {
                     jsonArrayschoolgrp.add(jsonObjectgroups);
                 }
             }
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
 
             Log.d("TTgroup", "1");
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolgrp);
@@ -754,7 +812,7 @@ public class ToStaffGroupList extends AppCompatActivity {
 
     private void SendSMSAsStaffToGroups() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
@@ -787,9 +845,9 @@ public class ToStaffGroupList extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strStatus,strMsg);
+                                showAlert(strStatus, strMsg);
                             } else {
-                                showAlert(strStatus,strMsg);
+                                showAlert(strStatus, strMsg);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -839,7 +897,7 @@ public class ToStaffGroupList extends AppCompatActivity {
         return jsonObjectSchoolstdgrp;
     }
 
-    private void showAlert(String status,String strMsg) {
+    private void showAlert(String status, String strMsg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ToStaffGroupList.this);
         alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(strMsg);
@@ -932,9 +990,9 @@ public class ToStaffGroupList extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strStatus,strMsg);
+                                showAlert(strStatus, strMsg);
                             } else {
-                                showAlert(strStatus,strMsg);
+                                showAlert(strStatus, strMsg);
                             }
                         } else {
                             showToast(getResources().getString(R.string.check_internet));
@@ -1006,27 +1064,27 @@ public class ToStaffGroupList extends AppCompatActivity {
 
     private void SendVideoAsStaffToGroups() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(ToStaffGroupList.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
+//        final ProgressDialog mProgressDialog = new ProgressDialog(ToStaffGroupList.this);
+//        mProgressDialog.setIndeterminate(true);
+//        mProgressDialog.setMessage("Uploading...");
+//        mProgressDialog.setCancelable(false);
+//
+//        if (!this.isFinishing())
+//            mProgressDialog.show();
         JsonObject jsonReqArray = sendVideoStaffGroups();
         Call<JsonArray> call = apiService.SendVideoAsStaffToGroups(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
                                    Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
@@ -1040,10 +1098,10 @@ public class ToStaffGroupList extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlertfinal(strMsg,strStatus);
+                                showAlertfinal(strMsg, strStatus);
 
                             } else {
-                                showAlertfinal(strMsg,strStatus);
+                                showAlertfinal(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -1059,8 +1117,8 @@ public class ToStaffGroupList extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
                 Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
@@ -1073,8 +1131,8 @@ public class ToStaffGroupList extends AppCompatActivity {
         try {
             jsonObjectSchoolstdgrp.addProperty("Title", tittle);
             jsonObjectSchoolstdgrp.addProperty("Description", strmessage);
-            jsonObjectSchoolstdgrp.addProperty("SchoolId",Principal_SchoolId);
-            jsonObjectSchoolstdgrp.addProperty("ProcessBy",Principal_staffId );
+            jsonObjectSchoolstdgrp.addProperty("SchoolId", Principal_SchoolId);
+            jsonObjectSchoolstdgrp.addProperty("ProcessBy", Principal_staffId);
             jsonObjectSchoolstdgrp.addProperty("Iframe", iframe);//getIntent().getExtras().getString("MEDIA_DURATION", "0")
             jsonObjectSchoolstdgrp.addProperty("URL", link);//getIntent().getExtras().getString("MEDIA_DURATION", "0")
 
@@ -1088,7 +1146,7 @@ public class ToStaffGroupList extends AppCompatActivity {
                 }
             }
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolstd1);
-            Log.d("reqVideo",jsonObjectSchoolstdgrp.toString());
+            Log.d("reqVideo", jsonObjectSchoolstdgrp.toString());
 
         } catch (Exception e) {
             Log.d("ASDF", e.toString());

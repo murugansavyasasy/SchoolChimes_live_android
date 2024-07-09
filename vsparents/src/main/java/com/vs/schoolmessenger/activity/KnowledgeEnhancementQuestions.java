@@ -147,7 +147,6 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         imgprev = findViewById(R.id.imgprev);
         imgnext = findViewById(R.id.imgnext);
         constraint = findViewById(R.id.constraint);
-
         ryttime.setVisibility(View.GONE);
 
         child_id = Util_SharedPreference.getChildIdFromSP(this);
@@ -200,15 +199,12 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
 
         if(adapterpos==0) {
             mAdapter = new QuestionForQuizAdapter(msgModelList, this, 0, this);
-
             rcyquestions.setHasFixedSize(true);
             rcyquestions.setLayoutManager(new LinearLayoutManager(KnowledgeEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
             rcyquestions.setItemAnimator(new DefaultItemAnimator());
             rcyquestions.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         }
-
-
     }
 
     private void examEnhancement(int quizId) {
@@ -332,7 +328,6 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
 
     private void submitquiz(int id) {
 
-
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
@@ -381,27 +376,24 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                             e.printStackTrace();
                         }
 
-                    } else {
+                    }
+                    else {
                         Toast.makeText(KnowledgeEnhancementQuestions.this, "Server Response Failed", Toast.LENGTH_SHORT).show();
                     }
-
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     Log.e("Response Exception", e.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 Toast.makeText(KnowledgeEnhancementQuestions.this, "Server Connection Failed", Toast.LENGTH_SHORT).show();
-
             }
         });
     }
-
-
     private void showAlert(String msg, final String s, final String submit) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
@@ -454,7 +446,8 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
 
                 if(submit.equals("SUBMIT")) {
                     submitquiz(QuizId);
-                }else if(submit.equals("LEVEL")){
+                }
+                else if(submit.equals("LEVEL")){
                     examEnhancement(QuizId);
                 }
                 dialog.cancel();
@@ -466,23 +459,20 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             public void onClick(DialogInterface dialog, int which) {
                 if(submit.equals("SUBMIT")) {
                     dialog.cancel();
-                    finish();
-                }else if(submit.equals("LEVEL")){
+//                    finish();
+                }
+                else if(submit.equals("LEVEL")){
                     dialog.cancel();
                     Intent i=new Intent(KnowledgeEnhancementQuestions.this,ParentKnowledgeEnhancementScreen.class);
                     i.putExtra("complete",1);
                     startActivity(i);
                     finish();
                 }
-
-
             }
         });
         AlertDialog dialog = alertDialog.create();
-
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }

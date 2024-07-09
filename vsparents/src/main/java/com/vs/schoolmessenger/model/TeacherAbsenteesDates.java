@@ -8,13 +8,14 @@ import java.util.ArrayList;
 
 public class TeacherAbsenteesDates
 {
-    private String date, day, count;
+    private String date, day, count,absentdateonly;
     private ArrayList<TeacherABS_Standard> standards;
 
-    public TeacherAbsenteesDates(String date, String day, String count) {
+    public TeacherAbsenteesDates(String date, String day, String count,String absentdateonly) {
         this.date = date;
         this.day = day;
         this.count = count;
+        this.absentdateonly=absentdateonly;
     }
 
     public TeacherAbsenteesDates() {}
@@ -25,6 +26,14 @@ public class TeacherAbsenteesDates
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getAbsentdateonly() {
+        return absentdateonly;
+    }
+
+    public void setAbsentdateonly(String absentdateonly) {
+        this.absentdateonly = absentdateonly;
     }
 
     public String getDay() {

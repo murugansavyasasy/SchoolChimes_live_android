@@ -30,6 +30,7 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONObject;
 
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -37,7 +38,8 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
 
     private List<InVoiceDetailsModel> dateList;
     Context context;
-    String child_id,schoolid;
+    String child_id, schoolid;
+
     @Override
     public InvoiceDetailsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -64,15 +66,17 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return dateList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView lblInvoiceDate,lblInvoiceAmount,lblInvoiceNumber;
+        public TextView lblInvoiceDate, lblInvoiceAmount, lblInvoiceNumber;
         public ConstraintLayout LayoutOverall;
-        public Button  btnViewFile;
+        public Button btnViewFile;
+
         public MyViewHolder(View view) {
             super(view);
 
@@ -103,8 +107,8 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
                 TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonObject = new JsonObject();
 
-        jsonObject.addProperty("SchoolID",schoolid );
-        jsonObject.addProperty("InvoiceId",invoiceId);
+        jsonObject.addProperty("SchoolID", schoolid);
+        jsonObject.addProperty("InvoiceId", invoiceId);
 
         Log.d("jsonObject", jsonObject.toString());
         Log.d("InvoiceId", invoiceId);
@@ -126,15 +130,14 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
                             String message = jsonObject.getString("Message");
                             if (status.equals("1")) {
                                 String invoicePdf = jsonObject.getString("data");
-                                if(!invoicePdf.equals("")){
+                                if (!invoicePdf.equals("")) {
                                     Intent receipt = new Intent(context, PdfWebView.class);
-                                    receipt.putExtra("URL",invoicePdf);
-                                    receipt.putExtra("tittle","Fee Receipt");
-                                    receipt.putExtra("ID",invoiceId);
+                                    receipt.putExtra("URL", invoicePdf);
+                                    receipt.putExtra("tittle", "Fee Receipt");
+                                    receipt.putExtra("ID", invoiceId);
                                     context.startActivity(receipt);
 
-                                }
-                                else{
+                                } else {
                                     showAlertfinish(message);
                                 }
 
@@ -152,17 +155,17 @@ public class InvoiceDetailsAdapter extends RecyclerView.Adapter<InvoiceDetailsAd
                     Log.e("Response Exception", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(context, "Server Connection Failed",
-
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Server Connection Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     private void showAlertfinish(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("Alert");

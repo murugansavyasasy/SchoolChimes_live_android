@@ -1,0 +1,32 @@
+<!-- Layout for day numbers -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="70dp"
+    android:background="@drawable/bg_outline_black_0_radious"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dayOfMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:layout_marginRight="10dp"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/eventsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dayOfMonth"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="12dp"
+        android:visibility="gone" />
+</RelativeLayout>

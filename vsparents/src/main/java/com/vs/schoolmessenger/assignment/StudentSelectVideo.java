@@ -29,6 +29,7 @@ import com.vs.schoolmessenger.model.TeacherStudentsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.VimeoUploader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,6 +45,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -63,43 +65,42 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PDFASSIGNMENT
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXTASSIGNMENT;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICEASSIGNMENT;
 
-public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCheckStudentListener {
+public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCheckStudentListener, VimeoUploader.UploadCompletionListener {
     RecyclerView rvStudentList;
     private TeacherStudendListAdapter adapter;
     TextView tvOK, tvCancel, tvSelectedCount, tvTotalCount, tvStdSec, tvSubject; //tvSelectUnselect
     private ArrayList<TeacherStudentsModel> studentList = new ArrayList<>();
 
-    String schoolID, targetCode,stdcode,subcode,strtittle;
+    String schoolID, targetCode, stdcode, subcode, strtittle;
     TeacherSectionModel selSection;
 
     private int i_students_count;
 
-    CheckBox cbSelectAll,chUnselect;
-    String schoolId, sectioncode,filepath,duration,Description,strmessage;
+    CheckBox cbSelectAll, chUnselect;
+    String schoolId, sectioncode, filepath, duration, Description, strmessage;
     int iRequestCode;
 
-    String voicetype="",strPDFFilepath;
+    String voicetype = "", strPDFFilepath;
 
     ArrayList<String> slectedImagePath = new ArrayList<String>();
-    String sectionsTargetCode="";
-    String AssignId="",strDate="",iframe,link,upload_link;
+    String sectionsTargetCode = "";
+    String AssignId = "", strDate = "", iframe, link, upload_link;
     String ticket_id;
     String video_file_id;
     String signature;
     String v6;
-    String redirect_url,strsize;
+    String redirect_url, strsize;
 
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_student_assignment);
-
-
 
 
         schoolID = TeacherUtil_SharedPreference.getSchoolIdFromSP(StudentSelectVideo.this);
@@ -109,21 +110,21 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
         selSection = (TeacherSectionModel) getIntent().getSerializableExtra("STD_SEC");
         sectioncode = getIntent().getExtras().getString("SECCODE", "");
         subcode = getIntent().getExtras().getString("SUBCODE", "");
-        filepath= getIntent().getExtras().getString("FILEPATH", "");
-        strtittle=getIntent().getExtras().getString("TITLE", "");
-        strmessage=getIntent().getExtras().getString("CONTENT", "");
+        filepath = getIntent().getExtras().getString("FILEPATH", "");
+        strtittle = getIntent().getExtras().getString("TITLE", "");
+        strmessage = getIntent().getExtras().getString("CONTENT", "");
         AssignId = getIntent().getExtras().getString("ID", "");
         strDate = getIntent().getExtras().getString("DATE", "");
         strsize = getIntent().getExtras().getString("FILE_SIZE", "");
 
 
-        if(iRequestCode==STAFF_IMAGEASSIGNMENT){
+        if (iRequestCode == STAFF_IMAGEASSIGNMENT) {
             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
         }
 
         targetCode = sectioncode;
         rvStudentList = (RecyclerView) findViewById(R.id.attenStudent_rvStudentList);
-        adapter = new TeacherStudendListAdapter(StudentSelectVideo.this, this, studentList,0);
+        adapter = new TeacherStudendListAdapter(StudentSelectVideo.this, this, studentList, 0);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvStudentList.setHasFixedSize(true);
@@ -148,11 +149,10 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             @Override
             public void onClick(View v) {
 
-                if (studentList.size()>0) {
+                if (studentList.size() > 0) {
                     showAttendanceConfirmationAlert();
 
-                }
-                else {
+                } else {
                     showToast(getResources().getString(R.string.no_students));
                 }
             }
@@ -164,7 +164,6 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
                 onBackPressed();
             }
         });
-
 
 
         cbSelectAll = (CheckBox) findViewById(R.id.attenStudent_cbSelectAll);
@@ -234,13 +233,12 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StudentSelectVideo.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StudentSelectVideo.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StudentSelectVideo.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StudentSelectVideo.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StudentSelectVideo.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StudentSelectVideo.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -276,7 +274,7 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 studentsModel = new TeacherStudentsModel(jsonObject.getString("StudentID"), jsonObject.getString("StudentName")
-                                        , jsonObject.getString("StudentAdmissionNo"),jsonObject.getString("RollNO"), false);
+                                        , jsonObject.getString("StudentAdmissionNo"), jsonObject.getString("RollNO"), false);
                                 studentList.add(studentsModel);
                             }
 
@@ -320,7 +318,6 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             public void onClick(DialogInterface dialog, int which) {
 
 
-
             }
         });
 
@@ -335,12 +332,11 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             enableDisableNext();
             Log.d("size", String.valueOf(studentList.size()));
             Log.d("count", String.valueOf(i_students_count));
-            if(i_students_count<studentList.size()){
+            if (i_students_count < studentList.size()) {
                 cbSelectAll.setVisibility(View.GONE);
                 chUnselect.setVisibility(View.VISIBLE);
                 chUnselect.setButtonTintList(ColorStateList.valueOf(R.color.clr_white));
-            }
-            else{
+            } else {
                 cbSelectAll.setVisibility(View.VISIBLE);
                 chUnselect.setVisibility(View.GONE);
             }
@@ -356,12 +352,11 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             enableDisableNext();
             Log.d("sizeremove", String.valueOf(studentList.size()));
             Log.d("countremove", String.valueOf(i_students_count));
-            if(i_students_count<studentList.size()){
+            if (i_students_count < studentList.size()) {
                 cbSelectAll.setVisibility(View.GONE);
                 chUnselect.setVisibility(View.VISIBLE);
                 chUnselect.setButtonTintList(ColorStateList.valueOf(R.color.clr_white));
-            }
-            else{
+            } else {
                 cbSelectAll.setVisibility(View.VISIBLE);
                 chUnselect.setVisibility(View.GONE);
             }
@@ -383,7 +378,7 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
         try {
             for (int i = 0; i < studentList.size(); i++) {
                 if (studentList.get(i).isSelectStatus())
-                    strStudList.append(studentList.get(i).getStudentID()+"~");
+                    strStudList.append(studentList.get(i).getStudentID() + "~");
             }
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
@@ -409,14 +404,15 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
 
         alertDialog.setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                 dialog.dismiss();
+                dialog.dismiss();
             }
         });
 
         alertDialog.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
-              VimeoAPi();
+                // VimeoAPi();
+                uploadVimeoVideo();
 
             }
         });
@@ -424,6 +420,25 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
         alertDialog.show();
     }
 
+    private void uploadVimeoVideo() {
+        String authToken = TeacherUtil_SharedPreference.getVideotoken(StudentSelectVideo.this);
+        VimeoUploader.uploadVideo(StudentSelectVideo.this, strtittle, strmessage, authToken, filepath, this);
+    }
+
+    @Override
+    public void onUploadComplete(boolean success, String isIframe, String isLink) {
+        Log.d("Vime_Video_upload", String.valueOf(success));
+        Log.d("VimeoIframe", isIframe);
+        Log.d("link", isLink);
+
+        if (success) {
+            iframe = isIframe;
+            link = isLink;
+            SendVideotoSecApi();
+        } else {
+            showAlertfinal("Video sending failed.Retry", "0");
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -435,7 +450,6 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             }
         }
     }
-
 
 
     private String getStudentsName() {
@@ -507,7 +521,6 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             public void onClick(DialogInterface dialog, int which) {
 
 
-
                 if (status.equals("1")) {
                     dialog.cancel();
                     Intent homescreen = new Intent(StudentSelectVideo.this, Teacher_AA_Test.class);
@@ -518,7 +531,6 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
                 } else {
                     dialog.cancel();
                 }
-
 
 
             }
@@ -539,8 +551,8 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
         try {
             jsonObjectSchoolstdgrp.addProperty("Title", strtittle);
             jsonObjectSchoolstdgrp.addProperty("Description", strmessage);
-            jsonObjectSchoolstdgrp.addProperty("SchoolId",Principal_SchoolId);
-            jsonObjectSchoolstdgrp.addProperty("ProcessBy",Principal_staffId );
+            jsonObjectSchoolstdgrp.addProperty("SchoolId", Principal_SchoolId);
+            jsonObjectSchoolstdgrp.addProperty("ProcessBy", Principal_staffId);
             jsonObjectSchoolstdgrp.addProperty("Iframe", iframe);//getIntent().getExtras().getString("MEDIA_DURATION", "0")
             jsonObjectSchoolstdgrp.addProperty("URL", link);//getIntent().getExtras().getString("MEDIA_DURATION", "0")
 
@@ -556,7 +568,7 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
                 }
             }
             jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
-            Log.d("reqVideo",jsonObjectSchoolstdgrp.toString());
+            Log.d("reqVideo", jsonObjectSchoolstdgrp.toString());
 
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
@@ -567,28 +579,28 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
 
     void SendVideotoSecApi() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(StudentSelectVideo.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StudentSelectVideo.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(StudentSelectVideo.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
-        mProgressDialog.setCancelable(false);
+//        final ProgressDialog mProgressDialog = new ProgressDialog(StudentSelectVideo.this);
+//        mProgressDialog.setIndeterminate(true);
+//        mProgressDialog.setMessage("Uploading...");
+//        mProgressDialog.setCancelable(false);
 
-        if (!this.isFinishing())
-            mProgressDialog.show();
+//        if (!this.isFinishing())
+//            mProgressDialog.show();
         JsonObject jsonReqArray = JsonVideotoSection();
         Call<JsonArray> call = apiService.SendVideoAsStaffToSpecificStudents(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
                                    Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
@@ -602,10 +614,10 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlertfinal(strMsg,strStatus);
+                                showAlertfinal(strMsg, strStatus);
 
                             } else {
-                                showAlertfinal(strMsg,strStatus);
+                                showAlertfinal(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -621,8 +633,8 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
                 Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
@@ -658,40 +670,40 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
         JsonObject object = new JsonObject();
 
         JsonObject jsonObjectclasssec = new JsonObject();
-        jsonObjectclasssec.addProperty("approach","post");
-        jsonObjectclasssec.addProperty("size",String.valueOf(strsize) );
+        jsonObjectclasssec.addProperty("approach", "post");
+        jsonObjectclasssec.addProperty("size", String.valueOf(strsize));
 
 
         JsonObject jsonprivacy = new JsonObject();
-        jsonprivacy.addProperty("view","unlisted");
+        jsonprivacy.addProperty("view", "unlisted");
 
         JsonObject jsonshare = new JsonObject();
-        jsonshare.addProperty("share","false");
+        jsonshare.addProperty("share", "false");
 
         JsonObject jsonembed = new JsonObject();
-        jsonembed.add("buttons",jsonshare);
+        jsonembed.add("buttons", jsonshare);
 
         object.add("upload", jsonObjectclasssec);
-        object.addProperty("name",strtittle);
-        object.addProperty("description",strmessage);
+        object.addProperty("name", strtittle);
+        object.addProperty("description", strmessage);
         object.add("privacy", jsonprivacy);
         object.add("embed", jsonembed);
 
-        String head="Bearer "+TeacherUtil_SharedPreference.getVideotoken(StudentSelectVideo.this);
-        Call<JsonObject> call = service.VideoUpload(object,head);
+        String head = "Bearer " + TeacherUtil_SharedPreference.getVideotoken(StudentSelectVideo.this);
+        Call<JsonObject> call = service.VideoUpload(object, head);
         Log.d("jsonOBJECT", object.toString());
         call.enqueue(new Callback<JsonObject>() {
 
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 int res = response.code();
                 Log.d("RESPONSE", String.valueOf(res));
                 if (response.isSuccessful()) {
                     try {
 
-                        Log.d("try","testtry");
+                        Log.d("try", "testtry");
                         JSONObject object1 = new JSONObject(response.body().toString());
                         Log.d("Response sucess", object1.toString());
 
@@ -715,24 +727,23 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
                         String upload = name.replace("upload", "");
                         Log.d("replace", upload);
 
-                        try{
+                        try {
                             VIDEOUPLOAD(upload_link);
-                        }catch (Exception e) {
+                        } catch (Exception e) {
                             Log.e("VIMEO Exception", e.getMessage());
-                            showAlertfinal("Video sending failed.Retry","0");
+                            showAlertfinal("Video sending failed.Retry", "0");
 
                         }
 
 
                     } catch (Exception e) {
                         Log.e("VIMEO Exception", e.getMessage());
-                        showAlertfinal(e.getMessage(),"0");
+                        showAlertfinal(e.getMessage(), "0");
 
                     }
-                }
-                else {
+                } else {
                     Log.d("Response fail", "fail");
-                    showAlertfinal("Video sending failed.Retry","0");
+                    showAlertfinal("Video sending failed.Retry", "0");
 
                 }
 
@@ -740,18 +751,16 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 Log.e("Response Failure", t.getMessage());
-                showAlertfinal("Video sending failed.Retry","0");
+                showAlertfinal("Video sending failed.Retry", "0");
 
             }
 
 
         });
     }
-
-
 
 
     private void VIDEOUPLOAD(String upload_link) {
@@ -765,7 +774,6 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
         Log.d("FileName", FileName);
         String upload = name.replace("upload", "");
         Log.d("replace234", upload);
-
 
 
         String[] id = FileName.split("&");
@@ -855,38 +863,38 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             requestFile = RequestBody.create(MediaType.parse("application/offset+octet-stream"), buf);
         } catch (IOException e) {
             e.printStackTrace();
-            showAlertfinal(e.getMessage(),"0");
+            showAlertfinal(e.getMessage(), "0");
         }
 
-        Call<ResponseBody> call = service.patchVimeoVideoMetaData(ticket2,ticket3,tick,str1,redirect_url123+"www.voicesnapforschools.com", requestFile);
+        Call<ResponseBody> call = service.patchVimeoVideoMetaData(ticket2, ticket3, tick, str1, redirect_url123 + "www.voicesnapforschools.com", requestFile);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 try {
                     if (response.isSuccessful()) {
                         SendVideotoSecApi();
-                    }
-                    else{
-                        showAlertfinal("Video sending failed.Retry","0");
+                    } else {
+                        showAlertfinal("Video sending failed.Retry", "0");
                     }
                 } catch (Exception e) {
-                    showAlertfinal(e.getMessage(),"0");
+                    showAlertfinal(e.getMessage(), "0");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                showAlertfinal("Video sending failed.Retry","0");
+                showAlertfinal("Video sending failed.Retry", "0");
             }
         });
 
 
     }
+
     private void showAlertfinal(String msg, final String status) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(StudentSelectVideo.this);
 
@@ -896,15 +904,14 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if(status.equals("1")) {
+                if (status.equals("1")) {
                     dialog.cancel();
                     Intent homescreen = new Intent(StudentSelectVideo.this, Teacher_AA_Test.class);
                     homescreen.putExtra("Homescreen", "1");
                     homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(homescreen);
                     finish();
-                }
-                else{
+                } else {
                     dialog.dismiss();
                 }
 

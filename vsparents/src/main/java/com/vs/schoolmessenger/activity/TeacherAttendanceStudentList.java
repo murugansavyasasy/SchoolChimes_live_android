@@ -37,6 +37,7 @@ import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -586,7 +587,15 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoicetoSpecificStudentsfromVoiceHistory(jsonReqArray);
+        //Call<JsonArray> call = apiService.SendVoicetoSpecificStudentsfromVoiceHistory(jsonReqArray);
+
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoicetoSpecificStudentsfromVoiceHistory(jsonReqArray);
+        } else {
+            call = apiService.SendVoicetoSpecificStudentsfromVoiceHistory(jsonReqArray);
+        }
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -644,6 +653,17 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             jsonObjectSchoolstdgrp.addProperty("TargetCode", targetCode);
             jsonObjectSchoolstdgrp.addProperty("filepath", filepath);
 
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < studentList.size(); i++) {
                 if (studentList.get(i).isSelectStatus()) {
@@ -698,7 +718,14 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceAsStaffToSpecificStudents(requestBody, bodyFile);
+      //  Call<JsonArray> call = apiService.SendVoiceAsStaffToSpecificStudents(requestBody, bodyFile);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoiceAsStaffToSpecificStudents(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceAsStaffToSpecificStudents(requestBody, bodyFile);
+        }
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -792,6 +819,17 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             jsonObjectSchoolstdgrp.addProperty("Duration", duration);
             jsonObjectSchoolstdgrp.addProperty("TargetCode", targetCode);
 
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < studentList.size(); i++) {
                 if (studentList.get(i).isSelectStatus()) {
@@ -801,6 +839,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                     jsonArrayschoolstd.add(jsonObjectclass);
 
                 }
+
+
 
                 jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
                 Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());

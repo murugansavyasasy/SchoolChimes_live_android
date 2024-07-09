@@ -111,13 +111,12 @@
     <string name="Error_message">Check your Internet connectivity</string>
     <string name="home_pay_fees">Fee Details</string>
 
-
     <string name="teacher_app_title">Schools V4</string>
     <string name="teacher_app_name">Voicesnap Schools</string>
     <string name="teacher_app_sub_title"></string>
     <string name="teacher_school_msg"></string>
 
-    <string name="teacher_app_version_id">85</string>
+    <string name="teacher_app_version_id">93</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -472,6 +471,7 @@
     <string name="as_admin">As Admin</string>
     <string name="as_grouphead">As Grouphead</string>
     <string name="absentess_report">Absentees Report</string>
+    <string name="absentess_strength">School Strength</string>
     <string name="standard_wise">Standardwise</string>
     <string name="messages">Messages</string>
     <string name="for_parents">for Parents</string>
@@ -512,6 +512,7 @@
     <string name="select_reciepients">Select Recipients</string>
     <string name="select_atleast_one_school">Please select atleast one school..</string>
     <string name="please_select_message">Please select atleast one message</string>
+    <string name="please_select_datetime">Please select date and time</string>
     <string name="voice_compose_msg">Record Voice Message</string>
     <string name="voice_history">Voice History</string>
     <string name="text_compose_msg">Text Compose Message</string>
@@ -642,14 +643,12 @@
     <string name="viewMarks">View Marks</string>
     <string name="viewProgress">View report card</string>
 
-    <string name="app_version">7.6.15</string>
+    <string name="app_version">7.6.17</string>
 
 
     <string name="lbl_Yet_to_start">Yet to start</string>
     <string name="lbl_in_progress">In Progress</string>
     <string name="lbl_completed">Completed</string>
-
-
 
 
     <!--   Update whats new features here-->
@@ -667,16 +666,15 @@
 
     <string name="ads_size">BANNER</string>
     <string name="large_banner">LARGE_BANNER</string>
-<!--    <string name="ads_size">MEDIUM_RECTANGLE</string>-->
-<!--    <string name="ads_size">SMART_BANNER</string>-->
+    <!--    <string name="ads_size">MEDIUM_RECTANGLE</string>-->
+    <!--    <string name="ads_size">SMART_BANNER</string>-->
 
-<!--    test unit id-->
-<!--    <string name="ads_unit_one">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--    test unit id-->
+    <!--    <string name="ads_unit_one">ca-app-pub-3940256099942544/6300978111</string>-->
 
     <!--    production unit ids-->
     <string name="ads_unit_one">ca-app-pub-4334956274721233/1811829719</string>
     <string name="native_ads_unit_one">ca-app-pub-4334956274721233/3918899445</string>
-
 
 
 </resources>

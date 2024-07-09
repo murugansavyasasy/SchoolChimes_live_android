@@ -88,7 +88,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     private ArrayList<CircularDates> OfflinedatesList = new ArrayList<>();
 
     private PopupWindow pHelpWindow;
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
@@ -139,9 +139,9 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
-        LoadMore=(TextView) findViewById(R.id.btnSeeMore);
-        lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
-        rytParent=(RelativeLayout) findViewById(R.id.rytParent);
+        LoadMore = (TextView) findViewById(R.id.btnSeeMore);
+        lblNoMessages = (TextView) findViewById(R.id.lblNoMessages);
+        rytParent = (RelativeLayout) findViewById(R.id.rytParent);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,7 +164,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         });
 
 
-        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
         seeMoreButtonVisiblity();
 
         rytLanguage = (RelativeLayout) findViewById(R.id.rytLanguage);
@@ -187,6 +187,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (mAdapter == null)
@@ -220,13 +221,12 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
 
     private void LoadMoreGetHomeWorkDetails() {
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(MessageDatesScreen.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(MessageDatesScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(MessageDatesScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(MessageDatesScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -236,8 +236,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
-
-
         String strChildID = Util_SharedPreference.getChildIdFromSP(MessageDatesScreen.this);
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(MessageDatesScreen.this);
 
@@ -264,12 +262,12 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 try {
                     String status = response.body().get(0).getStatus();
                     String message = response.body().get(0).getMessage();
-                    if(status.equals("1")){
+                    if (status.equals("1")) {
 
                         ArrayList<HomeWorkData> data = new ArrayList<>();
                         data = (ArrayList<com.vs.schoolmessenger.model.HomeWorkData>) response.body().get(0).getData();
                         HomeWorkData.addAll(data);
-                        mAdapter = new HomeWorkGridAdapter(MessageDatesScreen.this, HomeWorkData,rytParent,new OnItemHomeworkClick() {
+                        mAdapter = new HomeWorkGridAdapter(MessageDatesScreen.this, HomeWorkData, rytParent, new OnItemHomeworkClick() {
                             @Override
                             public void onMsgItemClick(HomeWorkData item) {
 
@@ -277,10 +275,9 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         });
                         rvGridHW.setAdapter((ListAdapter) mAdapter);
                         mAdapter.notifyDataSetChanged();
-                    }
-                    else {
+                    } else {
                         showrecordsFound(message);
-                     }
+                    }
 
                 } catch (Exception e) {
                     Log.e("MsgDates:Exception", e.getMessage());
@@ -298,13 +295,12 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     }
 
     private void getHomeWorkDetails() {
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(MessageDatesScreen.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(MessageDatesScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(MessageDatesScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(MessageDatesScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -341,20 +337,20 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                     String status = response.body().get(0).getStatus();
                     String message = response.body().get(0).getMessage();
                     HomeWorkData.clear();
-                    if(status.equals("1")){
+                    if (status.equals("1")) {
                         HomeWorkData = (ArrayList<com.vs.schoolmessenger.model.HomeWorkData>) response.body().get(0).getData();
 
-                        if(HomeWorkData.size() < 4){
+                        if (HomeWorkData.size() < 4) {
                             native_ads.setVisibility(View.VISIBLE);
                             adsClose.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             native_ads.setVisibility(View.GONE);
                             adsClose.setVisibility(View.GONE);
 
                         }
 
-                        mAdapter = new HomeWorkGridAdapter(MessageDatesScreen.this, HomeWorkData,rytParent,new OnItemHomeworkClick() {
+
+                        mAdapter = new HomeWorkGridAdapter(MessageDatesScreen.this, HomeWorkData, rytParent, new OnItemHomeworkClick() {
                             @Override
                             public void onMsgItemClick(HomeWorkData item) {
 
@@ -362,21 +358,21 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         });
                         rvGridHW.setAdapter((ListAdapter) mAdapter);
                         mAdapter.notifyDataSetChanged();
-                    }
-                    else {
+                    } else {
                         native_ads.setVisibility(View.VISIBLE);
-                        if(isNewVersion.equals("1")){
+
+                        if (isNewVersion.equals("1")) {
                             lblNoMessages.setVisibility(View.VISIBLE);
                             lblNoMessages.setText(message);
-                                if(isOnBackPressed) {
-                                    LoadMoreGetHomeWorkDetails();
-                                }
-                        }
-                        else {
+                            if (isOnBackPressed) {
+                                LoadMoreGetHomeWorkDetails();
+                            }
+                        } else {
                             lblNoMessages.setVisibility(View.GONE);
                             showrecordsFound(message);
                         }
                     }
+                    ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
 
 
 
@@ -398,7 +394,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     private void filterlist(String s) {
         List<HomeWorkData> temp = new ArrayList();
         for (HomeWorkData d : HomeWorkData) {
-            if (d.getDate().toLowerCase().contains(s.toLowerCase())  ) {
+            if (d.getDate().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -407,14 +403,14 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     }
 
     private void seeMoreButtonVisiblity() {
-        if(isNewVersion.equals("1")){
+        if (isNewVersion.equals("1")) {
             LoadMore.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -425,9 +421,9 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         }
 
         // ShowAds.getAds(this,adImage,slider,"",mAdView);
-        ShowAdvancedNativeAds.getAds(this,adImage,slider,"",native_ads,adsClose);
+//        ShowAdvancedNativeAds.getAds(this, adImage, slider, "", native_ads, adsClose);
 
-        if(HomeWorkDateWiseAdapter.mediaPlayer != null) {
+        if (HomeWorkDateWiseAdapter.mediaPlayer != null) {
             if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
                 HomeWorkDateWiseAdapter.mediaPlayer.stop();
             }
@@ -437,14 +433,15 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        if(HomeWorkDateWiseAdapter.mediaPlayer != null) {
+        if (HomeWorkDateWiseAdapter.mediaPlayer != null) {
             if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
                 HomeWorkDateWiseAdapter.mediaPlayer.stop();
             }
         }
     }
+
     private boolean isNetworkConnected() {
 
         ConnectivityManager connMgr = (ConnectivityManager) MessageDatesScreen.this
@@ -454,16 +451,18 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
-        if(HomeWorkDateWiseAdapter.mediaPlayer != null) {
+        if (HomeWorkDateWiseAdapter.mediaPlayer != null) {
             if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
                 HomeWorkDateWiseAdapter.mediaPlayer.stop();
             }
         }
         finish();
     }
+
     private void showToast(String msg) {
         Toast.makeText(MessageDatesScreen.this, msg, Toast.LENGTH_SHORT).show();
     }
+
     private void showrecordsFound(String s) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MessageDatesScreen.this);
         alertDialog.setTitle(R.string.alert);
@@ -488,8 +487,8 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rytHome:
-                Intent homescreen=new Intent(MessageDatesScreen.this,HomeActivity.class);
-                homescreen.putExtra("HomeScreen","1");
+                Intent homescreen = new Intent(MessageDatesScreen.this, HomeActivity.class);
+                homescreen.putExtra("HomeScreen", "1");
                 homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homescreen);
                 finish();
@@ -497,7 +496,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.rytHelp:
 
-                Intent faq=new Intent(MessageDatesScreen.this,FAQScreen.class);
+                Intent faq = new Intent(MessageDatesScreen.this, FAQScreen.class);
                 startActivity(faq);
 
                 break;
@@ -511,7 +510,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.rytLogout:
 
-                Util_Common.popUpMenu(MessageDatesScreen.this,v,"1");
+                Util_Common.popUpMenu(MessageDatesScreen.this, v, "1");
                 break;
 
 
@@ -696,9 +695,9 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -706,9 +705,9 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -748,16 +747,16 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         String status = jsonObject.getString("Status");
                         String message = jsonObject.getString("Message");
 
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),MessageDatesScreen.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),MessageDatesScreen.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),MessageDatesScreen.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),MessageDatesScreen.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),MessageDatesScreen.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),MessageDatesScreen.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),MessageDatesScreen.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),MessageDatesScreen.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),MessageDatesScreen.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),MessageDatesScreen.this);
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), MessageDatesScreen.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), MessageDatesScreen.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), MessageDatesScreen.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), MessageDatesScreen.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), MessageDatesScreen.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), MessageDatesScreen.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), MessageDatesScreen.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), MessageDatesScreen.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), MessageDatesScreen.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), MessageDatesScreen.this);
 
                         if (Integer.parseInt(status) > 0) {
                             showToast(message);

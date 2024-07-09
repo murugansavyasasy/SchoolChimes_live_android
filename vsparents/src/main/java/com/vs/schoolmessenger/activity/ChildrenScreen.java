@@ -104,21 +104,17 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     static ArrayList<Integer> isPrincipalMenuID = new ArrayList<>();
     static ArrayList<Integer> isGroupHedMenuID = new ArrayList<>();
     static ArrayList<Integer> isParentMenuID = new ArrayList<>();
-
-
     static ArrayList<String> isAdminMenuNames = new ArrayList<>();
     static ArrayList<String> isIsStaffMenuNames = new ArrayList<>();
     static ArrayList<String> isPrincipalMenuNames = new ArrayList<>();
     static ArrayList<String> isGroupHedMenuNames = new ArrayList<>();
     static ArrayList<String> isParentMenuNames = new ArrayList<>();
-
     TeacherSchoolsModel schoolmodel;
     ArrayList<String> myArray = new ArrayList<>();
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     String schoolname, schooladdress;
     String IDs = "";
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
-
     // FCM
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     BottomNavigationView bottomNavigationView;

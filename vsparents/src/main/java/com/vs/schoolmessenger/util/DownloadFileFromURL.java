@@ -3,7 +3,7 @@ package com.vs.schoolmessenger.util;
 import static android.os.Environment.DIRECTORY_DOCUMENTS;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
-import  android.app.Activity;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -39,13 +39,13 @@ import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
  */
 
 
-
 public class DownloadFileFromURL {
     static ProgressDialog mProgressDialog;
     static MessageModel msgModel;
 
 
     static String msgType;
+
     public static void downloadSampleFile(final Activity activity, MessageModel msg, final String folder, final String fileName, String type, final String voicetype) {
 
         msgModel = msg;
@@ -72,7 +72,7 @@ public class DownloadFileFromURL {
                     new AsyncTask<Void, Void, Boolean>() {
                         @Override
                         protected Boolean doInBackground(Void... voids) {
-                            boolean writtenToDisk = writeResponseBodyToDisk(response.body(), folder, fileName,activity);
+                            boolean writtenToDisk = writeResponseBodyToDisk(response.body(), folder, fileName, activity);
 
                             Log.d("DOWNLOADING...", "file download was a success? " + writtenToDisk);
                             return writtenToDisk;
@@ -94,9 +94,9 @@ public class DownloadFileFromURL {
                         }
                     }.execute();
                 } else {
+                    Log.d("voicefile", "voicefile");
                     Log.d("DOWNLOADING...", "server contact failed");
                 }
-
             }
 
             @Override
@@ -109,7 +109,7 @@ public class DownloadFileFromURL {
     }
 
 
-    public static boolean writeResponseBodyToDisk(ResponseBody body, String folder, String fileName,Activity activity) {
+    public static boolean writeResponseBodyToDisk(ResponseBody body, String folder, String fileName, Activity activity) {
         try {
 
             final File dir;
@@ -120,7 +120,6 @@ public class DownloadFileFromURL {
                 dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
                         + folder);
             }
-
 
 
 //            String filepath;
@@ -146,10 +145,9 @@ public class DownloadFileFromURL {
             File futureStudioIconFile = new File(dir, fileName);//"Hai.mp3"
 
 
-            if (!futureStudioIconFile.exists())
-            {
+            if (!futureStudioIconFile.exists()) {
                 File futureStudioIconFile1 = new File(dir, fileName);
-               futureStudioIconFile=futureStudioIconFile1;
+                futureStudioIconFile = futureStudioIconFile1;
 
             }
 

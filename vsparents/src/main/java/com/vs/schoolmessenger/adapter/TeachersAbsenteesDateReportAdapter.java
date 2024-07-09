@@ -24,6 +24,7 @@ public class TeachersAbsenteesDateReportAdapter extends RecyclerView.Adapter<Tea
     private List<TeacherAbsenteesDates> dateList;
     Context context;
     private final TeacherAbsenteesDateListener listener;
+    MyViewHolder MyViewHolder;
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,11 +39,10 @@ public class TeachersAbsenteesDateReportAdapter extends RecyclerView.Adapter<Tea
         holder.bind(dateList.get(position), listener);
 
         final TeacherAbsenteesDates profile = dateList.get(position);
-
-
         holder.tvDate.setText(profile.getDate());
         holder.tvDay.setText(profile.getDay());
         holder.tvCount.setText(profile.getCount());
+        MyViewHolder=holder;
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -221,7 +222,14 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+       // Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        } else {
+            call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -280,6 +288,17 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             jsonObjectSchoolgrouphead.addProperty("CallerType", "A");
             jsonObjectSchoolgrouphead.addProperty("filepath", filePath);
 
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolgrouphead.add("Dates", isSelectedArray);
+                jsonObjectSchoolgrouphead.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolgrouphead.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             JsonArray jsonArrayschool = new JsonArray();
 
             for (int i = 0; i < schools_list.size(); i++) {
@@ -321,7 +340,15 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+       // Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        } else {
+            call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -379,6 +406,18 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             jsonObjectSchoolgrouphead.addProperty("CallerType", "A");
             jsonObjectSchoolgrouphead.addProperty("filepath", filePath);
 
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolgrouphead.add("Dates", isSelectedArray);
+                jsonObjectSchoolgrouphead.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolgrouphead.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
+
             JsonArray jsonArrayschool = new JsonArray();
 
             for (int i = 0; i < schools_list.size(); i++) {
@@ -420,7 +459,14 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+      // Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        } else {
+            call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -478,6 +524,17 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             jsonObjectSchool.addProperty("CallerType", "M");
             jsonObjectSchool.addProperty("filepath", filePath);
 
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchool.add("Dates", isSelectedArray);
+                jsonObjectSchool.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchool.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             JsonArray jsonArrayschool = new JsonArray();
 
             for (int i = 0; i < schools_list.size(); i++) {
@@ -533,7 +590,15 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+      //  Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleSendVoiceToEntireSchools(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+        }
+
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -602,6 +667,18 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 }
             }
 
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchool.add("Date", isSelectedArray);
+                jsonObjectSchool.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchool.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             jsonObjectSchool.add("School", jsonArrayschool);
             Log.d("Final_Array", jsonObjectSchool.toString());
 
@@ -638,7 +715,15 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+       // Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);'
+
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleSendVoiceToEntireSchools(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+        }
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -706,6 +791,18 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                     jsonArrayschool.add(jsonObjectschoolIdgrouphead);
                 }
             }
+
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolgrouphead.add("Date", isSelectedArray);
+                jsonObjectSchoolgrouphead.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolgrouphead.addProperty("EndTime", Util_Common.isEndTime);
+            }
             jsonObjectSchoolgrouphead.add("School", jsonArrayschool);
             Log.d("Final_Array", jsonObjectSchoolgrouphead.toString());
 
@@ -742,7 +839,15 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+     //   Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleSendVoiceToEntireSchools(requestBody, bodyFile);
+        } else {
+            call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+        }
+
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -809,6 +914,21 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                     jsonArrayschool.add(jsonObjectschoolIdgrouphead);
                 }
             }
+
+
+
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolgrouphead.add("Date", isSelectedArray);
+                jsonObjectSchoolgrouphead.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolgrouphead.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
 
             jsonObjectSchoolgrouphead.add("School", jsonArrayschool);
             Log.d("Final_Array", jsonObjectSchoolgrouphead.toString());

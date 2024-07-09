@@ -8,8 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +29,12 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherEmergencyVoice;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
+import com.vs.schoolmessenger.activity.ToStaffGroupList;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.VimeoUploader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,6 +48,7 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -66,7 +71,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 
 
-public class GroupListVideoActivity extends AppCompatActivity {
+public class GroupListVideoActivity extends AppCompatActivity implements VimeoUploader.UploadCompletionListener {
     GridLayout gridlayoutSection, gridlayoutgroups;
 
     CheckBox[] cbListStd, cbListGroups;
@@ -78,22 +83,24 @@ public class GroupListVideoActivity extends AppCompatActivity {
     String SchoolID, StaffID;
     int iSelStdGrpCount = 0;
     private int iRequestCode = 0;
-    String filepath, tittle, strmessage, strdate, strtime, strfilepathimage,strfilepathPDF;
+    String filepath, tittle, strmessage, strdate, strtime, strfilepathimage, strfilepathPDF;
     String duration;
 
     ImageView genTextPopup_ToolBarIvBack;
 
-    String PRINCIPAL_IMAGE="",upload_link,link,iframe;
+    String PRINCIPAL_IMAGE = "", upload_link, link, iframe;
     String ticket_id;
     String video_file_id;
     String signature;
     String v6;
-    String redirect_url,strsize;
+    String redirect_url, strsize;
     ArrayList<String> slectedImagePath = new ArrayList<String>();
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +129,7 @@ public class GroupListVideoActivity extends AppCompatActivity {
         Log.d("FILEPATH", filepath);
         cbToAll = (CheckBox) findViewById(R.id.princiStdGrp_cbToAll);
         llStdGrp = (LinearLayout) findViewById(R.id.princiStdGrp_llStdGroups);
-          llStdGrp.setEnabled(true);
+        llStdGrp.setEnabled(true);
         cbToAll.setChecked(false);
         cbToAll.setVisibility(View.GONE);
 //        disableEnableControls(false, llStdGrp);
@@ -145,8 +152,9 @@ public class GroupListVideoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                msgTypeAndAPIs();
-                VimeoAPi();
-        }
+                // VimeoAPi();
+                uploadVimeoVideo();
+            }
         });
 
         gridlayoutSection = (GridLayout) findViewById(R.id.gridlayout_Section);
@@ -158,7 +166,27 @@ public class GroupListVideoActivity extends AppCompatActivity {
         listGroups = new ArrayList<>();
         standardsListAPI();
 
+    }
+
+    private void uploadVimeoVideo() {
+        String authToken = TeacherUtil_SharedPreference.getVideotoken(GroupListVideoActivity.this);
+        VimeoUploader.uploadVideo(GroupListVideoActivity.this, tittle, strmessage, authToken, filepath, this);
+    }
+
+    @Override
+    public void onUploadComplete(boolean success, String isIframe, String isLink) {
+        Log.d("Vime_Video_upload", String.valueOf(success));
+        Log.d("VimeoIframe", isIframe);
+        Log.d("link", isLink);
+
+        if (success) {
+            iframe = isIframe;
+            link = isLink;
+            SendVideotoSecApi();
+        } else {
+            showAlertfinal("Video sending failed.Retry", "0");
         }
+    }
 
     private void disableEnableControls(boolean enable, ViewGroup vg) {
         for (int i = 0; i < vg.getChildCount(); i++) {
@@ -189,7 +217,7 @@ public class GroupListVideoActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(GroupListVideoActivity.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(GroupListVideoActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
@@ -243,7 +271,7 @@ public class GroupListVideoActivity extends AppCompatActivity {
                                 });
                             }
 
-                            }
+                        }
 
                         cbToAll.setChecked(false);
                         cbToAll.setVisibility(View.GONE);
@@ -275,13 +303,12 @@ public class GroupListVideoActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(GroupListVideoActivity.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(GroupListVideoActivity.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(GroupListVideoActivity.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(GroupListVideoActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(GroupListVideoActivity.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(GroupListVideoActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -316,10 +343,10 @@ public class GroupListVideoActivity extends AppCompatActivity {
                             for (int j = 0; j < jSONArray.length(); j++) {
                                 JSONObject jsonObjectgroups = jSONArray.getJSONObject(j);
 
-                                String StandardID=jsonObjectgroups.getString("StandardID");
-                                String StandardName=jsonObjectgroups.getString("StandardName");
+                                String StandardID = jsonObjectgroups.getString("StandardID");
+                                String StandardName = jsonObjectgroups.getString("StandardName");
 
-                                if(!StandardID.equals("0")) {
+                                if (!StandardID.equals("0")) {
                                     classstd = new TeacherClassGroupModel(jsonObjectgroups.getString("StandardName"), jsonObjectgroups.getString("StandardID"), false);
                                     listClasses.add(classstd);
                                     Log.d("Exception1", "except1std");
@@ -341,12 +368,10 @@ public class GroupListVideoActivity extends AppCompatActivity {
                                             else iSelStdGrpCount--;
                                         }
                                     });
-                                }
-                                else {
+                                } else {
                                     showToast(StandardName);
                                 }
                             }
-
 
 
                             JSONArray jSONArray1 = jsonObject.getJSONArray("Groups");
@@ -354,9 +379,9 @@ public class GroupListVideoActivity extends AppCompatActivity {
                             cbListGroups = new CheckBox[jSONArray1.length()];
                             for (int j = 0; j < jSONArray1.length(); j++) {
                                 JSONObject jsonObjectgroups = jSONArray1.getJSONObject(j);
-                                String GroupName=jsonObjectgroups.getString("GroupName");
-                                String GroupID=jsonObjectgroups.getString("GroupID");
-                                if(!GroupID.equals("0")) {
+                                String GroupName = jsonObjectgroups.getString("GroupName");
+                                String GroupID = jsonObjectgroups.getString("GroupID");
+                                if (!GroupID.equals("0")) {
                                     classgrp = new TeacherClassGroupModel(jsonObjectgroups.getString("GroupName"), jsonObjectgroups.getString("GroupID"), false);
                                     listGroups.add(classgrp);
                                     Log.d("Exception1", "except1");
@@ -380,30 +405,27 @@ public class GroupListVideoActivity extends AppCompatActivity {
 //
 //                                            }
 
-                                                listGroups.get(finalI).setbSelected(isChecked);
-                                                if (isChecked)
-                                                    iSelStdGrpCount++;
-                                                else iSelStdGrpCount--;
+                                            listGroups.get(finalI).setbSelected(isChecked);
+                                            if (isChecked)
+                                                iSelStdGrpCount++;
+                                            else iSelStdGrpCount--;
 
                                         }
                                     });
 
-                                }
-                                else {
+                                } else {
                                     showToast(GroupName);
                                 }
                             }
 
-                            }
+                        }
 
 
                         cbToAll.setChecked(true);
 
 //                        if(PRINCIPAL_IMAGE.equals("IMAGE")){
-                            cbToAll.setChecked(false);
-                            cbToAll.setVisibility(View.GONE);
-
-
+                        cbToAll.setChecked(false);
+                        cbToAll.setVisibility(View.GONE);
 
 
                     } else {
@@ -462,14 +484,12 @@ public class GroupListVideoActivity extends AppCompatActivity {
     }
 
 
-
-
     private JsonObject constructJsonArrayMgtSchoolStd() {
         JsonObject jsonObjectSchool = new JsonObject();
         try {
             jsonObjectSchool.addProperty("SchoolId", Principal_SchoolId);
 
-            Log.d("req",jsonObjectSchool.toString());
+            Log.d("req", jsonObjectSchool.toString());
             Log.d("schoolid", SchoolID);
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
@@ -487,15 +507,14 @@ public class GroupListVideoActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if(status.equals("1")) {
+                if (status.equals("1")) {
                     dialog.cancel();
                     Intent homescreen = new Intent(GroupListVideoActivity.this, Teacher_AA_Test.class);
                     homescreen.putExtra("Homescreen", "1");
                     homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(homescreen);
                     finish();
-                }
-                else{
+                } else {
                     dialog.dismiss();
                 }
 
@@ -509,6 +528,7 @@ public class GroupListVideoActivity extends AppCompatActivity {
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
     }
+
     private void showAlert(String strMsg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(GroupListVideoActivity.this);
 
@@ -537,13 +557,14 @@ public class GroupListVideoActivity extends AppCompatActivity {
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
 
     }
+
     private JsonObject JsonVideotoSection() {
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
             jsonObjectSchoolstdgrp.addProperty("Title", tittle);
             jsonObjectSchoolstdgrp.addProperty("Description", strmessage);
-            jsonObjectSchoolstdgrp.addProperty("SchoolId",Principal_SchoolId);
-            jsonObjectSchoolstdgrp.addProperty("ProcessBy",Principal_staffId );
+            jsonObjectSchoolstdgrp.addProperty("SchoolId", Principal_SchoolId);
+            jsonObjectSchoolstdgrp.addProperty("ProcessBy", Principal_staffId);
             jsonObjectSchoolstdgrp.addProperty("Iframe", iframe);//getIntent().getExtras().getString("MEDIA_DURATION", "0")
             jsonObjectSchoolstdgrp.addProperty("URL", link);//getIntent().getExtras().getString("MEDIA_DURATION", "0")
             //getIntent().getExtras().getString("MEDIA_DURATION", "0")
@@ -573,7 +594,7 @@ public class GroupListVideoActivity extends AppCompatActivity {
             }
             jsonObjectSchoolstdgrp.add("StdCode", jsonArrayschoolstd);
             jsonObjectSchoolstdgrp.add("GrpCode", jsonArrayschoolstd1);
-            Log.d("reqVideo",jsonObjectSchoolstdgrp.toString());
+            Log.d("reqVideo", jsonObjectSchoolstdgrp.toString());
 
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
@@ -584,19 +605,19 @@ public class GroupListVideoActivity extends AppCompatActivity {
 
     void SendVideotoSecApi() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(GroupListVideoActivity.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(GroupListVideoActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(GroupListVideoActivity.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
+//        final ProgressDialog mProgressDialog = new ProgressDialog(GroupListVideoActivity.this);
+//        mProgressDialog.setIndeterminate(true);
+//        mProgressDialog.setMessage("Uploading...");
+//        mProgressDialog.setCancelable(false);
+//
+//        if (!this.isFinishing())
+//            mProgressDialog.show();
         JsonObject jsonReqArray = JsonVideotoSection();
         Call<JsonArray> call = apiService.AppSendVideoToGroupsAndStandards(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
@@ -604,8 +625,8 @@ public class GroupListVideoActivity extends AppCompatActivity {
             public void onResponse(Call<JsonArray> call,
                                    Response<JsonArray> response) {
 
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
@@ -619,10 +640,10 @@ public class GroupListVideoActivity extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlertfinal(strMsg,strStatus);
+                                showAlertfinal(strMsg, strStatus);
 
                             } else {
-                                showAlertfinal(strMsg,strStatus);
+                                showAlertfinal(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -638,8 +659,8 @@ public class GroupListVideoActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
                 Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
                 showToast(t.toString());
@@ -676,41 +697,41 @@ public class GroupListVideoActivity extends AppCompatActivity {
         JsonObject object = new JsonObject();
 
         JsonObject jsonObjectclasssec = new JsonObject();
-        jsonObjectclasssec.addProperty("approach","post");
-        jsonObjectclasssec.addProperty("size",String.valueOf(strsize) );
+        jsonObjectclasssec.addProperty("approach", "post");
+        jsonObjectclasssec.addProperty("size", String.valueOf(strsize));
 //        jsonObjectclasssec.addProperty("redirect_url", "www.voicesnapforschools.com");
 
         JsonObject jsonprivacy = new JsonObject();
-        jsonprivacy.addProperty("view","unlisted");
+        jsonprivacy.addProperty("view", "unlisted");
 
         JsonObject jsonshare = new JsonObject();
-        jsonshare.addProperty("share","false");
+        jsonshare.addProperty("share", "false");
 
         JsonObject jsonembed = new JsonObject();
-        jsonembed.add("buttons",jsonshare);
+        jsonembed.add("buttons", jsonshare);
 
         object.add("upload", jsonObjectclasssec);
-        object.addProperty("name",tittle);
-        object.addProperty("description",strmessage);
+        object.addProperty("name", tittle);
+        object.addProperty("description", strmessage);
         object.add("privacy", jsonprivacy);
         object.add("embed", jsonembed);
 
-        String head="Bearer "+TeacherUtil_SharedPreference.getVideotoken(GroupListVideoActivity.this);
-        Log.d("head",head);
-        Call<JsonObject> call = service.VideoUpload(object,head);
+        String head = "Bearer " + TeacherUtil_SharedPreference.getVideotoken(GroupListVideoActivity.this);
+        Log.d("head", head);
+        Call<JsonObject> call = service.VideoUpload(object, head);
         Log.d("jsonOBJECT", object.toString());
         call.enqueue(new Callback<JsonObject>() {
 
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 int res = response.code();
                 Log.d("RESPONSE", String.valueOf(res));
                 if (response.isSuccessful()) {
                     try {
 
-                        Log.d("try","testtry");
+                        Log.d("try", "testtry");
                         JSONObject object1 = new JSONObject(response.body().toString());
                         Log.d("Response sucess", object1.toString());
 
@@ -722,8 +743,6 @@ public class GroupListVideoActivity extends AppCompatActivity {
                         iframe = obj1.getString("html");
                         Log.d("c", upload_link);
                         Log.d("iframe", iframe);
-
-
 
 
 //                        alert(res);
@@ -743,17 +762,17 @@ public class GroupListVideoActivity extends AppCompatActivity {
                         String upload = name.replace("upload", "");
                         Log.d("replace", upload);
 
-                        try{
+                        try {
                             VIDEOUPLOAD(upload_link);
-                        }catch (Exception e) {
+                        } catch (Exception e) {
                             Log.e("VIMEO Exception", e.getMessage());
-                            showAlertfinal("Video sending failed.Retry","0");
+                            showAlertfinal("Video sending failed.Retry", "0");
                         }
 
 
                     } catch (Exception e) {
                         Log.e("VIMEO Exception", e.getMessage());
-                        showAlertfinal(e.getMessage(),"0");
+                        showAlertfinal(e.getMessage(), "0");
 
                     }
 
@@ -763,7 +782,7 @@ public class GroupListVideoActivity extends AppCompatActivity {
                 } else {
 //                    alert(res);
                     Log.d("Response fail", "fail");
-                    showAlertfinal("Video sending failed.Retry","0");
+                    showAlertfinal("Video sending failed.Retry", "0");
 
                 }
 
@@ -771,18 +790,16 @@ public class GroupListVideoActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 Log.e("Response Failure", t.getMessage());
-                showAlertfinal("Video sending failed.Retry","0");
+                showAlertfinal("Video sending failed.Retry", "0");
 
             }
 
 
         });
     }
-
-
 
 
     private void VIDEOUPLOAD(String upload_link) {
@@ -796,7 +813,6 @@ public class GroupListVideoActivity extends AppCompatActivity {
         Log.d("FileName", FileName);
         String upload = name.replace("upload", "");
         Log.d("replace234", upload);
-
 
 
         String[] id = FileName.split("&");
@@ -893,35 +909,34 @@ public class GroupListVideoActivity extends AppCompatActivity {
 
         } catch (IOException e) {
 //            e.printStackTrace();
-            showAlertfinal(e.getMessage(),"0");
+            showAlertfinal(e.getMessage(), "0");
         }
 
-        Call<ResponseBody> call = service.patchVimeoVideoMetaData(ticket2,ticket3,tick,str1,redirect_url123+"www.voicesnapforschools.com", requestFile);
+        Call<ResponseBody> call = service.patchVimeoVideoMetaData(ticket2, ticket3, tick, str1, redirect_url123 + "www.voicesnapforschools.com", requestFile);
 //        Call<JsonObject> call = service.patchVimeoVideoMetaData(requestFile);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 try {
                     if (response.isSuccessful()) {
                         SendVideotoSecApi();
-                    }
-                    else{
-                        showAlertfinal("Video sending failed.Retry","0");
+                    } else {
+                        showAlertfinal("Video sending failed.Retry", "0");
                     }
                 } catch (Exception e) {
-                    showAlertfinal(e.getMessage(),"0");
+                    showAlertfinal(e.getMessage(), "0");
 
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if(mProgressDialog.isShowing())
+                if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                showAlertfinal("Video sending failed.Retry","0");
+                showAlertfinal("Video sending failed.Retry", "0");
 
 
             }

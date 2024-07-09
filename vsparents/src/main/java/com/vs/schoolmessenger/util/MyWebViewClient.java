@@ -32,7 +32,6 @@ public class MyWebViewClient extends WebViewClient {
             view.loadUrl(url);
         } else
             showAlert("Connectivity", "Check Internet Connection");
-
         return true;
     }
 

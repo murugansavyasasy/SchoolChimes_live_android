@@ -388,7 +388,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
             TeacherSchoolsModel ss = listschooldetails.get(i);
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
-                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending());
+                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending(),ss.getIsSchoolType());
             arrSchoolList.add(ss);
         }
         if (iRequestCode == PRINCIPAL_PHOTOS) {

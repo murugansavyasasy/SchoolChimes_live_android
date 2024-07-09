@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +51,7 @@ import retrofit2.Callback;
 
 public class HolidaysFragment extends Fragment {
     RecyclerView recycle_paidlist;
-    String school_id, child_id,MemberId;
+    String school_id, child_id, MemberId;
     Context context;
     private ArrayList<HolidayModel> msgModelList = new ArrayList<>();
     private ArrayList<HolidayModel> OfflinemsgModelList = new ArrayList<>();
@@ -62,10 +64,8 @@ public class HolidaysFragment extends Fragment {
     Calendar c;
     RelativeLayout rytSearch;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.feespending_recycle, container, false);
         recycle_paidlist = (RecyclerView) rootView.findViewById(R.id.fees_pending_recycler_view);
@@ -75,10 +75,10 @@ public class HolidaysFragment extends Fragment {
         MemberId = Util_SharedPreference.getChildIdFromSP(getActivity());
 
         c = Calendar.getInstance();
-        LoadMore=(TextView) rootView.findViewById(R.id.btnSeeMore);
-        lblNoMessages=(TextView) rootView.findViewById(R.id.lblNoMessages);
+        LoadMore = (TextView) rootView.findViewById(R.id.btnSeeMore);
+        lblNoMessages = (TextView) rootView.findViewById(R.id.lblNoMessages);
 
-        rytSearch=(RelativeLayout) rootView.findViewById(R.id.rytSearch);
+        rytSearch = (RelativeLayout) rootView.findViewById(R.id.rytSearch);
         rytSearch.setVisibility(View.GONE);
 
         LoadMore.setOnClickListener(new View.OnClickListener() {
@@ -88,12 +88,11 @@ public class HolidaysFragment extends Fragment {
 
             }
         });
-        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(getActivity());
-        if(isNewVersion.equals("1")){
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(getActivity());
+        if (isNewVersion.equals("1")) {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
         }
@@ -111,13 +110,12 @@ public class HolidaysFragment extends Fragment {
 
     private void LoadMoregetEventsDetails() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(getActivity());
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(getActivity());
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(getActivity());
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(getActivity());
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(getActivity());
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(getActivity());
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -139,8 +137,7 @@ public class HolidaysFragment extends Fragment {
             @Override
             public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
                 try {
-                    if (mProgressDialog.isShowing())
-                        mProgressDialog.dismiss();
+                    if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
                     Log.d("login:code-res", response.code() + " - " + response.toString());
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
@@ -153,18 +150,18 @@ public class HolidaysFragment extends Fragment {
                                 HolidayModel msgModel;
                                 OfflinemsgModelList.clear();
                                 for (int i = 0; i < js.length(); i++) {
-                                    JSONObject  jsonObject = js.getJSONObject(i);
-                                    String date=jsonObject.getString("HolidayDate");
-                                    String msg=jsonObject.getString("Reason");
+                                    JSONObject jsonObject = js.getJSONObject(i);
+                                    String date = jsonObject.getString("HolidayDate");
+                                    String msg = jsonObject.getString("Reason");
 
-                                    if(!date.equals("0")) {
-                                        msgModel = new HolidayModel(jsonObject.getString("HolidayDate"), jsonObject.getString("Reason"));
-                                        msgModelList.add(msgModel);
-                                        OfflinemsgModelList.add(msgModel);
-                                    }
-                                    else {
-                                        showAlert(msg);
-                                    }
+//                                    if(!date.equals("0")) {
+//                                        msgModel = new HolidayModel(jsonObject.getString("HolidayDate"), jsonObject.getString("Reason"));
+//                                        msgModelList.add(msgModel);
+//                                        OfflinemsgModelList.add(msgModel);
+//                                    }
+//                                    else {
+//                                        showAlert(msg);
+//                                    }
 
                                 }
 
@@ -179,7 +176,7 @@ public class HolidaysFragment extends Fragment {
                             Log.e("TextMsg:Exception", e.getMessage());
                         }
                     } else {
-                        Toast.makeText(getActivity(),  R.string.check_internet, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.check_internet, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -190,23 +187,20 @@ public class HolidaysFragment extends Fragment {
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                Toast.makeText(getActivity(),  R.string.check_internet, Toast.LENGTH_SHORT).show();
-
+                if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
+                Toast.makeText(getActivity(), R.string.check_internet, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void getEventsDetails() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(getActivity());
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(getActivity());
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(getActivity());
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(getActivity());
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(getActivity());
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(getActivity());
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -219,54 +213,74 @@ public class HolidaysFragment extends Fragment {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("schoolid", school_id);
         jsonObject.addProperty("memberid", MemberId);
+        Log.d("jsonObject__", jsonObject.toString());
+        Call<JsonObject> call = apiService.ViewHolidays(jsonObject);
 
-        Log.d("jsonObject", jsonObject.toString());
-
-        Call<JsonArray> call = apiService.ViewHolidays(jsonObject);
-
-        call.enqueue(new Callback<JsonArray>() {
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
                 try {
-                    if (mProgressDialog.isShowing())
-                        mProgressDialog.dismiss();
+                    if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
                     Log.d("login:code-res", response.code() + " - " + response.toString());
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
                         try {
-                            JSONArray js = new JSONArray(response.body().toString());
-                            if (js.length() > 0) {
+                            JSONObject js = new JSONObject(response.body().toString());
+                            int status = js.getInt("status");
+                            String message = js.getString("message");
+                            JSONArray dataArray = js.getJSONArray("data");
+                            if (status == 1) {
+                                lblNoMessages.setVisibility(View.GONE);
                                 mAdapter.clearAllData();
                                 totalmsgModelList.clear();
                                 HolidayModel msgModel;
 
-                                for (int i = 0; i < js.length(); i++) {
-                                    JSONObject  jsonObject = js.getJSONObject(i);
-                                    String date=jsonObject.getString("HolidayDate");
-                                    String msg=jsonObject.getString("Reason");
+                                for (int i = 0; i < dataArray.length(); i++) {
+                                    JSONObject holiday = dataArray.getJSONObject(i);
+                                    String year = holiday.getString("holiday_year");
+                                    String date = holiday.getString("holiday_date");
+                                    String name = holiday.getString("holiday_name");
 
-                                    if(!date.equals("0")) {
-                                        msgModel = new HolidayModel(jsonObject.getString("HolidayDate"), jsonObject.getString("Reason"));
+                                    if (!date.equals("0")) {
+                                        msgModel = new HolidayModel(year, date, name);
                                         msgModelList.add(msgModel);
                                         totalmsgModelList.add(msgModel);
-                                    }
-                                    else {
-                                        if(isNewVersion.equals("1")){
+                                    } else {
+                                        if (isNewVersion.equals("1")) {
                                             lblNoMessages.setVisibility(View.VISIBLE);
-                                            lblNoMessages.setText(msg);
+                                            lblNoMessages.setText(message);
                                         }
-                                        else {
-                                            lblNoMessages.setVisibility(View.GONE);
-                                            showAlert(msg);
-                                        }
-
                                     }
-
                                 }
+
+
+//                                for (int i = 0; i < js.length(); i++) {
+//                                    JSONObject  jsonObject = js.getJSONObject(i);
+//                                    String date=jsonObject.getString("HolidayDate");
+//                                    String msg=jsonObject.getString("Reason");
+//
+//                                    if(!date.equals("0")) {
+//                                        msgModel = new HolidayModel(jsonObject.getString("HolidayDate"), jsonObject.getString("Reason"));
+//                                        msgModelList.add(msgModel);
+//                                        totalmsgModelList.add(msgModel);
+//                                    }
+//                                    else {
+//                                        if(isNewVersion.equals("1")){
+//                                            lblNoMessages.setVisibility(View.VISIBLE);
+//                                            lblNoMessages.setText(msg);
+//                                        }
+//                                        else {
+//                                            lblNoMessages.setVisibility(View.GONE);
+//                                            showAlert(msg);
+//                                        }
+//
+//                                    }
+//
+//                                }
                                 mAdapter.notifyDataSetChanged();
                             } else {
-
+                                lblNoMessages.setVisibility(View.VISIBLE);
                                 showAlert(getResources().getString(R.string.no_records));
                             }
 
@@ -274,7 +288,7 @@ public class HolidaysFragment extends Fragment {
                             Log.e("TextMsg:Exception", e.getMessage());
                         }
                     } else {
-                        Toast.makeText(getActivity(),  R.string.check_internet, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.check_internet, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -283,11 +297,10 @@ public class HolidaysFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                Toast.makeText(getActivity(),  R.string.check_internet, Toast.LENGTH_SHORT).show();
+                if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
+                Toast.makeText(getActivity(), R.string.check_internet, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -295,9 +308,9 @@ public class HolidaysFragment extends Fragment {
 
     private void showAlert(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setTitle( R.string.alert);
+        alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton( R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -313,7 +326,6 @@ public class HolidaysFragment extends Fragment {
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
-
 
 
 }

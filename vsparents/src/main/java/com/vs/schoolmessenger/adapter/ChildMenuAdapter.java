@@ -44,6 +44,7 @@ import com.vs.schoolmessenger.activity.LSRWListActivity;
 import com.vs.schoolmessenger.activity.MessageDatesScreen;
 import com.vs.schoolmessenger.activity.NewUpdateWebView;
 import com.vs.schoolmessenger.activity.OnlineClassParentScreen;
+import com.vs.schoolmessenger.activity.PTM;
 import com.vs.schoolmessenger.activity.ParentQuizScreen;
 import com.vs.schoolmessenger.activity.PdfCircular;
 import com.vs.schoolmessenger.activity.ProfileLinkScreen;
@@ -70,6 +71,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import com.vs.schoolmessenger.BuildConfig;
 
 import static com.vs.schoolmessenger.util.Constants.updates;
@@ -103,7 +105,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
     private final UpdatesListener listener;
 
 
-    public ChildMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent,UpdatesListener listener) {
+    public ChildMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent, UpdatesListener listener) {
         super(context, textViewResourceId, objects);
         isPrincipalMenuNames = objects;
         this.context = context;
@@ -354,6 +356,14 @@ public class ChildMenuAdapter extends ArrayAdapter {
             setUnReadCount(unReadCount, lblUnreadCount);
         }
 
+        if (MenuName.contains("_26")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
+            imgMenu.setImageResource(R.drawable.ptm);
+            textView.setText(MenuName.substring(0, MenuName.length() - 3));
+            setUnReadCount(unReadCount, lblUnreadCount);
+        }
+
         return v;
     }
 
@@ -374,98 +384,73 @@ public class ChildMenuAdapter extends ArrayAdapter {
 
         if (substring.equals("_0")) {
             isPermissionGranded(MenuName);
-        }
-        else if (substring.equals("_1")) {
+        } else if (substring.equals("_1")) {
             isPermissionGranded(MenuName);
-        }
-        else if (substring.equals("_2")) {
+        } else if (substring.equals("_2")) {
             goToNextScreen(MenuName);
 
-        }
-        else if (substring.equals("_3")) {
+        } else if (substring.equals("_3")) {
             isPermissionGranded(MenuName);
 
-        }
-        else if (substring.equals("_4")) {
+        } else if (substring.equals("_4")) {
             goToNextScreen(MenuName);
 
-        }
-        else if (substring.equals("_5")) {
+        } else if (substring.equals("_5")) {
             goToNextScreen(MenuName);
 
-        }
-        else if (substring.equals("_6")) {
+        } else if (substring.equals("_6")) {
             isPermissionGranded(MenuName);
 
-        }
-        else if (substring.equals("_7")) {
+        } else if (substring.equals("_7")) {
             goToNextScreen(MenuName);
 
 
-        }
-        else if (substring.equals("_8")) {
+        } else if (substring.equals("_8")) {
             goToNextScreen(MenuName);
 
 
-        }
-        else if (substring.equals("_9")) {
+        } else if (substring.equals("_9")) {
             goToNextScreen(MenuName);
-        }
-        else if (substring1.equals("_10")) {
+        } else if (substring1.equals("_10")) {
             goToNextScreen(MenuName);
 
-        }
-        else if (substring1.equals("_11")) {
+        } else if (substring1.equals("_11")) {
             goToNextScreen(MenuName);
 
-        }
-        else if (substring1.equals("_12")) {
+        } else if (substring1.equals("_12")) {
             isPermissionGranded(MenuName);
-        }
-        else if (substring1.equals("_13")) {
+        } else if (substring1.equals("_13")) {
             goToNextScreen(MenuName);
 
-        }
-        else if (substring1.equals("_14")) {
+        } else if (substring1.equals("_14")) {
             goToNextScreen(MenuName);
 
 
-        }
-        else if (substring1.equals("_15")) {
+        } else if (substring1.equals("_15")) {
             goToNextScreen(MenuName);
 
-        }
-        else if (substring1.equals("_16")) {
+        } else if (substring1.equals("_16")) {
             goToNextScreen(MenuName);
 
-        }
-        else if (substring1.equals("_17")) {
-        }
-        else if (substring1.equals("_18")) {
+        } else if (substring1.equals("_17")) {
+        } else if (substring1.equals("_18")) {
             isCameraPermissions(MenuName);
-        }
-        else if (substring1.equals("_19")) {
+        } else if (substring1.equals("_19")) {
             isPermissionGranded(MenuName);
-        }
-        else if (substring1.equals("_20")) {
+        } else if (substring1.equals("_20")) {
             goToNextScreen(MenuName);
 
-        }
-        else if (substring1.equals("_21")) {
+        } else if (substring1.equals("_21")) {
             isPermissionGranded(MenuName);
-        }
-        else if (substring1.equals("_22")) {
+        } else if (substring1.equals("_22")) {
             isCameraPermissions(MenuName);
-        }
-        else if (substring1.equals("_23")) {
+        } else if (substring1.equals("_23")) {
             goToNextScreen(MenuName);
-        }
-
-        else if (substring1.equals("_24")) {
+        } else if (substring1.equals("_24")) {
             goToNextScreen(MenuName);
-        }
-
-        else if (substring1.equals("_25")) {
+        } else if (substring1.equals("_25")) {
+            goToNextScreen(MenuName);
+        } else if (substring1.equals("_26")) {
             goToNextScreen(MenuName);
         }
     }
@@ -519,9 +504,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
                     })
                     .onSameThread()
                     .check();
-        }
-
-        else {
+        } else {
 
             Dexter.withActivity((Activity) context)
                     .withPermissions(
@@ -602,7 +585,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
     }
 
 
-    private boolean isPermissionGranded(String MenuName){
+    private boolean isPermissionGranded(String MenuName) {
 
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
@@ -647,8 +630,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
                     })
                     .onSameThread()
                     .check();
-        }
-        else {
+        } else {
             Dexter.withActivity((Activity) context)
                     .withPermissions(
                             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -735,46 +717,41 @@ public class ChildMenuAdapter extends ArrayAdapter {
 
         if (substring.equals("_0")) {
 
-                Constants.Menu_ID = menuIDSingle;
-                Intent inNext = new Intent(context, VoiceCircular.class);
-                inNext.putExtra("REQUEST_CODE", MENU_EMERGENCY);
-                inNext.putExtra("HEADER", R.string.emergency);
-                context.startActivity(inNext);
+            Constants.Menu_ID = menuIDSingle;
+            Intent inNext = new Intent(context, VoiceCircular.class);
+            inNext.putExtra("REQUEST_CODE", MENU_EMERGENCY);
+            inNext.putExtra("HEADER", R.string.emergency);
+            context.startActivity(inNext);
 
-        }
-        else if (substring.equals("_1")) {
+        } else if (substring.equals("_1")) {
 
-                Constants.Menu_ID = menuIDSingle;
-                Intent inNext = new Intent(context, DatesList.class);
-                inNext.putExtra("REQUEST_CODE", MENU_VOICE);
-                inNext.putExtra("HEADER", R.string.recent_voice_messages);
-                context.startActivity(inNext);
+            Constants.Menu_ID = menuIDSingle;
+            Intent inNext = new Intent(context, DatesList.class);
+            inNext.putExtra("REQUEST_CODE", MENU_VOICE);
+            inNext.putExtra("HEADER", R.string.recent_voice_messages);
+            context.startActivity(inNext);
 
 
-        }
-        else if (substring.equals("_2")) {
+        } else if (substring.equals("_2")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, DatesList.class);
             inNext.putExtra("REQUEST_CODE", MENU_TEXT);
             inNext.putExtra("HEADER", R.string.recent_messages);
             context.startActivity(inNext);
 
-        }
-        else if (substring.equals("_3")) {
-                Constants.Menu_ID = menuIDSingle;
-                Intent inNext = new Intent(context, MessageDatesScreen.class);
-                inNext.putExtra("REQUEST_CODE", MENU_HW);
-                inNext.putExtra("Profiles", HomeActivity.childItem);
-                context.startActivity(inNext);
+        } else if (substring.equals("_3")) {
+            Constants.Menu_ID = menuIDSingle;
+            Intent inNext = new Intent(context, MessageDatesScreen.class);
+            inNext.putExtra("REQUEST_CODE", MENU_HW);
+            inNext.putExtra("Profiles", HomeActivity.childItem);
+            context.startActivity(inNext);
 
 
-        }
-        else if (substring.equals("_4")) {
+        } else if (substring.equals("_4")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, ExamCircularActivity.class);
             context.startActivity(inNext);
-        }
-        else if (substring.equals("_5")) {
+        } else if (substring.equals("_5")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, ExamListScreen.class);
             String stu_id = Util_SharedPreference.getChildIdFromSP(context);
@@ -783,17 +760,15 @@ public class ChildMenuAdapter extends ArrayAdapter {
             inNext.putExtra("SHOOL_ID", school_id);
             context.startActivity(inNext);
 
-        }
-        else if (substring.equals("_6")) {
-                Constants.Menu_ID = menuIDSingle;
-                Intent inNext = new Intent(context, PdfCircular.class);
-                inNext.putExtra("REQUEST_CODE", MENU_DOCUMENTS);
-                inNext.putExtra("HEADER", R.string.recent_files);
-                context.startActivity(inNext);
+        } else if (substring.equals("_6")) {
+            Constants.Menu_ID = menuIDSingle;
+            Intent inNext = new Intent(context, PdfCircular.class);
+            inNext.putExtra("REQUEST_CODE", MENU_DOCUMENTS);
+            inNext.putExtra("HEADER", R.string.recent_files);
+            context.startActivity(inNext);
 
 
-        }
-        else if (substring.equals("_7")) {
+        } else if (substring.equals("_7")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, TextCircular.class);
             inNext.putExtra("REQUEST_CODE", MENU_NOTICE_BOARD);
@@ -801,14 +776,12 @@ public class ChildMenuAdapter extends ArrayAdapter {
             inNext.putExtra("Profiles", HomeActivity.childItem);
             context.startActivity(inNext);
 
-        }
-        else if (substring.equals("_8")) {
+        } else if (substring.equals("_8")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, EventsTapScreen.class);
             context.startActivity(inNext);
 
-        }
-        else if (substring.equals("_9")) {
+        } else if (substring.equals("_9")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, Attendance.class);
             inNext.putExtra("REQUEST_CODE", MENU_ATTENDANCE);
@@ -816,100 +789,85 @@ public class ChildMenuAdapter extends ArrayAdapter {
             inNext.putExtra("Profiles", HomeActivity.childItem);
             context.startActivity(inNext);
 
-        }
-        else if (substring1.equals("_10")) {
+        } else if (substring1.equals("_10")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, ApplyLeave.class);
             inNext.putExtra("REQUEST_CODE", MENU_LEAVE_REQUEST);
             inNext.putExtra("HEADER", R.string.leave + " " + R.string.requesttttt);
             context.startActivity(inNext);
-        }
-        else if (substring1.equals("_11")) {
+        } else if (substring1.equals("_11")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, FeesTab.class);
             context.startActivity(inNext);
-        }
-        else if (substring1.equals("_12")) {
+        } else if (substring1.equals("_12")) {
 
-                Constants.Menu_ID = menuIDTwo;
-                Intent inNext = new Intent(context, ImageCircular.class);
-                inNext.putExtra("REQUEST_CODE", MENU_PHOTOS);
-                inNext.putExtra("HEADER", R.string.recent_photos);
-                context.startActivity(inNext);
+            Constants.Menu_ID = menuIDTwo;
+            Intent inNext = new Intent(context, ImageCircular.class);
+            inNext.putExtra("REQUEST_CODE", MENU_PHOTOS);
+            inNext.putExtra("HEADER", R.string.recent_photos);
+            context.startActivity(inNext);
 
-        }
-        else if (substring1.equals("_13")) {
+        } else if (substring1.equals("_13")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, StudentLibraryDetails.class);
             String id = Util_SharedPreference.getChildIdFromSP(context);
             inNext.putExtra("CHILD_ID", id);
             context.startActivity(inNext);
-        }
-        else if (substring1.equals("_14")) {
+        } else if (substring1.equals("_14")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, StaffListActivity.class);
             context.startActivity(inNext);
 
-        }
-        else if (substring1.equals("_15")) {
+        } else if (substring1.equals("_15")) {
             Constants.Menu_ID = menuIDTwo;
             Intent browse = new Intent(context, TextBookForParent.class);
-            browse.putExtra("url",bookLink);
+            browse.putExtra("url", bookLink);
             context.startActivity(browse);
-        }
-        else if (substring1.equals("_16")) {
+        } else if (substring1.equals("_16")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, RequestMeetingForParent.class);
             context.startActivity(inNext);
-        }
-        else if (substring1.equals("_17")) {
-        }
-        else if (substring1.equals("_18")) {
-                Constants.Menu_ID = menuIDTwo;
-                Intent inNext = new Intent(context, ParentAssignmentListActivity.class);
-                context.startActivity(inNext);
+        } else if (substring1.equals("_17")) {
+        } else if (substring1.equals("_18")) {
+            Constants.Menu_ID = menuIDTwo;
+            Intent inNext = new Intent(context, ParentAssignmentListActivity.class);
+            context.startActivity(inNext);
 
-        }
-        else if (substring1.equals("_19")) {
-                Constants.Menu_ID = menuIDTwo;
-                Intent inNext = new Intent(context, VideoListActivity.class);
-                context.startActivity(inNext);
+        } else if (substring1.equals("_19")) {
+            Constants.Menu_ID = menuIDTwo;
+            Intent inNext = new Intent(context, VideoListActivity.class);
+            context.startActivity(inNext);
 
-        }
-        else if (substring1.equals("_20")) {
+        } else if (substring1.equals("_20")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, OnlineClassParentScreen.class);
             context.startActivity(inNext);
-        }
-        else if (substring1.equals("_21")) {
-                Constants.Menu_ID = menuIDTwo;
-                Intent inNext = new Intent(context, ParentQuizScreen.class);
-                inNext.putExtra("Type", "Parent");
-                context.startActivity(inNext);
+        } else if (substring1.equals("_21")) {
+            Constants.Menu_ID = menuIDTwo;
+            Intent inNext = new Intent(context, ParentQuizScreen.class);
+            inNext.putExtra("Type", "Parent");
+            context.startActivity(inNext);
 
-        }
-        else if (substring1.equals("_22")) {
-                Constants.Menu_ID = menuIDTwo;
-                Intent inNext = new Intent(context, LSRWListActivity.class);
-                inNext.putExtra("Type", "Parent");
-                context.startActivity(inNext);
+        } else if (substring1.equals("_22")) {
+            Constants.Menu_ID = menuIDTwo;
+            Intent inNext = new Intent(context, LSRWListActivity.class);
+            inNext.putExtra("Type", "Parent");
+            context.startActivity(inNext);
 
-        }
-        else if (substring1.equals("_23")) {
+        } else if (substring1.equals("_23")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, TimeTableActivity.class);
             context.startActivity(inNext);
-        }
-
-        else if (substring1.equals("_24")) {
-            Intent profile=new Intent(context, ProfileLinkScreen.class);
+        } else if (substring1.equals("_24")) {
+            Intent profile = new Intent(context, ProfileLinkScreen.class);
             context.startActivity(profile);
-
-        }
-
-        else if (substring1.equals("_25")) {
+        } else if (substring1.equals("_25")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, CertificateRequestActivity.class);
+            context.startActivity(inNext);
+        } else if (substring1.equals("_26")) {
+            Constants.Menu_ID = menuIDTwo;
+            Intent inNext = new Intent(context, PTM.class);
             context.startActivity(inNext);
         }
     }

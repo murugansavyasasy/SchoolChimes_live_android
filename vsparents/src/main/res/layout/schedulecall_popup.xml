@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/header"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_white"
+    android:padding="@dimen/_10sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgClose"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/img_close"></ImageView>
+
+        <TextView
+            android:id="@+id/lblTimeCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgClose"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:text="Time of thr call"
+            android:textColor="@color/bpblack"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/lblTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblTimeCall"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="100dp"
+            android:text="Time"
+            android:textColor="@color/bpblack"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold"></TextView>
+
+        <LinearLayout
+            android:id="@+id/lnrInitiateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblTime"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/lblInitiateCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgClose"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="0.25"
+                android:text="Initiate Call on "
+                android:textColor="@color/bpblack"
+                android:textSize="19dp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/lblist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgClose"
+                android:layout_weight="0.49"
+                android:text=":"
+                android:textColor="@color/bpblack"
+                android:textSize="19dp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/lblTimePicking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgClose"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.27"
+                android:background="@drawable/bg_shadow_white_card"
+                android:drawableRight="@drawable/ic_arrow_down_grey"
+                android:gravity="center"
+                android:paddingRight="20dp"
+                android:textColor="@color/bpblack"
+                android:textSize="19dp"
+                android:textStyle="bold"></TextView>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/lblTimeDial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrInitiateTime"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="100dp"
+            android:text="Time"
+            android:textColor="@color/bpblack"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold"></TextView>
+
+        <LinearLayout
+            android:id="@+id/lnrdialbeyond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblTimeDial"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/lbldialbeyondCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgClose"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="0.25"
+                android:text="Do not dial beyond "
+                android:textColor="@color/bpblack"
+                android:textSize="19dp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/lblist1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgClose"
+                android:layout_weight="0.49"
+                android:text=":"
+                android:textColor="@color/bpblack"
+                android:textSize="19dp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/lbldialbeyondTimePicking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgClose"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.27"
+                android:background="@drawable/bg_shadow_white_card"
+                android:drawableRight="@drawable/ic_arrow_down_grey"
+                android:gravity="center"
+                android:paddingRight="20dp"
+                android:textColor="@color/bpblack"
+                android:textSize="19dp"
+                android:textStyle="bold"></TextView>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/lblSelectedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrdialbeyond"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="100dp"
+            android:text="Select the dates to be schedule."
+            android:textColor="@color/bpblack"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold"></TextView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/crdDailyCollection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblSelectedDate"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="50dp">
+
+            <TextView
+                android:id="@+id/lblDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ic_date"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="Select the date"
+                android:textColor="@color/bpblack"
+                android:textSize="18dp"></TextView>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <RelativeLayout
+            android:id="@+id/rlyDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/crdDailyCollection">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/isDateSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

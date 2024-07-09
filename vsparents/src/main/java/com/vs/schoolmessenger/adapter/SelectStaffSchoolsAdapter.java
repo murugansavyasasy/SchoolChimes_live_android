@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.adapter;
+
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,12 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
+
 import java.util.List;
 
 public class SelectStaffSchoolsAdapter extends RecyclerView.Adapter<SelectStaffSchoolsAdapter.MyViewHolder> {

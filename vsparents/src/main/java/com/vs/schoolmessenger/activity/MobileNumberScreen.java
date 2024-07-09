@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -50,6 +51,8 @@ public class MobileNumberScreen extends AppCompatActivity {
     String strmobilenumberlength,mobileNumber;
     int mobnumberlength;
 
+    TextView textView2;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -68,6 +71,7 @@ public class MobileNumberScreen extends AppCompatActivity {
         }
         btnNext = (Button) findViewById(R.id.btnNext);
         enter_mobile = (EditText) findViewById(R.id.enter_mobile);
+        textView2 = (TextView) findViewById(R.id.textView2);
 
         strmobilenumberlength = TeacherUtil_SharedPreference.getMobileNumberLengthFromSP(MobileNumberScreen.this);
         mobnumberlength = Integer.parseInt(strmobilenumberlength);
@@ -76,6 +80,10 @@ public class MobileNumberScreen extends AppCompatActivity {
 
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(mobnumberlength);
+
+        enter_mobile.setHint("Enter "+ strmobilenumberlength +" Digit Mobile Number");
+        textView2.setText(strmobilenumberlength+ " Digit Mobile Number");
+
 
         enter_mobile.setFilters(fArray);
         TeacherUtil_SharedPreference.putInstall(MobileNumberScreen.this, "1");

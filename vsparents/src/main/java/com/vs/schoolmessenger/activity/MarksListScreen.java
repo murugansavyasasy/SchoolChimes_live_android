@@ -80,7 +80,6 @@ public class MarksListScreen extends AppCompatActivity {
             marks_list_recycle.setAdapter(mAdapter);
             marks_list_recycle.getRecycledViewPool().setMaxRecycledViews(0, 80);
 
-
         }
     private void getMarks() {
 

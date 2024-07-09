@@ -18,8 +18,11 @@ import com.vs.schoolmessenger.activity.HelpActivity;
 import com.vs.schoolmessenger.activity.HomeActivity;
 import com.vs.schoolmessenger.activity.ProfileLinkScreen;
 import com.vs.schoolmessenger.activity.UploadProfileScreen;
+import com.vs.schoolmessenger.model.TeacherABS_Section;
 
 import androidx.core.app.ActivityCompat;
+
+import java.util.ArrayList;
 
 /**
  * Created by voicesnap on 9/9/2016.
@@ -40,13 +43,25 @@ public class Util_Common {
     public static final int MENU_LEAVE_REQUEST = 8211;
     public static final int MENU_TEXT_HW = 8212;
     public static final int MENU_VOICE_HW = 8213;
+    public static int isPosition = 0;
+    public static int isSchoolType = 0;
+    public static int isPositionSection = 0;
+    public static int isType = 1;
+    public static String isDate = "";
+    public static String isAttendanceClass = "Category";
+    public static String isCurrentDate = "";
+    public static String isStartTime = "";
+    public static String isEndTime = "";
+    ArrayList<TeacherABS_Section> SectionItem = new ArrayList<>();
 
     //    public static Profiles selectedChildProfile;
     public static String selectedCircularDate;
+    public static Boolean isScheduleCall = false;
+    public static Boolean isHistory = false;
+    public static ArrayList<String> isSelectedDate = new ArrayList<String>();
 
     public static boolean isNetworkAvailable(Activity activity) {
-        ConnectivityManager connectivity = (ConnectivityManager) activity
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivity = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivity == null) {
             return false;
@@ -64,48 +79,42 @@ public class Util_Common {
     }
 
     @SuppressLint("ResourceType")
-    public static void popUpMenu(final Activity activity, View v, String type){
+    public static void popUpMenu(final Activity activity, View v, String type) {
 
-        final String ProfileTitle=TeacherUtil_SharedPreference.getProfileTitle(activity);
-        final String UploadProfileTitle=TeacherUtil_SharedPreference.getUploadProfileTitle(activity);
+        final String ProfileTitle = TeacherUtil_SharedPreference.getProfileTitle(activity);
+        final String UploadProfileTitle = TeacherUtil_SharedPreference.getUploadProfileTitle(activity);
 
         PopupMenu popup = new PopupMenu(activity, v);
 
         popup.getMenuInflater().inflate(R.menu.settings_popup, popup.getMenu());
         Menu menuOpts = popup.getMenu();
         menuOpts.getItem(0).setTitle(UploadProfileTitle);
-      //  menuOpts.getItem(1).setTitle(ProfileTitle);
-        if(type.equals("1")){
+        //  menuOpts.getItem(1).setTitle(ProfileTitle);
+        if (type.equals("1")) {
             menuOpts.getItem(0).setVisible(true);
             //menuOpts.getItem(1).setVisible(true);
-        }
-        else {
+        } else {
             menuOpts.getItem(0).setVisible(false);
-           // menuOpts.getItem(1).setVisible(false);
+            // menuOpts.getItem(1).setVisible(false);
         }
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
 
-                if(item.getTitle().equals("Clear Cache")){
-                    HomeActivity object=new HomeActivity();
+                if (item.getTitle().equals("Clear Cache")) {
+                    HomeActivity object = new HomeActivity();
                     object.deleteCache(activity);
-                }
-
-                else  if(item.getTitle().equals("Logout")){
-                    HomeActivity object=new HomeActivity();
+                } else if (item.getTitle().equals("Logout")) {
+                    HomeActivity object = new HomeActivity();
                     object.showLogoutAlert(activity);
-                }
-                else  if(item.getTitle().equals(UploadProfileTitle)){
-                    Intent profile=new Intent(activity, UploadProfileScreen.class);
+                } else if (item.getTitle().equals(UploadProfileTitle)) {
+                    Intent profile = new Intent(activity, UploadProfileScreen.class);
                     activity.startActivity(profile);
-                }
-                else  if(item.getTitle().equals(ProfileTitle)){
-                    Intent profile=new Intent(activity, ProfileLinkScreen.class);
+                } else if (item.getTitle().equals(ProfileTitle)) {
+                    Intent profile = new Intent(activity, ProfileLinkScreen.class);
                     activity.startActivity(profile);
-                }
-                else if(item.getTitle().equals("Help")){
-                    Intent help=new Intent(activity, HelpActivity.class);
+                } else if (item.getTitle().equals("Help")) {
+                    Intent help = new Intent(activity, HelpActivity.class);
                     activity.startActivity(help);
                 }
                 return true;
