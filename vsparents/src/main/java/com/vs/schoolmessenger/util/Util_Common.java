@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -13,16 +14,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import androidx.core.app.ActivityCompat;
+
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.HelpActivity;
 import com.vs.schoolmessenger.activity.HomeActivity;
 import com.vs.schoolmessenger.activity.ProfileLinkScreen;
 import com.vs.schoolmessenger.activity.UploadProfileScreen;
-import com.vs.schoolmessenger.model.TeacherABS_Section;
-
-import androidx.core.app.ActivityCompat;
+import com.vs.schoolmessenger.model.StaffMsgMangeCount;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by voicesnap on 9/9/2016.
@@ -47,18 +49,41 @@ public class Util_Common {
     public static int isSchoolType = 0;
     public static int isPositionSection = 0;
     public static int isType = 1;
+    public static int isRemovingId = 1;
     public static String isDate = "";
     public static String isAttendanceClass = "Category";
     public static String isCurrentDate = "";
     public static String isStartTime = "";
     public static String isEndTime = "";
-    ArrayList<TeacherABS_Section> SectionItem = new ArrayList<>();
 
     //    public static Profiles selectedChildProfile;
     public static String selectedCircularDate;
     public static Boolean isScheduleCall = false;
+    public static Boolean isChooseDate = true;
     public static Boolean isHistory = false;
     public static ArrayList<String> isSelectedDate = new ArrayList<String>();
+    public static ArrayList<Integer> overlappingSlots = new ArrayList<>(); // Track overlapping slots by ID
+    public static ArrayList<Integer> isSelectedSlotIds = new ArrayList<>();
+    public static int isSpecificSlot = -1;
+    public static int isSpecificSlotId = -1;
+    public static ArrayList<String> isSelectedTime = new ArrayList<>();
+    public static ArrayList<String> isHeaderSlotsIds = new ArrayList<>();
+    public static List<String> isSelectedDateList = new ArrayList<>();
+    public static ArrayList<Integer> isBookedIds = new ArrayList<>();
+    public static Boolean isDataLoadingOver = true;
+    public static int isDataCounting = 0;
+    public static int isTotalItemCount = 0;
+    public static String isVideoSize = "";
+    public static ArrayList<StaffMsgMangeCount> isStaffMsgMangeCount = new ArrayList<StaffMsgMangeCount>();
+    public static int isStaffMsgFromManagementCount = 0;
+
+
+    // Redirect notification
+    public static String isItemId = "";
+    public static String isReceiverId = "";
+    public static String isMenuId = "";
+    public static Boolean isNotification = false;
+
 
     public static boolean isNetworkAvailable(Activity activity) {
         ConnectivityManager connectivity = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -76,6 +101,11 @@ public class Util_Common {
             }
         }
         return false;
+    }
+
+    public static boolean isGPSEnabled(Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     @SuppressLint("ResourceType")

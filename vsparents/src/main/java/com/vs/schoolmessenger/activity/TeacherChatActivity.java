@@ -146,16 +146,16 @@ public class TeacherChatActivity extends AppCompatActivity {
     }
 
     public void teacherChatApi(final int currentOffset) {
-
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherChatActivity.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherChatActivity.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
+//
+//        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherChatActivity.this);
+//        if(isNewVersion.equals("1")){
+//            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherChatActivity.this);
+//            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
+//        }
+//        else {
             String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherChatActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-        }
+      //  }
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);

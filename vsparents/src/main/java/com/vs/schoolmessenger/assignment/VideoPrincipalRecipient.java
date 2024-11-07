@@ -1,13 +1,13 @@
 package com.vs.schoolmessenger.assignment;
 
-import android.annotation.SuppressLint;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,38 +16,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.activity.TeacherStaffStandardSection;
-import com.vs.schoolmessenger.activity.TeacherStandardsAndGroupsList;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
-import com.vs.schoolmessenger.activity.VoiceStandardAndGroupList;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.VimeoUploader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -57,10 +50,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VIDEOS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 
 public class VideoPrincipalRecipient extends AppCompatActivity implements View.OnClickListener, VimeoUploader.UploadCompletionListener {
 
@@ -249,8 +238,6 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
                 } else {
                     dialog.cancel();
                 }
-
-
             }
         });
 
@@ -273,6 +260,7 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
             jsonObjectSchoolstdgrp.addProperty("Title", tittle);
+            jsonObjectSchoolstdgrp.addProperty("videoFileSize", Util_Common.isVideoSize);
             jsonObjectSchoolstdgrp.addProperty("Description", strmessage);
             jsonObjectSchoolstdgrp.addProperty("SchoolId", Principal_SchoolId);
             jsonObjectSchoolstdgrp.addProperty("ProcessBy", Principal_staffId);
@@ -294,24 +282,12 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-
-//        final ProgressDialog mProgressDialog = new ProgressDialog(VideoPrincipalRecipient.this);
-//        mProgressDialog.setIndeterminate(true);
-//        mProgressDialog.setMessage("Uploading...");
-//        mProgressDialog.setCancelable(false);
-
-      //  if (!this.isFinishing())
-          //  mProgressDialog.show();
         JsonObject jsonReqArray = JsonVideotoSection();
         Call<JsonArray> call = apiService.SendVideoFromAppForEnitireSchool(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
                                    Response<JsonArray> response) {
-
-//                if (mProgressDialog.isShowing())
-//                    mProgressDialog.dismiss();
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
@@ -326,15 +302,12 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
 
                             if ((strStatus.toLowerCase()).equals("1")) {
                                 showAlertfinal(strMsg, strStatus);
-
                             } else {
                                 showAlertfinal(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
                         }
-
-
                     } catch (Exception e) {
                         showToast(getResources().getString(R.string.check_internet));
                         Log.d("Ex", e.toString());
@@ -344,10 +317,8 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-//                if (mProgressDialog.isShowing())
-//                    mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });

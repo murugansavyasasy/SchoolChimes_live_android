@@ -64,9 +64,8 @@ public class TimeTableDayAdapter extends RecyclerView.Adapter<TimeTableDayAdapte
             holder.LayoutOverall.setBackgroundResource(R.drawable.bg_timetable_selected);
             holder.lblDay.setTextColor(Color.parseColor("#FFFEFE"));
 
-
-        } else {
-
+        }
+        else {
             holder.lblDay.setText(data.getDay());
             holder.LayoutOverall.setBackgroundResource(R.drawable.bg_timetable_unselected);
             holder.lblDay.setTextColor(Color.parseColor("#006064"));

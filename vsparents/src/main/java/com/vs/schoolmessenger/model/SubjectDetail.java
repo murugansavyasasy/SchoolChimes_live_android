@@ -5,4 +5,5 @@ public class SubjectDetail {
     public String SubjectID;
     public String staffname;
     public String subjectname;
+    public String unread_count;
 }

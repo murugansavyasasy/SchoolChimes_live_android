@@ -1,18 +1,14 @@
 package com.vs.schoolmessenger.activity;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VIDEO;
+
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -20,49 +16,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleObserver;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.assignment.RecipientVideoActivity;
-import com.vs.schoolmessenger.assignment.ViewTypeActivity;
 import com.vs.schoolmessenger.assignment.view.VimeoPlayerView;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
-import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
-import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
-import com.vs.schoolmessenger.util.Config;
-import com.vs.schoolmessenger.util.MyWebViewClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-import com.vs.schoolmessenger.videoalbum.Video;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.concurrent.TimeUnit;
-
-import static com.vs.schoolmessenger.assignment.VideoUpload.imagePathList;
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_ASSIGNMENT;
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VIDEO;
 
 public class VimeoVideoPlayerActivity extends AppCompatActivity {
 
@@ -186,17 +150,14 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity {
         String data_html = "<!DOCTYPE html><html> " +
                 "<head>" +
                 " <meta charset=\"UTF-8\">" +
-
                 "</head>" +
                 " <body style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;\"> " +
                 "<div class=\"vimeo\">" +
-
                 "<iframe  style=\"position:absolute;top:0;bottom:0;width:100%;height:100%\" src=\""+ VideoID+"\" frameborder=\"0\">" +
                 "</iframe>" +
                 " </div>" +
                 " </body>" +
                 " </html> ";
-
         myWebView.loadData(data_html, "text/html", "UTF-8");
 
     }
@@ -284,7 +245,8 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TeacherUtil_SharedPreference.putOnBackPressedVideo(VimeoVideoPlayerActivity.this,"1");
+        super.onBackPressed();
+        TeacherUtil_SharedPreference.putOnBackPressedVideo(VimeoVideoPlayerActivity.this, "1");
         finish();
     }
 }

@@ -142,15 +142,15 @@ public class UploadVideoActivity extends AppCompatActivity implements View.OnCli
         i_schools_count = 0;
         for (int i = 0; i < listschooldetails.size(); i++) {
             TeacherSchoolsModel ss = listschooldetails.get(i);
-            ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
+            ss = new TeacherSchoolsModel(ss.getStrSchoolName(),ss.getSchoolNameRegional(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
-                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending(),ss.getIsSchoolType());
+                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending(),ss.getIsSchoolType(),ss.getIsBiometricEnable());
 
             arrSchoolList.add(ss);
         }
         if (iRequestCode == PRINCIPAL_VIDEOS) {
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
-                    new TeacherSchoolListForPrincipalAdapter(UploadVideoActivity.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
+                    new TeacherSchoolListForPrincipalAdapter(UploadVideoActivity.this, arrSchoolList,false, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
                             String title = txt_Video_txtTitle.getText().toString();

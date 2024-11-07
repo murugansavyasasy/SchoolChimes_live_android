@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.DailyFeeReportAdapter;
@@ -138,14 +139,14 @@ public class FeePendingReport extends AppCompatActivity implements View.OnClickL
         if (isFeeDetailsId.equals(lblCategory)) {
             isFeeDetailsId.setBackgroundColor(ContextCompat.getColor(this, R.color.is_dailycollection_header));
             lblClass.setBackgroundColor(ContextCompat.getColor(this, R.color.clr_white));
-            lblClass.setTextColor(this.getResources().getColor(R.color.bpblack));
+            lblClass.setTextColor(this.getResources().getColor(R.color.clr_black));
             lblCategory.setTextColor(this.getResources().getColor(R.color.clr_white));
 
         } else if (isFeeDetailsId.equals(lblClass)) {
             isFeeDetailsId.setBackgroundColor(ContextCompat.getColor(this, R.color.is_dailycollection_header));
             lblCategory.setBackgroundColor(ContextCompat.getColor(this, R.color.clr_white));
             lblClass.setTextColor(this.getResources().getColor(R.color.clr_white));
-            lblCategory.setTextColor(this.getResources().getColor(R.color.bpblack));
+            lblCategory.setTextColor(this.getResources().getColor(R.color.clr_black));
         }
     }
 
@@ -168,8 +169,11 @@ public class FeePendingReport extends AppCompatActivity implements View.OnClickL
             public void onResponse(Call<DailyCollection> call, retrofit2.Response<DailyCollection> response) {
                 try {
                     if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
-                    Log.d("daily:code-res", response.code() + " - " + response);
-                    Log.d("dailyCollection", String.valueOf(response.body()));
+                    Log.d("daily:code-res", response.code() + " - " + response.toString());
+
+                    Gson gson = new Gson();
+                    String data = gson.toJson(response.body());
+                    Log.d("academicYear_res",data);
 
                     if (response.code() == 200 || response.code() == 201) {
                         int status = response.body().getStatus();
@@ -210,7 +214,9 @@ public class FeePendingReport extends AppCompatActivity implements View.OnClickL
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
 
-                } catch (Exception e) {
+                }
+
+                catch (Exception e) {
                     Log.e("Response Exception", e.getMessage());
                 }
             }

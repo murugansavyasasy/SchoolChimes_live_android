@@ -369,7 +369,7 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
 
 
                         LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),FeesTab.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),FeesTab.this);
+                        LanguageIDAndNames. putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),FeesTab.this);
                         LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),FeesTab.this);
                         LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),FeesTab.this);
                         LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),FeesTab.this);

@@ -311,7 +311,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/calendar_month/baseline_calendar_month_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/keyboard_arrow_down/baseline_keyboard_arrow_down_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -321,8 +321,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="16d7ee" />
-                            <entry key="outputName" value="ic_calendar" />
+                            <entry key="outputName" value="ic_down_black" />
                           </map>
                         </option>
                       </PersistentState>

@@ -399,11 +399,11 @@ public class PasswordScreen extends AppCompatActivity {
                                 for (int i = 0; i < jSONArray1.length(); i++) {
 
                                     JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"),jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true,
                                             jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"),jsonObjectdetailsStaff.getInt("school_type"));
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"),jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable"));
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetailsStaff.getString("SchoolName"));
@@ -418,7 +418,7 @@ public class PasswordScreen extends AppCompatActivity {
                                     TeacherUtil_Common.Principal_staffId = strStaffId;
                                     TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                     Util_Common.isSchoolType=object.getInt("school_type");
-
+                                    TeacherUtil_Common.isBioMetricEnable = object.getInt("biometricEnable");
                                     TeacherUtil_SharedPreference.putShoolID(PasswordScreen.this, strSchoolId);
                                     TeacherUtil_SharedPreference.putStaffID(PasswordScreen.this, strStaffId);
                                     String logo = object.getString("SchoolLogo");
@@ -444,8 +444,8 @@ public class PasswordScreen extends AppCompatActivity {
                                     childList = new Profiles(jsonObject.getString("ChildName"),
                                             jsonObject.getString("ChildID"), jsonObject.getString("RollNumber")
                                             , jsonObject.getString("StandardName"), jsonObject.getString("SectionName"), jsonObject.getString("SchoolID")
-                                            , jsonObject.getString("SchoolName"), jsonObject.getString("SchoolCity"), jsonObject.getString("SchoolLogoUrl"),
-                                            jsonObject.getString("isBooksEnabled"), jsonObject.getString("OnlineBooksLink"), jsonObject.getString("IsNotAllow"), jsonObject.getString("DisplayMessage"));
+                                            , jsonObject.getString("SchoolName"),jsonObject.getString("SchoolNameRegional"), jsonObject.getString("SchoolCity"), jsonObject.getString("SchoolLogoUrl"),
+                                            jsonObject.getString("isBooksEnabled"), jsonObject.getString("OnlineBooksLink"), jsonObject.getString("IsNotAllow"), jsonObject.getString("DisplayMessage"), jsonObject.getString("classId"), jsonObject.getString("sectionId"));
                                     arrChildList.add(childList);
                                 }
 
@@ -500,8 +500,8 @@ public class PasswordScreen extends AppCompatActivity {
                                     childList = new Profiles(jsonObject.getString("ChildName"),
                                             jsonObject.getString("ChildID"), jsonObject.getString("RollNumber")
                                             , jsonObject.getString("StandardName"), jsonObject.getString("SectionName"), jsonObject.getString("SchoolID")
-                                            , jsonObject.getString("SchoolName"), jsonObject.getString("SchoolCity"), jsonObject.getString("SchoolLogoUrl"),
-                                            jsonObject.getString("isBooksEnabled"), jsonObject.getString("OnlineBooksLink"), jsonObject.getString("IsNotAllow"), jsonObject.getString("DisplayMessage"));
+                                            , jsonObject.getString("SchoolName"),jsonObject.getString("SchoolNameRegional"), jsonObject.getString("SchoolCity"), jsonObject.getString("SchoolLogoUrl"),
+                                            jsonObject.getString("isBooksEnabled"), jsonObject.getString("OnlineBooksLink"), jsonObject.getString("IsNotAllow"), jsonObject.getString("DisplayMessage"), jsonObject.getString("classId"), jsonObject.getString("sectionId"));
                                     arrChildList.add(childList);
                                 }
 
@@ -523,10 +523,10 @@ public class PasswordScreen extends AppCompatActivity {
                                 for (int i = 0; i < jSONArray.length(); i++) {
                                     JSONObject jsonObjectdetails = jSONArray.getJSONObject(i);
 
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetails.getString("SchoolName"), jsonObjectdetails.getString("SchoolID"),
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetails.getString("SchoolName"),jsonObjectdetails.getString("SchoolNameRegional"), jsonObjectdetails.getString("SchoolID"),
                                             jsonObjectdetails.getString("city"), jsonObjectdetails.getString("SchoolAddress"), jsonObjectdetails.getString("SchoolLogo")
                                             , jsonObjectdetails.getString("StaffID"), jsonObjectdetails.getString("StaffName"), true, jsonObjectdetails.getString("isBooksEnabled"),
-                                            jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"),jsonObjectdetails.getInt("school_type"));
+                                            jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"),jsonObjectdetails.getInt("school_type"),jsonObjectdetails.getInt("biometricEnable"));
                                     Log.d("value1", jsonObjectdetails.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetails.getString("SchoolName"));
@@ -536,7 +536,7 @@ public class PasswordScreen extends AppCompatActivity {
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                         Util_Common.isSchoolType=jsonObjectdetails.getInt("school_type");
-
+                                        TeacherUtil_Common.isBioMetricEnable = jsonObjectdetails.getInt("biometricEnable");
 
                                         String logo = jsonObjectdetails.getString("SchoolLogo");
                                         TeacherUtil_SharedPreference.putSchoolLogo(PasswordScreen.this, logo);
@@ -556,10 +556,10 @@ public class PasswordScreen extends AppCompatActivity {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {
                                     JSONObject jsonObjectdetailsgrouphead = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolID"),
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"),jsonObjectdetailsgrouphead.getString("SchoolNameRegional"), jsonObjectdetailsgrouphead.getString("SchoolID"),
                                             jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
                                             , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"),jsonObjectdetailsgrouphead.getInt("school_type")
+                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"),jsonObjectdetailsgrouphead.getInt("school_type"),jsonObjectdetailsgrouphead.getInt("biometricEnable")
                                     );
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -579,20 +579,20 @@ public class PasswordScreen extends AppCompatActivity {
 
                                 for (int i = 0; i < jSONArray1.length(); i++) {
                                     JSONObject jsonObjectdetailsgrouphead = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolID"),
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"),jsonObjectdetailsgrouphead.getString("SchoolNameRegional"), jsonObjectdetailsgrouphead.getString("SchoolID"),
                                             jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
                                             , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"),jsonObjectdetailsgrouphead.getInt("school_type")
+                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"),jsonObjectdetailsgrouphead.getInt("school_type"),jsonObjectdetailsgrouphead.getInt("biometricEnable")
                                     );
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                 }
 
                                 JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(0);
-                                schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
+                                schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"),jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
                                         jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                         , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                        jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"),jsonObjectdetailsStaff.getInt("school_type")
+                                        jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"),jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable")
                                 );
                                 Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
 
@@ -610,7 +610,7 @@ public class PasswordScreen extends AppCompatActivity {
                                 TeacherUtil_Common.Principal_staffId = strStaffId1;
                                 TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                 Util_Common.isSchoolType=jsonObjectdetailsStaff.getInt("school_type");
-
+                                TeacherUtil_Common.isBioMetricEnable = jsonObjectdetailsStaff.getInt("biometricEnable");
                                 if (listschooldetails.size() == 1) {
                                     Intent i = new Intent(PasswordScreen.this, Teacher_AA_Test.class);
                                     i.putExtra("SCHOOL_ID & Staff_ID", strSchoolId + " " + strStaffId1);
@@ -635,10 +635,10 @@ public class PasswordScreen extends AppCompatActivity {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {
                                     JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"),jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"),jsonObjectdetailsStaff.getInt("school_type")
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"),jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable")
                                     );
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -649,7 +649,7 @@ public class PasswordScreen extends AppCompatActivity {
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                         Util_Common.isSchoolType=jsonObjectdetailsStaff.getInt("school_type");
-
+                                        TeacherUtil_Common.isBioMetricEnable = jsonObjectdetailsStaff.getInt("biometricEnable");
                                     }
                                 }
 
@@ -667,10 +667,10 @@ public class PasswordScreen extends AppCompatActivity {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {
                                     JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolID"),
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"),jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"),jsonObjectdetailsStaff.getInt("school_type")
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"),jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable")
                                     );
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -681,7 +681,7 @@ public class PasswordScreen extends AppCompatActivity {
                                         TeacherUtil_Common.Principal_staffId = strStaffId;
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                         Util_Common.isSchoolType=jsonObjectdetailsStaff.getInt("school_type");
-
+                                        TeacherUtil_Common.isBioMetricEnable = jsonObjectdetailsStaff.getInt("biometricEnable");
                                     }
                                 }
 

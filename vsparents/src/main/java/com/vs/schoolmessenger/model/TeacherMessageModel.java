@@ -16,11 +16,12 @@ public class TeacherMessageModel implements Serializable {
     String msgTime;
     String msgdescription;
     String strQueryAvailable, strQuestion;
+    boolean is_Archive;
 
     public TeacherMessageModel() {
     }
 
-    public TeacherMessageModel(String msgID, String msgTitle, String msgContent, String msgReadStatus, String msgDate, String msgTime, String msgdescription) {
+    public TeacherMessageModel(String msgID, String msgTitle, String msgContent, String msgReadStatus, String msgDate, String msgTime, String msgdescription,Boolean is_Archive) {
         this.msgID = msgID;
         this.msgTitle = msgTitle;
         this.msgContent = msgContent;
@@ -28,7 +29,17 @@ public class TeacherMessageModel implements Serializable {
         this.msgDate = msgDate;
         this.msgTime = msgTime;
         this.msgdescription = msgdescription;
+        this.is_Archive = is_Archive;
     }
+
+    public Boolean getIs_Archive() {
+        return is_Archive;
+    }
+
+    public void setIs_Archive(Boolean msgID) {
+        this.is_Archive = msgID;
+    }
+
 
     public String getMsgID() {
         return msgID;

@@ -153,7 +153,7 @@ public class StaffDisplayPDF extends AppCompatActivity {
                             if (!id.equals("")) {
                                 msgModel = new TeacherMessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"), "");
+                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), jsonObject.getBoolean("is_Archive"));
 
                                 msgModel.setStrQueryAvailable(jsonObject.getString("Query").toLowerCase());
                                 msgModel.setStrQuestion(jsonObject.getString("Question"));

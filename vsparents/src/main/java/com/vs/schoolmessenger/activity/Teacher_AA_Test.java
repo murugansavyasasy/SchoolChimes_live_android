@@ -1,5 +1,9 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.Constants.updates;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -17,16 +21,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.gms.ads.AdView;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -48,12 +42,23 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.vs.schoolmessenger.BuildConfig;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
@@ -66,6 +71,7 @@ import com.vs.schoolmessenger.interfaces.UpdatesListener;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.NewUpdatesData;
 import com.vs.schoolmessenger.model.NewUpdatesModel;
+import com.vs.schoolmessenger.model.StaffMsgMangeCount;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
@@ -76,8 +82,10 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,13 +93,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ss.com.bannerslider.Slider;
-import static com.vs.schoolmessenger.util.Constants.updates;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
 
 
 public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickListener {
@@ -100,7 +107,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     private PopupWindow popupWindow;
     FeePendingAlertAdapter contentadapter;
     ImageView nivSchoolLogo;
-    TextView tvLoggedInAs, tvSchoolName, tvSchoolAddress;
+    TextView tvLoggedInAs, tvSchoolName, tvSchoolAddress, aHome_tvRegionalSchoolName;
     Button btnChange;
     private PopupWindow pHelpWindow;
     String IDs = "";
@@ -159,7 +166,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         changeLanguageInitial(lang);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-
         checkAndRequestPermission();
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
@@ -178,6 +184,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         };
 
         displayFirebaseRegId();
+
         Role = TeacherUtil_SharedPreference.getRole(Teacher_AA_Test.this);
         if (Role.equals("p1")) {
             ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
@@ -202,8 +209,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 finish();
             }
         });
-
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.imgVoiceSnap)).setVisibility(View.VISIBLE);
+
         String home = getIntent().getExtras().getString("Homescreen", "");
         if (!home.equals("1")) {
             schoolmodel = (TeacherSchoolsModel) getIntent().getSerializableExtra("TeacherSchoolsModel");
@@ -219,7 +226,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             myArray = TeacherUtil_SharedPreference.getChildrenScreenMyArray(Teacher_AA_Test.this, "myarray");
         } else {
             myArray = TeacherUtil_SharedPreference.getChildrenScreenMyArray(Teacher_AA_Test.this, "myarray");
-
         }
         if (!home.equals("1")) {
             schools_list = (ArrayList<TeacherSchoolsModel>) getIntent().getSerializableExtra("list");
@@ -227,7 +233,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             schools_list = TeacherUtil_SharedPreference.getChildrenScreenSchools_List(Teacher_AA_Test.this, "schools_list");
         } else {
             schools_list = TeacherUtil_SharedPreference.getChildrenScreenSchools_List(Teacher_AA_Test.this, "schools_list");
-
         }
 
 
@@ -239,6 +244,29 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         tvLoggedInAs.setText(TeacherUtil_SharedPreference.getLoginTypeFromSP(Teacher_AA_Test.this));
 
         tvSchoolName = (TextView) findViewById(R.id.aHome_tvSchoolName);
+        aHome_tvRegionalSchoolName = (TextView) findViewById(R.id.aHome_tvRegionalSchoolName);
+
+        String RegionalSchoolName = "";
+        if (Role.equals("p3")) {
+            if (listschooldetails.size() == 1) {
+                RegionalSchoolName = listschooldetails.get(0).getSchoolNameRegional();
+            } else if (listschooldetails.size() > 1) {
+                Bundle extras = getIntent().getExtras();
+                RegionalSchoolName = extras.getString("regional_schoolname", "");
+            }
+        } else if (Role.equals("p2")) {
+            if (schools_list.size() == 1) {
+                RegionalSchoolName = schools_list.get(0).getSchoolNameRegional();
+            } else {
+                RegionalSchoolName = "";
+            }
+        }
+        aHome_tvRegionalSchoolName.setText(RegionalSchoolName);
+        if (!RegionalSchoolName.equals("") && RegionalSchoolName != null && !RegionalSchoolName.equals("null")) {
+            aHome_tvRegionalSchoolName.setVisibility(View.VISIBLE);
+        } else {
+            aHome_tvRegionalSchoolName.setVisibility(View.GONE);
+        }
         tvSchoolName.setText(TeacherUtil_SharedPreference.getSchoolNameFromSP(Teacher_AA_Test.this));
 
         tvSchoolAddress = (TextView) findViewById(R.id.aHome_tvSchoolAddress);
@@ -319,8 +347,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             rytHome.setVisibility(View.VISIBLE);
         }
 
-        String alertMessage =TeacherUtil_SharedPreference.getLoginMessage(Teacher_AA_Test.this);
-        if(!alertMessage.equals("Success")) {
+        String alertMessage = TeacherUtil_SharedPreference.getLoginMessage(Teacher_AA_Test.this);
+        if (!alertMessage.equals("Success")) {
             if (Role.equals("p1") || Role.equals("p2")) {
                 showPaymentPendingAlert();
             }
@@ -481,7 +509,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
-
     }
 
     private void newUpdatesPoup() {
@@ -628,7 +655,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 if(initial_pos != newUpdatesDataList.size()-1){
                     lblNext.setVisibility(View.VISIBLE);
                     lblClose.setVisibility(View.GONE);
-
                 }
 
                 title = newUpdatesDataList.get(initial_pos).getUpdate_name();
@@ -670,14 +696,24 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
-                institute_id = institute_id +model.getStrSchoolID()+"~";
-                member_id = member_id +model.getStrStaffID()+"~";
+                institute_id = institute_id + model.getStrSchoolID() + "~";
+                member_id = member_id + model.getStrStaffID() + "~";
             }
         }
         institute_id = institute_id.substring(0, institute_id.length() - 1);
         member_id = member_id.substring(0, member_id.length() - 1);
-        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+
+//        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
+//        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(Teacher_AA_Test.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(Teacher_AA_Test.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        }
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("staff_role", Role);
@@ -706,6 +742,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                                 if(!name.equals(updates)) {
                                     isPrincipalMenuNames.add(0, updates);
                                     myAdapter.notifyDataSetChanged();
+                                    idGridMenus.setAnimation(null);
+
                                 }
 
                                 String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(Teacher_AA_Test.this);
@@ -788,32 +826,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                                           int[] grantResults) {
-//        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // Permission is granted
-//                getContactPermission();
-//            } else {
-//                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getReadContactsPermission(Teacher_AA_Test.this);
-//
-//                if(isPermissionDeniedCount.equals("2")){
-//                    settingsContactPermission();
-//                }
-//
-//                else if(isPermissionDeniedCount.equals("1")) {
-//                    TeacherUtil_SharedPreference.putReadContactsPermission(Teacher_AA_Test.this, "2");
-//                }
-//                else {
-//                    TeacherUtil_SharedPreference.putReadContactsPermission(Teacher_AA_Test.this, "1");
-//
-//                }
-//
-//            }
-//        }
-//    }
-
     private void settingsContactPermission() {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -839,7 +851,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 TeacherUtil_SharedPreference.putCurrentDate(Teacher_AA_Test.this, date);
                 Constants.Menu_ID = "102";
                 ShowAds.getAds(Teacher_AA_Test.this, adImage, slider, "school_dashboard", mAdView);
-                getMenuDetails();
+                // getMenuDetails();
+                getMegFromManageMentCount();
             }
         });
 
@@ -860,8 +873,19 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     private void getMenuDetails() {
         LoadingView.showProgress(Teacher_AA_Test.this);
 
-        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+//        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
+//        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+
+
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(Teacher_AA_Test.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(Teacher_AA_Test.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        }
+
         IDs = "";
         String countryId = TeacherUtil_SharedPreference.getCountryID(Teacher_AA_Test.this);
         JsonArray jsonArray = new JsonArray();
@@ -874,7 +898,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 jsonObject.addProperty("id", model.getStrStaffID());
                 jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
-
             }
         }
         JsonObject jsonObjectlanguage = new JsonObject();
@@ -889,8 +912,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 LoadingView.hideProgress();
-
-
                 Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
@@ -916,11 +937,10 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             getNewUpdates(false);
 
                             String alert_message = jsonObject.getString("alert_message");
-                            if(!alert_message.equals("")){
+                            if (!alert_message.equals("")) {
                                 lnrScroll.setVisibility(View.VISIBLE);
                                 scrollingtext.setText(alert_message);
-                            }
-                            else {
+                            } else {
                                 lnrScroll.setVisibility(View.GONE);
                             }
 
@@ -998,16 +1018,21 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup.DISPLAY_NAME };
                 Cursor cur = Teacher_AA_Test.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
                 try {
-                    if (cur.moveToFirst()) {
-                        Contact_Count = Contact_Count +1;
+                    if (cur.getCount() > 0) {
+                        if (cur.moveToFirst()) {
+                            Contact_Count = Contact_Count + 1;
 
-                        int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                        Display_Name = cur.getString(indexName);
-                        Log.d("Display_Name", Display_Name);
+                            int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+                            Display_Name = cur.getString(indexName);
+                            Log.d("Display_Name", Display_Name);
 
-                        if(!Display_Name.equals(contact_display_name)){
-                            Contact_Count = Contact_Count - 1;
+                            if (!Display_Name.equals(contact_display_name)) {
+                                Contact_Count = Contact_Count - 1;
+                            }
                         }
+                    } else {
+                        exist_Count = 0;
+                        Contact_Count = Contact_Count - 1;
                     }
                 } finally {
                     if (cur != null)
@@ -1177,21 +1202,18 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         Boolean is_staff = TeacherUtil_SharedPreference.getIsStaff(Teacher_AA_Test.this);
         Boolean is_parent = TeacherUtil_SharedPreference.getIsParent(Teacher_AA_Test.this);
-
         if (is_staff && is_parent) {
             finish();
-        }
-        else  if(is_staff){
-            if(schools_list.size() > 1){
+        } else if (is_staff) {
+            if (schools_list.size() > 1) {
                 finish();
-            }
-            else {
+            } else {
                 ExitAlert();
             }
-        }
-        else {
+        } else {
             ExitAlert();
         }
     }
@@ -1220,12 +1242,14 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
+        Util_Common.isStaffMsgFromManagementCount = 0;
         if (hasPermission()) {
             String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             TeacherUtil_SharedPreference.putCurrentDate(Teacher_AA_Test.this, date);
             Constants.Menu_ID = "102";
             ShowAds.getAds(Teacher_AA_Test.this, adImage, slider, "school_dashboard", mAdView);
-            getMenuDetails();
+//            getMenuDetails();
+            getMegFromManageMentCount();
         }
     }
 
@@ -1544,5 +1568,91 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             default:
                 break;
         }
+    }
+
+    private void getMegFromManageMentCount() {
+
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(Teacher_AA_Test.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(Teacher_AA_Test.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        }
+
+        JsonArray jsArray = new JsonArray();
+
+        if ((Role.equals("p3"))) {
+            if (schools_list.size() > 1) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("SchoolID", TeacherUtil_Common.Principal_SchoolId);
+                jsonObject.addProperty("staffId", TeacherUtil_Common.Principal_staffId);
+                jsArray.add(jsonObject);
+            } else {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("SchoolID", schoolmodel.getStrSchoolID());
+                jsonObject.addProperty("staffId", schoolmodel.getStrStaffID());
+                jsArray.add(jsonObject);
+
+            }
+        } else {
+            for (int i = 0; i < schools_list.size(); i++) {
+                JsonObject jsonObject = new JsonObject();
+                final TeacherSchoolsModel model = schools_list.get(i);
+                jsonObject.addProperty("SchoolID", model.getStrSchoolID());
+                jsonObject.addProperty("staffId", model.getStrStaffID());
+                jsArray.add(jsonObject);
+            }
+        }
+
+        Log.d("Requestt", jsArray.toString());
+
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        Call<JsonArray> call = apiService.getCountFromMsg_MangeMent(jsArray);
+        call.enqueue(new Callback<JsonArray>() {
+
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                Log.d("Count:Code", response.code() + " - " + response);
+                if (response.code() == 200 || response.code() == 201)
+                    Log.d("Count:Res", response.body().toString());
+                Util_Common.isStaffMsgFromManagementCount = 0;
+                Util_Common.isStaffMsgMangeCount.clear();
+                try {
+                    JSONArray js = new JSONArray(response.body().toString());
+                    if (js.length() > 0) {
+                        for (int i = 0; i <= js.length() - 1; i++) {
+                            JSONObject jsonObject = js.getJSONObject(i);
+                            String isCount = jsonObject.getString("OVERALLCOUNT");
+                            String isSchoolId = jsonObject.getString("SCHOOLID");
+                            StaffMsgMangeCount StaffMsgMangeCount = new StaffMsgMangeCount(isSchoolId, isCount);
+                            Util_Common.isStaffMsgMangeCount.add(StaffMsgMangeCount);
+                        }
+
+                        for (int i = 0; i < Util_Common.isStaffMsgMangeCount.size(); i++) {
+                            Log.d("isStaffMsgMangeCount", Util_Common.isStaffMsgMangeCount.get(i).getOVERALLCOUNT());
+                            Util_Common.isStaffMsgFromManagementCount = Util_Common.isStaffMsgFromManagementCount + Integer.parseInt(Util_Common.isStaffMsgMangeCount.get(i).getOVERALLCOUNT());
+                        }
+                        Log.d("countMsgMangeCount", String.valueOf(Util_Common.isStaffMsgFromManagementCount));
+                    } else {
+                        showToast(getResources().getString(R.string.no_records));
+                    }
+
+                    getMenuDetails();
+
+                } catch (Exception e) {
+                    getMenuDetails();
+                    Log.e("Count:Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                LoadingView.hideProgress();
+                showToast(getResources().getString(R.string.check_internet));
+                getMenuDetails();
+            }
+        });
     }
 }

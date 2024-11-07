@@ -41,6 +41,7 @@ public class SelectStaffSchoolsAdapter extends RecyclerView.Adapter<SelectStaffS
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView aHome_tvSchoolName;
+        public TextView aHome_tvRegionalSchoolName;
         public TextView aHome_tvSchoolAddress;
         public TextView aHome_tvStaffName;
         public ImageView aHome_nivSchoolLogo;
@@ -50,6 +51,7 @@ public class SelectStaffSchoolsAdapter extends RecyclerView.Adapter<SelectStaffS
             super(view);
 
             aHome_tvSchoolName = (TextView) view.findViewById(R.id.aHome_tvSchoolName);
+            aHome_tvRegionalSchoolName = (TextView) view.findViewById(R.id.aHome_tvRegionalSchoolName);
             aHome_tvSchoolAddress = (TextView) view.findViewById(R.id.aHome_tvSchoolAddress);
             aHome_tvStaffName = (TextView) view.findViewById(R.id.aHome_tvStaffName);
             aHome_nivSchoolLogo = (ImageView) view.findViewById(R.id.aHome_nivSchoolLogo);
@@ -75,11 +77,18 @@ public class SelectStaffSchoolsAdapter extends RecyclerView.Adapter<SelectStaffS
 
         final TeacherSchoolsModel schoolmodel = lib_list.get(position);
         holder.aHome_tvSchoolName.setText(schoolmodel.getStrSchoolName());
+        holder.aHome_tvRegionalSchoolName.setText(schoolmodel.getSchoolNameRegional());
         holder.aHome_tvSchoolAddress.setText(schoolmodel.getStrSchoolAddress());
         holder.aHome_tvStaffName.setText(schoolmodel.getStrStaffName());
 
         holder.aHome_tvStaffName.setTypeface(holder.aHome_tvStaffName.getTypeface(), Typeface.BOLD);
 
+        if(!schoolmodel.getSchoolNameRegional().equals("") && schoolmodel.getSchoolNameRegional() != null && !schoolmodel.getSchoolNameRegional().equals("null")){
+            holder.aHome_tvRegionalSchoolName.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.aHome_tvRegionalSchoolName.setVisibility(View.GONE);
+        }
 
         String url = schoolmodel.getStrSchoolLogoUrl();
         if (!url.equals("")) {
@@ -96,6 +105,7 @@ public class SelectStaffSchoolsAdapter extends RecyclerView.Adapter<SelectStaffS
                 Intent i = new Intent(context, Teacher_AA_Test.class);
                 i.putExtra("SCHOOL_ID & Staff_ID", schoolmodel.getStrSchoolID() + " " + schoolmodel.getStrStaffID());
                 i.putExtra("schoolname", schoolmodel.getStrSchoolName());
+                i.putExtra("regional_schoolname", schoolmodel.getSchoolNameRegional());
                 i.putExtra("Staff_ID1", schoolmodel.getStrStaffID());
                 i.putExtra("STAFF_ID", schoolmodel.getStrStaffID());
                 i.putExtra("SCHOOL_ID", schoolmodel.getStrSchoolID());

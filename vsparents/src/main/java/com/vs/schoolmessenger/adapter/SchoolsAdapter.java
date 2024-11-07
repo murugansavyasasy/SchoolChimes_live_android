@@ -36,7 +36,7 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView schoolNmae;
+        public TextView schoolNmae,princiSchool_tvRegionalName;
         public RelativeLayout rytSchoolList;
         public ImageView princiSchool_ivRight;
         public CheckBox SelectedCheckBox;
@@ -44,6 +44,7 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.MyViewHo
             super(view);
 
             schoolNmae = (TextView) view.findViewById(R.id.schoolNmae);
+            princiSchool_tvRegionalName = (TextView) view.findViewById(R.id.princiSchool_tvRegionalName);
             rytSchoolList = (RelativeLayout) view.findViewById(R.id.rytSchoolList);
             princiSchool_ivRight = (ImageView) view.findViewById(R.id.princiSchool_ivRight);
             SelectedCheckBox = (CheckBox) view.findViewById(R.id.SelectedCheckBox);
@@ -72,6 +73,15 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.MyViewHo
         holder.SelectedCheckBox.setVisibility(View.VISIBLE);
         holder.SelectedCheckBox.setOnCheckedChangeListener(null);
         holder.SelectedCheckBox.setChecked(school.isSelectStatus());
+
+        holder.princiSchool_tvRegionalName.setText(school.getSchoolNameRegional());
+
+        if(!school.getSchoolNameRegional().equals("") && school.getSchoolNameRegional() != null && !school.getSchoolNameRegional().equals("null")){
+            holder.princiSchool_tvRegionalName.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.princiSchool_tvRegionalName.setVisibility(View.GONE);
+        }
         holder.SelectedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @SuppressLint("ResourceAsColor")
             @Override

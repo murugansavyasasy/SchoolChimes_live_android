@@ -1,59 +1,82 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ParentMeeting"
     android:layout_width="match_parent"
+    android:id="@+id/ParentMeeting"
+    android:background="@color/clr_white"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/button_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp">
 
-        <TextView
-            android:id="@+id/lblMonthAndYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendarRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp" />
+
+        <Spinner
+            android:id="@+id/spinner_subjects"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calendarRecyclerView"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_10sdp"
-            android:gravity="center"
-            android:text="April 2020"
-            android:textColor="@color/teacher_clr_red_red"
-            android:textSize="15dp"
-            android:textStyle="bold">
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:background="@null" />
 
-        </TextView>
-
-        <ImageView
-            android:id="@+id/previousMonth"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
-            android:src="@drawable/arrow_left_circle" />
-
-        <ImageView
-            android:id="@+id/nextMonth"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="40dp"
-            android:src="@drawable/arrow_right_circle" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleviewSlotsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinner_subjects"
+            android:layout_alignParentTop="false"
+            android:layout_marginTop="@dimen/_10sdp" />
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/lblNoRecords"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_layout"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:padding="8dp" />
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:padding="@dimen/_10sdp"
+        android:text="No Records Found"
+        android:textColor="@color/clr_black"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSlot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/recyclerView"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:padding="8dp" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/BtnSlotBook"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:background="@drawable/bg_button_book_slots"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="@dimen/_10sdp"-->
+<!--        android:layout_marginBottom="@dimen/_10sdp"-->
+<!--        android:text="Book Slot"-->
+<!--        android:textColor="@color/bpWhite"-->
+<!--        android:textStyle="bold" />-->
+
+    <TextView
+        android:id="@+id/BtnSlotBook"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:background="@drawable/bg_button_book_slots"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:text="book slot"
+        android:textColor="@color/bpWhite"
+        android:textStyle="bold" />
 
 </RelativeLayout>

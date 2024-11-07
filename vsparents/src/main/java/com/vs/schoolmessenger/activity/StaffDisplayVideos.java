@@ -141,13 +141,14 @@ public class StaffDisplayVideos extends AppCompatActivity {
                                 String CreatedBy = "";
                                 String CreatedOn = jsonObject.getString("Date");
                                 String Title = jsonObject.getString("Subject");
-                                String Description = "";
+                                String Description = jsonObject.getString("Description");
                                 String VimeoUrl = jsonObject.getString("VimeoUrl");
                                 String VimeoId = jsonObject.getString("VimeoId");
                                 String DetailID = jsonObject.getString("ID");
                                 String IsAppViewed = jsonObject.getString("AppReadStatus");
                                 String Iframe = jsonObject.getString("URL");
-                                boolean is_Archive = false;
+                                boolean is_Archive = jsonObject.getBoolean("is_Archive");
+
                                 VideoModelClass report = new VideoModelClass(VideoId,CreatedBy,CreatedOn,Title,Description,VimeoUrl,VimeoId,DetailID,IsAppViewed,Iframe,is_Archive);
                                 videoList.add(report);
 

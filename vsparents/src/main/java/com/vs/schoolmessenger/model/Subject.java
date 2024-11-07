@@ -8,4 +8,5 @@ public class Subject {
     public String SubjectName;
     public String SubjectID;
     public long isClassTeacher;
+    public String unread_count;
 }

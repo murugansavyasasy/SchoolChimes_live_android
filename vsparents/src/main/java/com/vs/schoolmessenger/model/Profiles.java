@@ -8,18 +8,19 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class Profiles implements Serializable {
-    private String childName, childID, rollNo, standard, section, schoolID, schoolName, schoolAddress,
-            schoolThumbnailImgUrl, msgCount,BookEnable,BookLink,IsNotAllow,DisplayMessage;
+    private String childName, childID, rollNo, standard, section, schoolID, schoolName, SchoolNameRegional, schoolAddress,
+            schoolThumbnailImgUrl, msgCount, BookEnable, BookLink, IsNotAllow, DisplayMessage, isClassId, isSectionId;
 
     public Profiles() {
+
     }
 
     public Profiles(String childID) {
         this.childID = childID;
     }
 
-    public Profiles(String name, String childID, String rollNo, String standard, String section, String schoolID, String schoolName, String schoolAddress, String schoolThumbnailImgUrl,
-                    String bookEnable,String bookLink,String isnotallow,String displaymessage)//, String msgCount
+    public Profiles(String name, String childID, String rollNo, String standard, String section, String schoolID, String schoolName, String SchoolNameRegional, String schoolAddress, String schoolThumbnailImgUrl,
+                    String bookEnable, String bookLink, String isnotallow, String displaymessage,String isClassId,String isSectionId) //, String msgCount
     {
         this.childName = name;
         this.childID = childID;
@@ -28,12 +29,32 @@ public class Profiles implements Serializable {
         this.section = section;
         this.schoolID = schoolID;
         this.schoolName = schoolName;
+        this.SchoolNameRegional = SchoolNameRegional;
         this.schoolAddress = schoolAddress;
         this.schoolThumbnailImgUrl = schoolThumbnailImgUrl;
-        this.BookEnable=bookEnable;
-        this.BookLink=bookLink;
-        this.IsNotAllow=isnotallow;
-        this.DisplayMessage=displaymessage;
+        this.BookEnable = bookEnable;
+        this.BookLink = bookLink;
+        this.IsNotAllow = isnotallow;
+        this.DisplayMessage = displaymessage;
+        this.isSectionId = isSectionId;
+        this.isClassId = isClassId;
+    }
+
+
+    public String getIsClassId() {
+        return isClassId;
+    }
+
+    public void setIsClassId(String isClassId) {
+        this.isClassId = isClassId;
+    }
+
+    public String getIsSectionId() {
+        return isSectionId;
+    }
+
+    public void setIsSectionId(String isSectionId) {
+        this.isSectionId = isSectionId;
     }
 
 
@@ -123,6 +144,14 @@ public class Profiles implements Serializable {
 
     public void setSchoolName(String schoolName) {
         this.schoolName = schoolName;
+    }
+
+    public String getSchoolNameRegional() {
+        return SchoolNameRegional;
+    }
+
+    public void setSchoolNameRegional(String schoolName) {
+        this.SchoolNameRegional = schoolName;
     }
 
     public String getSchoolAddress() {

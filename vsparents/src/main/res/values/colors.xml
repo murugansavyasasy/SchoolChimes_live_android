@@ -18,6 +18,7 @@
     <color name="clr_grey_school">#bab9b9</color>
     <color name="clr_grey_light">#D8D8D8</color>
     <color name="clr_grey_dark">#4B4B4D</color>
+    <color name="clr_grey_dark__">#F2F2F7</color>
     <color name="clr_card_grey">#F5F5F5</color>
     <color name="card_grey">#e2dfdf</color>
     <color name="clr_red">#FF7575</color>
@@ -94,6 +95,8 @@
     <color name="color_light_grey">#f1f1f1</color>
     <color name="color_teal">#016064</color>
     <color name="color_green">#359094</color>
+    <color name="color_lightshardio">#F4F5F9</color>
+    <color name="color_lightselect">#D7EAE8</color>
     <color name="color_brown">#581545</color>
     <color name="clr_no_records">#D9ECEA</color>
 <!--    <color name="clr_light_yellow">#F8EDCE</color>-->
@@ -112,6 +115,11 @@
     <color name="gnt_ad_green">#3A6728</color>
     <color name="gnt_gray">#808080</color>
     <color name="gnt_outline">#E0E0E0</color>
+
+    <color name="clr_month_blue">#32ADE6</color>
+    <color name="clr_day_blue">#D7EAE8</color>
+    <color name="light_shadow_yellow">#EFE7CE</color>
+
 
 
 

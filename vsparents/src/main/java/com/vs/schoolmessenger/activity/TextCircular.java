@@ -1,5 +1,11 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.Util_Common.MENU_EVENTS;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_EXAM_TEST;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_HW;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_NOTICE_BOARD;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_TEXT;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,13 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,6 +24,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
@@ -56,14 +61,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ss.com.bannerslider.Slider;
-
-import static com.vs.schoolmessenger.util.Util_Common.MENU_EVENTS;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_EXAM_TEST;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_HW;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_NOTICE_BOARD;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_TEXT;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_TEXT_HW;
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_SMS;
 
 public class TextCircular extends AppCompatActivity {
 
@@ -117,9 +114,7 @@ public class TextCircular extends AppCompatActivity {
         if (iRequestCode == MENU_HW || iRequestCode == MENU_TEXT) {
             selDate = getIntent().getExtras().getString("SEL_DATE", "");
             is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
-        }
-        else
-        {
+        } else {
             selDate = "Notice Board";
         }
 
@@ -287,7 +282,6 @@ public class TextCircular extends AppCompatActivity {
         }
         else {
             textAdapter.updateList(temp);
-
         }
     }
 
@@ -334,12 +328,11 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
                 LoadMore.setVisibility(View.GONE);
                 lblNoMessages.setVisibility(View.GONE);
-
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
@@ -710,10 +703,9 @@ public class TextCircular extends AppCompatActivity {
                         String strStatus = jsonObject.getString("Status");
                         String strMessage = jsonObject.getString("Message");
 
-                        if(isNewVersion.equals("1")&&iRequestCode==MENU_NOTICE_BOARD){
+                        if (isNewVersion.equals("1") && iRequestCode == MENU_NOTICE_BOARD) {
                             LoadMore.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             LoadMore.setVisibility(View.GONE);
                             lblNoMessages.setVisibility(View.GONE);
                         }
@@ -951,7 +943,6 @@ public class TextCircular extends AppCompatActivity {
 
                                 msgModelList.add(msgModel);
                             }
-
 
                         arrayList = new ArrayList<>();
                         arrayList.addAll(msgModelList);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@drawable/bg_outline_slot_unselected">
+
+    <TextView
+        android:id="@+id/lblTiming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto_bold"
+        android:padding="@dimen/_10sdp"
+        android:text="12 : 30AM TO 01 : 45PM"
+        android:textColor="@color/clr_black"
+        android:textSize="10dp"
+        android:textStyle="bold">
+
+    </TextView>
+</RelativeLayout>

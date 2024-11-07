@@ -32,12 +32,13 @@ public class SchoolsListAdapter extends RecyclerView.Adapter<SchoolsListAdapter.
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView schoolNmae;
+        public TextView schoolNmae,princiSchool_tvRegionalName;
         public RelativeLayout rytSchoolList;
         public MyViewHolder(View view) {
             super(view);
 
             schoolNmae = (TextView) view.findViewById(R.id.schoolNmae);
+            princiSchool_tvRegionalName = (TextView) view.findViewById(R.id.princiSchool_tvRegionalName);
             rytSchoolList = (RelativeLayout) view.findViewById(R.id.rytSchoolList);
 
 
@@ -61,6 +62,14 @@ public class SchoolsListAdapter extends RecyclerView.Adapter<SchoolsListAdapter.
 
         final TeacherSchoolsModel school = lib_list.get(position);
         holder.schoolNmae.setText(school.getStrSchoolName());
+        holder.princiSchool_tvRegionalName.setText(school.getSchoolNameRegional());
+
+        if(!school.getSchoolNameRegional().equals("") && school.getSchoolNameRegional() != null && !school.getSchoolNameRegional().equals("null")){
+            holder.princiSchool_tvRegionalName.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.princiSchool_tvRegionalName.setVisibility(View.GONE);
+        }
         holder.rytSchoolList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

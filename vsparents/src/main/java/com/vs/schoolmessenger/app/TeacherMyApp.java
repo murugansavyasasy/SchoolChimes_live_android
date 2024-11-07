@@ -22,7 +22,7 @@ public class TeacherMyApp extends Application {
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
                                 .setDefaultFontPath("fonts/roboto_regular.ttf")
-                                .setFontAttrId(R.attr.fontPath)
+                                .setFontAttrId(io.github.inflationx.calligraphy3.R.attr.fontPath)
                                 .build()))
                 .build());
     }

@@ -163,7 +163,7 @@ public class TeacherVoiceCircular extends AppCompatActivity {
                             if (!id.equals("")) {
                                 msgModel = new TeacherMessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"), "");
+                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), jsonObject.getBoolean("is_Archive"));
                                 msgModelList.add(msgModel);
                             }
 
@@ -194,41 +194,6 @@ public class TeacherVoiceCircular extends AppCompatActivity {
 
 
 
-    private void circularsForGivenDateAPI2() {
-
-
-        try {
-            JSONArray js = new JSONArray("[{\"ID\":\"2450051\",\"URL\":\"http://vs3.voicesnapforschools.com/files/29-12-2017/2030/9731860063_20171229_124325_81.wav\",\"Date\":\"29-12-2017\",\"Time\":\"12:43:23\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"0\",\"Query\":null,\"Question\":null},{\"ID\":\"2440510\",\"URL\":\"http://vs3.voicesnapforschools.com/files/29-12-2017/2030/9731860063_20171229_075037_176.wav\",\"Date\":\"29-12-2017\",\"Time\":\"07:50:32\",\"Subject\":\"Management Circular\",\"AppReadStatus\":\"0\",\"Query\":null,\"Question\":null}]");
-            if (js.length() > 0) {
-                JSONObject jsonObject = js.getJSONObject(0);
-                String strDate = jsonObject.getString("ID");
-                String strTotalSMS = jsonObject.getString("URL");
-
-                if (!strDate.equals("")) {
-                    TeacherMessageModel msgModel;
-
-                    voiceAdapter.clearAllData();
-                    for (int i = 0; i < js.length(); i++) {
-                        jsonObject = js.getJSONObject(i);
-                        msgModel = new TeacherMessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
-                                jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                jsonObject.getString("Date"), jsonObject.getString("Time"),jsonObject.getString("Description"));
-                        msgModelList.add(msgModel);
-                    }
-
-                    voiceAdapter.notifyDataSetChanged();
-
-                } else {
-                    showToast(strTotalSMS);
-                }
-            } else {
-                showToast("Server Response Failed. Try again");
-            }
-
-        } catch (Exception e) {
-            Log.e("TextMsg:Exception", e.getMessage());
-        }
-    }
     private void showToast(String msg) {
         Toast.makeText(TeacherVoiceCircular.this, msg, Toast.LENGTH_SHORT).show();
     }

@@ -104,7 +104,7 @@ public class SchoolAttendanceReport extends RecyclerView.Adapter<SchoolAttendanc
             holder.lblNameOfDate.setTextColor(Color.WHITE);
         } else {
             holder.conDate.setBackgroundColor(
-                    ContextCompat.getColor(holder.conDate.getContext(), R.color.bpWhite));
+                    ContextCompat.getColor(holder.conDate.getContext(), R.color.clr_white));
             holder.lblDate.setTextColor(Color.BLACK);
             holder.lblNameOfDate.setTextColor(Color.BLACK);
         }

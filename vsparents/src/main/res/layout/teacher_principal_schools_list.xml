@@ -8,18 +8,53 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/princiSchool_tvName"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/_20sdp"
         android:layout_toLeftOf="@+id/princiSchool_ivRight"
-        android:layout_toStartOf="@+id/princiSchool_ivRight"
-        android:textColor="@color/teacher_clr_black"
-        android:textSize="14sp"
-        tools:text="Voicesnap public school" />
+        android:layout_toStartOf="@+id/countMsgFromMangement">
+
+        <TextView
+            android:id="@+id/princiSchool_tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/teacher_clr_black"
+            android:textSize="14sp"
+            tools:text="Voicesnap public school" />
+
+        <TextView
+            android:id="@+id/princiSchool_tvRegionalName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/princiSchool_tvName"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/teacher_clr_black"
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:text="" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/countMsgFromMangement"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_toLeftOf="@+id/princiSchool_ivRight"
+        android:background="@drawable/shape_oval_teacher_side"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/clr_white"
+        android:textSize="13dp"
+        android:visibility="invisible">
+
+    </TextView>
 
     <ImageView
         android:id="@+id/princiSchool_ivRight"

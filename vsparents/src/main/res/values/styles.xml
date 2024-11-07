@@ -14,6 +14,10 @@
         <item name="colorAccent">@color/teacher_colorPrimary</item>
     </style>
 
+    <style name="FilterSwitchThemeGreen" parent="AppTheme">
+        <item name="colorAccent">#8016C117</item>
+    </style>
+
     <style name="btn_exam">
         <item name="android:gravity">center</item>
         <item name="android:textColor">#FFFFFF</item>
@@ -257,6 +261,47 @@
         <item name="bpButtonsTextColor">@color/colorPrimaryDark</item>
 
     </style>
+
+
+    <style name="MyBetterPickersRadialTimePickerDialogStaffTheme">
+        <item name="bpHeaderBackgroundColor">@color/teacher_colorPrimary</item>
+        <item name="bpPreHeaderBackgroundColor">@color/teacher_colorPrimary</item>
+        <item name="bpHeaderSelectedTextColor">@color/bpWhite</item>
+        <item name="bpHeaderUnselectedTextColor">@color/radial_gray_light</item>
+
+        <item name="bpBodyBackgroundColor">@color/bpWhite</item>
+        <item name="bpBodySelectedTextColor">@color/teacher_colorPrimary</item>
+        <item name="bpBodyUnselectedTextColor">@color/date_picker_text_normal</item>
+
+        <item name="bpRadialBackgroundColor">@color/radial_gray_light</item>
+        <item name="bpRadialPointerColor">@color/teacher_colorPrimary</item>
+        <item name="bpRadialPointerAlpha">35</item>
+        <item name="bpRadialTextColor">@color/teacher_colorPrimary</item>
+
+        <item name="bpAmPmCircleColor">@color/teacher_colorPrimary</item>
+        <item name="bpAmPmTextColor">@color/bpWhite</item>
+
+        <item name="bpButtonsBackgroundColor">@color/bpWhite</item>
+        <item name="bpButtonsTextColor">@color/teacher_colorPrimary</item>
+
+    </style>
+
+    <!-- Custom Dialog Theme -->
+    <style name="DialogThemeone" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="android:buttonBarPositiveButtonStyle">@style/DialogButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DialogButtonStyle</item>
+    </style>
+
+    <!-- Custom Button Style -->
+    <style name="DialogButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/teacher_colorPrimaryDark</item>
+    </style>
+
+
+
+
+
+
     <style name="parent_taplayout" parent="android:Widget">
         <item name="tabIndicatorColor">@color/bpWhite</item>
         <item name="tabIndicatorHeight">5dp</item>
@@ -544,6 +589,7 @@
     </style>
 
 
+
         <style name="CustomProgressBar" parent="android:Widget.ProgressBar.Horizontal">
             <item name="android:indeterminateOnly">false</item>
             <item name="android:progressDrawable">@drawable/custom_progress_bar</item>
@@ -588,6 +634,22 @@
     <style name="PopupExitAnimation">
         <item name="android:windowExitAnimation">@anim/popup_exit_animation</item>
     </style>
+
+    <!-- res/values/styles.xml -->
+    <style name="CustomTimePickerDialogTheme" parent="Theme.AppCompat.Dialog">
+        <!-- Customize the background color of the dialog -->
+        <item name="android:background">@color/color_brown</item>
+        <!-- Customize the color of the time picker text -->
+        <item name="android:timePickerStyle">@style/CustomTimePicker</item>
+    </style>
+
+    <style name="CustomTimePicker">
+        <!-- Customize the color of the time picker text -->
+        <item name="android:textColor">@color/clr_yellow</item>
+        <!-- Customize the color of the AM/PM text -->
+        <item name="android:amPmTextColor">@color/color_green</item>
+    </style>
+
 
 
 

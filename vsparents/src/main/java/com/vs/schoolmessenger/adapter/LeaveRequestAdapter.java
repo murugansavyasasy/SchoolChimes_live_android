@@ -114,7 +114,6 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
 
         if (history.getApproved().equals("0")) {
             holder.imgAprovalStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.waiting_tick));
-
         } else if (history.getApproved().equals("1")) {
             holder.imgAprovalStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.green_tick));
         } else if (history.getApproved().equals("2")) {

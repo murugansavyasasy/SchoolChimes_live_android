@@ -213,6 +213,8 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                     mProgressDialog.dismiss();
 
                 Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
+                Log.d("MsgDates:Res", response.body().toString());
+
                 if (response.code() == 200 || response.code() == 201)
                 LoadMore.setVisibility(View.GONE);
                 lblNoMessages.setVisibility(View.GONE);

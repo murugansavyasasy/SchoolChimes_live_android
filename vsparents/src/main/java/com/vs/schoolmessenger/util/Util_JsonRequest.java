@@ -137,6 +137,22 @@ public class Util_JsonRequest {
         return jsonObject;
     }
 
+    public static JsonObject getJsonArray_GetnoticeboardStaffSze(String childID, String schoolID) {
+        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("ChildID", childID);
+        jsonObject.addProperty("SchoolID", schoolID);
+        Log.d("JsonReq:GetFiles", jsonObject.toString());
+        return jsonObject;
+    }
+
+    public static JsonObject getNoticeBoardStaff(String StaffId, String SchoolId) {
+        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("staff_id", StaffId);
+        jsonObject.addProperty("SchoolID", SchoolId);
+        Log.d("JsonReq:GetFiles", jsonObject.toString());
+        return jsonObject;
+    }
+
 
     public static JsonObject getJsonArray_Gethomework(String childID, String date, String type, String schoolID, String mobile) {
         JsonObject jsonObject = new JsonObject();

@@ -81,7 +81,7 @@ public class PdfWebView extends AppCompatActivity {
 
         PdfURL = getIntent().getExtras().getString("URL", "");
         Title = getIntent().getExtras().getString("tittle", "");
-        Log.d("URL",PdfURL);
+        Log.d("PDF_WEBVIEW_URL",PdfURL);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(Title);
@@ -160,8 +160,12 @@ public class PdfWebView extends AppCompatActivity {
 
         receiptWebView = findViewById(R.id.receiptWebView);
         btnDownload = findViewById(R.id.btnDownload);
-        registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
+//        registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(onDownloadComplete,  new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), RECEIVER_EXPORTED);
+        }else {
+            registerReceiver(onDownloadComplete,  new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        }
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -82,6 +82,12 @@ public class TeacherUtil_Common {
     public static final int PRINCIPAL_DAILY_COLLECTION = 8225;
     public static final int PRINCIPAL_LESSON_PLAN = 8226;
     public static final int PRINCIPAL_FEE_PENDING_REPORT = 8228;
+
+    public static final int STAFF_ATTENDANCE_PRESENT = 8229;
+    public static final int STAFF_WISE_ATTENDANCE_REPORTS = 8230;
+
+    public static final int PRINCIPAL_PTM_MEETING = 8231;
+    public static final int PRINCIPAL_NOTICEBOARD = 8232;
     public static final int STAFF_LESSON_PLAN = 8227;
     public static final int STAFF_MEETING_URL = 8224;
     public static final int STAFF_PHOTOS = 8101;
@@ -101,6 +107,7 @@ public class TeacherUtil_Common {
     public static final int MEETING_URL = 8115;
     public static String Principal_SchoolId = "";
     public static String Principal_staffId = "";
+    public static int isBioMetricEnable = -1;
     public static String staff_schoolId = "";
     public static String lesson_request_type = "";
     public static int scroll_to_position = 0;

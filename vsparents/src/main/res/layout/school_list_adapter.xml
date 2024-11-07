@@ -13,18 +13,38 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
-        <TextView
-            android:id="@+id/schoolNmae"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/lnr"
-            android:layout_toLeftOf="@+id/lnr"
+            android:layout_toLeftOf="@+id/lnr">
+
+
+        <TextView
+            android:id="@+id/schoolNmae"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textColor="@color/teacher_clr_black"
             android:textSize="14sp"
             tools:text="Voicesnap public school" />
+
+
+        <TextView
+            android:id="@+id/princiSchool_tvRegionalName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_below="@+id/schoolNmae"
+            android:textColor="@color/teacher_clr_black"
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:text="" />
+
+        </RelativeLayout>
 
 
         <LinearLayout

@@ -5,9 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
-    android:background="@drawable/bg_shadow_white_card"
-    android:layout_marginBottom="25dp"
+    android:layout_marginBottom="10dp"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@drawable/bg_shadow_white_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/relativeLayoutHeader"
@@ -117,6 +122,7 @@
         android:visibility="gone"
         android:background="@color/bpLine_background"
         android:text="Description" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -128,7 +134,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
-        <!--<com.voicesnap.parents.widgets.FeedImageView-->
         <ImageView
             android:id="@+id/cardImage_ivImage"
             android:layout_width="match_parent"
@@ -152,13 +157,15 @@
             android:textSize="14sp" />
     </FrameLayout>
 
+    </LinearLayout>
+
     <Button
         android:id="@+id/cardImage_btnSave"
         style="@style/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:enabled="false"
         android:text="@string/btn_save_image"
         android:visibility="visible" />

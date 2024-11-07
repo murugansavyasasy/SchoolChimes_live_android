@@ -17,11 +17,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.StaffChatListAdapter;
-import com.vs.schoolmessenger.assignment.ParentSubmitActivity;
 import com.vs.schoolmessenger.databinding.ActivityStaffListBinding;
 import com.vs.schoolmessenger.interfaces.SubjectSelectedListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
-import com.vs.schoolmessenger.model.StaffList;
 import com.vs.schoolmessenger.model.StaffListChat;
 import com.vs.schoolmessenger.model.SubjectDetail;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -55,7 +53,7 @@ public class StaffListActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        staffListApi();
+
 
         binding.Searchable.addTextChangedListener(new TextWatcher() {
             @Override
@@ -93,6 +91,14 @@ public class StaffListActivity extends AppCompatActivity {
         });
 
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("onResume", "onResume");
+        staffListApi();
 
     }
 
@@ -160,6 +166,7 @@ public class StaffListActivity extends AppCompatActivity {
                         subjectDetail.StaffID = staffList.ClassTeacherID;
                         subjectDetail.subjectname = Constants.CLASS_TEACHER;
                         subjectDetail.SubjectID = "";
+                        subjectDetail.unread_count =  staffList.unread_count;
                         staffList.subjectdetails.add(0, subjectDetail);
 
                          adapter = new StaffChatListAdapter(staffList.subjectdetails, new SubjectSelectedListener() {

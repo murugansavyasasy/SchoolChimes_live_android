@@ -124,7 +124,7 @@ public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmis
                 }
                 else{
                     radioButton.setChecked(true);
-                    radioButton.setButtonTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.bpRed)));
+                    radioButton.setButtonTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.gnt_red)));
 
                 }
             }

@@ -3,7 +3,7 @@ package com.vs.schoolmessenger.model;
 import java.io.Serializable;
 
 public class LeaveRequestDetails implements Serializable {
-    private String Id, Name, CLS,Section,LeaveAppliedOn,LeaveFromDate,LeaveToDate,Reason,Approved,UpdatedOn;
+    private String Id, Name, CLS,Section,LeaveAppliedOn,LeaveFromDate,LeaveToDate,Reason, Approved,UpdatedOn;
     private  boolean loginType;
     public LeaveRequestDetails(String Id, String Name, String cls,String section,String leaveappliedOn,
                                String leaveFromdate,String leaveTodate,String reason,String approved,boolean type,String updated) {

@@ -35,6 +35,7 @@ import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.VimeoUploader;
 
 import org.json.JSONArray;
@@ -717,11 +718,11 @@ public class RecipientVideoActivity extends AppCompatActivity implements VimeoUp
             btnSelectSubjects.setEnabled(false);
         }
     }
-
     private JsonObject JsonVideotoSection() {
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
             jsonObjectSchoolstdgrp.addProperty("Title", strtittle);
+            jsonObjectSchoolstdgrp.addProperty("videoFileSize", Util_Common.isVideoSize);
             jsonObjectSchoolstdgrp.addProperty("Description", strmessage);
             jsonObjectSchoolstdgrp.addProperty("SchoolId", Principal_SchoolId);
             jsonObjectSchoolstdgrp.addProperty("ProcessBy", Principal_staffId);

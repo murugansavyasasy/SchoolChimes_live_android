@@ -1,20 +1,25 @@
 package com.vs.schoolmessenger.adapter;
 
+import static com.vs.schoolmessenger.util.Constants.updates;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_ATTENDANCE;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_DOCUMENTS;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_EMERGENCY;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_HW;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_LEAVE_REQUEST;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_NOTICE_BOARD;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_PHOTOS;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_TEXT;
+import static com.vs.schoolmessenger.util.Util_Common.MENU_VOICE;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +27,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -30,6 +34,7 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.vs.schoolmessenger.BuildConfig;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.ApplyLeave;
 import com.vs.schoolmessenger.activity.Attendance;
@@ -42,7 +47,6 @@ import com.vs.schoolmessenger.activity.HomeActivity;
 import com.vs.schoolmessenger.activity.ImageCircular;
 import com.vs.schoolmessenger.activity.LSRWListActivity;
 import com.vs.schoolmessenger.activity.MessageDatesScreen;
-import com.vs.schoolmessenger.activity.NewUpdateWebView;
 import com.vs.schoolmessenger.activity.OnlineClassParentScreen;
 import com.vs.schoolmessenger.activity.PTM;
 import com.vs.schoolmessenger.activity.ParentQuizScreen;
@@ -57,9 +61,7 @@ import com.vs.schoolmessenger.activity.TimeTableActivity;
 import com.vs.schoolmessenger.activity.VideoListActivity;
 import com.vs.schoolmessenger.activity.VoiceCircular;
 import com.vs.schoolmessenger.assignment.ParentAssignmentListActivity;
-import com.vs.schoolmessenger.interfaces.OnItemHomeworkClick;
 import com.vs.schoolmessenger.interfaces.UpdatesListener;
-import com.vs.schoolmessenger.model.NewUpdatesData;
 import com.vs.schoolmessenger.model.ParentMenuModel;
 import com.vs.schoolmessenger.payment.FeesTab;
 import com.vs.schoolmessenger.util.Constants;
@@ -67,23 +69,8 @@ import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-
-import com.vs.schoolmessenger.BuildConfig;
-
-import static com.vs.schoolmessenger.util.Constants.updates;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_ATTENDANCE;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_DOCUMENTS;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_EMERGENCY;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_HW;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_LEAVE_REQUEST;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_NOTICE_BOARD;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_PHOTOS;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_TEXT;
-import static com.vs.schoolmessenger.util.Util_Common.MENU_VOICE;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -461,7 +448,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
 
-            Dexter.withActivity((Activity) context)
+            Dexter.withContext((Activity) context)
                     .withPermissions(
                             Manifest.permission.READ_MEDIA_IMAGES,
                             Manifest.permission.READ_MEDIA_VIDEO,
@@ -506,7 +493,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
                     .check();
         } else {
 
-            Dexter.withActivity((Activity) context)
+            Dexter.withContext((Activity) context)
                     .withPermissions(
                             Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -589,7 +576,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
 
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            Dexter.withActivity((Activity) context)
+            Dexter.withContext((Activity) context)
                     .withPermissions(
                             Manifest.permission.READ_MEDIA_IMAGES,
                             Manifest.permission.READ_MEDIA_VIDEO,
@@ -631,7 +618,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
                     .onSameThread()
                     .check();
         } else {
-            Dexter.withActivity((Activity) context)
+            Dexter.withContext((Activity) context)
                     .withPermissions(
                             Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -716,37 +703,29 @@ public class ChildMenuAdapter extends ArrayAdapter {
         String menuIDTwo = MenuName.substring(Math.max(MenuName.length() - 2, 0));
 
         if (substring.equals("_0")) {
-
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, VoiceCircular.class);
             inNext.putExtra("REQUEST_CODE", MENU_EMERGENCY);
             inNext.putExtra("HEADER", R.string.emergency);
             context.startActivity(inNext);
-
         } else if (substring.equals("_1")) {
-
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, DatesList.class);
             inNext.putExtra("REQUEST_CODE", MENU_VOICE);
             inNext.putExtra("HEADER", R.string.recent_voice_messages);
             context.startActivity(inNext);
-
-
         } else if (substring.equals("_2")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, DatesList.class);
             inNext.putExtra("REQUEST_CODE", MENU_TEXT);
             inNext.putExtra("HEADER", R.string.recent_messages);
             context.startActivity(inNext);
-
         } else if (substring.equals("_3")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, MessageDatesScreen.class);
             inNext.putExtra("REQUEST_CODE", MENU_HW);
             inNext.putExtra("Profiles", HomeActivity.childItem);
             context.startActivity(inNext);
-
-
         } else if (substring.equals("_4")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, ExamCircularActivity.class);
@@ -759,15 +738,12 @@ public class ChildMenuAdapter extends ArrayAdapter {
             inNext.putExtra("CHILD_ID", stu_id);
             inNext.putExtra("SHOOL_ID", school_id);
             context.startActivity(inNext);
-
         } else if (substring.equals("_6")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, PdfCircular.class);
             inNext.putExtra("REQUEST_CODE", MENU_DOCUMENTS);
             inNext.putExtra("HEADER", R.string.recent_files);
             context.startActivity(inNext);
-
-
         } else if (substring.equals("_7")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, TextCircular.class);
@@ -775,12 +751,10 @@ public class ChildMenuAdapter extends ArrayAdapter {
             inNext.putExtra("HEADER", R.string.home_notice_board);
             inNext.putExtra("Profiles", HomeActivity.childItem);
             context.startActivity(inNext);
-
         } else if (substring.equals("_8")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, EventsTapScreen.class);
             context.startActivity(inNext);
-
         } else if (substring.equals("_9")) {
             Constants.Menu_ID = menuIDSingle;
             Intent inNext = new Intent(context, Attendance.class);
@@ -788,7 +762,6 @@ public class ChildMenuAdapter extends ArrayAdapter {
             inNext.putExtra("HEADER", R.string.attedance);
             inNext.putExtra("Profiles", HomeActivity.childItem);
             context.startActivity(inNext);
-
         } else if (substring1.equals("_10")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, ApplyLeave.class);
@@ -800,13 +773,11 @@ public class ChildMenuAdapter extends ArrayAdapter {
             Intent inNext = new Intent(context, FeesTab.class);
             context.startActivity(inNext);
         } else if (substring1.equals("_12")) {
-
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, ImageCircular.class);
             inNext.putExtra("REQUEST_CODE", MENU_PHOTOS);
             inNext.putExtra("HEADER", R.string.recent_photos);
             context.startActivity(inNext);
-
         } else if (substring1.equals("_13")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, StudentLibraryDetails.class);
@@ -817,7 +788,6 @@ public class ChildMenuAdapter extends ArrayAdapter {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, StaffListActivity.class);
             context.startActivity(inNext);
-
         } else if (substring1.equals("_15")) {
             Constants.Menu_ID = menuIDTwo;
             Intent browse = new Intent(context, TextBookForParent.class);
@@ -832,12 +802,10 @@ public class ChildMenuAdapter extends ArrayAdapter {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, ParentAssignmentListActivity.class);
             context.startActivity(inNext);
-
         } else if (substring1.equals("_19")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, VideoListActivity.class);
             context.startActivity(inNext);
-
         } else if (substring1.equals("_20")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, OnlineClassParentScreen.class);
@@ -847,13 +815,11 @@ public class ChildMenuAdapter extends ArrayAdapter {
             Intent inNext = new Intent(context, ParentQuizScreen.class);
             inNext.putExtra("Type", "Parent");
             context.startActivity(inNext);
-
         } else if (substring1.equals("_22")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, LSRWListActivity.class);
             inNext.putExtra("Type", "Parent");
             context.startActivity(inNext);
-
         } else if (substring1.equals("_23")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, TimeTableActivity.class);

@@ -1,8 +1,6 @@
 package com.vs.schoolmessenger.activity;
 
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 import android.app.AlertDialog;
@@ -58,7 +56,7 @@ import retrofit2.Response;
 
 public class StudentReportActivity extends AppCompatActivity{
 
-    String  school_ID,staff_ID;
+    String school_ID,staff_ID;
     RecyclerView Exam_list_recycle;
     private List<StudentReportModel> Exam_list = new ArrayList<>();
     public StudentReportAdapter mAdapter;
@@ -76,7 +74,7 @@ public class StudentReportActivity extends AppCompatActivity{
     List<String> listTotalStudentsInSec;
     private int iRequestCode = 0;
     private ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
-    String strStdName,strstdcode, strSecName, strSecCode, strTotalStudents;
+    String strStdName, strstdcode, strSecName, strSecCode, strTotalStudents;
 
 
     @Override
@@ -101,17 +99,14 @@ public class StudentReportActivity extends AppCompatActivity{
         if ((listschooldetails.size() == 1)) {
             school_ID = TeacherUtil_Common.Principal_SchoolId;
             staff_ID = TeacherUtil_Common.Principal_staffId;
-        }
-
-        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(StudentReportActivity.this).equals(LOGIN_TYPE_TEACHER)){
+        } else if (TeacherUtil_SharedPreference.getLoginTypeFromSP(StudentReportActivity.this).equals(LOGIN_TYPE_TEACHER)) {
             school_ID = TeacherUtil_Common.Principal_SchoolId;
             staff_ID = TeacherUtil_Common.Principal_staffId;
-        }
-
-        else {
+        } else {
             school_ID = getIntent().getExtras().getString("SCHOOL_ID", "");
             staff_ID = getIntent().getExtras().getString("STAFF_ID", "");
         }
+
 
         Searchable = (EditText) findViewById(R.id.Searchable);
         imgSearch = (ImageView) findViewById(R.id.imgSearch);
@@ -163,8 +158,6 @@ public class StudentReportActivity extends AppCompatActivity{
             }
         });
 
-
-
         mAdapter = new StudentReportAdapter(Exam_list, StudentReportActivity.this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         Exam_list_recycle.setLayoutManager(mLayoutManager);
@@ -211,8 +204,6 @@ public class StudentReportActivity extends AppCompatActivity{
                     getStudentReportList("","");
 
                 }
-
-
             }
 
             @Override
@@ -225,10 +216,10 @@ public class StudentReportActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                    strSecName = listSection.get(position);
-                    strSecCode = listSectionID.get(position);
+                strSecName = listSection.get(position);
+                strSecCode = listSectionID.get(position);
 
-                    getStudentReportList(strstdcode, strSecCode);
+                getStudentReportList(strstdcode, strSecCode);
 
             }
             @Override
@@ -244,7 +235,6 @@ public class StudentReportActivity extends AppCompatActivity{
 
             }
         });
-
     }
 
     private void standardsAndSectoinsListAPI() {

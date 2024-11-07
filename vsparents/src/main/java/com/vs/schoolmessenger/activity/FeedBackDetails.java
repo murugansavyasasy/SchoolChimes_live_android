@@ -47,11 +47,8 @@ public class FeedBackDetails extends AppCompatActivity {
     Button btnNext;
     String schoolname, contactperson, mobilenumber, emailID;
     Spinner SchoolList;
-
-
     public ArrayList<QuestionDetails> questionDetails = new ArrayList<>();
     public ArrayList<SubQustions> subQuestions = new ArrayList<>();
-
     TeacherSchoolsModel schoolmodel;
     String schoolID,StaffID;
     ArrayList<String> myArray = new ArrayList<>();
@@ -160,13 +157,11 @@ public class FeedBackDetails extends AppCompatActivity {
 
             }
         });
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(txtContactPerson.getWindowToken(), 0);
 
@@ -174,6 +169,7 @@ public class FeedBackDetails extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         finish();
     }
 

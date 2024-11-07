@@ -2,146 +2,286 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.TeacherAttendanceScreen">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+
+    <RelativeLayout
+        android:id="@+id/attendance_rlToolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/_10sdp">
 
-        <RelativeLayout
-            android:id="@+id/attendance_rlToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/attendance_IvBack"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:clickable="true"
-                app:srcCompat="@drawable/teacher_ic_arrow_back" />
-
-            <TextView
-                android:id="@+id/attendance_tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_toEndOf="@+id/attendance_IvBack"
-                android:layout_toRightOf="@+id/attendance_IvBack"
-                android:text="@string/teacher_title_attendance"
-                android:textColor="@color/teacher_clr_white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/attendance_IvBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/teacher_ic_arrow_back" />
 
         <TextView
-            android:id="@+id/attendance_tv1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/teacher_atten_standard"
-            android:textColor="@color/teacher_clr_grey"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/attendance_spinStandard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent" />
-
-        <TextView
-            android:id="@+id/attendance_tv2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/teacher_atten_section"
-            android:textColor="@color/teacher_clr_grey"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/attendance_spinSection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent" />
-
-        <TextView
-            android:id="@+id/attendance_tv4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Attendance type"
-            android:textColor="@color/teacher_clr_grey"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/attendance_spinType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent" />
-
-        <TextView
-            android:id="@+id/attendance_tv5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Sessions"
-            android:visibility="gone"
-            android:textColor="@color/teacher_clr_grey"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:visibility="gone"
-            android:id="@+id/attendance_spinSession"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent" />
-
-
-        <Button
-            android:id="@+id/attendance_btnMarkAllPresent"
-            style="@style/Teacher_btn_green"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:text="@string/teacher_btn_mark_all_present"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/attendance_tv3"
+            android:id="@+id/attendance_tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/teacher_or"
-            android:layout_gravity="center"
-            android:textColor="@color/teacher_clr_grey"
-            android:textSize="16sp"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toEndOf="@+id/attendance_IvBack"
+            android:layout_toRightOf="@+id/attendance_IvBack"
+            android:text="@string/teacher_title_attendance"
+            android:textColor="@color/teacher_clr_white"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/attendance_btnSelectStudents"
-            style="@style/Teacher_btn_login"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="@string/teacher_btn_choose_students"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:layout_below="@+id/attendance_tvTitle"
+            android:layout_marginTop="@dimen/_10sdp">
+
+            <LinearLayout
+                android:id="@+id/rlaTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bg_outline_black">
+
+                <TextView
+                    android:id="@+id/lblAttendanceMark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/clr_yellow"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Attendance Marking"
+                    android:textColor="@color/clr_white"
+                    android:textSize="15dp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/lblAttendanceReport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Attendance Report"
+                    android:textColor="@color/clr_black"
+                    android:textSize="15dp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnrAttendanceMarking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlaTitle"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <TextView
+                    android:id="@+id/lblDatePicking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/bg_outline_black"
+                    android:drawableRight="@drawable/teacher_arrow_down"
+                    android:gravity="center"
+                    android:padding="7dp"
+                    android:text=""
+                    android:textColor="@color/clr_black"
+                    android:textSize="15dp"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/attendance_tv1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/teacher_atten_standard"
+                    android:textColor="@color/teacher_clr_grey"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/attendance_spinStandard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/attendance_tv2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/teacher_atten_section"
+                    android:textColor="@color/teacher_clr_grey"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/attendance_spinSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/attendance_tv4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Attendance type"
+                    android:textColor="@color/teacher_clr_grey"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/attendance_spinType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/attendance_tv5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Sessions"
+                    android:textColor="@color/teacher_clr_grey"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/attendance_spinSession"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent"
+                    android:visibility="gone" />
+
+
+                <Button
+                    android:id="@+id/attendance_btnMarkAllPresent"
+                    style="@style/Teacher_btn_green"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/teacher_btn_mark_all_present"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/attendance_tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/teacher_or"
+                    android:textColor="@color/teacher_clr_grey"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/attendance_btnSelectStudents"
+                    style="@style/Teacher_btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/teacher_btn_choose_students"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rlaAttendanceReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlaTitle"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone">
+
+
+                <TextView
+                    android:id="@+id/lblDatePickingReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/bg_outline_black"
+                    android:drawableRight="@drawable/teacher_arrow_down"
+                    android:gravity="center"
+                    android:padding="7dp"
+                    android:text=""
+                    android:textColor="@color/clr_black"
+                    android:textSize="15dp"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/attendance_Repoort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblDatePickingReport"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/teacher_atten_standard"
+                    android:textColor="@color/teacher_clr_grey"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/attendance_spinStandardReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/attendance_Repoort"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/attendance_Report"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/attendance_spinStandardReport"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/teacher_atten_section"
+                    android:textColor="@color/teacher_clr_grey"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/attendance_spinSectionReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/attendance_Report"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcyAttendanceReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/attendance_spinSectionReport"
+                    android:layout_marginTop="15dp"></androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </ScrollView>

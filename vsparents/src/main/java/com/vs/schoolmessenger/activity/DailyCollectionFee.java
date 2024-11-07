@@ -208,25 +208,25 @@ public class DailyCollectionFee extends AppCompatActivity implements View.OnClic
             isFeeDetailsId.setBackgroundColor(ContextCompat.getColor(this, R.color.is_dailycollection_header));
             lblMode.setBackgroundColor(ContextCompat.getColor(this, R.color.clr_white));
             lblClass.setBackgroundColor(ContextCompat.getColor(this, R.color.clr_white));
-            lblMode.setTextColor(this.getResources().getColor(R.color.bpblack));
-            lblClass.setTextColor(this.getResources().getColor(R.color.bpblack));
+            lblMode.setTextColor(this.getResources().getColor(R.color.clr_black));
+            lblClass.setTextColor(this.getResources().getColor(R.color.clr_black));
             lblCategory.setTextColor(this.getResources().getColor(R.color.clr_white));
 
         } else if (isFeeDetailsId.equals(lblClass)) {
             isFeeDetailsId.setBackgroundColor(ContextCompat.getColor(this, R.color.is_dailycollection_header));
             lblMode.setBackgroundColor(ContextCompat.getColor(this, R.color.clr_white));
             lblCategory.setBackgroundColor(ContextCompat.getColor(this, R.color.clr_white));
-            lblMode.setTextColor(this.getResources().getColor(R.color.bpblack));
+            lblMode.setTextColor(this.getResources().getColor(R.color.clr_black));
             lblClass.setTextColor(this.getResources().getColor(R.color.clr_white));
-            lblCategory.setTextColor(this.getResources().getColor(R.color.bpblack));
+            lblCategory.setTextColor(this.getResources().getColor(R.color.clr_black));
 
         } else if (isFeeDetailsId.equals(lblMode)) {
             isFeeDetailsId.setBackgroundColor(ContextCompat.getColor(this, R.color.is_dailycollection_header));
             lblClass.setBackgroundColor(ContextCompat.getColor(this, R.color.clr_white));
             lblCategory.setBackgroundColor(ContextCompat.getColor(this, R.color.clr_white));
             lblMode.setTextColor(this.getResources().getColor(R.color.clr_white));
-            lblClass.setTextColor(this.getResources().getColor(R.color.bpblack));
-            lblCategory.setTextColor(this.getResources().getColor(R.color.bpblack));
+            lblClass.setTextColor(this.getResources().getColor(R.color.clr_black));
+            lblCategory.setTextColor(this.getResources().getColor(R.color.clr_black));
 
         }
     }

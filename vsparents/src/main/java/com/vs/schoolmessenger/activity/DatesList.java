@@ -84,17 +84,14 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     private static final String TAG = DatesList.class.getSimpleName();
     RecyclerView rvDateList;
     DatesListAdapter datesListAdapter;
-    private List<DatesModel> dateList = new ArrayList<>();
-    private List<DatesModel> OffLineDateList = new ArrayList<>();
-    private List<DatesModel> totaldateList = new ArrayList<>();
+    private final List<DatesModel> dateList = new ArrayList<>();
+    private final List<DatesModel> OffLineDateList = new ArrayList<>();
+    private final List<DatesModel> totaldateList = new ArrayList<>();
     String strTitle;
     String date, unreadcount, day;
-
     private int iRequestCode;
-
     ArrayList<DatesModel> arrayList;
     TextView lblNoMessages;
-
     private PopupWindow pHelpWindow;
     RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();

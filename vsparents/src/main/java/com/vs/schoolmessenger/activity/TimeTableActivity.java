@@ -23,11 +23,9 @@ import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.TimeTableClassAdapter;
 import com.vs.schoolmessenger.adapter.TimeTableDayAdapter;
-import com.vs.schoolmessenger.assignment.PrincipalAssignmentList;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TimeTableDayListener;
 import com.vs.schoolmessenger.model.DayClass;
-import com.vs.schoolmessenger.model.KnowledgeEnhancementModel;
 import com.vs.schoolmessenger.model.TimeTableClass;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -57,6 +55,9 @@ public class TimeTableActivity extends AppCompatActivity {
     ImageView adImage;
 
     AdView mAdView;
+
+    Boolean isApiCall = true;
+    int isApiCallPosition = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,20 +92,20 @@ public class TimeTableActivity extends AppCompatActivity {
 
             @Override
             public void onDayClick(Integer position,DayClass item) {
-
                 Log.d("DayIDtestActivitty", item.getId());
+                Log.d("DayPosition", String.valueOf(position));
                 DayID=item.getId();
 
-                getTimeTableApi();
-
-                timeTableclassAdapter = new TimeTableClassAdapter(TimeTableActivity.this, classList);
-                recyclerClass.setAdapter(timeTableclassAdapter);
-                recyclerClass.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                recyclerClass.setNestedScrollingEnabled(false);
-                recyclerClass.setHasFixedSize(true);
-                recyclerClass.setItemAnimator(new DefaultItemAnimator());
-                timeTableclassAdapter.notifyDataSetChanged();
-
+                if(isApiCallPosition != position) {
+                        getTimeTableApi(position);
+                        timeTableclassAdapter = new TimeTableClassAdapter(TimeTableActivity.this, classList);
+                        recyclerClass.setAdapter(timeTableclassAdapter);
+                        recyclerClass.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        recyclerClass.setNestedScrollingEnabled(false);
+                        recyclerClass.setHasFixedSize(true);
+                        recyclerClass.setItemAnimator(new DefaultItemAnimator());
+                        timeTableclassAdapter.notifyDataSetChanged();
+                    }
 
             }
         });
@@ -149,8 +150,8 @@ public class TimeTableActivity extends AppCompatActivity {
     }
 
 
-    private void getTimeTableApi() {
-
+    private void getTimeTableApi(Integer position) {
+        isApiCallPosition = position;
         String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
         if (isNewVersionn.equals("1")) {
 
@@ -247,8 +248,7 @@ public class TimeTableActivity extends AppCompatActivity {
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
-
+             dialog.cancel();
             }
         });
 

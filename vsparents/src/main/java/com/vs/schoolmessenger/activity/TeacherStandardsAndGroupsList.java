@@ -465,6 +465,8 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
     private void uploadFileToAWSs3(int pathind, final String fileType) {
 
+        String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherStandardsAndGroupsList.this);
+
         pathIndex=pathind;
         progressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
         for (int index = pathIndex; index < slectedImagePath.size(); index++) {
@@ -478,12 +480,12 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 showLoading();
                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
                 fileNameDateTime="File_"+fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType,fileNameDateTime);
+                s3uploaderObj.initUpload(uploadFilePath, contentType,fileNameDateTime,SchoolID,countryID,true);
                 s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
                     @Override
                     public void onUploadSuccess(String response) {
                         if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath,fileNameDateTime);
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath,fileNameDateTime,SchoolID,countryID,true);
                             if (!TextUtils.isEmpty(urlFromS3)) {
                                 UploadedS3URlList.add(urlFromS3);
                                 uploadFileToAWSs3(pathIndex + 1,fileType);

@@ -213,7 +213,6 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         lblAddProfile = (TextView) findViewById(R.id.lblAddProfile);
         txtFileName = (EditText) findViewById(R.id.txtFileName);
 
-
         lblStudentProfile = (TextView) findViewById(R.id.lblStudentProfile);
         lblUploadDoc = (TextView) findViewById(R.id.lblUploadDoc);
         lblFileName = (TextView) findViewById(R.id.lblFileName);
@@ -413,19 +412,21 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
     }
 
     private void UploadFileToAWS(final String FileDisplayname) {
+        String schoolid= Util_SharedPreference.getSchoolIdFromSP(UploadProfileScreen.this);
+
         progressDialog = new ProgressDialog(UploadProfileScreen.this);
         if (DocFilePath != null) {
             showLoading();
             fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
             fileNameDateTime="File_"+fileNameDateTime;
             Log.d("S3contentType", contentType);
-            s3uploaderObj.initUpload(DocFilePath, contentType,fileNameDateTime);
+            s3uploaderObj.initUpload(DocFilePath, contentType,fileNameDateTime,schoolid,false);
             s3uploaderObj.setOns3UploadDone(new UploadDocS3Uploader.UploadDocS3UploadInterface() {
                 @Override
                 public void onUploadSuccess(String response) {
                     hideLoading();
                     if (response.equalsIgnoreCase("Success")) {
-                        urlFromS3 = UploadDocUtils.generates3ShareUrl(getApplicationContext(), DocFilePath,fileNameDateTime);
+                        urlFromS3 = UploadDocUtils.generates3ShareUrl(getApplicationContext(), DocFilePath,fileNameDateTime,schoolid,false);
                         Log.d("urlFromS3", urlFromS3);
                         if (!TextUtils.isEmpty(urlFromS3)) {
                             btnUploadFileToAWS.setVisibility(View.GONE);
@@ -703,19 +704,21 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
     }
 
     private void profileUploadToAWS(final String filepath) {
+        String schoolid= Util_SharedPreference.getSchoolIdFromSP(UploadProfileScreen.this);
+
         progressDialog = new ProgressDialog(UploadProfileScreen.this);
         if (filepath != null) {
             showLoading();
             fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
             fileNameDateTime="File_"+fileNameDateTime;
             Log.d("S3ProfilecontentType", contentType);
-            s3uploaderObj.initUpload(filepath, contentType,fileNameDateTime);
+            s3uploaderObj.initUpload(filepath, contentType,fileNameDateTime,schoolid,true);
             s3uploaderObj.setOns3UploadDone(new UploadDocS3Uploader.UploadDocS3UploadInterface() {
                 @Override
                 public void onUploadSuccess(String response) {
                     hideLoading();
                     if (response.equalsIgnoreCase("Success")) {
-                        urlFromS3 = UploadDocUtils.generates3ShareUrl(getApplicationContext(), filepath,fileNameDateTime);
+                        urlFromS3 = UploadDocUtils.generates3ShareUrl(getApplicationContext(), filepath,fileNameDateTime,schoolid,true);
                         Log.d("ProfileurlFromS3", urlFromS3);
                         if (!TextUtils.isEmpty(urlFromS3)) {
                             profileAwsFilePath=urlFromS3;

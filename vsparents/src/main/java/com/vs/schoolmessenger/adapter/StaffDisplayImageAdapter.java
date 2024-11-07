@@ -105,7 +105,7 @@ public class StaffDisplayImageAdapter extends RecyclerView.Adapter<StaffDisplayI
             public void onClick(View v) {
                 Intent inTextPopup = new Intent(context, ImageCircularPopUp.class);
                 inTextPopup.putExtra("IMAGE_ITEM", msgModel);
-                inTextPopup.putExtra("is_Archive", is_Archive);
+                inTextPopup.putExtra("is_Archive", msgModel.getIs_Archive());
                 context.startActivity(inTextPopup);
             }
         });
@@ -114,7 +114,7 @@ public class StaffDisplayImageAdapter extends RecyclerView.Adapter<StaffDisplayI
             @Override
             public void onClick(View v) {
 
-                TeacherDownloadFileFromURL.downloadSampleFile((Activity) context, msgModel, IMAGE_FOLDER, msgModel.getMsgID() + ".png", MSG_TYPE_IMAGE,false);
+                TeacherDownloadFileFromURL.downloadSampleFile((Activity) context, msgModel, IMAGE_FOLDER, msgModel.getMsgID() + ".png", MSG_TYPE_IMAGE, msgModel.getIs_Archive());
 
             }
         });

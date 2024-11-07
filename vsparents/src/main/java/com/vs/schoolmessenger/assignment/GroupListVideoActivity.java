@@ -34,6 +34,7 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.VimeoUploader;
 
 import org.json.JSONArray;
@@ -562,6 +563,7 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
             jsonObjectSchoolstdgrp.addProperty("Title", tittle);
+            jsonObjectSchoolstdgrp.addProperty("videoFileSize", Util_Common.isVideoSize);
             jsonObjectSchoolstdgrp.addProperty("Description", strmessage);
             jsonObjectSchoolstdgrp.addProperty("SchoolId", Principal_SchoolId);
             jsonObjectSchoolstdgrp.addProperty("ProcessBy", Principal_staffId);

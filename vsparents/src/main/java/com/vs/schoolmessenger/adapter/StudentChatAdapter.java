@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.databinding.StudentChatItemBinding;
 import com.vs.schoolmessenger.model.StudentChat;
-import com.vs.schoolmessenger.util.Utility;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +48,14 @@ public class StudentChatAdapter extends RecyclerView.Adapter<BaseViewHolders<Stu
             holder.getBinding().name.setText(staffName);
             holder.getBinding().message.setText(studentChats.get(position).Answer);
             holder.getBinding().time.setText(studentChats.get(position).AnsweredOn);
+        }
+
+
+        if(studentChats.get(position).is_staff_viewed.equals("0")){
+            holder.getBinding().cardNew.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.getBinding().cardNew.setVisibility(View.GONE);
         }
     }
 

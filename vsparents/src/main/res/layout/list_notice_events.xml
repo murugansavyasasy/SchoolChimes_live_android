@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_shadow_white_card"
-
     android:layout_marginBottom="10dp"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,12 +16,15 @@
         android:gravity="center"
         android:background="@color/clr_white"
         android:padding="3dp">
-    <ImageView
-        android:id="@+id/cardText_ivDate"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/noticeboard" />
-        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/cardText_ivDate"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/noticeboard" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/relativeLayoutHeader"
         android:layout_width="match_parent"
@@ -30,17 +33,18 @@
         android:gravity="center"
         android:background="@color/clr_blue_light"
         android:padding="5dp">
-            <TextView
-                android:id="@+id/cardText_notice_events_tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/clr_black"
-                android:textSize="15sp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textStyle="bold"
-                tools:text="@string/tamil" />
-        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cardText_notice_events_tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/clr_black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="@string/tamil" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -122,7 +126,8 @@
     <com.ms.square.android.expandabletextview.ExpandableTextView
         android:id="@+id/expand_text_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
         android:background="@color/clr_light_yellow"
         expandableTextView:animAlphaStart="1"
         expandableTextView:maxCollapsedLines="3">

@@ -1,41 +1,35 @@
 package com.vs.schoolmessenger.adapter;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.activity.ExamEnhancementQuestions;
-import com.vs.schoolmessenger.activity.MarksListScreen;
 import com.vs.schoolmessenger.activity.ViewExamMarks;
-import com.vs.schoolmessenger.assignment.PdfAppRead;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
-import com.vs.schoolmessenger.model.Element;
 import com.vs.schoolmessenger.model.ExamList;
-import com.vs.schoolmessenger.model.QuestionForQuiz;
 import com.vs.schoolmessenger.payment.PdfWebView;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
-import org.json.JSONArray;
+
 import org.json.JSONObject;
-import java.util.ArrayList;
+
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 public class ExamListAdapter extends

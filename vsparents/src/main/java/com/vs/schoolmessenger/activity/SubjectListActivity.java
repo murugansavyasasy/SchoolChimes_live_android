@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.vs.schoolmessenger.interfaces.TeacherSelectListener;
 import com.vs.schoolmessenger.model.Subject;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
+import com.vs.schoolmessenger.util.GPSStatusReceiver;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
@@ -60,7 +63,13 @@ public class SubjectListActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("onResume", "onResume");
         subjectListApi();
+
     }
 
     public void subjectListApi() {
@@ -81,7 +90,7 @@ public class SubjectListActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String schoolID= TeacherUtil_Common.Principal_SchoolId;
+        String schoolID = TeacherUtil_Common.Principal_SchoolId;
         String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(SubjectListActivity.this);
 
         JsonObject jsonObject=new JsonObject();

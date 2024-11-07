@@ -57,6 +57,9 @@ public class TeacherChatAdapter extends RecyclerView.Adapter<BaseViewHolders<Tea
                 else
                     popup.getMenu().findItem(R.id.change_answer).setVisible(false);
                 popup.show();
+
+
+
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -75,6 +78,13 @@ public class TeacherChatAdapter extends RecyclerView.Adapter<BaseViewHolders<Tea
         holder.getBinding().studentMessage.setText(teacherChats.get(position).Question);
         holder.getBinding().studentTime.setText(teacherChats.get(position).CreatedOn);
         holder.getBinding().studentName.setText(teacherChats.get(position).StudentName);
+
+        if(teacherChats.get(position).is_staff_viewed.equals("0")){
+            holder.getBinding().cardNew.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.getBinding().cardNew.setVisibility(View.GONE);
+        }
 
         if (teacherChats.get(position).AnsweredOn.isEmpty()) {
             holder.getBinding().teacher.setVisibility(View.GONE);

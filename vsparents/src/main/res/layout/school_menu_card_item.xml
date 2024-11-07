@@ -21,13 +21,26 @@
             android:orientation="vertical"
             android:padding="2dp">
 
+            <TextView
+                android:id="@+id/lblUnreadCount"
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_gravity="end|top"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_oval_teacher_side"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="0"
+                android:textColor="@color/clr_white"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/gifImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                android:src="@drawable/updates"
-                />
+                android:src="@drawable/updates" />
 
             <ImageView
                 android:id="@+id/imgMenu"

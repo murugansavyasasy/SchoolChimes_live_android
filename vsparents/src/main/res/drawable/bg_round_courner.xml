@@ -1,0 +1,43 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#A2A2A5" /> <!-- Semi-transparent black for shadow -->
+            <corners android:radius="20dp"/> <!-- Apply the same radius -->
+        </shape>
+    </item>
+
+    <item android:left="0dp" android:top="0dp" android:right="2dp" android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#F4F5F9"/> <!-- Main background color -->
+            <corners android:radius="20dp"/> <!-- Same corner radius -->
+        </shape>
+    </item>
+
+</layer-list>
+
+
+
+
+
+
+
+    <!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+
+<!--&lt;!&ndash; Shadow layer &ndash;&gt;-->
+<!--<item>-->
+<!--    <shape android:shape="rectangle">-->
+<!--        <solid android:color="#80000000"/> &lt;!&ndash; Semi-transparent black for shadow &ndash;&gt;-->
+<!--        <corners android:radius="20dp"/> &lt;!&ndash; Same radius for rounded corners &ndash;&gt;-->
+<!--    </shape>-->
+<!--</item>-->
+
+<!--&lt;!&ndash; The actual background layer &ndash;&gt;-->
+<!--<item android:left="4dp" android:right="4dp" android:top="4dp" android:bottom="4dp"> &lt;!&ndash; Offset for the shadow &ndash;&gt;-->
+<!--    <shape android:shape="rectangle">-->
+<!--        <solid android:color="#FFFFFF"/> &lt;!&ndash; Main background color &ndash;&gt;-->
+<!--        <corners android:radius="20dp"/>-->
+<!--    </shape>-->
+<!--</item>-->
+
+<!--</layer-list>-->

@@ -64,14 +64,12 @@ public class TeacherVoiceCircularListAdapterNEW extends RecyclerView.Adapter<Tea
             @Override
             public void onClick(View v) {
 
-
-
                 long unixTime = System.currentTimeMillis() / 1000L;
                 String timeStamp = String.valueOf(unixTime);
 
                 String filename=circular.getMsgID();
 
-                TeacherDownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE,is_Archive);
+                TeacherDownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, circular.getIs_Archive());
             }
         });
 

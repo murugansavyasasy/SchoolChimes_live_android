@@ -1,16 +1,23 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.activity.SubjectListScreen.SubjectDetailsList;
+import static com.vs.schoolmessenger.util.Constants.attendanceType;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANCE;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_ATTENDANCE;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PHOTOS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_EXAM;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +26,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3;
@@ -35,7 +47,6 @@ import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherStudentsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
-import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 
@@ -55,18 +66,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.vs.schoolmessenger.activity.SubjectListScreen.SubjectDetailsList;
-import static com.vs.schoolmessenger.util.Constants.attendanceType;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANCE;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_ATTENDANCE;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PHOTOS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_EXAM;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE;
-
 
 public class TeacherAttendanceStudentList extends AppCompatActivity implements TeacherOnCheckStudentListener {
 
@@ -75,14 +74,14 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     TextView tvOK, tvCancel, tvSelectedCount, tvTotalCount, tvStdSec, tvSubject; //tvSelectUnselect
     private ArrayList<TeacherStudentsModel> studentList = new ArrayList<>();
 
-    String schoolID, targetCode,stdcode,subcode;
+    String schoolID, targetCode, stdcode, subcode;
     TeacherSectionModel selSection;
 
     private int i_students_count;
     CheckBox cbSelectAll;
-    String schoolId, sectioncode,filepath,duration,Description,strmessage;
+    String schoolId, sectioncode, filepath, duration, Description, strmessage, isAttendanceDate;
     int iRequestCode;
-    String voicetype="",strPDFFilepath;
+    String voicetype = "", strPDFFilepath;
     ArrayList<String> slectedImagePath = new ArrayList<String>();
     String fileNameDateTime;
     AmazonS3 s3Client;
@@ -91,14 +90,14 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
     String urlFromS3 = null;
     ProgressDialog progressDialog;
-    String contentType="";
-    String flag="";
+    String contentType = "";
+    String flag = "";
     String uploadFilePath="";
     String SuccessFilePath="";
     int pathIndex=0;
 
     String[] UploadedURLStringArray;
-    private  ArrayList<String> UploadedS3URlList = new ArrayList<>();
+    private ArrayList<String> UploadedS3URlList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -118,15 +117,16 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         sectioncode = getIntent().getExtras().getString("SECCODE", "");
         stdcode = getIntent().getExtras().getString("STDCODE", "");
         subcode = getIntent().getExtras().getString("SUBCODE", "");
-        filepath= getIntent().getExtras().getString("filepath", "");
-        Description=getIntent().getExtras().getString("Description", "");
-        duration=getIntent().getExtras().getString("duration", "");
-        strmessage=getIntent().getExtras().getString("Message", "");
+        filepath = getIntent().getExtras().getString("filepath", "");
+        Description = getIntent().getExtras().getString("Description", "");
+        duration = getIntent().getExtras().getString("duration", "");
+        strmessage = getIntent().getExtras().getString("Message", "");
+        isAttendanceDate = getIntent().getExtras().getString("ATTENDANCE_DATE", "");
 
-        voicetype=getIntent().getExtras().getString("VOICE", "");
+        voicetype = getIntent().getExtras().getString("VOICE", "");
 
         strPDFFilepath = getIntent().getExtras().getString("FILE_PATH_PDF", "");
-        if(strPDFFilepath.equals("")){
+        if (strPDFFilepath.equals("")) {
             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
         }
 
@@ -349,11 +349,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             alertDialog.setMessage(getStudentsName());
         }
 
-        else if(iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM){
+        else if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
             alertDialog.setMessage(getResources().getString(R.string.exam_will_be));
-            }
-
-            else{
+        } else {
             alertDialog.setMessage(getStudentsName1());
         }
 
@@ -368,7 +366,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                 if (iRequestCode == STAFF_VOICE) {
                     if(voicetype.equals("VoiceHistory")){
-                      sendVoiceFromVoivehistory();
+                        sendVoiceFromVoivehistory();
                     }
                     else {
                         SendVoiceToEntireSection();
@@ -396,7 +394,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 }
                 if((iRequestCode == PRINCIPAL_ATTENDANCE) || (iRequestCode== STAFF_ATTENDANCE)){
                     sendAttenAPIAbsent();
-                        }
+                }
                 if((iRequestCode == PRINCIPAL_EXAM_TEST) || (iRequestCode== STAFF_TEXT_EXAM)){
                     SendExamstud();
                 }
@@ -408,27 +406,29 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
     private void uploadFileToAWSs3(int pathind, final String fileType) {
 
-        pathIndex=pathind;
+        String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherAttendanceStudentList.this);
+
+        pathIndex = pathind;
         progressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
         for (int index = pathIndex; index < slectedImagePath.size(); index++) {
             uploadFilePath = slectedImagePath.get(index);
             break;
         }
 
-        if(UploadedS3URlList.size()<slectedImagePath.size()) {
+        if (UploadedS3URlList.size() < slectedImagePath.size()) {
             if (uploadFilePath != null) {
                 showLoading();
                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-                fileNameDateTime="File_"+fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType,fileNameDateTime);
+                fileNameDateTime = "File_" + fileNameDateTime;
+                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime, Principal_SchoolId, countryID, true);
                 s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
                     @Override
                     public void onUploadSuccess(String response) {
                         if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath,fileNameDateTime);
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime, Principal_SchoolId, countryID, true);
                             if (!TextUtils.isEmpty(urlFromS3)) {
                                 UploadedS3URlList.add(urlFromS3);
-                                uploadFileToAWSs3(pathIndex + 1,fileType);
+                                uploadFileToAWSs3(pathIndex + 1, fileType);
 
                                 if (slectedImagePath.size() == UploadedS3URlList.size()) {
                                     SendMultipleImagePDFAsStaffToSpecificStudentsWithCloudURL(fileType);
@@ -533,16 +533,16 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                 }
             }
-                jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
-                JsonArray jsonArrayschoolstd1 = new JsonArray();
-                for (int j = 0; j < UploadedS3URlList.size(); j++) {
-                    JsonObject jsonObjectclass = new JsonObject();
-                    jsonObjectclass.addProperty("FileName", UploadedS3URlList.get(j));
-                    jsonArrayschoolstd1.add(jsonObjectclass);
+            jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
+            JsonArray jsonArrayschoolstd1 = new JsonArray();
+            for (int j = 0; j < UploadedS3URlList.size(); j++) {
+                JsonObject jsonObjectclass = new JsonObject();
+                jsonObjectclass.addProperty("FileName", UploadedS3URlList.get(j));
+                jsonArrayschoolstd1.add(jsonObjectclass);
 
-                }
-                jsonObjectSchoolstdgrp.add("FileNameArray", jsonArrayschoolstd1);
-                Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
+            }
+            jsonObjectSchoolstdgrp.add("FileNameArray", jsonArrayschoolstd1);
+            Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
 
 
         } catch (Exception e) {
@@ -709,7 +709,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                         MultipartBody.FORM, jsonReqArray.toString());
 
 
-
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Uploading...");
@@ -718,7 +717,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         if (!this.isFinishing())
             mProgressDialog.show();
 
-      //  Call<JsonArray> call = apiService.SendVoiceAsStaffToSpecificStudents(requestBody, bodyFile);
+        //  Call<JsonArray> call = apiService.SendVoiceAsStaffToSpecificStudents(requestBody, bodyFile);
 
         Call<JsonArray> call;
         if (Util_Common.isScheduleCall) {
@@ -786,7 +785,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                backToResultActvity("SENT");
+                //  backToResultActvity("SENT");
+                onBackPressed();
                 dialog.cancel();
                 finish();
 
@@ -806,7 +806,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         if (requestCode == iRequestCode) {
             String message = data.getStringExtra("MESSAGE");
             if (message.equals("SENT")) {
-              finish();
+                finish();
             }
         }
     }
@@ -839,7 +839,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                     jsonArrayschoolstd.add(jsonObjectclass);
 
                 }
-
 
 
                 jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
@@ -951,7 +950,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
     private String getStudentsName() {
         StringBuilder strStudList = new StringBuilder();
-            strStudList.append("Below mentioned Student(s) will be marked as absent\n");
+        strStudList.append("Below mentioned Student(s) will be marked as absent\n");
 
         try {
             for (int i = 0; i < studentList.size(); i++) {
@@ -969,7 +968,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
     private String getStudentsName1() {
         StringBuilder strStudList = new StringBuilder();
-            strStudList.append("Message will be sent to the below listed student(s) \n");
+        strStudList.append("Message will be sent to the below listed student(s) \n");
 
         try {
             for (int i = 0; i < studentList.size(); i++) {
@@ -1074,6 +1073,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             jsonObjectSchool.addProperty("SectionID", sectioncode);
             jsonObjectSchool.addProperty("AllPresent", "F");
             jsonObjectSchool.addProperty("AttendanceType", attendanceType);
+            jsonObjectSchool.addProperty("AttendanceDate", isAttendanceDate);
             jsonObjectSchool.addProperty("SessionType", Constants.sessionType);
 
             JsonArray jsonArrayschoolstd = new JsonArray();
@@ -1084,7 +1084,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                     Log.d("StudentID", studentList.get(i).getStudentID());
                     jsonArrayschoolstd.add(jsonObjectclass);
                 }
-                }
+            }
             jsonObjectSchool.add("StudentID", jsonArrayschoolstd);
             Log.d("Final_Array", jsonObjectSchool.toString());
         } catch (Exception e) {

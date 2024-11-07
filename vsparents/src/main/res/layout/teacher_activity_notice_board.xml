@@ -51,247 +51,408 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp">
 
-        <LinearLayout
-            android:id="@+id/nb_composemsg"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-
-            <RelativeLayout
-                android:id="@+id/mgtGenText_rlHeader"
+            <LinearLayout
+                android:id="@+id/rlaTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teacher_clr_white"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/genTextPopup_ivDate"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/c_notice_board" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="gone"
+                android:background="@drawable/bg_outline_black">
 
                 <TextView
-                    android:id="@+id/genTextPopup_tvTitle"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/lblHomework"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/clr_yellow"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Compose Notice Board"
+                    android:textColor="@color/clr_white"
+                    android:textSize="13dp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/lblHomeworkReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Notice Board"
+                    android:textColor="@color/clr_black"
+                    android:textSize="13dp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlaNoticeBoard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlaTitle"
+                android:visibility="gone">
+
+                <Spinner
+                    android:id="@+id/schoolList"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/widget_margin_small"
-                    android:layout_marginLeft="@dimen/widget_margin_small"
-                    android:layout_toEndOf="@+id/genTextPopup_ivDate"
-                    android:layout_toRightOf="@+id/genTextPopup_ivDate"
-                    android:gravity="center_vertical"
-                    android:text="Compose Noticeboard"
-                    android:textColor="@color/teacher_clr_black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="20dp"
+                    android:background="@android:color/transparent">
+
+                </Spinner>
+
+
+                <RelativeLayout
+                    android:id="@+id/rytSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/schoolList"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <EditText
+                        android:id="@+id/Searchable"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/bg_search_shadow"
+                        android:hint="Search"
+                        android:paddingLeft="15dp"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/imgSearch"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/search_icon" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rytSearch">
+
+
+                    <TextView
+                        android:id="@+id/lblNoMessages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="25dp"
+                        android:background="@drawable/bg_shadow_no_records"
+                        android:padding="10dp"
+                        android:text=""
+                        android:textColor="@color/teacher_clr_red_red"
+                        android:textSize="15dp"
+                        android:visibility="gone"></TextView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/text_rvCircularList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lblNoMessages"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="15dp" />
+
+                    <TextView
+                        android:id="@+id/lblNoMessagesLable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text_rvCircularList"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="45dp"
+                        android:background="@drawable/bg_shadow_no_records"
+                        android:padding="10dp"
+                        android:text=""
+                        android:textColor="@color/teacher_clr_red_red"
+                        android:textSize="15dp"
+                        android:visibility="gone"></TextView>
+
+
+                    <TextView
+                        android:id="@+id/btnSeeMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lblNoMessagesLable"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/bg_stroke_primary"
+                        android:padding="5dp"
+                        android:text="@string/SeeMore"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="visible"></TextView>
+
+                </RelativeLayout>
+
 
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/nb_composemsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="From"
-                    android:textAlignment="center"
-                    android:textColor="@color/clr_white"
-                    android:textSize="15dp" />
+                android:layout_below="@+id/rlaTitle"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical"
+                android:visibility="visible">
 
 
-                <TextView
-                    android:id="@+id/lblFromDate"
+                <RelativeLayout
+                    android:id="@+id/mgtGenText_rlHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:background="@drawable/bg_rect_white"
-                    android:padding="10dp"
-                    android:text="Select Date"
-                    android:textAlignment="center"
-                    android:textColor="@color/clr_black"
-                    android:textSize="13dp" />
-                </LinearLayout>
+                    android:background="@color/teacher_clr_white"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/genTextPopup_ivDate"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/c_notice_board" />
+
+                    <TextView
+                        android:id="@+id/genTextPopup_tvTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/widget_margin_small"
+                        android:layout_marginLeft="@dimen/widget_margin_small"
+                        android:layout_toEndOf="@+id/genTextPopup_ivDate"
+                        android:layout_toRightOf="@+id/genTextPopup_ivDate"
+                        android:gravity="center_vertical"
+                        android:text="Compose Noticeboard"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="To"
-                    android:textColor="@color/clr_white"
-                    android:textSize="15dp" />
-
-
-                <TextView
-                    android:id="@+id/lblToDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:background="@drawable/bg_rect_white"
-                    android:padding="10dp"
-                    android:text="Select Date"
-                    android:textAlignment="center"
-                    android:textColor="@color/clr_black"
-                    android:textSize="13dp" />
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="From"
+                            android:textAlignment="center"
+                            android:textColor="@color/clr_white"
+                            android:textSize="15dp" />
+
+
+                        <TextView
+                            android:id="@+id/lblFromDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/bg_rect_white"
+                            android:padding="10dp"
+                            android:text="Select Date"
+                            android:textAlignment="center"
+                            android:textColor="@color/clr_black"
+                            android:textSize="13dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="To"
+                            android:textColor="@color/clr_white"
+                            android:textSize="15dp" />
+
+
+                        <TextView
+                            android:id="@+id/lblToDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/bg_rect_white"
+                            android:padding="10dp"
+                            android:text="Select Date"
+                            android:textAlignment="center"
+                            android:textColor="@color/clr_black"
+                            android:textSize="13dp" />
+
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
 
-            <EditText
-                android:id="@+id/nb_txtTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@color/teacher_clr_card_grey"
-                android:ems="10"
-                android:gravity="top"
-                android:hint="@string/teacher_nb_hint_title"
-                android:inputType="text"
-                android:maxLines="1"
-                android:padding="10dp"
-                android:textSize="14dp"
-                android:textStyle="bold" />
-
-            <RelativeLayout
-                android:id="@+id/mgtnb_rlHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/teacher_clr_white"
-                android:padding="5dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/nbPopup_ivDate"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/teacher_ic_text" />
-
-                <TextView
-                    android:id="@+id/nbPopup_tvTitle"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/nb_txtTitle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/widget_margin_small"
-                    android:layout_marginLeft="@dimen/widget_margin_small"
-                    android:layout_toEndOf="@+id/nbPopup_ivDate"
-                    android:layout_toRightOf="@+id/nbPopup_ivDate"
-                    android:gravity="center_vertical"
-                    android:text="@string/teacher_txt_composemsg"
-                    android:textColor="@color/teacher_clr_black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:text="Compose Message" />
-
-            </RelativeLayout>
-
-
-            <EditText
-                android:id="@+id/nb_txtmessage"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:background="@color/teacher_clr_card_grey"
-                android:ems="10"
-                android:gravity="top"
-                android:hint="@string/teacher_nb_hint_msg"
-                android:inputType="textMultiLine"
-
-                android:maxLines="15"
-                android:minLines="7"
-                android:overScrollMode="always"
-
-                android:padding="7dp"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:textSize="12dp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:background="@color/teacher_clr_card_grey"
-                android:gravity="right"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/nb_msgcount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/teacher_clr_black"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    tools:text="0" />
-
-                <TextView
-                    android:id="@+id/nb_countslash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/"
-                    android:textColor="@color/teacher_clr_black"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    tools:text="/" />
-
-                <TextView
-                    android:id="@+id/nb_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="460"
-                    android:textColor="@color/teacher_clr_black"
-                    android:textSize="12sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/teacher_clr_card_grey"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="@string/teacher_nb_hint_title"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/mgtnb_rlHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/teacher_clr_white"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/nbPopup_ivDate"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/teacher_ic_text" />
+
+                    <TextView
+                        android:id="@+id/nbPopup_tvTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/widget_margin_small"
+                        android:layout_marginLeft="@dimen/widget_margin_small"
+                        android:layout_toEndOf="@+id/nbPopup_ivDate"
+                        android:layout_toRightOf="@+id/nbPopup_ivDate"
+                        android:gravity="center_vertical"
+                        android:text="@string/teacher_txt_composemsg"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="Compose Message" />
+
+                </RelativeLayout>
+
+
+                <EditText
+                    android:id="@+id/nb_txtmessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/teacher_clr_card_grey"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="@string/teacher_nb_hint_msg"
+                    android:inputType="textMultiLine"
+
+                    android:maxLines="15"
+                    android:minLines="7"
+                    android:overScrollMode="always"
+
+                    android:padding="7dp"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
+                    android:textSize="12dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/teacher_clr_card_grey"
+                    android:gravity="right"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/nb_msgcount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:text="0" />
+
+                    <TextView
+                        android:id="@+id/nb_countslash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:text="/" />
+
+                    <TextView
+                        android:id="@+id/nb_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="460"
+                        android:textColor="@color/teacher_clr_black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/nb_rvSchoolsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/teacher_clr_window_bg" />
+
+                <Button
+                    android:id="@+id/nb_btnmsg"
+                    style="@style/Teacher_btn_green"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:enabled="false"
+                    android:text="@string/teacher_confirm" />
+
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/nb_rvSchoolsList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@color/teacher_clr_window_bg" />
+        </RelativeLayout>
 
-            <Button
-                android:id="@+id/nb_btnmsg"
-                style="@style/Teacher_btn_green"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:enabled="false"
-                android:text="@string/teacher_confirm" />
-
-        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <RelativeLayout

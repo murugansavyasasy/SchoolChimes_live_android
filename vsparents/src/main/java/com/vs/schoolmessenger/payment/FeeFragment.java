@@ -28,10 +28,7 @@ public class FeeFragment extends Fragment {
     String PaymentUrl="";
     WebView web_view;
     ProgressDialog pDialog;
-
     private WebSettings webSettings;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

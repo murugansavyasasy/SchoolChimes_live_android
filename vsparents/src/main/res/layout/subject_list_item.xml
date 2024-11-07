@@ -19,9 +19,27 @@
             android:textStyle="bold"
             android:textColor="@color/clr_black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/arrow"
+            app:layout_constraintEnd_toStartOf="@+id/lblUnreadCount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/lblUnreadCount"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end|top"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/shape_oval_red"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/clr_white"
+            app:layout_constraintEnd_toStartOf="@+id/arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="10sp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/arrow"

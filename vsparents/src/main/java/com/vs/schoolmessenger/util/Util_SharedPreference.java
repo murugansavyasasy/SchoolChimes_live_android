@@ -148,13 +148,14 @@ public class Util_SharedPreference {
     public static final String SH_CHILD_NAME = "ChildName";
     public static final String SH_SCHOOL_ID = "SchoolID";
     public static final String SH_SCHOOL_NAME = "SchoolName";
+    public static final String SH_REGIONAL_SCHOOL_NAME = "Regional_SchoolName";
     public static final String SH_SCHOOL_ADDRESS = "SchoolAddress";
     public static final String SH_SCHOOL_LOGO = "SchoolLogo";
     public static final String SH_STANDARD = "Standard";
     public static final String SH_SECTION = "section";
 
     public static void putSelecedChildInfoToSP(Activity activity, String childID, String childName, String schoolID,
-                                               String schoolName, String schoolAddress, String schoolLogo,String standard,String section) {
+                                               String schoolName,String regionalSchoolName, String schoolAddress, String schoolLogo,String standard,String section) {
         SharedPreferences sp = activity.getSharedPreferences(spName, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
 
@@ -162,6 +163,7 @@ public class Util_SharedPreference {
         ed.putString(SH_CHILD_NAME, childName);
         ed.putString(SH_SCHOOL_ID, schoolID);
         ed.putString(SH_SCHOOL_NAME, schoolName);
+        ed.putString(SH_REGIONAL_SCHOOL_NAME, regionalSchoolName);
         ed.putString(SH_SCHOOL_ADDRESS, schoolAddress);
         ed.putString(SH_SCHOOL_LOGO, schoolLogo);
         ed.putString(SH_STANDARD, standard);
@@ -198,6 +200,11 @@ public class Util_SharedPreference {
 
     public static String getSchoolnameFromSP(Activity activity) {
         String schoolname = activity.getSharedPreferences(spName, Context.MODE_PRIVATE).getString(SH_SCHOOL_NAME, "");
+        return schoolname;
+    }
+
+    public static String getRegionalSchoolnameFromSP(Activity activity) {
+        String schoolname = activity.getSharedPreferences(spName, Context.MODE_PRIVATE).getString(SH_REGIONAL_SCHOOL_NAME, "");
         return schoolname;
     }
 

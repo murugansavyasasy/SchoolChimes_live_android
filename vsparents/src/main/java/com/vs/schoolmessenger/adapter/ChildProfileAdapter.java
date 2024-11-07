@@ -58,6 +58,14 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
         holder.tvSchoolName.setText(profile.getSchoolName());
         holder.tvSchoolAddress.setText(profile.getSchoolAddress());
 
+        holder.lblRegionalSchoolName.setText(profile.getSchoolNameRegional());
+        if(!profile.getSchoolNameRegional().equals("") && profile.getSchoolNameRegional() !=null && !profile.getSchoolNameRegional().equals("null")){
+           holder.lblRegionalSchoolName.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.lblRegionalSchoolName.setVisibility(View.GONE);
+        }
+
         if(profile.getIsNotAllow().equals("1")){
             holder.rytDisplayMessage.setVisibility(View.VISIBLE);
             holder.imageView6.setVisibility(View.GONE);
@@ -75,7 +83,7 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvName, tvID, tvStandard, tvSection, tvSchoolName, tvSchoolAddress, tvMsgCount,lblDisplayMessage;
+        public TextView tvName, tvID, tvStandard, tvSection, tvSchoolName, tvSchoolAddress, tvMsgCount,lblDisplayMessage,lblRegionalSchoolName;
         NetworkImageView thumbNailSchoolImg;
         ImageView imageView6;
 
@@ -90,6 +98,7 @@ public class ChildProfileAdapter extends RecyclerView.Adapter<ChildProfileAdapte
             tvStandard = (TextView) view.findViewById(R.id.cardProfile_tvStandard);
             tvSection = (TextView) view.findViewById(R.id.cardProfile_tvSection);
             tvSchoolName = (TextView) view.findViewById(R.id.cardProfile_tvSchoolName);
+            lblRegionalSchoolName = (TextView) view.findViewById(R.id.lblRegionalSchoolName);
             tvSchoolAddress = (TextView) view.findViewById(R.id.cardProfile_tvSchoolAddress);
             tvMsgCount = (TextView) view.findViewById(R.id.cardProfile_tvMsgCount);
             lblDisplayMessage = (TextView) view.findViewById(R.id.lblDisplayMessage);

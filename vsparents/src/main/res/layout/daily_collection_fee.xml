@@ -4,112 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/rlyDatepick"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        android:padding="5dp"-->
-    <!--        android:weightSum="1"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--        <androidx.cardview.widget.CardView-->
-    <!--            android:id="@+id/crdDailyCollectionFromDate"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="15dp"-->
-    <!--            android:layout_marginRight="@dimen/_10sdp"-->
-    <!--            android:layout_weight="0.5">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/lblDateFrom"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:drawableRight="@drawable/ic_date"-->
-    <!--                android:gravity="center"-->
-    <!--                android:padding="@dimen/_10sdp"-->
-    <!--                android:text=""-->
-    <!--                android:textColor="@color/bpblack"-->
-    <!--                android:textSize="14dp"></TextView>-->
-
-    <!--        </androidx.cardview.widget.CardView>-->
-
-
-    <!--        <androidx.cardview.widget.CardView-->
-    <!--            android:id="@+id/crdDailyCollectionTodate"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="15dp"-->
-    <!--            android:layout_weight="0.5"-->
-    <!--            app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/lblDateTo"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:drawableRight="@drawable/ic_date"-->
-    <!--                android:gravity="center"-->
-    <!--                android:padding="@dimen/_10sdp"-->
-    <!--                android:text=""-->
-    <!--                android:textColor="@color/bpblack"-->
-    <!--                android:textSize="14dp"></TextView>-->
-
-    <!--        </androidx.cardview.widget.CardView>-->
-
-    <!--    </LinearLayout>-->
-
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/lnrFeeCategory"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="@dimen/_20sdp"-->
-    <!--        android:background="@color/exm_clr"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        android:weightSum="0.9"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/rlyDatepick">-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/lblCategory"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="0.3"-->
-    <!--            android:background="@color/teacher_clr_btn_login"-->
-    <!--            android:gravity="center"-->
-    <!--            android:padding="11dp"-->
-    <!--            android:text="CATEGORY"-->
-    <!--            android:textColor="@color/bpWhite"-->
-    <!--            android:textSize="14dp"-->
-    <!--            android:textStyle="bold"></TextView>-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/lblClass"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="0.3"-->
-    <!--            android:gravity="center"-->
-    <!--            android:padding="11dp"-->
-    <!--            android:text="CLASS"-->
-    <!--            android:textColor="@color/bpblack"-->
-    <!--            android:textSize="14dp"-->
-    <!--            android:textStyle="bold"></TextView>-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/lblMode"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="0.3"-->
-    <!--            android:gravity="center"-->
-    <!--            android:padding="11dp"-->
-    <!--            android:text="MODE"-->
-    <!--            android:textColor="@color/bpblack"-->
-    <!--            android:textSize="14dp"-->
-    <!--            android:textStyle="bold">-->
-
-    <!--        </TextView>-->
-    <!--    </LinearLayout>-->
-
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -118,8 +12,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
 
                 <LinearLayout
                     android:layout_width="match_parent"

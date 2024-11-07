@@ -49,6 +49,14 @@ public class SubjectChatListAdapter extends RecyclerView.Adapter<BaseViewHolders
             holder.getBinding().subjectTeacher.setVisibility(View.GONE);
         }
 
+        if(!subjects.get(position).unread_count.equals("0")){
+            holder.getBinding().lblUnreadCount.setVisibility(View.VISIBLE);
+            holder.getBinding().lblUnreadCount.setText(subjects.get(position).unread_count);
+        }
+        else {
+            holder.getBinding().lblUnreadCount.setVisibility(View.GONE);
+        }
+
         holder.getBinding().subjectTeacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

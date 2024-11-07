@@ -50,6 +50,7 @@ import com.vs.schoolmessenger.activity.ChildrenScreen;
 import com.vs.schoolmessenger.activity.HomeActivity;
 import com.vs.schoolmessenger.activity.TeacherPhotosScreen;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
+import com.vs.schoolmessenger.activity.ToStaffGroupList;
 import com.vs.schoolmessenger.adapter.ImageListAdapter;
 
 import com.vs.schoolmessenger.aws.S3Uploader;
@@ -813,7 +814,10 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
 
     private void uploadFileToAWSs3(final int pathind) {
 
-           pathIndex=pathind;
+        String countryID = TeacherUtil_SharedPreference.getCountryID(ParentSubmitActivity.this);
+        String schoolid= Util_SharedPreference.getSchoolIdFromSP(ParentSubmitActivity.this);
+
+        pathIndex=pathind;
            progressDialog = new ProgressDialog(ParentSubmitActivity.this);
         for (int index = pathIndex; index < imagePathList.size(); index++) {
             uploadFilePath = imagePathList.get(index);
@@ -826,12 +830,12 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
                 showLoading();
                  fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
                  fileNameDateTime="File_"+fileNameDateTime;
-                 s3uploaderObj.initUpload(uploadFilePath, contentType,fileNameDateTime);
+                 s3uploaderObj.initUpload(uploadFilePath, contentType,fileNameDateTime,schoolid,countryID,true);
                  s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
                     @Override
                     public void onUploadSuccess(String response) {
                         if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath,fileNameDateTime);
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath,fileNameDateTime,schoolid,countryID,true);
                             if (!TextUtils.isEmpty(urlFromS3)) {
                                 UploadedS3URlList.add(urlFromS3);
                                 uploadFileToAWSs3(pathIndex + 1);

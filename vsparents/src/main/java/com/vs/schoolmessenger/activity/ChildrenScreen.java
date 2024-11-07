@@ -20,7 +20,6 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-
 import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 
@@ -231,7 +230,6 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                                 startActivity(i);
                             }
                         }
-
 
                         else {
                             TeacherUtil_Common.school_scroll_to_position = 0;

@@ -111,6 +111,17 @@
                             android:textSize="12dp"
                             android:textStyle="bold" />
 
+
+                        <TextView
+                            android:id="@+id/aHome_tvRegionalSchoolName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:layout_marginTop="2dp"
+                            android:textColor="@color/clr_black"
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/aHome_tvSchoolAddress"
                             android:layout_width="wrap_content"

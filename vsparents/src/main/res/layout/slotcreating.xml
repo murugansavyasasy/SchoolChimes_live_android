@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/lblPurPose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="Purpose of discussion * "
+            android:textColor="@color/clr_black"
+            android:textSize="17dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <EditText
+            android:id="@+id/edtDiscussion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblPurPose"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:background="@drawable/bg_outline_black"
+            android:padding="7dp"
+            android:textSize="15dp">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/lblSelectMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtDiscussion"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="20dp"
+            android:text="Select Mode"
+            android:textColor="@color/clr_black"
+            android:textSize="17dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+
+        <Spinner
+            android:id="@+id/spinnerSelectionMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblSelectMode"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:background="@android:color/transparent">
+
+
+        </Spinner>
+
+        <RelativeLayout
+            android:id="@+id/rlaLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerSelectionMode"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/EdtOnlineLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="30dp"
+                android:layout_toLeftOf="@+id/imgClearLink"
+                android:background="@drawable/bg_outline_black"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="Paste your link here."
+                android:longClickable="true"
+                android:padding="10dp"
+                android:textSize="15dp"
+                android:visibility="gone">
+
+            </TextView>
+
+            <ImageView
+                android:id="@+id/imgClearLink"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:src="@drawable/ic_close_black"
+                android:visibility="gone">
+
+            </ImageView>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/lblSelectClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlaLink"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="20dp"
+            android:text="Select Class"
+            android:textColor="@color/clr_black"
+            android:textSize="17dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <com.vs.schoolmessenger.util.ExpandableHeightGridView
+            android:id="@+id/gridViewSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblSelectClass"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="50dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="3"
+            android:verticalSpacing="10dp" />
+
+
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/gridViewSection"-->
+        <!--            android:layout_below="@+id/lblSelectClass"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/_10sdp"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:layout_marginRight="50dp"/>-->
+
+        <TextView
+            android:id="@+id/lblOpenSlot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gridViewSection"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="25dp"
+            android:text="Open slot's between"
+            android:textColor="@color/clr_black"
+            android:textSize="17dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/lblFromTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblOpenSlot"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="25dp"
+            android:text="From"
+            android:textColor="@color/clr_black"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:visibility="gone">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/lblPickFromTime"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblOpenSlot"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/lblFromTime"
+            android:background="@drawable/bg_outline_black"
+            android:gravity="center"
+            android:padding="@dimen/_4sdp"
+            android:text="Select from time"
+            android:textSize="15dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/lblToTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblOpenSlot"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/lblPickToTime"
+            android:text="To"
+            android:textColor="@color/clr_black"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:visibility="gone">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/lblPickToTime"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblOpenSlot"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/lblPickFromTime"
+            android:background="@drawable/bg_outline_black"
+            android:gravity="center"
+            android:padding="@dimen/_4sdp"
+            android:text="Select to time"
+            android:textSize="15dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/lblSlotDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblPickToTime"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="25dp"
+            android:text="Slot duration"
+            android:textColor="@color/clr_black"
+            android:textSize="17dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <Spinner
+            android:id="@+id/spinnerDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblSlotDuration"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent">
+
+        </Spinner>
+
+
+        <EditText
+            android:id="@+id/edt_slotDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblSlotDuration"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="25dp"
+            android:layout_toRightOf="@+id/spinnerDuration"
+            android:gravity="center"
+            android:hint="Enter slot duration"
+            android:inputType="number"
+            android:textSize="15dp"
+            android:visibility="gone">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/lblNeedBreak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerDuration"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="25dp"
+            android:text="Need break between slots?"
+            android:textColor="@color/clr_black"
+            android:textSize="17dp"
+            android:textStyle="bold"></TextView>
+
+        <Switch
+            android:id="@+id/SwitchBreak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerDuration"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/lblNeedBreak"
+            android:theme="@style/FilterSwitchThemeGreen"></Switch>
+
+        <LinearLayout
+            android:id="@+id/lnrBreak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/SwitchBreak"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:paddingLeft="@dimen/_30sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:visibility="gone"
+            android:weightSum="1">
+
+
+            <Spinner
+                android:id="@+id/spinnerBreakBetween"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:background="@android:color/transparent">
+
+            </Spinner>
+
+
+            <TextView
+                android:id="@+id/lblBreakBetween"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_weight="0.4"
+                android:text="Between"
+                android:textColor="@color/clr_black"
+                android:textSize="14dp"
+                android:textStyle="bold"></TextView>
+
+            <Spinner
+                android:id="@+id/spinnerSlots"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/lblBreakBetween"
+                android:layout_weight="0.1"
+                android:background="@android:color/transparent"></Spinner>
+
+
+            <TextView
+                android:id="@+id/lblSlots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_weight="0.4"
+                android:text="Slots"
+                android:textColor="@color/clr_black"
+                android:textSize="14dp"
+                android:textStyle="bold"></TextView>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/txtSelectDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lnrBreak"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="25dp"
+            android:text="Select date for slot"
+            android:textColor="@color/clr_black"
+            android:textSize="17dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <RelativeLayout
+            android:id="@+id/lblSelectDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtSelectDate"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/bg_outline_black">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/clr_grey_dark__"
+                android:gravity="center"
+                android:padding="7dp"
+                android:text="Select date"
+                android:textColor="@color/clr_grey_dark"
+                android:textSize="15dp">
+
+            </TextView>
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:src="@drawable/teacher_arrow_down">
+
+            </ImageView>
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

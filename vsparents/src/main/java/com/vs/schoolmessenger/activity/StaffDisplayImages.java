@@ -2,14 +2,15 @@ package com.vs.schoolmessenger.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -121,7 +122,7 @@ public class StaffDisplayImages extends AppCompatActivity {
         jsonObject.addProperty("CircularDate", selDate);
         jsonObject.addProperty("Type", "IMAGE");
 
-
+        Log.d("jsonObject___", String.valueOf(jsonObject));
         Call<JsonArray> call;
         if(isNewVersion.equals("1")&&is_Archive){
             call = apiService.GetFilesStaff_Archive(jsonObject);
@@ -154,7 +155,7 @@ public class StaffDisplayImages extends AppCompatActivity {
                             if (!id.equals("")) {
                                 msgModel = new TeacherMessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"), "");
+                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), jsonObject.getBoolean("is_Archive"));
                                 msgModelList.add(msgModel);
                             }
                             else {

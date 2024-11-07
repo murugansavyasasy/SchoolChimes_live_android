@@ -11,6 +11,9 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class S3Uploader {
@@ -23,19 +26,43 @@ public class S3Uploader {
     public S3Uploader(Context context) {
         this.context = context;
         transferUtility = AmazonUtil.getTransferUtility(context);
-
     }
 
-    public void initUpload(String filePath,String contenttype,String fileNameDateTime) {
+    public void initUpload(String filePath, String contenttype, String fileNameDateTime, String instituteId, String CountryID, Boolean isCommunication) {
         File file = new File(filePath);
         ObjectMetadata myObjectMetadata = new ObjectMetadata();
         //myObjectMetadata.setContentType("image/png");
         myObjectMetadata.setContentType(contenttype);
         String mediaUrl = file.getName();
-        Log.d("mediaUrl",mediaUrl);
+        Log.d("mediaUrl", mediaUrl);
 
-        TransferObserver observer = transferUtility.upload(AWSKeys.BUCKET_NAME, fileNameDateTime+"_"+mediaUrl,
-                file, CannedAccessControlList.PublicRead);
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        TransferObserver observer = null;
+        if (CountryID.equals("1")) {
+            if (isCommunication) {
+                observer = transferUtility.upload(AWSKeys.BUCKET_NAME, "communication" + "/" + currentDate + "/" + fileNameDateTime + "_" + mediaUrl,
+                        file, CannedAccessControlList.PublicRead);
+
+            } else {
+                observer = transferUtility.upload(AWSKeys.BUCKET_NAME_SCHOOL_DOCS, "lms" + "/" + instituteId + "/" + fileNameDateTime + "_" + mediaUrl,
+                        file, CannedAccessControlList.PublicRead);
+
+            }
+
+        } else {
+            if (isCommunication) {
+                observer = transferUtility.upload(AWSKeys.BUCKET_NAME_BANGKOK, "communication" + "/" + currentDate + "/" + fileNameDateTime + "_" + mediaUrl,
+                        file, CannedAccessControlList.PublicRead);
+
+            } else {
+                observer = transferUtility.upload(AWSKeys.BUCKET_NAME_SCHOOL_DOCS, "lms" + "/" + instituteId + "/" + fileNameDateTime + "_" + mediaUrl,
+                        file, CannedAccessControlList.PublicRead);
+            }
+
+        }
+
+//         observer = transferUtility.upload(AWSKeys.BUCKET_NAME, fileNameDateTime+"_"+mediaUrl,
+//                file, CannedAccessControlList.PublicRead);
 
         observer.setTransferListener(new UploadListener());
     }
@@ -57,9 +84,7 @@ public class S3Uploader {
         public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
             Log.d(TAG, String.format("onProgressChanged: %d, total: %d, current: %d",
                     id, bytesTotal, bytesCurrent));
-
             Log.d("bytesTotal", String.valueOf(bytesTotal));
-
         }
 
         @Override

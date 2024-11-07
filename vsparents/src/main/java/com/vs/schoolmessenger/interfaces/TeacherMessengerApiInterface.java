@@ -6,13 +6,26 @@ import com.vs.schoolmessenger.LessonPlan.Model.EditLessonModel;
 import com.vs.schoolmessenger.LessonPlan.Model.LessonPlanModel;
 import com.vs.schoolmessenger.LessonPlan.Model.Response;
 import com.vs.schoolmessenger.LessonPlan.Model.ViewLessonPlanModel;
+import com.vs.schoolmessenger.model.AvailableSlotDate;
 import com.vs.schoolmessenger.model.CertificateListModelItem;
 import com.vs.schoolmessenger.model.CertificateRequestModelItem;
 import com.vs.schoolmessenger.model.CertificateTypeModelItemItem;
 import com.vs.schoolmessenger.model.DailyCollection;
 import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
+import com.vs.schoolmessenger.model.GetSection;
 import com.vs.schoolmessenger.model.HomeWorkModel;
 import com.vs.schoolmessenger.model.NewUpdatesModel;
+import com.vs.schoolmessenger.model.PtmSubjectdata;
+import com.vs.schoolmessenger.model.PunchHistoryRes;
+import com.vs.schoolmessenger.model.SlotDetailsForStaff;
+import com.vs.schoolmessenger.model.Slots;
+import com.vs.schoolmessenger.model.SlotsHistory;
+import com.vs.schoolmessenger.model.StaffAttendanceBiometricReportRes;
+import com.vs.schoolmessenger.model.StaffBiometricLocationRes;
+import com.vs.schoolmessenger.model.StaffListRes;
+import com.vs.schoolmessenger.model.StaffNoticeBoard;
+import com.vs.schoolmessenger.model.StudentAttendanceReport;
+import com.vs.schoolmessenger.model.TodaySlotsStaff;
 import com.vs.schoolmessenger.payment.Model.FeeDetailsItems;
 import com.vs.schoolmessenger.util.Util_UrlMethods;
 
@@ -55,6 +68,9 @@ public interface TeacherMessengerApiInterface {
 
     @POST("HelpText")
     Call<JsonArray> GetHelp(@Body JsonObject jsonObject);
+
+    @POST("GetOverallUnreadCountForStaff")
+    Call<JsonArray> getCountFromMsg_MangeMent(@Body JsonArray jsonArray);
 
     @POST("ForgetPasswordByCountryID")
     Call<JsonArray> ForgetPassword(@Body JsonObject jsonObject);
@@ -142,7 +158,6 @@ public interface TeacherMessengerApiInterface {
 
     @POST("GetStandardsAndSubjectsAsStaffWithoutNewOld")
     Call<JsonArray> GetStandardsAndSubjectsAsStaffWithoutNewOld(@Body JsonObject jsonObject);
-
 
     @POST("GetSchoolStrengthBySchoolID")
     Call<JsonArray> GetSchoolStrengthBySchoolID(@Body JsonObject jsonObject);
@@ -796,7 +811,7 @@ public interface TeacherMessengerApiInterface {
     @POST("AnswerStudentQuestion")
     Call<JsonArray> answerStudentQuestion(@Body JsonObject jsonObject);
 
-    @POST("getStaffDetails")
+    @POST("getStaffDetailsForChat")
     Call<JsonObject> staffList(@Body JsonObject jsonObject);
 
     @POST("GetAllStaffs")
@@ -868,6 +883,97 @@ public interface TeacherMessengerApiInterface {
 
     @POST("invoice-details")
     Call<JsonObject> GetInvoiceDetails(@Body JsonObject jsonObject);
+
+
+    // PTM START ----
+
+    @GET("ptm-schedule/slots-availability-for-student")
+    Call<AvailableSlotDate> getthedate(@Query("student_id") String student_id, @Query("institute_id") String institute_id);
+
+    @GET("ptm-schedule/teacherwise-slots-availability-for-student")
+    Call<Slots> getSlotData(@Query("student_id") String student_id, @Query("institute_id") String institute_id, @Query("event_date") String event_date, @Query("subject_id") String subject_id, @Query("class_teacher_id") String class_teacher_id);
+
+    @POST("ptm-schedule/booking-slots-for-student")
+    Call<JsonObject> isBookingSlotForStudent(@Body JsonObject jsonObject);
+
+    @POST("ptm-schedule/cancel-slot-by-parent")
+    Call<JsonObject> isCancelBookingSlotForStudent(@Body JsonObject jsonObject);
+
+    @GET("ptm-schedule/slots-history-for-parent")
+    Call<SlotsHistory> isParentSideSlotsHistory(@Query("student_id") String student_id, @Query("institute_id") String institute_id, @Query("class_id") String class_id, @Query("section_id") String section_id);
+
+    @GET("ptm-schedule/datewise-slot-details-for-staff")
+    Call<TodaySlotsStaff> isTodaySlotsTeacherSide(@Query("staff_id") String staff_id, @Query("event_date") String event_date, @Query("institute_id") String institute_id);
+
+    @GET("ptm-schedule/slot-details-for-staff")
+    Call<SlotDetailsForStaff> isSlotDetailsForStaff(@Query("staff_id") String staff_id, @Query("event_date") String event_date, @Query("institute_id") String institute_id);
+
+    @POST("ptm-schedule/cancel-and-close-slot-by-staff")
+    Call<JsonObject> isCancel_slot_staff(@Body JsonObject jsonObject);
+
+    @POST("ptm-schedule/cancel-and-reopen-slot-by-staff")
+    Call<JsonObject> isCancelAndReopen_slot_staff(@Body JsonObject jsonObject);
+
+    @GET("ptm-schedule/subject-list-for-student")
+    Call<PtmSubjectdata> getStudentSideSubject(@Query("student_id") String student_id, @Query("institute_id") String institute_id);
+
+    @GET("ptm-schedule/std-sec-details-for-staff")
+    Call<GetSection> getSubjectDate(@Query("staff_id") String student_id, @Query("institute_id") String institute_id);
+
+    @POST("ptm-schedule/validate-slot-for-staff")
+    Call<JsonObject> isPtmCheckSlotAvailable(@Body JsonArray jsonArray);
+
+    @POST("ptm-schedule/create-ptm-slots")
+    Call<JsonObject> isCreatePtm(@Body JsonArray jsonArray);
+
+
+    //   PTM OVER -------
+
+
+    @POST("biometric/biometric-entry-using-app")
+    Call<JsonObject> BiometricEntryforAttendance(@Body JsonObject jsonObject);
+
+    @POST("set-biometric-location")
+    Call<JsonObject> addBiometricLocation(@Body JsonObject jsonObject);
+
+    @POST("remove-biometric-location")
+    Call<JsonObject> removeLocation(@Body JsonObject jsonObject);
+
+    @GET("get-staff-biometric-location")
+    Call<StaffBiometricLocationRes> getStaffBiometricLocations(@Query("userId") String userID, @Query("institute_id") String schoolID);
+
+    @GET("biometric-staff-attendance-report")
+    Call<StaffAttendanceBiometricReportRes> getStaffBiometricAttendanceReport(@Query("userId") String userID, @Query("attendance_dt") String monthID, @Query("institiuteId") String institiuteId);
+
+
+    @GET("biometric-principal-attendance-report")
+    Call<StaffAttendanceBiometricReportRes> getStaffWiseBiometricAttendanceReport(@Query("userId") String userID, @Query("attendance_month") String monthID, @Query("institiuteId") String institiuteId);
+
+    @GET("biometric-principal-attendance-report")
+    Call<StaffAttendanceBiometricReportRes> getDayWiseBiometricAttendanceReport(@Query("attendance_dt") String et, @Query("institiuteId") String institiuteId);
+
+    @GET("staff-list")
+    Call<StaffListRes> getStaffList(@Query("instituteId") String id);
+
+
+    @GET("get-biometric-location-history")
+    Call<StaffBiometricLocationRes> getExistingViewLocations(@Query("institute_id") String userID);
+
+    @GET("biometric-punch-history")
+    Call<PunchHistoryRes> viewPunchHistory(@Query("instituteId") String instituteId, @Query("userId") String userId, @Query("from_date") String from_date, @Query("to_date") String to_date);
+
+
+    @POST("update-biometric-location")
+    Call<JsonObject> updateLocation(@Body JsonObject jsonObject);
+
+
+    @GET("student-attendance-report")
+    Call<StudentAttendanceReport> getAttendanceReport(@Query("instituteId") String userID, @Query("sectionId") String monthID, @Query("from_date") String from_date, @Query("to_date") String to_date, @Query("standardId") String standardId, @Query("userId") String userId);
+
+
+    @GET("homeworkReport")
+    Call<StaffNoticeBoard> getHomeWorkReport(@Query("instituteId") String instituteId, @Query("sectionId") String sectionId, @Query("date") String date, @Query("userId") String userId);
+
 
 }
 

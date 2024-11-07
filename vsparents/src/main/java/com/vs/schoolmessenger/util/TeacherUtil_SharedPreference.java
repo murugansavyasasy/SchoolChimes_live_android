@@ -485,6 +485,29 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
+
+    public static void putBiometricEnabled(Activity activity,Boolean autoupdate){
+        SharedPreferences prefs = activity.getSharedPreferences("BIO_METRIC", MODE_PRIVATE);
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.putBoolean("enable_biometric", autoupdate);
+        ed.commit();
+    }
+    public static boolean getBiometricEnabled(Activity activity) {
+        boolean update = activity.getSharedPreferences("BIO_METRIC", MODE_PRIVATE).getBoolean("enable_biometric", false);
+        return update;
+    }
+
+    public static void putBiometricSkip(Activity activity,Boolean autoupdate){
+        SharedPreferences prefs = activity.getSharedPreferences("BIO_METRIC_SKIP", MODE_PRIVATE);
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.putBoolean("enable_biometric_skip", autoupdate);
+        ed.commit();
+    }
+    public static boolean getBiometricSkip(Activity activity) {
+        boolean update = activity.getSharedPreferences("BIO_METRIC_SKIP", MODE_PRIVATE).getBoolean("enable_biometric_skip", false);
+        return update;
+    }
+
     public static void putCountDetails(HomeActivity homeActivity, String emgvoicecount, String voicemsgcount,
                                        String textmessagecount, String photoscount, String documentcount, String noticeboard,
                                        String examtest, String schoolevent, String homework) {

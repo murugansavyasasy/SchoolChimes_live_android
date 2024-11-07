@@ -25,7 +25,7 @@ public class UploadDocS3Uploader {
 
     }
 
-    public void initUpload(String filePath,String contenttype,String fileNameDateTime) {
+    public void initUpload(String filePath,String contenttype,String fileNameDateTime,String instituteID,Boolean ifProfile) {
         File file = new File(filePath);
         ObjectMetadata myObjectMetadata = new ObjectMetadata();
         //myObjectMetadata.setContentType("image/png");
@@ -33,8 +33,16 @@ public class UploadDocS3Uploader {
         String mediaUrl = file.getName();
         Log.d("mediaUrl",mediaUrl);
 
-        TransferObserver observer = transferUtility.upload(AWSUploadDocKeys.BUCKET_NAME, fileNameDateTime+"_"+mediaUrl,
-                file, CannedAccessControlList.PublicRead);
+        TransferObserver observer = null;
+
+        if(ifProfile) {
+            observer = transferUtility.upload(AWSUploadDocKeys.BUCKET_NAME, "student_photos" + "/" + instituteID + "/" + fileNameDateTime + "_" + mediaUrl,
+                    file, CannedAccessControlList.PublicRead);
+        }
+        else {
+            observer = transferUtility.upload(AWSUploadDocKeys.BUCKET_NAME_SCHOOL_DOCS, "student-documents" + "/" + instituteID + "/" + fileNameDateTime + "_" + mediaUrl,
+                    file, CannedAccessControlList.PublicRead);
+        }
         observer.setTransferListener(new UploadDocUploadListener());
     }
 

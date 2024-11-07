@@ -1,9 +1,6 @@
 package com.vs.schoolmessenger.app;
-
 import android.app.Application;
-
 import com.vs.schoolmessenger.R;
-
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
 import io.github.inflationx.viewpump.ViewPump;
@@ -17,12 +14,11 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
                                 .setDefaultFontPath("fonts/roboto_regular.ttf")
-                                .setFontAttrId(R.attr.fontPath)
+                                .setFontAttrId(io.github.inflationx.calligraphy3.R.attr.fontPath)
                                 .build()))
                 .build());
 

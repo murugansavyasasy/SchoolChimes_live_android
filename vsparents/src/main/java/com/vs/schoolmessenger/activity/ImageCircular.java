@@ -93,12 +93,9 @@ public class ImageCircular extends AppCompatActivity {
     String previousDate;
     String childID;
 
-
     Slider slider;
     ImageView adImage;
-
     AdView mAdView;
-
 
     @Override
     protected void attachBaseContext(Context newBase) {

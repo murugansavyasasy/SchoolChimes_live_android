@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ResponseHeaderOverrides;
 
@@ -19,7 +20,7 @@ public class UploadDocUtils {
      * @param path image path
      * @return presignedurl
      */
-    public static String generates3ShareUrl(Context applicationContext, String path, String fileNameDateTime) {
+    public static String generates3ShareUrl(Context applicationContext, String path, String fileNameDateTime,String instituteID,Boolean ifProfile) {
 
         File f = new File(path);
         AmazonS3 s3client = UploadDocAmazonUtil.getS3Client(applicationContext);
@@ -27,8 +28,21 @@ public class UploadDocUtils {
         ResponseHeaderOverrides overrideHeader = new ResponseHeaderOverrides();
 
         String mediaUrl = f.getName();
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(AWSUploadDocKeys.BUCKET_NAME, fileNameDateTime+"_"+mediaUrl);
+
+        GeneratePresignedUrlRequest generatePresignedUrlRequest = null;
+
+        if(ifProfile) {
+
+            generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(AWSUploadDocKeys.BUCKET_NAME, "student_photos"  + "/" + instituteID +  "/" + fileNameDateTime+"_"+mediaUrl);
+        }
+        else {
+
+            generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(AWSUploadDocKeys.BUCKET_NAME_SCHOOL_DOCS, "student-documents"  + "/" + instituteID +  "/" + fileNameDateTime+"_"+mediaUrl);
+        }
+
+
         generatePresignedUrlRequest.setMethod(HttpMethod.GET); // Default.
         generatePresignedUrlRequest.setResponseHeaders(overrideHeader);
 

@@ -125,7 +125,7 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
 
             listSchoolsAPI();
             schoolsListAdapter =
-                    new TeacherSchoolListForPrincipalAdapter(getContext(), arrSchoolList, new TeacherSchoolListPrincipalListener() {
+                    new TeacherSchoolListForPrincipalAdapter(getContext(), arrSchoolList,false, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
                             TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
@@ -264,9 +264,9 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
             Log.d("test3", "test3" + listschooldetails.size());
             TeacherSchoolsModel ss = listschooldetails.get(i);
             Log.d("test4", "test4");
-            ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(),
+            ss = new TeacherSchoolsModel(ss.getStrSchoolName(),ss.getSchoolNameRegional(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
-                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending(),ss.getIsSchoolType());
+                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending(),ss.getIsSchoolType(),ss.getIsBiometricEnable());
             Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
             Log.d("Testing", "8***********************");

@@ -189,7 +189,6 @@ public class MobileNumberScreen extends AppCompatActivity {
                     } else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
-
                 } catch (Exception e) {
                     Log.e("Response Exception", e.getMessage());
                 }

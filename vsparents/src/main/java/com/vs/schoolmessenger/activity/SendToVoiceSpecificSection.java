@@ -1,14 +1,14 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VIDEOS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,14 +17,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.assignment.ParentSubmitActivity;
-import com.vs.schoolmessenger.assignment.RecipientAssignmentActivity;
-import com.vs.schoolmessenger.assignment.StudentSelectAssignment;
 import com.vs.schoolmessenger.aws.S3Uploader;
 import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -49,10 +46,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VIDEOS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.loginJsonObject;
 
 public class SendToVoiceSpecificSection extends AppCompatActivity implements View.OnClickListener {
 
@@ -260,6 +253,8 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
     private void uploadFileToAWSs3(final int pathind, final String fileType) {
 
+        String countryID = TeacherUtil_SharedPreference.getCountryID(SendToVoiceSpecificSection.this);
+
         pathIndex = pathind;
         progressDialog = new ProgressDialog(SendToVoiceSpecificSection.this);
         for (int index = pathIndex; index < slectedImagePath.size(); index++) {
@@ -272,12 +267,12 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 showLoading();
                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
                 fileNameDateTime = "File_" + fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime);
+                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime, SchoolID, countryID, true);
                 s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
                     @Override
                     public void onUploadSuccess(String response) {
                         if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime);
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime, SchoolID, countryID, true);
                             if (!TextUtils.isEmpty(urlFromS3)) {
                                 UploadedS3URlList.add(urlFromS3);
                                 uploadFileToAWSs3(pathIndex + 1, fileType);

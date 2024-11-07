@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class TeacherSchoolsModel implements Serializable {
     String strSchoolName;
+    String SchoolNameRegional;
     String strSchoolID;
     String strSchoolLogoUrl;
     String strSchoolAddress;
@@ -23,14 +24,16 @@ public class TeacherSchoolsModel implements Serializable {
     String onlineLink;
     String BookEnable;
     String isPaymentPending;
+    int isBiometricEnable;
 
     public TeacherSchoolsModel() {
     }
 
-    public TeacherSchoolsModel(String strSchoolName, String strSchoolID, String strCity, String strSchoolAddress, String strSchoolLogoUrl, String strStaffID, String strStaffName, boolean selectStatus,
-                               String bookEnable, String Link, String isPayment, int isSchoolType) {
+    public TeacherSchoolsModel(String strSchoolName,String SchoolNameRegional, String strSchoolID, String strCity, String strSchoolAddress, String strSchoolLogoUrl, String strStaffID, String strStaffName, boolean selectStatus,
+                               String bookEnable, String Link, String isPayment, int isSchoolType,int isBiometricEnable) {
 
         this.strSchoolName = strSchoolName;
+        this.SchoolNameRegional = SchoolNameRegional;
         this.strSchoolID = strSchoolID;
         this.strCity = strCity;
         this.strSchoolAddress = strSchoolAddress;
@@ -42,6 +45,7 @@ public class TeacherSchoolsModel implements Serializable {
         this.BookEnable = bookEnable;
         this.isPaymentPending = isPayment;
         this.isSchoolType = isSchoolType;
+        this.isBiometricEnable=isBiometricEnable;
     }
 
 
@@ -53,6 +57,13 @@ public class TeacherSchoolsModel implements Serializable {
         this.selectStatus = selectStatus;
     }
 
+    public int getIsBiometricEnable() {
+        return isBiometricEnable;
+    }
+
+    public void setIsBiometricEnable(int isBiometricEnable) {
+        this.isBiometricEnable = isBiometricEnable;
+    }
 
     public String getBookEnable() {
         return BookEnable;
@@ -118,6 +129,14 @@ public class TeacherSchoolsModel implements Serializable {
 
     public void setStrSchoolName(String strSchoolName) {
         this.strSchoolName = strSchoolName;
+    }
+
+    public String getSchoolNameRegional() {
+        return SchoolNameRegional;
+    }
+
+    public void setSchoolNameRegional(String strSchoolName) {
+        this.SchoolNameRegional = strSchoolName;
     }
 
     public String getStrSchoolID() {

@@ -76,7 +76,7 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
             public void onMsgItemClick(TeacherMessageModel item) {
                 Intent inTextPopup = new Intent(StaffDisplayTextMessages.this, TextMessagePopup.class);
                 inTextPopup.putExtra("TEXT_ITEM", item);
-                inTextPopup.putExtra("is_Archive", is_Archive);
+                inTextPopup.putExtra("is_Archive", item.getIs_Archive());
                 startActivity(inTextPopup);
             }
         });
@@ -159,7 +159,7 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
                             if (!id.equals("")) {
                                 msgModel = new TeacherMessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"), "");
+                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), jsonObject.getBoolean("is_Archive"));
                                 msgModelList.add(msgModel);
                             } else {
                                 showToast(jsonObject.getString("URL"));

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/eventNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_card"
+        android:padding="5dp"
+        android:text=""
+        android:textColor="@color/clr_black"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:textStyle="bold" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/slotsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stdSecDetailsRecyclerView"
+        android:layout_marginTop="8dp" />
+
+    <GridView
+        android:id="@+id/stdSecDetailsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:numColumns="3"
+        android:stretchMode="columnWidth" />
+
+</RelativeLayout>

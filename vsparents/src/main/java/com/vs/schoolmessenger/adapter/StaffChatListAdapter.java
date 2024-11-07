@@ -50,6 +50,15 @@ public class StaffChatListAdapter extends RecyclerView.Adapter<BaseViewHolders<S
               holder.getBinding().interact.setVisibility(View.GONE);
           else
               holder.getBinding().interact.setVisibility(View.VISIBLE);
+
+
+        if(!subjectDetails.get(position).unread_count.equals("0")){
+            holder.getBinding().lblUnreadCount.setVisibility(View.VISIBLE);
+            holder.getBinding().lblUnreadCount.setText(subjectDetails.get(position).unread_count);
+        }
+        else {
+            holder.getBinding().lblUnreadCount.setVisibility(View.GONE);
+        }
           holder.getBinding().interact.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {

@@ -91,6 +91,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.CallScheduleAdapter;
+import com.vs.schoolmessenger.adapter.FAQAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
 import com.vs.schoolmessenger.adapter.VoiceHistoryAdapter;
@@ -2339,14 +2340,14 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             Log.d("test3", "test3" + listschooldetails.size());
             TeacherSchoolsModel ss = listschooldetails.get(i);
             Log.d("test4", "test4");
-            ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getStrSchoolID(), ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(), ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType());
+            ss = new TeacherSchoolsModel(ss.getStrSchoolName(),ss.getSchoolNameRegional(), ss.getStrSchoolID(), ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(), ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType(),ss.getIsBiometricEnable());
             Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
             Log.d("Testing", "8***********************");
         }
 
         if (iRequestCode == PRINCIPAL_VOICE) {
-            TeacherSchoolListForPrincipalAdapter schoolsListAdapter = new TeacherSchoolListForPrincipalAdapter(TeacherEmergencyVoice.this, arrSchoolList, new TeacherSchoolListPrincipalListener() {
+            TeacherSchoolListForPrincipalAdapter schoolsListAdapter = new TeacherSchoolListForPrincipalAdapter(TeacherEmergencyVoice.this, arrSchoolList, false, new TeacherSchoolListPrincipalListener() {
                 @Override
                 public void onItemClick(TeacherSchoolsModel item) {
                     String strtittle = et_tittle.getText().toString();

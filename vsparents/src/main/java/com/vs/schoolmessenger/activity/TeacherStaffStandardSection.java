@@ -1,17 +1,28 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_TEXT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_VOICE;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MEETING_URL;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_PHOTOS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT_HW;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VIDEOS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE_HW;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_MEETING_URL;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PHOTOS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_EXAM;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_HW;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE_HW;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -24,8 +35,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -41,7 +56,6 @@ import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
-import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 
@@ -60,24 +74,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_TEXT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_VOICE;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MEETING_URL;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_PHOTOS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT_HW;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VIDEOS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE_HW;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_MEETING_URL;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PHOTOS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_EXAM;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_HW;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE_HW;
 
 
 public class TeacherStaffStandardSection extends AppCompatActivity {
@@ -571,6 +567,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
     private void uploadHWAttachments(int pathind, final String fileType, final String type) {
 
+        String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherStaffStandardSection.this);
+
         Log.d("upload_file", String.valueOf(slectedImagePath.size()));
         pathIndex = pathind;
         progressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
@@ -584,12 +582,12 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 showLoading();
                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
                 fileNameDateTime = "File_" + fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime);
+                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime, SchoolID, countryID, true);
                 s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
                     @Override
                     public void onUploadSuccess(String response) {
                         if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime);
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime, SchoolID, countryID, true);
                             if (!TextUtils.isEmpty(urlFromS3)) {
                                 UploadedS3URlList.add(urlFromS3);
                                 uploadHWAttachments(pathIndex + 1, fileType, type);
@@ -751,6 +749,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
     private void uploadFileToAWSs3(int pathind, final String fileType, final String type) {
 
         Log.d("upload_file", String.valueOf(slectedImagePath.size()));
+        String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherStaffStandardSection.this);
 
         pathIndex = pathind;
         progressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
@@ -766,12 +765,12 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 showLoading();
                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
                 fileNameDateTime = "File_" + fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime);
+                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime, SchoolID, countryID, true);
                 s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
                     @Override
                     public void onUploadSuccess(String response) {
                         if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime);
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime, SchoolID, countryID, true);
                             if (!TextUtils.isEmpty(urlFromS3)) {
                                 UploadedS3URlList.add(urlFromS3);
                                 uploadFileToAWSs3(pathIndex + 1, fileType, type);
@@ -1070,8 +1069,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         } else {
                             showToast(getResources().getString(R.string.no_records));
                         }
-
-
                     } catch (Exception e) {
                         showToast(getResources().getString(R.string.check_internet));
                         Log.d("Ex", e.toString());

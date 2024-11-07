@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.fcmservices;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,20 +10,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-
-import androidx.core.app.NotificationCompat;
-
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherSplashScreen;
 import com.vs.schoolmessenger.model.Profiles;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,8 +60,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         if (remoteMessage.getData().get("body") != null) {
-            Log.d(TAG, "Notification Message Body: " + remoteMessage.getData().get("body"));
-            createNotification(remoteMessage.getData().get("body"), remoteMessage.getData().get("title"), remoteMessage.getData().get("sound"), remoteMessage.getData().get("tone"));
+            Log.d(TAG, "Notification Message sound: " + remoteMessage.getData().get("sound"));
+            Log.d(TAG, "Notification Message tone: " + remoteMessage.getData().get("tone"));
+
+            createNotification(remoteMessage.getData().get("body"), remoteMessage.getData().get("title"),remoteMessage.getData().get("sound"),remoteMessage.getData().get("tone"));
         }
     }
 
@@ -67,7 +73,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 R.layout.custom_notification);
         remoteViews.setTextViewText(R.id.title, title);
         remoteViews.setTextViewText(R.id.message, message);
-
         return remoteViews;
     }
 
@@ -75,15 +80,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d("Received", "Received");
         Intent intent = new Intent(this, TeacherSplashScreen.class);
+//        Intent intent = new Intent(this, NotificationReceiver.class);
         intent.putExtra("CHILD_LIST", pubStArrChildList);
+//        intent.putExtra("from_notification", true);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent resultIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            resultIntent = PendingIntent.getActivity(this, 0, intent,
+            resultIntent = PendingIntent.getBroadcast(this, 0, intent,
                     PendingIntent.FLAG_MUTABLE);
+
         } else {
-            resultIntent = PendingIntent.getActivity(this, 0, intent,
+            resultIntent = PendingIntent.getBroadcast(this, 0, intent,
                     PendingIntent.FLAG_ONE_SHOT);
         }
 
@@ -98,15 +106,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             CharSequence name = "";
             if (sound.equals("Enabled")) {
                 if (tone.equals("message")) {
-                    CHANNEL_ID = "voicesnap_channel_01";// The id of the channel.
-                    name = "Voicesnap";// The user-visible name of the channel.
+                    CHANNEL_ID = "voicesnap_channel_01"; // The id of the channel.
+                    name = "Voicesnap"; // The user-visible name of the channel.
                 } else if (tone.equals("emergency_voice")) {
-                    CHANNEL_ID = "voicesnap_channel_02";// The id of the channel.
-                    name = "vssnap";// The user-visible name of the channel.
+                    CHANNEL_ID = "voicesnap_channel_02"; // The id of the channel.
+                    name = "vssnap"; // The user-visible name of the channel.
                 }
             } else {
                 CHANNEL_ID = "voicesnap_channel_03";// The id of the channel.
-                name = "snapvoice";// The user-visible name of the channel.
+                name = "snapvoice"; // The user-visible name of the channel.
             }
             int importance = NotificationManager.IMPORTANCE_HIGH;
             mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
@@ -115,7 +123,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build();
-
             mChannel.enableLights(true);
             mChannel.enableVibration(true);
             if (sound.equals("Enabled")) {
@@ -131,9 +138,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             notificationManager.createNotificationChannel(mChannel);
             String GROUP_KEY_WORK_VOICESNAP = "com.vs.schoolmessenger.WORK_VOICESNAP";
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContent(
-                            getCustomDesign(title, messageBody, ""))
+            @SuppressLint("NotificationTrampoline") NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContent(getCustomDesign(title, messageBody, ""))
                     .setSmallIcon(R.drawable.school_chimes)
                     .setChannelId(CHANNEL_ID)
                     .setContentIntent(resultIntent)
@@ -148,19 +154,72 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d("Config.NOTIFICATION_ID", "ID: " + Config.NOTIFICATION_ID);
             notificationManager.notify(Config.NOTIFICATION_ID, builder.build());
         } else {
-            NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(this)
+            @SuppressLint("NotificationTrampoline") NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.school_chimes)
                     .setContentTitle(title)
                     .setContentText(messageBody)
                     .setAutoCancel(true)
                     .setSound(message_voice)
                     .setContentIntent(resultIntent);
-
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             Config.NOTIFICATION_ID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
             Log.d("Config.NOTIFICATION_ID", "ID: " + Config.NOTIFICATION_ID);
             notificationManager.notify(Config.NOTIFICATION_ID, mNotificationBuilder.build());
-
         }
     }
+
+
+//    private void showNotification(String title, String message) {
+//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        String channelId = "notification_channel";
+//
+//        int notificationId = (int) System.currentTimeMillis();
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            AudioAttributes attributes = new AudioAttributes.Builder()
+//                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+//                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+//                    .build();
+//
+//            NotificationChannel channel = new NotificationChannel(
+//                    channelId,
+//                    "Notification Channel",
+//                    NotificationManager.IMPORTANCE_HIGH
+//            );
+//
+//            channel.setDescription("My Notification Channel");
+//            channel.setSound(null, attributes);
+//            channel.enableVibration(true);
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//
+//        // Decline Intent to trigger the BroadcastReceiver
+//        Intent declineIntent = new Intent(this, NotificationReceiver.class);
+//        declineIntent.putExtra("CHILD_LIST", pubStArrChildList);
+//        declineIntent.putExtra("from_notification", true);
+//        declineIntent.putExtra("notification_id", notificationId);
+//        PendingIntent declinePendingIntent = PendingIntent.getBroadcast(
+//                this,
+//                notificationId,
+//                declineIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+//        );
+//
+//        // Build notification with custom RemoteViews
+//        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
+//        remoteViews.setTextViewText(R.id.message, title);
+//        remoteViews.setOnClickPendingIntent(R.id.linear_layout, declinePendingIntent);
+//
+//        Notification notification = new NotificationCompat.Builder(this, channelId)
+//                .setSmallIcon(R.drawable.school_chimes_trans_logo)
+//                .setCustomContentView(remoteViews)
+//                .setAutoCancel(true)
+//                .setOngoing(false)
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setColor(ContextCompat.getColor(this, R.color.clr_white))
+//                .build();
+//        notification.bigContentView = remoteViews;
+//        notification.headsUpContentView = remoteViews;
+//        notificationManager.notify(notificationId, notification);
+//    }
 }

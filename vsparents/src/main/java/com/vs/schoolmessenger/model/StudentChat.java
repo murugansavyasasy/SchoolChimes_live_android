@@ -11,6 +11,7 @@ public class StudentChat {
     public String MyQuestion;
     public String Status;
     public String Message;
+    public String is_staff_viewed;
     public int ChatCount;
     public int Limit;
     public int Offset;

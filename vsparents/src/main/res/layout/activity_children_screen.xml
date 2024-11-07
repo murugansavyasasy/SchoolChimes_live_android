@@ -94,6 +94,7 @@
         android:id="@+id/lnrScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
         android:layout_below="@+id/aHome_llSchoollayout"
         android:padding="15dp">
 
@@ -107,6 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/aHome_llSchoollayout"
                 android:clipToPadding="false"
+
                 android:scrollbars="vertical" />
 
         </ScrollView>

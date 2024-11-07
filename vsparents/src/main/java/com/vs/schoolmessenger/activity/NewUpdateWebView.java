@@ -1,7 +1,7 @@
 package com.vs.schoolmessenger.activity;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,9 +12,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.vs.schoolmessenger.R;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
@@ -62,8 +65,10 @@ public class NewUpdateWebView extends AppCompatActivity {
         receiptWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 if (progress < 100) {
+
                 }
                 if (progress == 100) {
+
                 }
             }
         });

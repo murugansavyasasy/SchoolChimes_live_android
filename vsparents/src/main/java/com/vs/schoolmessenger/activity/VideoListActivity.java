@@ -60,14 +60,11 @@ public class VideoListActivity extends AppCompatActivity {
     TextView lblNoMessages;
     String isNewVersion;
     TextView LoadMore;
-
     Calendar c;
-
     ImageView imgSearch;
     EditText Searchable;
     Slider slider;
     ImageView adImage;
-
     AdView mAdView;
 
     RelativeLayout voice_rlToolbar;
@@ -399,8 +396,6 @@ public class VideoListActivity extends AppCompatActivity {
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 showToast("Server Connection Failed");
             }
-
-
         });
     }
 

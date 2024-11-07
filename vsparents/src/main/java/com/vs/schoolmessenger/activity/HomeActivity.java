@@ -21,10 +21,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -42,15 +38,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.ChildMenuAdapter;
-import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.UpdatesListener;
 import com.vs.schoolmessenger.model.Languages;
@@ -63,7 +62,6 @@ import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.LoadingView;
-import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
@@ -77,7 +75,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -92,7 +89,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     static ArrayList<String> isParentMenuNames = new ArrayList<>();
     String strChildName, child_ID;
     public static Profiles childItem = new Profiles();
-    TextView tv_schoolname, tvSchoolAddress;
+    TextView tv_schoolname, tvSchoolAddress, aHome_tvRegionalSchoolName;
     ImageView aHome_nivSchoolLogo;
     RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
@@ -107,24 +104,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     String isBookEnabled;
     ArrayList<ParentMenuModel> menuList = new ArrayList<ParentMenuModel>();
     String count;
-
     Slider slider;
     ImageView adImage;
-
     public Handler handler = new Handler();
     public static int i = 0;
     private PopupWindow popupWindow;
-
     int Contact_Count = 0;
     int exist_Count = 0;
-
     String contact_alert_title = "", contact_alert_Content = "", contact_display_name = "", contact_numbers = "", contact_button = "";
     String[] contacts;
     String Display_Name = "";
-
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private PopupWindow SettingspopupWindow;
-
     AdView mAdView;
     String redirect_url = "";
     String image_url = "";
@@ -136,6 +127,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     PopupWindow updatesManualPopup;
     ChildMenuAdapter myAdapter;
     private static final String CONTACTS_PERMISSION = android.Manifest.permission.READ_CONTACTS;
+    private static final int OTHER_VIEW_ID = R.id.rytHome;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -155,7 +147,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         childItem = TeacherUtil_SharedPreference.getChildItems(HomeActivity.this, "childItem");
         Util_SharedPreference.putSelecedChildInfoToSP(HomeActivity.this, childItem.getChildID(), childItem.getChildName(), childItem.getSchoolID(),
-                childItem.getSchoolName(), childItem.getSchoolAddress(), childItem.getSchoolThumbnailImgUrl(), childItem.getStandard(), childItem.getSection());
+                childItem.getSchoolName(), childItem.getSchoolNameRegional(), childItem.getSchoolAddress(), childItem.getSchoolThumbnailImgUrl(), childItem.getStandard(), childItem.getSection());
         strChildName = childItem.getChildName();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -208,6 +200,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         BookLink = childItem.getBookLink();
         child_ID = Util_SharedPreference.getChildIdFromSP(HomeActivity.this);
         tv_schoolname = (TextView) findViewById(R.id.aHome_tvSchoolName);
+        aHome_tvRegionalSchoolName = (TextView) findViewById(R.id.aHome_tvRegionalSchoolName);
+        String regionalSchoolName = Util_SharedPreference.getRegionalSchoolnameFromSP(HomeActivity.this);
+
+        aHome_tvRegionalSchoolName.setText(regionalSchoolName);
+        if (!regionalSchoolName.equals("") && regionalSchoolName != null && !regionalSchoolName.equals("null")) {
+            aHome_tvRegionalSchoolName.setVisibility(View.VISIBLE);
+        } else {
+            aHome_tvRegionalSchoolName.setVisibility(View.GONE);
+        }
         tv_schoolname.setText(Util_SharedPreference.getSchoolnameFromSP(HomeActivity.this));
         tvSchoolAddress = (TextView) findViewById(R.id.aHome_tvSchoolAddress);
         tvSchoolAddress.setText(Util_SharedPreference.getSchooladdressFromSP(HomeActivity.this));
@@ -215,8 +216,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getNewUpdates(boolean dailyCheck) {
-        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+//        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
+//        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(HomeActivity.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(HomeActivity.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        }
+
         String Role = TeacherUtil_SharedPreference.getRole(HomeActivity.this);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonObject = new JsonObject();
@@ -249,8 +260,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                     ParentMenuModel data = new ParentMenuModel(updates, "0");
                                     menuList.add(0, data);
                                     myAdapter.notifyDataSetChanged();
-                                }
+                                    idGridMenus.setAnimation(null);
 
+                                }
 
                                 String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(HomeActivity.this);
                                 Calendar c = Calendar.getInstance();
@@ -668,27 +680,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                                           int[] grantResults) {
-//        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // Permission is granted
-//                getContactPermission();
-//            } else {
-//                String isPermissionDeniedCount = TeacherUtil_SharedPreference.getReadContactsPermission(HomeActivity.this);
-//
-//                if (isPermissionDeniedCount.equals("2")) {
-//                    settingsContactPermission();
-//                } else if (isPermissionDeniedCount.equals("1")) {
-//                    TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "2");
-//                } else {
-//                    TeacherUtil_SharedPreference.putReadContactsPermission(HomeActivity.this, "1");
-//                }
-//            }
-//        }
-//    }
-
     private void settingsContactPermission() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.settings_app_permission, null);
@@ -733,8 +724,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void getMenuDetails() {
         LoadingView.showProgress(HomeActivity.this);
 
-        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
-        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+//        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
+//        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+
+
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(HomeActivity.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(HomeActivity.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
+            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        }
+
         IDs = "";
         String countryId = TeacherUtil_SharedPreference.getCountryID(HomeActivity.this);
         schools_list = TeacherUtil_SharedPreference.getChildrenScreenSchools_List(HomeActivity.this, "schools_list");
@@ -781,14 +783,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             for (String itemtemp : name) {
                                 isParentMenuNames.add(itemtemp);
                             }
-                            //  isParentMenuNames.add(isParentMenuNames.size(), "PTM_26");
 
                             contact_alert_title = jsonObject.getString("contact_alert_title");
                             contact_alert_Content = jsonObject.getString("contact_alert_content");
                             contact_display_name = jsonObject.getString("contact_display_name");
                             contact_numbers = jsonObject.getString("contact_numbers");
                             contact_button = jsonObject.getString("contact_button_content");
-
 
                             if (!contact_numbers.equals("")) {
                                 contacts = contact_numbers.split(",");
@@ -823,6 +823,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkIfContactsExist() {
 
+
         exist_Count = 0;
         ContentResolver contentResolver = HomeActivity.this.getContentResolver();
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
@@ -831,6 +832,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         String[] selectionArguments = {contact_display_name};
         Cursor cursor = contentResolver.query(uri, projection, selection, selectionArguments, null);
         exist_Count = cursor.getCount();
+        Log.d("exist_Count", String.valueOf(exist_Count));
+
         if (cursor != null) {
             while (cursor.moveToNext()) {
 
@@ -845,14 +848,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME};
                 Cursor cur = HomeActivity.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
                 try {
-                    if (cur.moveToFirst()) {
-                        Contact_Count = Contact_Count + 1;
-                        int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                        Display_Name = cur.getString(indexName);
-                        Log.d("Display_Name", Display_Name);
-                        if (!Display_Name.equals(contact_display_name)) {
-                            Contact_Count = Contact_Count - 1;
+                    if(cur.getCount()>0) {
+                        if (cur.moveToFirst()) {
+                            Contact_Count = Contact_Count + 1;
+                            int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+                            Display_Name = cur.getString(indexName);
+                            Log.d("Display_Name", Display_Name);
+                            if (!Display_Name.equals(contact_display_name)) {
+                                Contact_Count = Contact_Count - 1;
+                            }
                         }
+                    }
+                    else {
+                        exist_Count = 0;
+                        Contact_Count = Contact_Count-1;
                     }
                 } finally {
                     if (cur != null)
@@ -860,6 +869,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+        Log.d("exist_Count1", String.valueOf(exist_Count));
+
         if (contacts.length != Contact_Count) {
             if (exist_Count == 0 || exist_Count < contacts.length) {
                 contactSaveContent();
@@ -1348,7 +1359,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                     menuList.add(new ParentMenuModel(name, count));
                                 }
                             }
-
                         }
                         myAdapter = new ChildMenuAdapter(HomeActivity.this, R.layout.child_menu_item, menuList, BookLink, rytParent, new UpdatesListener() {
                             @Override
@@ -1369,7 +1379,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                 } catch (Exception e) {
-                    Log.e("Unreadcount:Exception", e.getMessage());
+                    Log.e("UnreadCount:Exception", e.getMessage());
                 }
             }
 

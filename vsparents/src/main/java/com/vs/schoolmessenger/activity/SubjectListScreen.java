@@ -1,21 +1,25 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_EXAM;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -27,7 +31,6 @@ import com.vs.schoolmessenger.model.ExamList;
 import com.vs.schoolmessenger.model.SubjectDetails;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherSectionsListNEW;
-import com.vs.schoolmessenger.model.TeacherStandardSectionsListModel;
 import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
@@ -43,9 +46,6 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_EXAM;
 
 public class SubjectListScreen extends AppCompatActivity implements SubjecstListener {
 
@@ -126,7 +126,7 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
 
         listSubjects1 = (ArrayList<TeacherSubjectModel>) getIntent().getSerializableExtra("SubjectsList");
 
-        if (strToWhom.equals("STU")) {
+        if (strToWhom.equals("STU") && iRequestCode != PRINCIPAL_EXAM_TEST && iRequestCode != STAFF_TEXT_EXAM) {
             staffStdSecSub_btnToStudents.setVisibility(View.VISIBLE);
         }
 

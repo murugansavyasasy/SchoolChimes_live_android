@@ -6,6 +6,10 @@
 
     <string name="flavour_name">Flavour</string>
 
+    <string name="location_add_instructions_attendance">Accurate location settings are crucial for ensuring that attendance is only marked when users are within the designated area of the institute. Please double-check the location before submitting.\n\nOnce saved, this location will be used to verify the proximity of users when they mark their attendance. Ensure that the location is correct as it will directly impact attendance functionality.</string>
+    <string name="outside_of_the_location">Note : You are outside the institutes boundary. you will not be able to mark your attendance.\n\nPlease try again when you are within the designated area.</string>
+    <string name="mark_attendance_instruction">Tap on the <b>\"Punch\"</b> button to record your attendance for the day. A confirmation message will appear once your attendance is successfully marked.</string>
+
 
     <string name="selected">selected</string>
     <string name="done">Done</string>
@@ -116,7 +120,7 @@
     <string name="teacher_app_sub_title"></string>
     <string name="teacher_school_msg"></string>
 
-    <string name="teacher_app_version_id">93</string>
+    <string name="teacher_app_version_id">99</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -643,7 +647,7 @@
     <string name="viewMarks">View Marks</string>
     <string name="viewProgress">View report card</string>
 
-    <string name="app_version">7.6.17</string>
+    <string name="app_version">7.6.20</string>
 
 
     <string name="lbl_Yet_to_start">Yet to start</string>

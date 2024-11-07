@@ -47,6 +47,8 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.FileUtils;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
+import com.vs.schoolmessenger.util.VideoUtils;
 import com.vs.schoolmessenger.videoalbum.AlbumVideoSelectVideoActivity;
 
 import net.ypresto.androidtranscoder.MediaTranscoder;
@@ -402,6 +404,10 @@ public class VideoUpload extends AppCompatActivity {
 
                 Log.d("imagelist", String.valueOf(imagePathList));
                 Log.d("pathpre", String.valueOf(path));
+
+                String videoSize = VideoUtils.getVideoSize(path.get(0));
+                System.out.println("Video Size: " + videoSize);
+                Util_Common.isVideoSize = videoSize;
 
                 img1.setVisibility(View.GONE);
                 img2.setVisibility(View.GONE);

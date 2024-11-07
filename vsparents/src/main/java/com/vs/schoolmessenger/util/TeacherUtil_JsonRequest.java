@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.model.TeacherSchoolsModel;
+
+import java.util.ArrayList;
 
 /**
  * Created by voicesnap on 5/18/2017.
@@ -94,6 +97,23 @@ public class TeacherUtil_JsonRequest {
 
         Log.d("JsonReq:GetHelp", jsonObject.toString());
         return jsonObject;
+    }
+
+    public static JsonArray getMsgFromMangeMent(ArrayList<TeacherSchoolsModel> schoolsList) {
+
+
+        JsonArray jsArray = new JsonArray();
+        for (int i = 0; i < schoolsList.size(); i++) {
+
+            JsonObject jsonObject = new JsonObject();
+            final TeacherSchoolsModel model = schoolsList.get(i);
+            jsonObject.addProperty("SchoolID", model.getStrSchoolID());
+            jsonObject.addProperty("staffId",model.getStrStaffID());
+            jsArray.add(jsonObject);
+        }
+
+        Log.d("JsonReq:Count", jsArray.toString());
+        return jsArray;
     }
 
     public static JsonArray getJsonArray_SubjectHandling(String schoolID, String staffID) {
@@ -271,4 +291,5 @@ public class TeacherUtil_JsonRequest {
         Log.d("JsonReq:GetSecAtt", jsArray.toString());
         return jsArray;
     }
+
 }

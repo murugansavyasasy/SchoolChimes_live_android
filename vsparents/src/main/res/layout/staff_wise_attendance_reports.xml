@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rytParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/lnrTap"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnTodaysReport"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rect_yellow"
+            android:gravity="center"
+            android:text="Today's report"
+            android:textAlignment="center"
+            android:textColor="@color/bpWhite"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/btnMonthWiseReports"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_stroke_window_grey"
+            android:gravity="center"
+            android:text="Staff wise reports"
+            android:textAlignment="center"
+            android:textColor="@color/clr_black"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lnrHeaderSpinners"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lnrTap"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:id="@+id/lnrDatesSpinners"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rytYears"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_spinner_rect">
+
+                <Spinner
+                    android:id="@+id/spinnerYears"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toLeftOf="@+id/imgYearDropDown"
+                    android:background="@android:color/transparent"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:id="@+id/imgYearDropDown"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_drop_down" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rytMonths"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/rytYears"
+                android:background="@drawable/bg_spinner_rect">
+
+                <Spinner
+                    android:id="@+id/spinnerMonths"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toLeftOf="@+id/imgMonthDropDown"
+                    android:background="@android:color/transparent"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:id="@+id/imgMonthDropDown"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_drop_down" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rytStaffSpinner"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_spinner_rect">
+
+            <Spinner
+                android:id="@+id/spinnerStaffs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_toLeftOf="@+id/imgStaffDropDown"
+                android:background="@android:color/transparent"
+                android:gravity="left"
+                android:paddingLeft="10dp"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:id="@+id/imgStaffDropDown"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_drop_down" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/lnrHeaderSpinners"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <EditText
+            android:id="@+id/txtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rect_popup_white"
+            android:hint="Search"
+            android:padding="5dp"
+            android:textColor="@color/clr_black"
+            android:textSize="13dp"
+            android:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/txtSearch"
+        android:id="@+id/recycleReports"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/lblNoRecords"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="15dp"
+            android:textColor="@color/clr_black"
+            android:text=""/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

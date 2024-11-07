@@ -1,13 +1,8 @@
 package com.vs.schoolmessenger.activity;
 
-import static android.os.Environment.DIRECTORY_DOWNLOADS;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FILE_NAME;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FOLDER_NAME;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.milliSecondsToTimer;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -51,13 +46,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.LsrwDocsAdapter;
-
 import com.vs.schoolmessenger.assignment.ContentAdapter;
-import com.vs.schoolmessenger.assignment.GroupListVideoActivity;
 import com.vs.schoolmessenger.aws.S3Uploader;
 import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -65,7 +65,6 @@ import com.vs.schoolmessenger.interfaces.UploadDocListener;
 import com.vs.schoolmessenger.model.UploadFilesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 import com.vs.schoolmessenger.util.VimeoUploader;
 import com.vs.schoolmessenger.videoalbum.AlbumVideoSelectVideoActivity;
@@ -103,10 +102,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FILE_NAME;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FOLDER_NAME;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.milliSecondsToTimer;
 
 public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickListener, UploadDocListener, VimeoUploader.UploadCompletionListener {
     Spinner spinitem;
@@ -174,7 +169,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     String signature;
     String v6;
     String redirect_url, selected, skillid;
-
     Future<Void> mFuture;
 
     @Override
@@ -756,19 +750,24 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         }
         Log.d("upload", String.valueOf(UploadedS3URlList.size()));
         Log.d("image", String.valueOf(imagePathList.size()));
+
+        String instituteID = Util_SharedPreference.getSchoolId(ParentSubmitLSRW.this);
+        String countryID = TeacherUtil_SharedPreference.getCountryID(ParentSubmitLSRW.this);
+
         if (UploadedS3URlList.size() < imagePathList.size()) {
             if (DocFilePath != null) {
                 showLoading();
                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
                 fileNameDateTime = "File_" + fileNameDateTime;
                 Log.d("S3contentType", contentType);
-                s3uploaderObj.initUpload(DocFilePath, contentType, fileNameDateTime);
+                s3uploaderObj.initUpload(DocFilePath, contentType, fileNameDateTime, instituteID, countryID, false);
                 s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
                     @Override
                     public void onUploadSuccess(String response) {
                         hideLoading();
+
                         if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), DocFilePath, fileNameDateTime);
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), DocFilePath, fileNameDateTime, instituteID, countryID, false);
                             Log.d("urlFromS3", urlFromS3);
                             if (!TextUtils.isEmpty(urlFromS3)) {
                                 UploadFilesModel files;

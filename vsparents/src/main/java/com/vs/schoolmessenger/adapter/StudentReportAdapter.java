@@ -5,7 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +16,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.karumi.dexter.Dexter;
@@ -97,27 +99,38 @@ public class StudentReportAdapter extends RecyclerView.Adapter<StudentReportAdap
         holder.btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(isPermissionGranded(exam.getPrimaryMobile())) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse("tel:" + exam.getPrimaryMobile()));
                     ((Activity) context).startActivity(intent);
-
                 }
-
             }
         });
+
         holder.btnSendSms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri sms_uri = Uri.parse("smsto:+"+exam.getPrimaryMobile());
-                Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
-                sms_intent.putExtra("sms_body", "");
-                context.startActivity(sms_intent);
+//                Uri sms_uri = Uri.parse("smsto:+"+exam.getPrimaryMobile());
+//                Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
+//                sms_intent.putExtra("sms_body", "");
+//                context.startActivity(sms_intent);
+
+                String isMobileNumber = exam.getPrimaryMobile();
+                if (!isMobileNumber.startsWith("+")) {
+                    isMobileNumber = Uri.encode(isMobileNumber);  // Encodes the number without adding country code
+                }
+
+                Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+                smsIntent.setData(Uri.parse("smsto:" + isMobileNumber));
+                smsIntent.putExtra("sms_body", "");
+                context.startActivity(smsIntent);
+
+
 
             }
         });
     }
+
 
     private boolean isPermissionGranded(String number) {
 
