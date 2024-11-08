@@ -74,7 +74,8 @@ public class StaffDisplayVideos extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayVideos.this,"1");
+        super.onBackPressed();
+        TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayVideos.this, "1");
         finish();
     }
 

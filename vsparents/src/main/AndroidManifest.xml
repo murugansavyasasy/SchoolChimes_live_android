@@ -48,7 +48,6 @@
         android:usesCleartextTraffic="true">
 
 
-
         <activity
             android:name=".activity.PunchStaffAttendanceUsingFinger"
             android:exported="false"

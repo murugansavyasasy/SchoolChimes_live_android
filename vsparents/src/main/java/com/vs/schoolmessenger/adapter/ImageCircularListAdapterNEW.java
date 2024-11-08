@@ -119,7 +119,6 @@ public class ImageCircularListAdapterNEW extends RecyclerView.Adapter<ImageCircu
             @Override
             public void onClick(View v) {
                 DownloadFileFromURL.downloadSampleFile((Activity) context, msgModel, IMAGE_FOLDER, msgModel.getMsgID() + ".png", MSG_TYPE_IMAGE,"");
-
             }
         });
     }

@@ -123,6 +123,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
       public void onClick(View v) {
           Intent play=new Intent(context, VimeoVideoPlayerActivity.class);
           play.putExtra("VIDEO_ID",data.getIframe());
+          play.putExtra("Video_id",data.getVideoId());
           play.putExtra("DETAILID",data.getDetailID());
           play.putExtra("ISAPPVIEW",data.getIsAppViewed());
           play.putExtra("is_Archive",data.getIs_Archive());

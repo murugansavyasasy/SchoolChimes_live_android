@@ -974,6 +974,5 @@ public interface TeacherMessengerApiInterface {
     @GET("homeworkReport")
     Call<StaffNoticeBoard> getHomeWorkReport(@Query("instituteId") String instituteId, @Query("sectionId") String sectionId, @Query("date") String date, @Query("userId") String userId);
 
-
 }
 
