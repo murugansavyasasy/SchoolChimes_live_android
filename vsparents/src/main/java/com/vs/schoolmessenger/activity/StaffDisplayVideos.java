@@ -35,7 +35,6 @@ public class StaffDisplayVideos extends AppCompatActivity {
     public ArrayList<TeacherMessageModel> msgModelList = new ArrayList<>();
     String selDate, staff_id, school_id;
     ImageView voice_ToolBarIvBack;
-
     VideosAdapter textAdapter;
     public ArrayList<VideoModelClass> videoList = new ArrayList<>();
 
