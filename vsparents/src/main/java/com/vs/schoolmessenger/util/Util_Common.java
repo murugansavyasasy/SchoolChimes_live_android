@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -83,6 +84,9 @@ public class Util_Common {
     public static String isReceiverId = "";
     public static String isMenuId = "";
     public static Boolean isNotification = false;
+
+    public static MediaPlayer mediaPlayer = new MediaPlayer();
+
 
 
     public static boolean isNetworkAvailable(Activity activity) {
