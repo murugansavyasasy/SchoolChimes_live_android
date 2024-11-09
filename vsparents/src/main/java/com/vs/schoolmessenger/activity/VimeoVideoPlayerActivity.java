@@ -2,6 +2,7 @@ package com.vs.schoolmessenger.activity;
 
 import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VIDEO;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
@@ -270,8 +271,8 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                     Cursor cursor = downloadManager.query(query);
 
                     if (cursor != null && cursor.moveToFirst()) {
-                        int bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                        int totalBytes = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                        @SuppressLint("Range") int bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                        @SuppressLint("Range") int totalBytes = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
 
                         if (totalBytes > 0) {
                             int progress = (int) ((bytesDownloaded * 100L) / totalBytes);
@@ -279,7 +280,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                             progressText.setText(progress + "%");
                         }
 
-                        int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                        @SuppressLint("Range") int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
                         if (status == DownloadManager.STATUS_SUCCESSFUL || status == DownloadManager.STATUS_FAILED) {
                             cursor.close();
                             progressDialog.dismiss(); // Dismiss dialog on completion or failure

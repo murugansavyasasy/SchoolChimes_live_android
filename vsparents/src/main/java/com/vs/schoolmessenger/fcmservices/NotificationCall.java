@@ -292,7 +292,6 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
         }
     }
 
-
     @Override
     public void onBackPressed() {
         if (!isFinishing() && !isDestroyed()) {

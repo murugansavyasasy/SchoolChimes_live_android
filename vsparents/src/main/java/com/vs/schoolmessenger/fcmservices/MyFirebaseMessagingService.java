@@ -59,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "ReceiverFrom: " + remoteMessage.getFrom());
-        Log.d(TAG, "ReceiverFrom: " + remoteMessage.getData().toString());
+        Log.d(TAG, "ReceiverFrom: " + remoteMessage.getData());
         if (remoteMessage.getData().get("body") != null) {
             Log.d(TAG, "Notification Message sound: " + remoteMessage.getData().get("sound"));
             Log.d(TAG, "Notification Message tone: " + remoteMessage.getData().get("tone"));
