@@ -47,7 +47,7 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
     private TextView lblVoiceDuration, lblTotalDuration;
     MediaPlayer mediaPlayer = new MediaPlayer();
     private Handler durationUpdateHandler;
-    String voiceUrl = "http://vs5.voicesnapforschools.com/nodejs/voice/VS_1718181818812.wav";
+ //   String voiceUrl = "http://vs5.voicesnapforschools.com/nodejs/voice/VS_1718181818812.wav";
     ImageView rlyDecline, rlyAccept;
     private int previousFingerPosition = 0;
     private int baseLayoutPosition = 0;
@@ -58,6 +58,7 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
     private AlertDialog exitDialog;
     Boolean isAcceptCall = true;
     Boolean isDeclineCall = true;
+    String voiceUrl="";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -96,6 +97,7 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
         voiceUrl = intent.getExtras().getString("VOICE_URL", "");
 
         Log.d("voiceUrl",voiceUrl);
+        Log.d("voiceUrlIntent",intent.getExtras().getString("VOICE_URL", ""));
         imgDeclineNotificationCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +106,6 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
             }
         });
 
-
         long durationMillis = 0;
         try {
             durationMillis = AudioUtils.getWavFileDurationFromUrl(voiceUrl);
@@ -112,11 +113,14 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
             throw new RuntimeException(e);
         }
         String isTotalDuration = AudioUtils.formatDuration(durationMillis);
+        Log.d("isTotalDuration", String.valueOf(isTotalDuration)
+        );
         if (!isTotalDuration.equals("-1")) {
             lblTotalDuration.setText(" / " + isTotalDuration);
         } else {
             System.out.println("Error getting duration");
         }
+
     }
     @Override
     public boolean onTouch(View view, MotionEvent event) {

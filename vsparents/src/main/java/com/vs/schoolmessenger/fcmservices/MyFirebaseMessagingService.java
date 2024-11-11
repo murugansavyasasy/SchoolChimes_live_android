@@ -65,10 +65,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Notification Message tone: " + remoteMessage.getData().get("tone"));
             Log.d(TAG, "Notification Message type: " + remoteMessage.getData().get("type"));
             if (remoteMessage.getData().get("type").equals("isCall")) {
+//            if (remoteMessage.getData().get("type").equals("normal")) {
                 boolean isDashboardOpen = ScreenState.getInstance().isIncomingCallScreen();
                 Log.d("isDashboardOpen", String.valueOf(isDashboardOpen));
                 if (!isDashboardOpen) {
-                    showNotificationCall(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"),remoteMessage.getData().get("url"));
+                    Log.d("(remoteMessage.getData())", String.valueOf(remoteMessage.getData().get("url")));
+
+                    showNotificationCall(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("url"));
                 } else {
                     Log.d("PLEASE_WAIT", "Already playing the voice call right now so please wait.");
                 }
@@ -209,6 +212,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(this, NotificationCall.class);
         intent.putExtra("NOTIFICATION_ID", notificationId);
         intent.putExtra("VOICE_URL", url);
+        Log.d("IntentPassUrl", String.valueOf(url));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent resultIntent;
@@ -217,8 +221,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     PendingIntent.FLAG_MUTABLE);
         } else {
             resultIntent = PendingIntent.getActivity(this, 0, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_UPDATE_CURRENT);
         }
+
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.call_notification);
         remoteViews.setTextViewText(R.id.notification_title, title);
         remoteViews.setTextViewText(R.id.lblContent, message);

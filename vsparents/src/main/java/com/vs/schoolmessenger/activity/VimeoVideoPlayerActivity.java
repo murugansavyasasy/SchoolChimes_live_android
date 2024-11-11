@@ -47,7 +47,6 @@ import java.io.File;
 
 public class VimeoVideoPlayerActivity extends AppCompatActivity implements VimeoHelper.VimeoDownloadCallback {
 
-
     String VideoID, DETAILID, ISAPPVIEW;
     ImageView imgBack;
     WebView myWebView;

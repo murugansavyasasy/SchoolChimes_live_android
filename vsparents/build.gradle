@@ -137,6 +137,7 @@ dependencies {
 
     implementation 'com.github.plusCubed:recycler-fast-scroll:0.3.2'
 
+
 }
 apply plugin: 'com.google.gms.google-services'
 
