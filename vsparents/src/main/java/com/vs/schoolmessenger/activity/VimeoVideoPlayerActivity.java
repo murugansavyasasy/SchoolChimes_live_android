@@ -6,21 +6,19 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -30,6 +28,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,22 +36,16 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.assignment.view.VimeoPlayerView;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.VimeoHelper;
 
 import java.io.File;
-import java.io.IOException;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-public class VimeoVideoPlayerActivity extends AppCompatActivity {
+public class VimeoVideoPlayerActivity extends AppCompatActivity implements VimeoHelper.VimeoDownloadCallback {
 
 
     String VideoID, DETAILID, ISAPPVIEW;
@@ -70,7 +63,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity {
     Boolean is_Archive;
     ImageView imgDownload;
     private static final String VIDEO_FOLDER = "//SchoolChimesVideo";
-
+    boolean isDownload = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,128 +182,129 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity {
         imgDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isDownload = true;
+                downloadVideoId = "1026844236";
+                Log.d("downloadVideoId", String.valueOf(downloadVideoId));
+                VimeoHelper.getVimeoDownloadUrl(downloadVideoId, VimeoVideoPlayerActivity.this);
 
-                Log.d("downloadVideoId",String.valueOf(downloadVideoId));
-                getVideoDownloadLink(downloadVideoId);
             }
         });
     }
 
-    public void getVideoDownloadLink(String isVideoId) {
-
-        String API_URL = "https://api.vimeo.com/videos/";
-        String BEARER_TOKEN = "8d74d8bf6b5742d39971cc7d3ffbb51a";
-        OkHttpClient client = new OkHttpClient();
-
-        // Build the request
-        Request request = new Request.Builder()
-                .url(API_URL + isVideoId)
-                .header("Authorization", "Bearer " + BEARER_TOKEN)
-                .build();
-
-        // Make the call asynchronously
-        client.newCall(request).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(okhttp3.Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(okhttp3.Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String responseData = response.body().string();
-                    System.out.println("Response: " + responseData);
-
-                    JsonObject jsonObject = JsonParser.parseString(responseData).getAsJsonObject();
-                    String description = jsonObject.get("description").getAsString();
-                    System.out.println("Description: " + description);
-                    JsonObject liveObject = jsonObject.getAsJsonObject("embed")
-                            .getAsJsonObject("badges")
-                            .getAsJsonObject("live");
-                    boolean isLive = liveObject.get("streaming").getAsBoolean();
-                    System.out.println("Is live: " + isLive);
-
-
-                    if (!isVideoDownloaded()) {
-                        downloadVideo(VimeoVideoPlayerActivity.this);
-                    } else {
-                        ((Activity) VimeoVideoPlayerActivity.this).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(VimeoVideoPlayerActivity.this, "Video is already downloaded!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+    @Override
+    public void onDownloadUrlRetrieved(String quality, String downloadUrl) {
+        downloadUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+        if (isDownload) {
+            isDownload = false;
+            if (!isVideoDownloaded()) {
+                downloadVideo(VimeoVideoPlayerActivity.this, downloadUrl);
+            } else {
+                ((Activity) VimeoVideoPlayerActivity.this).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(VimeoVideoPlayerActivity.this, "Video is already downloaded!", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    System.out.println("Request failed. Response code: " + response.code());
-                }
+                });
+            }
+        }
+    }
+
+    @Override
+    public void onError(String errorMessage) {
+        // Handle error
+        Log.e("MainActivity", "Error: " + errorMessage);
+
+        ((Activity) VimeoVideoPlayerActivity.this).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(VimeoVideoPlayerActivity.this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    public void downloadVideo(final Context context, String downloadUrl) {
+        ((Activity) context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Inflate the custom layout for the dialog
+                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_progress, null);
 
-    public void downloadVideo(final Context context) {
-        String url = "https://player.vimeo.com/progressive_redirect/download/1026844236/container/cc3c9cca-d29d-4051-9ed4-270ae5d3c2bf/f858b363/test_for_download%20%28360p%29.mp4?expires=1731051047&loc=external&oauth2_token_id=1346973768&signature=65b883e59a04e61156286392b5bec0b8969417fbeacd0ff8bd97e1f229392710";
+                ProgressBar progressBar = dialogView.findViewById(R.id.progress_bar);
+                TextView progressText = dialogView.findViewById(R.id.progress_text);
 
-        // Path to the public Downloads directory
+                // Create and show the AlertDialog on the main thread
+                AlertDialog progressDialog = new AlertDialog.Builder(context)
+                        .setView(dialogView)
+                        .setCancelable(false)
+                        .create();
+                progressDialog.show();
+
+                // Initialize the download after showing the dialog
+                startDownload(context, downloadUrl, progressDialog, progressBar, progressText);
+            }
+        });
+    }
+
+    private void startDownload(Context context, String downloadUrl, AlertDialog progressDialog, ProgressBar progressBar, TextView progressText) {
         File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), VIDEO_FOLDER);
         if (!directory.exists()) {
-            directory.mkdirs(); // Make sure the directory exists
+            directory.mkdirs();
         }
 
-        Uri uri = Uri.parse(url);
+        Uri uri = Uri.parse(downloadUrl);
         DownloadManager.Request request = new DownloadManager.Request(uri);
-
-        // Set the destination directory and filename
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, VIDEO_FOLDER + "/test_for_download.mp4");
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, VIDEO_FOLDER + "/video_for_your_school.mp4");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-        // Get system DownloadManager and start the download
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         if (downloadManager != null) {
             long downloadId = downloadManager.enqueue(request);
 
-            // Register a BroadcastReceiver to listen for download completion
-            IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.registerReceiver(new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        long completedDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-                        if (completedDownloadId == downloadId) {
-                            // Query the DownloadManager to check the status of the download
-                            DownloadManager.Query query = new DownloadManager.Query();
-                            query.setFilterById(completedDownloadId);
-                            Cursor cursor = downloadManager.query(query);
-
-                            if (cursor != null && cursor.moveToFirst()) {
-                                @SuppressLint("Range") int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
-                                if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                                    showAlert((Activity) context, "Downloaded successfully..", "File stored in: " + VIDEO_FOLDER + "/" + "test_for_download.mp4");
-                                } else if (status == DownloadManager.STATUS_FAILED) {
-                                    showAlert((Activity) context, "Download failed.", "");
-                                }
-                                cursor.close();
-                            }
-                        }
-                    }
-                }, filter, Context.RECEIVER_NOT_EXPORTED);
-            }
-
-            // Show a toast to notify that the download is starting
-            ((Activity) context).runOnUiThread(new Runnable() {
+            // Handler to periodically check download progress
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(context, "Downloading video...", Toast.LENGTH_SHORT).show();
+                    DownloadManager.Query query = new DownloadManager.Query();
+                    query.setFilterById(downloadId);
+                    Cursor cursor = downloadManager.query(query);
+
+                    if (cursor != null && cursor.moveToFirst()) {
+                        @SuppressLint("Range") int bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                        @SuppressLint("Range") int totalBytes = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+
+                        if (totalBytes > 0) {
+                            int progress = (int) ((bytesDownloaded * 100L) / totalBytes);
+                            progressBar.setProgress(progress);
+                            progressText.setText(progress + "%");
+                        }
+
+                        @SuppressLint("Range") int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                        if (status == DownloadManager.STATUS_SUCCESSFUL || status == DownloadManager.STATUS_FAILED) {
+                            cursor.close();
+                            progressDialog.dismiss(); // Dismiss dialog on completion or failure
+                            if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                                showAlert((Activity) context, "Downloaded successfully..", "File stored in: " + VIDEO_FOLDER + "/" + "video_for_your_school.mp4");
+                            } else if (status == DownloadManager.STATUS_FAILED) {
+                                showAlert((Activity) context, "Download failed.", "");
+                            }
+                            return;
+                        }
+
+                        cursor.close();
+                    }
+
+                    // Re-run this block after a short delay to update the progress
+                    handler.postDelayed(this, 500);
                 }
             });
         }
     }
 
-
     public static boolean isVideoDownloaded() {
         File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), VIDEO_FOLDER);
-        File videoFile = new File(directory, "test_for_download.mp4");
+        File videoFile = new File(directory, "video_for_your_school.mp4");
         return videoFile.exists();
     }
 

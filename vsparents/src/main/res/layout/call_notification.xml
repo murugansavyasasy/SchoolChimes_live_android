@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/_10sdp"
     android:background="@drawable/rect_popup_white"
     android:orientation="vertical">
 
@@ -21,7 +20,6 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="@dimen/_20sdp"
-                android:layout_marginTop="10dp"
                 android:src="@drawable/school_chimes"
                 android:visibility="visible">
 
@@ -32,7 +30,6 @@
                 android:id="@+id/notification_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:padding="10dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="School Chimes"
@@ -42,11 +39,23 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/lblContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Calling from your school......."
+            android:textColor="@color/clr_black"
+            android:textSize="15dp"
+            android:textStyle="bold">
+
+        </TextView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
 
@@ -56,8 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
-                android:visibility="gone">
+                android:layout_marginTop="2dp"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/btnDecline"
@@ -68,19 +77,19 @@
                     android:gravity="center"
                     android:text="Decline"
                     android:textColor="@color/clr_red"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
+                    android:visibility="visible"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imgDecline"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/btnDecline"
                     android:src="@drawable/declinecall">
 
                 </ImageView>
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -89,8 +98,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
-                android:visibility="gone">
+                android:layout_marginTop="2dp"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/btnAccept"
@@ -100,30 +109,18 @@
                     android:fontFamily="@font/poppins_bold"
                     android:gravity="center"
                     android:text="Accept"
+                    android:textSize="15sp"
                     android:textColor="@color/clr_green"
-                    android:textSize="20sp"
+                    android:visibility="visible"
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/btnAccept"
                     android:src="@drawable/incomingcall"></ImageView>
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/lblContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:textSize="20dp"
-                android:textColor="@color/clr_black"
-                android:textStyle="bold"
-                android:gravity="left"
-                android:text="Calling from your school.......">
-
-            </TextView>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
