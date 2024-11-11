@@ -25,7 +25,7 @@ public class LocationHelper  {
     private LocationCallback locationCallback;
     private LocationLatLongListener listener;
 
-    public LocationHelper(Context context , LocationLatLongListener listener) {
+    public LocationHelper(Context context , LocationLatLongListener listener,String type) {
         this.listener = listener;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
         // Create location request with high accuracy and low interval
@@ -46,7 +46,7 @@ public class LocationHelper  {
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
                         // Use the fresh location here
-                        listener.onLocationReturn(location.getLatitude(),location.getLongitude());
+                        listener.onLocationReturn(location.getLatitude(),location.getLongitude(),type);
                         Log.d("Location", "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
                     }
                 }

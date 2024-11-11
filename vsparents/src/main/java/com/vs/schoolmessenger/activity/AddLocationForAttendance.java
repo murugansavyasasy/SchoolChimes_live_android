@@ -395,7 +395,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
 
     @SuppressLint("MissingPermission")
     private void getCurentLocation() {
-        LocationHelper call = new LocationHelper(AddLocationForAttendance.this,this);
+        LocationHelper call = new LocationHelper(AddLocationForAttendance.this,this,"new");
         call.getFreshLocation(AddLocationForAttendance.this);
         rytProgressBar.setVisibility(View.VISIBLE);
     }
@@ -420,7 +420,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     }
 
     @Override
-    public void onLocationReturn(double latitude, double longitude) {
+    public void onLocationReturn(double latitude, double longitude,String type) {
 
         Log.d("lat_long",latitude + "_"+ longitude);
         rytProgressBar.setVisibility(View.GONE);
