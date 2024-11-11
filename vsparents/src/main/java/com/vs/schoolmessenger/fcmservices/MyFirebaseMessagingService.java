@@ -56,6 +56,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         editor.commit();
     }
 
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "ReceiverFrom: " + remoteMessage.getFrom());
@@ -65,13 +66,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Notification Message tone: " + remoteMessage.getData().get("tone"));
             Log.d(TAG, "Notification Message type: " + remoteMessage.getData().get("type"));
             if (remoteMessage.getData().get("type").equals("isCall")) {
-//            if (remoteMessage.getData().get("type").equals("normal")) {
                 boolean isDashboardOpen = ScreenState.getInstance().isIncomingCallScreen();
                 Log.d("isDashboardOpen", String.valueOf(isDashboardOpen));
                 if (!isDashboardOpen) {
-                    Log.d("(remoteMessage.getData())", String.valueOf(remoteMessage.getData().get("url")));
-
-                    showNotificationCall(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("url"));
+                    showNotificationCall(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("url"), remoteMessage.getData().get("receiver_id"));
                 } else {
                     Log.d("PLEASE_WAIT", "Already playing the voice call right now so please wait.");
                 }
@@ -91,12 +89,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         return remoteViews;
     }
 
+
     private void createNotification(String messageBody, String title, String sound, String tone) {
 
         Log.d("Received", "Received");
         Intent intent = new Intent(this, TeacherSplashScreen.class);
         intent.putExtra("CHILD_LIST", pubStArrChildList);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
 
         PendingIntent resultIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -183,7 +183,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void showNotificationCall(String title, String message,String url) {
+    private void showNotificationCall(String title, String message, String url, String receiverId) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = "notification_channel";
 
@@ -209,20 +209,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         Log.d("Received", "Received");
+
         Intent intent = new Intent(this, NotificationCall.class);
-        intent.putExtra("NOTIFICATION_ID", notificationId);
-        intent.putExtra("VOICE_URL", url);
-        Log.d("IntentPassUrl", String.valueOf(url));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("isNotificationId", notificationId);
+        intent.putExtra("isVoiceUrl", url);
+        intent.putExtra("isReceiverId", receiverId);
 
         PendingIntent resultIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             resultIntent = PendingIntent.getActivity(this, 0, intent,
-                    PendingIntent.FLAG_MUTABLE);
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
         } else {
             resultIntent = PendingIntent.getActivity(this, 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         }
+
+        // Intent for handling notification dismissal
+        Intent dismissIntent = new Intent(this, NotificationDismissService.class);
+        dismissIntent.setAction("NOTIFICATION_DISMISSED");
+        PendingIntent dismissPendingIntent = PendingIntent.getService(
+                this,
+                0,
+                dismissIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.call_notification);
         remoteViews.setTextViewText(R.id.notification_title, title);
@@ -232,6 +243,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.school_chimes_trans_logo)
                 .setContentIntent(resultIntent)
                 .setAutoCancel(true)
+                .setDeleteIntent(dismissPendingIntent) // Set deleteIntent to handle dismissal
                 .setOngoing(false)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setColor(ContextCompat.getColor(this, R.color.clr_white))
@@ -240,4 +252,64 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notification.headsUpContentView = remoteViews;
         notificationManager.notify(notificationId, notification);
     }
+
+
+//    private void showNotificationCall(String title, String message, String url, String receiverId) {
+//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        String channelId = "notification_channel";
+//
+//        int notificationId = (int) System.currentTimeMillis();
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            AudioAttributes attributes = new AudioAttributes.Builder()
+//                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+//                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+//                    .build();
+//            NotificationChannel channel = new NotificationChannel(
+//                    channelId,
+//                    "Notification Channel",
+//                    NotificationManager.IMPORTANCE_HIGH
+//            );
+//
+//            channel.setDescription("My Notification Channel");
+//            channel.setSound(null, attributes);
+//            channel.enableVibration(true);
+//            Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.schoolchimes_tone);
+//            Util_Common.mediaPlayer.start();
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//
+//        Log.d("Received", "Received");
+//
+//        Intent intent = new Intent(this, NotificationCall.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);  // Clear any existing instance
+//        intent.putExtra("isNotificationId", notificationId);
+//        intent.putExtra("isVoiceUrl", url);
+//        intent.putExtra("isReceiverId", receiverId);
+//
+//        PendingIntent resultIntent;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            resultIntent = PendingIntent.getActivity(this, 0, intent,
+//                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+//        } else {
+//            resultIntent = PendingIntent.getActivity(this, 0, intent,
+//                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+//        }
+//
+//        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.call_notification);
+//        remoteViews.setTextViewText(R.id.notification_title, title);
+//        remoteViews.setTextViewText(R.id.lblContent, message);
+//
+//        Notification notification = new NotificationCompat.Builder(this, channelId)
+//                .setSmallIcon(R.drawable.school_chimes_trans_logo)
+//                .setContentIntent(resultIntent)
+//                .setAutoCancel(true)
+//                .setOngoing(false)
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setColor(ContextCompat.getColor(this, R.color.clr_white))
+//                .build();
+//        notification.bigContentView = remoteViews;
+//        notification.headsUpContentView = remoteViews;
+//        notificationManager.notify(notificationId, notification);
+//    }
 }

@@ -1234,5 +1234,8 @@
 
         <receiver android:name=".fcmservices.NotificationReceiver" />
 
+        <service android:name=".fcmservices.NotificationDismissService" />
+
+
     </application>
 </manifest>
