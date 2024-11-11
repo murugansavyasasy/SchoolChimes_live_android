@@ -116,6 +116,10 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
     Boolean ifFingerPrintCancelled = false;
     private PopupWindow viewPunchHistoryPopup;
+    Boolean isFingerPrint = false;
+
+
+
 
     public List<StaffBiometricLocationRes.BiometricLoationData> locationsList = new ArrayList<StaffBiometricLocationRes.BiometricLoationData>();
     public List<PunchHistoryRes.PunchHistoryData> punchTimingList = new ArrayList<PunchHistoryRes.PunchHistoryData>();
@@ -244,7 +248,6 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             currentYear = currentYear - 1;
             Years[i] = String.valueOf(currentYear);
         }
-
 
         ArrayAdapter ad = new ArrayAdapter(this, R.layout.spinner_textview, Years);
         ad.setDropDownViewResource(R.layout.dropdown_spinner);
@@ -392,8 +395,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         } else {
             if (Util_Common.isGPSEnabled(this)) {
                 rytGPSRedirect.setVisibility(View.GONE);
-                getCurentLocation();
-            } else {
+                getCurentLocation("new");
+            }
+            else {
                 rytGPSRedirect.setVisibility(View.VISIBLE);
                 lblErrorMessage.setVisibility(View.GONE);
                 rytPresentlayout.setVisibility(View.GONE);
@@ -415,7 +419,8 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 Boolean isEnabled = TeacherUtil_SharedPreference.getBiometricEnabled(PunchStaffAttendanceUsingFinger.this);
                 if (isEnabled) {
                     authenticatStart();
-                } else {
+                }
+                else {
                     putAttendanceDataAPI(false);
                 }
             }
@@ -695,6 +700,13 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
     private void putAttendanceDataAPI(Boolean isFingerprint) {
+
+        isFingerPrint = isFingerprint;
+        getCurentLocation("punch");
+    }
+
+    private void confirmPutAttendance() {
+
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
@@ -714,7 +726,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Log.d("fullDeviceInfo",fullDeviceInfo);
 
         int punch_type = 0;
-        if(isFingerprint){
+        if(isFingerPrint){
             punch_type = 2;
         }
         else {
@@ -805,8 +817,8 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
     @SuppressLint("MissingPermission")
-    private void getCurentLocation() {
-        LocationHelper call = new LocationHelper(PunchStaffAttendanceUsingFinger.this,this);
+    private void getCurentLocation(String type) {
+        LocationHelper call = new LocationHelper(PunchStaffAttendanceUsingFinger.this,this,type);
         call.getFreshLocation(PunchStaffAttendanceUsingFinger.this);
         rytProgressBar.setVisibility(View.VISIBLE);
     }
@@ -844,7 +856,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (Util_Common.isGPSEnabled(this)) {
                         rytGPSRedirect.setVisibility(View.GONE);
-                        getCurentLocation();
+                        getCurentLocation("new");
                     }
                     else {
                         rytGPSRedirect.setVisibility(View.VISIBLE);
@@ -927,14 +939,42 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
     @Override
-    public void onLocationReturn(double latitude, double longitude) {
+    public void onLocationReturn(double latitude, double longitude,String type) {
         Log.d("lat_long",latitude + "_"+ longitude);
         rytProgressBar.setVisibility(View.GONE);
         if(isMarkAttendnaceScreen) {
             if(latitudeToStopCalling.equals("null") || langitudeToStopCalling.equals("null") || latitudeToStopCalling.equals("") || langitudeToStopCalling.equals("")) {
                 latitudeToStopCalling = String.valueOf(latitude);
                 langitudeToStopCalling = String.valueOf(longitude);
-                getStaffLocations(latitude, longitude);
+
+                if(type.equals("punch")){
+                    Boolean locationIsNearBy = false;
+                    for (int i = 0 ; i < locationsList.size();i++){
+                        Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
+                        Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
+                        int distance =Integer.parseInt(locationsList.get(i).getDistance());
+                        float resultsof = LocationDistanceCalculator.calculateDistance(latitude, longitude, staff_lat, staff_long);
+                        Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
+                        if (resultsof <= (float)distance) {
+                            locationIsNearBy = true;
+                            break;
+                        }
+                    }
+                    if(locationIsNearBy){
+                        lblErrorMessage.setVisibility(View.GONE);
+                        rytPresentlayout.setVisibility(View.VISIBLE);
+                        confirmPutAttendance();
+                    }
+                    else {
+                        rytPresentlayout.setVisibility(View.GONE);
+                        lblErrorMessage.setVisibility(View.VISIBLE);
+                    }
+
+                }
+                else {
+                    getStaffLocations(latitude, longitude);
+                }
+
             }
         }
     }
