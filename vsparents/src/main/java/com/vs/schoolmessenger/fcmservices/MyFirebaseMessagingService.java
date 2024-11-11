@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -26,7 +25,6 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherSplashScreen;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.util.ScreenState;
-import com.vs.schoolmessenger.util.Util_Common;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -183,133 +181,84 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+
     private void showNotificationCall(String title, String message, String url, String receiverId) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = "notification_channel";
 
+        // Generate a unique notification ID using current time in milliseconds
         int notificationId = (int) System.currentTimeMillis();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Set audio attributes for the notification sound
             AudioAttributes attributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build();
+
             NotificationChannel channel = new NotificationChannel(
                     channelId,
                     "Notification Channel",
                     NotificationManager.IMPORTANCE_HIGH
             );
-
             channel.setDescription("My Notification Channel");
-            channel.setSound(null, attributes);
+            channel.setSound(null, attributes);  // Disabling default sound
             channel.enableVibration(true);
-            Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.schoolchimes_tone);
-            Util_Common.mediaPlayer.start();
+
             notificationManager.createNotificationChannel(channel);
         }
 
-        Log.d("Received", "Received");
+        Log.d("Received", "Notification Received");
 
+        // Create an Intent for the NotificationCall Activity
         Intent intent = new Intent(this, NotificationCall.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("isNotificationId", notificationId);
         intent.putExtra("isVoiceUrl", url);
         intent.putExtra("isReceiverId", receiverId);
 
+        // Create a unique PendingIntent for each notification
         PendingIntent resultIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            resultIntent = PendingIntent.getActivity(this, 0, intent,
+            resultIntent = PendingIntent.getActivity(this, notificationId, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
         } else {
-            resultIntent = PendingIntent.getActivity(this, 0, intent,
+            resultIntent = PendingIntent.getActivity(this, notificationId, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         }
 
-        // Intent for handling notification dismissal
+        // Custom RemoteViews for custom layout in the notification
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.call_notification);
+        remoteViews.setTextViewText(R.id.notification_title, title);
+        remoteViews.setTextViewText(R.id.lblContent, message);
+
+        // Create the notification
+        Notification notification = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.school_chimes_trans_logo)  // Replace with your icon
+                .setContentIntent(resultIntent)
+                .setAutoCancel(true)
+                .setOngoing(false)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setColor(ContextCompat.getColor(this, R.color.clr_white))
+                .setDeleteIntent(createDeleteIntent()) // Add delete intent for dismissal
+                .build();
+
+        notification.bigContentView = remoteViews;
+        notification.headsUpContentView = remoteViews;
+
+        // Show the notification with the unique ID
+        notificationManager.notify(notificationId, notification);
+    }
+
+    // Creates a delete intent for handling notification dismissal
+    private PendingIntent createDeleteIntent() {
         Intent dismissIntent = new Intent(this, NotificationDismissService.class);
         dismissIntent.setAction("NOTIFICATION_DISMISSED");
-        PendingIntent dismissPendingIntent = PendingIntent.getService(
+        return PendingIntent.getService(
                 this,
                 0,
                 dismissIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
-
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.call_notification);
-        remoteViews.setTextViewText(R.id.notification_title, title);
-        remoteViews.setTextViewText(R.id.lblContent, message);
-
-        Notification notification = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.school_chimes_trans_logo)
-                .setContentIntent(resultIntent)
-                .setAutoCancel(true)
-                .setDeleteIntent(dismissPendingIntent) // Set deleteIntent to handle dismissal
-                .setOngoing(false)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setColor(ContextCompat.getColor(this, R.color.clr_white))
-                .build();
-        notification.bigContentView = remoteViews;
-        notification.headsUpContentView = remoteViews;
-        notificationManager.notify(notificationId, notification);
     }
-
-
-//    private void showNotificationCall(String title, String message, String url, String receiverId) {
-//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        String channelId = "notification_channel";
-//
-//        int notificationId = (int) System.currentTimeMillis();
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            AudioAttributes attributes = new AudioAttributes.Builder()
-//                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-//                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-//                    .build();
-//            NotificationChannel channel = new NotificationChannel(
-//                    channelId,
-//                    "Notification Channel",
-//                    NotificationManager.IMPORTANCE_HIGH
-//            );
-//
-//            channel.setDescription("My Notification Channel");
-//            channel.setSound(null, attributes);
-//            channel.enableVibration(true);
-//            Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.schoolchimes_tone);
-//            Util_Common.mediaPlayer.start();
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//
-//        Log.d("Received", "Received");
-//
-//        Intent intent = new Intent(this, NotificationCall.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);  // Clear any existing instance
-//        intent.putExtra("isNotificationId", notificationId);
-//        intent.putExtra("isVoiceUrl", url);
-//        intent.putExtra("isReceiverId", receiverId);
-//
-//        PendingIntent resultIntent;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//            resultIntent = PendingIntent.getActivity(this, 0, intent,
-//                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-//        } else {
-//            resultIntent = PendingIntent.getActivity(this, 0, intent,
-//                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
-//        }
-//
-//        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.call_notification);
-//        remoteViews.setTextViewText(R.id.notification_title, title);
-//        remoteViews.setTextViewText(R.id.lblContent, message);
-//
-//        Notification notification = new NotificationCompat.Builder(this, channelId)
-//                .setSmallIcon(R.drawable.school_chimes_trans_logo)
-//                .setContentIntent(resultIntent)
-//                .setAutoCancel(true)
-//                .setOngoing(false)
-//                .setPriority(NotificationCompat.PRIORITY_HIGH)
-//                .setColor(ContextCompat.getColor(this, R.color.clr_white))
-//                .build();
-//        notification.bigContentView = remoteViews;
-//        notification.headsUpContentView = remoteViews;
-//        notificationManager.notify(notificationId, notification);
-//    }
 }
