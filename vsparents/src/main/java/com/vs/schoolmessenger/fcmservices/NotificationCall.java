@@ -102,7 +102,8 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
                 mediaPlayer.stop();
                 isUserResponse = "NO";
                 isDuration = Integer.parseInt(lblVoiceDuration.getText().toString());
-                updateNotificationCallLog();
+              //  updateNotificationCallLog();
+                isWithOutApiCallPlaying();
                 finish();
             }
         });
@@ -241,7 +242,8 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
                     if (isAcceptCall) {
                         isAcceptCall = false;
                         isUserResponse = "OC";
-                        updateNotificationCallLog();
+                      //  updateNotificationCallLog();
+                        isWithOutApiCallPlaying();
                     }
                 }
             }
@@ -284,7 +286,8 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
                 if (isDeclineCall) {
                     isDeclineCall = false;
                     isUserResponse = "NO";
-                    updateNotificationCallLog();
+                   // updateNotificationCallLog();
+                    isWithOutApiCallPlaying();
                     finish();
                 }
             }
@@ -433,6 +436,55 @@ public class NotificationCall extends AppCompatActivity implements View.OnTouchL
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
+            }
+        });
+    }
+
+    public  void isWithOutApiCallPlaying(){
+        isAcceptCall = false;
+        try {
+            mediaPlayer.setDataSource(voiceUrl);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        durationUpdateHandler = new Handler();
+        imgDeclineNotificationCall.setVisibility(View.VISIBLE);
+        lneButtonHeight.setVisibility(View.GONE);
+        if (Util_Common.mediaPlayer.isPlaying()) {
+            Util_Common.mediaPlayer.stop();
+            mediaPlayer.start();
+        } else {
+            mediaPlayer.start();
+        }
+
+        durationUpdateHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mediaPlayer.isPlaying()) {
+                    int currentDuration = mediaPlayer.getCurrentPosition();
+                    int minutes = currentDuration / 1000 / 60;
+                    int seconds = currentDuration / 1000 % 60;
+                    lblVoiceDuration.setText(String.format("%02d:%02d", minutes, seconds));
+                    durationUpdateHandler.postDelayed(this, 1000);
+                }
+            }
+        }, 0);
+
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ScreenState.getInstance().setIncomingCallScreen(false);
+                        Toast.makeText(NotificationCall.this, "Call was ended.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }, 1000);
             }
         });
     }
