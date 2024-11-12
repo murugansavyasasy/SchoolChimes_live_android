@@ -1,4 +1,5 @@
 package com.vs.schoolmessenger.activity;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,12 +15,14 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -30,27 +33,32 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.StaffBiometricLocationRes;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 public class ViewExistingLocations extends AppCompatActivity {
 
     public LocationsHistoryAdapter mAdapter;
-    String SchoolID = "", StaffID = "";
     public List<StaffBiometricLocationRes.BiometricLoationData> locationsList = new ArrayList<StaffBiometricLocationRes.BiometricLoationData>();
+    String SchoolID = "", StaffID = "";
     RecyclerView recyleLocations;
-    private PopupWindow editPopup;
     ConstraintLayout constParent;
     TextView lblNoRecords;
+    private PopupWindow editPopup;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +108,7 @@ public class ViewExistingLocations extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("locations:code-res", response.code() + " - " + response.toString());
+                    Log.d("locations:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
 
                         Gson gson = new Gson();
@@ -179,11 +187,11 @@ public class ViewExistingLocations extends AppCompatActivity {
             public void onClick(View v) {
                 editPopup.dismiss();
                 String distance = txtDistance.getText().toString().replaceAll("[^0-9]", ""); // Keep only numbers
-                Log.d("en_distance",distance);
+                Log.d("en_distance", distance);
                 int distanceCheck = Integer.parseInt(distance);
                 if (distanceCheck >= 10) {
-                    Log.d("en_distance","true");
-                    updateLocationAPI(String.valueOf(distanceCheck),txtLocationName.getText().toString(),item.getId());
+                    Log.d("en_distance", "true");
+                    updateLocationAPI(String.valueOf(distanceCheck), txtLocationName.getText().toString(), item.getId());
                 } else {
                     Toast.makeText(ViewExistingLocations.this, "Distance should be minimum 10 Meters", Toast.LENGTH_SHORT).show();
                 }
@@ -197,7 +205,7 @@ public class ViewExistingLocations extends AppCompatActivity {
         });
     }
 
-    private void updateLocationAPI(String distance,String locationName,int id) {
+    private void updateLocationAPI(String distance, String locationName, int id) {
         final ProgressDialog mProgressDialog = new ProgressDialog(ViewExistingLocations.this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
@@ -221,7 +229,7 @@ public class ViewExistingLocations extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
-                Log.d("Biometric:Code", response.code() + " - " + response.toString());
+                Log.d("Biometric:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("Location:Res", response.body().toString());
                     try {
@@ -231,8 +239,7 @@ public class ViewExistingLocations extends AppCompatActivity {
                         if (status == 1) {
                             getExistingViewLocations();
                             Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(ViewExistingLocations.this, message, Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
@@ -295,7 +302,7 @@ public class ViewExistingLocations extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
-                Log.d("Biometric:Code", response.code() + " - " + response.toString());
+                Log.d("Biometric:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("Location:Res", response.body().toString());
                     try {

@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_ONLINECLASS;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -10,22 +12,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.OnlineClassModel;
-import com.vs.schoolmessenger.model.TeacherMessageModel;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
-import androidx.appcompat.app.AppCompatActivity;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_ONLINECLASS;
 
 public class OnlineClassPopup extends AppCompatActivity {
 
     OnlineClassModel textMsgModel;
-    TextView  lblURL, tvMsgContent,tvdescription;
+    TextView lblURL, tvMsgContent, tvdescription;
     String isNewVersion;
 
     @Override
@@ -54,8 +54,8 @@ public class OnlineClassPopup extends AppCompatActivity {
         tvBarTitle.setText(textMsgModel.getMeetingdate());
 
         tvMsgContent = (TextView) findViewById(R.id.textPopup_tvTitle);
-        tvdescription= (TextView) findViewById(R.id.textPopup_tvdescrip);
-        lblURL= (TextView) findViewById(R.id.lblURL);
+        tvdescription = (TextView) findViewById(R.id.textPopup_tvdescrip);
+        lblURL = (TextView) findViewById(R.id.lblURL);
         registerForContextMenu(tvdescription);
 
         tvdescription.setText(textMsgModel.getDescription());
@@ -63,17 +63,16 @@ public class OnlineClassPopup extends AppCompatActivity {
         lblURL.setText(textMsgModel.getUrl());
 
 
-        if(textMsgModel.getDescription().equals("")){
+        if (textMsgModel.getDescription().equals("")) {
             tvdescription.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             tvdescription.setVisibility(View.VISIBLE);
         }
 
         if (textMsgModel.getIs_app_viewed().equals("0")) {
             textMsgModel.setIs_app_viewed("1");
 
-            ChangeMsgReadStatus.changeReadStatus(OnlineClassPopup.this, textMsgModel.getMessage_id(), MSG_TYPE_ONLINECLASS, textMsgModel.getMeetingdate(),isNewVersion,false, new OnRefreshListener() {
+            ChangeMsgReadStatus.changeReadStatus(OnlineClassPopup.this, textMsgModel.getMessage_id(), MSG_TYPE_ONLINECLASS, textMsgModel.getMeetingdate(), isNewVersion, false, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
                     textMsgModel.setIs_app_viewed("1");
@@ -88,7 +87,7 @@ public class OnlineClassPopup extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
 
-        menu.add(0, v.getId(),0, "Copy");
+        menu.add(0, v.getId(), 0, "Copy");
         TextView textView = (TextView) v;
         ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText("text", textView.getText());
@@ -97,10 +96,9 @@ public class OnlineClassPopup extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TeacherUtil_SharedPreference.putOnBackPressed(OnlineClassPopup.this,"1");
+        TeacherUtil_SharedPreference.putOnBackPressed(OnlineClassPopup.this, "1");
         finish();
     }
-
 
 
     private void showToast(String msg) {

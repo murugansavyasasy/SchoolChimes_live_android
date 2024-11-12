@@ -1,14 +1,6 @@
 package com.vs.schoolmessenger.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_LSRW;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,6 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -38,7 +36,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_LSRW;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SkillSubListActivity extends AppCompatActivity {
     public ArrayList<SkillAttachmentModel> msgModelList = new ArrayList<>();
@@ -77,17 +79,17 @@ public class SkillSubListActivity extends AppCompatActivity {
         });
         recycleview = (RecyclerView) findViewById(R.id.recycleview);
         TextView tvTitle = (TextView) findViewById(R.id.text_ToolBarTvTitle);
-         btnNext = findViewById(R.id.btnNext);
+        btnNext = findViewById(R.id.btnNext);
         tvTitle.setText("LSRW");
 
-        skillID =  getIntent().getStringExtra("skillID");
-        String isappread =  getIntent().getStringExtra("isappread");
-        String detailid =  getIntent().getStringExtra("detailid");
-        Log.d("skillID",skillID);
+        skillID = getIntent().getStringExtra("skillID");
+        String isappread = getIntent().getStringExtra("isappread");
+        String detailid = getIntent().getStringExtra("detailid");
+        Log.d("skillID", skillID);
         String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(SkillSubListActivity.this);
 
-        if(isappread.equals("0")){
-            ChangeMsgReadStatus.changeReadStatus(SkillSubListActivity.this, detailid, MSG_TYPE_LSRW,"",isNewVersion,false, new OnRefreshListener() {
+        if (isappread.equals("0")) {
+            ChangeMsgReadStatus.changeReadStatus(SkillSubListActivity.this, detailid, MSG_TYPE_LSRW, "", isNewVersion, false, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
                 }
@@ -96,13 +98,13 @@ public class SkillSubListActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recycleview.setLayoutManager(layoutManager);
         recycleview.setItemAnimator(new DefaultItemAnimator());
-        textAdapter = new SkillSublistAdapter(this,msgModelList);
+        textAdapter = new SkillSublistAdapter(this, msgModelList);
         btnNext.setVisibility(View.VISIBLE);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(SkillSubListActivity.this,ParentSubmitLSRW.class);
-                i.putExtra("skillid",skillID);
+                Intent i = new Intent(SkillSubListActivity.this, ParentSubmitLSRW.class);
+                i.putExtra("skillid", skillID);
                 startActivity(i);
             }
         });
@@ -111,30 +113,31 @@ public class SkillSubListActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-             getAttachment();
+        getAttachment();
 
     }
 
-    private void prepareAlbums () {
+    private void prepareAlbums() {
 
-        SkillAttachmentModel a = new SkillAttachmentModel("1", "https://school-app-files.s3.amazonaws.com/File_20210531110627_File_20210525211810_20210324_182541.png","IMAGE","1","21/05/2021");
+        SkillAttachmentModel a = new SkillAttachmentModel("1", "https://school-app-files.s3.amazonaws.com/File_20210531110627_File_20210525211810_20210324_182541.png", "IMAGE", "1", "21/05/2021");
         msgModelList.add(a);
 
-        a = new SkillAttachmentModel("2", "https://school-master-documents.s3.ap-south-1.amazonaws.com/File_20210619074425_schoolVoice.mp3","VOICE","English","21/05/2021");
+        a = new SkillAttachmentModel("2", "https://school-master-documents.s3.ap-south-1.amazonaws.com/File_20210619074425_schoolVoice.mp3", "VOICE", "English", "21/05/2021");
         msgModelList.add(a);
 
-        a = new SkillAttachmentModel("3", "Title test one two 3","TEXT","3","21/05/2021");
+        a = new SkillAttachmentModel("3", "Title test one two 3", "TEXT", "3", "21/05/2021");
         msgModelList.add(a);
 
-        a = new SkillAttachmentModel("4", "https://school-app-files.s3.amazonaws.com/File_20210529104055_NEWSCHOOLAPP4119162045852217803.pdf","PDF","3","21/05/2021");
+        a = new SkillAttachmentModel("4", "https://school-app-files.s3.amazonaws.com/File_20210529104055_NEWSCHOOLAPP4119162045852217803.pdf", "PDF", "3", "21/05/2021");
         msgModelList.add(a);
 
-        a = new SkillAttachmentModel("5", "https://player.vimeo.com/video/564458606?title\\u003d0\\u0026amp;byline\\u003d0\\u0026amp;portrait\\u003d0\\u0026amp;speed\\u003d0\\u0026amp;badge\\u003d0\\u0026amp;autopause\\u003d0\\u0026amp;player_id\\u003d0\\u0026amp;app_id\\u003d177030","VIDEO","3","21/05/2021");
+        a = new SkillAttachmentModel("5", "https://player.vimeo.com/video/564458606?title\\u003d0\\u0026amp;byline\\u003d0\\u0026amp;portrait\\u003d0\\u0026amp;speed\\u003d0\\u0026amp;badge\\u003d0\\u0026amp;autopause\\u003d0\\u0026amp;player_id\\u003d0\\u0026amp;app_id\\u003d177030", "VIDEO", "3", "21/05/2021");
         msgModelList.add(a);
 
         recycleview.setAdapter(textAdapter);
         textAdapter.notifyDataSetChanged();
     }
+
     private void getAttachment() {
 
         String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
@@ -156,7 +159,7 @@ public class SkillSubListActivity extends AppCompatActivity {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("StudentID", strChildID);
-        jsonObject.addProperty("SkillId",skillID );
+        jsonObject.addProperty("SkillId", skillID);
 
         Log.d("GetAttachmentForSkill", jsonObject.toString());
 
@@ -170,7 +173,7 @@ public class SkillSubListActivity extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("LSRW:Code", response.code() + " - " + response.toString());
+                Log.d("LSRW:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("LSRW:Res", response.body().toString());
 
@@ -186,7 +189,7 @@ public class SkillSubListActivity extends AppCompatActivity {
                         SkillAttachmentModel msgModel;
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject js = data.getJSONObject(i);
-                            msgModel = new SkillAttachmentModel( js.getString("ContentId"),js.getString("Attachment"), js.getString("Type"), js.getString("Order"),js.getString("SkillId"));
+                            msgModel = new SkillAttachmentModel(js.getString("ContentId"), js.getString("Attachment"), js.getString("Type"), js.getString("Order"), js.getString("SkillId"));
                             msgModelList.add(msgModel);
 
                         }
@@ -242,7 +245,6 @@ public class SkillSubListActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
     }
-
 
 
 }

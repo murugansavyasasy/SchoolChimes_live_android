@@ -1,13 +1,13 @@
 package com.vs.schoolmessenger.activity;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
 
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
@@ -27,28 +29,21 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 import java.io.File;
 
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
-
 
 public class TeacherVoiceCircularPopup extends AppCompatActivity {
-    TextView tvTitle, tvTime, tvStatus,tvdescription;
-    TextView tvDuarion, tvTotDuration;
+    private final String VOICE_FOLDER = "//SchoolVoiceVoice";
     public ImageButton imgBtnPlayPause;
     public SeekBar seekBar;
-
+    TextView tvTitle, tvTime, tvStatus, tvdescription;
+    TextView tvDuarion, tvTotDuration;
     ProgressBar pbLoading;
-
-    private MediaPlayer mediaPlayer;
     int mediaFileLengthInMilliseconds = 0;
     Handler handler = new Handler();
 
     TeacherMessageModel voiceModel;
     Boolean is_Archive;
     String isNewVersion;
-
-
-
-    private final String VOICE_FOLDER = "//SchoolVoiceVoice";
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +51,7 @@ public class TeacherVoiceCircularPopup extends AppCompatActivity {
         setContentView(R.layout.teacher_activity_voice_circular_popup);
 
         is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
-        isNewVersion= TeacherUtil_SharedPreference.getNewVersion(TeacherVoiceCircularPopup.this);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherVoiceCircularPopup.this);
 
         voiceModel = (TeacherMessageModel) getIntent().getSerializableExtra("VOICE_ITEM");
 
@@ -101,10 +96,9 @@ public class TeacherVoiceCircularPopup extends AppCompatActivity {
         setupAudioPlayer();
 
 
-        if(voiceModel.getMsgdescription().equals("")){
+        if (voiceModel.getMsgdescription().equals("")) {
             tvdescription.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             tvdescription.setVisibility(View.VISIBLE);
         }
 
@@ -114,8 +108,7 @@ public class TeacherVoiceCircularPopup extends AppCompatActivity {
             voiceModel.setMsgReadStatus("1");
             tvStatus.setVisibility(View.GONE);
 
-            ChangeMsgReadStatus.changeReadStatus(TeacherVoiceCircularPopup.this, voiceModel.getMsgID(), MSG_TYPE_VOICE, voiceModel.getMsgDate(),isNewVersion,is_Archive, new OnRefreshListener()
-            {
+            ChangeMsgReadStatus.changeReadStatus(TeacherVoiceCircularPopup.this, voiceModel.getMsgID(), MSG_TYPE_VOICE, voiceModel.getMsgDate(), isNewVersion, is_Archive, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
                     voiceModel.setMsgReadStatus("1");
@@ -125,9 +118,6 @@ public class TeacherVoiceCircularPopup extends AppCompatActivity {
                 }
             });
         }
-
-
-
 
 
         fetchSong();
@@ -219,8 +209,8 @@ public class TeacherVoiceCircularPopup extends AppCompatActivity {
                 dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath()
                         + VOICE_FOLDER);
             }
-            Log.d("ID",voiceModel.getMsgID());
-            Log.d("content",voiceModel.getMsgContent());
+            Log.d("ID", voiceModel.getMsgID());
+            Log.d("content", voiceModel.getMsgContent());
 
             File futureStudioIconFile = new File(dir, voiceModel.getMsgContent());
             System.out.println("FILE_PATH:" + futureStudioIconFile.getPath());
@@ -239,8 +229,6 @@ public class TeacherVoiceCircularPopup extends AppCompatActivity {
 
         Log.d("FetchSong", "END***************************************");
     }
-
-
 
 
     private void primarySeekBarProgressUpdater(final int fileLength) {

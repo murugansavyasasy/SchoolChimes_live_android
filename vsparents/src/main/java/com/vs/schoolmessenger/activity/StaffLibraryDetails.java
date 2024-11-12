@@ -5,11 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -17,6 +12,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -40,16 +41,17 @@ import retrofit2.Callback;
 
 public class StaffLibraryDetails extends AppCompatActivity {
 
+    public LibraryDetailsAdapter mAdapter;
     String Staff_ID;
     TeacherSchoolsModel schoolmodel;
-
-    private List<LibraryDetails> librarylist = new ArrayList<>();
+    private final List<LibraryDetails> librarylist = new ArrayList<>();
     private RecyclerView library_student_list;
-    public LibraryDetailsAdapter mAdapter;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -89,7 +91,7 @@ public class StaffLibraryDetails extends AppCompatActivity {
 
     private void libraryDetails() {
 
-        String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StaffLibraryDetails.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffLibraryDetails.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -112,7 +114,7 @@ public class StaffLibraryDetails extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -132,8 +134,7 @@ public class StaffLibraryDetails extends AppCompatActivity {
 
                                     LibraryDetails data = new LibraryDetails(RefBookID, BookName, IssuedOn, DueDate);
                                     librarylist.add(data);
-                                }
-                                else {
+                                } else {
                                     showRecordsFound(BookName1);
                                 }
                             }

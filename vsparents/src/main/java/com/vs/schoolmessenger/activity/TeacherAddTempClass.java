@@ -3,7 +3,6 @@ package com.vs.schoolmessenger.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
 import com.vs.schoolmessenger.R;
@@ -37,27 +38,22 @@ import retrofit2.Response;
 public class TeacherAddTempClass extends AppCompatActivity {
 
 
+    public static int ADD_TEMP_CLASS_STATUS = 222;
     Spinner spinStandard, spinSection, spinSubject;
     ArrayAdapter<String> adaStd;
     ArrayAdapter<String> adaSection;
     ArrayAdapter<String> adaSubject;
     Button btnAdd;
-
     List<String> listStd = new ArrayList<>();
     List<String> listSection;
     List<String> listSectionID;
     List<TeacherSectionsListModel> arrSectionCollections;
-
     List<String> listSubjectName;
     List<String> listSubjectCode;
     List<String> listTotalStudentsInSec;
-
-    private ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
-
     String strStdName, strSecName, strSecCode, strSubjectCode, strSubjectName, strTotalStudents;
-    public static int ADD_TEMP_CLASS_STATUS = 222;
-
     TeacherSectionModel stdSec;// = new TeacherSectionModel(false, strStdName, strSecName, strSecCode, "English", "101", "9", "0", false);
+    private final ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,7 +169,7 @@ public class TeacherAddTempClass extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StdSecList:Code", response.code() + " - " + response.toString());
+                Log.d("StdSecList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StdSecList:Res", response.body().toString());
 
@@ -189,7 +185,7 @@ public class TeacherAddTempClass extends AppCompatActivity {
                             onBackPressed();
                         } else {
                             TeacherStandardSectionsListModel stdSecList;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
 
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
@@ -261,7 +257,7 @@ public class TeacherAddTempClass extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("SubjectsList:Code", response.code() + " - " + response.toString());
+                Log.d("SubjectsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("SubjectsList:Res", response.body().toString());
 
@@ -276,7 +272,7 @@ public class TeacherAddTempClass extends AppCompatActivity {
                             showToast(subCode);
                             onBackPressed();
                         } else {
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
 
                             listSubjectName = new ArrayList<String>();
                             listSubjectCode = new ArrayList<String>();
@@ -315,6 +311,7 @@ public class TeacherAddTempClass extends AppCompatActivity {
             }
         });
     }
+
     private void showToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }

@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Merging_live_SchoolChimes.iml" filepath="$PROJECT_DIR$/.idea/modules/Merging_live_SchoolChimes.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/Merging_live_SchoolChimes.vsparents.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/Merging_live_SchoolChimes.vsparents.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/Merging_live_SchoolChimes.vsparents.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/Merging_live_SchoolChimes.vsparents.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/Merging_live_SchoolChimes.vsparents.main.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/Merging_live_SchoolChimes.vsparents.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/Merging_live_SchoolChimes.vsparents.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/Merging_live_SchoolChimes.vsparents.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolChimes_live_android.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolChimes_live_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.main.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.unitTest.iml" />
     </modules>
   </component>
 </project>

@@ -5,13 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,11 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.LeaveRequestAdapter;
-import com.vs.schoolmessenger.assignment.StudentSelectAssignment;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.LeaveRequestDetails;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
@@ -48,17 +47,16 @@ import retrofit2.Callback;
 public class LeaveRequestsByStaffs extends AppCompatActivity {
 
 
+    public LeaveRequestAdapter mAdapter;
     String Staff_ID;
     TeacherSchoolsModel schoolmodel;
     String loginType = "";
     String Type = "";
-
-    private List<LeaveRequestDetails> leaveHistoryList = new ArrayList<>();
-    private RecyclerView Leave_History_recycle;
-    public LeaveRequestAdapter mAdapter;
     boolean login;
     ImageView imgSearch;
     TextView Searchable;
+    private final List<LeaveRequestDetails> leaveHistoryList = new ArrayList<>();
+    private RecyclerView Leave_History_recycle;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -87,11 +85,10 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
 
-        if(Type.equals("student")) {
+        if (Type.equals("student")) {
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.leave_history);
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
-        }
-        else {
+        } else {
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.leave_request);
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teacher_colorAccent)));
@@ -157,7 +154,7 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
         List<LeaveRequestDetails> temp = new ArrayList();
         for (LeaveRequestDetails d : leaveHistoryList) {
 
-            if (d.getName().toLowerCase().contains(s.toLowerCase()) || d.getSection().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getName().toLowerCase().contains(s.toLowerCase()) || d.getSection().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -174,13 +171,12 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
 
     private void leaveRequestDetails() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(LeaveRequestsByStaffs.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(LeaveRequestsByStaffs.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(LeaveRequestsByStaffs.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(LeaveRequestsByStaffs.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(LeaveRequestsByStaffs.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(LeaveRequestsByStaffs.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -203,7 +199,7 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -226,12 +222,8 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
                                     String approved = jsonObject.getString("Status");
                                     String updatedOn = jsonObject.getString("UpdatedOn");
 
-                                    if (loginType.equals("staff")) {
-                                        login = true;
-                                    } else {
-                                        login = false;
-                                    }
-                                    LeaveRequestDetails data = new LeaveRequestDetails(ID, name, cls, section, appliedOn, fromDate, ToDate, reason, approved, login,updatedOn);
+                                    login = loginType.equals("staff");
+                                    LeaveRequestDetails data = new LeaveRequestDetails(ID, name, cls, section, appliedOn, fromDate, ToDate, reason, approved, login, updatedOn);
                                     leaveHistoryList.add(data);
                                 } else {
                                     showRecordsFound(getResources().getString(R.string.no_records));

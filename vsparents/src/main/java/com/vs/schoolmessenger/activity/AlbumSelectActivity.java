@@ -11,9 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
 import android.provider.MediaStore;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.CustomAlbumSelectAdapter;
@@ -35,24 +34,19 @@ import java.util.HashSet;
  * Created by Darshan on 4/14/2015.
  */
 public class AlbumSelectActivity extends AppCompatActivity {
-    private ArrayList<Album> albums;
-
-    private TextView errorDisplay;
-
-    private GridView gridView;
-    private CustomAlbumSelectAdapter adapter;
-
-    private ActionBar actionBar;
-
-    private ContentObserver observer;
-    private Handler handler;
-    private Thread thread;
-    String profile="";
-
     private final String[] projection = new String[]{
             MediaStore.Images.Media.BUCKET_ID,
             MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.Media.DATA };
+            MediaStore.Images.Media.DATA};
+    String profile = "";
+    private ArrayList<Album> albums;
+    private TextView errorDisplay;
+    private GridView gridView;
+    private CustomAlbumSelectAdapter adapter;
+    private ActionBar actionBar;
+    private ContentObserver observer;
+    private Handler handler;
+    private Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +66,7 @@ public class AlbumSelectActivity extends AppCompatActivity {
         errorDisplay.setVisibility(View.INVISIBLE);
 
         Bundle extras = getIntent().getExtras();
-        if(extras!=null) {
+        if (extras != null) {
             profile = extras.getString("ProfileScreen", "");
         }
 
@@ -82,7 +76,7 @@ public class AlbumSelectActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), ImageSelectActivity.class);
                 intent.putExtra(Constants.INTENT_EXTRA_ALBUM, albums.get(position).name);
-                intent.putExtra("ProfileScreen",profile);
+                intent.putExtra("ProfileScreen", profile);
                 startActivityForResult(intent, Constants.REQUEST_CODE);
             }
         });
@@ -215,20 +209,44 @@ public class AlbumSelectActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-
-            default: {
-                return false;
-            }
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
+        return false;
     }
 
     private void loadAlbums() {
         startThread(new AlbumLoaderRunnable());
+    }
+
+    private void startThread(Runnable runnable) {
+        stopThread();
+        thread = new Thread(runnable);
+        thread.start();
+    }
+
+    private void stopThread() {
+        if (thread == null || !thread.isAlive()) {
+            return;
+        }
+
+        thread.interrupt();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessage(int what) {
+        if (handler == null) {
+            return;
+        }
+
+        Message message = handler.obtainMessage();
+        message.what = what;
+        message.sendToTarget();
     }
 
     private class AlbumLoaderRunnable implements Runnable {
@@ -264,7 +282,7 @@ public class AlbumSelectActivity extends AppCompatActivity {
 
 
                     if (!albumSet.contains(albumId)) {
-                        String count = Constants.getCount(getApplicationContext(), album,albumId);
+                        String count = Constants.getCount(getApplicationContext(), album, albumId);
                         /*
                         It may happen that some image file paths are still present in cache,
                         though image file does not exist. These last as long as media
@@ -273,7 +291,7 @@ public class AlbumSelectActivity extends AppCompatActivity {
                          */
                         file = new File(image);
                         if (file.exists()) {
-                            temp.add(new Album(album, image,count));
+                            temp.add(new Album(album, image, count));
                             albumSet.add(albumId);
                         }
                     }
@@ -292,35 +310,6 @@ public class AlbumSelectActivity extends AppCompatActivity {
             sendMessage(Constants.FETCH_COMPLETED);
         }
 
-    }
-
-    private void startThread(Runnable runnable) {
-        stopThread();
-        thread = new Thread(runnable);
-        thread.start();
-    }
-
-    private void stopThread() {
-        if (thread == null || !thread.isAlive()) {
-            return;
-        }
-
-        thread.interrupt();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sendMessage(int what) {
-        if (handler == null) {
-            return;
-        }
-
-        Message message = handler.obtainMessage();
-        message.what = what;
-        message.sendToTarget();
     }
 
 //    @Override

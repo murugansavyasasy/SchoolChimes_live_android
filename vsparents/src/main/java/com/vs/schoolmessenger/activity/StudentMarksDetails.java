@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -30,7 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
@@ -39,22 +39,18 @@ import retrofit2.Callback;
 public class StudentMarksDetails extends AppCompatActivity {
 
 
-    String child_ID, school_ID, Exam_ID;
-
-    private ArrayList<SubjectAndMarkList> mark_list = new ArrayList<>();
-
     public MarkListAdapter mAdapter;
-
-
+    String child_ID, school_ID, Exam_ID;
     TextView lblStudentName, lblClStandard, lblexamName, lblMaximumMarks, lblHighest, lblAverage, lblSchoolName, lblSection;
     LinearLayout lnrStudentDetails;
     Button btnDisplayMarks;
-
+    private final ArrayList<SubjectAndMarkList> mark_list = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -62,7 +58,6 @@ public class StudentMarksDetails extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.exams_marks);
-
 
 
         lblStudentName = (TextView) findViewById(R.id.lblStudentName);
@@ -107,13 +102,12 @@ public class StudentMarksDetails extends AppCompatActivity {
     }
 
     private void getStudentMarks() {
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StudentMarksDetails.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StudentMarksDetails.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StudentMarksDetails.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StudentMarksDetails.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StudentMarksDetails.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StudentMarksDetails.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -138,7 +132,7 @@ public class StudentMarksDetails extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
                         ExamList data;
@@ -175,7 +169,6 @@ public class StudentMarksDetails extends AppCompatActivity {
                                 values = new SubjectAndMarkList(subject, mark);
                                 mark_list.add(values);
                             }
-
 
 
                         }

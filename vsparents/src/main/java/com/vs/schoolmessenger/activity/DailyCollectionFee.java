@@ -1,20 +1,14 @@
 package com.vs.schoolmessenger.activity;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.EditDataList;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,21 +25,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.vs.schoolmessenger.LessonPlan.Activity.LessonPlanActivity;
-import com.vs.schoolmessenger.LessonPlan.Adapter.LessonPlanAdapter;
-import com.vs.schoolmessenger.LessonPlan.Model.EditDataItem;
-import com.vs.schoolmessenger.LessonPlan.Model.LessonPlanModel;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.adapter.DailyCollectionModeType;
 import com.vs.schoolmessenger.adapter.DailyFeeReportAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
-import com.vs.schoolmessenger.model.CertificateDataItem;
-import com.vs.schoolmessenger.model.CertificateTypeModelItemItem;
-import com.vs.schoolmessenger.model.DailyCollection;
 import com.vs.schoolmessenger.model.DailyCollectionData;
-import com.vs.schoolmessenger.model.DailyCollectionModeTypeData;
 import com.vs.schoolmessenger.model.DailyFeeData;
 import com.vs.schoolmessenger.model.DailyFeeReportData;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -63,9 +47,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,6 +55,8 @@ import retrofit2.Response;
 
 public class DailyCollectionFee extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, CalendarDatePickerDialogFragment.OnDateSetListener {
 
+    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
+    public static List<DailyCollectionData> dailyCollectionData = new ArrayList<DailyCollectionData>();
     TextView lblDateFrom, lblDateTo, lblCategory, lblMode, lblClass, lblNoRecords;
     Spinner SpinnerSection;
     String isAcademicName;
@@ -86,16 +70,11 @@ public class DailyCollectionFee extends AppCompatActivity implements View.OnClic
     String SchoolID, StaffID;
     int selDay, selMonth, selYear;
 
-    public static List<DailyCollectionData> dailyCollectionData = new ArrayList<DailyCollectionData>();
-
-    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
-
 
 //    @Override
 //    protected void attachBaseContext(Context newBase) {
 //        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
 //    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -340,7 +319,7 @@ public class DailyCollectionFee extends AppCompatActivity implements View.OnClic
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("StudentsList:Res", response.body().toString());
                     try {

@@ -7,11 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,11 +23,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.StaffDetailsAdapter;
-import com.vs.schoolmessenger.assignment.StudentSelectAssignment;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
@@ -59,18 +59,17 @@ import retrofit2.Response;
 public class StaffDetailsForParent extends AppCompatActivity implements View.OnClickListener {
 
 
-    TextView lblStandard, lblSection,lblClassTeacher;
-    String child_ID;
-    private List<StaffModel> staffList = new ArrayList<>();
-    private RecyclerView library_student_list;
     public StaffDetailsAdapter mAdapter;
-     LinearLayout lnrParent;
-
-    private PopupWindow pHelpWindow;
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    TextView lblStandard, lblSection, lblClassTeacher;
+    String child_ID;
+    LinearLayout lnrParent;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
+    private final List<StaffModel> staffList = new ArrayList<>();
+    private RecyclerView library_student_list;
+    private PopupWindow pHelpWindow;
     private ArrayList<Profiles> childList = new ArrayList<>();
 
     @Override
@@ -130,13 +129,12 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
     }
 
     private void stffDetails() {
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffDetailsForParent.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StaffDetailsForParent.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffDetailsForParent.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StaffDetailsForParent.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StaffDetailsForParent.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffDetailsForParent.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -148,8 +146,8 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
-        String schoolID=Util_SharedPreference.getSchoolIdFromSP(StaffDetailsForParent.this);
-        String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(StaffDetailsForParent.this);
+        String schoolID = Util_SharedPreference.getSchoolIdFromSP(StaffDetailsForParent.this);
+        String MobileNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(StaffDetailsForParent.this);
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("memberid", child_ID);
@@ -166,7 +164,7 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -191,11 +189,11 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                                 String subjectName = jsonObject.getString("subjectname");
                                 String staffID = jsonObject.getString("StaffID");
 
-                                    StaffModel data = new StaffModel(subjectName, staffName,"");
-                                    staffList.add(data);
+                                StaffModel data = new StaffModel(subjectName, staffName, "");
+                                staffList.add(data);
 
 
-                                }
+                            }
                             Log.d("list123", String.valueOf(staffList.size()));
                             mAdapter.notifyDataSetChanged();
                         } else {
@@ -256,8 +254,8 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
         switch (v.getId()) {
             case R.id.rytHome:
 
-                Intent homescreen=new Intent(StaffDetailsForParent.this,HomeActivity.class);
-                homescreen.putExtra("HomeScreen","1");
+                Intent homescreen = new Intent(StaffDetailsForParent.this, HomeActivity.class);
+                homescreen.putExtra("HomeScreen", "1");
                 homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homescreen);
                 finish();
@@ -265,9 +263,8 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                 break;
             case R.id.rytHelp:
 
-                Intent faq=new Intent(StaffDetailsForParent.this,FAQScreen.class);
+                Intent faq = new Intent(StaffDetailsForParent.this, FAQScreen.class);
                 startActivity(faq);
-
 
 
                 break;
@@ -309,7 +306,6 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
         final EditText etmsg = (EditText) layout.findViewById(R.id.popupHelp_etMsg);
 
 
-
         final TextView tvTxtCount = (TextView) layout.findViewById(R.id.popupHelp_tvTxtCount);
         etmsg.addTextChangedListener(new TextWatcher() {
             @Override
@@ -319,7 +315,7 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText("" + (460 - (s.length())));
+                tvTxtCount.setText(String.valueOf(460 - (s.length())));
             }
 
             @Override
@@ -364,7 +360,7 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("Help:Code", response.code() + " - " + response.toString());
+                Log.d("Help:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Help:Res", response.body().toString());
 
@@ -376,7 +372,7 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                         String strMessage = jsonObject.getString("Message");
 
 
-                        if ((strStatus.toLowerCase()).equals("1")) {
+                        if ((strStatus).equalsIgnoreCase("1")) {
                             showToast(strMessage);
                             if (pHelpWindow.isShowing()) {
                                 pHelpWindow.dismiss();
@@ -444,7 +440,6 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                 changeLanguage(code, ID);
 
 
-
                 dialog.cancel();
 
 
@@ -487,9 +482,9 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -497,9 +492,9 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -527,7 +522,7 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -540,18 +535,16 @@ public class StaffDetailsForParent extends AppCompatActivity implements View.OnC
                         String message = jsonObject.getString("Message");
 
 
-
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),StaffDetailsForParent.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),StaffDetailsForParent.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),StaffDetailsForParent.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),StaffDetailsForParent.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),StaffDetailsForParent.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),StaffDetailsForParent.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),StaffDetailsForParent.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),StaffDetailsForParent.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),StaffDetailsForParent.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),StaffDetailsForParent.this);
-
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), StaffDetailsForParent.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), StaffDetailsForParent.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), StaffDetailsForParent.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), StaffDetailsForParent.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), StaffDetailsForParent.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), StaffDetailsForParent.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), StaffDetailsForParent.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), StaffDetailsForParent.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), StaffDetailsForParent.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), StaffDetailsForParent.this);
 
 
                         if (Integer.parseInt(status) > 0) {

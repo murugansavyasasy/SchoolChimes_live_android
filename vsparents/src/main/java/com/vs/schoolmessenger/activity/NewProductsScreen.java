@@ -3,7 +3,6 @@ package com.vs.schoolmessenger.activity;
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -12,14 +11,10 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.assignment.utils.Utils;
-import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 public class NewProductsScreen extends AppCompatActivity {
 
@@ -32,12 +27,12 @@ public class NewProductsScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.special_offer);
-        webView=(WebView) findViewById(R.id.specila_offer_webview);
+        webView = (WebView) findViewById(R.id.specila_offer_webview);
 
 
-        TeacherUtil_SharedPreference.putNewProduct(NewProductsScreen.this,"1");
-        MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(NewProductsScreen.this);
-        OfferLink=TeacherUtil_SharedPreference.getNewProductLink(NewProductsScreen.this);
+        TeacherUtil_SharedPreference.putNewProduct(NewProductsScreen.this, "1");
+        MobileNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(NewProductsScreen.this);
+        OfferLink = TeacherUtil_SharedPreference.getNewProductLink(NewProductsScreen.this);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
@@ -63,11 +58,9 @@ public class NewProductsScreen extends AppCompatActivity {
             }
         });
 
-        webView.setWebViewClient(new WebViewClient()
-        {
+        webView.setWebViewClient(new WebViewClient() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url)
-            {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //view.loadUrl(url);
                 System.out.println("hello");
                 return false;
@@ -77,7 +70,7 @@ public class NewProductsScreen extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.loadUrl(OfferLink+MobileNumber);
+        webView.loadUrl(OfferLink + MobileNumber);
 
     }
 

@@ -118,63 +118,45 @@ import retrofit2.Response;
 
 public class TeacherGeneralText extends AppCompatActivity implements View.OnClickListener, CalendarDatePickerDialogFragment.OnDateSetListener, SmsHistoryListener {
 
+    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
+    public static PopupWindow popupWindow;
+    public List<StaffNoticeBoard.StaffNoticeBoardData> isStaffNoticeBoardData = new ArrayList<StaffNoticeBoard.StaffNoticeBoardData>();
     Button btnNext;
     Button btnToSections, btnToStudents;
     EditText etMessage, et_tittle;
     TextView tvcount, tvtotcount, tvheader;
     String strmessage;
     RecyclerView rvSchoolsList;
-
     LinearLayout AddSubjectlayout;
     RelativeLayout Select_Exam_Date;
     int a = 0;
-
-    private ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
-    private ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
-    private int i_schools_count = 0;
-
-    private int iRequestCode;
     String loginType;
     String schoolId, staffId;
     int selDay, selMonth, selYear;
     String selHour, selMin;
     int minimumHour, minimumMinute;
-    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
     String strfromdate, strdatevalue;
     TextView Date;
-
     Spinner spinnerList;
     NestedScrollView NestedScrollView;
     RelativeLayout rytSmsHistory;
     Button btn_Select_receipients, btnSelectSchool;
-
     String SelectedStaffId = "";
     String SelectedSchoolId = "";
-
     JsonObject jsonObject;
     Button btnHistorySlectReceipients, btnSlectSchool, btnSmsHistoryStandard, btnSmsHistorySectionOrStudents;
-
-    private ArrayList<SmsHistoryModel> SmsHistoryList = new ArrayList<>();
-    private ArrayList<SmsHistoryModel> SelectedSmsHistory = new ArrayList<>();
     SmsHistoryAdapter smsAdapter;
     RecyclerView SmsHistoryRecycle;
     String HistoryContent = "";
     String HistoryDescription = "";
-
-    LinearLayout selectSpinner,lnrAddVoice;
+    LinearLayout selectSpinner, lnrAddVoice;
     int count = 0;
-
     RadioGroup TextRadio;
     RadioButton radioGeneralText, radioSmsHistory;
-    Button btnStaffGroups,btnAttachments;
-
-    public static PopupWindow popupWindow;
-
+    Button btnStaffGroups, btnAttachments;
     File photoFile;
     String imageFilePath;
-    private ArrayList<String> imagePathList = new ArrayList<>();
     String strPDfFilePath = "";
-
     ImageButton imgBtnPlayPause;
     SeekBar seekBar;
     MediaRecorder recorder;
@@ -183,17 +165,12 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     int iMediaDuration = 0;
     File futureStudioIconFile;
     int mediaFileLengthInMilliseconds = 0;
-
-    private MediaPlayer mediaPlayer;
     TextView tvPlayDuration, tvRecordDuration, tvRecordTitle, tvEmergTitle;
-
-    public List<StaffNoticeBoard.StaffNoticeBoardData> isStaffNoticeBoardData = new ArrayList<StaffNoticeBoard.StaffNoticeBoardData>();
     ImageView ivRecord, imgClose;
     RelativeLayout rlVoicePreview, genText_relativeLayoutFoot;
     int recTime;
     TextView emergVoice_tvTitle, lblAttachments;
     List<String> listStd = new ArrayList<>();
-
     int iMaxRecDur;
     Handler handler = new Handler();
     List<String> listStdcode = new ArrayList<>();
@@ -206,9 +183,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     StaffHomeWorkReport isStaffHomeWorkReport;
     RelativeLayout rlySection;
     TextView lblNoRecords;
-
     List<TeacherSectionsListNEW> arrSectionCollections;
-    private ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
     List<String> listSection;
     List<String> listSectionID;
     List<String> listTotalStudentsInSec;
@@ -218,6 +193,41 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     ArrayAdapter<String> adaSection;
     Spinner attendance_spinStandard, attendance_spinSection;
     String isAttendanceDate;
+    private final ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
+    private final ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
+    private int i_schools_count = 0;
+    private int iRequestCode;
+    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // tvcount.setText("" + (maxGeneralSMSCount - (s.length())));
+        }
+
+        public void afterTextChanged(Editable s) {
+            enableSubmitIfReady();
+        }
+    };
+    private final TextWatcher mTextEditorWatcher1 = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // tvcount.setText("" + (maxHomeWorkSMSCount - (s.length())));
+        }
+
+        public void afterTextChanged(Editable s) {
+            enableSubmitIfReady();
+        }
+    };
+    private final ArrayList<SmsHistoryModel> SmsHistoryList = new ArrayList<>();
+    private final ArrayList<SmsHistoryModel> SelectedSmsHistory = new ArrayList<>();
+    private ArrayList<String> imagePathList = new ArrayList<>();
+    private MediaPlayer mediaPlayer;
+    private final ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -374,10 +384,8 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
                 if (view.getId() == R.id.genText_txtmessage) {
                     view.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
+                    if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
                     }
                 }
                 return false;
@@ -442,7 +450,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherGeneralText.this);
-        if(countryID.equals("11")){
+        if (countryID.equals("11")) {
             btnToSections.setText("To Grade or Sections");
         }
 
@@ -731,7 +739,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 btnToStudents.setVisibility(View.GONE);
                 rlaTitle.setVisibility(View.VISIBLE);
             } else {
-                if(iRequestCode == STAFF_TEXT){
+                if (iRequestCode == STAFF_TEXT) {
                     btnStaffGroups.setVisibility(View.VISIBLE);
                 }
                 rvSchoolsList.setVisibility(View.GONE);
@@ -872,13 +880,12 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     }
 
     private void SmsHistory() {
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherGeneralText.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherGeneralText.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherGeneralText.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherGeneralText.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherGeneralText.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherGeneralText.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -889,8 +896,8 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
-        SelectedSchoolId="";
-        SelectedStaffId="";
+        SelectedSchoolId = "";
+        SelectedStaffId = "";
 
         loginType = TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherGeneralText.this);
 
@@ -923,7 +930,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -1051,6 +1058,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         }
     }
+
     public void onAddField(View v) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.add_subjects, null);
@@ -1094,7 +1102,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         cdp.show(getSupportFragmentManager(), FRAG_TAG_DATE_PICKER);
     }
 
-
     private void listSchoolsAPI() {
         i_schools_count = 0;
         for (int i = 0; i < listschooldetails.size(); i++) {
@@ -1107,7 +1114,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         if (iRequestCode == PRINCIPAL_TEXT) {
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
-                    new TeacherSchoolListForPrincipalAdapter(TeacherGeneralText.this, arrSchoolList,false, new TeacherSchoolListPrincipalListener() {
+                    new TeacherSchoolListForPrincipalAdapter(TeacherGeneralText.this, arrSchoolList, false, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
                             if (etMessage.getText().toString().length() > 0) {
@@ -1164,35 +1171,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-           // tvcount.setText("" + (maxGeneralSMSCount - (s.length())));
-        }
-
-        public void afterTextChanged(Editable s) {
-            enableSubmitIfReady();
-        }
-    };
-
-    private final TextWatcher mTextEditorWatcher1 = new TextWatcher() {
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-           // tvcount.setText("" + (maxHomeWorkSMSCount - (s.length())));
-        }
-
-        public void afterTextChanged(Editable s) {
-            enableSubmitIfReady();
-        }
-    };
-
-
     @Override
     public void onBackPressed() {
         if (mediaPlayer.isPlaying())
@@ -1202,6 +1180,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             stop_RECORD();
         backToResultActvity("SENT");
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -1234,8 +1213,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             btnToStudents.setEnabled((isReady) && (istitleReady));
             btnStaffGroups.setEnabled((isReady) && (istitleReady));
             rlaTitle.setVisibility(View.GONE);
-        }
-        else if (loginType.equals(LOGIN_TYPE_TEACHER) || (iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW) || iRequestCode == PRINCIPAL_TEXT_HW) {
+        } else if (loginType.equals(LOGIN_TYPE_TEACHER) || (iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW) || iRequestCode == PRINCIPAL_TEXT_HW) {
             btnToSections.setEnabled(isReady);
             btnToStudents.setEnabled(isReady);
             btnStaffGroups.setEnabled(isReady);
@@ -1244,9 +1222,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             btn_Select_receipients.setEnabled(isReady);
             btnSelectSchool.setEnabled(isReady);
             rlaTitle.setVisibility(View.VISIBLE);
-        }
-
-        else btnNext.setEnabled(isReady);
+        } else btnNext.setEnabled(isReady);
 
         btn_Select_receipients.setEnabled(isReady);
         btnSelectSchool.setEnabled(isReady);
@@ -1269,7 +1245,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                     inPrincipal.putExtra("REQUEST_CODE", iRequestCode);
                     startActivityForResult(inPrincipal, iRequestCode);
                 } else if (TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherGeneralText.this).equals(LOGIN_TYPE_HEAD)) {
-                    Log.d("SelectedCount", "" + i_schools_count);
+                    Log.d("SelectedCount", String.valueOf(i_schools_count));
                     if (i_schools_count > 0) {
 
                         SendEmergencyVoiceGroupheadAPI();
@@ -1345,8 +1321,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             case R.id.emergVoice_ivRecord:
                 if (bIsRecording) {
                     stop_RECORD();
-                }
-                else {
+                } else {
                     ivRecord.setEnabled(false);
                     start_RECORD();
                 }
@@ -1407,11 +1382,9 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     private String getRecFilename() {
 
         String filepath;
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-        {
-            filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
-        }
-        else{
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            filepath = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+        } else {
             filepath = Environment.getExternalStorageDirectory().getPath();
         }
 
@@ -1421,26 +1394,10 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         }
 
         File fileNamePath = new File(fileDir, VOICE_FILE_NAME);
-        Log.d("fileNamePath",fileNamePath.getPath());
+        Log.d("fileNamePath", fileNamePath.getPath());
         return (fileNamePath.getPath());
 
     }
-
-    private Runnable runson = new Runnable() {
-        @Override
-        public void run() {
-            tvRecordDuration.setText(milliSecondsToTimer(recTime * 1000));
-            if(!tvRecordDuration.getText().toString().equals("00:00")){
-                ivRecord.setEnabled(true);
-            }
-
-            recTime = recTime + 1;
-            if (recTime != iMaxRecDur)
-                recTimerHandler.postDelayed(this, 1000);
-            else
-                stop_RECORD();
-        }
-    };
 
     private void stop_RECORD() {
         recorder.stop();
@@ -1464,7 +1421,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         ivRecord.setImageResource(R.drawable.teacher_ic_mic);
 
 
-        if(!tvRecordDuration.getText().toString().equals("00:00")){
+        if (!tvRecordDuration.getText().toString().equals("00:00")) {
             rlVoicePreview.setVisibility(View.VISIBLE);
         }
 
@@ -1478,17 +1435,29 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         }
 
         fetchSong();
-    }
+    }    private final Runnable runson = new Runnable() {
+        @Override
+        public void run() {
+            tvRecordDuration.setText(milliSecondsToTimer(recTime * 1000L));
+            if (!tvRecordDuration.getText().toString().equals("00:00")) {
+                ivRecord.setEnabled(true);
+            }
+
+            recTime = recTime + 1;
+            if (recTime != iMaxRecDur)
+                recTimerHandler.postDelayed(this, 1000);
+            else
+                stop_RECORD();
+        }
+    };
 
     private void fetchSong() {
         Log.d("FetchSong", "Start***************************************");
         try {
             String filepath;
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            {
-                filepath=getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
-            }
-            else{
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                filepath = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath();
+            } else {
                 filepath = Environment.getExternalStorageDirectory().getPath();
             }
             File file = new File(filepath, VOICE_FOLDER_NAME);
@@ -1549,7 +1518,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             handler.postDelayed(notification, 1000);
         }
     }
-
 
     private void attachmentsPopup() {
 
@@ -1663,12 +1631,11 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                     imagePathList = data.getStringArrayListExtra("images");
                     imageFilePath = imagePathList.get(0);
                     openPreviewPopup();
-                    lblAttachments.setText("Attachments +"+String.valueOf(imagePathList.size()));
+                    lblAttachments.setText("Attachments +" + imagePathList.size());
                     imagepathList = imagePathList.size();
 
                 }
-            }
-            catch (Exception e){
+            } catch (Exception e) {
 
             }
 
@@ -1683,9 +1650,9 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                     File outputDir = TeacherGeneralText.this.getCacheDir(); // context being the Activity pointer
                     File outputFile = File.createTempFile("School_document", ".pdf", outputDir);
                     try (InputStream in = getContentResolver().openInputStream(uri)) {
-                        if(in == null) return;
+                        if (in == null) return;
                         try (OutputStream out = getContentResolver().openOutputStream(Uri.fromFile(outputFile))) {
-                            if(out == null) return;
+                            if (out == null) return;
                             // Transfer bytes from in to out
                             byte[] buf = new byte[1024];
                             int len;
@@ -1697,14 +1664,13 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
                     imagePathList.add(outputFile.getPath());
                     strPDfFilePath = outputFile.getPath();
-                    lblAttachments.setText("Attachments +"+String.valueOf(imagePathList.size()));
+                    lblAttachments.setText("Attachments +" + imagePathList.size());
                     imagepathList = imagePathList.size();
 
                     openPreviewPopup();
 
                 }
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 alert("Please choose pdf file to send");
             }
 
@@ -1722,7 +1688,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                     long length = img.length();
                     Log.d("length", String.valueOf(length));
 
-                    lblAttachments.setText("Attachments +"+String.valueOf(imagePathList.size()));
+                    lblAttachments.setText("Attachments +" + imagePathList.size());
                     imagepathList = imagePathList.size();
 
                     if (length <= sizekb) {
@@ -1739,8 +1705,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                     imagepathList = 0;
                 }
 
-            }
-            catch (Exception e){
+            } catch (Exception e) {
 
             }
         } else {
@@ -1789,7 +1754,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 imagePathList.remove(0);
                 lnrView1.setVisibility(View.GONE);
                 visibleAttachments(bottomSheetDialog);
-                if(imagePathList.size() == 0){
+                if (imagePathList.size() == 0) {
                     bottomSheetDialog.dismiss();
                 }
 
@@ -1803,7 +1768,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
                 visibleAttachments(bottomSheetDialog);
 
-                if(imagePathList.size() == 0){
+                if (imagePathList.size() == 0) {
                     bottomSheetDialog.dismiss();
                 }
             }
@@ -1815,7 +1780,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 imagePathList.remove(2);
                 lnrView3.setVisibility(View.GONE);
                 visibleAttachments(bottomSheetDialog);
-                if(imagePathList.size() == 0){
+                if (imagePathList.size() == 0) {
                     bottomSheetDialog.dismiss();
                 }
             }
@@ -1827,7 +1792,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 imagePathList.remove(3);
                 lnrView4.setVisibility(View.GONE);
                 visibleAttachments(bottomSheetDialog);
-                if(imagePathList.size() == 0){
+                if (imagePathList.size() == 0) {
                     bottomSheetDialog.dismiss();
                 }
             }
@@ -1854,12 +1819,11 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             }
         });
 
-        if(imagePathList.size() == 1){
+        if (imagePathList.size() == 1) {
 
-            if(strPDfFilePath.equals("")) {
+            if (strPDfFilePath.equals("")) {
                 Glide.with(this).load(imagePathList.get(0)).into(img1);
-            }
-            else {
+            } else {
                 img1.setImageResource(R.drawable.pdf_image);
             }
 
@@ -1867,9 +1831,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             lnrView2.setVisibility(View.GONE);
             lnrView3.setVisibility(View.GONE);
             lnrView4.setVisibility(View.GONE);
-        }
-
-       else if(imagePathList.size() == 2){
+        } else if (imagePathList.size() == 2) {
             Glide.with(this).load(imagePathList.get(0)).into(img1);
             Glide.with(this).load(imagePathList.get(1)).into(img2);
 
@@ -1877,8 +1839,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             lnrView2.setVisibility(View.VISIBLE);
             lnrView3.setVisibility(View.GONE);
             lnrView4.setVisibility(View.GONE);
-       }
-        else if(imagePathList.size() == 3){
+        } else if (imagePathList.size() == 3) {
             Glide.with(this).load(imagePathList.get(0)).into(img1);
             Glide.with(this).load(imagePathList.get(1)).into(img2);
             Glide.with(this).load(imagePathList.get(2)).into(img3);
@@ -1887,8 +1848,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             lnrView2.setVisibility(View.VISIBLE);
             lnrView3.setVisibility(View.VISIBLE);
             lnrView4.setVisibility(View.GONE);
-        }
-        else if(imagePathList.size() == 4){
+        } else if (imagePathList.size() == 4) {
             Glide.with(this).load(imagePathList.get(0)).into(img1);
             Glide.with(this).load(imagePathList.get(1)).into(img2);
             Glide.with(this).load(imagePathList.get(2)).into(img3);
@@ -1906,13 +1866,12 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     }
 
     private void visibleAttachments(BottomSheetDialog bottomSheetDialog) {
-        lblAttachments.setText("Attachments +"+String.valueOf(imagePathList.size()));
+        lblAttachments.setText("Attachments +" + imagePathList.size());
         imagepathList = imagePathList.size();
 
-        if(imagePathList.size() > 0){
+        if (imagePathList.size() > 0) {
             lnrAttachments.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             lnrAttachments.setVisibility(View.GONE);
             bottomSheetDialog.dismiss();
 
@@ -1935,7 +1894,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     }
 
     private void SendEmergencyVoiceGroupheadAPI() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherGeneralText.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherGeneralText.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -1959,7 +1918,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1967,7 +1926,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                             JSONObject jsonObject = js.getJSONObject(0);
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
 
 
                                 showAlert(strMsg);
@@ -1991,7 +1950,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -2059,7 +2018,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         return jsonObjectSchool;
     }
 
-
     private String dateFormater(long dateInMillis, String formatString) {
         SimpleDateFormat formatter = new SimpleDateFormat(formatString);
         String dateString = formatter.format(new Date(dateInMillis));
@@ -2091,7 +2049,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
 
     }
-
 
     private void getHomeWorkReport() {
 
@@ -2167,7 +2124,6 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
             }
         });
     }
-
 
     private void standardsAndSectoinsListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -2283,5 +2239,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         }
         return jsonObjectSchool;
     }
+
+
 }
 

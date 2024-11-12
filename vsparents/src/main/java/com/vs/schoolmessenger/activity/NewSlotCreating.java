@@ -100,8 +100,6 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
     Switch SwitchBreak;
     int isNeedBreak = 0;
     List<String> isDifferentDates = new ArrayList<>();
-    private int fromHour, fromMinute, toHour, toMinute;
-    private SimpleDateFormat timeFormat;
     TextView EdtOnlineLink;
     RelativeLayout rlaLink;
     LinearLayout lnrBreak;
@@ -118,6 +116,17 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
     EditText edt_slotDuration;
     ImageView imgClearLink;
     TextView lblPurPose, lblSelectMode, lblSelectClass, lblOpenSlot, lblSlotDuration, lblNeedBreak, txtSelectDate;
+    private int fromHour, fromMinute, toHour, toMinute;
+    private SimpleDateFormat timeFormat;
+
+    public static long getDateDifferenceInDays(int year, int month, int day) {
+        Calendar currentDate = Calendar.getInstance();
+        Calendar specifiedDate = Calendar.getInstance();
+        specifiedDate.set(year, month - 1, day); // Month is zero-based
+        long differenceInMillis = specifiedDate.getTimeInMillis() - currentDate.getTimeInMillis();
+        long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
+        return differenceInDays;
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -225,26 +234,11 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
 
                 if (!lblPickFromTime.getText().toString().equals("Select from time") && !lblPickToTime.getText().toString().equals("Select to time")) {
                     if (!edtDiscussion.getText().toString().equals("")) {
-                   //     if (!isSelectMode.equals("Select Mode")) {
-                            ArrayList<SectionAndClass> selectedIds = isSectionListAdapter.getSelectedIds();
-                            if (selectedIds.size() > 0) {
-                                if (isSelectMode.equals("Online")) {
-                                    if (!EdtOnlineLink.getText().toString().equals("Paste your link here.")) {
-                                        if (isDuration.equals("Custom")) {
-                                            isDuration = "";
-                                            if (!edt_slotDuration.getText().toString().equals("")) {
-                                                isDuration = edt_slotDuration.getText().toString();
-                                                DatePicker();
-                                            } else {
-                                                Toast.makeText(NewSlotCreating.this, "Enter the slot minutes", Toast.LENGTH_SHORT).show();
-                                            }
-                                        } else {
-                                            DatePicker();
-                                        }
-                                    } else {
-                                        Toast.makeText(NewSlotCreating.this, "Paste your link here.", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
+                        //     if (!isSelectMode.equals("Select Mode")) {
+                        ArrayList<SectionAndClass> selectedIds = isSectionListAdapter.getSelectedIds();
+                        if (selectedIds.size() > 0) {
+                            if (isSelectMode.equals("Online")) {
+                                if (!EdtOnlineLink.getText().toString().equals("Paste your link here.")) {
                                     if (isDuration.equals("Custom")) {
                                         isDuration = "";
                                         if (!edt_slotDuration.getText().toString().equals("")) {
@@ -256,10 +250,25 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
                                     } else {
                                         DatePicker();
                                     }
+                                } else {
+                                    Toast.makeText(NewSlotCreating.this, "Paste your link here.", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(NewSlotCreating.this, "Select the section", Toast.LENGTH_SHORT).show();
+                                if (isDuration.equals("Custom")) {
+                                    isDuration = "";
+                                    if (!edt_slotDuration.getText().toString().equals("")) {
+                                        isDuration = edt_slotDuration.getText().toString();
+                                        DatePicker();
+                                    } else {
+                                        Toast.makeText(NewSlotCreating.this, "Enter the slot minutes", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    DatePicker();
+                                }
                             }
+                        } else {
+                            Toast.makeText(NewSlotCreating.this, "Select the section", Toast.LENGTH_SHORT).show();
+                        }
 //                        } else {
 //                            Toast.makeText(NewSlotCreating.this, "Select the mode", Toast.LENGTH_SHORT).show();
 //                        }
@@ -471,15 +480,6 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
         maxDate.add(Calendar.DAY_OF_MONTH, 60);
         manyDaysBuilder.setMaximumDate(maxDate);
         manyDaysPicker.show();
-    }
-
-    public static long getDateDifferenceInDays(int year, int month, int day) {
-        Calendar currentDate = Calendar.getInstance();
-        Calendar specifiedDate = Calendar.getInstance();
-        specifiedDate.set(year, month - 1, day); // Month is zero-based
-        long differenceInMillis = specifiedDate.getTimeInMillis() - currentDate.getTimeInMillis();
-        long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
-        return differenceInDays;
     }
 
     private List<Calendar> getDisabledDays() {

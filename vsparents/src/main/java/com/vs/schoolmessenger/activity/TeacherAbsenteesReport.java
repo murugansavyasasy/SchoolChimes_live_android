@@ -1,15 +1,13 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,12 +18,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.adapter.SchoolAttendanceReport;
 import com.vs.schoolmessenger.adapter.TeachersAbsenteesDateReportAdapter;
-import com.vs.schoolmessenger.interfaces.TeacherAbsenteesDateListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherABS_Section;
 import com.vs.schoolmessenger.model.TeacherABS_Standard;
@@ -45,22 +45,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
-
 
 public class TeacherAbsenteesReport extends AppCompatActivity {
 
     private static final String TAG = TeacherAbsenteesDates.class.getSimpleName();
     RecyclerView rvDateList;
     TeachersAbsenteesDateReportAdapter absenteesDateReportAdapter;
-    private List<TeacherAbsenteesDates> dateList = new ArrayList<>();
     String SchoolID, StaffID;
     String date, absentcount, day;
     int iRequestCode;
     ImageView imgSearch;
     TextView Searchable;
+    private final List<TeacherAbsenteesDates> dateList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -87,13 +83,10 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         if ((TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherAbsenteesReport.this).equals(LOGIN_TYPE_PRINCIPAL)) && (listschooldetails.size() == 1)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
-        }
-
-        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherAbsenteesReport.this).equals(LOGIN_TYPE_TEACHER)){
+        } else if (TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherAbsenteesReport.this).equals(LOGIN_TYPE_TEACHER)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
-        }
-        else {
+        } else {
             SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
             TeacherUtil_Common.Principal_SchoolId = SchoolID;
             StaffID = getIntent().getExtras().getString("STAFF_ID", "");
@@ -158,7 +151,7 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         List<TeacherAbsenteesDates> temp = new ArrayList();
         for (TeacherAbsenteesDates d : dateList) {
 
-            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getDay().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getDay().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -176,6 +169,7 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
             }
         }
     }
+
     @Override
     public void onBackPressed() {
         backToResultActvity("BACK");
@@ -193,13 +187,11 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void AbsenteesReportListAPI() {
@@ -209,13 +201,12 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherAbsenteesReport.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherAbsenteesReport.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherAbsenteesReport.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherAbsenteesReport.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherAbsenteesReport.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAbsenteesReport.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -232,16 +223,15 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
-                        for (int i = 0; i < js.length(); i++)
-                        {
+                        Log.d("json length", String.valueOf(js.length()));
+                        for (int i = 0; i < js.length(); i++) {
                             JSONObject jsonObject = js.getJSONObject(i);
                             date = jsonObject.getString("Date");
                             absentcount = jsonObject.getString("TotalAbsentees");
@@ -250,33 +240,32 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                             TeacherAbsenteesDates absentee;
 
 
-                            absentee = new TeacherAbsenteesDates(date, day, absentcount,absentdateonly);
+                            absentee = new TeacherAbsenteesDates(date, day, absentcount, absentdateonly);
                             ArrayList<TeacherABS_Standard> listStds = new ArrayList<>();
 
-                            try
-                            {
-                                  JSONArray jSONArray = jsonObject.getJSONArray("ClassWise");
-                                    for (int j = 0; j < jSONArray.length(); j++) {
-                                        JSONObject jsonObjectgroups = jSONArray.getJSONObject(j);
-                                        TeacherABS_Standard abs_standard;
+                            try {
+                                JSONArray jSONArray = jsonObject.getJSONArray("ClassWise");
+                                for (int j = 0; j < jSONArray.length(); j++) {
+                                    JSONObject jsonObjectgroups = jSONArray.getJSONObject(j);
+                                    TeacherABS_Standard abs_standard;
 
-                                        abs_standard = new TeacherABS_Standard(jsonObjectgroups.getString("ClassName"), jsonObjectgroups.getString("TotalAbsentees"));
-                                        abs_standard.setSid(jsonObjectgroups.getString("ClassId"));
+                                    abs_standard = new TeacherABS_Standard(jsonObjectgroups.getString("ClassName"), jsonObjectgroups.getString("TotalAbsentees"));
+                                    abs_standard.setSid(jsonObjectgroups.getString("ClassId"));
 
 
-                                        ArrayList<TeacherABS_Section> listSections = new ArrayList<>();
-                                        JSONArray jSONArraysection = jsonObjectgroups.getJSONArray("SectionWise");
-                                        {
-                                            for (int k = 0; k < jSONArraysection.length(); k++) {
-                                                JSONObject jsonObjectsections = jSONArraysection.getJSONObject(k);
-                                                TeacherABS_Section abs_section;
-                                                abs_section = new TeacherABS_Section(jsonObjectsections.getString("SectionName"), jsonObjectsections.getString("TotalAbsentees"),jsonObjectsections.getString("SectionId"));
-                                                listSections.add(abs_section);
-                                            }
-                                            abs_standard.setSections(listSections);
-                                            listStds.add(abs_standard);
+                                    ArrayList<TeacherABS_Section> listSections = new ArrayList<>();
+                                    JSONArray jSONArraysection = jsonObjectgroups.getJSONArray("SectionWise");
+                                    {
+                                        for (int k = 0; k < jSONArraysection.length(); k++) {
+                                            JSONObject jsonObjectsections = jSONArraysection.getJSONObject(k);
+                                            TeacherABS_Section abs_section;
+                                            abs_section = new TeacherABS_Section(jsonObjectsections.getString("SectionName"), jsonObjectsections.getString("TotalAbsentees"), jsonObjectsections.getString("SectionId"));
+                                            listSections.add(abs_section);
                                         }
+                                        abs_standard.setSections(listSections);
+                                        listStds.add(abs_standard);
                                     }
+                                }
 
                             } catch (Exception e) {
                                 Log.e("GroupList:Excep", e.getMessage());
@@ -294,6 +283,7 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
                     Log.e("GroupList:Excep", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing())
@@ -302,12 +292,13 @@ public class TeacherAbsenteesReport extends AppCompatActivity {
             }
         });
     }
+
     private JsonObject constructJsonArrayMgtSchoolStd() {
         JsonObject jsonObjectSchool = new JsonObject();
         try {
             jsonObjectSchool.addProperty("SchoolId", SchoolID);
             jsonObjectSchool.addProperty("StaffID", StaffID);
-            Log.d("jsonObjectSchool",String.valueOf(jsonObjectSchool));
+            Log.d("jsonObjectSchool", String.valueOf(jsonObjectSchool));
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }

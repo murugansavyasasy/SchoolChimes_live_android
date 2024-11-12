@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -25,6 +26,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherSplashScreen;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.util.ScreenState;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,10 +66,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Notification Message tone: " + remoteMessage.getData().get("tone"));
             Log.d(TAG, "Notification Message type: " + remoteMessage.getData().get("type"));
             if (remoteMessage.getData().get("type").equals("isCall")) {
+
                 boolean isDashboardOpen = ScreenState.getInstance().isIncomingCallScreen();
                 Log.d("isDashboardOpen", String.valueOf(isDashboardOpen));
                 if (!isDashboardOpen) {
-                    showNotificationCall(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("url"), remoteMessage.getData().get("receiver_id"));
+                    showNotificationCall(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("url"), remoteMessage.getData().get("receiver_id"),
+                            remoteMessage.getData().get("retrycount"), remoteMessage.getData().get("circular_id"), remoteMessage.getData().get("ei1"), remoteMessage.getData().get("ei2"), remoteMessage.getData().get("ei3"), remoteMessage.getData().get("ei4")
+                            , remoteMessage.getData().get("ei5"), remoteMessage.getData().get("role"), remoteMessage.getData().get("menu_id"));
                 } else {
                     Log.d("PLEASE_WAIT", "Already playing the voice call right now so please wait.");
                 }
@@ -103,7 +108,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         } else {
             resultIntent = PendingIntent.getBroadcast(this, 0, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         }
 
         message_voice = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.message);
@@ -182,7 +187,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    private void showNotificationCall(String title, String message, String url, String receiverId) {
+    private void showNotificationCall(String title, String body, String url, String receiverId, String retrycount, String circularId, String ei1, String ei2, String ei3, String ei4, String ei5, String role, String menuId) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = "notification_channel";
 
@@ -204,6 +209,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             channel.setDescription("My Notification Channel");
             channel.setSound(null, attributes);  // Disabling default sound
             channel.enableVibration(true);
+            if (!Util_Common.mediaPlayer.isPlaying()) {
+                Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.schoolchimes_tone);
+                Util_Common.mediaPlayer.start();
+            }
 
             notificationManager.createNotificationChannel(channel);
         }
@@ -216,6 +225,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra("isNotificationId", notificationId);
         intent.putExtra("isVoiceUrl", url);
         intent.putExtra("isReceiverId", receiverId);
+        intent.putExtra("retrycount", retrycount);
+        intent.putExtra("circularId", circularId);
+        intent.putExtra("ei1", ei1);
+        intent.putExtra("ei2", ei2);
+        intent.putExtra("ei3", ei3);
+        intent.putExtra("ei4", ei4);
+        intent.putExtra("ei5", ei5);
+        intent.putExtra("role", role);
+        intent.putExtra("menuId", menuId);
 
         // Create a unique PendingIntent for each notification
         PendingIntent resultIntent;
@@ -228,9 +246,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         // Custom RemoteViews for custom layout in the notification
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.call_notification);
-        remoteViews.setTextViewText(R.id.notification_title, title);
-        remoteViews.setTextViewText(R.id.lblContent, message);
+//        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.call_notification);
+//        remoteViews.setTextViewText(R.id.notification_title, title);
+//        remoteViews.setTextViewText(R.id.lblContent, body);
+
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_call_notification);
+//        remoteViews.setTextViewText(R.id.notification_title, title);
+//        remoteViews.setTextViewText(R.id.lblContent, body);
 
         // Create the notification
         Notification notification = new NotificationCompat.Builder(this, channelId)

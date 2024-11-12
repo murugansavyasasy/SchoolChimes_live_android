@@ -2,14 +2,15 @@ package com.vs.schoolmessenger.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdView;
 import com.vs.schoolmessenger.R;
@@ -20,12 +21,11 @@ import ss.com.bannerslider.Slider;
 
 public class TextBookForParent extends AppCompatActivity {
 
-    private WebView webView;
     ProgressDialog pDialog;
     Slider slider;
     ImageView adImage;
-
     AdView mAdView;
+    private WebView webView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class TextBookForParent extends AppCompatActivity {
 
         Slider.init(new PicassoImageLoadingService(TextBookForParent.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
 
@@ -71,12 +71,12 @@ public class TextBookForParent extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);
-        }
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
     @Override

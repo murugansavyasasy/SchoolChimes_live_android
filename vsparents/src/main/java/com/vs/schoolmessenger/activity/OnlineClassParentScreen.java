@@ -18,35 +18,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.ads.AdView;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.OnlineClassAdapter;
 import com.vs.schoolmessenger.interfaces.OnItemClickOnlineClass;
-import com.vs.schoolmessenger.interfaces.OnMsgItemClickListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
-import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.model.OnlineClassModel;
-import com.vs.schoolmessenger.model.TeacherMessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +49,7 @@ import retrofit2.Response;
 import ss.com.bannerslider.Slider;
 
 
-public  class OnlineClassParentScreen extends AppCompatActivity implements OnItemClickOnlineClass {
+public class OnlineClassParentScreen extends AppCompatActivity implements OnItemClickOnlineClass {
 
     public ArrayList<OnlineClassModel> msgModelList = new ArrayList<>();
     RecyclerView rvTextMsgList;
@@ -142,7 +137,6 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
         });
 
 
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvTextMsgList.setLayoutManager(layoutManager);
         rvTextMsgList.setItemAnimator(new DefaultItemAnimator());
@@ -162,7 +156,7 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
         ArrayList<OnlineClassModel> temp = new ArrayList();
         for (OnlineClassModel d : msgModelList) {
 
-            if (d.getTopic().toLowerCase().contains(s.toLowerCase()) ||  d.getMeetingdate().toLowerCase().contains(s.toLowerCase()) || d.getMeetingtype().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getTopic().toLowerCase().contains(s.toLowerCase()) || d.getMeetingdate().toLowerCase().contains(s.toLowerCase()) || d.getMeetingtype().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -172,19 +166,17 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
 
         getOnlineClasses();
 
@@ -192,13 +184,12 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
 
     private void getOnlineClasses() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(OnlineClassParentScreen.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(OnlineClassParentScreen.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(OnlineClassParentScreen.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(OnlineClassParentScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(OnlineClassParentScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(OnlineClassParentScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -215,7 +206,7 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
         jsonObject.addProperty("school_id", strSchoolID);
         jsonObject.addProperty("member_id", strChildID);
 
-        Log.d("Request",jsonObject.toString());
+        Log.d("Request", jsonObject.toString());
 
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -227,27 +218,27 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
-                    String status=jsonObject.getString("status");
-                    String message=jsonObject.getString("message");
+                    String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
 
-                    if(status.equals("1")){
-                        JSONArray data=jsonObject.getJSONArray("data");
+                    if (status.equals("1")) {
+                        JSONArray data = jsonObject.getJSONArray("data");
 
                         textAdapter.clearAllData();
                         msgModelList.clear();
 
                         OnlineClassModel msgModel;
                         for (int i = 0; i < data.length(); i++) {
-                          JSONObject  js = data.getJSONObject(i);
+                            JSONObject js = data.getJSONObject(i);
                             msgModel = new OnlineClassModel(js.getString("header_id"), js.getString("message_id"),
-                                    js.getString("topic"),js.getString("description"), js.getString("url"),js.getString("meetingid"),js.getString("meetingtype"),
-                                    js.getString("meetingdate"),js.getString("meetingtime"),js.getString("meetingdatetime"),js.getString("staff_name"),
+                                    js.getString("topic"), js.getString("description"), js.getString("url"), js.getString("meetingid"), js.getString("meetingtype"),
+                                    js.getString("meetingdate"), js.getString("meetingtime"), js.getString("meetingdatetime"), js.getString("staff_name"),
                                     js.getString("subject_name"), js.getString("is_app_viewed"));
                             msgModelList.add(msgModel);
                         }
@@ -256,8 +247,7 @@ public  class OnlineClassParentScreen extends AppCompatActivity implements OnIte
                         textAdapter.notifyDataSetChanged();
 
 
-                    }
-                    else {
+                    } else {
                         showAlertRecords(message);
 
                     }

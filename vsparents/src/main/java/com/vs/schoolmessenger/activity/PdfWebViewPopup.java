@@ -1,51 +1,41 @@
 package com.vs.schoolmessenger.activity;
 
-import android.app.ProgressDialog;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
-import com.vs.schoolmessenger.util.MyWebViewClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
 
 public class PdfWebViewPopup extends AppCompatActivity {
 
+    public static final int SIGNATURE_ACTIVITY = 1;
     WebView wbTerms;
-
     TextView tvTitle, tvTime, tvStatus;
-  TeacherMessageModel pdfModel;
+    TeacherMessageModel pdfModel;
     String strURL;
-
     LinearLayout llBotton;
     TextView tvQuestion, tvSignHere;
     RadioGroup rgAcceptance;
     RadioButton rbYes, rbNo;
-
     String strAcceptanceStatus = "";
     Boolean is_Archive;
     String isNewVersion;
-
-    public static final int SIGNATURE_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +54,7 @@ public class PdfWebViewPopup extends AppCompatActivity {
         });
 
         is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
-        isNewVersion= TeacherUtil_SharedPreference.getNewVersion(PdfWebViewPopup.this);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(PdfWebViewPopup.this);
 
         TextView tvBarTitle = (TextView) findViewById(R.id.pdfPopup_ToolBarTvTitle);
         tvBarTitle.setText(pdfModel.getMsgDate());
@@ -119,7 +109,7 @@ public class PdfWebViewPopup extends AppCompatActivity {
             pdfModel.setMsgReadStatus("1");
             tvStatus.setVisibility(View.GONE);
 
-            ChangeMsgReadStatus.changeReadStatus(PdfWebViewPopup.this, pdfModel.getMsgID(), MSG_TYPE_PDF, pdfModel.getMsgDate(),isNewVersion,is_Archive, new OnRefreshListener() {
+            ChangeMsgReadStatus.changeReadStatus(PdfWebViewPopup.this, pdfModel.getMsgID(), MSG_TYPE_PDF, pdfModel.getMsgDate(), isNewVersion, is_Archive, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
                     pdfModel.setMsgReadStatus("1");
@@ -152,17 +142,15 @@ public class PdfWebViewPopup extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case SIGNATURE_ACTIVITY:
-                if (resultCode == RESULT_OK) {
-                    Bundle bundle = data.getExtras();
-                    String status = bundle.getString("status");
+        if (requestCode == SIGNATURE_ACTIVITY) {
+            if (resultCode == RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                String status = bundle.getString("status");
 
-                    if (status.equalsIgnoreCase("done")) {
-                        onBackPressed();
-                    }
+                if (status.equalsIgnoreCase("done")) {
+                    onBackPressed();
                 }
-                break;
+            }
         }
 
     }

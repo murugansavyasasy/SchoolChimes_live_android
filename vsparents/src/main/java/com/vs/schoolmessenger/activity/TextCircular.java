@@ -64,21 +64,16 @@ import ss.com.bannerslider.Slider;
 
 public class TextCircular extends AppCompatActivity {
 
-    RecyclerView rvTextMsgList;
-    TextCircularListAdapter textAdapter;
     public ArrayList<MessageModel> msgModelList = new ArrayList<>();
     public ArrayList<MessageModel> OfflinemsgModelList = new ArrayList<>();
     public ArrayList<MessageModel> totalmsgModelList = new ArrayList<>();
+    public ArrayList<ExamDateListClass> exams = new ArrayList<>();
+    RecyclerView rvTextMsgList;
+    TextCircularListAdapter textAdapter;
     TextCircularListAdapternew tvadapter;
     String selDate, strMsgType;
-    private int iRequestCode;
-
     ExamDateListAdapter mAdapter;
-
-    public ArrayList<ExamDateListClass> exams = new ArrayList<>();
-
     ArrayList<MessageModel> arrayList;
-
     ArrayList<ExamDateListClass> subjects;
     TextView lblNoMessages;
     String isNewVersion;
@@ -86,16 +81,13 @@ public class TextCircular extends AppCompatActivity {
     Calendar c;
     String previousDate;
     Boolean is_Archive;
-
     ImageView imgSearch;
     EditText Searchable;
-
     Slider slider;
     ImageView adImage;
     AdView mAdView;
-
-
     RelativeLayout voice_rlToolbar;
+    private int iRequestCode;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -126,7 +118,7 @@ public class TextCircular extends AppCompatActivity {
 
         Slider.init(new PicassoImageLoadingService(TextCircular.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
 
@@ -135,11 +127,10 @@ public class TextCircular extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(iRequestCode==MENU_TEXT){
-                    TeacherUtil_SharedPreference.putOnBackPressedText(TextCircular.this,"1");
-                }
-                else if(iRequestCode==MENU_HW){
-                    TeacherUtil_SharedPreference.putOnBackPressedHWTEXT(TextCircular.this,"1");
+                if (iRequestCode == MENU_TEXT) {
+                    TeacherUtil_SharedPreference.putOnBackPressedText(TextCircular.this, "1");
+                } else if (iRequestCode == MENU_HW) {
+                    TeacherUtil_SharedPreference.putOnBackPressedHWTEXT(TextCircular.this, "1");
 
                 }
                 onBackPressed();
@@ -153,7 +144,7 @@ public class TextCircular extends AppCompatActivity {
         imgSearch = (ImageView) findViewById(R.id.imgSearch);
 
 
-        if(iRequestCode==MENU_NOTICE_BOARD || iRequestCode == MENU_EVENTS) {
+        if (iRequestCode == MENU_NOTICE_BOARD || iRequestCode == MENU_EVENTS) {
 
             Searchable.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -190,8 +181,7 @@ public class TextCircular extends AppCompatActivity {
                 }
             });
 
-        }
-        else {
+        } else {
             Searchable.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -229,8 +219,8 @@ public class TextCircular extends AppCompatActivity {
 
         }
 
-         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
-         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
+        LoadMore = (TextView) findViewById(R.id.btnSeeMore);
+        lblNoMessages = (TextView) findViewById(R.id.lblNoMessages);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,19 +229,17 @@ public class TextCircular extends AppCompatActivity {
             }
         });
 
-         isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
-         seeMoreButtonVisiblity();
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
+        seeMoreButtonVisiblity();
 
 
-        if(iRequestCode==MENU_NOTICE_BOARD || iRequestCode == MENU_EVENTS){
+        if (iRequestCode == MENU_NOTICE_BOARD || iRequestCode == MENU_EVENTS) {
             tvadapter = new TextCircularListAdapternew(msgModelList, TextCircular.this);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
             rvTextMsgList.setLayoutManager(layoutManager);
             rvTextMsgList.setItemAnimator(new DefaultItemAnimator());
             rvTextMsgList.setAdapter(tvadapter);
-        }
-
-        else {
+        } else {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
             rvTextMsgList.setLayoutManager(layoutManager);
             rvTextMsgList.setItemAnimator(new DefaultItemAnimator());
@@ -272,24 +260,22 @@ public class TextCircular extends AppCompatActivity {
         ArrayList<MessageModel> temp = new ArrayList();
         for (MessageModel d : msgModelList) {
 
-            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
         }
-        if(iRequestCode==MENU_NOTICE_BOARD || iRequestCode == MENU_EVENTS) {
+        if (iRequestCode == MENU_NOTICE_BOARD || iRequestCode == MENU_EVENTS) {
             tvadapter.updateList(temp);
-        }
-        else {
+        } else {
             textAdapter.updateList(temp);
         }
     }
 
     private void seeMoreButtonVisiblity() {
-        if(isNewVersion.equals("1") && iRequestCode==MENU_NOTICE_BOARD){
+        if (isNewVersion.equals("1") && iRequestCode == MENU_NOTICE_BOARD) {
             LoadMore.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
         }
@@ -297,13 +283,12 @@ public class TextCircular extends AppCompatActivity {
 
     private void LoadMorecircularsNoticeboardAPI() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -344,12 +329,12 @@ public class TextCircular extends AppCompatActivity {
                         if (strStatus.equals("1")) {
                             MessageModel msgModel;
 
-                           OfflinemsgModelList.clear();
+                            OfflinemsgModelList.clear();
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 msgModel = new MessageModel(jsonObject.getString("Status"), jsonObject.getString("NoticeBoardTitle"),
                                         jsonObject.getString("NoticeBoardContent"), "",
-                                        jsonObject.getString("Date"), jsonObject.getString("Day"),"",jsonObject.getBoolean("is_Archive"));
+                                        jsonObject.getString("Date"), jsonObject.getString("Day"), "", jsonObject.getBoolean("is_Archive"));
                                 msgModelList.add(msgModel);
                                 OfflinemsgModelList.add(msgModel);
                             }
@@ -382,37 +367,33 @@ public class TextCircular extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(iRequestCode==MENU_TEXT){
-            TeacherUtil_SharedPreference.putOnBackPressedText(TextCircular.this,"1");
-        }
-        else if(iRequestCode==MENU_HW){
-            TeacherUtil_SharedPreference.putOnBackPressedHWTEXT(TextCircular.this,"1");
+        if (iRequestCode == MENU_TEXT) {
+            TeacherUtil_SharedPreference.putOnBackPressedText(TextCircular.this, "1");
+        } else if (iRequestCode == MENU_HW) {
+            TeacherUtil_SharedPreference.putOnBackPressedHWTEXT(TextCircular.this, "1");
 
         }
         finish();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if(iRequestCode==MENU_TEXT){
-                    TeacherUtil_SharedPreference.putOnBackPressedText(TextCircular.this,"1");
-                }
-                else if(iRequestCode==MENU_HW){
-                    TeacherUtil_SharedPreference.putOnBackPressedHWTEXT(TextCircular.this,"1");
+        if (item.getItemId() == android.R.id.home) {
+            if (iRequestCode == MENU_TEXT) {
+                TeacherUtil_SharedPreference.putOnBackPressedText(TextCircular.this, "1");
+            } else if (iRequestCode == MENU_HW) {
+                TeacherUtil_SharedPreference.putOnBackPressedHWTEXT(TextCircular.this, "1");
 
-                }
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+            }
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
         switch (iRequestCode) {
             case MENU_TEXT:
                 if (isNetworkConnected()) {
@@ -439,7 +420,7 @@ public class TextCircular extends AppCompatActivity {
 
             case MENU_EXAM_TEST:
 
-              if (isNetworkConnected()) {
+                if (isNetworkConnected()) {
                     circularsExameAPI();
                 }
 
@@ -467,7 +448,6 @@ public class TextCircular extends AppCompatActivity {
     }
 
 
-
     private void showToast(String msg) {
         Toast.makeText(TextCircular.this, msg, Toast.LENGTH_SHORT).show();
     }
@@ -475,13 +455,12 @@ public class TextCircular extends AppCompatActivity {
 
     private void circularsTextbydateAPI() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -499,13 +478,12 @@ public class TextCircular extends AppCompatActivity {
         Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetGeneralvoiceortext(strChildID, strSchoolID,"SMS",selDate);
+        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetGeneralvoiceortext(strChildID, strSchoolID, "SMS", selDate);
 
         Call<JsonArray> call;
-        if(isNewVersion.equals("1")&&is_Archive){
-            call= apiService.GetFiles_Archive(jsonReqArray);
-        }
-        else {
+        if (isNewVersion.equals("1") && is_Archive) {
+            call = apiService.GetFiles_Archive(jsonReqArray);
+        } else {
             call = apiService.GetFiles(jsonReqArray);
         }
         call.enqueue(new Callback<JsonArray>() {
@@ -515,7 +493,7 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -529,12 +507,12 @@ public class TextCircular extends AppCompatActivity {
                         if (!strStatus.equals("")) {
                             textAdapter.clearAllData();
                             MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 msgModel = new MessageModel(jsonObject.getString("ID"), jsonObject.getString("Subject"),
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"),jsonObject.getString("Description"),false);
+                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), false);
                                 msgModelList.add(msgModel);
                             }
 
@@ -566,16 +544,14 @@ public class TextCircular extends AppCompatActivity {
     }
 
 
-
     private void circularsExameAPI() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -599,50 +575,49 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
 
-                   if (js.length() > 0) {
+                    if (js.length() > 0) {
 
-                       for (int i = 0; i < js.length(); i++) {
-                           JSONObject jsonObject = js.getJSONObject(i);
-                           String strStatus = jsonObject.getString("ExamId");
-                           String strMessage = jsonObject.getString("ExaminationName");
-                           String Syllabus = jsonObject.getString("ExaminationSyllabus");
+                        for (int i = 0; i < js.length(); i++) {
+                            JSONObject jsonObject = js.getJSONObject(i);
+                            String strStatus = jsonObject.getString("ExamId");
+                            String strMessage = jsonObject.getString("ExaminationName");
+                            String Syllabus = jsonObject.getString("ExaminationSyllabus");
 
-                           if (strStatus.equals("0")) {
-                               showAlertRecords(strMessage);
-                           } else {
+                            if (strStatus.equals("0")) {
+                                showAlertRecords(strMessage);
+                            } else {
 
-                               JSONArray Details = new JSONArray(jsonObject.getString("SubjectDetails"));
+                                JSONArray Details = new JSONArray(jsonObject.getString("SubjectDetails"));
 
-                               ExamDateListClass model;
+                                ExamDateListClass model;
 
-                               mAdapter.clearAllData();
+                                mAdapter.clearAllData();
 
-                               for (int j = 0; j < Details.length(); j++) {
+                                for (int j = 0; j < Details.length(); j++) {
 
-                                   JSONObject jsonObject1 = Details.getJSONObject(j);
+                                    JSONObject jsonObject1 = Details.getJSONObject(j);
 
-                                   model = new ExamDateListClass(Syllabus, jsonObject1.getString("Subname"), jsonObject1.getString("ExamDate"),
-                                           jsonObject1.getString("ExamSession"), jsonObject1.getString("maxMark"),"");
+                                    model = new ExamDateListClass(Syllabus, jsonObject1.getString("Subname"), jsonObject1.getString("ExamDate"),
+                                            jsonObject1.getString("ExamSession"), jsonObject1.getString("maxMark"), "");
 
-                                   exams.add(model);
-                               }
+                                    exams.add(model);
+                                }
 
 
-                               subjects = new ArrayList<>();
-                               subjects.addAll(exams);
-                               mAdapter.notifyDataSetChanged();
+                                subjects = new ArrayList<>();
+                                subjects.addAll(exams);
+                                mAdapter.notifyDataSetChanged();
 
-                           }
-                       }
-                   }
-                   else {
+                            }
+                        }
+                    } else {
                         showAlertRecords(getResources().getString(R.string.no_records));
                     }
 
@@ -661,15 +636,13 @@ public class TextCircular extends AppCompatActivity {
     }
 
 
-
     private void circularsNoticeboardAPI() {
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -692,7 +665,7 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -719,7 +692,7 @@ public class TextCircular extends AppCompatActivity {
                                 jsonObject = js.getJSONObject(i);
                                 msgModel = new MessageModel(jsonObject.getString("Status"), jsonObject.getString("NoticeBoardTitle"),
                                         jsonObject.getString("NoticeBoardContent"), "",
-                                        jsonObject.getString("Date"), jsonObject.getString("Day"),"",false);
+                                        jsonObject.getString("Date"), jsonObject.getString("Day"), "", false);
                                 msgModelList.add(msgModel);
                                 totalmsgModelList.add(msgModel);
                             }
@@ -731,29 +704,25 @@ public class TextCircular extends AppCompatActivity {
 
                         } else {
 
-                            if(isNewVersion.equals("1")){
+                            if (isNewVersion.equals("1")) {
                                 lblNoMessages.setVisibility(View.VISIBLE);
                                 lblNoMessages.setText(strMessage);
 
-                                String loadMoreCall=TeacherUtil_SharedPreference.getOnBackMethod(TextCircular.this);
-                                if(loadMoreCall.equals("1")){
-                                    TeacherUtil_SharedPreference.putOnBackPressed(TextCircular.this,"");
+                                String loadMoreCall = TeacherUtil_SharedPreference.getOnBackMethod(TextCircular.this);
+                                if (loadMoreCall.equals("1")) {
+                                    TeacherUtil_SharedPreference.putOnBackPressed(TextCircular.this, "");
                                     LoadMorecircularsNoticeboardAPI();
                                 }
 
-                            }
-                            else {
+                            } else {
                                 lblNoMessages.setVisibility(View.GONE);
                                 showAlertRecords(strMessage);
                             }
 
                         }
-                    }
-
-                    else {
+                    } else {
                         showAlertRecords(getResources().getString(R.string.no_records));
                     }
-
 
 
                 } catch (Exception e) {
@@ -772,13 +741,12 @@ public class TextCircular extends AppCompatActivity {
 
     private void circularsEventsAPI() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -802,7 +770,7 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -823,7 +791,7 @@ public class TextCircular extends AppCompatActivity {
                                 jsonObject = js.getJSONObject(i);
                                 msgModel = new MessageModel(jsonObject.getString("Status"), jsonObject.getString("EventTitle"),
                                         jsonObject.getString("EventContent"), "",
-                                        jsonObject.getString("EventDate"), jsonObject.getString("EventTime"),"",false);
+                                        jsonObject.getString("EventDate"), jsonObject.getString("EventTime"), "", false);
                                 msgModelList.add(msgModel);
                             }
 
@@ -880,13 +848,12 @@ public class TextCircular extends AppCompatActivity {
 
     private void circularsHomeworkAPI() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TextCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -900,17 +867,16 @@ public class TextCircular extends AppCompatActivity {
         String strChildID = Util_SharedPreference.getChildIdFromSP(TextCircular.this);
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(TextCircular.this);
 
-        String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(TextCircular.this);
+        String MobileNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(TextCircular.this);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_Gethomework(strChildID, selDate,"TEXT",strSchoolID,MobileNumber);
+        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_Gethomework(strChildID, selDate, "TEXT", strSchoolID, MobileNumber);
 
 
         Call<JsonArray> call;
-        if(isNewVersion.equals("1")&&is_Archive){
+        if (isNewVersion.equals("1") && is_Archive) {
             call = apiService.GetHomeWorkFiles_Archive(jsonReqArray);
-        }
-        else {
+        } else {
             call = apiService.GetHomeWorkFiles(jsonReqArray);
         }
 
@@ -921,7 +887,7 @@ public class TextCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -930,19 +896,19 @@ public class TextCircular extends AppCompatActivity {
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
 
-                            MessageModel msgModel;
+                        MessageModel msgModel;
 
-                            textAdapter.clearAllData();
+                        textAdapter.clearAllData();
 
-                            for (int i = 0; i < js.length(); i++) {
-                                jsonObject = js.getJSONObject(i);
-                                msgModel = new MessageModel(jsonObject.getString("HomeworkID"), jsonObject.getString("HomeworkSubject"),
-                                        jsonObject.getString("HomeworkContent"), "",
-                                        selDate, "",jsonObject.getString("HomeworkTitle"),false);
+                        for (int i = 0; i < js.length(); i++) {
+                            jsonObject = js.getJSONObject(i);
+                            msgModel = new MessageModel(jsonObject.getString("HomeworkID"), jsonObject.getString("HomeworkSubject"),
+                                    jsonObject.getString("HomeworkContent"), "",
+                                    selDate, "", jsonObject.getString("HomeworkTitle"), false);
 
 
-                                msgModelList.add(msgModel);
-                            }
+                            msgModelList.add(msgModel);
+                        }
 
                         arrayList = new ArrayList<>();
                         arrayList.addAll(msgModelList);

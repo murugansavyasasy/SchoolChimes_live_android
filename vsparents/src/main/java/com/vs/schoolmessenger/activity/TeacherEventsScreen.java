@@ -1,14 +1,12 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EVENTS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,6 +20,12 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
@@ -39,40 +43,44 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EVENTS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
-
 
 public class TeacherEventsScreen extends AppCompatActivity implements CalendarDatePickerDialogFragment.OnDateSetListener, RadialTimePickerDialogFragment.OnTimeSetListener {
 
+    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
+    private static final String FRAG_TAG_TIME_PICKER = "fragment_time_picker_name";
     EditText etMessage, etTopic;
     TextView tvcount;
     String strmessage;
     RecyclerView rvSchoolsList;
     TextView tvDate, tvTime;
-
-    private ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
-    private ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
-    private int i_schools_count = 0;
-
     String strDate, strCurrentDate, timeString, strTime;//strDuration
     int selDay, selMonth, selYear;
     String selHour, selMin;
     int minimumHour, minimumMinute;
     boolean bMinDateTime = true;
+    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+        }
 
-    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
-    private static final String FRAG_TAG_TIME_PICKER = "fragment_time_picker_name";
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //tvcount.setText("" + (460 - (s.length())));
+        }
 
+        public void afterTextChanged(Editable s) {
+            enableSubmitIfReady();
+        }
+    };
     PopupWindow pwindow;
-
+    private final ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
+    private final ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
+    private int i_schools_count = 0;
     private int iRequestCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_events_screen);
-
 
 
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
@@ -87,10 +95,8 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
 
                 if (view.getId() == R.id.events_txtmessage) {
                     view.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
+                    if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
                     }
                 }
                 return false;
@@ -142,7 +148,6 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
         });
 
 
-
         listSchoolsAPI();
         setMinDateTime();
         setupDateTimeWarningPopUp();
@@ -152,7 +157,7 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
     protected void onPause() {
         super.onPause();
 
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etMessage.getWindowToken(), 0);
 
     }
@@ -177,14 +182,14 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
         i_schools_count = 0;
         for (int i = 0; i < listschooldetails.size(); i++) {
             TeacherSchoolsModel ss = listschooldetails.get(i);
-            ss = new TeacherSchoolsModel(ss.getStrSchoolName(),ss.getSchoolNameRegional(), ss.getStrSchoolID(),
+            ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getSchoolNameRegional(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
-                    ss.getStrStaffID(), ss.getStrStaffName(), true,ss.getBookEnable(),ss.getOnlineLink(),ss.getIsPaymentPending(),ss.getIsSchoolType(),ss.getIsBiometricEnable());
+                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType(), ss.getIsBiometricEnable());
             arrSchoolList.add(ss);
         }
         if (iRequestCode == PRINCIPAL_EVENTS) {
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
-                    new TeacherSchoolListForPrincipalAdapter(TeacherEventsScreen.this, arrSchoolList,false, new TeacherSchoolListPrincipalListener() {
+                    new TeacherSchoolListForPrincipalAdapter(TeacherEventsScreen.this, arrSchoolList, false, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
                             String title = etTopic.getText().toString();
@@ -243,20 +248,6 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
         }
     }
 
-    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            //tvcount.setText("" + (460 - (s.length())));
-        }
-
-        public void afterTextChanged(Editable s) {
-            enableSubmitIfReady();
-        }
-    };
-
     private void showToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
@@ -264,13 +255,9 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
     public boolean enableSubmitIfReady() {
         boolean isTitleReady = etMessage.getText().toString().length() > 0;
         boolean isContentReady = etTopic.getText().toString().length() > 0;
-        if (isContentReady && isTitleReady && bMinDateTime)//&& (i_schools_count > 0))
-            return true;
-        else return false;
+        //&& (i_schools_count > 0))
+        return isContentReady && isTitleReady && bMinDateTime;
     }
-
-
-
 
 
     private void setMinDateTime() {

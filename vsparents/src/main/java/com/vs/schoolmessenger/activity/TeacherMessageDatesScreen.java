@@ -1,18 +1,13 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MESSAGESFROMMANAGEMENT;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,13 +17,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherCircularsDateListAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherCircularDates;
-import com.vs.schoolmessenger.model.TeacherProfiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -45,8 +45,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MESSAGESFROMMANAGEMENT;
-
 
 public class TeacherMessageDatesScreen extends AppCompatActivity {
 
@@ -55,16 +53,14 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
     TeacherSchoolsModel schoolmodel;
 
     RecyclerView rvDatesList;
-    private TeacherCircularsDateListAdapter dateListAdapter;
-    private ArrayList<TeacherCircularDates> datesList = new ArrayList<>();
-    private int iRequestCode;
-
     String isNewVersion;
     TextView LoadMore;
     TextView lblNoMessages;
-
     ImageView imgSearch;
     TextView Searchable;
+    private TeacherCircularsDateListAdapter dateListAdapter;
+    private final ArrayList<TeacherCircularDates> datesList = new ArrayList<>();
+    private int iRequestCode;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -144,7 +140,6 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         });
 
 
-
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,7 +165,7 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         List<TeacherCircularDates> temp = new ArrayList();
         for (TeacherCircularDates d : datesList) {
 
-            if (d.getCircularDate().toLowerCase().contains(s.toLowerCase()) || d.getCircularDay().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getCircularDate().toLowerCase().contains(s.toLowerCase()) || d.getCircularDay().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
         }
@@ -180,13 +175,12 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
 
     private void LoadMoreGetDetails() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherMessageDatesScreen.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherMessageDatesScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherMessageDatesScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherMessageDatesScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -212,11 +206,11 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
+                Log.d("overallUnreadCount:Code", response.code() + " - " + response);
                 Log.d("MsgDates:Res", response.body().toString());
 
                 if (response.code() == 200 || response.code() == 201)
-                LoadMore.setVisibility(View.GONE);
+                    LoadMore.setVisibility(View.GONE);
                 lblNoMessages.setVisibility(View.GONE);
 
                 try {
@@ -235,7 +229,7 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                                         jsonObject.getString("TotalSMS"), jsonObject.getString("UnreadSMS"),
                                         jsonObject.getString("TotalIMG"), jsonObject.getString("UnreadIMG"),
                                         jsonObject.getString("TotalPDF"), jsonObject.getString("UnreadPDF"),
-                                        jsonObject.getString("TotalVIDEO"), jsonObject.getString("UnreadVIDEO"),jsonObject.getBoolean("is_Archive"));
+                                        jsonObject.getString("TotalVIDEO"), jsonObject.getString("UnreadVIDEO"), jsonObject.getBoolean("is_Archive"));
 
                                 datesList.add(cirDates);
 
@@ -265,8 +259,8 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
     }
 
     private void seeMoreButtonVisiblity() {
-           isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
-           LoadMore.setVisibility(View.VISIBLE);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
+        LoadMore.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -277,13 +271,12 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
 
     private void getDetails() {
 
-        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherMessageDatesScreen.this);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherMessageDatesScreen.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherMessageDatesScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherMessageDatesScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherMessageDatesScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -298,7 +291,7 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("MemberId", staff_id);
         jsonObject.addProperty("SchoolId", school_id);
-        Log.d("req",jsonObject.toString());
+        Log.d("req", jsonObject.toString());
         Call<JsonArray> call = apiService.GetMessageCount(jsonObject);
         call.enqueue(new Callback<JsonArray>() {
 
@@ -307,56 +300,56 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
+                Log.d("overallUnreadCount:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
 
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    Log.d("response",response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        TeacherCircularDates cirDates;
+                    try {
+                        JSONArray js = new JSONArray(response.body().toString());
+                        Log.d("response", response.body().toString());
+                        if (js.length() > 0) {
+                            JSONObject jsonObject = js.getJSONObject(0);
+                            TeacherCircularDates cirDates;
 
-                        dateListAdapter.clearAllData();
-                        datesList.clear();
-                        for (int i = 0; i < js.length(); i++) {
-                            jsonObject = js.getJSONObject(i);
+                            dateListAdapter.clearAllData();
+                            datesList.clear();
+                            for (int i = 0; i < js.length(); i++) {
+                                jsonObject = js.getJSONObject(i);
 
-                            String date = jsonObject.getString("Date");
-                            if (!date.equals("0")) {
-                                cirDates = new TeacherCircularDates(jsonObject.getString("Date"), jsonObject.getString("Day"),
-                                        jsonObject.getString("TotalVOICE"), jsonObject.getString("UnreadVOICE"),
-                                        jsonObject.getString("TotalSMS"), jsonObject.getString("UnreadSMS"),
-                                        jsonObject.getString("TotalIMG"), jsonObject.getString("UnreadIMG"),
-                                        jsonObject.getString("TotalPDF"), jsonObject.getString("UnreadPDF"),
-                                        jsonObject.getString("TotalVIDEO"), jsonObject.getString("UnreadVIDEO"),false);
-                                datesList.add(cirDates);
+                                String date = jsonObject.getString("Date");
+                                if (!date.equals("0")) {
+                                    cirDates = new TeacherCircularDates(jsonObject.getString("Date"), jsonObject.getString("Day"),
+                                            jsonObject.getString("TotalVOICE"), jsonObject.getString("UnreadVOICE"),
+                                            jsonObject.getString("TotalSMS"), jsonObject.getString("UnreadSMS"),
+                                            jsonObject.getString("TotalIMG"), jsonObject.getString("UnreadIMG"),
+                                            jsonObject.getString("TotalPDF"), jsonObject.getString("UnreadPDF"),
+                                            jsonObject.getString("TotalVIDEO"), jsonObject.getString("UnreadVIDEO"), false);
+                                    datesList.add(cirDates);
 
-                            } else {
-                                if (isNewVersion.equals("1")) {
-                                    lblNoMessages.setVisibility(View.VISIBLE);
-                                    lblNoMessages.setText(jsonObject.getString("Day"));
-                                    String loadMoreCall = TeacherUtil_SharedPreference.getOnBackMethod(TeacherMessageDatesScreen.this);
-                                    if (loadMoreCall.equals("1")) {
-                                        TeacherUtil_SharedPreference.putOnBackPressed(TeacherMessageDatesScreen.this, "");
-                                        LoadMoreGetDetails();
-                                    }
                                 } else {
-                                    lblNoMessages.setVisibility(View.GONE);
-                                    showRecords(jsonObject.getString("Day"));
+                                    if (isNewVersion.equals("1")) {
+                                        lblNoMessages.setVisibility(View.VISIBLE);
+                                        lblNoMessages.setText(jsonObject.getString("Day"));
+                                        String loadMoreCall = TeacherUtil_SharedPreference.getOnBackMethod(TeacherMessageDatesScreen.this);
+                                        if (loadMoreCall.equals("1")) {
+                                            TeacherUtil_SharedPreference.putOnBackPressed(TeacherMessageDatesScreen.this, "");
+                                            LoadMoreGetDetails();
+                                        }
+                                    } else {
+                                        lblNoMessages.setVisibility(View.GONE);
+                                        showRecords(jsonObject.getString("Day"));
+                                    }
                                 }
                             }
+
+                            LoadMore.setVisibility(View.VISIBLE);
+                            dateListAdapter.notifyDataSetChanged();
+                        } else {
+                            showRecords(getResources().getString(R.string.no_records));
                         }
 
-                        LoadMore.setVisibility(View.VISIBLE);
-                        dateListAdapter.notifyDataSetChanged();
-                    } else {
-                        showRecords(getResources().getString(R.string.no_records));
+                    } catch (Exception e) {
+                        Log.e("Unreadcount:Exception", e.getMessage());
                     }
-
-                } catch (Exception e) {
-                    Log.e("Unreadcount:Exception", e.getMessage());
-                }
             }
 
             @Override

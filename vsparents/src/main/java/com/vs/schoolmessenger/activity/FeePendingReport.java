@@ -5,7 +5,6 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,7 +34,6 @@ import com.vs.schoolmessenger.model.DailyFeeReportData;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,17 +41,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FeePendingReport extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
+    public static List<DailyCollectionData> isDailyCollectionData = new ArrayList<DailyCollectionData>();
+    public static List<DailyCollectionData> dailyCollectionData = new ArrayList<DailyCollectionData>();
     TextView lblCategory, lblClass, lblNoRecords;
     RecyclerView rcy_DailyReport;
     Spinner SpinnerSection;
-
     String isAcademicName;
     String isAcademicId;
     String isType = "CategoryWise";
@@ -62,10 +60,7 @@ public class FeePendingReport extends AppCompatActivity implements View.OnClickL
     DailyCollectionData dailyCollection;
     ArrayList<DailyFeeData> iaDailyFeeData = new ArrayList<>();
     DailyFeeReportAdapter dailyFeeReportAdapter;
-
     ArrayList<String> isAcademicYearList = new ArrayList<String>();
-    public static List<DailyCollectionData> isDailyCollectionData = new ArrayList<DailyCollectionData>();
-    public static List<DailyCollectionData> dailyCollectionData = new ArrayList<DailyCollectionData>();
 
 //    @Override
 //    protected void attachBaseContext(Context newBase) {
@@ -169,11 +164,11 @@ public class FeePendingReport extends AppCompatActivity implements View.OnClickL
             public void onResponse(Call<DailyCollection> call, retrofit2.Response<DailyCollection> response) {
                 try {
                     if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
-                    Log.d("daily:code-res", response.code() + " - " + response.toString());
+                    Log.d("daily:code-res", response.code() + " - " + response);
 
                     Gson gson = new Gson();
                     String data = gson.toJson(response.body());
-                    Log.d("academicYear_res",data);
+                    Log.d("academicYear_res", data);
 
                     if (response.code() == 200 || response.code() == 201) {
                         int status = response.body().getStatus();
@@ -202,7 +197,7 @@ public class FeePendingReport extends AppCompatActivity implements View.OnClickL
                                     }
                                 }
 
-                                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(FeePendingReport.this,R.layout.spinner_drop_down, isAcademicYearList);
+                                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(FeePendingReport.this, R.layout.spinner_drop_down, isAcademicYearList);
                                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 SpinnerSection.setAdapter(dataAdapter);
                                 SpinnerSection.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) FeePendingReport.this);
@@ -214,9 +209,7 @@ public class FeePendingReport extends AppCompatActivity implements View.OnClickL
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
 
-                }
-
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.e("Response Exception", e.getMessage());
                 }
             }
@@ -265,7 +258,7 @@ public class FeePendingReport extends AppCompatActivity implements View.OnClickL
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("StudentsList:Res", response.body().toString());
                     try {

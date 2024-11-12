@@ -3,12 +3,12 @@ package com.vs.schoolmessenger.activity;
 import static com.vs.schoolmessenger.util.Constants.isOnBackPressed;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -47,9 +47,9 @@ public class HomeworkListActivity extends AppCompatActivity {
             }
         });
 
-        rvHomeWorks=(RecyclerView) findViewById(R.id.rvHomeWorks);
-        rytParent=(RelativeLayout) findViewById(R.id.rytParent);
-        HomeWorkDateWiseAdapter mAdapter = new HomeWorkDateWiseAdapter(Constants.homeWorkData.getHw(), HomeworkListActivity.this,rytParent);
+        rvHomeWorks = (RecyclerView) findViewById(R.id.rvHomeWorks);
+        rytParent = (RelativeLayout) findViewById(R.id.rytParent);
+        HomeWorkDateWiseAdapter mAdapter = new HomeWorkDateWiseAdapter(Constants.homeWorkData.getHw(), HomeworkListActivity.this, rytParent);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(HomeworkListActivity.this);
         rvHomeWorks.setLayoutManager(mLayoutManager);
         rvHomeWorks.setItemAnimator(new DefaultItemAnimator());
@@ -61,7 +61,7 @@ public class HomeworkListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(HomeWorkDateWiseAdapter.mediaPlayer != null) {
+        if (HomeWorkDateWiseAdapter.mediaPlayer != null) {
             if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
                 HomeWorkDateWiseAdapter.mediaPlayer.stop();
             }
@@ -70,7 +70,7 @@ public class HomeworkListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(HomeWorkDateWiseAdapter.mediaPlayer != null) {
+        if (HomeWorkDateWiseAdapter.mediaPlayer != null) {
             if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
                 HomeWorkDateWiseAdapter.mediaPlayer.stop();
             }

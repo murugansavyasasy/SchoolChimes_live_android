@@ -1,4 +1,5 @@
 package com.vs.schoolmessenger.activity;
+
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 import android.content.Context;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.SelectStaffSchoolsAdapter;
 
@@ -21,6 +23,7 @@ public class SelectStaffSchools extends AppCompatActivity {
 
     RecyclerView rvStaffSchools;
     SelectStaffSchoolsAdapter mAdapter;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -34,7 +37,7 @@ public class SelectStaffSchools extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Select");
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("Your "+"School");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("Your " + "School");
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

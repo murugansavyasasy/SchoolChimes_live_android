@@ -5,8 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -16,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -83,16 +84,11 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
 
     Button btnSubmit;
     EditText othercomments;
-
-
-    private ArrayList<QuestionDetails> questions = new ArrayList<>();
-    private ArrayList<SubQustions> subQuestions = new ArrayList<>();
-
-    private ArrayList<SubQustions> Datas = new ArrayList<>();
     String values, othercomment;
-
-
-    String schoolID, contactpersion, mobilenumber, emaiid, schoolname,StaffId;
+    String schoolID, contactpersion, mobilenumber, emaiid, schoolname, StaffId;
+    private final ArrayList<QuestionDetails> questions = new ArrayList<>();
+    private final ArrayList<SubQustions> subQuestions = new ArrayList<>();
+    private final ArrayList<SubQustions> Datas = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -106,7 +102,6 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.enter, R.anim.exit);
         setContentView(R.layout.feedback_qstns);
-
 
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -130,12 +125,11 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
 
 
         schoolID = extras.getString("schoolID");
-        schoolname = extras.getString("schoolname","");
-        contactpersion = extras.getString("contactpersion","");
-        mobilenumber = extras.getString("mobilenumber","");
-        emaiid = extras.getString("email","");
-        StaffId = extras.getString("staffID","");
-
+        schoolname = extras.getString("schoolname", "");
+        contactpersion = extras.getString("contactpersion", "");
+        mobilenumber = extras.getString("mobilenumber", "");
+        emaiid = extras.getString("email", "");
+        StaffId = extras.getString("staffID", "");
 
 
         lblQuestion1 = (TextView) findViewById(R.id.lblQuestion1);
@@ -543,7 +537,7 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
     private void insertFeedBackDetails(String answers) {
         {
 
-            String baseURL=TeacherUtil_SharedPreference.getBaseUrl(FeedBackQuestionsScreen.this);
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(FeedBackQuestionsScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
             final ProgressDialog mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setIndeterminate(true);
@@ -574,7 +568,7 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
                     try {
                         if (mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
-                        Log.d("login:code-res", response.code() + " - " + response.toString());
+                        Log.d("login:code-res", response.code() + " - " + response);
                         if (response.code() == 200 || response.code() == 201) {
                             Log.d("Response", response.body().toString());
 
@@ -639,13 +633,12 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
 
     private void feedBackDetails() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(FeedBackQuestionsScreen.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(FeedBackQuestionsScreen.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(FeedBackQuestionsScreen.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(FeedBackQuestionsScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(FeedBackQuestionsScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(FeedBackQuestionsScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -664,7 +657,7 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 

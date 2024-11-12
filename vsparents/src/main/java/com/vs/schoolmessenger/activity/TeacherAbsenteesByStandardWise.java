@@ -1,39 +1,23 @@
 package com.vs.schoolmessenger.activity;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherAbsenteesExpandableListAdapter;
-import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherABS_Section;
 import com.vs.schoolmessenger.model.TeacherABS_Standard;
-import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
 
 
 public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
@@ -81,13 +65,11 @@ public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadSubList(ArrayList<TeacherABS_Section> laptopModels) {

@@ -1,15 +1,13 @@
 package com.vs.schoolmessenger.activity;
 
-import android.graphics.Matrix;
 import android.net.Uri;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.vs.schoolmessenger.R;
@@ -39,14 +37,13 @@ public class ImagePreviewActivity extends AppCompatActivity {
             }
         });
 
-        imageView=(TouchImageView) findViewById(R.id.imgageview);
+        imageView = (TouchImageView) findViewById(R.id.imgageview);
         imageUri = getIntent().getExtras().getString("ImageURl", "");
 
-        uri= Uri.parse(imageUri);
+        uri = Uri.parse(imageUri);
         Glide.with(ImagePreviewActivity.this)
                 .load(uri)
                 .into(imageView);
-
 
 
     }

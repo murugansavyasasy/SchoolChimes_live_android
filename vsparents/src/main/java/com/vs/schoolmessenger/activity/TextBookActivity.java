@@ -2,8 +2,6 @@ package com.vs.schoolmessenger.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -11,12 +9,16 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vs.schoolmessenger.R;
 
 public class TextBookActivity extends AppCompatActivity {
 
-    private WebView webView;
     ProgressDialog pDialog;
+    private WebView webView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class TextBookActivity extends AppCompatActivity {
                 if (progress == 100) {
                     pDialog.dismiss();
 
-                    }
+                }
             }
         });
         WebSettings webSettings = webView.getSettings();
@@ -60,8 +62,7 @@ public class TextBookActivity extends AppCompatActivity {
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);
 
-        }
-
+    }
 
 
     @Override

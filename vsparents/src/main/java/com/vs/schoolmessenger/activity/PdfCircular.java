@@ -8,15 +8,6 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,6 +19,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
@@ -59,36 +58,30 @@ import ss.com.bannerslider.Slider;
 public class PdfCircular extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 1;
-    RecyclerView rvPdfList;
-    PdfCircularListAdapter pdfAdapter;
-    public ArrayList<MessageModel> msgModelList = new ArrayList<>();
-    public ArrayList<MessageModel> OfflinemsgModelList = new ArrayList<>();
-    public ArrayList<MessageModel> totalmsgModelList = new ArrayList<>();
-    String selDate;
-    private int iRequestCode;
-
-    ArrayList<MessageModel> arrayList;
-
-    private final String android_image_urls[] = {
+    private final String[] android_image_urls = {
             "http://www.axmag.com/download/pdfurl-guide.pdf",
             "http://www.pdf995.com/samples/pdf.pdf",
             "http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf"
     };
-
-    private final String android_image_status[] = {"1", "0", "1"};
+    private final String[] android_image_status = {"1", "0", "1"};
+    public ArrayList<MessageModel> msgModelList = new ArrayList<>();
+    public ArrayList<MessageModel> OfflinemsgModelList = new ArrayList<>();
+    public ArrayList<MessageModel> totalmsgModelList = new ArrayList<>();
+    RecyclerView rvPdfList;
+    PdfCircularListAdapter pdfAdapter;
+    String selDate;
+    ArrayList<MessageModel> arrayList;
     TextView lblNoMessages;
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
-
     ImageView imgSearch;
     EditText Searchable;
     Slider slider;
     ImageView adImage;
     RelativeLayout voice_rlToolbar;
-
     AdView mAdView;
-
+    private int iRequestCode;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -133,7 +126,6 @@ public class PdfCircular extends AppCompatActivity {
         mAdView = findViewById(R.id.adView);
 
 
-
         Searchable.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -170,8 +162,8 @@ public class PdfCircular extends AppCompatActivity {
         });
 
 
-        LoadMore=(TextView) findViewById(R.id.btnSeeMore);
-        lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
+        LoadMore = (TextView) findViewById(R.id.btnSeeMore);
+        lblNoMessages = (TextView) findViewById(R.id.lblNoMessages);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,8 +172,8 @@ public class PdfCircular extends AppCompatActivity {
 
             }
         });
-         isNewVersion=TeacherUtil_SharedPreference.getNewVersion(PdfCircular.this);
-         seeMoreButtonVisiblity();
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(PdfCircular.this);
+        seeMoreButtonVisiblity();
 
         rvPdfList = (RecyclerView) findViewById(R.id.pdf_rvCircularList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -196,7 +188,7 @@ public class PdfCircular extends AppCompatActivity {
         ArrayList<MessageModel> temp = new ArrayList();
         for (MessageModel d : msgModelList) {
 
-            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -205,10 +197,9 @@ public class PdfCircular extends AppCompatActivity {
     }
 
     private void seeMoreButtonVisiblity() {
-        if(isNewVersion.equals("1")){
+        if (isNewVersion.equals("1")) {
             LoadMore.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
         }
@@ -216,13 +207,12 @@ public class PdfCircular extends AppCompatActivity {
 
     private void LoadMorecircularsPdfAPI() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(PdfCircular.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(PdfCircular.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(PdfCircular.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(PdfCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(PdfCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PdfCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -235,9 +225,9 @@ public class PdfCircular extends AppCompatActivity {
         String strChildID = Util_SharedPreference.getChildIdFromSP(PdfCircular.this);
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(PdfCircular.this);
 
-        String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(PdfCircular.this);
+        String MobileNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(PdfCircular.this);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetEmergencyvoice(strChildID, strSchoolID,"PDF",MobileNumber);
+        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetEmergencyvoice(strChildID, strSchoolID, "PDF", MobileNumber);
         Call<JsonArray> call = apiService.LoadMoreGetEmergencyVoiceOrImageOrPDF(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
 
@@ -246,7 +236,7 @@ public class PdfCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -263,21 +253,20 @@ public class PdfCircular extends AppCompatActivity {
 
                         if (strStatus.equals("1")) {
                             MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
 
                             OfflinemsgModelList.clear();
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 msgModel = new MessageModel(jsonObject.getString("MessageID"), jsonObject.getString("Subject"),
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"),jsonObject.getString("Description"),jsonObject.getBoolean("is_Archive"));
+                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), jsonObject.getBoolean("is_Archive"));
 
                                 msgModel.setStrQueryAvailable(jsonObject.getString("Query").toLowerCase());
                                 msgModel.setStrQuestion(jsonObject.getString("Question"));
                                 msgModelList.add(msgModel);
                                 OfflinemsgModelList.add(msgModel);
                             }
-
 
 
                             arrayList = new ArrayList<>();
@@ -313,23 +302,21 @@ public class PdfCircular extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
-            if (isNetworkConnected()) {
-                circularsPdfAPI();
-            }
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
+        if (isNetworkConnected()) {
+            circularsPdfAPI();
+        }
     }
 
 
@@ -345,16 +332,14 @@ public class PdfCircular extends AppCompatActivity {
     }
 
 
-
     private void circularsPdfAPI() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(PdfCircular.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(PdfCircular.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(PdfCircular.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(PdfCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(PdfCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PdfCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -368,11 +353,11 @@ public class PdfCircular extends AppCompatActivity {
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(PdfCircular.this);
 
         Log.d("TextMsg:Date-Child-Sch", selDate + " - " + strChildID + " - " + strSchoolID);
-        String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(PdfCircular.this);
+        String MobileNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(PdfCircular.this);
 
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetEmergencyvoice(strChildID, strSchoolID,"PDF",MobileNumber);
+        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetEmergencyvoice(strChildID, strSchoolID, "PDF", MobileNumber);
         Call<JsonArray> call = apiService.GetEmergencyVoiceOrImageOrPDF(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
 
@@ -381,7 +366,7 @@ public class PdfCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -393,10 +378,9 @@ public class PdfCircular extends AppCompatActivity {
                         String strStatus = jsonObject.getString("Status");
                         String strMessage = jsonObject.getString("Message");
 
-                        if(isNewVersion.equals("1")){
+                        if (isNewVersion.equals("1")) {
                             LoadMore.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             LoadMore.setVisibility(View.GONE);
                             lblNoMessages.setVisibility(View.GONE);
                         }
@@ -410,7 +394,7 @@ public class PdfCircular extends AppCompatActivity {
                                 jsonObject = js.getJSONObject(i);
                                 msgModel = new MessageModel(jsonObject.getString("MessageID"), jsonObject.getString("Subject"),
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"),jsonObject.getString("Description"),false);
+                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), false);
 
                                 msgModel.setStrQueryAvailable(jsonObject.getString("Query").toLowerCase());
                                 msgModel.setStrQuestion(jsonObject.getString("Question"));
@@ -419,33 +403,29 @@ public class PdfCircular extends AppCompatActivity {
                             }
 
 
-
                             arrayList = new ArrayList<>();
                             arrayList.addAll(msgModelList);
                             pdfAdapter.notifyDataSetChanged();
 
                         } else {
 
-                            if(isNewVersion.equals("1")){
+                            if (isNewVersion.equals("1")) {
                                 lblNoMessages.setVisibility(View.VISIBLE);
                                 lblNoMessages.setText(strMessage);
 
-                                String loadMoreCall=TeacherUtil_SharedPreference.getOnBackMethodCirculars(PdfCircular.this);
-                                if(loadMoreCall.equals("1")){
-                                    TeacherUtil_SharedPreference.putOnBackPressedCirculars(PdfCircular.this,"");
+                                String loadMoreCall = TeacherUtil_SharedPreference.getOnBackMethodCirculars(PdfCircular.this);
+                                if (loadMoreCall.equals("1")) {
+                                    TeacherUtil_SharedPreference.putOnBackPressedCirculars(PdfCircular.this, "");
                                     LoadMorecircularsPdfAPI();
                                 }
-                            }
-                            else {
+                            } else {
                                 lblNoMessages.setVisibility(View.GONE);
                                 showRecordsfound(strMessage);
                             }
 
 
                         }
-                    }
-
-                    else {
+                    } else {
                         showRecordsfound(getResources().getString(R.string.no_records));
                     }
 
@@ -510,13 +490,10 @@ public class PdfCircular extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.v("SDCard_Permission", "Permission: " + permissions[0] + "was " + grantResults[0]);
-                    circularsPdfAPI();
-                }
-                return;
+        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.v("SDCard_Permission", "Permission: " + permissions[0] + "was " + grantResults[0]);
+                circularsPdfAPI();
             }
         }
     }

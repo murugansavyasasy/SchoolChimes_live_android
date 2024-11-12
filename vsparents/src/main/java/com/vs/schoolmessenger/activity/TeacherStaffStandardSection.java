@@ -91,48 +91,36 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
     List<TeacherSectionsListNEW> arrSectionCollections;
 
     ImageView genTextPopup_ToolBarIvBack;
-    private ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
     String strStdName, strSecName, strSecCode, strSubjectCode, strSubjectName, strTotalStudents;
-
-    private int iRequestCode = 0;
     String strToWhom = "";
     String SchoolID, loginType, StaffID, strtittle, strmessage, Description, duration, filepath;
     //
     RecyclerView rvSectionList;
-    private ArrayList<TeacherSectionsListNEW> seletedSectionsList = new ArrayList<>();
-    private int i_sections_count = 0;
     List<String> listSubjectName;
     List<String> listSubjectCode;
     List<TeacherSubjectModel> arrSubjectCollections;
     List<String> listTotalStudentsInSec;
-
     Button btnSelectSubjects;
-
     ArrayList<TeacherSubjectModel> listSubjects1 = new ArrayList<TeacherSubjectModel>();
     String voicetype = "", strPDFFilepath, strVideoFilePath, VideoDescription;
-
     ArrayList<String> slectedImagePath = new ArrayList<String>();
     ArrayList<TeacherSubjectModel> SubjectsList = new ArrayList<TeacherSubjectModel>();
-
     Button btnGetSubject;
     TextView lblSubject;
     String sectionsTargetCode = "";
-
     String fileNameDateTime;
-
     S3Uploader s3uploaderObj;
-
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType = "";
-
     String uploadFilePath = "";
     int pathIndex = 0;
-
-    private ArrayList<String> UploadedS3URlList = new ArrayList<>();
-
     String HOMEWORK_TYPE = "";
-
+    private final ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
+    private int iRequestCode = 0;
+    private final ArrayList<TeacherSectionsListNEW> seletedSectionsList = new ArrayList<>();
+    private int i_sections_count = 0;
+    private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -642,7 +630,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -651,7 +639,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
 
                                 showAlertForOnline(strMsg, strStatus);
                             } else {
@@ -675,7 +663,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -814,7 +802,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -823,7 +811,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
 
                                 showAlert(strMsg, strStatus);
                             } else {
@@ -959,7 +947,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
 
 
                     SubjectsList.clear();
@@ -1051,7 +1039,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1161,7 +1149,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1171,7 +1159,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
 
                             } else {
@@ -1194,7 +1182,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -1256,7 +1244,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-       // Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
+        // Call<JsonArray> call = apiService.SendVoiceAsStaffToEntireSectionfromVoiceHistory(jsonReqArray);
 
         Call<JsonArray> call;
         if (Util_Common.isScheduleCall) {
@@ -1274,7 +1262,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1284,7 +1272,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
 
                             } else {
@@ -1315,7 +1303,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
     private JsonObject jsonArrayFromVoiceHistory() {
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
-            ;
 
             jsonObjectSchoolstdgrp.addProperty("SchoolID", SchoolID);
             jsonObjectSchoolstdgrp.addProperty("StaffID", StaffID);
@@ -1387,7 +1374,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StdSecList:Code", response.code() + " - " + response.toString());
+                Log.d("StdSecList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StdSecList:Res", response.body().toString());
 
@@ -1503,7 +1490,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1512,7 +1499,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -1591,7 +1578,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1600,7 +1587,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
 
                                 showAlert(strMsg, strStatus);
                             } else {
@@ -1699,7 +1686,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1709,7 +1696,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
 
                             } else {
@@ -1818,7 +1805,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                     mProgressDialog.dismiss();
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1826,7 +1813,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             JSONObject jsonObject = js.getJSONObject(0);
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -1941,7 +1928,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StdSecList:Code", response.code() + " - " + response.toString());
+                Log.d("StdSecList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StdSecList:Res", response.body().toString());
 
@@ -1951,7 +1938,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                     if (js.length() > 0) {
                         {
                             TeacherStandardSectionsListModel stdSecList;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
 
                             for (int i = 0; i < js.length(); i++) {
                                 JSONObject jsonObject = js.getJSONObject(i);
@@ -2112,7 +2099,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -2121,7 +2108,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
 
                             } else {
@@ -2144,7 +2131,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -2241,7 +2228,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -2250,7 +2237,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -2393,7 +2380,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -2403,7 +2390,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -2484,7 +2471,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -2492,7 +2479,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             JSONObject jsonObject = js.getJSONObject(0);
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -2514,7 +2501,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });

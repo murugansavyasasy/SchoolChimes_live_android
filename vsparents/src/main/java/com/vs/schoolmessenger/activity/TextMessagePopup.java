@@ -1,17 +1,18 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_SMS;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.text.method.LinkMovementMethod;
 import android.view.ContextMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
@@ -21,12 +22,10 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_SMS;
-
 public class TextMessagePopup extends AppCompatActivity {
 
     TeacherMessageModel textMsgModel;
-    TextView tvTitle, tvTime, tvStatus, tvMsgContent,tvdescription;
+    TextView tvTitle, tvTime, tvStatus, tvMsgContent, tvdescription;
     String isNewVersion;
     Boolean is_Archive;
 
@@ -46,7 +45,7 @@ public class TextMessagePopup extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TeacherUtil_SharedPreference.putOnBackPressed(TextMessagePopup.this,"1");
+                TeacherUtil_SharedPreference.putOnBackPressed(TextMessagePopup.this, "1");
                 onBackPressed();
             }
         });
@@ -63,7 +62,7 @@ public class TextMessagePopup extends AppCompatActivity {
         tvMsgContent = (TextView) findViewById(R.id.textPopup_tvMsg);
 
 
-        tvdescription= (TextView) findViewById(R.id.textPopup_tvdescrip);
+        tvdescription = (TextView) findViewById(R.id.textPopup_tvdescrip);
         registerForContextMenu(tvdescription);
 
         tvTitle.setText(textMsgModel.getMsgTitle());
@@ -74,10 +73,9 @@ public class TextMessagePopup extends AppCompatActivity {
             tvStatus.setVisibility(View.VISIBLE);
         else tvStatus.setVisibility(View.GONE);
 
-        if(textMsgModel.getMsgdescription().equals("")){
+        if (textMsgModel.getMsgdescription().equals("")) {
             tvdescription.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             tvdescription.setVisibility(View.VISIBLE);
         }
 
@@ -85,7 +83,7 @@ public class TextMessagePopup extends AppCompatActivity {
             textMsgModel.setMsgReadStatus("1");
             tvStatus.setVisibility(View.GONE);
 
-            ChangeMsgReadStatus.changeReadStatus(TextMessagePopup.this, textMsgModel.getMsgID(), MSG_TYPE_SMS, textMsgModel.getMsgDate(),isNewVersion,is_Archive, new OnRefreshListener() {
+            ChangeMsgReadStatus.changeReadStatus(TextMessagePopup.this, textMsgModel.getMsgID(), MSG_TYPE_SMS, textMsgModel.getMsgDate(), isNewVersion, is_Archive, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
                     textMsgModel.setMsgReadStatus("1");
@@ -102,7 +100,7 @@ public class TextMessagePopup extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
 
-        menu.add(0, v.getId(),0, "Copy");
+        menu.add(0, v.getId(), 0, "Copy");
 //        menu.setHeaderTitle("Copy text"); //setting header title for menu
         TextView textView = (TextView) v;
         ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
@@ -112,10 +110,9 @@ public class TextMessagePopup extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TeacherUtil_SharedPreference.putOnBackPressed(TextMessagePopup.this,"1");
+        TeacherUtil_SharedPreference.putOnBackPressed(TextMessagePopup.this, "1");
         finish();
     }
-
 
 
     private void showToast(String msg) {

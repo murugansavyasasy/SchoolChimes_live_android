@@ -6,9 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.SpannableString;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.UnderlineSpan;
@@ -19,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -60,12 +60,23 @@ public class TeacherChangePassword extends AppCompatActivity {
     EditText updatePassword_etOldPassword;
 
     String RedirectToSignInScreen, forget, forgetOTPMessage, click_here;
-    TextView txtRedirectMessage, txtMessage,txtChangePassword;
+    TextView txtRedirectMessage, txtMessage, txtChangePassword;
     RelativeLayout rytRedirect;
 
     RelativeLayout rytExisting;
     String[] values;
-    String OTP ="";
+    String OTP = "";
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase("otp")) {
+
+                final String message = intent.getStringExtra("message");
+                Log.d("OTPMessage", message);
+                updatePassword_etOldPassword.setText(message);
+            }
+        }
+    };
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -83,12 +94,12 @@ public class TeacherChangePassword extends AppCompatActivity {
         txtChangePassword = (TextView) findViewById(R.id.txtChangePassword);
         updatePassword_etOldPassword = (EditText) findViewById(R.id.updatePassword_etOldPassword);
         rytRedirect = (RelativeLayout) findViewById(R.id.rytRedirect);
-        rytExisting =(RelativeLayout) findViewById(R.id.rytExisting);
+        rytExisting = (RelativeLayout) findViewById(R.id.rytExisting);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             RedirectToSignInScreen = extras.getString("RedirectToSignInScreen", "");
-            OTP = extras.getString("OTP","");
+            OTP = extras.getString("OTP", "");
         }
         forget = Util_SharedPreference.getForget(TeacherChangePassword.this);
         forgetOTPMessage = TeacherUtil_SharedPreference.getForgetOtpMessage(TeacherChangePassword.this);
@@ -138,7 +149,6 @@ public class TeacherChangePassword extends AppCompatActivity {
         setChangePasswordInputs();
     }
 
-
     @Override
     public void onResume() {
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("otp"));
@@ -150,19 +160,6 @@ public class TeacherChangePassword extends AppCompatActivity {
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
     }
-
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equalsIgnoreCase("otp")) {
-
-                final String message = intent.getStringExtra("message");
-                Log.d("OTPMessage", message);
-                updatePassword_etOldPassword.setText(message);
-            }
-        }
-    };
-
 
     @Override
     public void onBackPressed() {
@@ -213,8 +210,8 @@ public class TeacherChangePassword extends AppCompatActivity {
                 strNewPass = etNewPass.getText().toString().trim();
                 strConfirmPass = etConfirmPass.getText().toString().trim();
 
-                if(forget.equals("forget")){
-                    if ( strNewPass.equals("") || strConfirmPass.equals(""))
+                if (forget.equals("forget")) {
+                    if (strNewPass.equals("") || strConfirmPass.equals(""))
                         showToast(getResources().getString(R.string.enter_correct_password));
                     else if (!strNewPass.equals(strConfirmPass))
                         showToast(getResources().getString(R.string.password_missmatch));
@@ -226,9 +223,7 @@ public class TeacherChangePassword extends AppCompatActivity {
                         }
 
                     }
-                }
-
-                else {
+                } else {
                     if (strOldPass.equals("") || strNewPass.equals("") || strConfirmPass.equals(""))
                         showToast(getResources().getString(R.string.enter_correct_password));
 
@@ -253,11 +248,10 @@ public class TeacherChangePassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(forget.equals("forget")){
+                if (forget.equals("forget")) {
                     Intent inChangePass = new Intent(TeacherChangePassword.this, TeacherSignInScreen.class);
                     startActivity(inChangePass);
-                }
-                else {
+                } else {
                     onBackPressed();
 
                 }
@@ -273,7 +267,7 @@ public class TeacherChangePassword extends AppCompatActivity {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherChangePassword.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherChangePassword.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(TeacherChangePassword.this);
 
@@ -284,7 +278,7 @@ public class TeacherChangePassword extends AppCompatActivity {
         jsonObject.addProperty("OTP", OTP);
         jsonObject.addProperty("NewPassword", strNewPass);
 
-        Log.d("req",jsonObject.toString());
+        Log.d("req", jsonObject.toString());
 
         Call<JsonArray> call = apiService.ResetPasswordAfterForget(jsonObject);
         call.enqueue(new Callback<JsonArray>() {
@@ -294,7 +288,7 @@ public class TeacherChangePassword extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("ChangePass:Code", response.code() + " - " + response.toString());
+                Log.d("ChangePass:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("ChangePass:Res", response.body().toString());
 
@@ -355,7 +349,7 @@ public class TeacherChangePassword extends AppCompatActivity {
     }
 
     private void changePasswordAPI() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherChangePassword.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherChangePassword.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -378,7 +372,7 @@ public class TeacherChangePassword extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("ChangePass:Code", response.code() + " - " + response.toString());
+                Log.d("ChangePass:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("ChangePass:Res", response.body().toString());
 

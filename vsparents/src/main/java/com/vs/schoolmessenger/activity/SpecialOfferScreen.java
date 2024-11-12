@@ -3,8 +3,6 @@ package com.vs.schoolmessenger.activity;
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -12,6 +10,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -27,10 +27,10 @@ public class SpecialOfferScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.special_offer);
-        webView=(WebView) findViewById(R.id.specila_offer_webview);
-        MobileNumber=TeacherUtil_SharedPreference.getMobileNumberFromSP(SpecialOfferScreen.this);
-        OfferLink=TeacherUtil_SharedPreference.getOfferLink(SpecialOfferScreen.this);
-        Log.d("spec_OfferLink",OfferLink+MobileNumber);
+        webView = (WebView) findViewById(R.id.specila_offer_webview);
+        MobileNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(SpecialOfferScreen.this);
+        OfferLink = TeacherUtil_SharedPreference.getOfferLink(SpecialOfferScreen.this);
+        Log.d("spec_OfferLink", OfferLink + MobileNumber);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
@@ -60,7 +60,7 @@ public class SpecialOfferScreen extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.loadUrl(OfferLink+MobileNumber);
+        webView.loadUrl(OfferLink + MobileNumber);
 
-        }
+    }
 }

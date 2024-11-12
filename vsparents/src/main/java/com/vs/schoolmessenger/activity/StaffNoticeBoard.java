@@ -49,8 +49,8 @@ import retrofit2.Response;
 
 public class StaffNoticeBoard extends AppCompatActivity {
 
-    TextCircularListAdapternew tvadapter;
     public ArrayList<MessageModel> msgModelList = new ArrayList<>();
+    TextCircularListAdapternew tvadapter;
     RecyclerView text_rvCircularList;
     String SchoolID, StaffID;
     TextView norecords;

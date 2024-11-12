@@ -1,7 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -24,7 +27,6 @@ import com.vs.schoolmessenger.model.StaffDetail;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -33,15 +35,14 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
-
 public class StaffDetailListActivity extends AppCompatActivity {
     ActivityStaffDetailListBinding binding;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +58,12 @@ public class StaffDetailListActivity extends AppCompatActivity {
 
     public void subjectListApi() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffDetailListActivity.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StaffDetailListActivity.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffDetailListActivity.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StaffDetailListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StaffDetailListActivity.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffDetailListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -73,13 +73,13 @@ public class StaffDetailListActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-        String Code= TeacherUtil_SharedPreference.getShCountryCode(StaffDetailListActivity.this);
+        String Code = TeacherUtil_SharedPreference.getShCountryCode(StaffDetailListActivity.this);
 
-        JsonObject jsonObject=new JsonObject();
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("CountryCode", Code);
         jsonObject.addProperty("DialerId", Principal_staffId);
         jsonObject.addProperty("SchoolId", Principal_SchoolId);
-        Log.d("reqallstaffs",jsonObject.toString());
+        Log.d("reqallstaffs", jsonObject.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.staffDetailsList(jsonObject);
@@ -90,10 +90,11 @@ public class StaffDetailListActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
-                        Type userListType = new TypeToken<ArrayList<StaffDetail>>(){}.getType();
+                        Type userListType = new TypeToken<ArrayList<StaffDetail>>() {
+                        }.getType();
                         ArrayList<StaffDetail> staffDetails = new Gson().fromJson(response.body(), userListType);
                         StaffChatDetailAdapter adapter = new StaffChatDetailAdapter(staffDetails, new StaffSelectedListener() {
                             @Override
@@ -112,6 +113,7 @@ public class StaffDetailListActivity extends AppCompatActivity {
                     Log.e("Response Exception", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();

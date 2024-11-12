@@ -8,23 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import com.google.android.gms.ads.AdView;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -32,10 +17,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.gms.ads.AdView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.SliderAdsImage.MainSliderAdapter;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.fragments.EventsFragment;
@@ -44,12 +37,10 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
-import com.vs.schoolmessenger.model.adsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
-import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -65,47 +56,40 @@ import retrofit2.Response;
 import ss.com.bannerslider.Slider;
 
 public class EventsTapScreen extends AppCompatActivity implements View.OnClickListener {
-    ViewPager viewPager;
-    String userId;
-
-    private TabLayout allTabs;
-    public static EventsTapScreen instance;
-    private EventsFragment fragmentOne;
-    private HolidaysFragment fragmentTwo;
-
-    SharedPreferences shpRemember;
     private static final String SH_USERID = "UserId";
     private static final String SH_USERS = "userInfo";
-
+    public static EventsTapScreen instance;
+    ViewPager viewPager;
+    String userId;
+    SharedPreferences shpRemember;
     String strChildID = "", strSchoolID = "";
-
-
-    private PopupWindow pHelpWindow;
-
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    private ArrayList<Profiles> childList = new ArrayList<>();
-
     ArrayList<Integer> isAdminMenuID = new ArrayList<>();
     ArrayList<Integer> isStaffMenuID = new ArrayList<>();
     ArrayList<Integer> isPrincipalMenuID = new ArrayList<>();
     ArrayList<Integer> isGroupHedMenuID = new ArrayList<>();
     ArrayList<Integer> isParentMenuID = new ArrayList<>();
-
-
     ArrayList<String> isAdminMenuNames = new ArrayList<>();
     ArrayList<String> isIsStaffMenuNames = new ArrayList<>();
     ArrayList<String> isPrincipalMenuNames = new ArrayList<>();
     ArrayList<String> isGroupHedMenuNames = new ArrayList<>();
     ArrayList<String> isParentMenuNames = new ArrayList<>();
-
     Slider slider;
     LinearLayout lnrAdView;
     ImageView adImage;
     AdView mAdView;
+    private TabLayout allTabs;
+    private EventsFragment fragmentOne;
+    private HolidaysFragment fragmentTwo;
+    private PopupWindow pHelpWindow;
+    private ArrayList<Profiles> childList = new ArrayList<>();
 
+    public static EventsTapScreen getInstance() {
+        return instance;
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -132,7 +116,6 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
         lnrAdView = (LinearLayout) findViewById(R.id.lnrAdView);
         lnrAdView.setVisibility(View.VISIBLE);
-
 
 
         Slider.init(new PicassoImageLoadingService(EventsTapScreen.this));
@@ -162,62 +145,59 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        instance=this;
+        instance = this;
         getAllWidgets();
         bindWidgetsWithAnEvent();
         setupTabLayout();
 
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
     private void setupTabLayout() {
         fragmentOne = new EventsFragment();
         fragmentTwo = new HolidaysFragment();
-        allTabs.addTab(allTabs.newTab().setText(R.string.events),true);
+        allTabs.addTab(allTabs.newTab().setText(R.string.events), true);
         allTabs.addTab(allTabs.newTab().setText(R.string.holidays));
-    }
-
-
-    public static EventsTapScreen getInstance() {
-        return instance;
     }
 
     private void getAllWidgets() {
         allTabs = (TabLayout) findViewById(R.id.tabs);
     }
 
-    private void bindWidgetsWithAnEvent()
-    {
+    private void bindWidgetsWithAnEvent() {
         allTabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 setCurrentTabFragment(tab.getPosition());
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
     }
-    private void setCurrentTabFragment(int tabPosition)
-    {
-        switch (tabPosition)
-        {
-            case 0 :
+
+    private void setCurrentTabFragment(int tabPosition) {
+        switch (tabPosition) {
+            case 0:
                 replaceFragment(fragmentOne);
                 break;
-            case 1 :
+            case 1:
                 replaceFragment(fragmentTwo);
                 break;
         }
     }
+
     public void replaceFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -228,7 +208,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
 
     public void next() {
-      //  viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+        //  viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
     }
 
     @Override
@@ -236,15 +216,15 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.rytHome:
 
-                Intent homescreen=new Intent(EventsTapScreen.this,HomeActivity.class);
-                homescreen.putExtra("HomeScreen","1");
+                Intent homescreen = new Intent(EventsTapScreen.this, HomeActivity.class);
+                homescreen.putExtra("HomeScreen", "1");
                 homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homescreen);
                 finish();
 
                 break;
             case R.id.rytHelp:
-                Intent faq=new Intent(EventsTapScreen.this,FAQScreen.class);
+                Intent faq = new Intent(EventsTapScreen.this, FAQScreen.class);
                 startActivity(faq);
 
 
@@ -259,7 +239,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.rytLogout:
 
-                Util_Common.popUpMenu(EventsTapScreen.this,v,"1");
+                Util_Common.popUpMenu(EventsTapScreen.this, v, "1");
 
                 break;
 
@@ -322,9 +302,9 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void languageChangeApi(String id, final String  lang) {
+    private void languageChangeApi(String id, final String lang) {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(EventsTapScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(EventsTapScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         schools_list = TeacherUtil_SharedPreference.getChildrenScreenSchools_List(EventsTapScreen.this, "schools_list");
@@ -340,9 +320,9 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -350,9 +330,9 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -380,7 +360,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -393,19 +373,16 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
                         String message = jsonObject.getString("Message");
 
 
-
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),EventsTapScreen.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),EventsTapScreen.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),EventsTapScreen.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),EventsTapScreen.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),EventsTapScreen.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),EventsTapScreen.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),EventsTapScreen.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),EventsTapScreen.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),EventsTapScreen.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),EventsTapScreen.this);
-
-
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), EventsTapScreen.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), EventsTapScreen.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), EventsTapScreen.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), EventsTapScreen.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), EventsTapScreen.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), EventsTapScreen.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), EventsTapScreen.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), EventsTapScreen.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), EventsTapScreen.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), EventsTapScreen.this);
 
 
                         if (Integer.parseInt(status) > 0) {

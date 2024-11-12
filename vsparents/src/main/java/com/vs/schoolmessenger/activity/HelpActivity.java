@@ -1,4 +1,5 @@
 package com.vs.schoolmessenger.activity;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +9,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
@@ -22,7 +25,7 @@ public class HelpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.special_offer);
-        webView=(WebView) findViewById(R.id.specila_offer_webview);
+        webView = (WebView) findViewById(R.id.specila_offer_webview);
         getSupportActionBar().setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_dates);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_acTitle)).setText("Help");
@@ -49,7 +52,7 @@ public class HelpActivity extends AppCompatActivity {
         });
 
         String URL = TeacherUtil_SharedPreference.getHelpLineUrl(HelpActivity.this);
-        Log.d("Help Url",URL);
+        Log.d("Help Url", URL);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);

@@ -7,13 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
-import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -21,7 +22,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.StudentChatAdapter;
-import com.vs.schoolmessenger.assignment.ParentSubmitActivity;
 import com.vs.schoolmessenger.databinding.ActivityStudentChatBinding;
 import com.vs.schoolmessenger.interfaces.PaginationScrollListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -38,7 +38,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -173,7 +172,7 @@ public class StudentChatActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -209,11 +208,8 @@ public class StudentChatActivity extends AppCompatActivity {
                                     adapter.notifyDataSetChanged();
                                     isLastPage = (current_offset == totalPages - 1);
                                     offset = messages.get(0).Offset + 1;
-                                    Log.d("item count", binding.studentChatList.getLayoutManager().getItemCount() + "");
-                                    if (isLastPage)
-                                        isLoading = true;
-                                    else
-                                        isLoading = false;
+                                    Log.d("item count", String.valueOf(binding.studentChatList.getLayoutManager().getItemCount()));
+                                    isLoading = isLastPage;
                                 }
                             }
                         } catch (Exception e) {
@@ -271,7 +267,7 @@ public class StudentChatActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         binding.chatMessage.setText("");
 //                        if (isLastPage)

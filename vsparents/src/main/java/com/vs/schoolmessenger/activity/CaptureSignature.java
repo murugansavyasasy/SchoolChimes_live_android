@@ -49,24 +49,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CaptureSignature extends Activity {
-    LinearLayout mContent;
-    Button mClear, mGetSign, mCancel;
-
-    signature mSignature;
-
     private static final String SIGN_FOLDER = "School Voice/Sign";
-
     public int count = 1;
     public String current = null;
-    private Bitmap mBitmap;
+    LinearLayout mContent;
+    Button mClear, mGetSign, mCancel;
+    signature mSignature;
     View mView;
     File mypath;
-
-    private String uniqueId;
-//    String strSignImagePath = "";
-
     String strName = "";
     String strCirID = "", strAns = "";
+//    String strSignImagePath = "";
+    private Bitmap mBitmap;
+    private String uniqueId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -258,15 +253,114 @@ public class CaptureSignature extends Activity {
 //		return (tempdir.isDirectory());
 //	}
 
+    //
+    private void uploadSignatureRetroFit() {
+
+//        MessengerApiClient.BASE_URL = Util_SharedPreference.getBaseUrlFromSP(CaptureSignature.this);
+        // MessengerApiClient.changeApiBaseUrl(Util_SharedPreference.getBaseUrlFromSP(CaptureSignature.this));
+
+        String strChildID = Util_SharedPreference.getChildIdFromSP(CaptureSignature.this);
+        String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(CaptureSignature.this);
+
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+
+        // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
+        // use the FileUtils to get the actual file by uri
+        File file = new File(mypath.getPath());
+//        File file = FileUtils.getFile(this, Uri.parse(recFilePath));
+
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), file);
+
+        MultipartBody.Part bodyFile =
+                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+
+//        // add another part within the multipart request
+        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_InsertQueReply(strCirID, strChildID, strSchoolID, strAns);
+//        String descriptionString = "hello, this is description speaking";
+        RequestBody requestBody =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, jsonReqArray.toString());
+        // Or
+//        RequestBody requestContent =
+//                RequestBody.create(
+//                        MediaType.parse("multipart/form-data"), jsonReqArray.toString());
+
+        final ProgressDialog mProgressDialog = new ProgressDialog(CaptureSignature.this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
+
+        if (!this.isFinishing())
+            mProgressDialog.show();
+
+        // finally, execute the request
+//        JsonArray jsonReqArray = Util_JsonRequest.getJsonArray_InsertQueReply(strCirID, strChildID, strSchoolID, strAns);
+        Call<JsonArray> call = apiService.SignUpload(requestBody, bodyFile);
+//        Call<JsonObject> call = apiService.InsertQueReply(Util_UrlMethods.INSERT_QUE_REPLY, strCirID, strChildID, strSchoolID, strAns, bodyFile);
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call,
+                                   Response<JsonArray> response) {
+
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+
+                Log.d("Upload-Code:Response", response.code() + "-" + response);
+                if (response.code() == 200 || response.code() == 201) {
+                    Log.d("Upload:Body", response.body().toString());
+
+                    try {
+                        JSONArray js = new JSONArray(response.body().toString());
+                        if (js.length() > 0) {
+                            JSONObject jsonObject = js.getJSONObject(0);
+                            String strStatus = jsonObject.getString("Status");
+                            String strMsg = jsonObject.getString("Message");
+
+
+                            if ((strStatus).equals("1")) {
+                                showToast(strMsg);
+                                Bundle b = new Bundle();
+                                b.putString("status", "done");
+                                Intent intent = new Intent();
+                                intent.putExtras(b);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            } else {
+                                showToast(strMsg);
+                            }
+                        } else {
+
+                            showToast(getResources().getString(R.string.no_records));
+                        }
+
+
+                    } catch (Exception e) {
+                        showToast(getResources().getString(R.string.check_internet));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+                showToast(getResources().getString(R.string.check_internet));
+                Log.d("Upload error:", t.getMessage());
+            }
+        });
+    }
+
     public class signature extends View {
         private static final float STROKE_WIDTH = 5f;
         private static final float HALF_STROKE_WIDTH = STROKE_WIDTH / 2;
-        private Paint paint = new Paint();
-        private Path path = new Path();
-
+        private final RectF dirtyRect = new RectF();
+        private final Paint paint = new Paint();
+        private final Path path = new Path();
         private float lastTouchX;
         private float lastTouchY;
-        private final RectF dirtyRect = new RectF();
 
         public signature(Context context, AttributeSet attrs) {
             super(context, attrs);
@@ -345,7 +439,7 @@ public class CaptureSignature extends Activity {
                     break;
 
                 default:
-                    debug("Ignored touch event: " + event.toString());
+                    debug("Ignored touch event: " + event);
                     return false;
             }
 
@@ -384,106 +478,6 @@ public class CaptureSignature extends Activity {
             dirtyRect.top = Math.min(lastTouchY, eventY);
             dirtyRect.bottom = Math.max(lastTouchY, eventY);
         }
-    }
-
-    //
-    private void uploadSignatureRetroFit() {
-
-//        MessengerApiClient.BASE_URL = Util_SharedPreference.getBaseUrlFromSP(CaptureSignature.this);
-        // MessengerApiClient.changeApiBaseUrl(Util_SharedPreference.getBaseUrlFromSP(CaptureSignature.this));
-
-        String strChildID = Util_SharedPreference.getChildIdFromSP(CaptureSignature.this);
-        String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(CaptureSignature.this);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-        // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
-        // use the FileUtils to get the actual file by uri
-        File file = new File(mypath.getPath());
-//        File file = FileUtils.getFile(this, Uri.parse(recFilePath));
-
-        // create RequestBody instance from file
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), file);
-
-        MultipartBody.Part bodyFile =
-                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-
-//        // add another part within the multipart request
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_InsertQueReply(strCirID, strChildID, strSchoolID, strAns);
-//        String descriptionString = "hello, this is description speaking";
-        RequestBody requestBody =
-                RequestBody.create(
-                        okhttp3.MultipartBody.FORM, jsonReqArray.toString());
-        // Or
-//        RequestBody requestContent =
-//                RequestBody.create(
-//                        MediaType.parse("multipart/form-data"), jsonReqArray.toString());
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(CaptureSignature.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-        // finally, execute the request
-//        JsonArray jsonReqArray = Util_JsonRequest.getJsonArray_InsertQueReply(strCirID, strChildID, strSchoolID, strAns);
-        Call<JsonArray> call = apiService.SignUpload(requestBody, bodyFile);
-//        Call<JsonObject> call = apiService.InsertQueReply(Util_UrlMethods.INSERT_QUE_REPLY, strCirID, strChildID, strSchoolID, strAns, bodyFile);
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
-
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
-
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
-
-
-                            if ((strStatus).equals("1")) {
-                                showToast(strMsg);
-                                Bundle b = new Bundle();
-                                b.putString("status", "done");
-                                Intent intent = new Intent();
-                                intent.putExtras(b);
-                                setResult(RESULT_OK, intent);
-                                finish();
-                            } else {
-                                showToast(strMsg);
-                            }
-                        } else {
-
-                            showToast(getResources().getString(R.string.no_records));
-                        }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage());
-            }
-        });
     }
 
 

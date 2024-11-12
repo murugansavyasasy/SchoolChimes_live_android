@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
 import com.vs.schoolmessenger.R;
@@ -43,14 +44,14 @@ import retrofit2.Callback;
 
 public class FeedBackDetails extends AppCompatActivity {
 
+    public ArrayList<QuestionDetails> questionDetails = new ArrayList<>();
+    public ArrayList<SubQustions> subQuestions = new ArrayList<>();
     EditText txtSchoolName, txtContactPerson, txtContactMobileNumber, txtEmailID;
     Button btnNext;
     String schoolname, contactperson, mobilenumber, emailID;
     Spinner SchoolList;
-    public ArrayList<QuestionDetails> questionDetails = new ArrayList<>();
-    public ArrayList<SubQustions> subQuestions = new ArrayList<>();
     TeacherSchoolsModel schoolmodel;
-    String schoolID,StaffID;
+    String schoolID, StaffID;
     ArrayList<String> myArray = new ArrayList<>();
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     String selectedItemText;
@@ -87,7 +88,6 @@ public class FeedBackDetails extends AppCompatActivity {
         txtContactPerson = (EditText) findViewById(R.id.txtContactPerson);
         txtContactMobileNumber = (EditText) findViewById(R.id.txtContactMobileNumber);
         txtEmailID = (EditText) findViewById(R.id.txtEmailID);
-
 
 
         SchoolList = (Spinner) findViewById(R.id.SchoolList);
@@ -162,7 +162,7 @@ public class FeedBackDetails extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(txtContactPerson.getWindowToken(), 0);
 
     }
@@ -175,7 +175,7 @@ public class FeedBackDetails extends AppCompatActivity {
 
     private void feedBackDetails() {
 
-        String baseURL= TeacherUtil_SharedPreference.getBaseUrl(FeedBackDetails.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(FeedBackDetails.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -192,7 +192,7 @@ public class FeedBackDetails extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 

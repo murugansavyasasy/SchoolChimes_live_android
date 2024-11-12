@@ -1,13 +1,13 @@
 package com.vs.schoolmessenger.activity;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
 
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.MessageModel;
@@ -27,30 +29,22 @@ import com.vs.schoolmessenger.util.Util_Common;
 
 import java.io.File;
 
-import static com.vs.schoolmessenger.util.Util_Common.MENU_EMERGENCY;
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
-
 public class VoiceCircularPopup extends AppCompatActivity {
 
-    TextView tvTitle, tvTime, tvStatus,tvdescription;
-    TextView tvDuarion, tvTotDuration;
+    private final String VOICE_FOLDER = "//SchoolChimesVoice";
     public ImageButton imgBtnPlayPause;
     public SeekBar seekBar;
-
+    TextView tvTitle, tvTime, tvStatus, tvdescription;
+    TextView tvDuarion, tvTotDuration;
     ProgressBar pbLoading;
-
-    private MediaPlayer mediaPlayer;
     int mediaFileLengthInMilliseconds = 0;
     Handler handler = new Handler();
 
     MessageModel voiceModel;
-
-
-    private final String VOICE_FOLDER = "//SchoolChimesVoice";
-
-    String voicetype="";
+    String voicetype = "";
     String isNewVersion;
     Boolean is_Archive;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +81,7 @@ public class VoiceCircularPopup extends AppCompatActivity {
         imgBtnPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TeacherUtil_SharedPreference.putOnBackPressedEmeVoice(VoiceCircularPopup.this,"1");
+                TeacherUtil_SharedPreference.putOnBackPressedEmeVoice(VoiceCircularPopup.this, "1");
                 recVoicePlayPause();
             }
         });
@@ -97,7 +91,7 @@ public class VoiceCircularPopup extends AppCompatActivity {
         is_Archive = voiceModel.getIs_Archive();
 
 
-        if(voicetype.equals("Voice_History")){
+        if (voicetype.equals("Voice_History")) {
             tvTitle.setText(voiceModel.getMsgDate());
             tvTime.setText("");
         }
@@ -112,10 +106,9 @@ public class VoiceCircularPopup extends AppCompatActivity {
         setupAudioPlayer();
 
 
-        if(voiceModel.getMsgdescription().equals("")){
+        if (voiceModel.getMsgdescription().equals("")) {
             tvdescription.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             tvdescription.setVisibility(View.VISIBLE);
         }
 
@@ -123,8 +116,7 @@ public class VoiceCircularPopup extends AppCompatActivity {
             voiceModel.setMsgReadStatus("1");
             tvStatus.setVisibility(View.GONE);
 
-            ChangeMsgReadStatus.changeReadStatus(VoiceCircularPopup.this, voiceModel.getMsgID(), MSG_TYPE_VOICE, voiceModel.getMsgDate(),isNewVersion,is_Archive, new OnRefreshListener()
-            {
+            ChangeMsgReadStatus.changeReadStatus(VoiceCircularPopup.this, voiceModel.getMsgID(), MSG_TYPE_VOICE, voiceModel.getMsgDate(), isNewVersion, is_Archive, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
                     voiceModel.setMsgReadStatus("1");
@@ -147,7 +139,7 @@ public class VoiceCircularPopup extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TeacherUtil_SharedPreference.putOnBackPressedEmeVoice(VoiceCircularPopup.this,"1");
+        TeacherUtil_SharedPreference.putOnBackPressedEmeVoice(VoiceCircularPopup.this, "1");
 
         if (mediaPlayer.isPlaying())
             mediaPlayer.stop();
@@ -249,15 +241,14 @@ public class VoiceCircularPopup extends AppCompatActivity {
 //            }
 
 
-
             if (!dir.exists()) {
                 dir.mkdirs();
                 System.out.println("Dir: " + dir);
             }
 
 
-            String name=voiceModel.getMsgID()+"_"+voiceModel.getMsgTitle()+".mp3";
-            File futureStudioIconFile = new File(dir, voiceModel.getMsgID()+"_"+voiceModel.getMsgTitle()+".mp3");
+            String name = voiceModel.getMsgID() + "_" + voiceModel.getMsgTitle() + ".mp3";
+            File futureStudioIconFile = new File(dir, voiceModel.getMsgID() + "_" + voiceModel.getMsgTitle() + ".mp3");
             System.out.println("FILE_PATH:" + futureStudioIconFile.getPath());
 
             mediaPlayer.reset();

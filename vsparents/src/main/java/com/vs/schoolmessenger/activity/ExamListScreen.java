@@ -8,18 +8,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +20,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
@@ -44,7 +43,6 @@ import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
-import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -60,36 +58,28 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ss.com.bannerslider.Slider;
 
-public class ExamListScreen extends AppCompatActivity implements View.OnClickListener{
+public class ExamListScreen extends AppCompatActivity implements View.OnClickListener {
 
-    String child_ID, school_ID, Exam_ID;
-
-    RecyclerView Exam_list_recycle;
-    private List<ExamList> Exam_list = new ArrayList<>();
     public ExamListAdapter mAdapter;
-
-    private PopupWindow pHelpWindow;
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    String child_ID, school_ID, Exam_ID;
+    RecyclerView Exam_list_recycle;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    private ArrayList<Profiles> childList = new ArrayList<>();
-
-
     ImageView imgSearch;
     TextView Searchable;
-
     Slider slider;
     ImageView adImage;
-
     AdView mAdView;
-
+    private final List<ExamList> Exam_list = new ArrayList<>();
+    private PopupWindow pHelpWindow;
+    private ArrayList<Profiles> childList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
-
 
 
     @Override
@@ -120,7 +110,7 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
 
         Slider.init(new PicassoImageLoadingService(ExamListScreen.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
 
 
         Searchable = (EditText) findViewById(R.id.Searchable);
@@ -192,14 +182,14 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
     private void filterlist(String s) {
         List<ExamList> temp = new ArrayList();
         for (ExamList d : Exam_list) {
 
-            if (d.getName().toLowerCase().contains(s.toLowerCase())  ) {
+            if (d.getName().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -215,13 +205,12 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
 
     private void examListApi() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(ExamListScreen.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(ExamListScreen.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ExamListScreen.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(ExamListScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(ExamListScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ExamListScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -245,7 +234,7 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
                         ExamList data;
@@ -324,8 +313,8 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.rytHome:
 
-                Intent homescreen=new Intent(ExamListScreen.this,HomeActivity.class);
-                homescreen.putExtra("HomeScreen","1");
+                Intent homescreen = new Intent(ExamListScreen.this, HomeActivity.class);
+                homescreen.putExtra("HomeScreen", "1");
                 homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homescreen);
                 finish();
@@ -334,7 +323,7 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
             case R.id.rytHelp:
 
 
-                Intent faq=new Intent(ExamListScreen.this,FAQScreen.class);
+                Intent faq = new Intent(ExamListScreen.this, FAQScreen.class);
                 startActivity(faq);
 
                 break;
@@ -347,14 +336,12 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
 
                 break;
             case R.id.rytLogout:
-                Util_Common.popUpMenu(ExamListScreen.this,v,"1");
+                Util_Common.popUpMenu(ExamListScreen.this, v, "1");
                 break;
 
 
         }
     }
-
-
 
 
     private void showLanguageListPopup() {
@@ -427,9 +414,9 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -437,9 +424,9 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -467,7 +454,7 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -480,18 +467,16 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
                         String message = jsonObject.getString("Message");
 
 
-
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),ExamListScreen.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),ExamListScreen.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),ExamListScreen.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),ExamListScreen.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),ExamListScreen.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),ExamListScreen.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),ExamListScreen.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),ExamListScreen.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),ExamListScreen.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),ExamListScreen.this);
-
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), ExamListScreen.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), ExamListScreen.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), ExamListScreen.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), ExamListScreen.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), ExamListScreen.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), ExamListScreen.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), ExamListScreen.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), ExamListScreen.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), ExamListScreen.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), ExamListScreen.this);
 
 
                         if (Integer.parseInt(status) > 0) {

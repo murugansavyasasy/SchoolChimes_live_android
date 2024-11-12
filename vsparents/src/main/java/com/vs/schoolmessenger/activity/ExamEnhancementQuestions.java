@@ -1,12 +1,6 @@
 package com.vs.schoolmessenger.activity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_QUIZ;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -40,7 +34,14 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -79,38 +80,192 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_QUIZ;
-
-public class ExamEnhancementQuestions extends AppCompatActivity implements QuestionClickListener,View.OnClickListener {
-    TextView lblStarttime, lblendtime, lblduration, lblmin, lblqueno, lblque,lblPDF,lblprev,lblnext,lblqueduration;
+public class ExamEnhancementQuestions extends AppCompatActivity implements QuestionClickListener, View.OnClickListener {
+    public QuestionForQuizAdapter mAdapter;
+    TextView lblStarttime, lblendtime, lblduration, lblmin, lblqueno, lblque, lblPDF, lblprev, lblnext, lblqueduration;
     RadioGroup rgoptions;
     RecyclerView rcyquestions;
     FrameLayout videoview;
     ConstraintLayout constraint;
     LinearLayout lnrPDFtext;
-    ImageView imgview,imgVideo,imgplay,imgShadow,imgprev,imgnext;
+    ImageView imgview, imgVideo, imgplay, imgShadow, imgprev, imgnext;
     Button btnnext, btnprevious, btnsubmit;
-    long recTime,recquetime,curdifferenceque=0;
+    long recTime, recquetime, curdifferenceque = 0;
     Handler recTimerHandler = new Handler();
     Handler recqueTimerHandler = new Handler();
     int iMaxRecDur;
-    String child_id,ansid,answer;
+    String child_id, ansid, answer;
     int adapterpos = 0, nextpos = 0, previouspos = 0;
-    private ArrayList<QuestionForQuiz> msgModelList = new ArrayList<>();
     QuestionForQuiz msgModel;
     ExamEnhancement info;
-    ArrayList<String> answerlist=new ArrayList<>();
-    ArrayList<String> questionlist=new ArrayList<>();
-
-    public QuestionForQuizAdapter mAdapter;
+    ArrayList<String> answerlist = new ArrayList<>();
+    ArrayList<String> questionlist = new ArrayList<>();
     RelativeLayout ryttime;
     RadioButton radioButton;
-    String currenttime24,pdfuri,videourl,imageurl,quetime;
-    PopupWindow popupWindow,popupimage,popuppdfWindow;
+    String currenttime24, pdfuri, videourl, imageurl, quetime;
+    PopupWindow popupWindow, popupimage, popuppdfWindow;
+    private final ArrayList<QuestionForQuiz> msgModelList = new ArrayList<>();
+    private final Runnable querunson = new Runnable() {
+        @Override
+        public void run() {
+            lblqueduration.setText("Question Reading Time : " + milliSecondsToTimer(recquetime * 1000));
+            String timing = lblqueduration.getText().toString();
+            if (lblqueduration.getText().toString().equals("Question Reading Time : 00:00") || lblqueduration.getText().toString().equals("Question Reading Time : 0:00")) {
+                lblqueduration.setVisibility(View.GONE);
+                lblduration.setVisibility(View.VISIBLE);
+            }
+            recquetime = recquetime - 1;
+            if (recquetime != iMaxRecDur)
+                recqueTimerHandler.postDelayed(this, 1000);
+            else
+                lblqueduration.setText("Question Reading Time : " + milliSecondsToTimer(recquetime * 1000));
+            if (lblqueduration.getText().toString().equals("Question Reading Time : 00:00") || lblqueduration.getText().toString().equals("Question Reading Time : 0:00")) {
+                lblqueduration.setVisibility(View.GONE);
+                lblduration.setVisibility(View.VISIBLE);
+            }
+        }
+
+    };
+    private final Runnable runson = new Runnable() {
+        @Override
+        public void run() {
+            lblduration.setText("Exam Time:" + milliSecondsToTimer(recTime * 1000));
+            if (lblduration.getText().toString().equals("Exam Time:00:00") || lblduration.getText().toString().equals("Exam Time:0:00")) {
+                if (answerlist.size() != 0) {
+                    if (answerlist.size() == msgModelList.size()) {
+                        submitquiz();
+                    } else if (questionlist.size() != msgModelList.size()) {
+
+                        for (int i = 0; i < msgModelList.size(); i++) {
+                            if (!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))) {
+                                String emptyque = msgModelList.get(i).getQestionId() + "~" + 0;
+                                answerlist.add(emptyque);
+                            }
+                        }
+                        if (answerlist.size() == msgModelList.size()) {
+                            submitquiz();
+                        }
+                    }
+
+                } else {
+                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
+                }
+            }
+            if (curdifferenceque <= 0) {
+                Date currentTime = Calendar.getInstance().getTime();
+                Log.d("currenttime", currentTime.toString());
+                String date = currentTime.toString();
+                String[] parts = date.split(" ");
+
+                System.out.println("Time: " + parts[3]);
+                String currenttime24add = parts[3];
+
+                // ***********compare with current time and start time
+
+                String _24HourTime11 = info.getTimeForQuestionReading() + ":00";
+                Log.d("starttime", _24HourTime11);
+                Date curStart = null;
+                Date curEnd = null;
+                SimpleDateFormat cursimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                try {
+                    curStart = cursimpleDateFormat.parse(_24HourTime11);
+                    curEnd = cursimpleDateFormat.parse(currenttime24add);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                curdifferenceque = curEnd.getTime() - curStart.getTime();
+                Log.d("curdiffhandler", String.valueOf(curdifferenceque));
+                if (curdifferenceque > 0) {
+                    lblmin.setText("Students are now allowed to answer");
+                    lblmin.setTextColor(getResources().getColor(R.color.clr_green));
+                    lblduration.setVisibility(View.VISIBLE);
+                    lblqueduration.setVisibility(View.GONE);
+                    mAdapter = new QuestionForQuizAdapter(msgModelList, ExamEnhancementQuestions.this, adapterpos, ExamEnhancementQuestions.this);
+
+                    rcyquestions.setHasFixedSize(true);
+                    rcyquestions.setLayoutManager(new LinearLayoutManager(ExamEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
+                    rcyquestions.setItemAnimator(new DefaultItemAnimator());
+                    rcyquestions.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            if (lblduration.getText().toString().equals("Exam Time:01:00") || lblduration.getText().toString().equals("Exam Time:1:00")) {
+                showAlert("Please submit your exam on time or else exam will be submitted automatically");
+            }
+
+            recTime = recTime - 1;
+            if (recTime != iMaxRecDur) {
+                recTimerHandler.postDelayed(this, 1000);
+            }
+
+
+            lblduration.setText("Exam Time:" + milliSecondsToTimer(recTime * 1000));
+            if (lblduration.getText().toString().equals("Exam Time:00:00") || lblduration.getText().toString().equals("Exam Time:0:00")) {
+                if (answerlist.size() != 0) {
+                    if (answerlist.size() == msgModelList.size()) {
+                        submitquiz();
+                    } else if (questionlist.size() != msgModelList.size()) {
+
+                        for (int i = 0; i < msgModelList.size(); i++) {
+                            if (!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))) {
+                                String emptyque = msgModelList.get(i).getQestionId() + "~" + 0;
+                                answerlist.add(emptyque);
+                            }
+                        }
+                        if (answerlist.size() == msgModelList.size()) {
+                            submitquiz();
+                        }
+                    }
+
+
+                } else {
+                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
+                }
+            }
+
+        }
+    };
+
+    public static String milliSecondsToTimer(long milliseconds) {
+        String finalTimerString = "";
+        String secondsString = "";
+        String minutesString = "";
+
+        // Convert total duration into time
+        int hours = (int) (milliseconds / (1000 * 60 * 60));
+        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+        // Add hours if there
+        if (hours > 0) {
+            finalTimerString = hours + ":";
+        }
+
+        // Prepending 0 to Minutes if it is one digit
+        if (minutes < 10) {
+            minutesString = "0" + minutes;
+        } else {
+            minutesString = String.valueOf(minutes);
+        }
+
+        // Prepending 0 to seconds if it is one digit
+        if (seconds < 10) {
+            secondsString = "0" + seconds;
+        } else {
+            secondsString = String.valueOf(seconds);
+        }
+
+        finalTimerString = finalTimerString + minutesString + ":" + secondsString;
+
+        // return timer string
+        return finalTimerString;
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,19 +323,18 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         quetime = getIntent().getStringExtra("quetime");
 
 
-
-        if(quetime.equals("")){
+        if (quetime.equals("")) {
             lblmin.setVisibility(View.GONE);
             lblqueduration.setVisibility(View.GONE);
             lblduration.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             lblqueduration.setVisibility(View.VISIBLE);
             lblduration.setVisibility(View.GONE);
-            lblmin.setText("Time for Question Reading "+quetime+" . Students are not allowed to answer upto "+quetime);
+            lblmin.setText("Time for Question Reading " + quetime + " . Students are not allowed to answer upto " + quetime);
         }
         String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ExamEnhancementQuestions.this);
-        if(info.getIsAppRead().equals("0")){
-            ChangeMsgReadStatus.changeReadStatus(ExamEnhancementQuestions.this, String.valueOf(info.getDetailId()), MSG_TYPE_QUIZ,"",isNewVersion,false, new OnRefreshListener() {
+        if (info.getIsAppRead().equals("0")) {
+            ChangeMsgReadStatus.changeReadStatus(ExamEnhancementQuestions.this, String.valueOf(info.getDetailId()), MSG_TYPE_QUIZ, "", isNewVersion, false, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
 
@@ -205,12 +359,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             imgprev.setImageResource(R.drawable.bg_prev_enable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_black));
         }
-        if(answerlist.size()==0){
-            btnsubmit.setEnabled(false);
-        }
-        else{
-            btnsubmit.setEnabled(true);
-        }
+        btnsubmit.setEnabled(answerlist.size() != 0);
         imgnext.setOnClickListener(this);
         imgprev.setOnClickListener(this);
         btnnext.setOnClickListener(this);
@@ -224,9 +373,8 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         imgplay.setOnClickListener(this);
 
 
-
         Log.d("adapterpos", String.valueOf(adapterpos));
-        if(adapterpos==0) {
+        if (adapterpos == 0) {
             mAdapter = new QuestionForQuizAdapter(msgModelList, this, 0, this);
 
             rcyquestions.setHasFixedSize(true);
@@ -238,29 +386,28 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         // *********** current system timing
 
         Date currentTime = Calendar.getInstance().getTime();
-        Log.d("currenttime",currentTime.toString());
+        Log.d("currenttime", currentTime.toString());
         String date = currentTime.toString();
         String[] parts = date.split(" ");
 
-        System.out.println("Time: " + parts[3] );
-        currenttime24=parts[3];
-
+        System.out.println("Time: " + parts[3]);
+        currenttime24 = parts[3];
 
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         String formattedDate = df.format(currentTime);
-        Log.d("currentdate",formattedDate);
+        Log.d("currentdate", formattedDate);
         // ***********compare with current time and start time
 
-        String _24HourTime11 = info.getExamStartTime()+":00";
-        Log.d("starttime",_24HourTime11);
+        String _24HourTime11 = info.getExamStartTime() + ":00";
+        Log.d("starttime", _24HourTime11);
         Date curStart = null;
         Date curEnd = null;
         SimpleDateFormat cursimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
         try {
             curStart = cursimpleDateFormat.parse(_24HourTime11);
-            curEnd = cursimpleDateFormat.parse(currenttime24);}
-        catch(ParseException e){
+            curEnd = cursimpleDateFormat.parse(currenttime24);
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -269,36 +416,32 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
         //End Time
 
-        String _24HourTime11end = info.getExamEndTime()+":00";
-        Log.d("starttime",_24HourTime11end);
+        String _24HourTime11end = info.getExamEndTime() + ":00";
+        Log.d("starttime", _24HourTime11end);
         Date curStartend = null;
         Date curEndend = null;
         SimpleDateFormat cursimpleDateFormatend = new SimpleDateFormat("HH:mm:ss");
         try {
             curStartend = cursimpleDateFormatend.parse(currenttime24);
             curEndend = cursimpleDateFormatend.parse(_24HourTime11end);
-        }
-        catch(ParseException e){
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
         long curdifferenceend = curEndend.getTime() - curStartend.getTime();
-        if(!formattedDate.equals(info.ExamDate)){
+        if (!formattedDate.equals(info.ExamDate)) {
             showAlertfinish("This Exam Not Allocated for Today");
-        }
-        else if(curdifference<0){
+        } else if (curdifference < 0) {
             showAlertfinish("Please wait! Exam Not Started yet");
-        }
-        else if(curdifferenceend<0){
+        } else if (curdifferenceend < 0) {
             showAlertfinish("Exam no longer exist");
-        }
-        else{
+        } else {
             constraint.setVisibility(View.VISIBLE);
             examEnhancement();
             // *********** 24 hrs to 12 hrs conversion for textview display
             try {
                 String _24HourTime = info.getExamStartTime();
-                String _24HourTime1= info.getExamEndTime();
+                String _24HourTime1 = info.getExamEndTime();
                 SimpleDateFormat _24HourSDF = new SimpleDateFormat("HH:mm");
                 SimpleDateFormat _12HourSDF = new SimpleDateFormat("hh:mm a");
                 Date _24HourDt = _24HourSDF.parse(_24HourTime);
@@ -313,8 +456,8 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 e.printStackTrace();
             }
 
-            String _24HourTime12= info.getExamEndTime()+":00";
-            String _24HourTimeque= info.getTimeForQuestionReading()+":00";
+            String _24HourTime12 = info.getExamEndTime() + ":00";
+            String _24HourTimeque = info.getTimeForQuestionReading() + ":00";
             Date Start = null;
             Date End = null;
             Date Quetime = null;
@@ -326,46 +469,44 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 End = simpleDateFormat.parse(_24HourTime12);
                 Quetime = simpleDateFormat.parse(_24HourTimeque);
 
-            }
-            catch(ParseException e){
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
             long Endseconds = End.getTime() / 1000L;
             long startseconds = Start.getTime() / 1000L;
             long quereadseconds = Quetime.getTime() / 1000L;
-            long totalsec=Endseconds-startseconds;
-            long quesec=quereadseconds-startseconds;
+            long totalsec = Endseconds - startseconds;
+            long quesec = quereadseconds - startseconds;
 
             Log.d("totalsec", String.valueOf(totalsec));
             iMaxRecDur = 0;
             recTime = totalsec;
             recquetime = quesec;
-            lblqueduration.setText("Question Reading Time : "+milliSecondsToTimer(recquetime * 1000));
-            lblduration.setText("Exam Time:"+milliSecondsToTimer(recTime * 1000));
-            if(lblduration.getText().toString().equals("Exam Time:00:00")||lblduration.getText().toString().equals("Exam Time:0:00")){
-                if(answerlist.size()!=0) {
+            lblqueduration.setText("Question Reading Time : " + milliSecondsToTimer(recquetime * 1000));
+            lblduration.setText("Exam Time:" + milliSecondsToTimer(recTime * 1000));
+            if (lblduration.getText().toString().equals("Exam Time:00:00") || lblduration.getText().toString().equals("Exam Time:0:00")) {
+                if (answerlist.size() != 0) {
 
-                    if(answerlist.size()==msgModelList.size()) {
+                    if (answerlist.size() == msgModelList.size()) {
                         submitquiz();
-                    }
-                    else if(questionlist.size()!=msgModelList.size()){
+                    } else if (questionlist.size() != msgModelList.size()) {
 
-                        for(int i=0;i<msgModelList.size();i++){
-                            if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
-                                String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
+                        for (int i = 0; i < msgModelList.size(); i++) {
+                            if (!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))) {
+                                String emptyque = msgModelList.get(i).getQestionId() + "~" + 0;
                                 answerlist.add(emptyque);
                             }
                         }
-                        if(answerlist.size()==msgModelList.size()) {
+                        if (answerlist.size() == msgModelList.size()) {
                             submitquiz();
                         }
                     }
 
-                }else{
+                } else {
                     showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
                 }
             }
-            if(lblqueduration.getText().toString().equals("Question Reading Time : 00:00")||lblqueduration.getText().toString().equals("Question Reading Time : 0:00")){
+            if (lblqueduration.getText().toString().equals("Question Reading Time : 00:00") || lblqueduration.getText().toString().equals("Question Reading Time : 0:00")) {
                 lblqueduration.setVisibility(View.GONE);
                 lblduration.setVisibility(View.VISIBLE);
             }
@@ -379,17 +520,16 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         Date currentTime = Calendar.getInstance().getTime();
-        Log.d("currenttime0nres",currentTime.toString());
+        Log.d("currenttime0nres", currentTime.toString());
         String date = currentTime.toString();
         String[] parts = date.split(" ");
 
-        System.out.println("Time: " + parts[3] );
-        currenttime24=parts[3];
+        System.out.println("Time: " + parts[3]);
+        currenttime24 = parts[3];
 
     }
 
@@ -397,170 +537,12 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     protected void onPause() {
         super.onPause();
         Date currentTime = Calendar.getInstance().getTime();
-        Log.d("currenttime0nres",currentTime.toString());
+        Log.d("currenttime0nres", currentTime.toString());
         String date = currentTime.toString();
         String[] parts = date.split(" ");
 
-        System.out.println("Time: " + parts[3] );
-        currenttime24=parts[3];
-    }
-    private Runnable querunson=new Runnable() {
-        @Override
-        public void run() {
-            lblqueduration.setText("Question Reading Time : "+milliSecondsToTimer(recquetime * 1000));
-            String timing = lblqueduration.getText().toString();
-            if(lblqueduration.getText().toString().equals("Question Reading Time : 00:00")||lblqueduration.getText().toString().equals("Question Reading Time : 0:00")){
-                lblqueduration.setVisibility(View.GONE);
-                lblduration.setVisibility(View.VISIBLE);
-            }
-            recquetime = recquetime - 1;
-            if (recquetime != iMaxRecDur)
-                recqueTimerHandler.postDelayed(this, 1000);
-            else
-                lblqueduration.setText("Question Reading Time : "+milliSecondsToTimer(recquetime * 1000));
-            if(lblqueduration.getText().toString().equals("Question Reading Time : 00:00")||lblqueduration.getText().toString().equals("Question Reading Time : 0:00")){
-                lblqueduration.setVisibility(View.GONE);
-                lblduration.setVisibility(View.VISIBLE);
-            }
-        }
-
-    };
-    private Runnable runson = new Runnable() {
-        @Override
-        public void run() {
-            lblduration.setText("Exam Time:"+milliSecondsToTimer(recTime * 1000));
-            if(lblduration.getText().toString().equals("Exam Time:00:00")||lblduration.getText().toString().equals("Exam Time:0:00")){
-                if(answerlist.size()!=0) {
-                    if(answerlist.size()==msgModelList.size()) {
-                        submitquiz();
-                    }
-                    else if(questionlist.size()!=msgModelList.size()){
-
-                        for(int i=0;i<msgModelList.size();i++){
-                            if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
-                                String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
-                                answerlist.add(emptyque);
-                            }
-                        }
-                        if(answerlist.size()==msgModelList.size()) {
-                            submitquiz();
-                        }
-                    }
-
-                }else{
-                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
-                }
-            }
-            if(curdifferenceque<=0) {
-                Date currentTime = Calendar.getInstance().getTime();
-                Log.d("currenttime", currentTime.toString());
-                String date = currentTime.toString();
-                String[] parts = date.split(" ");
-
-                System.out.println("Time: " + parts[3]);
-                String currenttime24add = parts[3];
-
-                // ***********compare with current time and start time
-
-                String _24HourTime11 = info.getTimeForQuestionReading() + ":00";
-                Log.d("starttime", _24HourTime11);
-                Date curStart = null;
-                Date curEnd = null;
-                SimpleDateFormat cursimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-                try {
-                    curStart = cursimpleDateFormat.parse(_24HourTime11);
-                    curEnd = cursimpleDateFormat.parse(currenttime24add);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                curdifferenceque = curEnd.getTime() - curStart.getTime();
-                Log.d("curdiffhandler", String.valueOf(curdifferenceque));
-                if (curdifferenceque > 0) {
-                    lblmin.setText("Students are now allowed to answer");
-                    lblmin.setTextColor(getResources().getColor(R.color.clr_green));
-                    lblduration.setVisibility(View.VISIBLE);
-                    lblqueduration.setVisibility(View.GONE);
-                    mAdapter = new QuestionForQuizAdapter(msgModelList, ExamEnhancementQuestions.this, adapterpos, ExamEnhancementQuestions.this);
-
-                    rcyquestions.setHasFixedSize(true);
-                    rcyquestions.setLayoutManager(new LinearLayoutManager(ExamEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
-                    rcyquestions.setItemAnimator(new DefaultItemAnimator());
-                    rcyquestions.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-
-            if(lblduration.getText().toString().equals("Exam Time:01:00")||lblduration.getText().toString().equals("Exam Time:1:00")){
-                showAlert("Please submit your exam on time or else exam will be submitted automatically");
-            }
-
-            recTime = recTime - 1;
-            if (recTime != iMaxRecDur) {
-                recTimerHandler.postDelayed(this, 1000);
-            }
-
-
-            lblduration.setText("Exam Time:"+milliSecondsToTimer(recTime * 1000));
-            if(lblduration.getText().toString().equals("Exam Time:00:00")||lblduration.getText().toString().equals("Exam Time:0:00")){
-                if(answerlist.size()!=0) {
-                    if(answerlist.size()==msgModelList.size()) {
-                        submitquiz();
-                    }
-                    else if(questionlist.size()!=msgModelList.size()){
-
-                        for(int i=0;i<msgModelList.size();i++){
-                            if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
-                                String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
-                                answerlist.add(emptyque);
-                            }
-                        }
-                        if(answerlist.size()==msgModelList.size()) {
-                            submitquiz();
-                        }
-                    }
-
-
-
-                }else{
-                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
-                }
-            }
-
-        }
-    };
-
-    public static String milliSecondsToTimer(long milliseconds) {
-        String finalTimerString = "";
-        String secondsString = "";
-        String minutesString = "";
-
-        // Convert total duration into time
-        int hours = (int) (milliseconds / (1000 * 60 * 60));
-        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
-        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
-        // Add hours if there
-        if (hours > 0) {
-            finalTimerString = hours + ":";
-        }
-
-        // Prepending 0 to Minutes if it is one digit
-        if (minutes < 10) {
-            minutesString = "0" + minutes;
-        } else {
-            minutesString = "" + minutes;
-        }
-
-        // Prepending 0 to seconds if it is one digit
-        if (seconds < 10) {
-            secondsString = "0" + seconds;
-        } else {
-            secondsString = "" + seconds;
-        }
-
-        finalTimerString = finalTimerString + minutesString + ":" + secondsString;
-
-        // return timer string
-        return finalTimerString;
+        System.out.println("Time: " + parts[3]);
+        currenttime24 = parts[3];
     }
 
     private void examEnhancement() {
@@ -594,7 +576,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -616,7 +598,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                                             jsonObject.getString("FileType"),
                                             jsonObject.getString("FileUrl"),
                                             jsonObject.getInt("mark"),
-                                            String.valueOf(i+1),
+                                            String.valueOf(i + 1),
                                             jsonObject.getJSONArray("Answer")
                                     );
 
@@ -683,7 +665,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -694,9 +676,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
                             if (strStatus == 1) {
                                 showAlertfinish(strMsg);
-                            }
-
-                            else {
+                            } else {
                                 showAlertfinish(strMsg);
                             }
                         } catch (JSONException e) {
@@ -771,6 +751,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
+
     private void showAlertApi(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Alert");
@@ -800,6 +781,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
+
     @Override
     public void addclass(final QuestionForQuiz menu, final int position) {
         adapterpos = position;
@@ -830,36 +812,34 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
 
             Date currentTime = Calendar.getInstance().getTime();
-            Log.d("currenttime",currentTime.toString());
+            Log.d("currenttime", currentTime.toString());
             String date = currentTime.toString();
             String[] parts = date.split(" ");
 
-            System.out.println("Time: " + parts[3] );
-            String currenttime24add=parts[3];
+            System.out.println("Time: " + parts[3]);
+            String currenttime24add = parts[3];
 
 
-            String _24HourTime11 = info.getTimeForQuestionReading()+":00";
-            Log.d("starttime",_24HourTime11);
+            String _24HourTime11 = info.getTimeForQuestionReading() + ":00";
+            Log.d("starttime", _24HourTime11);
             Date curStart = null;
             Date curEnd = null;
             SimpleDateFormat cursimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
             try {
                 curStart = cursimpleDateFormat.parse(_24HourTime11);
                 curEnd = cursimpleDateFormat.parse(currenttime24add);
-            }
-            catch(ParseException e){
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
             curdifferenceque = curEnd.getTime() - curStart.getTime();
             Log.d("curdiffhandler", String.valueOf(curdifferenceque));
-            if(curdifferenceque<=0){
+            if (curdifferenceque <= 0) {
                 lblqueduration.setVisibility(View.VISIBLE);
                 lblduration.setVisibility(View.GONE);
                 rgoptions.setEnabled(false);
                 radioButton.setEnabled(false);
                 btnsubmit.setEnabled(false);
-            }
-            else{
+            } else {
                 lblmin.setText("Students are now allowed to answer");
                 lblmin.setTextColor(getResources().getColor(R.color.clr_green));
                 lblduration.setVisibility(View.VISIBLE);
@@ -911,12 +891,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                             questionlist.add(String.valueOf(menu.getQestionId()));
                             answerlist.add(idcom);
                         }
-                        if(answerlist.size()==0){
-                            btnsubmit.setEnabled(false);
-                        }
-                        else{
-                            btnsubmit.setEnabled(true);
-                        }
+                        btnsubmit.setEnabled(answerlist.size() != 0);
                         JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("QuizId", info.getQuizId());
                         jsonObject.addProperty("StudentID", child_id);
@@ -928,10 +903,10 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 }
             });
 
-            if(questionlist.contains(String.valueOf(menu.getQestionId()))){
-                int replacequepos=questionlist.indexOf(String.valueOf(menu.getQestionId()));
-                if(questionlist.get(replacequepos).equals(String.valueOf(menu.getQestionId()))){
-                    String answersetupl=answerlist.get(replacequepos);
+            if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
+                int replacequepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
+                if (questionlist.get(replacequepos).equals(String.valueOf(menu.getQestionId()))) {
+                    String answersetupl = answerlist.get(replacequepos);
 
                     String[] idsetup = new String[0];
                     idsetup = answersetupl.split("~");
@@ -939,7 +914,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                     Log.d("ansidsetup", String.valueOf(ansidsetup));
                     int answersetup = Integer.parseInt(idsetup[1]);
                     Log.d("answersetup", String.valueOf(answersetup));
-                    if(radioButton.getId()==answersetup){
+                    if (radioButton.getId() == answersetup) {
                         radioButton.setChecked(true);
                     }
 
@@ -951,24 +926,18 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         }
 
 
-        if(answerlist.size()==0){
-            btnsubmit.setEnabled(false);
-        }
-        else{
-            btnsubmit.setEnabled(true);
-        }
-        if (adapterpos == msgModelList.size()-1 && msgModelList.size() != 0) {
+        btnsubmit.setEnabled(answerlist.size() != 0);
+        if (adapterpos == msgModelList.size() - 1 && msgModelList.size() != 0) {
             imgnext.setImageResource(R.drawable.bg_next_disable);
             lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
         } else {
             imgnext.setImageResource(R.drawable.bg_next_enable);
             lblnext.setTextColor(getResources().getColor(R.color.clr_black));
         }
-        if(adapterpos==0){
+        if (adapterpos == 0) {
             imgprev.setImageResource(R.drawable.bg_prev_disable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
-        }
-        else{
+        } else {
             imgprev.setImageResource(R.drawable.bg_prev_enable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_black));
         }
@@ -983,31 +952,28 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         lnrPDFtext.setVisibility(View.GONE);
         if (!menu.getVideoUrl().equals("")) {
             videoview.setVisibility(View.VISIBLE);
-            videourl=menu.getVideoUrl();
-        }
-        else{
+            videourl = menu.getVideoUrl();
+        } else {
             videoview.setVisibility(View.GONE);
         }
-        if(menu.getFileType().equals("IMAGE")&& !menu.getFileUrl().equals("")) {
+        if (menu.getFileType().equals("IMAGE") && !menu.getFileUrl().equals("")) {
 
             imgview.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(menu.getFileUrl())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imgview);
-            imageurl=menu.getFileUrl();
+            imageurl = menu.getFileUrl();
 
 
-        }
-        else{
+        } else {
             imgview.setVisibility(View.GONE);
         }
-        if(menu.getFileType().equals("PDF")&& !menu.getFileUrl().equals("")){
+        if (menu.getFileType().equals("PDF") && !menu.getFileUrl().equals("")) {
             lnrPDFtext.setVisibility(View.VISIBLE);
             lblPDF.setText(menu.getFileUrl());
-            pdfuri=menu.getFileUrl();
-        }
-        else{
+            pdfuri = menu.getFileUrl();
+        } else {
 
             lnrPDFtext.setVisibility(View.GONE);
         }
@@ -1016,6 +982,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     @Override
     public void removeclass(QuestionForQuiz menu) {
     }
+
     private void showvideopopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.vimeo_player, null);
@@ -1071,7 +1038,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
 
-        String VIDEO_URL="https://player.vimeo.com/video/"+ "425233784";
+        String VIDEO_URL = "https://player.vimeo.com/video/" + "425233784";
         String data_html = "<!DOCTYPE html><html> " +
                 "<head>" +
                 " <meta charset=\"UTF-8\">" +
@@ -1080,7 +1047,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 " <body style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;\"> " +
                 "<div class=\"vimeo\">" +
 
-                "<iframe  style=\"position:absolute;top:0;bottom:0;width:100%;height:100%\" src=\""+ videourl+"\" frameborder=\"0\">" +
+                "<iframe  style=\"position:absolute;top:0;bottom:0;width:100%;height:100%\" src=\"" + videourl + "\" frameborder=\"0\">" +
                 "</iframe>" +
                 " </div>" +
                 " </body>" +
@@ -1088,6 +1055,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
         myWebView.loadData(data_html, "text/html", "UTF-8");
     }
+
     private void showpdfpopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.vimeo_player, null);
@@ -1122,7 +1090,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         });
 
 
-
         myWebView.setBackgroundColor(getResources().getColor(R.color.clr_black));
         myWebView.setWebViewClient(new MyWebViewClient(this));
         myWebView.getSettings().setLoadsImagesAutomatically(true);
@@ -1131,7 +1098,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         WebSettings webSettings = myWebView.getSettings();
         myWebView.getSettings().setBuiltInZoomControls(true);
         webSettings.setJavaScriptEnabled(true);
-        Log.d("content",pdfuri);
+        Log.d("content", pdfuri);
         myWebView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdfuri);
     }
 
@@ -1176,6 +1143,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                         onBackPressed();
                         return false;
                     }
+
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         mProgressDialog.dismiss();
@@ -1264,17 +1232,17 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 break;
 
             case R.id.btnsubmit:
-                if(questionlist.size()!=msgModelList.size()){
+                if (questionlist.size() != msgModelList.size()) {
 
-                    for(int i=0;i<msgModelList.size();i++){
-                        if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
-                            String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
+                    for (int i = 0; i < msgModelList.size(); i++) {
+                        if (!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))) {
+                            String emptyque = msgModelList.get(i).getQestionId() + "~" + 0;
                             answerlist.add(emptyque);
                         }
                     }
                 }
 
-                if(answerlist.size()==msgModelList.size()) {
+                if (answerlist.size() == msgModelList.size()) {
                     showAlertApi("Are you sure want to submit the Exam ?");
                 }
 
@@ -1283,7 +1251,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             case R.id.lnrPDFtext:
 
 
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/gview?embedded=true&url="+pdfuri));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/gview?embedded=true&url=" + pdfuri));
                 browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 browserIntent.setPackage("com.android.chrome");
                 startActivity(browserIntent);

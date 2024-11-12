@@ -55,11 +55,11 @@ public class SchoolAbsenteesReport extends AppCompatActivity {
     String date, absentcount, day;
     RecyclerView rvDateList, absentee_rvDateListStandard;
     SchoolAttendanceReport SchoolAttendanceReport;
-    private List<TeacherAbsenteesDates> dateList = new ArrayList<>();
     StandardAdapter standardAdapter;
     ArrayList<TeacherABS_Standard> StandardItem = new ArrayList<>();
     String isDate;
     ArrayList<TeacherABS_Section> SectionItem = new ArrayList<>();
+    private final List<TeacherAbsenteesDates> dateList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -145,13 +145,11 @@ public class SchoolAbsenteesReport extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -199,7 +197,7 @@ public class SchoolAbsenteesReport extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 

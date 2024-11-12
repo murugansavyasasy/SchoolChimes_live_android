@@ -1,6 +1,5 @@
 package com.vs.schoolmessenger.activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,24 +7,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -37,7 +32,6 @@ import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -52,19 +46,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RequestMeetingForSchool extends AppCompatActivity implements View.OnClickListener {
-    ViewPager viewPager;
-
-    String userId;
-
-    SharedPreferences shpRemember;
     private static final String SH_USERID = "UserId";
     private static final String SH_USERS = "userInfo";
-
-    private PopupWindow pHelpWindow;
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    ViewPager viewPager;
+    String userId;
+    SharedPreferences shpRemember;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
+    private PopupWindow pHelpWindow;
     private ArrayList<Profiles> childList = new ArrayList<>();
 
     @Override
@@ -171,10 +162,9 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
         switch (v.getId()) {
             case R.id.rytHelp:
 
-                Intent faq=new Intent(RequestMeetingForSchool.this,FAQScreen.class);
-                faq.putExtra("School","School");
+                Intent faq = new Intent(RequestMeetingForSchool.this, FAQScreen.class);
+                faq.putExtra("School", "School");
                 startActivity(faq);
-
 
 
                 break;
@@ -194,8 +184,8 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
 
             case R.id.rytHome:
 
-                Intent home=new Intent(RequestMeetingForSchool.this,ChildrenScreen.class);
-                home.putExtra("HomeScreen","1");
+                Intent home = new Intent(RequestMeetingForSchool.this, ChildrenScreen.class);
+                home.putExtra("HomeScreen", "1");
                 startActivity(home);
                 finish();
 
@@ -272,9 +262,9 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -282,9 +272,9 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -312,7 +302,7 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -325,18 +315,16 @@ public class RequestMeetingForSchool extends AppCompatActivity implements View.O
                         String message = jsonObject.getString("Message");
 
 
-
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),RequestMeetingForSchool.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),RequestMeetingForSchool.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),RequestMeetingForSchool.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),RequestMeetingForSchool.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),RequestMeetingForSchool.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),RequestMeetingForSchool.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),RequestMeetingForSchool.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),RequestMeetingForSchool.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),RequestMeetingForSchool.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),RequestMeetingForSchool.this);
-
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), RequestMeetingForSchool.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), RequestMeetingForSchool.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), RequestMeetingForSchool.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), RequestMeetingForSchool.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), RequestMeetingForSchool.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), RequestMeetingForSchool.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), RequestMeetingForSchool.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), RequestMeetingForSchool.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), RequestMeetingForSchool.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), RequestMeetingForSchool.this);
 
 
                         if (Integer.parseInt(status) > 0) {

@@ -3,11 +3,7 @@ package com.vs.schoolmessenger.activity;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
-import android.Manifest;
-import android.app.ActivityManager;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,22 +15,6 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import androidx.annotation.LongDef;
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.core.app.ActivityCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -45,7 +25,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,6 +33,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -77,6 +66,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
@@ -87,17 +77,6 @@ import retrofit2.Response;
 public class ChildrenScreen extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = ChildrenScreen.class.getSimpleName();
-    private ChildProfileAdapter adapter;
-    RecyclerView rvChildList;
-
-    private ArrayList<Profiles> childList = new ArrayList<>();
-    private PopupWindow pHelpWindow;
-
-    LinearLayout aHome_llSchoollayout, lnrLogout, lnrFeedBack, lnrMore, Schoollayout;
-    TextView aHome_tvSchoolName;
-
-    ArrayList<String> schoolNamelist = new ArrayList<>();
-
     static ArrayList<Integer> isAdminMenuID = new ArrayList<>();
     static ArrayList<Integer> isStaffMenuID = new ArrayList<>();
     static ArrayList<Integer> isPrincipalMenuID = new ArrayList<>();
@@ -108,17 +87,23 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     static ArrayList<String> isPrincipalMenuNames = new ArrayList<>();
     static ArrayList<String> isGroupHedMenuNames = new ArrayList<>();
     static ArrayList<String> isParentMenuNames = new ArrayList<>();
+    RecyclerView rvChildList;
+    LinearLayout aHome_llSchoollayout, lnrLogout, lnrFeedBack, lnrMore, Schoollayout;
+    TextView aHome_tvSchoolName;
+    ArrayList<String> schoolNamelist = new ArrayList<>();
     TeacherSchoolsModel schoolmodel;
     ArrayList<String> myArray = new ArrayList<>();
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     String schoolname, schooladdress;
     String IDs = "";
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
-    // FCM
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
     BottomNavigationView bottomNavigationView;
     RelativeLayout rytLanguage, rytPassword, rytHelp, rytLogout;
-
+    private ChildProfileAdapter adapter;
+    private ArrayList<Profiles> childList = new ArrayList<>();
+    private PopupWindow pHelpWindow;
+    // FCM
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -199,7 +184,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         Boolean is_staff = TeacherUtil_SharedPreference.getIsStaff(ChildrenScreen.this);
         Boolean is_parent = TeacherUtil_SharedPreference.getIsParent(ChildrenScreen.this);
 
-             if (is_staff && is_parent) {
+        if (is_staff && is_parent) {
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.choose);
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(R.string.role);
 
@@ -211,10 +196,10 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                     if (isNetworkConnected()) {
 
                         String loginType = TeacherUtil_SharedPreference.getLoginTypeFromSP(ChildrenScreen.this);
-                        if(loginType.equals(LOGIN_TYPE_TEACHER)){
+                        if (loginType.equals(LOGIN_TYPE_TEACHER)) {
                             TeacherUtil_Common.school_scroll_to_position = 0;
 
-                            if(listschooldetails.size() == 1){
+                            if (listschooldetails.size() == 1) {
                                 Intent i = new Intent(ChildrenScreen.this, Teacher_AA_Test.class);
                                 i.putExtra("schoolname", schoolname);
                                 i.putExtra("schooladdress", schooladdress);
@@ -224,14 +209,11 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                                 Log.d("Schoolid", TeacherUtil_Common.Principal_SchoolId);
                                 i.putExtra("bottom_menu", "1");
                                 startActivity(i);
-                            }
-                            else if(listschooldetails.size() > 1) {
+                            } else if (listschooldetails.size() > 1) {
                                 Intent i = new Intent(ChildrenScreen.this, SelectStaffSchools.class);
                                 startActivity(i);
                             }
-                        }
-
-                        else {
+                        } else {
                             TeacherUtil_Common.school_scroll_to_position = 0;
                             Intent i = new Intent(ChildrenScreen.this, Teacher_AA_Test.class);
                             i.putExtra("schoolname", schoolname);
@@ -251,8 +233,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                 }
             });
 
-        }
-        else {
+        } else {
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.choose);
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(R.string.your_child);
         }
@@ -263,7 +244,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onItemClick(Profiles item) {
                 Log.d(TAG, "Child Name: " + item.getChildName());
-                if(!item.getIsNotAllow().equals("1")) {
+                if (!item.getIsNotAllow().equals("1")) {
                     Intent in = new Intent(ChildrenScreen.this, HomeActivity.class);//MessageDatesScreen.class
                     in.putExtra("Profiles", item);
                     startActivity(in);
@@ -281,7 +262,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                Log.d("FCM REGISTRATION",intent.getAction());
+                Log.d("FCM REGISTRATION", intent.getAction());
                 if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
                     FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
                     displayFirebaseRegId();
@@ -295,8 +276,6 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         setupBottomBar();
         displayFirebaseRegId();
     }
-
-
 
 
     private void setupBottomBar() {
@@ -376,7 +355,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     private void changeLanguageInitial(String lang) {
 
         LocaleHelper local = new LocaleHelper();
-        local.setLocale(ChildrenScreen.this, lang);
+        LocaleHelper.setLocale(ChildrenScreen.this, lang);
     }
 
 
@@ -392,16 +371,14 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.rytHelp:
 
-                if(schools_list !=null && childList != null) {
+                if (schools_list != null && childList != null) {
                     if (schools_list.size() > 0 && childList.size() > 0) {
                         showMoreMenu(v);
-                    }
-                    else {
+                    } else {
                         Intent faq = new Intent(ChildrenScreen.this, FAQScreen.class);
                         startActivity(faq);
                     }
-                }
-                else {
+                } else {
                     Intent faq = new Intent(ChildrenScreen.this, FAQScreen.class);
                     startActivity(faq);
                 }
@@ -418,7 +395,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
 
                 break;
             case R.id.rytLogout:
-                Util_Common.popUpMenu(ChildrenScreen.this,v,"");
+                Util_Common.popUpMenu(ChildrenScreen.this, v, "");
 
                 break;
 
@@ -427,17 +404,16 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.exit_app);
         builder.setPositiveButton(R.string.rb_yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                if(Build.VERSION.SDK_INT>=16 && Build.VERSION.SDK_INT<21){
+                if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 21) {
                     finishAffinity();
                     moveTaskToBack(true);
-                } else if(Build.VERSION.SDK_INT>=21){
+                } else if (Build.VERSION.SDK_INT >= 21) {
                     finishAndRemoveTask();
                     moveTaskToBack(true);
                 }
@@ -455,6 +431,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     protected void onResume() {
         super.onResume();
     }
+
     private void showToast(String msg) {
         Toast.makeText(ChildrenScreen.this, msg, Toast.LENGTH_SHORT).show();
     }
@@ -546,6 +523,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.teacher_colorPrimaryDark));
 
     }
+
     private void changeLanguage(String lang, String Id) {
         TeacherUtil_SharedPreference.putLanguageType(ChildrenScreen.this, lang);
         languageChangeApi(Id, lang);
@@ -554,7 +532,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
 
     private void languageChangeApi(String languageId, final String lang) {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ChildrenScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ChildrenScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         IDs = "";
@@ -567,9 +545,9 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -577,9 +555,9 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -608,7 +586,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -667,10 +645,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     private void putParentNamestoSharedPref(String isParent) {
         String[] name4 = isParent.split(",");
         isParentMenuNames.clear();
-        for (String itemtemp : name4) {
-            isParentMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isParentMenuNames, name4);
         TeacherUtil_SharedPreference.putParentMenuNames(isParentMenuNames, ChildrenScreen.this);
 
     }
@@ -678,10 +653,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     private void putGroupHeadtoSharedPref(String idGroupHead) {
         String[] name3 = idGroupHead.split(",");
         isGroupHedMenuNames.clear();
-        for (String itemtemp : name3) {
-            isGroupHedMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isGroupHedMenuNames, name3);
 
         TeacherUtil_SharedPreference.putGroupHeadNames(isGroupHedMenuNames, ChildrenScreen.this);
 
@@ -690,10 +662,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     private void putAdminNamestoSharedPref(String isAdmin) {
         String[] name2 = isAdmin.split(",");
         isAdminMenuNames.clear();
-        for (String itemtemp : name2) {
-            isAdminMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isAdminMenuNames, name2);
 
         TeacherUtil_SharedPreference.putAdminNames(isAdminMenuNames, ChildrenScreen.this);
 
@@ -702,10 +671,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     private void putStaffNamestoSharedPref(String isStaff) {
         String[] name1 = isStaff.split(",");
         isIsStaffMenuNames.clear();
-        for (String itemtemp : name1) {
-            isIsStaffMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isIsStaffMenuNames, name1);
 
         TeacherUtil_SharedPreference.putStaffNames(isIsStaffMenuNames, ChildrenScreen.this);
 
@@ -714,10 +680,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     private void putPrincipalNametoSharedPref(String isPrincipal) {
         String[] name = isPrincipal.split(",");
         isPrincipalMenuNames.clear();
-        for (String itemtemp : name) {
-            isPrincipalMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isPrincipalMenuNames, name);
         TeacherUtil_SharedPreference.putPrincipalNames(isPrincipalMenuNames, ChildrenScreen.this);
 
     }
@@ -806,7 +769,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText("" + (460 - (s.length())));
+                tvTxtCount.setText(String.valueOf(460 - (s.length())));
             }
 
             @Override
@@ -851,7 +814,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("Help:Code", response.code() + " - " + response.toString());
+                Log.d("Help:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Help:Res", response.body().toString());
 
@@ -863,7 +826,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                         String strMessage = jsonObject.getString("Message");
 
 
-                        if ((strStatus.toLowerCase()).equals("1")) {
+                        if ((strStatus).equalsIgnoreCase("1")) {
                             showToast(strMessage);
                             if (pHelpWindow.isShowing()) {
                                 pHelpWindow.dismiss();
@@ -897,6 +860,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
     }
+
     private void displayFirebaseRegId() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
         String regId = pref.getString("regId", "");
@@ -904,6 +868,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         updateDeviceTokenAPI(regId);
 
     }
+
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
@@ -912,7 +877,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
 
     private void updateDeviceTokenAPI(String strDeviceToken) {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ChildrenScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ChildrenScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -930,7 +895,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("UpdateToken:Code", response.code() + " - " + response.toString());
+                Log.d("UpdateToken:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("UpdateToken:Res", response.body().toString());
 

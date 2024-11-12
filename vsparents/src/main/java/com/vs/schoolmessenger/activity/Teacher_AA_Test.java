@@ -90,6 +90,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -103,44 +104,39 @@ import ss.com.bannerslider.Slider;
 
 public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = Teacher_AA_Test.class.getSimpleName();
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    private static final String CONTACTS_PERMISSION = android.Manifest.permission.READ_CONTACTS;
+    public static TeacherSchoolsModel schoolmodel;
+    public static ArrayList<String> myArray = new ArrayList<>();
+    public static ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     GridView idGridMenus;
-    private PopupWindow popupWindow;
     FeePendingAlertAdapter contentadapter;
     ImageView nivSchoolLogo;
     TextView tvLoggedInAs, tvSchoolName, tvSchoolAddress, aHome_tvRegionalSchoolName;
     Button btnChange;
-    private PopupWindow pHelpWindow;
     String IDs = "";
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     ArrayList<String> loginTypeList;
     ArrayList<String> isPrincipalMenuNames = new ArrayList<>();
-    public static TeacherSchoolsModel schoolmodel;
     int PERMISSION_ALL = 1;
     BottomNavigationView bottomNavigationView;
     LinearLayout lnrBottom;
-    public static ArrayList<String> myArray = new ArrayList<>();
-    public static ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
     RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     RelativeLayout rytParent;
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private static final String TAG = Teacher_AA_Test.class.getSimpleName();
     TextView scrollingtext;
     LinearLayout lnrScroll;
-    String Role="";
+    String Role = "";
     String BookLink;
     Boolean BookEnabled = false;
     int Contact_Count = 0;
     int exist_Count = 0;
-    String contact_alert_title="",contact_alert_Content="",contact_display_name="",contact_numbers="",contact_button = "";
-    String[] contacts ;
+    String contact_alert_title = "", contact_alert_Content = "", contact_display_name = "", contact_numbers = "", contact_button = "";
+    String[] contacts;
     String Display_Name = "";
-    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
-    private PopupWindow SettingspopupWindow;
-    private PopupWindow ContactpopupWindow;
     AdView mAdView;
     Slider slider;
     ImageView adImage;
-    private List<NewUpdatesData> newUpdatesDataList = new ArrayList<NewUpdatesData>();
     int initial_pos = 0;
     String redirect_url = "";
     String image_url = "";
@@ -148,8 +144,12 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     String content = "";
     SchoolMenuAdapter myAdapter;
     PopupWindow updatesManualPopup;
-
-    private static final String CONTACTS_PERMISSION = android.Manifest.permission.READ_CONTACTS;
+    private PopupWindow popupWindow;
+    private PopupWindow pHelpWindow;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private PopupWindow SettingspopupWindow;
+    private PopupWindow ContactpopupWindow;
+    private List<NewUpdatesData> newUpdatesDataList = new ArrayList<NewUpdatesData>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -192,14 +192,11 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
         } else if (Role.equals("p3")) {
             ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
-        }
-        else if (Role.equals("p4")) {
+        } else if (Role.equals("p4")) {
             ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
-        }
-        else if (Role.equals("p5")) {
+        } else if (Role.equals("p5")) {
             ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
-        }
-        else {
+        } else {
             ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.VISIBLE);
         }
 
@@ -216,8 +213,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             schoolmodel = (TeacherSchoolsModel) getIntent().getSerializableExtra("TeacherSchoolsModel");
             TeacherUtil_SharedPreference.PutChildrenScreenschoolmodel(Teacher_AA_Test.this, schoolmodel, "schoolModel");
             schoolmodel = TeacherUtil_SharedPreference.getChildrenScreenSchoolModel(Teacher_AA_Test.this, "schoolModel");
-        }
-        else {
+        } else {
             schoolmodel = TeacherUtil_SharedPreference.getChildrenScreenSchoolModel(Teacher_AA_Test.this, "schoolModel");
         }
         if (!home.equals("1")) {
@@ -356,7 +352,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void manualUpdatesPopup(){
+    private void manualUpdatesPopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.new_updates_popup, null);
         updatesManualPopup = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
@@ -404,7 +400,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 .load(image_url)
                 .into(img);
 
-        if(newUpdatesDataList.size() ==1){
+        if (newUpdatesDataList.size() == 1) {
             lblNext.setVisibility(View.GONE);
             lblClose.setVisibility(View.VISIBLE);
 
@@ -538,8 +534,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         LinearLayout lnrParent = (LinearLayout) layout.findViewById(R.id.lnrParent);
         LinearLayout lnrContent = (LinearLayout) layout.findViewById(R.id.lnrContent);
 
-        Typeface roboto_bold=Typeface.createFromAsset(getAssets(), "fonts/roboto_bold.ttf");
-        Typeface roboto_regular=Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.ttf");
+        Typeface roboto_bold = Typeface.createFromAsset(getAssets(), "fonts/roboto_bold.ttf");
+        Typeface roboto_regular = Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.ttf");
 
         lblTitle.setTypeface(roboto_bold);
         lblSkip.setTypeface(roboto_bold);
@@ -561,17 +557,17 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 .load(image_url)
                 .into(img);
 
-        if(initial_pos == newUpdatesDataList.size()-1){
+        if (initial_pos == newUpdatesDataList.size() - 1) {
             lblNext.setVisibility(View.GONE);
             lblClose.setVisibility(View.VISIBLE);
 
         }
 
-        if(initial_pos == 0){
+        if (initial_pos == 0) {
             lblPrevious.setVisibility(View.GONE);
         }
 
-        if(initial_pos != newUpdatesDataList.size()-1){
+        if (initial_pos != newUpdatesDataList.size() - 1) {
             lblNext.setVisibility(View.VISIBLE);
             lblClose.setVisibility(View.GONE);
 
@@ -595,12 +591,12 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(Teacher_AA_Test.this);
-                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this, String.valueOf(Integer.parseInt(pos)+1));
+                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this, String.valueOf(Integer.parseInt(pos) + 1));
                 popupWindow.dismiss();
             }
         });
 
-        if(newUpdatesDataList.size() == 1){
+        if (newUpdatesDataList.size() == 1) {
             lblNext.setVisibility(View.GONE);
             lblClose.setVisibility(View.VISIBLE);
 
@@ -614,7 +610,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(Teacher_AA_Test.this);
                 initial_pos = Integer.parseInt(pos) + 1;
 
-                if(initial_pos == newUpdatesDataList.size()-1){
+                if (initial_pos == newUpdatesDataList.size() - 1) {
                     lblNext.setVisibility(View.GONE);
                     lblClose.setVisibility(View.VISIBLE);
                 }
@@ -623,7 +619,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 content = newUpdatesDataList.get(initial_pos).getUpdate_description();
                 image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
                 redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
-                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this,String.valueOf(initial_pos));
+                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this, String.valueOf(initial_pos));
 
                 lblTitle.setText(title);
                 lblContent.setText(content);
@@ -644,15 +640,15 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 String pos = TeacherUtil_SharedPreference.getLastVisibleUpdatesPosition(Teacher_AA_Test.this);
                 initial_pos = Integer.parseInt(pos);
 
-                if(initial_pos != 0) {
+                if (initial_pos != 0) {
                     initial_pos = Integer.parseInt(pos) - 1;
                 }
 
-                if(initial_pos == 0){
+                if (initial_pos == 0) {
                     lblPrevious.setVisibility(View.GONE);
                 }
 
-                if(initial_pos != newUpdatesDataList.size()-1){
+                if (initial_pos != newUpdatesDataList.size() - 1) {
                     lblNext.setVisibility(View.VISIBLE);
                     lblClose.setVisibility(View.GONE);
                 }
@@ -661,7 +657,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 content = newUpdatesDataList.get(initial_pos).getUpdate_description();
                 image_url = newUpdatesDataList.get(initial_pos).getDownloadable_image();
                 redirect_url = newUpdatesDataList.get(initial_pos).getRedirect_link();
-                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this,String.valueOf(initial_pos));
+                TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this, String.valueOf(initial_pos));
 
                 lblTitle.setText(title);
                 lblContent.setText(content);
@@ -679,7 +675,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                if(!redirect_url.equals("")) {
+                if (!redirect_url.equals("")) {
                     Intent receipt = new Intent(Teacher_AA_Test.this, NewUpdateWebView.class);
                     receipt.putExtra("URL", redirect_url);
                     receipt.putExtra("tittle", title);
@@ -726,7 +722,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponse(Call<NewUpdatesModel> call, retrofit2.Response<NewUpdatesModel> response) {
                 try {
-                    Log.d("daily:code-res", response.code() + " - " + response.toString());
+                    Log.d("daily:code-res", response.code() + " - " + response);
                     newUpdatesDataList.clear();
                     if (response.code() == 200 || response.code() == 201) {
                         Gson gson = new Gson();
@@ -734,12 +730,12 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                         Log.d("Response", json);
                         int status = response.body().getStatus();
                         String message = response.body().getMessage();
-                        if(status == 1){
+                        if (status == 1) {
                             newUpdatesDataList = response.body().getData();
-                            if(newUpdatesDataList.size() > 0) {
+                            if (newUpdatesDataList.size() > 0) {
 
-                                String name = isPrincipalMenuNames.get(0).toString();
-                                if(!name.equals(updates)) {
+                                String name = isPrincipalMenuNames.get(0);
+                                if (!name.equals(updates)) {
                                     isPrincipalMenuNames.add(0, updates);
                                     myAdapter.notifyDataSetChanged();
                                     idGridMenus.setAnimation(null);
@@ -758,18 +754,15 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
                                 if (dailyCheck) {
                                     initial_pos = 0;
-                                    if(updatesManualPopup == null){
+                                    if (updatesManualPopup == null) {
+                                        manualUpdatesPopup();
+                                    } else if (!updatesManualPopup.isShowing()) {
                                         manualUpdatesPopup();
                                     }
-                                    else if(!updatesManualPopup.isShowing()) {
-                                        manualUpdatesPopup();
-                                    }
-                                }
-                                else {
+                                } else {
                                     if (newUpdatesDataList.size() - 1 > Integer.parseInt(pos)) {
                                         newUpdatesPoup();
-                                    }
-                                    else {
+                                    } else {
                                         String date = sharedPrefs.getString("displayedTime", "");
                                         if (!date.equals(formattedDate)) {
                                             TeacherUtil_SharedPreference.putLastVisibleUpdatesPosition(Teacher_AA_Test.this, String.valueOf(0));
@@ -780,8 +773,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                                 }
                             }
 
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
                         }
@@ -912,7 +904,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 LoadingView.hideProgress();
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -923,16 +915,14 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                         String status = jsonObject.getString("Status");
                         String message = jsonObject.getString("Message");
 
-                        if(status.equals("1")) {
+                        if (status.equals("1")) {
                             String menu_name = jsonObject.getString("menu_name");
                             String menu_id = jsonObject.getString("menu_id");
 
                             String[] name = menu_name.split(",");
                             isPrincipalMenuNames.clear();
 
-                            for (String itemtemp : name) {
-                                isPrincipalMenuNames.add(itemtemp);
-                            }
+                            Collections.addAll(isPrincipalMenuNames, name);
 
                             getNewUpdates(false);
 
@@ -958,34 +948,35 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                         }
 
                         selectedLoginType();
-                        if(!BookEnabled){
-                            for (int i=0;i<isPrincipalMenuNames.size();i++){
+                        if (!BookEnabled) {
+                            for (int i = 0; i < isPrincipalMenuNames.size(); i++) {
                                 String name = isPrincipalMenuNames.get(i);
                                 String substring1 = name.substring(Math.max(name.length() - 3, 0));
 
-                                if(substring1.equals("_18")){
+                                if (substring1.equals("_18")) {
                                     isPrincipalMenuNames.remove(name);
                                 }
                             }
                         }
                         setupBottomBar();
-                         myAdapter=new SchoolMenuAdapter(Teacher_AA_Test.this,R.layout.school_menu_card_item,isPrincipalMenuNames,BookLink,rytParent,new UpdatesListener() {
+                        myAdapter = new SchoolMenuAdapter(Teacher_AA_Test.this, R.layout.school_menu_card_item, isPrincipalMenuNames, BookLink, rytParent, new UpdatesListener() {
                             @Override
                             public void onMsgItemClick(String name) {
-                                if(name.equals(updates)){
-                                    if(newUpdatesDataList.size()>0) {
+                                if (name.equals(updates)) {
+                                    if (newUpdatesDataList.size() > 0) {
                                         getNewUpdates(true);
                                     }
                                 }
                             }
                         });
-                       // idGridMenus.setSelection(TeacherUtil_Common.school_scroll_to_position);
+                        // idGridMenus.setSelection(TeacherUtil_Common.school_scroll_to_position);
                         idGridMenus.setAdapter(myAdapter);
                     }
                 } catch (Exception e) {
                     Log.e("VersionCheck:Exception", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 LoadingView.hideProgress();
@@ -1001,9 +992,9 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         exist_Count = 0;
         ContentResolver contentResolver = Teacher_AA_Test.this.getContentResolver();
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        String[] projection = new String[] { ContactsContract.PhoneLookup._ID };
+        String[] projection = new String[]{ContactsContract.PhoneLookup._ID};
         String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?";
-        String[] selectionArguments = { contact_display_name };
+        String[] selectionArguments = {contact_display_name};
         Cursor cursor = contentResolver.query(uri, projection, selection, selectionArguments, null);
         exist_Count = cursor.getCount();
         if (cursor != null) {
@@ -1015,7 +1006,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             String number = contacts[i];
             if (number != null) {
                 Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-                String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup.DISPLAY_NAME };
+                String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup.DISPLAY_NAME};
                 Cursor cur = Teacher_AA_Test.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
                 try {
                     if (cur.getCount() > 0) {
@@ -1040,8 +1031,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 }
             }
         }
-        if (contacts.length != Contact_Count ) {
-            if(exist_Count == 0 || exist_Count < contacts.length) {
+        if (contacts.length != Contact_Count) {
+            if (exist_Count == 0 || exist_Count < contacts.length) {
                 contactSaveContent();
             }
         }
@@ -1051,7 +1042,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.save_contact_alert, null);
-       PopupWindow ContactpopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        PopupWindow ContactpopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
         ContactpopupWindow.setContentView(layout);
         rytParent.post(new Runnable() {
             public void run() {
@@ -1073,9 +1064,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 try {
                     ContactpopupWindow.dismiss();
                     saveContacts();
-                }
-                catch (Exception e){
-                    Log.d("failure_popup_error",e.toString());
+                } catch (Exception e) {
+                    Log.d("failure_popup_error", e.toString());
                 }
 
             }
@@ -1147,7 +1137,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
 
-                Log.d("UpdateToken:Code", response.code() + " - " + response.toString());
+                Log.d("UpdateToken:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("UpdateToken:Res", response.body().toString());
                 try {
@@ -1217,6 +1207,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             ExitAlert();
         }
     }
+
     private void ExitAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.exit_app);
@@ -1275,6 +1266,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SCHEDULE_EXACT_ALARM}, PERMISSIONS_REQUEST_READ_CONTACTS);
         }
     }
+
     private void setupBottomBar() {
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.home_bottom_navigation);
@@ -1302,13 +1294,14 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 });
         selectHomeTab();
     }
+
     private void selectHomeTab() {
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
     private void changeLanguageInitial(String lang) {
         LocaleHelper local = new LocaleHelper();
-        local.setLocale(Teacher_AA_Test.this, lang);
+        LocaleHelper.setLocale(Teacher_AA_Test.this, lang);
     }
 
     @Override
@@ -1386,6 +1379,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     private void changeLanguage(String lang, String Id) {
         TeacherUtil_SharedPreference.putLanguageType(Teacher_AA_Test.this, lang);
     }
+
     public boolean onPrepareOptionsMenu(Menu menu) {
         Boolean is_staff = TeacherUtil_SharedPreference.getIsStaff(Teacher_AA_Test.this);
         Boolean is_parent = TeacherUtil_SharedPreference.getIsParent(Teacher_AA_Test.this);
@@ -1393,8 +1387,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
         if (is_staff && is_parent) {
             register.setVisible(false);
-        }
-        else {
+        } else {
             register.setVisible(false);
         }
         return true;
@@ -1426,9 +1419,10 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText("" + (460 - (s.length())));
+                tvTxtCount.setText(String.valueOf(460 - (s.length())));
             }
 
             @Override
@@ -1456,9 +1450,11 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             }
         });
     }
+
     private void showToast(String msg) {
         Toast.makeText(Teacher_AA_Test.this, msg, Toast.LENGTH_SHORT).show();
     }
+
     private void changeLoginType() {
         loginTypeList = new ArrayList<>();
         loginTypeList.add(LOGIN_TYPE_ADMIN);
@@ -1506,7 +1502,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 LoadingView.hideProgress();
-                Log.d("Help:Code", response.code() + " - " + response.toString());
+                Log.d("Help:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Help:Res", response.body().toString());
 
@@ -1516,7 +1512,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                         JSONObject jsonObject = js.getJSONObject(0);
                         String strStatus = jsonObject.getString("Status");
                         String strMessage = jsonObject.getString("Message");
-                        if ((strStatus.toLowerCase()).equals("1")) {
+                        if ((strStatus).equalsIgnoreCase("1")) {
                             if (pHelpWindow.isShowing()) {
                                 showToast(strMessage);
                                 pHelpWindow.dismiss();
@@ -1533,6 +1529,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                     Log.e("Help:Exception", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 LoadingView.hideProgress();
@@ -1540,6 +1537,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             }
         });
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

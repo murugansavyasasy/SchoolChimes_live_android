@@ -1,11 +1,5 @@
 package com.vs.schoolmessenger.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -15,6 +9,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonObject;
@@ -87,25 +87,24 @@ public class TimeTableActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adView);
 
 
-
         dayAdapter = new TimeTableDayAdapter(this, DayList, new TimeTableDayListener() {
 
             @Override
-            public void onDayClick(Integer position,DayClass item) {
+            public void onDayClick(Integer position, DayClass item) {
                 Log.d("DayIDtestActivitty", item.getId());
                 Log.d("DayPosition", String.valueOf(position));
-                DayID=item.getId();
+                DayID = item.getId();
 
-                if(isApiCallPosition != position) {
-                        getTimeTableApi(position);
-                        timeTableclassAdapter = new TimeTableClassAdapter(TimeTableActivity.this, classList);
-                        recyclerClass.setAdapter(timeTableclassAdapter);
-                        recyclerClass.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        recyclerClass.setNestedScrollingEnabled(false);
-                        recyclerClass.setHasFixedSize(true);
-                        recyclerClass.setItemAnimator(new DefaultItemAnimator());
-                        timeTableclassAdapter.notifyDataSetChanged();
-                    }
+                if (isApiCallPosition != position) {
+                    getTimeTableApi(position);
+                    timeTableclassAdapter = new TimeTableClassAdapter(TimeTableActivity.this, classList);
+                    recyclerClass.setAdapter(timeTableclassAdapter);
+                    recyclerClass.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recyclerClass.setNestedScrollingEnabled(false);
+                    recyclerClass.setHasFixedSize(true);
+                    recyclerClass.setItemAnimator(new DefaultItemAnimator());
+                    timeTableclassAdapter.notifyDataSetChanged();
+                }
 
             }
         });
@@ -144,7 +143,7 @@ public class TimeTableActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
 //        getTimeTableApi();
 
     }
@@ -188,7 +187,7 @@ public class TimeTableActivity extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("Timetable:Code", response.code() + " - " + response.toString());
+                Log.d("Timetable:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Timetable:Res", response.body().toString());
                 try {
@@ -196,10 +195,10 @@ public class TimeTableActivity extends AppCompatActivity {
                     int status = jsonObject.getInt("Status");
                     String message = jsonObject.getString("Message");
 
-                    if (status==1) {
+                    if (status == 1) {
                         classList.clear();
                         JSONArray data = jsonObject.getJSONArray("data");
-                        if(data.length()!= 0) {
+                        if (data.length() != 0) {
                             TimeTableClass timetabledata;
                             for (int i = 0; i < data.length(); i++) {
                                 jsonObject = data.getJSONObject(i);
@@ -215,8 +214,7 @@ public class TimeTableActivity extends AppCompatActivity {
                                 classList.add(timetabledata);
                             }
                             timeTableclassAdapter.notifyDataSetChanged();
-                        }
-                        else{
+                        } else {
                             timeTableclassAdapter.notifyDataSetChanged();
                             alert(message);
 
@@ -248,7 +246,7 @@ public class TimeTableActivity extends AppCompatActivity {
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-             dialog.cancel();
+                dialog.cancel();
             }
         });
 

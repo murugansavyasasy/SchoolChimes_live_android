@@ -9,12 +9,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,20 +25,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdLoader;
-import com.google.android.gms.ads.AdRequest;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.nativead.NativeAd;
-import com.google.android.gms.ads.nativead.NativeAdOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
-import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.adapter.HomeWorkDateWiseAdapter;
 import com.vs.schoolmessenger.adapter.HomeWorkGridAdapter;
@@ -58,7 +49,6 @@ import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
-import com.vs.schoolmessenger.util.NativeTemplateStyle;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -82,36 +72,30 @@ import ss.com.bannerslider.Slider;
 public class MessageDatesScreen extends AppCompatActivity implements View.OnClickListener {
 
     Profiles childItem = new Profiles();
-
-    private ArrayList<CircularDates> datesList = new ArrayList<>();
-    private ArrayList<CircularDates> totaldatesList = new ArrayList<>();
-    private ArrayList<CircularDates> OfflinedatesList = new ArrayList<>();
-
-    private PopupWindow pHelpWindow;
     RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    private ArrayList<Profiles> childList = new ArrayList<>();
     TextView lblNoMessages;
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
-
     ImageView imgSearch;
     EditText Searchable;
-
     Slider slider;
     ImageView adImage;
-
     AdView mAdView;
-
-    private ArrayList<HomeWorkData> HomeWorkData = new ArrayList<>();
     GridView rvGridHW;
     HomeWorkGridAdapter mAdapter;
     RelativeLayout rytParent;
     TemplateView native_ads;
     ImageView adsClose;
+    private final ArrayList<CircularDates> datesList = new ArrayList<>();
+    private final ArrayList<CircularDates> totaldatesList = new ArrayList<>();
+    private final ArrayList<CircularDates> OfflinedatesList = new ArrayList<>();
+    private PopupWindow pHelpWindow;
+    private ArrayList<Profiles> childList = new ArrayList<>();
+    private ArrayList<HomeWorkData> HomeWorkData = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -249,7 +233,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("MsgDates:Code", response.code() + " - " + response.toString());
+                Log.d("MsgDates:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("MsgDates:Res", response.body().toString());
                 Gson gson = new Gson();
@@ -324,7 +308,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("MsgDates:Code", response.code() + " - " + response.toString());
+                Log.d("MsgDates:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("MsgDates:Res", response.body().toString());
 
@@ -373,7 +357,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         }
                     }
                     ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
-
 
 
                 } catch (Exception e) {
@@ -544,7 +527,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText("" + (460 - (s.length())));
+                tvTxtCount.setText(String.valueOf(460 - (s.length())));
             }
 
             @Override
@@ -585,7 +568,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("Help:Code", response.code() + " - " + response.toString());
+                Log.d("Help:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Help:Res", response.body().toString());
 
@@ -595,7 +578,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         JSONObject jsonObject = js.getJSONObject(0);
                         String strStatus = jsonObject.getString("Status");
                         String strMessage = jsonObject.getString("Message");
-                        if ((strStatus.toLowerCase()).equals("1")) {
+                        if ((strStatus).equalsIgnoreCase("1")) {
                             showToast(strMessage);
                             if (pHelpWindow.isShowing()) {
                                 pHelpWindow.dismiss();
@@ -735,7 +718,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 

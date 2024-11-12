@@ -65,7 +65,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
     String contentType = "";
     String uploadFilePath = "";
     int pathIndex = 0;
-    private ArrayList<String> UploadedS3URlList = new ArrayList<>();
+    private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -313,7 +313,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -322,7 +322,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
 
                                 showAlert1(strMsg, strStatus);
                             } else {
@@ -440,7 +440,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -537,7 +537,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
         if (!this.isFinishing())
             mProgressDialog.show();
 
-      //  Call<JsonArray> call = apiService.SendVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
+        //  Call<JsonArray> call = apiService.SendVoicetoGroupsStandardsfromVoiceHistory(jsonReqArray);
 
         Call<JsonArray> call;
         if (Util_Common.isScheduleCall) {
@@ -555,7 +555,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -564,7 +564,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert1(strMsg, strStatus);
                             } else {
                                 showAlert1(strMsg, strStatus);
@@ -584,7 +584,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -690,7 +690,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -699,7 +699,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert1(strMsg, strStatus);
 
 

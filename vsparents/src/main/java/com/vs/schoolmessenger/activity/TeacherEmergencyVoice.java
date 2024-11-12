@@ -1,6 +1,5 @@
 package com.vs.schoolmessenger.activity;
 
-import static com.vs.schoolmessenger.util.Constants.updates;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_EMERGENCY;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.GH_VOICE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_HEAD;
@@ -21,8 +20,6 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.milliSecondsToTimer;
 import static com.vs.schoolmessenger.util.Util_Common.isSelectedDate;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -41,16 +38,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -80,7 +72,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.annimon.stream.Stream;
-import com.applandeo.materialcalendarview.CalendarUtils;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.CalendarWeekDay;
 import com.applandeo.materialcalendarview.DatePicker;
@@ -91,7 +82,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.CallScheduleAdapter;
-import com.vs.schoolmessenger.adapter.FAQAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
 import com.vs.schoolmessenger.adapter.VoiceHistoryAdapter;
@@ -103,7 +93,6 @@ import com.vs.schoolmessenger.interfaces.VoiceHistoryListener;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.FileUtils;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -138,6 +127,10 @@ import retrofit2.Response;
 
 public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelectDateListener, View.OnClickListener, VoiceHistoryListener {
 
+    private static final int PICK_AUDIO_REQUEST = 1;
+    private final ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
+    private final ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
+    private final int PICK_AUDIO = 1;
     Button btnNext;
     Button btnToSections, btnToStudents;
     RelativeLayout rlVoicePreview, rlyScheduleCall, rlyScheduleCallschedule;
@@ -147,7 +140,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
     TextView tvPlayDuration, tvRecordDuration, tvRecordTitle, tvEmergTitle;
     RecyclerView rvSchoolsList;
     String tittletext, schoolId = "", staffId = "";
-    private MediaPlayer mediaPlayer;
     int mediaFileLengthInMilliseconds = 0;
     Handler handler = new Handler();
     int recTime;
@@ -158,10 +150,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
     RadioGroup rdoGroup, rdoGroupschedule;
     int Time = 0;
     File futureStudioIconFile;
-    private final ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
-    private final ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
-    private int i_schools_count = 0;
-    private int iRequestCode;
     boolean bEmergency;
     int iMaxRecDur;
     TeacherSchoolsModel schoolmodel;
@@ -180,8 +168,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
     String SelectedSchoolId = "";
     JsonObject jsonObject;
     VoiceHistoryAdapter voiceHistoryAdapter;
-    private ArrayList<MessageModel> voiceHistoryList = new ArrayList<>();
-    private ArrayList<MessageModel> selectedVoiceList = new ArrayList<>();
     String FilePath = "";
     String duration = "";
     String description = "";
@@ -192,9 +178,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
     String isEmergencyVoice = "";
     TextView emergVoice_tvTitle, lblPickMp3File, lblFilepath;
     Button btnStaffGroups;
-    private static final int PICK_AUDIO_REQUEST = 1;
     Button btnGHStandardGroups, btnGHHistoryStandardGroups;
-    private final int PICK_AUDIO = 1;
     RelativeLayout header;
     CallScheduleAdapter isCallScheduleAdapter;
     List<String> isSelectedDateList = new ArrayList<>();
@@ -206,6 +190,57 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
     TextView lblTimePicking, lbldialbeyondTimePicking, lblTimePickingschedule, lbldialbeyondTimePickingschedule;
     RelativeLayout mgtText_rlHeader;
     CardView crdDailyCollectionschedule;
+    private MediaPlayer mediaPlayer;
+    private int i_schools_count = 0;
+    private int iRequestCode;
+    private final ArrayList<MessageModel> voiceHistoryList = new ArrayList<>();
+    private final ArrayList<MessageModel> selectedVoiceList = new ArrayList<>();
+
+    public static long getDateDifferenceInDays(int year, int month, int day) {
+        // Get current date
+        Calendar currentDate = Calendar.getInstance();
+        // Set the specified date
+        Calendar specifiedDate = Calendar.getInstance();
+        specifiedDate.set(year, month - 1, day); // Month is zero-based
+        // Calculate the difference in milliseconds
+        long differenceInMillis = specifiedDate.getTimeInMillis() - currentDate.getTimeInMillis();
+        // Convert milliseconds to days
+        long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
+        return differenceInDays;
+    }
+
+    public static int parseTimeToSeconds(String timeString) throws NumberFormatException {
+        String[] parts = timeString.split(":");
+        if (parts.length != 2) {
+            throw new NumberFormatException("Invalid time format");
+        }
+
+        int minutes = Integer.parseInt(parts[0]);
+        int seconds = Integer.parseInt(parts[1]);
+
+        return minutes * 60 + seconds;
+    }
+
+    public static String formateMilliSeccond(long milliseconds) {
+        String finalTimerString = "";
+        String secondsString = "";
+
+        int hours = (int) (milliseconds / (1000 * 60 * 60));
+        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+        if (hours > 0) {
+            finalTimerString = hours + ":";
+        }
+        if (seconds < 10) {
+            secondsString = "0" + seconds;
+        } else {
+            secondsString = String.valueOf(seconds);
+        }
+
+        finalTimerString = finalTimerString + minutes + ":" + secondsString;
+
+        return finalTimerString;
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -811,7 +846,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         startActivityForResult(inPrincipal, iRequestCode);
     }
 
-
     private void showAlertMessage(String strMsg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherEmergencyVoice.this);
 
@@ -946,7 +980,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 try {
                     if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1126,7 +1160,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
         Util_Common.isHistory = false;
     }
-
 
     private void backToResultActvity(String msg) {
         Intent returnIntent = new Intent();
@@ -1467,7 +1500,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
         if (TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherEmergencyVoice.this).equals(LOGIN_TYPE_PRINCIPAL)) {
             if (bEmergency) {
-                Log.d("SelectedCount", "" + i_schools_count);
+                Log.d("SelectedCount", String.valueOf(i_schools_count));
                 if (i_schools_count > 0) {
                     SendEmergencyVoicePrincipalAPI();
                 } else {
@@ -1476,7 +1509,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             }
 
         } else if (TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherEmergencyVoice.this).equals(LOGIN_TYPE_HEAD)) {
-            Log.d("SelectedCount", "" + i_schools_count);
+            Log.d("SelectedCount", String.valueOf(i_schools_count));
             if (i_schools_count > 0) {
                 if (iRequestCode == GH_EMERGENCY) {
                     SendEmergencyVoiceGroupheadAPI();
@@ -1498,7 +1531,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         inVoice.putExtra("EMERGENCY", false);
         inVoice.putExtra("SCHOOL_ID", schoolId);
         inVoice.putExtra("STAFF_ID", staffId);
-        inVoice.putExtra("FILEPATH", String.valueOf(futureStudioIconFile.getPath()));
+        inVoice.putExtra("FILEPATH", futureStudioIconFile.getPath());
         inVoice.putExtra("DURATION", duration);
         inVoice.putExtra("TITTLE", strtittle3);
         inVoice.putExtra("VOICE", "");
@@ -1511,7 +1544,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         String strtittle2 = et_tittle.getText().toString();
         intoStu2.putExtra("REQUEST_CODE", iRequestCode);
         intoStu2.putExtra("DURATION", String.valueOf(iMediaDuration));
-        intoStu2.putExtra("FILEPATH", String.valueOf(futureStudioIconFile.getPath()));
+        intoStu2.putExtra("FILEPATH", futureStudioIconFile.getPath());
         intoStu2.putExtra("TITTLE", strtittle2);
         intoStu2.putExtra("SCHOOL_ID", schoolId);
         intoStu2.putExtra("STAFF_ID", staffId);
@@ -1523,7 +1556,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         Intent intoSec = new Intent(TeacherEmergencyVoice.this, TeacherStaffStandardSection.class);
         String strtittle = et_tittle.getText().toString();
         intoSec.putExtra("REQUEST_CODE", iRequestCode);
-        intoSec.putExtra("FILEPATH", String.valueOf(futureStudioIconFile.getPath()));
+        intoSec.putExtra("FILEPATH", futureStudioIconFile.getPath());
         intoSec.putExtra("DURATION", String.valueOf(iMediaDuration));
         intoSec.putExtra("TITTLE", strtittle);
         intoSec.putExtra("TO", "SEC");
@@ -1537,7 +1570,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         String strtittle1 = et_tittle.getText().toString();
         intoStu.putExtra("REQUEST_CODE", iRequestCode);
         intoStu.putExtra("DURATION", String.valueOf(iMediaDuration));
-        intoStu.putExtra("FILEPATH", String.valueOf(futureStudioIconFile.getPath()));
+        intoStu.putExtra("FILEPATH", futureStudioIconFile.getPath());
         intoStu.putExtra("TITTLE", strtittle1);
         intoStu.putExtra("SCHOOL_ID", "");
         intoStu.putExtra("TO", "STU");
@@ -1682,20 +1715,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         manyDaysPicker.show();
     }
 
-
-    public static long getDateDifferenceInDays(int year, int month, int day) {
-        // Get current date
-        Calendar currentDate = Calendar.getInstance();
-        // Set the specified date
-        Calendar specifiedDate = Calendar.getInstance();
-        specifiedDate.set(year, month - 1, day); // Month is zero-based
-        // Calculate the difference in milliseconds
-        long differenceInMillis = specifiedDate.getTimeInMillis() - currentDate.getTimeInMillis();
-        // Convert milliseconds to days
-        long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
-        return differenceInDays;
-    }
-
     private List<Calendar> getDisabledDays() {
         List<Calendar> calendars = new ArrayList<>();
         if (!isDifferentDates.isEmpty()) {
@@ -1784,7 +1803,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             isDateSchedule.setAdapter((ListAdapter) isCallScheduleAdapter);
         }
     }
-
 
     private void isPickTheAudio() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -1912,39 +1930,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         }
     }
 
-    public static int parseTimeToSeconds(String timeString) throws NumberFormatException {
-        String[] parts = timeString.split(":");
-        if (parts.length != 2) {
-            throw new NumberFormatException("Invalid time format");
-        }
-
-        int minutes = Integer.parseInt(parts[0]);
-        int seconds = Integer.parseInt(parts[1]);
-
-        return minutes * 60 + seconds;
-    }
-
-    public static String formateMilliSeccond(long milliseconds) {
-        String finalTimerString = "";
-        String secondsString = "";
-
-        int hours = (int) (milliseconds / (1000 * 60 * 60));
-        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
-        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
-        if (hours > 0) {
-            finalTimerString = hours + ":";
-        }
-        if (seconds < 10) {
-            secondsString = "0" + seconds;
-        } else {
-            secondsString = "" + seconds;
-        }
-
-        finalTimerString = finalTimerString + minutes + ":" + secondsString;
-
-        return finalTimerString;
-    }
-
     private void SendEmergencyVoicePrincipalAPI() {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherEmergencyVoice.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
@@ -1985,7 +1970,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1995,7 +1980,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                             String strMsg = jsonObject.getString("Message");
 
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
 
                             } else {
@@ -2017,7 +2002,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -2131,7 +2116,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -2140,7 +2125,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
                             } else {
                                 showAlert(strMsg);
@@ -2161,7 +2146,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -2248,7 +2233,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -2257,7 +2242,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
                             } else {
                                 showAlert(strMsg);
@@ -2277,7 +2262,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -2340,7 +2325,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             Log.d("test3", "test3" + listschooldetails.size());
             TeacherSchoolsModel ss = listschooldetails.get(i);
             Log.d("test4", "test4");
-            ss = new TeacherSchoolsModel(ss.getStrSchoolName(),ss.getSchoolNameRegional(), ss.getStrSchoolID(), ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(), ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType(),ss.getIsBiometricEnable());
+            ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getSchoolNameRegional(), ss.getStrSchoolID(), ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(), ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType(), ss.getIsBiometricEnable());
             Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
             Log.d("Testing", "8***********************");
@@ -2407,11 +2392,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
     private void enableDisableNext() {
         Log.d("i_students_count", "count: " + i_schools_count);
 
-        if (i_schools_count > 0) {
-            btnNext.setEnabled(true);
-        } else {
-            btnNext.setEnabled(false);
-        }
+        btnNext.setEnabled(i_schools_count > 0);
     }
 
     private void start_RECORD() {
@@ -2521,20 +2502,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
     }
 
-    private Runnable runson = new Runnable() {
-        @Override
-        public void run() {
-            tvRecordDuration.setText(milliSecondsToTimer(recTime * 1000));
-            if (!tvRecordDuration.getText().toString().equals("00:00")) {
-                ivRecord.setEnabled(true);
-            }
-
-            recTime = recTime + 1;
-            if (recTime != iMaxRecDur) recTimerHandler.postDelayed(this, 1000);
-            else stop_RECORD();
-        }
-    };
-
     public void fetchSong() {
         Log.d("FetchSong", "Start***************************************");
         try {
@@ -2566,8 +2533,19 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             Log.d("in Fetch Song", e.toString());
         }
         Log.d("FetchSong", "END***************************************");
-    }
+    }    private final Runnable runson = new Runnable() {
+        @Override
+        public void run() {
+            tvRecordDuration.setText(milliSecondsToTimer(recTime * 1000L));
+            if (!tvRecordDuration.getText().toString().equals("00:00")) {
+                ivRecord.setEnabled(true);
+            }
 
+            recTime = recTime + 1;
+            if (recTime != iMaxRecDur) recTimerHandler.postDelayed(this, 1000);
+            else stop_RECORD();
+        }
+    };
 
     @SuppressLint("ClickableViewAccessibility")
     private void setupAudioPlayer() {
@@ -2640,4 +2618,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
     public void voiceHistoryRemoveList(MessageModel contact) {
         selectedVoiceList.remove(contact);
     }
+
+
 }

@@ -2,10 +2,7 @@ package com.vs.schoolmessenger.activity;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -15,12 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.FAQAdapter;
-import com.vs.schoolmessenger.assignment.StudentSelectAssignment;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
-import com.vs.schoolmessenger.model.FAQModel;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -29,23 +27,21 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class FAQScreen extends AppCompatActivity {
 
+    public FAQAdapter mAdapter;
     WebView pdfPopup_webView;
     ProgressDialog pDialog;
-    String pdfURL="";
+    String pdfURL = "";
     RecyclerView faq_recycle;
-    public FAQAdapter mAdapter;
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
+    String MemberID = "";
+    String UserType = "", type = "";
     private ArrayList<Profiles> childList = new ArrayList<>();
-
-    String MemberID="";
-    String UserType="",type="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,24 +56,23 @@ public class FAQScreen extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        if(extras!=null) {
-             type = extras.getString("School", "");
+        if (extras != null) {
+            type = extras.getString("School", "");
         }
 
-        if(type.equals("School")){
-            UserType="2";
+        if (type.equals("School")) {
+            UserType = "2";
             if (schools_list != null) {
                 final TeacherSchoolsModel model = schools_list.get(0);
-                MemberID=model.getStrStaffID();
-                }
+                MemberID = model.getStrStaffID();
             }
-        else {
-            UserType="3";
+        } else {
+            UserType = "3";
             if (childList != null) {
 
                 final Profiles model = childList.get(0);
-                MemberID=model.getChildID();
-                }
+                MemberID = model.getChildID();
+            }
         }
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -93,20 +88,18 @@ public class FAQScreen extends AppCompatActivity {
         });
 
 
-
         getFAQuestions();
 
     }
 
     private void getFAQuestions() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(FAQScreen.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(FAQScreen.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(FAQScreen.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(FAQScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(FAQScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(FAQScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -118,9 +111,7 @@ public class FAQScreen extends AppCompatActivity {
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
 
-
-
-        Call<JsonObject> call = apiService.getFAQLink(MemberID,UserType);
+        Call<JsonObject> call = apiService.getFAQLink(MemberID, UserType);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -128,20 +119,20 @@ public class FAQScreen extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
                         JSONObject js = new JSONObject(response.body().toString());
-                         String status=js.getString("Status");
+                        String status = js.getString("Status");
 
-                         if(status.equals("1")) {
-                             pdfURL = js.getString("Message");
-                             loadFAQ(pdfURL);
-                         }
+                        if (status.equals("1")) {
+                            pdfURL = js.getString("Message");
+                            loadFAQ(pdfURL);
+                        }
 
-                         } else {
-                        Toast.makeText(getApplicationContext(),  getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -152,7 +143,7 @@ public class FAQScreen extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
-                Toast.makeText(getApplicationContext(),  getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -160,7 +151,7 @@ public class FAQScreen extends AppCompatActivity {
 
     private void loadFAQ(String pdfURL) {
 
-        pdfPopup_webView=(WebView) findViewById(R.id.pdfPopup_webView);
+        pdfPopup_webView = (WebView) findViewById(R.id.pdfPopup_webView);
         pDialog = new ProgressDialog(FAQScreen.this);
         pDialog.setMessage("Loading");
         pDialog.setCancelable(false);
@@ -182,8 +173,6 @@ public class FAQScreen extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         pdfPopup_webView.getSettings().setBuiltInZoomControls(true);
         pdfPopup_webView.loadUrl(pdfURL);
-
-
 
 
     }

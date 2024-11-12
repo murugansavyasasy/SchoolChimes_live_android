@@ -12,14 +12,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,22 +33,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.LocationsHistoryAdapter;
 import com.vs.schoolmessenger.interfaces.GPSStatusListener;
-import com.vs.schoolmessenger.interfaces.LocationClick;
 import com.vs.schoolmessenger.interfaces.LocationLatLongListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.StaffBiometricLocationRes;
@@ -76,8 +62,8 @@ import retrofit2.Response;
 
 public class AddLocationForAttendance extends AppCompatActivity implements GPSStatusListener, LocationLatLongListener, View.OnClickListener {
 
-    private int locationRequestCode = 1000;
-    private GPSStatusReceiver gpsStatusReceiver;
+    public LocationsHistoryAdapter mAdapter;
+    public List<StaffBiometricLocationRes.BiometricLoationData> locationsList = new ArrayList<StaffBiometricLocationRes.BiometricLoationData>();
     String SchoolID = "", StaffID = "";
 
     ImageView gifImageView;
@@ -94,14 +80,12 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     String Address = "";
     Spinner spinnerMetres;
     String[] Metres = {"20", "30", "40",
-            "50", "60", "70", "80","90","100", "Custom"};
+            "50", "60", "70", "80", "90", "100", "Custom"};
 
     String SelectedSpinnerDistance = "";
+    private final int locationRequestCode = 1000;
+    private GPSStatusReceiver gpsStatusReceiver;
     private PopupWindow locationHistoryPopup;
-
-    public LocationsHistoryAdapter mAdapter;
-
-    public List<StaffBiometricLocationRes.BiometricLoationData> locationsList = new ArrayList<StaffBiometricLocationRes.BiometricLoationData>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -218,22 +202,19 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1000: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (Util_Common.isGPSEnabled(this)) {
-                        frmAddLocationLayout.setVisibility(View.VISIBLE);
-                        rytGPSRedirect.setVisibility(View.GONE);
-                        getCurentLocation();
-                    } else {
-                        rytGPSRedirect.setVisibility(View.VISIBLE);
-                        frmAddLocationLayout.setVisibility(View.GONE);
-                    }
+        if (requestCode == 1000) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (Util_Common.isGPSEnabled(this)) {
+                    frmAddLocationLayout.setVisibility(View.VISIBLE);
+                    rytGPSRedirect.setVisibility(View.GONE);
+                    getCurentLocation();
                 } else {
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                    rytGPSRedirect.setVisibility(View.VISIBLE);
+                    frmAddLocationLayout.setVisibility(View.GONE);
                 }
-                break;
+            } else {
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -272,7 +253,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
-                Log.d("Biometric:Code", response.code() + " - " + response.toString());
+                Log.d("Biometric:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("Location:Res", response.body().toString());
                     try {
@@ -319,14 +300,12 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
                     }
 
                     int distanceCheck = Integer.parseInt(distance);
-                    if(distanceCheck >= 10) {
-                       addConfirmationAlert();
-                   }
-                   else {
-                       Toast.makeText(AddLocationForAttendance.this, "Distance should be minimum 10 Meters", Toast.LENGTH_SHORT).show();
-                   }
-                }
-                else {
+                    if (distanceCheck >= 10) {
+                        addConfirmationAlert();
+                    } else {
+                        Toast.makeText(AddLocationForAttendance.this, "Distance should be minimum 10 Meters", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
                     Toast.makeText(AddLocationForAttendance.this, "Please enter all the required fields", Toast.LENGTH_SHORT).show();
                 }
 
@@ -395,7 +374,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
 
     @SuppressLint("MissingPermission")
     private void getCurentLocation() {
-        LocationHelper call = new LocationHelper(AddLocationForAttendance.this,this,"new");
+        LocationHelper call = new LocationHelper(AddLocationForAttendance.this, this, "new");
         call.getFreshLocation(AddLocationForAttendance.this);
         rytProgressBar.setVisibility(View.VISIBLE);
     }
@@ -420,29 +399,29 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     }
 
     @Override
-    public void onLocationReturn(double latitude, double longitude,String type) {
+    public void onLocationReturn(double latitude, double longitude, String type) {
 
-        Log.d("lat_long",latitude + "_"+ longitude);
+        Log.d("lat_long", latitude + "_" + longitude);
         rytProgressBar.setVisibility(View.GONE);
 
         if (!Double.isNaN(latitude) && !Double.isNaN(longitude)) {
 
-                Log.d("latitude", String.valueOf(latitude));
-                Log.d("longitude", String.valueOf(longitude));
+            Log.d("latitude", String.valueOf(latitude));
+            Log.d("longitude", String.valueOf(longitude));
 
-                current_latitude = latitude;
-                current_longitude = longitude;
+            current_latitude = latitude;
+            current_longitude = longitude;
 
-                lbllatLong.setText(String.valueOf(latitude) + " - " + String.valueOf(longitude));
-                String address = getAddressFromLatLng(latitude, longitude);
-                Address = address;
-                lblAddress.setText(address);
+            lbllatLong.setText(latitude + " - " + longitude);
+            String address = getAddressFromLatLng(latitude, longitude);
+            Address = address;
+            lblAddress.setText(address);
 
-                lnrAddressLayout.setVisibility(View.VISIBLE);
-                btnAddLocation.setVisibility(View.VISIBLE);
-                btnPickLocation.setVisibility(View.GONE);
+            lnrAddressLayout.setVisibility(View.VISIBLE);
+            btnAddLocation.setVisibility(View.VISIBLE);
+            btnPickLocation.setVisibility(View.GONE);
 
-                Log.d("Address:", address);
+            Log.d("Address:", address);
 
         } else {
             lnrAddressLayout.setVisibility(View.GONE);

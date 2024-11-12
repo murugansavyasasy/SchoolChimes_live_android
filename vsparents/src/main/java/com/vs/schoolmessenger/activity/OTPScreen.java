@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobileNumberFromSP;
+
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,9 +10,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +17,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -33,27 +36,37 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobileNumberFromSP;
-
 /**
  * Created by voicesnap on 4/26/2018.
  */
 
 public class OTPScreen extends AppCompatActivity {
+    public static Handler handler = new Handler();
     Button btnSubmitOtp;
     EditText txtOtp;
-    TextView btnResendOTP,lblNote;
+    TextView btnResendOTP, lblNote;
     Boolean condition = false;
     String otp_Timer;
-    public static Handler handler = new Handler();
     Runnable yourRunnable;
 
-    String note_message="";
+    String note_message = "";
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase("otp")) {
+
+                final String message = intent.getStringExtra("message");
+                Log.d("OTPMessage", message);
+                txtOtp.setText(message);
+            }
+        }
+    };
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -67,7 +80,7 @@ public class OTPScreen extends AppCompatActivity {
             note_message = extras.getString("note_message", "");
         }
         TeacherUtil_SharedPreference.putOTPNum(OTPScreen.this, "1");
-        otp_Timer=TeacherUtil_SharedPreference.getOTpTimer(OTPScreen.this);
+        otp_Timer = TeacherUtil_SharedPreference.getOTpTimer(OTPScreen.this);
         otpHandler(otp_Timer);
 
         btnSubmitOtp = (Button) findViewById(R.id.btnSubmitOtp);
@@ -96,7 +109,6 @@ public class OTPScreen extends AppCompatActivity {
         });
     }
 
-
     @Override
     public void onResume() {
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("otp"));
@@ -108,17 +120,6 @@ public class OTPScreen extends AppCompatActivity {
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
     }
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equalsIgnoreCase("otp")) {
-
-                final String message = intent.getStringExtra("message");
-                Log.d("OTPMessage",message);
-                txtOtp.setText(message);
-            }
-        }
-    };
 
     private void otpHandler(final String otp_timer) {
         handler = new Handler();
@@ -126,7 +127,7 @@ public class OTPScreen extends AppCompatActivity {
             @Override
             public void run() {
                 btnResendOTP.setVisibility(View.VISIBLE);
-                }
+            }
         };
         handler.postDelayed(yourRunnable, Long.parseLong(otp_timer));
     }
@@ -142,10 +143,10 @@ public class OTPScreen extends AppCompatActivity {
         final String mobilenumber = getMobileNumberFromSP(OTPScreen.this);
         TeacherUtil_SharedPreference.putMobileNum(OTPScreen.this, mobilenumber);
 
-        String CountryID=TeacherUtil_SharedPreference.getCountryID(OTPScreen.this);
-        JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("MobileNumber",mobilenumber);
-        jsonObject.addProperty("CountryID",CountryID);
+        String CountryID = TeacherUtil_SharedPreference.getCountryID(OTPScreen.this);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("MobileNumber", mobilenumber);
+        jsonObject.addProperty("CountryID", CountryID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePasswordByCountryID(jsonObject);
@@ -156,7 +157,7 @@ public class OTPScreen extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -169,7 +170,7 @@ public class OTPScreen extends AppCompatActivity {
 
                             String OTPSent = jsonObject.getString("OTPSent");
                             String Message = jsonObject.getString("Message");
-                            if(OTPSent.equals("1")){
+                            if (OTPSent.equals("1")) {
                                 showAlert(getResources().getString(R.string.otp_sent));
                             }
 
@@ -201,7 +202,7 @@ public class OTPScreen extends AppCompatActivity {
 
     private void verifyOTP() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(OTPScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(OTPScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -228,7 +229,7 @@ public class OTPScreen extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -323,7 +324,7 @@ public class OTPScreen extends AppCompatActivity {
 
     private void againOtpApi() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(OTPScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(OTPScreen.this);
 
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -332,12 +333,12 @@ public class OTPScreen extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String CountryID=TeacherUtil_SharedPreference.getCountryID(OTPScreen.this);
+        String CountryID = TeacherUtil_SharedPreference.getCountryID(OTPScreen.this);
         String num = TeacherUtil_SharedPreference.getMobileNumberFromSP(OTPScreen.this);
 
-        JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("MobileNumber",num);
-        jsonObject.addProperty("CountryID",CountryID);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("MobileNumber", num);
+        jsonObject.addProperty("CountryID", CountryID);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.CheckMobileNumberforUpdatePasswordByCountryID(jsonObject);
@@ -348,7 +349,7 @@ public class OTPScreen extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 

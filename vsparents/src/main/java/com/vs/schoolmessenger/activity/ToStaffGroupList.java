@@ -35,7 +35,6 @@ import com.vs.schoolmessenger.aws.S3Uploader;
 import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
-import com.vs.schoolmessenger.model.UploadFilesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -72,31 +71,27 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
     Button btnConfirm;
     String SchoolID, StaffID;
     int iSelStdGrpCount = 0;
-    private int iRequestCode = 0;
     String filepath, tittle, strmessage, strdate, strtime, strfilepathimage;
     String duration;
     ImageView genTextPopup_ToolBarIvBack;
-
     String fileNameDateTime;
     S3Uploader s3uploaderObj;
-
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType = "";
     String uploadFilePath = "";
     int pathIndex = 0;
-    private ArrayList<String> UploadedS3URlList = new ArrayList<>();
-
     ArrayList<String> slectedImagePath = new ArrayList<String>();
     TextView lblStandard;
     String strPDFFilepath, strsize;
-
     String upload_link, link, iframe;
     String ticket_id;
     String video_file_id;
     String signature;
     String v6;
     String redirect_url;
+    private int iRequestCode = 0;
+    private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +126,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
         if (TeacherUtil_Common.listschooldetails.size() == 1) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
-        }
-        else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(ToStaffGroupList.this).equals(LOGIN_TYPE_TEACHER)) {
+        } else if (TeacherUtil_SharedPreference.getLoginTypeContextFromSP(ToStaffGroupList.this).equals(LOGIN_TYPE_TEACHER)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
         }
@@ -190,7 +184,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("staffgroups:Code", response.code() + " - " + response.toString());
+                Log.d("staffgroups:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("staffgroups:Res", response.body().toString());
 
@@ -655,12 +649,12 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
                 showLoading();
                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
                 fileNameDateTime = "File_" + fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime,SchoolID,countryID,true);
+                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime, SchoolID, countryID, true);
                 s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
                     @Override
                     public void onUploadSuccess(String response) {
                         if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime,SchoolID,countryID,true);
+                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime, SchoolID, countryID, true);
                             if (!TextUtils.isEmpty(urlFromS3)) {
                                 UploadedS3URlList.add(urlFromS3);
                                 uploadFileToAWSs3(pathIndex + 1, fileType);
@@ -735,7 +729,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -744,7 +738,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strStatus, strMsg);
                             } else {
                                 showAlert(strStatus, strMsg);
@@ -766,7 +760,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -837,7 +831,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -846,7 +840,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strStatus, strMsg);
                             } else {
                                 showAlert(strStatus, strMsg);
@@ -982,7 +976,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -991,7 +985,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strStatus, strMsg);
                             } else {
                                 showAlert(strStatus, strMsg);
@@ -1012,7 +1006,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 hideLoading();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -1090,7 +1084,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1099,7 +1093,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
                             String strStatus = jsonObject.getString("result");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlertfinal(strMsg, strStatus);
 
                             } else {
@@ -1122,7 +1116,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
 //                if (mProgressDialog.isShowing())
 //                    mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });

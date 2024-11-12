@@ -1,8 +1,5 @@
 package com.vs.schoolmessenger.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +9,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -28,7 +28,6 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
@@ -39,10 +38,12 @@ public class StaffListActivity extends AppCompatActivity {
     ActivityStaffListBinding binding;
     StaffListChat staffList;
     StaffChatListAdapter adapter;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +92,6 @@ public class StaffListActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     @Override
@@ -107,7 +107,7 @@ public class StaffListActivity extends AppCompatActivity {
         ArrayList<SubjectDetail> temp = new ArrayList();
         for (SubjectDetail d : staffList.subjectdetails) {
 
-            if (d.staffname.toLowerCase().contains(s.toLowerCase()) || d.subjectname.toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.staffname.toLowerCase().contains(s.toLowerCase()) || d.subjectname.toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -117,13 +117,12 @@ public class StaffListActivity extends AppCompatActivity {
 
     public void staffListApi() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffListActivity.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StaffListActivity.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffListActivity.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StaffListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StaffListActivity.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -132,16 +131,16 @@ public class StaffListActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-        String childID= Util_SharedPreference.getChildIdFromSP(StaffListActivity.this);
-        String schoolid= Util_SharedPreference.getSchoolIdFromSP(StaffListActivity.this);
-          String Code= TeacherUtil_SharedPreference.getShCountryCode(StaffListActivity.this);
-          String mobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(StaffListActivity.this);
-        final JsonObject jsonObject=new JsonObject();
+        String childID = Util_SharedPreference.getChildIdFromSP(StaffListActivity.this);
+        String schoolid = Util_SharedPreference.getSchoolIdFromSP(StaffListActivity.this);
+        String Code = TeacherUtil_SharedPreference.getShCountryCode(StaffListActivity.this);
+        String mobileNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(StaffListActivity.this);
+        final JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("CountryCode", Code);
         jsonObject.addProperty("memberid", childID);
         jsonObject.addProperty("SchoolID", schoolid);
         jsonObject.addProperty("MobileNumber", mobileNumber);
-        Log.d("reqstafflist",jsonObject.toString());
+        Log.d("reqstafflist", jsonObject.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonObject> call = apiService.staffList(jsonObject);
@@ -150,12 +149,12 @@ public class StaffListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
+                Log.d("overallUnreadCount:Code", response.code() + " - " + response);
 
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                if(response.code()==200 || response.code()==201) {
+                if (response.code() == 200 || response.code() == 201) {
 
                     try {
                         Log.d("Response", response.body().toString());
@@ -166,10 +165,10 @@ public class StaffListActivity extends AppCompatActivity {
                         subjectDetail.StaffID = staffList.ClassTeacherID;
                         subjectDetail.subjectname = Constants.CLASS_TEACHER;
                         subjectDetail.SubjectID = "";
-                        subjectDetail.unread_count =  staffList.unread_count;
+                        subjectDetail.unread_count = staffList.unread_count;
                         staffList.subjectdetails.add(0, subjectDetail);
 
-                         adapter = new StaffChatListAdapter(staffList.subjectdetails, new SubjectSelectedListener() {
+                        adapter = new StaffChatListAdapter(staffList.subjectdetails, new SubjectSelectedListener() {
                             @Override
                             public void click(SubjectDetail staffDetail) {
                                 Intent intent = new Intent(StaffListActivity.this, StudentChatActivity.class);
@@ -181,8 +180,7 @@ public class StaffListActivity extends AppCompatActivity {
                         });
                         binding.staffList.setAdapter(adapter);
 
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         Log.e("TextMsg:Exception", e.getMessage());
                     }
                 }

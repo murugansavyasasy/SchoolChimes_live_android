@@ -7,9 +7,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,6 +22,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
@@ -54,38 +55,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ss.com.bannerslider.Slider;
 
-public class ExamCircularActivity extends AppCompatActivity implements View.OnClickListener{
+public class ExamCircularActivity extends AppCompatActivity implements View.OnClickListener {
 
     ExpandableListView lvExp;
     ExamSubjectsExpandableAdapter mAdapter;
-    private int lastExpandedPosition = -1;
-
-
     EditText Searchable;
     ImageView imgSearch;
     RelativeLayout rytNoRecords;
-
     List<ExamGroupHeader> listDataHeader;
     HashMap<ExamGroupHeader, List<ExamDateListClass>> listDataChild;
-
-
-    private PopupWindow pHelpWindow;
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    private ArrayList<Profiles> childList = new ArrayList<>();
-
     Slider slider;
     ImageView adImage;
-
     AdView mAdView;
+    private int lastExpandedPosition = -1;
+    private PopupWindow pHelpWindow;
+    private ArrayList<Profiles> childList = new ArrayList<>();
 
 
 //    @Override
@@ -117,7 +110,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
         Slider.init(new PicassoImageLoadingService(ExamCircularActivity.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
 
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -185,10 +178,9 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
         if (isNetworkConnected()) {
             circularsExameAPI();
-        } else
-            {
+        } else {
             showSettingsAlert1(getResources().getString(R.string.connect_internet));
-            }
+        }
 
 
         mAdapter = new ExamSubjectsExpandableAdapter(this, listDataHeader, listDataChild);
@@ -213,7 +205,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
     private boolean isNetworkConnected() {
@@ -262,13 +254,12 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
     private void circularsExameAPI() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(ExamCircularActivity.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(ExamCircularActivity.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ExamCircularActivity.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(ExamCircularActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(ExamCircularActivity.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ExamCircularActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -292,7 +283,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -319,7 +310,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
                                 JSONArray Details = new JSONArray(jsonObject.getString("SubjectDetails"));
                                 ExamDateListClass model;
-                                Log.d("json length", js.length() + "");
+                                Log.d("json length", String.valueOf(js.length()));
 
                                 List<ExamDateListClass> subject_details = new ArrayList<ExamDateListClass>();
 
@@ -331,7 +322,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                                     JSONObject jsonObject1 = Details.getJSONObject(j);
 
                                     model = new ExamDateListClass(Syllabus, jsonObject1.getString("Subname"), jsonObject1.getString("ExamDate"),
-                                            jsonObject1.getString("ExamSession"), jsonObject1.getString("maxMark"),jsonObject1.getString("Syllabus"));
+                                            jsonObject1.getString("ExamSession"), jsonObject1.getString("maxMark"), jsonObject1.getString("Syllabus"));
 
                                     subject_details.add(model);
 
@@ -344,7 +335,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
                         }
                     } else {
-                          showSettingsAlert1(getResources().getString(R.string.no_records));
+                        showSettingsAlert1(getResources().getString(R.string.no_records));
                     }
 
                 } catch (Exception e) {
@@ -372,8 +363,8 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.rytHome:
 
-                Intent homescreen=new Intent(ExamCircularActivity.this,HomeActivity.class);
-                homescreen.putExtra("HomeScreen","1");
+                Intent homescreen = new Intent(ExamCircularActivity.this, HomeActivity.class);
+                homescreen.putExtra("HomeScreen", "1");
                 homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homescreen);
                 finish();
@@ -381,9 +372,8 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.rytHelp:
 
-                Intent faq=new Intent(ExamCircularActivity.this,FAQScreen.class);
+                Intent faq = new Intent(ExamCircularActivity.this, FAQScreen.class);
                 startActivity(faq);
-
 
 
                 break;
@@ -397,7 +387,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.rytLogout:
 
-                Util_Common.popUpMenu(ExamCircularActivity.this,v,"1");
+                Util_Common.popUpMenu(ExamCircularActivity.this, v, "1");
 
 
                 break;
@@ -502,7 +492,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
     private void languageChangeApi(String id, final String lang) {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ExamCircularActivity.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ExamCircularActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         schools_list = TeacherUtil_SharedPreference.getChildrenScreenSchools_List(ExamCircularActivity.this, "schools_list");
@@ -513,7 +503,6 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
-
 
 
 //        if (schools_list != null) {
@@ -537,9 +526,9 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -547,9 +536,9 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -577,7 +566,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -590,17 +579,16 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                         String message = jsonObject.getString("Message");
 
 
-
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),ExamCircularActivity.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),ExamCircularActivity.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),ExamCircularActivity.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),ExamCircularActivity.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),ExamCircularActivity.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),ExamCircularActivity.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),ExamCircularActivity.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),ExamCircularActivity.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),ExamCircularActivity.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),ExamCircularActivity.this);
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), ExamCircularActivity.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), ExamCircularActivity.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), ExamCircularActivity.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), ExamCircularActivity.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), ExamCircularActivity.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), ExamCircularActivity.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), ExamCircularActivity.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), ExamCircularActivity.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), ExamCircularActivity.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), ExamCircularActivity.this);
 
                         if (Integer.parseInt(status) > 0) {
                             showToast(message);
@@ -663,7 +651,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText("" + (460 - (s.length())));
+                tvTxtCount.setText(String.valueOf(460 - (s.length())));
             }
 
             @Override
@@ -711,7 +699,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("Help:Code", response.code() + " - " + response.toString());
+                Log.d("Help:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Help:Res", response.body().toString());
 
@@ -723,7 +711,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                         String strMessage = jsonObject.getString("Message");
 
 
-                        if ((strStatus.toLowerCase()).equals("1")) {
+                        if ((strStatus).equalsIgnoreCase("1")) {
                             showToast(strMessage);
                             if (pHelpWindow.isShowing()) {
                                 pHelpWindow.dismiss();

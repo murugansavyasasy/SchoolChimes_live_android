@@ -3,14 +3,15 @@ package com.vs.schoolmessenger.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -33,17 +34,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class StaffDisplayTextMessages extends AppCompatActivity {
+    public ArrayList<TeacherMessageModel> msgModelList = new ArrayList<>();
     RecyclerView rvVoiceList;
     StaffDisplayTextAdapter textAdapter;
-    public ArrayList<TeacherMessageModel> msgModelList = new ArrayList<>();
-
     String selDate, staff_id, school_id;
-    private int iRequestCode;
     ImageView voice_ToolBarIvBack;
-
     Boolean is_Archive;
     String isNewVersion;
-
+    private int iRequestCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
         voice_ToolBarIvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayTextMessages.this,"1");
+                TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayTextMessages.this, "1");
                 onBackPressed();
             }
         });
@@ -62,7 +60,7 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
         selDate = getIntent().getExtras().getString("SEL_DATE");
 
         is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
-        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffDisplayTextMessages.this);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffDisplayTextMessages.this);
 
         staff_id = Util_SharedPreference.getStaffID(StaffDisplayTextMessages.this);
         school_id = Util_SharedPreference.getSchoolId(StaffDisplayTextMessages.this);
@@ -85,7 +83,7 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         textMessages();
 
@@ -93,19 +91,18 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayTextMessages.this,"1");
+        TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayTextMessages.this, "1");
         finish();
     }
 
     private void textMessages() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffDisplayTextMessages.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StaffDisplayTextMessages.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffDisplayTextMessages.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StaffDisplayTextMessages.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StaffDisplayTextMessages.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffDisplayTextMessages.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -125,10 +122,9 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
         Log.d(" jsonObject12344555", String.valueOf(jsonObject));
 
         Call<JsonArray> call;
-        if(isNewVersion.equals("1")&&is_Archive){
+        if (isNewVersion.equals("1") && is_Archive) {
             call = apiService.GetFilesStaff_Archive(jsonObject);
-        }
-        else {
+        } else {
             call = apiService.GetFilesStaff(jsonObject);
         }
 
@@ -139,7 +135,7 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
+                Log.d("overallUnreadCount:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("overallUnreadCount:Res", response.body().toString());
 
@@ -148,7 +144,7 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
                         TeacherMessageModel msgModel;
-                        Log.d("json length", js.length() + "");
+                        Log.d("json length", String.valueOf(js.length()));
 
                         textAdapter.clearAllData();
 
