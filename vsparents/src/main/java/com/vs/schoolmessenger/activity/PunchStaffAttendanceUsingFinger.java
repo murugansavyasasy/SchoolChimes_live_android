@@ -9,9 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,11 +34,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -78,21 +69,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Executor;
-
 
 
 public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implements GPSStatusListener, LocationLatLongListener, View.OnClickListener {
     private int locationRequestCode = 1000;
     private GPSStatusReceiver gpsStatusReceiver;
     RelativeLayout rytGPSRedirect, rytParent, rytPresentlayout, rytAddLocation, rytMarkAttendanceSceen, rytAttendanceHistorySceen, rytProgressBar, rytEnableFingerPrint;
-    TextView btnPresent, lblErrorMessage, btnEnableLocation, btnMarkAttendance, btnAttendanceHistory, btnDatePicker,lblNoRecords;
+    TextView btnPresent, lblErrorMessage, btnEnableLocation, btnMarkAttendance, btnAttendanceHistory, btnDatePicker, lblNoRecords;
     private PopupWindow authenticatealertpopupWindow, enableBiometricPopup;
     private BiometricPrompt biometricPrompt;
     Boolean ifBiometricAvailable = false;
@@ -104,8 +92,8 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     public AttendanceReportsAdapter mAdapter;
     public PunchHistoryAdapter punchHistoryAdapter;
 
-    RelativeLayout rytYears,rytMonths;
-    Spinner spinnerYears,spinnerMonths;
+    RelativeLayout rytYears, rytMonths;
+    Spinner spinnerYears, spinnerMonths;
 
     int currentYear = 0;
     String[] Years = new String[20];
@@ -119,15 +107,15 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     Boolean isFingerPrint = false;
 
 
-
-
     public List<StaffBiometricLocationRes.BiometricLoationData> locationsList = new ArrayList<StaffBiometricLocationRes.BiometricLoationData>();
     public List<PunchHistoryRes.PunchHistoryData> punchTimingList = new ArrayList<PunchHistoryRes.PunchHistoryData>();
     public List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> attendanceReportsList = new ArrayList<StaffAttendanceBiometricReportRes.BiometriStaffReportData>();
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -244,7 +232,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Calendar calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         Years[0] = String.valueOf(currentYear);
-        for(int i=1 ; i<20 ;i++){
+        for (int i = 1; i < 20; i++) {
             currentYear = currentYear - 1;
             Years[i] = String.valueOf(currentYear);
         }
@@ -256,9 +244,10 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                Log.d("SelectedYear",Years[position]);
+                Log.d("SelectedYear", Years[position]);
                 loadMonthsSpinner(Years[position]);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -274,15 +263,15 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         List<String> monthList = new ArrayList<>();
         monthList.add(monthNames[currentMonthIndex]);
 
-        monthsModel data ;
+        monthsModel data;
         List<monthsModel> monthDataList = new ArrayList<>();
-        data = new monthsModel(currentMonthIndex,monthNames[currentMonthIndex]);
+        data = new monthsModel(currentMonthIndex, monthNames[currentMonthIndex]);
         monthDataList.add(data);
         // Add the rest of the months
         for (int i = 0; i < monthNames.length; i++) {
             if (i != currentMonthIndex) {
                 monthList.add(monthNames[i]);
-                data = new monthsModel(i,monthNames[i]);
+                data = new monthsModel(i, monthNames[i]);
                 monthDataList.add(data);
             }
         }
@@ -295,14 +284,14 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String monthID = "";
                 int ID = monthDataList.get(position).getID();
-                if(ID > 8){
-                    monthID = selectedYear+ "-"+String.valueOf(ID+1);
-                }
-                else {
-                    monthID = selectedYear+ "-"+"0"+String.valueOf(ID+1);
+                if (ID > 8) {
+                    monthID = selectedYear + "-" + String.valueOf(ID + 1);
+                } else {
+                    monthID = selectedYear + "-" + "0" + String.valueOf(ID + 1);
                 }
                 getBiometricAttendanceReport(monthID);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -378,8 +367,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 Boolean isEnabled = TeacherUtil_SharedPreference.getBiometricEnabled(PunchStaffAttendanceUsingFinger.this);
                 if (isEnabled) {
                     enableSwitch.setChecked(true);
-                }
-                else {
+                } else {
                     enableSwitch.setChecked(false);
                 }
             }
@@ -396,8 +384,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             if (Util_Common.isGPSEnabled(this)) {
                 rytGPSRedirect.setVisibility(View.GONE);
                 getCurentLocation("new");
-            }
-            else {
+            } else {
                 rytGPSRedirect.setVisibility(View.VISIBLE);
                 lblErrorMessage.setVisibility(View.GONE);
                 rytPresentlayout.setVisibility(View.GONE);
@@ -419,8 +406,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 Boolean isEnabled = TeacherUtil_SharedPreference.getBiometricEnabled(PunchStaffAttendanceUsingFinger.this);
                 if (isEnabled) {
                     authenticatStart();
-                }
-                else {
+                } else {
                     putAttendanceDataAPI(false);
                 }
             }
@@ -470,7 +456,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
 
-    private void getStaffLocations(double current_latitude, double current_longitude) {
+    private void getStaffLocations() {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PunchStaffAttendanceUsingFinger.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
@@ -481,11 +467,12 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         mProgressDialog.show();
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        Call<StaffBiometricLocationRes> call = apiService.getStaffBiometricLocations(StaffID,SchoolID);
+        Call<StaffBiometricLocationRes> call = apiService.getStaffBiometricLocations(StaffID, SchoolID);
         call.enqueue(new Callback<StaffBiometricLocationRes>() {
             @Override
             public void onResponse(Call<StaffBiometricLocationRes> call, retrofit2.Response<StaffBiometricLocationRes> response) {
                 try {
+
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
                     Log.d("locations:code-res", response.code() + " - " + response.toString());
@@ -497,27 +484,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         locationsList.clear();
                         if (response.body().getStatus() == 1) {
                             locationsList = response.body().getData();
-                            Boolean locationIsNearBy = false;
-                            for (int i = 0 ; i < locationsList.size();i++){
-                                Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
-                                Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
-                                int distance =Integer.parseInt(locationsList.get(i).getDistance());
-                                float resultsof = LocationDistanceCalculator.calculateDistance(current_latitude, current_longitude, staff_lat, staff_long);
-                                Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
-                                if (resultsof <= (float)distance) {
-                                    locationIsNearBy = true;
-                                    break;
-                                }
-                            }
-                            if(locationIsNearBy){
-                                lblErrorMessage.setVisibility(View.GONE);
-                                rytPresentlayout.setVisibility(View.VISIBLE);
-                            }
-                            else {
-                                rytPresentlayout.setVisibility(View.GONE);
-                                lblErrorMessage.setVisibility(View.VISIBLE);
-                            }
+
                         }
+
                         else {
                             showAlertMessage(response.body().getMessage());
                         }
@@ -542,6 +511,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             }
         });
     }
+
     private void getBiometricAttendanceReport(String monthID) {
 
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PunchStaffAttendanceUsingFinger.this);
@@ -571,7 +541,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                             lblNoRecords.setVisibility(View.GONE);
                             attendanceReportsList = response.body().getData();
 
-                            mAdapter = new AttendanceReportsAdapter(attendanceReportsList, PunchStaffAttendanceUsingFinger.this,"", new ViewPunchHistoryListener() {
+                            mAdapter = new AttendanceReportsAdapter(attendanceReportsList, PunchStaffAttendanceUsingFinger.this, "", new ViewPunchHistoryListener() {
                                 @Override
                                 public void onItemClick(StaffAttendanceBiometricReportRes.BiometriStaffReportData item) {
                                     viewPunchHistoryPopup(item);
@@ -583,8 +553,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                             recycleAttendanceReports.setAdapter(mAdapter);
                             recycleAttendanceReports.getRecycledViewPool().setMaxRecycledViews(0, 80);
                             mAdapter.notifyDataSetChanged();
-                        }
-                        else {
+                        } else {
                             recycleAttendanceReports.setVisibility(View.GONE);
                             lblNoRecords.setVisibility(View.VISIBLE);
                             lblNoRecords.setText(response.body().getMessage());
@@ -611,6 +580,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             }
         });
     }
+
     private void viewPunchHistory(StaffAttendanceBiometricReportRes.BiometriStaffReportData item, RecyclerView recycleHistory, TextView lblNoRecords) {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PunchStaffAttendanceUsingFinger.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
@@ -620,7 +590,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        Call<PunchHistoryRes> call = apiService.viewPunchHistory(SchoolID,StaffID,item.getDate(),item.getDate());
+        Call<PunchHistoryRes> call = apiService.viewPunchHistory(SchoolID, StaffID, item.getDate(), item.getDate());
         call.enqueue(new Callback<PunchHistoryRes>() {
             @Override
             public void onResponse(Call<PunchHistoryRes> call, retrofit2.Response<PunchHistoryRes> response) {
@@ -633,8 +603,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         String data = gson.toJson(response.body());
                         Log.d("punchHistoryReport", response.body().toString());
                         punchTimingList.clear();
-                        if (response.body().getStatus() == 1)
-                        {
+                        if (response.body().getStatus() == 1) {
                             recycleHistory.setVisibility(View.VISIBLE);
                             lblNoRecords.setVisibility(View.GONE);
                             punchTimingList = response.body().getData();
@@ -645,17 +614,14 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                             recycleHistory.setAdapter(punchHistoryAdapter);
                             recycleHistory.getRecycledViewPool().setMaxRecycledViews(0, 80);
                             punchHistoryAdapter.notifyDataSetChanged();
-                        }
-                        else
-                        {
+                        } else {
                             recycleHistory.setVisibility(View.GONE);
                             lblNoRecords.setVisibility(View.VISIBLE);
                             lblNoRecords.setText(response.body().getMessage());
 
                         }
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
                     Log.e("Response Exception", e.getMessage());
@@ -690,7 +656,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         lblTitle.setTypeface(null, Typeface.BOLD);
         lblNoRecords.setTypeface(null, Typeface.BOLD);
 
-        viewPunchHistory(item,recycleHistory,lblNoRecords);
+        viewPunchHistory(item, recycleHistory, lblNoRecords);
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -700,18 +666,22 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
     private void putAttendanceDataAPI(Boolean isFingerprint) {
-
         isFingerPrint = isFingerprint;
+        latitudeToStopCalling = "";
+        langitudeToStopCalling = "";
+        Log.d("isFingerPrint", String.valueOf(isFingerPrint));
         getCurentLocation("punch");
     }
 
     private void confirmPutAttendance() {
+
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
+
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PunchStaffAttendanceUsingFinger.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
@@ -723,13 +693,12 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         String manufacturer = Build.MANUFACTURER;
         String deviceModel = Build.MODEL;
         String fullDeviceInfo = manufacturer + " " + deviceModel;
-        Log.d("fullDeviceInfo",fullDeviceInfo);
+        Log.d("fullDeviceInfo", fullDeviceInfo);
 
         int punch_type = 0;
-        if(isFingerPrint){
+        if (isFingerPrint) {
             punch_type = 2;
-        }
-        else {
+        } else {
             punch_type = 1;
         }
 
@@ -765,6 +734,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 if (mProgressDialog.isShowing())
@@ -818,7 +788,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
     @SuppressLint("MissingPermission")
     private void getCurentLocation(String type) {
-        LocationHelper call = new LocationHelper(PunchStaffAttendanceUsingFinger.this,this,type);
+        LocationHelper call = new LocationHelper(PunchStaffAttendanceUsingFinger.this, this, type);
         call.getFreshLocation(PunchStaffAttendanceUsingFinger.this);
         rytProgressBar.setVisibility(View.VISIBLE);
     }
@@ -830,7 +800,10 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         gpsStatusReceiver = new GPSStatusReceiver(this);
         registerReceiver(gpsStatusReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
         Log.d("onResume", "onResume");
+        getStaffLocations();
         getLocationPermissions();
+
+
     }
 
     @Override
@@ -857,8 +830,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                     if (Util_Common.isGPSEnabled(this)) {
                         rytGPSRedirect.setVisibility(View.GONE);
                         getCurentLocation("new");
-                    }
-                    else {
+                    } else {
                         rytGPSRedirect.setVisibility(View.VISIBLE);
                         rytPresentlayout.setVisibility(View.GONE);
                         lblErrorMessage.setVisibility(View.GONE);
@@ -884,6 +856,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 break;
 
             case R.id.btnPresent:
+
                 enableBiometric();
                 break;
 
@@ -927,6 +900,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 break;
         }
     }
+
     private void loadAttendanceHistory() {
         isMarkAttendnaceScreen = false;
         loadYearsSpinner();
@@ -939,43 +913,44 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     }
 
     @Override
-    public void onLocationReturn(double latitude, double longitude,String type) {
-        Log.d("lat_long",latitude + "_"+ longitude);
+    public void onLocationReturn(double latitude, double longitude, String type) {
+        Log.d("lat_long", latitude + "_" + longitude);
+        Log.d("type_l", type);
         rytProgressBar.setVisibility(View.GONE);
-        if(isMarkAttendnaceScreen) {
-            if(latitudeToStopCalling.equals("null") || langitudeToStopCalling.equals("null") || latitudeToStopCalling.equals("") || langitudeToStopCalling.equals("")) {
+        if (isMarkAttendnaceScreen) {
+            if (latitudeToStopCalling.equals("null") || langitudeToStopCalling.equals("null") || latitudeToStopCalling.equals("") || langitudeToStopCalling.equals("")) {
                 latitudeToStopCalling = String.valueOf(latitude);
                 langitudeToStopCalling = String.valueOf(longitude);
-
-                if(type.equals("punch")){
-                    Boolean locationIsNearBy = false;
-                    for (int i = 0 ; i < locationsList.size();i++){
-                        Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
-                        Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
-                        int distance =Integer.parseInt(locationsList.get(i).getDistance());
-                        float resultsof = LocationDistanceCalculator.calculateDistance(latitude, longitude, staff_lat, staff_long);
-                        Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
-                        if (resultsof <= (float)distance) {
-                            locationIsNearBy = true;
-                            break;
-                        }
-                    }
-                    if(locationIsNearBy){
-                        lblErrorMessage.setVisibility(View.GONE);
-                        rytPresentlayout.setVisibility(View.VISIBLE);
-                        confirmPutAttendance();
-                    }
-                    else {
-                        rytPresentlayout.setVisibility(View.GONE);
-                        lblErrorMessage.setVisibility(View.VISIBLE);
-                    }
-
-                }
-                else {
-                    getStaffLocations(latitude, longitude);
-                }
-
+                punchHiddenShow(latitude,longitude,type);
             }
+        }
+    }
+
+    private void punchHiddenShow(double latitude, double longitude, String type) {
+
+        Log.d("locationsLists", String.valueOf(locationsList.size()));
+        Boolean locationIsNearBy = false;
+        for (int i = 0; i < locationsList.size(); i++) {
+            Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
+            Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
+            int distance = Integer.parseInt(locationsList.get(i).getDistance());
+            float resultsof = LocationDistanceCalculator.calculateDistance(latitude, longitude, staff_lat, staff_long);
+            Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
+            if (resultsof <= (float) distance) {
+                locationIsNearBy = true;
+                break;
+            }
+        }
+        if (locationIsNearBy) {
+            lblErrorMessage.setVisibility(View.GONE);
+            rytPresentlayout.setVisibility(View.VISIBLE);
+            if (type.equals("punch")) {
+                confirmPutAttendance();
+            }
+        }
+        else {
+            rytPresentlayout.setVisibility(View.GONE);
+            lblErrorMessage.setVisibility(View.VISIBLE);
         }
     }
 }
