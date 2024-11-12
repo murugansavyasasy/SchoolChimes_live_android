@@ -76,6 +76,8 @@ configurations {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/volley.jar')
+    implementation files('libs/IBookGPT.aar')
+
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -136,6 +138,7 @@ dependencies {
     implementation 'androidx.biometric:biometric:1.1.0'
 
     implementation 'com.github.plusCubed:recycler-fast-scroll:0.3.2'
+
 
 
 }

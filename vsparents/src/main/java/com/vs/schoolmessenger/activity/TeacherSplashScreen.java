@@ -138,7 +138,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_splash_screen);
-
         lnrSnackBar = (LinearLayout) findViewById(R.id.lnrSnackBar);
         lblInstall = (TextView) findViewById(R.id.lblInstall);
         rytParent = (RelativeLayout) findViewById(R.id.rytParent);
