@@ -7,13 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,6 +21,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
@@ -52,9 +51,9 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,32 +68,23 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     private static final String TAG = DatesList.class.getSimpleName();
     RecyclerView rvDateList;
     AttendanceDateListAdapter datesListAdapter;
-    private List<DatesModel> dateList = new ArrayList<>();
-    private List<DatesModel> OfflineDateList = new ArrayList<>();
-    private List<DatesModel> totalDateList = new ArrayList<>();
     String strTitle;
     String date, absentcount, day;
-    private int iRequestCode;
     TextView attendance_tv1;
-    private PopupWindow pHelpWindow;
     RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    private ArrayList<Profiles> childList = new ArrayList<>();
-
     ArrayList<Integer> isAdminMenuID = new ArrayList<>();
     ArrayList<Integer> isStaffMenuID = new ArrayList<>();
     ArrayList<Integer> isPrincipalMenuID = new ArrayList<>();
     ArrayList<Integer> isGroupHedMenuID = new ArrayList<>();
     ArrayList<Integer> isParentMenuID = new ArrayList<>();
-
     ArrayList<String> isAdminMenuNames = new ArrayList<>();
     ArrayList<String> isIsStaffMenuNames = new ArrayList<>();
     ArrayList<String> isPrincipalMenuNames = new ArrayList<>();
     ArrayList<String> isGroupHedMenuNames = new ArrayList<>();
     ArrayList<String> isParentMenuNames = new ArrayList<>();
-
     TextView lblNoMessages;
     String isNewVersion;
     TextView LoadMore;
@@ -102,11 +92,15 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     String previousDate;
     ImageView imgSearch;
     EditText Searchable;
-
     Slider slider;
     ImageView adImage;
     AdView mAdView;
-
+    private final List<DatesModel> dateList = new ArrayList<>();
+    private final List<DatesModel> OfflineDateList = new ArrayList<>();
+    private final List<DatesModel> totalDateList = new ArrayList<>();
+    private int iRequestCode;
+    private PopupWindow pHelpWindow;
+    private ArrayList<Profiles> childList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -274,7 +268,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
@@ -290,7 +284,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
+                        Log.d("json length", String.valueOf(js.length()));
                         OfflineDateList.clear();
                         for (int i = 0; i < js.length(); i++) {
                             JSONObject jsonObject = js.getJSONObject(i);
@@ -350,13 +344,11 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
 
     }
 
@@ -364,7 +356,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         try {
             JSONArray js = new JSONArray("[{\"Date\":\"22-12-2017\",\"Day\":\"Friday\",\"TotalAbsentees\":\"3\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"23\",\"TotalAbsentees\":\"3\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"23\",\"TotalAbsentees\":\"3\"}]}]},{\"Date\":\"21-12-2017\",\"Day\":\"Thursday\",\"TotalAbsentees\":\"6\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"23\",\"TotalAbsentees\":\"6\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"23\",\"TotalAbsentees\":\"6\"}]}]},{\"Date\":\"18-01-2018\",\"Day\":\"Thursday\",\"TotalAbsentees\":\"3\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"79\",\"TotalAbsentees\":\"2\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"330\",\"TotalAbsentees\":\"2\"}]},{\"ClassName\":\"IV\",\"ClassId\":\"80\",\"TotalAbsentees\":\"1\",\"SectionWise\":[{\"SectionName\":\"A\",\"SectionId\":\"334\",\"TotalAbsentees\":\"1\"}]}]},{\"Date\":\"17-01-2018\",\"Day\":\"Wednesday\",\"TotalAbsentees\":\"1\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"79\",\"TotalAbsentees\":\"1\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"330\",\"TotalAbsentees\":\"1\"}]}]},{\"Date\":\"08-01-2018\",\"Day\":\"Monday\",\"TotalAbsentees\":\"3\",\"ClassWise\":[{\"ClassName\":\"II\",\"ClassId\":\"79\",\"TotalAbsentees\":\"3\",\"SectionWise\":[{\"SectionName\":\"NEW\",\"SectionId\":\"330\",\"TotalAbsentees\":\"2\"},{\"SectionName\":\"B\",\"SectionId\":\"331\",\"TotalAbsentees\":\"1\"}]}]}]");
             if (js.length() > 0) {
-                Log.d("json length", js.length() + "");
+                Log.d("json length", String.valueOf(js.length()));
                 for (int i = 0; i < js.length(); i++) {
                     JSONObject jsonObject = js.getJSONObject(i);
                     date = jsonObject.getString("Date");
@@ -416,14 +408,14 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
+                        Log.d("json length", String.valueOf(js.length()));
                         totalDateList.clear();
                         for (int i = 0; i < js.length(); i++) {
                             JSONObject jsonObject = js.getJSONObject(i);
@@ -683,7 +675,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -744,20 +736,14 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
     private void putParentNamestoSharedPref(String isParent) {
         String[] name4 = isParent.split(",");
-        for (String itemtemp : name4) {
-            isParentMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isParentMenuNames, name4);
         TeacherUtil_SharedPreference.putParentMenuNames(isParentMenuNames, Attendance.this);
 
     }
 
     private void putGroupHeadtoSharedPref(String idGroupHead) {
         String[] name3 = idGroupHead.split(",");
-        for (String itemtemp : name3) {
-            isGroupHedMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isGroupHedMenuNames, name3);
 
         TeacherUtil_SharedPreference.putGroupHeadNames(isGroupHedMenuNames, Attendance.this);
 
@@ -765,10 +751,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
     private void putAdminNamestoSharedPref(String isAdmin) {
         String[] name2 = isAdmin.split(",");
-        for (String itemtemp : name2) {
-            isAdminMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isAdminMenuNames, name2);
 
         TeacherUtil_SharedPreference.putAdminNames(isAdminMenuNames, Attendance.this);
 
@@ -776,10 +759,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
     private void putStaffNamestoSharedPref(String isStaff) {
         String[] name1 = isStaff.split(",");
-        for (String itemtemp : name1) {
-            isIsStaffMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isIsStaffMenuNames, name1);
 
         TeacherUtil_SharedPreference.putStaffNames(isIsStaffMenuNames, Attendance.this);
 
@@ -787,10 +767,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
     private void putPrincipalNametoSharedPref(String isPrincipal) {
         String[] name = isPrincipal.split(",");
-        for (String itemtemp : name) {
-            isPrincipalMenuNames.add(itemtemp);
-
-        }
+        Collections.addAll(isPrincipalMenuNames, name);
         TeacherUtil_SharedPreference.putPrincipalNames(isPrincipalMenuNames, Attendance.this);
 
     }
@@ -921,7 +898,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText("" + (460 - (s.length())));
+                tvTxtCount.setText(String.valueOf(460 - (s.length())));
             }
 
             @Override
@@ -970,7 +947,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("Help:Code", response.code() + " - " + response.toString());
+                Log.d("Help:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Help:Res", response.body().toString());
 
@@ -982,7 +959,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
                         String strMessage = jsonObject.getString("Message");
 
 
-                        if ((strStatus.toLowerCase()).equals("1")) {
+                        if ((strStatus).equalsIgnoreCase("1")) {
                             showToast(strMessage);
                             if (pHelpWindow.isShowing()) {
                                 pHelpWindow.dismiss();

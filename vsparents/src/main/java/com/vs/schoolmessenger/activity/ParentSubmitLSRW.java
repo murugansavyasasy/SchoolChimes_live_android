@@ -104,6 +104,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickListener, UploadDocListener, VimeoUploader.UploadCompletionListener {
+    public static PopupWindow popupWindowvideo;
+    public static ArrayList<String> gallerylist = new ArrayList<>();
+    public static ArrayList<String> contentlist = new ArrayList<>();
     Spinner spinitem;
     EditText edtextmsg;
     RecyclerView rcysubmissions, rcyselected;
@@ -115,13 +118,8 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     ImageButton imgBtnPlayPause;
     SeekBar seekBar;
     TextView tvPlayDuration, tvRecordDuration, tvRecordTitle, lblAddAttachment, lblvideo, lblBrowse, lblImage;
-
-
     ArrayAdapter<String> spintypeitem;
     List<String> listtypes = new ArrayList<>();
-
-
-    private MediaPlayer mediaPlayer;
     int mediaFileLengthInMilliseconds = 0;
     Handler handler = new Handler();
     int recTime;
@@ -129,38 +127,21 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     Handler recTimerHandler = new Handler();
     boolean bIsRecording = false;
     int iMediaDuration = 0;
-
-    private int iRequestCode;
     int iMaxRecDur;
-
-    public static PopupWindow popupWindowvideo;
-
     String imageFilePath;
     String DocFilePath;
-
-    private List<UploadFilesModel> UploadedS3URlList = new ArrayList<>();
-    private List<UploadFilesModel> submitlist = new ArrayList<>();
-    private List<UploadFilesModel> imagePathList = new ArrayList<>();
-
     ProgressDialog progressDialog;
     S3Uploader s3uploaderObj;
-
     String fileNameDateTime;
     String urlFromS3 = null;
     String contentType = "", filecontent;
     LsrwDocsAdapter uploadAdapter;
-
     Button btnadd, btnsubmit;
-
     int pathIndex = 0;
-
     int SELECT_VIDEO = 1;
     int SELECT_IMAGE = 2;
     int SELECT_PDF = 3;
     int CAMERA = 4;
-
-    public static ArrayList<String> gallerylist = new ArrayList<>();
-    public static ArrayList<String> contentlist = new ArrayList<>();
     File photoFile, file, futureStudioIconFile;
     ContentAdapter contentadapter;
     String upload_link, strsize, iframe, link, imagesize;
@@ -170,6 +151,11 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     String v6;
     String redirect_url, selected, skillid;
     Future<Void> mFuture;
+    private MediaPlayer mediaPlayer;
+    private int iRequestCode;
+    private final List<UploadFilesModel> UploadedS3URlList = new ArrayList<>();
+    private final List<UploadFilesModel> submitlist = new ArrayList<>();
+    private final List<UploadFilesModel> imagePathList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -531,20 +517,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         recTimerHandler.postDelayed(runson, 1000);
     }
 
-    private Runnable runson = new Runnable() {
-        @Override
-        public void run() {
-            tvRecordDuration.setText(milliSecondsToTimer(recTime * 1000));
-            recTime = recTime + 1;
-
-
-            if (recTime != iMaxRecDur)
-                recTimerHandler.postDelayed(this, 1000);
-            else
-                stop_RECORD();
-        }
-    };
-
     public void fetchSong() {
         Log.d("FetchSong", "Start***************************************");
         try {
@@ -579,8 +551,19 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         }
 
         Log.d("FetchSong", "END***************************************");
-    }
+    }    private final Runnable runson = new Runnable() {
+        @Override
+        public void run() {
+            tvRecordDuration.setText(milliSecondsToTimer(recTime * 1000L));
+            recTime = recTime + 1;
 
+
+            if (recTime != iMaxRecDur)
+                recTimerHandler.postDelayed(this, 1000);
+            else
+                stop_RECORD();
+        }
+    };
 
     private void setupAudioPlayer() {
         mediaPlayer = new MediaPlayer();
@@ -644,14 +627,14 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         }
     }
 
-
-    //IMAGE
-
     private void hideLoading() {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
     }
+
+
+    //IMAGE
 
     private void showLoading() {
         {
@@ -1125,7 +1108,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
                     contentlist.clear();
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1135,7 +1118,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                                 String strStatus = jsonObject.getString("result");
                                 String strMsg = jsonObject.getString("Message");
 
-                                if ((strStatus.toLowerCase()).equals("1")) {
+                                if ((strStatus).equalsIgnoreCase("1")) {
                                     String strcontent = jsonObject.getString("Content");
                                     contentlist.add(strcontent);
                                     Log.d("siz", String.valueOf(contentlist.size()));
@@ -1156,7 +1139,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -1464,12 +1447,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         rcysubmissions.setItemAnimator(new DefaultItemAnimator());
         rcysubmissions.setAdapter(uploadAdapter);
         uploadAdapter.notifyDataSetChanged();
-        if (submitlist.size() != 0) {
-
-            btnsubmit.setEnabled(true);
-        } else {
-            btnsubmit.setEnabled(false);
-        }
+        btnsubmit.setEnabled(submitlist.size() != 0);
     }
 
     private void selectedsetAdapter() {
@@ -1480,12 +1458,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         rcyselected.setItemAnimator(new DefaultItemAnimator());
         rcyselected.setAdapter(uploadAdapter);
         uploadAdapter.notifyDataSetChanged();
-        if (imagePathList.size() != 0) {
-
-            btnadd.setEnabled(true);
-        } else {
-            btnadd.setEnabled(false);
-        }
+        btnadd.setEnabled(imagePathList.size() != 0);
     }
 
     @Override
@@ -1546,7 +1519,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -1587,7 +1560,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
             }
         });
     }
-
 
     private void showAlert(String msg, final int strStatus) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
@@ -1646,4 +1618,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
             alert("Video sending failed.");
         }
     }
+
+
 }

@@ -3,17 +3,18 @@ package com.vs.schoolmessenger.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -38,11 +39,13 @@ public class MarksListScreen extends AppCompatActivity {
     public MarkListAdapter mAdapter;
     RecyclerView marks_list_recycle;
     ArrayList<SubjectAndMarkList> mark_list_item = new ArrayList<SubjectAndMarkList>();
-    String child_ID,school_ID,Exam_ID;
+    String child_ID, school_ID, Exam_ID;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -53,11 +56,11 @@ public class MarksListScreen extends AppCompatActivity {
         setContentView(R.layout.marks_list);
 
 
-        marks_list_recycle=(RecyclerView) findViewById(R.id.marks_list_recycle);
+        marks_list_recycle = (RecyclerView) findViewById(R.id.marks_list_recycle);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
-        child_ID= Util_SharedPreference.getChildIdFromSP(MarksListScreen.this);
-        school_ID= Util_SharedPreference.getSchoolIdFromSP(MarksListScreen.this);
+        child_ID = Util_SharedPreference.getChildIdFromSP(MarksListScreen.this);
+        school_ID = Util_SharedPreference.getSchoolIdFromSP(MarksListScreen.this);
         Exam_ID = getIntent().getExtras().getString("exam_id");
 
         getMarks();
@@ -73,23 +76,23 @@ public class MarksListScreen extends AppCompatActivity {
             }
         });
 
-            mAdapter = new MarkListAdapter(mark_list_item, MarksListScreen.this);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-            marks_list_recycle.setLayoutManager(mLayoutManager);
-            marks_list_recycle.setItemAnimator(new DefaultItemAnimator());
-            marks_list_recycle.setAdapter(mAdapter);
-            marks_list_recycle.getRecycledViewPool().setMaxRecycledViews(0, 80);
+        mAdapter = new MarkListAdapter(mark_list_item, MarksListScreen.this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        marks_list_recycle.setLayoutManager(mLayoutManager);
+        marks_list_recycle.setItemAnimator(new DefaultItemAnimator());
+        marks_list_recycle.setAdapter(mAdapter);
+        marks_list_recycle.getRecycledViewPool().setMaxRecycledViews(0, 80);
 
-        }
+    }
+
     private void getMarks() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(MarksListScreen.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(MarksListScreen.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(MarksListScreen.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(MarksListScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(MarksListScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(MarksListScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -113,43 +116,42 @@ public class MarksListScreen extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
                         JSONArray js = new JSONArray(response.body().toString());
 
-                        if (js.length()>0){
+                        if (js.length() > 0) {
 
-                        for (int i = 0; i < js.length(); i++) {
-                            JSONObject jsonObject = js.getJSONObject(i);
+                            for (int i = 0; i < js.length(); i++) {
+                                JSONObject jsonObject = js.getJSONObject(i);
 
 
-                            String StudentID = jsonObject.getString("StudentID");
-                            String StudentName = jsonObject.getString("StudentName");
-                            if (StudentID.equals("-2")) {
-                                Toast.makeText(getApplicationContext(), StudentName, Toast.LENGTH_SHORT).show();
-                            } else {
-                                JSONArray marks_array = jsonObject.getJSONArray("details");
-                                mAdapter.clearAllData();
-                                SubjectAndMarkList values;
+                                String StudentID = jsonObject.getString("StudentID");
+                                String StudentName = jsonObject.getString("StudentName");
+                                if (StudentID.equals("-2")) {
+                                    Toast.makeText(getApplicationContext(), StudentName, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    JSONArray marks_array = jsonObject.getJSONArray("details");
+                                    mAdapter.clearAllData();
+                                    SubjectAndMarkList values;
 
-                                for (int j = 0; j < marks_array.length(); j++) {
-                                    JSONObject object = marks_array.getJSONObject(j);
-                                    String subject = object.getString("Subject");
-                                    String mark = object.getString("Marks");
-                                    values = new SubjectAndMarkList(subject, mark);
-                                    mark_list_item.add(values);
+                                    for (int j = 0; j < marks_array.length(); j++) {
+                                        JSONObject object = marks_array.getJSONObject(j);
+                                        String subject = object.getString("Subject");
+                                        String mark = object.getString("Marks");
+                                        values = new SubjectAndMarkList(subject, mark);
+                                        mark_list_item.add(values);
 
+                                    }
+
+                                    Log.d("size1234", String.valueOf(mark_list_item.size()));
+                                    mAdapter.notifyDataSetChanged();
                                 }
+                            }
 
-                                Log.d("size1234", String.valueOf(mark_list_item.size()));
-                                mAdapter.notifyDataSetChanged();
-                                }
-                        }
-
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_records), Toast.LENGTH_SHORT).show();
                         }
                     } else {

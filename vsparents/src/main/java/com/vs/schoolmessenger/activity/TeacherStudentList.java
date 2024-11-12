@@ -1,13 +1,11 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.activity.TeacherListAllSection.SELECTED_STD_SEC_POSITION;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -15,12 +13,14 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherStudendListAdapter;
-import com.vs.schoolmessenger.aws.S3Uploader;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckStudentListener;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
@@ -39,21 +39,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.vs.schoolmessenger.activity.TeacherListAllSection.SELECTED_STD_SEC_POSITION;
-
 
 public class TeacherStudentList extends AppCompatActivity implements TeacherOnCheckStudentListener {
     RecyclerView rvStudentList;
-    private TeacherStudendListAdapter adapter;
     TextView tvOK, tvCancel, tvSelectedCount, tvTotalCount, tvStdSec, tvSubject;//tvSelectUnselect
-    private ArrayList<TeacherStudentsModel> studentList = new ArrayList<>();
-
     String schoolID, targetCode;
     TeacherSectionModel selSection;
-
-    private int i_students_count;
     boolean bLoadStudentsFromAPI = false;
     CheckBox cbSelectAll;
+    private TeacherStudendListAdapter adapter;
+    private final ArrayList<TeacherStudentsModel> studentList = new ArrayList<>();
+    private int i_students_count;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -69,7 +66,7 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
         i_students_count = Integer.parseInt(selSection.getSelectedStudentsCount());
 
         rvStudentList = (RecyclerView) findViewById(R.id.student_rvStudentList);
-        adapter = new TeacherStudendListAdapter(TeacherStudentList.this, this, studentList,0);
+        adapter = new TeacherStudendListAdapter(TeacherStudentList.this, this, studentList, 0);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvStudentList.setHasFixedSize(true);
@@ -163,7 +160,7 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
@@ -174,17 +171,17 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
                         String strStudName = jsonObject.getString("StudentName");
 
                         String strStudID = jsonObject.getString("StudentID");
-                        Log.d("StudentId",strStudID);
+                        Log.d("StudentId", strStudID);
                         if (strStudID.equals("0")) {
                             showToast(strStudName);
                             cbSelectAll.setEnabled(false);
                         } else {
                             TeacherStudentsModel studentsModel;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 studentsModel = new TeacherStudentsModel(jsonObject.getString("StudentID"), jsonObject.getString("StudentName")
-                                        , jsonObject.getString("StudentAdmissionNo"),"", true);
+                                        , jsonObject.getString("StudentAdmissionNo"), "", true);
                                 studentList.add(studentsModel);
                             }
 
@@ -230,10 +227,8 @@ public class TeacherStudentList extends AppCompatActivity implements TeacherOnCh
     }
 
     private void enableDisableNext() {
-        tvSelectedCount.setText(i_students_count + "");
-        if (i_students_count > 0)
-            tvOK.setEnabled(true);
-        else tvOK.setEnabled(false);
+        tvSelectedCount.setText(String.valueOf(i_students_count));
+        tvOK.setEnabled(i_students_count > 0);
     }
 
     private void backToResultActvity(String msg) {

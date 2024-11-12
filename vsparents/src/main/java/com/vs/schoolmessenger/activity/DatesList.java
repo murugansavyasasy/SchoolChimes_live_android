@@ -70,22 +70,19 @@ import ss.com.bannerslider.Slider;
 public class DatesList extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = DatesList.class.getSimpleName();
-    RecyclerView rvDateList;
-    DatesListAdapter datesListAdapter;
     private final List<DatesModel> dateList = new ArrayList<>();
     private final List<DatesModel> OffLineDateList = new ArrayList<>();
     private final List<DatesModel> totaldateList = new ArrayList<>();
+    RecyclerView rvDateList;
+    DatesListAdapter datesListAdapter;
     String strTitle;
     String date, unreadcount, day;
-    private int iRequestCode;
     ArrayList<DatesModel> arrayList;
     TextView lblNoMessages;
-    private PopupWindow pHelpWindow;
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    private ArrayList<Profiles> childList = new ArrayList<>();
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
@@ -95,6 +92,9 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     ImageView adImage;
     String Title = "";
     AdView mAdView;
+    private int iRequestCode;
+    private PopupWindow pHelpWindow;
+    private ArrayList<Profiles> childList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -105,16 +105,15 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dates_list);
-         c = Calendar.getInstance();
+        c = Calendar.getInstance();
 
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         strTitle = getIntent().getExtras().getString("HEADER", "");
 
-        if(iRequestCode == MENU_TEXT){
-            Title ="Text";
-        }
-        else if(iRequestCode == MENU_VOICE) {
-            Title ="Voice";
+        if (iRequestCode == MENU_TEXT) {
+            Title = "Text";
+        } else if (iRequestCode == MENU_VOICE) {
+            Title = "Voice";
         }
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -143,7 +142,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         Slider.init(new PicassoImageLoadingService(DatesList.this));
         slider = findViewById(R.id.banner);
         adImage = findViewById(R.id.adImage);
-
 
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -182,24 +180,23 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         });
 
 
-         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
-         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
-         LoadMore.setEnabled(true);
+        LoadMore = (TextView) findViewById(R.id.btnSeeMore);
+        lblNoMessages = (TextView) findViewById(R.id.lblNoMessages);
+        LoadMore.setEnabled(true);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(iRequestCode==MENU_TEXT){
+                if (iRequestCode == MENU_TEXT) {
                     LaodMoreDatewisetListSmsAPI();
-                }
-                else if(iRequestCode==MENU_VOICE){
-                   LaodMoreDatewisetListVoiceAPI();
+                } else if (iRequestCode == MENU_VOICE) {
+                    LaodMoreDatewisetListVoiceAPI();
                 }
             }
         });
 
-         isNewVersion=TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
-         seeMoreButtonVisiblity();
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
+        seeMoreButtonVisiblity();
 
         rvDateList = (RecyclerView) findViewById(R.id.datesList_rvDateList);
         datesListAdapter = new DatesListAdapter(DatesList.this, dateList, new DatesListListener() {
@@ -232,14 +229,11 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     }
 
 
-
-
-
     private void filterlist(String s) {
         List<DatesModel> temp = new ArrayList();
         for (DatesModel d : dateList) {
 
-            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getDay().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getDate().toLowerCase().contains(s.toLowerCase()) || d.getDay().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -248,10 +242,9 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     }
 
     private void seeMoreButtonVisiblity() {
-        if(isNewVersion.equals("1")){
+        if (isNewVersion.equals("1")) {
             LoadMore.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.VISIBLE);
         }
@@ -259,13 +252,12 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
     private void LaodMoreDatewisetListVoiceAPI() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(DatesList.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(DatesList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -287,7 +279,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
@@ -297,7 +289,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
+                        Log.d("json length", String.valueOf(js.length()));
                         for (int i = 0; i < js.length(); i++) {
                             JSONObject jsonObject = js.getJSONObject(i);
                             String strStatus = jsonObject.getString("Status");
@@ -309,7 +301,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                                 day = jsonObject.getString("Day");
                                 boolean is_Archive = jsonObject.getBoolean("is_Archive");
                                 DatesModel absentee;
-                                absentee = new DatesModel(date, day, unreadcount,is_Archive);
+                                absentee = new DatesModel(date, day, unreadcount, is_Archive);
                                 dateList.add(absentee);
                                 OffLineDateList.add(absentee);
                             } else {
@@ -342,13 +334,12 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     }
 
     private void LaodMoreDatewisetListSmsAPI() {
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(DatesList.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(DatesList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -371,7 +362,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
@@ -381,7 +372,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
+                        Log.d("json length", String.valueOf(js.length()));
 
                         OffLineDateList.clear();
                         for (int i = 0; i < js.length(); i++) {
@@ -396,11 +387,10 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                                 boolean is_Archive = jsonObject.getBoolean("is_Archive");
 
                                 DatesModel absentee;
-                                absentee = new DatesModel(date, day, unreadcount,is_Archive);
+                                absentee = new DatesModel(date, day, unreadcount, is_Archive);
                                 dateList.add(absentee);
                                 OffLineDateList.add(absentee);
-                            }
-                            else {
+                            } else {
                                 showRecords(strMessage);
                             }
 
@@ -434,32 +424,30 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
 
         if (iRequestCode == MENU_TEXT) {
             if (isNetworkConnected()) {
                 DatewisetListSmsAPI();
             }
-        }
-        else if (iRequestCode == MENU_VOICE) {
+        } else if (iRequestCode == MENU_VOICE) {
 
             if (isNetworkConnected()) {
                 DatewisetListVoiceAPI();
             }
         }
     }
+
     private boolean isNetworkConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) DatesList.this
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -472,13 +460,12 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
     private void DatewisetListSmsAPI() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(DatesList.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(DatesList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -501,14 +488,14 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
+                        Log.d("json length", String.valueOf(js.length()));
                         datesListAdapter.clearAllData();
                         totaldateList.clear();
                         for (int i = 0; i < js.length(); i++) {
@@ -516,10 +503,9 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                             String strStatus = jsonObject.getString("Status");
                             String strMessage = jsonObject.getString("Message");
 
-                            if(isNewVersion.equals("1")){
+                            if (isNewVersion.equals("1")) {
                                 LoadMore.setVisibility(View.VISIBLE);
-                            }
-                            else {
+                            } else {
                                 LoadMore.setVisibility(View.GONE);
                                 lblNoMessages.setVisibility(View.VISIBLE);
                             }
@@ -529,24 +515,21 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                                 unreadcount = jsonObject.getString("UnreadCount");
                                 day = jsonObject.getString("Day");
                                 DatesModel absentee;
-                                absentee = new DatesModel(date, day, unreadcount,false);
+                                absentee = new DatesModel(date, day, unreadcount, false);
                                 dateList.add(absentee);
                                 totaldateList.add(absentee);
-                            }
-
-                            else {
-                                if(isNewVersion.equals("1")){
+                            } else {
+                                if (isNewVersion.equals("1")) {
                                     lblNoMessages.setVisibility(View.VISIBLE);
                                     lblNoMessages.setText(strMessage);
 
-                                    String loadMoreCall=TeacherUtil_SharedPreference.getOnBackMethodText(DatesList.this);
-                                    Log.d("loadMoreCall",loadMoreCall);
-                                    if(loadMoreCall.equals("1")){
-                                        TeacherUtil_SharedPreference.putOnBackPressedText(DatesList.this,"");
+                                    String loadMoreCall = TeacherUtil_SharedPreference.getOnBackMethodText(DatesList.this);
+                                    Log.d("loadMoreCall", loadMoreCall);
+                                    if (loadMoreCall.equals("1")) {
+                                        TeacherUtil_SharedPreference.putOnBackPressedText(DatesList.this, "");
                                         LaodMoreDatewisetListSmsAPI();
                                     }
-                                }
-                                else {
+                                } else {
                                     lblNoMessages.setVisibility(View.GONE);
                                     showRecords(strMessage);
                                 }
@@ -558,7 +541,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                             arrayList.addAll(dateList);
                             datesListAdapter.notifyDataSetChanged();
                         }
-
 
 
                     } else {
@@ -631,13 +613,12 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
     private void DatewisetListVoiceAPI() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(DatesList.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(DatesList.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(DatesList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -661,14 +642,14 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
+                        Log.d("json length", String.valueOf(js.length()));
                         datesListAdapter.clearAllData();
                         totaldateList.clear();
                         for (int i = 0; i < js.length(); i++) {
@@ -676,10 +657,9 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                             String strStatus = jsonObject.getString("Status");
                             String strMessage = jsonObject.getString("Message");
 
-                            if(isNewVersion.equals("1")){
+                            if (isNewVersion.equals("1")) {
                                 LoadMore.setVisibility(View.VISIBLE);
-                            }
-                            else {
+                            } else {
                                 LoadMore.setVisibility(View.GONE);
                                 lblNoMessages.setVisibility(View.VISIBLE);
                             }
@@ -689,23 +669,22 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                                 unreadcount = jsonObject.getString("UnreadCount");
                                 day = jsonObject.getString("Day");
                                 DatesModel absentee;
-                                absentee = new DatesModel(date, day, unreadcount,false);
+                                absentee = new DatesModel(date, day, unreadcount, false);
                                 dateList.add(absentee);
                                 totaldateList.add(absentee);
                             } else {
-                                if(isNewVersion.equals("1")){
+                                if (isNewVersion.equals("1")) {
                                     lblNoMessages.setVisibility(View.VISIBLE);
                                     lblNoMessages.setText(strMessage);
 
-                                    String loadMoreCall=TeacherUtil_SharedPreference.getOnBackMethodVoice(DatesList.this);
-                                    Log.d("loadMoreCall",loadMoreCall);
-                                    if(loadMoreCall.equals("1")){
-                                        TeacherUtil_SharedPreference.putOnBackPressedVoice(DatesList.this,"");
+                                    String loadMoreCall = TeacherUtil_SharedPreference.getOnBackMethodVoice(DatesList.this);
+                                    Log.d("loadMoreCall", loadMoreCall);
+                                    if (loadMoreCall.equals("1")) {
+                                        TeacherUtil_SharedPreference.putOnBackPressedVoice(DatesList.this, "");
                                         LaodMoreDatewisetListVoiceAPI();
                                     }
 
-                                }
-                                else {
+                                } else {
                                     lblNoMessages.setVisibility(View.GONE);
                                     showRecords(strMessage);
                                 }
@@ -718,7 +697,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                             datesListAdapter.notifyDataSetChanged();
 
                         }
-
 
 
                     } else {
@@ -765,8 +743,8 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         switch (v.getId()) {
             case R.id.rytHome:
 
-                Intent homescreen=new Intent(DatesList.this,HomeActivity.class);
-                homescreen.putExtra("HomeScreen","1");
+                Intent homescreen = new Intent(DatesList.this, HomeActivity.class);
+                homescreen.putExtra("HomeScreen", "1");
                 homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homescreen);
                 finish();
@@ -774,9 +752,8 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.rytHelp:
 
-                Intent faq=new Intent(DatesList.this,FAQScreen.class);
+                Intent faq = new Intent(DatesList.this, FAQScreen.class);
                 startActivity(faq);
-
 
 
                 break;
@@ -790,7 +767,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.rytLogout:
 
-                Util_Common.popUpMenu(DatesList.this,v,"1");
+                Util_Common.popUpMenu(DatesList.this, v, "1");
 
 
                 break;
@@ -819,7 +796,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         final EditText etmsg = (EditText) layout.findViewById(R.id.popupHelp_etMsg);
 
 
-
         final TextView tvTxtCount = (TextView) layout.findViewById(R.id.popupHelp_tvTxtCount);
         etmsg.addTextChangedListener(new TextWatcher() {
             @Override
@@ -829,7 +805,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText("" + (460 - (s.length())));
+                tvTxtCount.setText(String.valueOf(460 - (s.length())));
             }
 
             @Override
@@ -877,7 +853,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("Help:Code", response.code() + " - " + response.toString());
+                Log.d("Help:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Help:Res", response.body().toString());
 
@@ -889,7 +865,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                         String strMessage = jsonObject.getString("Message");
 
 
-                        if ((strStatus.toLowerCase()).equals("1")) {
+                        if ((strStatus).equalsIgnoreCase("1")) {
                             showToast(strMessage);
                             if (pHelpWindow.isShowing()) {
                                 pHelpWindow.dismiss();
@@ -957,8 +933,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 changeLanguage(code, ID);
 
 
-
-
                 dialog.cancel();
 
 
@@ -987,7 +961,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
     private void languageChangeApi(String id, final String lang) {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(DatesList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         schools_list = TeacherUtil_SharedPreference.getChildrenScreenSchools_List(DatesList.this, "schools_list");
@@ -1001,14 +975,13 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         JsonObject jsonObject = new JsonObject();
 
 
-
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -1016,9 +989,9 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -1046,7 +1019,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -1059,17 +1032,16 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                         String message = jsonObject.getString("Message");
 
 
-
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),DatesList.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),DatesList.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),DatesList.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),DatesList.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),DatesList.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),DatesList.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),DatesList.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),DatesList.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),DatesList.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),DatesList.this);
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), DatesList.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), DatesList.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), DatesList.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), DatesList.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), DatesList.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), DatesList.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), DatesList.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), DatesList.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), DatesList.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), DatesList.this);
 
                         if (Integer.parseInt(status) > 0) {
                             showToast(message);

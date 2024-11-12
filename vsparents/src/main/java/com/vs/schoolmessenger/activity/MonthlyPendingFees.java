@@ -6,11 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +13,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -39,16 +40,17 @@ import retrofit2.Callback;
 
 public class MonthlyPendingFees extends AppCompatActivity {
 
+    public MonthlyPendingAdapter mAdapter;
     String child_id, school_id;
     RecyclerView monthly_fees_recycle;
-    private ArrayList<MonthlyPending> monthly_list = new ArrayList<>();
-    public MonthlyPendingAdapter mAdapter;
     Button btnMakePayment;
+    private final ArrayList<MonthlyPending> monthly_list = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -80,7 +82,6 @@ public class MonthlyPendingFees extends AppCompatActivity {
         monthlyFees();
 
 
-
         mAdapter = new MonthlyPendingAdapter(monthly_list, MonthlyPendingFees.this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         monthly_fees_recycle.setLayoutManager(mLayoutManager);
@@ -92,7 +93,7 @@ public class MonthlyPendingFees extends AppCompatActivity {
         btnMakePayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent payment=new Intent(MonthlyPendingFees.this,PaymentWebViewActivity.class);
+                Intent payment = new Intent(MonthlyPendingFees.this, PaymentWebViewActivity.class);
                 startActivity(payment);
             }
         });
@@ -100,7 +101,7 @@ public class MonthlyPendingFees extends AppCompatActivity {
 
     private void monthlyFees() {
 
-        String baseURL= TeacherUtil_SharedPreference.getBaseUrl(MonthlyPendingFees.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(MonthlyPendingFees.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(MonthlyPendingFees.this);
         mProgressDialog.setIndeterminate(true);
@@ -119,7 +120,7 @@ public class MonthlyPendingFees extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -141,7 +142,7 @@ public class MonthlyPendingFees extends AppCompatActivity {
 
                                 String PendingAmount = jsonObject.getString("PendingAmount");
 
-                                data = new MonthlyPending(FeeName, Monthy, total, StartMonthName, EndMonthName,PendingAmount);
+                                data = new MonthlyPending(FeeName, Monthy, total, StartMonthName, EndMonthName, PendingAmount);
                                 monthly_list.add(data);
                             }
 

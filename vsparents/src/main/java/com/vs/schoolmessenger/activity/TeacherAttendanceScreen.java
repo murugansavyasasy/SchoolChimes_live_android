@@ -5,7 +5,6 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_ADMIN;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_EXAM;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 import android.annotation.SuppressLint;
@@ -65,30 +64,23 @@ import retrofit2.Response;
 
 public class TeacherAttendanceScreen extends AppCompatActivity {
 
+    public List<StudentAttendanceReport.AttendanceReport> isStudentAttendanceReport = new ArrayList<StudentAttendanceReport.AttendanceReport>();
     Spinner spinStandard, spinSection, attendance_spinSession, attendance_spinType;
     ArrayAdapter<String> adaStd;
     ArrayAdapter<String> adaSection;
-
     ArrayAdapter<String> adaAttendanceTypes;
     ArrayAdapter<String> adaSessionTypes;
-
     Button btnMarkAllPresent, btnSelectStudents;
-
     TextView attendance_tv5, lblDatePicking;
-
     List<String> listStd = new ArrayList<>();
     List<String> listStdcode = new ArrayList<>();
-
     List<String> listAttendanceTypes = new ArrayList<>();
     List<String> listSessionTypes = new ArrayList<>();
-
     List<String> listSection;
     List<String> listSectionID;
     List<TeacherSectionsListNEW> arrSectionCollections;
     String SchoolID, StaffID;
     List<String> listTotalStudentsInSec;
-    private int iRequestCode = 0;
-    private ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
     String strStdName, strstdcode, strSecName, strSecCode, strTotalStudents;
     String isAttendanceDate = "";
     RelativeLayout rlaAttendanceReport;
@@ -98,8 +90,8 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
     Boolean isAttendanceReport = false;
     RecyclerView rcyAttendanceReport;
     AttendanceStudentReport isAttendanceStudentReport;
-    public List<StudentAttendanceReport.AttendanceReport> isStudentAttendanceReport = new ArrayList<StudentAttendanceReport.AttendanceReport>();
-
+    private int iRequestCode = 0;
+    private final ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -336,27 +328,25 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if(listAttendanceTypes.get(position).equals("Half Day")){
+                if (listAttendanceTypes.get(position).equals("Half Day")) {
                     attendanceType = "H";
-                }
-                else if(listAttendanceTypes.get(position).equals("Full Day")) {
+                } else if (listAttendanceTypes.get(position).equals("Full Day")) {
                     attendanceType = "F";
-                }
-                else {
+                } else {
                     attendanceType = "";
                 }
 
-                if(attendanceType.equals("H")){
+                if (attendanceType.equals("H")) {
                     attendance_tv5.setVisibility(View.VISIBLE);
                     attendance_spinSession.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     Constants.sessionType = "";
                     attendance_tv5.setVisibility(View.GONE);
                     attendance_spinSession.setVisibility(View.GONE);
                 }
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -367,13 +357,13 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if(listSessionTypes.get(position).equals("First Half")){
+                if (listSessionTypes.get(position).equals("First Half")) {
                     Constants.sessionType = "FH";
-                }
-                else {
+                } else {
                     Constants.sessionType = "SH";
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -464,11 +454,10 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
 
         String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherAttendanceScreen.this);
         if (isNewVersion.equals("1")) {
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherAttendanceScreen.this);
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherAttendanceScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -484,27 +473,24 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StdSecList:Code", response.code() + " - " + response.toString());
+                Log.d("StdSecList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StdSecList:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
 
-                    if (js.length() > 0)
-                    {
+                    if (js.length() > 0) {
                         {
                             TeacherStandardSectionsListModel stdSecList;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
 
                             for (int i = 0; i < js.length(); i++) {
                                 JSONObject jsonObject = js.getJSONObject(i);
                                 if (jsonObject.getString("StandardId").equals("0")) {
                                     showToast(getResources().getString(R.string.standard_sections_not_assigned));
                                     finish();
-                                }
-
-                                else {
+                                } else {
                                     stdSecList = new TeacherStandardSectionsListModel(jsonObject.getString("Standard"), jsonObject.getString("StandardId"));
 
                                     listStdcode.add(jsonObject.getString("StandardId"));
@@ -537,8 +523,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
                                 attendance_spinStandardReport.setAdapter(adaStd);
                             }
                         }
-                    }
-                    else {
+                    } else {
                         showToast(getResources().getString(R.string.no_records));
                         onBackPressed();
                     }
@@ -567,14 +552,13 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
             jsonObjectSchool.addProperty("StaffID", Principal_staffId);
             jsonObjectSchool.addProperty("isAttendance", "0");
 
-            Log.d("request",jsonObjectSchool.toString());
+            Log.d("request", jsonObjectSchool.toString());
 
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }
         return jsonObjectSchool;
     }
-
 
 
     private void showToast(String msg) {
@@ -588,7 +572,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -601,7 +585,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("AtteSMS:Code", response.code() + " - " + response.toString());
+                Log.d("AtteSMS:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("AtteSMS:Res", response.body().toString());
 
@@ -612,10 +596,9 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
                         String strStatus = jsonObject.getString("Status");
                         String strMsg = jsonObject.getString("Message");
 
-                        if ((strStatus.toLowerCase()).equals("1")) {
+                        if ((strStatus).equalsIgnoreCase("1")) {
                             showAlert(strMsg);
-                        }
-                        else{
+                        } else {
                             showAlert(strMsg);
                         }
                     } else {
@@ -690,6 +673,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
         }
         return jsonObjectSchool;
     }
+
     private void showConfirmAlert(String title, String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(TeacherAttendanceScreen.this);
         AlertDialog alertDialog;
@@ -705,10 +689,9 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
 
         builder.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                if(!attendanceType.equals("")) {
+                if (!attendanceType.equals("")) {
                     sendAttenAPIPresent();
-                }
-                else {
+                } else {
                     showToast("Kindly select the attendance type");
                 }
             }
@@ -749,7 +732,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("attendance:code-res", response.code() + " - " + response.toString());
+                    Log.d("attendance:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
 
                         Gson gson = new Gson();

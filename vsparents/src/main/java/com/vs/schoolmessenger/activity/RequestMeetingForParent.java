@@ -8,26 +8,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import com.google.android.gms.ads.AdView;
-import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.gms.ads.AdView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -42,7 +37,6 @@ import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
-import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -58,25 +52,25 @@ import retrofit2.Response;
 import ss.com.bannerslider.Slider;
 
 public class RequestMeetingForParent extends AppCompatActivity implements View.OnClickListener {
-    public static ViewPager viewPager;
-
-    String userId;
-
-    SharedPreferences shpRemember;
     private static final String SH_USERID = "UserId";
     private static final String SH_USERS = "userInfo";
-
-    private PopupWindow pHelpWindow;
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    public static ViewPager viewPager;
+    String userId;
+    SharedPreferences shpRemember;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    private ArrayList<Profiles> childList = new ArrayList<>();
-
     Slider slider;
     ImageView adImage;
-
     AdView mAdView;
+    private PopupWindow pHelpWindow;
+    private ArrayList<Profiles> childList = new ArrayList<>();
+
+    public static void next() {
+        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -110,7 +104,7 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
 
         Slider.init(new PicassoImageLoadingService(RequestMeetingForParent.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.request_tabLayoutrecovery);
@@ -180,10 +174,8 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
-
-
 
     private void showAlert1(String no_pending_records_found) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(RequestMeetingForParent.this);
@@ -206,28 +198,21 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
 
     }
 
-
-    public static void next() {
-        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rytHome:
 
-                Intent homescreen=new Intent(RequestMeetingForParent.this,HomeActivity.class);
-                homescreen.putExtra("HomeScreen","1");
+                Intent homescreen = new Intent(RequestMeetingForParent.this, HomeActivity.class);
+                homescreen.putExtra("HomeScreen", "1");
                 startActivity(homescreen);
                 finish();
 
                 break;
             case R.id.rytHelp:
 
-                Intent faq=new Intent(RequestMeetingForParent.this,FAQScreen.class);
+                Intent faq = new Intent(RequestMeetingForParent.this, FAQScreen.class);
                 startActivity(faq);
-
 
 
                 break;
@@ -241,7 +226,7 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
                 break;
             case R.id.rytLogout:
 
-                Util_Common.popUpMenu(RequestMeetingForParent.this,v,"1");
+                Util_Common.popUpMenu(RequestMeetingForParent.this, v, "1");
 
 
                 break;
@@ -279,8 +264,6 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
                 Log.d("ID", ID);
 
                 changeLanguage(code, ID);
-
-
 
 
                 dialog.cancel();
@@ -322,14 +305,13 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
         JsonObject jsonObject = new JsonObject();
 
 
-
         if (schools_list != null) {
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -337,9 +319,9 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -367,7 +349,7 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -380,18 +362,16 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
                         String message = jsonObject.getString("Message");
 
 
-
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),RequestMeetingForParent.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),RequestMeetingForParent.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),RequestMeetingForParent.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),RequestMeetingForParent.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),RequestMeetingForParent.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),RequestMeetingForParent.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),RequestMeetingForParent.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),RequestMeetingForParent.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),RequestMeetingForParent.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),RequestMeetingForParent.this);
-
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), RequestMeetingForParent.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), RequestMeetingForParent.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), RequestMeetingForParent.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), RequestMeetingForParent.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), RequestMeetingForParent.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), RequestMeetingForParent.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), RequestMeetingForParent.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), RequestMeetingForParent.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), RequestMeetingForParent.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), RequestMeetingForParent.this);
 
 
                         if (Integer.parseInt(status) > 0) {

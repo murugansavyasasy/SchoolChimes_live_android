@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,14 +20,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.SubjectChatListAdapter;
-import com.vs.schoolmessenger.adapter.SubjectListAdapter;
 import com.vs.schoolmessenger.databinding.ActivitySubjectListBinding;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherSelectListener;
 import com.vs.schoolmessenger.model.Subject;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
-import com.vs.schoolmessenger.util.GPSStatusReceiver;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
@@ -50,6 +46,7 @@ public class SubjectListActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +61,7 @@ public class SubjectListActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -74,13 +72,12 @@ public class SubjectListActivity extends AppCompatActivity {
 
     public void subjectListApi() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(SubjectListActivity.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(SubjectListActivity.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(SubjectListActivity.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(SubjectListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(SubjectListActivity.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(SubjectListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -91,13 +88,13 @@ public class SubjectListActivity extends AppCompatActivity {
         mProgressDialog.show();
 
         String schoolID = TeacherUtil_Common.Principal_SchoolId;
-        String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(SubjectListActivity.this);
+        String MobileNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(SubjectListActivity.this);
 
-        JsonObject jsonObject=new JsonObject();
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("StaffId", staffId);
         jsonObject.addProperty("SchoolID", schoolID);
         jsonObject.addProperty("MobileNumber", MobileNumber);
-           Log.d("reqsublist",jsonObject.toString());
+        Log.d("reqsublist", jsonObject.toString());
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.subjectList(jsonObject);
 
@@ -107,31 +104,32 @@ public class SubjectListActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
                         Gson gson = new Gson();
-                        Type userListType = new TypeToken<ArrayList<Subject>>(){}.getType();
+                        Type userListType = new TypeToken<ArrayList<Subject>>() {
+                        }.getType();
                         ArrayList<Subject> subjects = gson.fromJson(response.body(), userListType);
-                        Log.d("Subjetcs", subjects+"");
+                        Log.d("Subjetcs", String.valueOf(subjects));
                         if (!subjects.isEmpty()) {
-                        SubjectChatListAdapter adapter  = new SubjectChatListAdapter(subjects, new TeacherSelectListener() {
-                            @Override
-                            public void click(Subject subject) {
-                                Intent intent = new Intent(SubjectListActivity.this, TeacherChatActivity.class);
-                                intent.putExtra(Constants.SUBJECT, new Gson().toJson(subject));
-                                intent.putExtra(Constants.STAFF_ID, staffId);
-                                intent.putExtra(Constants.COME_FROM, comeFrom);
-                                startActivity(intent);
-                            }
+                            SubjectChatListAdapter adapter = new SubjectChatListAdapter(subjects, new TeacherSelectListener() {
+                                @Override
+                                public void click(Subject subject) {
+                                    Intent intent = new Intent(SubjectListActivity.this, TeacherChatActivity.class);
+                                    intent.putExtra(Constants.SUBJECT, new Gson().toJson(subject));
+                                    intent.putExtra(Constants.STAFF_ID, staffId);
+                                    intent.putExtra(Constants.COME_FROM, comeFrom);
+                                    startActivity(intent);
+                                }
 
-                            @Override
-                            public void showToast(String message) {
-                                alertDialog("No records found", "Ok");
-                            }
-                        });
-                        binding.subjectList.setAdapter(adapter);
+                                @Override
+                                public void showToast(String message) {
+                                    alertDialog("No records found", "Ok");
+                                }
+                            });
+                            binding.subjectList.setAdapter(adapter);
                         } else {
                             binding.subjectList.setVisibility(View.GONE);
                             binding.noRecords.setVisibility(View.VISIBLE);
@@ -143,6 +141,7 @@ public class SubjectListActivity extends AppCompatActivity {
                     Log.e("Response Exception", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());

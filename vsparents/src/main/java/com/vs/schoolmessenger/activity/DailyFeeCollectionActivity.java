@@ -52,21 +52,19 @@ import retrofit2.Callback;
 
 public class DailyFeeCollectionActivity extends AppCompatActivity {
 
+    public PaymentTypeAdapter paymentAdapter;
+    public PreviousYearFeeAdapter previousYearFeeAdapter;
+    public CurrentYearFeeAdapter CurrentYearFeeAdapter;
+    String school_ID;
+    TextView lblTotalName, lblTotalAmount;
+    LinearLayout lnrPaymentType, lnrPreviousYear, lnrCurrentYear, lnrTotal;
+    RecyclerView recyclePaymentType, recyclePreviousYear, recycleCurrentYear;
+    TextView lblFromDate, lblToDate, lblSubmit, lblNoRecords;
+    DatePickerDialog datePickerDialog;
     private List<DailyFeeCollectionModelItem> mainDataItem = new ArrayList<DailyFeeCollectionModelItem>();
     private List<PaymentTypeWiseItem> paymentTypeList = new ArrayList<PaymentTypeWiseItem>();
     private List<PreviousYearFeeItem> previousYearFeeList = new ArrayList<PreviousYearFeeItem>();
     private List<CurrentYearFeeItem> currentYearFeeList = new ArrayList<CurrentYearFeeItem>();
-    String school_ID;
-    TextView lblTotalName, lblTotalAmount;
-    LinearLayout lnrPaymentType, lnrPreviousYear, lnrCurrentYear,lnrTotal;
-    RecyclerView recyclePaymentType, recyclePreviousYear, recycleCurrentYear;
-
-    TextView lblFromDate, lblToDate, lblSubmit,lblNoRecords;
-
-    public PaymentTypeAdapter paymentAdapter;
-    public PreviousYearFeeAdapter previousYearFeeAdapter;
-    public CurrentYearFeeAdapter CurrentYearFeeAdapter;
-    DatePickerDialog datePickerDialog;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -202,7 +200,7 @@ public class DailyFeeCollectionActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("daily:code-res", response.code() + " - " + response.toString());
+                    Log.d("daily:code-res", response.code() + " - " + response);
 
                     mainDataItem.clear();
                     paymentTypeList.clear();
@@ -227,7 +225,7 @@ public class DailyFeeCollectionActivity extends AppCompatActivity {
                             String totalCollectedName = mainDataItem.get(0).getData().getTotalCollected().getName();
                             String totalCollectedPaidAmount = mainDataItem.get(0).getData().getTotalCollected().getPaidAmount();
                             lblTotalName.setText(totalCollectedName);
-                            lblTotalAmount.setText("\u20B9"+" "+totalCollectedPaidAmount);
+                            lblTotalAmount.setText("\u20B9" + " " + totalCollectedPaidAmount);
 
                             paymentTypeList = mainDataItem.get(0).getData().getPaymentTypeWise();
                             previousYearFeeList = mainDataItem.get(0).getData().getPreviousYearFee();
@@ -279,7 +277,7 @@ public class DailyFeeCollectionActivity extends AppCompatActivity {
                         } else {
                             lblNoRecords.setText(message);
                             lblNoRecords.setVisibility(View.VISIBLE);
-                            lblTotalAmount.setText("\u20B9"+" "+"0");
+                            lblTotalAmount.setText("\u20B9" + " " + "0");
                             lnrPaymentType.setVisibility(View.GONE);
                             lnrCurrentYear.setVisibility(View.GONE);
                             lnrPreviousYear.setVisibility(View.GONE);

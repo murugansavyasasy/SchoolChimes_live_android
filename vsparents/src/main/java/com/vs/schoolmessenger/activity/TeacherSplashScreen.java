@@ -99,34 +99,28 @@ import retrofit2.Response;
 
 public class TeacherSplashScreen extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 1;
+    private static final int FLEXIBLE_APP_UPDATE_REQ_CODE = 123;
+    private static final int IMMEDIATE_APP_UPDATE_REQ_CODE = 124;
     ArrayList<TeacherCountryList> arrCountryList = new ArrayList<>();
     ArrayList<String> countryNameList = new ArrayList<>();
     boolean bForceUpdate = false;
-
     String strMobile, strPassword;
     ArrayList<Profiles> arrChildList = new ArrayList<>();
-
     ArrayList<Profiles> arrayList;
     ArrayList<String> schoolNamelist = new ArrayList<>();
-
     ArrayList<Languages> LanguageList = new ArrayList<>();
     String CountrID = "";
-
     LinearLayout lnrInternetConnection;
     Button btnRetry;
     PopupWindow popupWindow;
     ProgressDialog pDialog;
     String trmsAndConditions = "https://schoolchimes.com/vs_web/terms_conditions/";
-
-    private AppUpdateManager appUpdateManager;
-    private InstallStateUpdatedListener installStateUpdatedListener;
-    private static final int FLEXIBLE_APP_UPDATE_REQ_CODE = 123;
-    private static final int IMMEDIATE_APP_UPDATE_REQ_CODE = 124;
-
     LinearLayout lnrSnackBar;
     TextView lblInstall;
-    private PopupWindow whatsNewPopupWindow;
     RelativeLayout rytParent;
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener;
+    private PopupWindow whatsNewPopupWindow;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -206,6 +200,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
             return false;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -472,7 +467,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
             public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
                 try {
                     LoadingView.hideProgress();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -649,26 +644,23 @@ public class TeacherSplashScreen extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    String value = TeacherUtil_SharedPreference.getInstall(TeacherSplashScreen.this);
-                    String otpValue = TeacherUtil_SharedPreference.getOTPNum(TeacherSplashScreen.this);
-                    String mobilescreen = TeacherUtil_SharedPreference.getMobileNumberScreen(TeacherSplashScreen.this);
+                String value = TeacherUtil_SharedPreference.getInstall(TeacherSplashScreen.this);
+                String otpValue = TeacherUtil_SharedPreference.getOTPNum(TeacherSplashScreen.this);
+                String mobilescreen = TeacherUtil_SharedPreference.getMobileNumberScreen(TeacherSplashScreen.this);
 
-                    if (mobilescreen.equals("1")) {
-                        openMobileNumbeScreen();
-                    } else if (otpValue.equals("1")) {
-                        openMobileNumbeScreen();
-                    } else if (value.equals("1")) {
-                        openSingInScreen();
-                    } else {
+                if (mobilescreen.equals("1")) {
+                    openMobileNumbeScreen();
+                } else if (otpValue.equals("1")) {
+                    openMobileNumbeScreen();
+                } else if (value.equals("1")) {
+                    openSingInScreen();
+                } else {
 
-                        openMobileNumbeScreen();
-                    }
+                    openMobileNumbeScreen();
                 }
-                return;
             }
         }
     }
@@ -699,7 +691,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 LoadingView.hideProgress();
 
 
-                Log.d("GetCountry:Code", response.code() + " - " + response.toString());
+                Log.d("GetCountry:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("GetCountry:Res", response.body().toString());
 
@@ -709,7 +701,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         JSONObject jsonObject = js.getJSONObject(0);
                         if (!(jsonObject.getString("CountryID")).equals("")) {
                             TeacherCountryList countryList;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
 
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
@@ -894,7 +886,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 LoadingView.hideProgress();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -1162,7 +1154,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 //                    mProgressDialog.dismiss();
 
                 LoadingView.hideProgress();
-                Log.d("Login:Code", response.code() + " - " + response.toString());
+                Log.d("Login:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Login:Res", response.body().toString());
                 try {
@@ -1245,7 +1237,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                                 JSONArray jSONArray = jsonObject.getJSONArray("ChildDetails");
                                 Profiles childList;
-                                Log.d("json length", jSONArray.length() + "");
+                                Log.d("json length", String.valueOf(jSONArray.length()));
                                 for (int i = 0; i < jSONArray.length(); i++) {
                                     jsonObject = jSONArray.getJSONObject(i);
                                     childList = new Profiles(jsonObject.getString("ChildName"),
@@ -1300,7 +1292,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 TeacherUtil_SharedPreference.putStaffLoginInfoToSP(TeacherSplashScreen.this, strMobile, strPassword, true);
                                 JSONArray jSONArray = jsonObject.getJSONArray("ChildDetails");
                                 Profiles childList;
-                                Log.d("json length", jSONArray.length() + "");
+                                Log.d("json length", String.valueOf(jSONArray.length()));
                                 for (int i = 0; i < jSONArray.length(); i++) {
                                     jsonObject = jSONArray.getJSONObject(i);
                                     childList = new Profiles(jsonObject.getString("ChildName"),
@@ -1504,7 +1496,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                             TeacherUtil_SharedPreference.putLoggedInAsToSP(TeacherSplashScreen.this, strlogin);
 
 
-                        } else if ((Status.toUpperCase()).equals("RESET")) {
+                        } else if ((Status).equalsIgnoreCase("RESET")) {
                             Util_SharedPreference.putForget(TeacherSplashScreen.this, "forget");
                             TeacherUtil_SharedPreference.putStaffLoginInfoToSP(TeacherSplashScreen.this, strMobile, strPassword, false);
                             Intent inChangePass = new Intent(TeacherSplashScreen.this, TeacherChangePassword.class);
@@ -1567,7 +1559,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 //                        mProgressDialog.dismiss();
 
                     LoadingView.hideProgress();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 

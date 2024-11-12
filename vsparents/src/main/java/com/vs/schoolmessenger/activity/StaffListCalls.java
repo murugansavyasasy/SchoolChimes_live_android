@@ -7,10 +7,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,6 +20,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -48,19 +49,19 @@ import retrofit2.Callback;
 
 public class StaffListCalls extends AppCompatActivity implements StaffListListener {
 
+    public StaffListAdapter mAdapter;
     RecyclerView staff_list_recycle;
     TeacherSchoolsModel childItem = new TeacherSchoolsModel();
-    public StaffListAdapter mAdapter;
     Button btnCalls;
     ImageView imgSearch;
     int i_sections_count;
     CheckBox select_All;
     EditText Searchable;
     RelativeLayout rytNoRecords;
-    private int i_students_count;
     String staff_id, school_id;
     ArrayList<StaffList> staff_list = new ArrayList<StaffList>();
     ArrayList<StaffList> SelectedSubjects = new ArrayList<StaffList>();
+    private int i_students_count;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -214,12 +215,7 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
 
     @SuppressLint("ResourceAsColor")
     private void enableDisableNext() {
-        if (i_sections_count > 0) {
-            btnCalls.setEnabled(true);
-            }
-        else {
-            btnCalls.setEnabled(false);
-            }
+        btnCalls.setEnabled(i_sections_count > 0);
     }
 
     private void filter(String s) {
@@ -235,7 +231,7 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
 
     private void principalCalls() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(StaffListCalls.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffListCalls.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -270,7 +266,7 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -285,11 +281,9 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
 
                                 if (Status.equals("1")) {
                                     showAlert(Message, Status);
-                                }
-                                else if (Status.equals("-3")) {
+                                } else if (Status.equals("-3")) {
                                     showAlert(Message, Status);
-                                }
-                                else if (Status.equals("0")) {
+                                } else if (Status.equals("0")) {
                                     showAlert(Message, Status);
                                 }
 
@@ -352,13 +346,12 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
 
     private void getStaffList() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffListCalls.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StaffListCalls.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffListCalls.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StaffListCalls.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StaffListCalls.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffListCalls.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -369,7 +362,6 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
 
 
         JsonObject jsonObject = new JsonObject();
@@ -386,7 +378,7 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 

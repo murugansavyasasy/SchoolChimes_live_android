@@ -29,6 +29,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -41,9 +48,8 @@ import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.UploadedDocsAdapter;
-import com.vs.schoolmessenger.aws.S3Uploader;
-import com.vs.schoolmessenger.aws.UploadDocUtils;
 import com.vs.schoolmessenger.aws.UploadDocS3Uploader;
+import com.vs.schoolmessenger.aws.UploadDocUtils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.UploadDocListener;
 import com.vs.schoolmessenger.model.UploadFilesModel;
@@ -65,20 +71,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UploadProfileScreen extends AppCompatActivity implements UploadDocListener{
+public class UploadProfileScreen extends AppCompatActivity implements UploadDocListener {
 
+    public static PopupWindow popupWindow;
     RecyclerView recycleUploadedDocs;
     ConstraintLayout parentBrowseFile;
     ConstraintLayout parentProfile;
@@ -90,25 +91,22 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
     TextView lblClickUpload;
     TextView lblUploadedDocuments;
     TextView lblAddProfile;
-
-    public static PopupWindow popupWindow;
     File photoFile;
     String imageFilePath;
     String DocFilePath;
-    private ArrayList<String> imagePathList = new ArrayList<>();
-    private List<UploadFilesModel> UploadedS3URlList = new ArrayList<>();
     ProgressDialog progressDialog;
     UploadDocS3Uploader s3uploaderObj;
     String fileNameDateTime;
     String urlFromS3 = null;
-    String contentType="";
+    String contentType = "";
     UploadedDocsAdapter uploadAdapter;
-    String profileAwsFilePath="";
+    String profileAwsFilePath = "";
     EditText txtFileName;
-
-   TextView lblStudentProfile,
+    TextView lblStudentProfile,
             lblUploadDoc,
-    lblFileName;
+            lblFileName;
+    private ArrayList<String> imagePathList = new ArrayList<>();
+    private final List<UploadFilesModel> UploadedS3URlList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -153,8 +151,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                     .onSameThread()
                     .check();
 
-        }
-        else {
+        } else {
             Dexter.withActivity((Activity) UploadProfileScreen.this)
                     .withPermissions(
                             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -187,9 +184,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         }
 
 
-
-
-        String Title=TeacherUtil_SharedPreference.getUploadProfileTitle(UploadProfileScreen.this);
+        String Title = TeacherUtil_SharedPreference.getUploadProfileTitle(UploadProfileScreen.this);
         getSupportActionBar().setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_dates);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_acTitle)).setText(Title);
@@ -228,10 +223,9 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         btnUploadFileToAWS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!txtFileName.getText().toString().equals("")) {
+                if (!txtFileName.getText().toString().equals("")) {
                     UploadFileToAWS(txtFileName.getText().toString());
-                }
-                else {
+                } else {
                     showToast("Please enter your file name");
                 }
             }
@@ -239,10 +233,9 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!profileAwsFilePath.equals("") || UploadedS3URlList.size()>0) {
+                if (!profileAwsFilePath.equals("") || UploadedS3URlList.size() > 0) {
                     submitStudentDetatils();
-                }
-                else {
+                } else {
                     showToast("Please upload the profile and documents");
                 }
             }
@@ -260,8 +253,8 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
             public void onClick(View v) {
 
                 String[] mimeTypes =
-                        {"application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx
-                                "application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xls & .xlsx
+                        {"application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx
+                                "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xls & .xlsx
                                 "text/plain",
                                 "text/csv",
                                 "application/csv",
@@ -287,8 +280,8 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
 
     }
 
-    private void submitStudentDetatils(){
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(UploadProfileScreen.this);
+    private void submitStudentDetatils() {
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(UploadProfileScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
 
@@ -311,7 +304,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -320,10 +313,10 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg,strStatus);
+                            if ((strStatus).equalsIgnoreCase("1")) {
+                                showAlert(strMsg, strStatus);
                             } else {
-                                showAlert(strMsg,strStatus);
+                                showAlert(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.check_internet));
@@ -341,7 +334,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -374,16 +367,17 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
 
     }
+
     private void showToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    private JsonObject submitJson(){
+    private JsonObject submitJson() {
 
-        String childID= Util_SharedPreference.getChildIdFromSP(UploadProfileScreen.this);
-        String schoolid= Util_SharedPreference.getSchoolIdFromSP(UploadProfileScreen.this);
+        String childID = Util_SharedPreference.getChildIdFromSP(UploadProfileScreen.this);
+        String schoolid = Util_SharedPreference.getSchoolIdFromSP(UploadProfileScreen.this);
 
-        Log.d("UploadFileList",String.valueOf(UploadedS3URlList.size()));
+        Log.d("UploadFileList", String.valueOf(UploadedS3URlList.size()));
 
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
@@ -393,10 +387,10 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < UploadedS3URlList.size(); i++) {
                 JsonObject jsonObjectclass = new JsonObject();
-                String fileName = UploadedS3URlList.get(i).getWsUploadedDoc().substring(UploadedS3URlList.get(i).getWsUploadedDoc().lastIndexOf('/')+1, UploadedS3URlList.get(i).getWsUploadedDoc().length());
+                String fileName = UploadedS3URlList.get(i).getWsUploadedDoc().substring(UploadedS3URlList.get(i).getWsUploadedDoc().lastIndexOf('/') + 1);
                 jsonObjectclass.addProperty("documentPath", UploadedS3URlList.get(i).getWsUploadedDoc());
                 jsonObjectclass.addProperty("documentName", fileName);
-                jsonObjectclass.addProperty("documentDisplayName",UploadedS3URlList.get(i).getDisplayname());
+                jsonObjectclass.addProperty("documentDisplayName", UploadedS3URlList.get(i).getDisplayname());
                 jsonArrayschoolstd.add(jsonObjectclass);
 
             }
@@ -412,21 +406,21 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
     }
 
     private void UploadFileToAWS(final String FileDisplayname) {
-        String schoolid= Util_SharedPreference.getSchoolIdFromSP(UploadProfileScreen.this);
+        String schoolid = Util_SharedPreference.getSchoolIdFromSP(UploadProfileScreen.this);
 
         progressDialog = new ProgressDialog(UploadProfileScreen.this);
         if (DocFilePath != null) {
             showLoading();
             fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-            fileNameDateTime="File_"+fileNameDateTime;
+            fileNameDateTime = "File_" + fileNameDateTime;
             Log.d("S3contentType", contentType);
-            s3uploaderObj.initUpload(DocFilePath, contentType,fileNameDateTime,schoolid,false);
+            s3uploaderObj.initUpload(DocFilePath, contentType, fileNameDateTime, schoolid, false);
             s3uploaderObj.setOns3UploadDone(new UploadDocS3Uploader.UploadDocS3UploadInterface() {
                 @Override
                 public void onUploadSuccess(String response) {
                     hideLoading();
                     if (response.equalsIgnoreCase("Success")) {
-                        urlFromS3 = UploadDocUtils.generates3ShareUrl(getApplicationContext(), DocFilePath,fileNameDateTime,schoolid,false);
+                        urlFromS3 = UploadDocUtils.generates3ShareUrl(getApplicationContext(), DocFilePath, fileNameDateTime, schoolid, false);
                         Log.d("urlFromS3", urlFromS3);
                         if (!TextUtils.isEmpty(urlFromS3)) {
                             btnUploadFileToAWS.setVisibility(View.GONE);
@@ -444,6 +438,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                         }
                     }
                 }
+
                 @Override
                 public void onUploadError(String response) {
                     hideLoading();
@@ -454,7 +449,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
     }
 
     private void setAdapter() {
-        uploadAdapter = new UploadedDocsAdapter(UploadProfileScreen.this, UploadedS3URlList,this );
+        uploadAdapter = new UploadedDocsAdapter(UploadProfileScreen.this, UploadedS3URlList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recycleUploadedDocs.setHasFixedSize(true);
         recycleUploadedDocs.setLayoutManager(mLayoutManager);
@@ -468,6 +463,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
             progressDialog.dismiss();
         }
     }
+
     private void showLoading() {
         {
             if (progressDialog != null && !progressDialog.isShowing()) {
@@ -508,7 +504,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(UploadProfileScreen.this, AlbumSelectActivity.class);
-                i.putExtra("ProfileScreen","Profile");
+                i.putExtra("ProfileScreen", "Profile");
                 startActivityForResult(i, 1);
                 popupWindow.dismiss();
 
@@ -581,7 +577,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                     long maxSize = (1024 * 1024) * Integer.parseInt(String.valueOf(10));
 
 
-                    contentType="image/png";
+                    contentType = "image/png";
                     imagePathList = data.getStringArrayListExtra("images");
                     imageFilePath = imagePathList.get(0);
                     File file = new File(imagePathList.get(0));
@@ -594,8 +590,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                                 .into(imgProfile);
                         lblAddProfile.setText("Change Profile");
                         profileUploadToAWS(imageFilePath);
-                    }
-                    else {
+                    } else {
                         String filecontent = TeacherUtil_SharedPreference.getFilecontent(UploadProfileScreen.this);
                         alert(filecontent);
                     }
@@ -622,9 +617,9 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
 
                     final MimeTypeMap mime = MimeTypeMap.getSingleton();
                     String extension = mime.getExtensionFromMimeType(UploadProfileScreen.this.getContentResolver().getType(uri));
-                    contentType=mimeType;
+                    contentType = mimeType;
                     File outputDir = UploadProfileScreen.this.getCacheDir(); // context being the Activity pointer
-                    File outputFile = File.createTempFile("School_Upload_document_","."+extension, outputDir);
+                    File outputFile = File.createTempFile("School_Upload_document_", "." + extension, outputDir);
                     try (InputStream in = getContentResolver().openInputStream(uri)) {
                         if (in == null) return;
                         try (OutputStream out = getContentResolver().openOutputStream(Uri.fromFile(outputFile))) {
@@ -643,15 +638,14 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                     long pathlength = file.length();
                     if (pathlength <= maxSize) {
                         lblSelectedFilePath.setText(DocFilePath);
-                    }
-                    else {
+                    } else {
                         String filecontent = TeacherUtil_SharedPreference.getFilecontent(UploadProfileScreen.this);
                         alert(filecontent);
                     }
 
                 }
             } catch (Exception e) {
-                Log.d("Exception",e.getMessage());
+                Log.d("Exception", e.getMessage());
             }
         } else if (requestCode == 3) {
             try {
@@ -659,7 +653,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                     String imageSize = TeacherUtil_SharedPreference.getImagesize(UploadProfileScreen.this);
                     long maxSize = (1024 * 1024) * Integer.parseInt(String.valueOf(10));
 
-                    contentType="image/png";
+                    contentType = "image/png";
                     File file = new File(imageFilePath);
 
                     long pathlength = file.length();
@@ -671,8 +665,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
 
                         lblAddProfile.setText("Change Profile");
                         profileUploadToAWS(imageFilePath);
-                    }
-                    else {
+                    } else {
                         String filecontent = TeacherUtil_SharedPreference.getFilecontent(UploadProfileScreen.this);
                         alert(filecontent);
                     }
@@ -704,27 +697,28 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
     }
 
     private void profileUploadToAWS(final String filepath) {
-        String schoolid= Util_SharedPreference.getSchoolIdFromSP(UploadProfileScreen.this);
+        String schoolid = Util_SharedPreference.getSchoolIdFromSP(UploadProfileScreen.this);
 
         progressDialog = new ProgressDialog(UploadProfileScreen.this);
         if (filepath != null) {
             showLoading();
             fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-            fileNameDateTime="File_"+fileNameDateTime;
+            fileNameDateTime = "File_" + fileNameDateTime;
             Log.d("S3ProfilecontentType", contentType);
-            s3uploaderObj.initUpload(filepath, contentType,fileNameDateTime,schoolid,true);
+            s3uploaderObj.initUpload(filepath, contentType, fileNameDateTime, schoolid, true);
             s3uploaderObj.setOns3UploadDone(new UploadDocS3Uploader.UploadDocS3UploadInterface() {
                 @Override
                 public void onUploadSuccess(String response) {
                     hideLoading();
                     if (response.equalsIgnoreCase("Success")) {
-                        urlFromS3 = UploadDocUtils.generates3ShareUrl(getApplicationContext(), filepath,fileNameDateTime,schoolid,true);
+                        urlFromS3 = UploadDocUtils.generates3ShareUrl(getApplicationContext(), filepath, fileNameDateTime, schoolid, true);
                         Log.d("ProfileurlFromS3", urlFromS3);
                         if (!TextUtils.isEmpty(urlFromS3)) {
-                            profileAwsFilePath=urlFromS3;
+                            profileAwsFilePath = urlFromS3;
                         }
                     }
                 }
+
                 @Override
                 public void onUploadError(String response) {
                     hideLoading();
@@ -744,10 +738,9 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         UploadedS3URlList.remove(student);
         uploadAdapter.notifyDataSetChanged();
 
-        if(UploadedS3URlList.size()==0){
+        if (UploadedS3URlList.size() == 0) {
             lblUploadedDocuments.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             lblUploadedDocuments.setVisibility(View.VISIBLE);
         }
         Log.d("UploadedS3URlList", String.valueOf(UploadedS3URlList.size()));

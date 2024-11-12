@@ -2,14 +2,15 @@ package com.vs.schoolmessenger.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -31,56 +32,52 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class StaffDisplayPDF extends AppCompatActivity {
-    RecyclerView rvVoiceList;
-    StaffDisplayPDfAdapter pdfadapter;
-    public ArrayList<TeacherMessageModel> msgModelList = new ArrayList<>();
-
-    ImageView voice_ToolBarIvBack;
-
-    String selDate,staff_id,school_id;
-    private int iRequestCode;
-
-    Boolean is_Archive;
-    String isNewVersion;
-
-    private final String android_image_urls[] = {
+    private final String[] android_image_urls = {
             "https://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3",
             "http://9xmusiq.com/songs/Tamil%20Songs/2016%20Tamil%20Mp3/Devi%20(2016)/Chalmaar%20%5bStarmusiq.cc%5d.mp3"
     };
+    private final String[] android_image_status = {"1", "0"};
+    public ArrayList<TeacherMessageModel> msgModelList = new ArrayList<>();
+    RecyclerView rvVoiceList;
+    StaffDisplayPDfAdapter pdfadapter;
+    ImageView voice_ToolBarIvBack;
+    String selDate, staff_id, school_id;
+    Boolean is_Archive;
+    String isNewVersion;
+    private int iRequestCode;
 
-    private final String android_image_status[] = {"1", "0"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_voice_circular);
 
-        voice_ToolBarIvBack=(ImageView) findViewById(R.id.voice_ToolBarIvBack);
+        voice_ToolBarIvBack = (ImageView) findViewById(R.id.voice_ToolBarIvBack);
         voice_ToolBarIvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayPDF.this,"1");
+                TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayPDF.this, "1");
                 onBackPressed();
             }
         });
 
-        selDate=getIntent().getExtras().getString("SEL_DATE");
-        staff_id=Util_SharedPreference.getStaffID(StaffDisplayPDF.this);
-        school_id=Util_SharedPreference.getSchoolId(StaffDisplayPDF.this);
+        selDate = getIntent().getExtras().getString("SEL_DATE");
+        staff_id = Util_SharedPreference.getStaffID(StaffDisplayPDF.this);
+        school_id = Util_SharedPreference.getSchoolId(StaffDisplayPDF.this);
 
         is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
-        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffDisplayPDF.this);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffDisplayPDF.this);
 
         rvVoiceList = (RecyclerView) findViewById(R.id.voice_rvCircularList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvVoiceList.setLayoutManager(layoutManager);
         rvVoiceList.setItemAnimator(new DefaultItemAnimator());
-        pdfadapter = new StaffDisplayPDfAdapter(StaffDisplayPDF.this, msgModelList,is_Archive);
+        pdfadapter = new StaffDisplayPDfAdapter(StaffDisplayPDF.this, msgModelList, is_Archive);
         rvVoiceList.setAdapter(pdfadapter);
 
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         getPDF();
 
@@ -88,19 +85,18 @@ public class StaffDisplayPDF extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayPDF.this,"1");
+        TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayPDF.this, "1");
         finish();
     }
 
     private void getPDF() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffDisplayPDF.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StaffDisplayPDF.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffDisplayPDF.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StaffDisplayPDF.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StaffDisplayPDF.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffDisplayPDF.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -121,10 +117,9 @@ public class StaffDisplayPDF extends AppCompatActivity {
         Log.d(" jsonObject12344555", String.valueOf(jsonObject));
 
         Call<JsonArray> call;
-        if(isNewVersion.equals("1")&&is_Archive){
+        if (isNewVersion.equals("1") && is_Archive) {
             call = apiService.GetFilesStaff_Archive(jsonObject);
-        }
-        else {
+        } else {
             call = apiService.GetFilesStaff(jsonObject);
         }
 
@@ -135,7 +130,7 @@ public class StaffDisplayPDF extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
+                Log.d("overallUnreadCount:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("overallUnreadCount:Res", response.body().toString());
 
@@ -159,8 +154,7 @@ public class StaffDisplayPDF extends AppCompatActivity {
                                 msgModel.setStrQuestion(jsonObject.getString("Question"));
 
                                 msgModelList.add(msgModel);
-                            }
-                            else {
+                            } else {
                                 showToast(jsonObject.getString("URL"));
                             }
                         }

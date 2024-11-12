@@ -6,16 +6,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -60,7 +61,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
     String filePath = "";
     String Duration = "";
     String voiceTitle = "";
-    String voicetype="";
+    String voicetype = "";
 
 
     @Override
@@ -86,19 +87,19 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Log.d("EXTRAS", extras.toString());
-            SchoolsScreen = extras.getString("schools","");
-            Title = extras.getString("Title","");
-            Description = extras.getString("Description","");
+            SchoolsScreen = extras.getString("schools", "");
+            Title = extras.getString("Title", "");
+            Description = extras.getString("Description", "");
 
             schools_list = (ArrayList<TeacherSchoolsModel>) getIntent().getSerializableExtra("TeacherSchoolsModel");
 
-            voiceTitle = extras.getString("TITTLE","");
-            filePath = extras.getString("FILEPATH","");
-            Duration = extras.getString("DURATION","");
+            voiceTitle = extras.getString("TITTLE", "");
+            filePath = extras.getString("FILEPATH", "");
+            Duration = extras.getString("DURATION", "");
 
-            voicetype=extras.getString("VOICE","");
+            voicetype = extras.getString("VOICE", "");
         }
-        if (SchoolsScreen.equals("groupHeadEmergency")||SchoolsScreen.equals("text")||SchoolsScreen.equals("PrincipalEmergency")||SchoolsScreen.equals("groupheadvoice")) {
+        if (SchoolsScreen.equals("groupHeadEmergency") || SchoolsScreen.equals("text") || SchoolsScreen.equals("PrincipalEmergency") || SchoolsScreen.equals("groupheadvoice")) {
             btnSend.setVisibility(View.VISIBLE);
         }
 
@@ -120,33 +121,26 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                         sendSmsApi();
                     } else if (SchoolsScreen.equals("PrincipalEmergency")) {
 
-                        if(voicetype.equals("VoiceHistory")){
-                           SendToEmergencyPrincipalVoiceHistory();
-                        }
-                        else {
+                        if (voicetype.equals("VoiceHistory")) {
+                            SendToEmergencyPrincipalVoiceHistory();
+                        } else {
                             SendEmergencyVoicePrincipalAPI();
                         }
-                    }
-                    else if(SchoolsScreen.equals("groupHeadEmergency")){
+                    } else if (SchoolsScreen.equals("groupHeadEmergency")) {
 
-                        if(voicetype.equals("VoiceHistory")){
+                        if (voicetype.equals("VoiceHistory")) {
                             SendToEmergencyGroupHeadVoiceHistory();
-                        }
-                        else {
+                        } else {
                             SendEmergencyVoiceGroupheadAPI();
                         }
-                    }
-                    else if(SchoolsScreen.equals("groupheadvoice")){
+                    } else if (SchoolsScreen.equals("groupheadvoice")) {
 
-                        if(voicetype.equals("VoiceHistory")){
+                        if (voicetype.equals("VoiceHistory")) {
                             SendToGroupHeadVoiceHistory();
-                        }
-                        else {
+                        } else {
                             SendnormalVoiceGroupheadAPI();
                         }
                     }
-
-
 
 
                 } else {
@@ -173,9 +167,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             school_list_recyle.setItemAnimator(new DefaultItemAnimator());
             school_list_recyle.setAdapter(schoolAdapter);
             school_list_recyle.getRecycledViewPool().setMaxRecycledViews(0, 80);
-        }
-
-        else if (SchoolsScreen.equals("PrincipalEmergency")) {
+        } else if (SchoolsScreen.equals("PrincipalEmergency")) {
 
             schoolAdapter = new SchoolsAdapter(schools_list, this, ScoolsList.this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ScoolsList.this);
@@ -183,8 +175,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             school_list_recyle.setItemAnimator(new DefaultItemAnimator());
             school_list_recyle.setAdapter(schoolAdapter);
             school_list_recyle.getRecycledViewPool().setMaxRecycledViews(0, 80);
-        }
-        else if (SchoolsScreen.equals("groupheadvoice")) {
+        } else if (SchoolsScreen.equals("groupheadvoice")) {
 
             schoolAdapter = new SchoolsAdapter(schools_list, this, ScoolsList.this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ScoolsList.this);
@@ -192,9 +183,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             school_list_recyle.setItemAnimator(new DefaultItemAnimator());
             school_list_recyle.setAdapter(schoolAdapter);
             school_list_recyle.getRecycledViewPool().setMaxRecycledViews(0, 80);
-        }
-
-        else {
+        } else {
             mAdapter = new SchoolsListAdapter(schools_list, ScoolsList.this);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ScoolsList.this);
             school_list_recyle.setLayoutManager(mLayoutManager);
@@ -207,7 +196,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
     }
 
     private void SendToGroupHeadVoiceHistory() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
@@ -222,7 +211,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-       // Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        // Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
         Call<JsonArray> call;
         if (Util_Common.isScheduleCall) {
             call = apiService.ScheduleVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
@@ -240,7 +229,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -250,11 +239,11 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                             String strMsg = jsonObject.getString("Message");
 
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg,strStatus);
+                            if ((strStatus).equalsIgnoreCase("1")) {
+                                showAlert(strMsg, strStatus);
 
                             } else {
-                                showAlert(strMsg,strStatus);
+                                showAlert(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -273,7 +262,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -324,7 +313,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
     }
 
     private void SendToEmergencyGroupHeadVoiceHistory() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
@@ -340,7 +329,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-       // Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        // Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
 
         Call<JsonArray> call;
         if (Util_Common.isScheduleCall) {
@@ -359,7 +348,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -368,11 +357,11 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg,strStatus);
+                            if ((strStatus).equalsIgnoreCase("1")) {
+                                showAlert(strMsg, strStatus);
 
                             } else {
-                                showAlert(strMsg,strStatus);
+                                showAlert(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -391,7 +380,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -444,7 +433,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
     private void SendToEmergencyPrincipalVoiceHistory() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
@@ -459,7 +448,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-      // Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
+        // Call<JsonArray> call = apiService.SendVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
         Call<JsonArray> call;
         if (Util_Common.isScheduleCall) {
             call = apiService.ScheduleVoiceToEntireSchoolsByVoiceHistory(jsonReqArray);
@@ -477,7 +466,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -487,10 +476,10 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                             String strMsg = jsonObject.getString("Message");
 
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg,strStatus);
+                            if ((strStatus).equalsIgnoreCase("1")) {
+                                showAlert(strMsg, strStatus);
                             } else {
-                                showAlert(strMsg,strStatus);
+                                showAlert(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -509,7 +498,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -561,12 +550,12 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
     private void SendEmergencyVoicePrincipalAPI() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         File file = new File(filePath);
-        Log.d("FILE_Path",filePath);
+        Log.d("FILE_Path", filePath);
         Log.d("file", file.getName());
         RequestBody requestFile =
                 RequestBody.create(
@@ -581,7 +570,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                         MultipartBody.FORM, jsonReqArray.toString());
 
 
-
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Uploading...");
@@ -590,7 +578,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-      //  Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+        //  Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
         Call<JsonArray> call;
         if (Util_Common.isScheduleCall) {
             call = apiService.ScheduleSendVoiceToEntireSchools(requestBody, bodyFile);
@@ -609,7 +597,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -619,11 +607,11 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                             String strMsg = jsonObject.getString("Message");
 
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg,strStatus);
+                            if ((strStatus).equalsIgnoreCase("1")) {
+                                showAlert(strMsg, strStatus);
 
                             } else {
-                                showAlert(strMsg,strStatus);
+                                showAlert(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -642,7 +630,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -690,7 +678,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
 
     private void SendEmergencyVoiceGroupheadAPI() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
@@ -715,7 +703,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-       // Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);'
+        // Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);'
 
 
         Call<JsonArray> call;
@@ -734,7 +722,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -743,10 +731,10 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg,strStatus);
+                            if ((strStatus).equalsIgnoreCase("1")) {
+                                showAlert(strMsg, strStatus);
                             } else {
-                                showAlert(strMsg,strStatus);
+                                showAlert(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -765,7 +753,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -814,7 +802,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
     }
 
     private void SendnormalVoiceGroupheadAPI() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
@@ -839,7 +827,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
         if (!this.isFinishing())
             mProgressDialog.show();
 
-     //   Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
+        //   Call<JsonArray> call = apiService.SendVoiceToEntireSchools(requestBody, bodyFile);
 
         Call<JsonArray> call;
         if (Util_Common.isScheduleCall) {
@@ -858,7 +846,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -867,10 +855,10 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
-                                showAlert(strMsg,strStatus);
+                            if ((strStatus).equalsIgnoreCase("1")) {
+                                showAlert(strMsg, strStatus);
                             } else {
-                                showAlert(strMsg,strStatus);
+                                showAlert(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -916,8 +904,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             }
 
 
-
-
             if (Util_Common.isScheduleCall) {
                 JsonArray isSelectedArray = new JsonArray();
                 for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
@@ -941,7 +927,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
     }
 
     private void sendSmsApi() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ScoolsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -965,7 +951,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -973,12 +959,12 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                             JSONObject jsonObject = js.getJSONObject(0);
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
 
 
-                                showAlert(strMsg,strStatus);
+                                showAlert(strMsg, strStatus);
                             } else {
-                                showAlert(strMsg,strStatus);
+                                showAlert(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
@@ -997,7 +983,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });

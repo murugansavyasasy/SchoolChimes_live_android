@@ -1,18 +1,21 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -33,13 +36,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
-
 public class SendToTextSpecificSection extends AppCompatActivity implements View.OnClickListener {
     Button SendToEntireSchool, SendToStansGroups, SendToSpecificSection;
     String SchoolID, StaffID, filepath, duration, tittle, strmessage, strdate, strtime, strfilepathimage;
     int iRequestCode;
     ArrayList<TeacherClassGroupModel> listClasses, listGroups;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -60,7 +62,7 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
         SendToSpecificSection.setOnClickListener(this);
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(SendToTextSpecificSection.this);
-        if(countryID.equals("11")){
+        if (countryID.equals("11")) {
             SendToStansGroups.setText("Send to Grade/Groups");
             SendToSpecificSection.setText("Send to Grade/sections");
         }
@@ -94,6 +96,7 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
         }
 
     }
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.SendToEntireSchool:
@@ -154,7 +157,7 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
 
 
     private void sendToEntireSchool() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(SendToTextSpecificSection.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(SendToTextSpecificSection.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -178,7 +181,7 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -187,7 +190,7 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert1(strMsg, strStatus);
                             } else {
                                 showAlert1(strMsg, strStatus);
@@ -209,7 +212,7 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });

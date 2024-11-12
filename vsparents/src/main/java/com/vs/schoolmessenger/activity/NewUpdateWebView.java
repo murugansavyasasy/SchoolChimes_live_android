@@ -25,6 +25,24 @@ public class NewUpdateWebView extends AppCompatActivity {
     WebView receiptWebView;
     String PdfURL = "", Title = "";
 
+    public static void showAlert(final Activity activity, String title, String msg) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                activity);
+
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(msg);
+        alertDialog.setIcon(R.drawable.ic_pdf);
+
+        alertDialog.setNeutralButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alertDialog.show();
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -37,7 +55,7 @@ public class NewUpdateWebView extends AppCompatActivity {
 
         PdfURL = getIntent().getExtras().getString("URL", "");
         Title = getIntent().getExtras().getString("tittle", "");
-        Log.d("URL",PdfURL);
+        Log.d("URL", PdfURL);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(Title);
@@ -74,28 +92,9 @@ public class NewUpdateWebView extends AppCompatActivity {
         });
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-    }
-
-    public static void showAlert(final Activity activity, String title, String msg) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                activity);
-
-        alertDialog.setCancelable(false);
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(msg);
-        alertDialog.setIcon(R.drawable.ic_pdf);
-
-        alertDialog.setNeutralButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        alertDialog.show();
     }
 
 

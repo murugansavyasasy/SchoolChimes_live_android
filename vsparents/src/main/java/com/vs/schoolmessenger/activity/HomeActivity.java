@@ -75,6 +75,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -86,16 +87,20 @@ import ss.com.bannerslider.Slider;
 
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
-    static ArrayList<String> isParentMenuNames = new ArrayList<>();
-    String strChildName, child_ID;
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    private static final String CONTACTS_PERMISSION = android.Manifest.permission.READ_CONTACTS;
+    private static final int OTHER_VIEW_ID = R.id.rytHome;
     public static Profiles childItem = new Profiles();
+    public static int i = 0;
+    static ArrayList<String> isParentMenuNames = new ArrayList<>();
+    public Handler handler = new Handler();
+    String strChildName, child_ID;
     TextView tv_schoolname, tvSchoolAddress, aHome_tvRegionalSchoolName;
     ImageView aHome_nivSchoolLogo;
     RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    private ArrayList<Profiles> childList = new ArrayList<>();
     String BookLink;
     RelativeLayout rytParent;
     TextView scrollingtext;
@@ -106,16 +111,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     String count;
     Slider slider;
     ImageView adImage;
-    public Handler handler = new Handler();
-    public static int i = 0;
-    private PopupWindow popupWindow;
     int Contact_Count = 0;
     int exist_Count = 0;
     String contact_alert_title = "", contact_alert_Content = "", contact_display_name = "", contact_numbers = "", contact_button = "";
     String[] contacts;
     String Display_Name = "";
-    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
-    private PopupWindow SettingspopupWindow;
     AdView mAdView;
     String redirect_url = "";
     String image_url = "";
@@ -126,8 +126,26 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     PopupWindow updatespopupWindow;
     PopupWindow updatesManualPopup;
     ChildMenuAdapter myAdapter;
-    private static final String CONTACTS_PERMISSION = android.Manifest.permission.READ_CONTACTS;
-    private static final int OTHER_VIEW_ID = R.id.rytHome;
+    private ArrayList<Profiles> childList = new ArrayList<>();
+    private PopupWindow popupWindow;
+    private PopupWindow SettingspopupWindow;
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -242,7 +260,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<NewUpdatesModel> call, retrofit2.Response<NewUpdatesModel> response) {
                 try {
 
-                    Log.d("daily:code-res", response.code() + " - " + response.toString());
+                    Log.d("daily:code-res", response.code() + " - " + response);
                     newUpdatesDataList.clear();
                     if (response.code() == 200 || response.code() == 201) {
                         Gson gson = new Gson();
@@ -320,7 +338,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-
 
     private void manualUpdatesPopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -763,7 +780,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 LoadingView.hideProgress();
 
 
-                Log.d("GetMenuDetails:code", response.code() + " - " + response.toString());
+                Log.d("GetMenuDetails:code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("GetMenuDetails:Res", response.body().toString());
 
@@ -780,9 +797,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                             String[] name = menu_name.split(",");
                             isParentMenuNames.clear();
-                            for (String itemtemp : name) {
-                                isParentMenuNames.add(itemtemp);
-                            }
+                            Collections.addAll(isParentMenuNames, name);
 
                             contact_alert_title = jsonObject.getString("contact_alert_title");
                             contact_alert_Content = jsonObject.getString("contact_alert_content");
@@ -848,7 +863,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME};
                 Cursor cur = HomeActivity.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
                 try {
-                    if(cur.getCount()>0) {
+                    if (cur.getCount() > 0) {
                         if (cur.moveToFirst()) {
                             Contact_Count = Contact_Count + 1;
                             int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
@@ -858,10 +873,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 Contact_Count = Contact_Count - 1;
                             }
                         }
-                    }
-                    else {
+                    } else {
                         exist_Count = 0;
-                        Contact_Count = Contact_Count-1;
+                        Contact_Count = Contact_Count - 1;
                     }
                 } finally {
                     if (cur != null)
@@ -913,7 +927,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-
     private void saveContacts() {
 
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.conatct_school);
@@ -950,23 +963,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    public static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-            return dir.delete();
-        } else if (dir != null && dir.isFile()) {
-            return dir.delete();
-        } else {
-            return false;
         }
     }
 
@@ -1094,7 +1090,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
                 try {
@@ -1235,7 +1231,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
+                Log.d("overallUnreadCount:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("overallUnreadCount:Res", response.body().toString());
 

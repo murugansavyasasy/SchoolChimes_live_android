@@ -11,9 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
 import android.provider.MediaStore;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ActionMode;
@@ -27,9 +24,10 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
-
 import com.vs.schoolmessenger.adapter.CustomImageSelectAdapter;
 import com.vs.schoolmessenger.model.Constants;
 import com.vs.schoolmessenger.model.Image;
@@ -44,6 +42,11 @@ import java.util.HashSet;
  * Created by Darshan on 4/18/2015.
  */
 public class ImageSelectActivity extends AppCompatActivity {
+    private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
+    String CountrID = "";
+    String ImageCount = "";
+    String profile = "";
+    int limit = 0;
     private ArrayList<Image> images = new ArrayList<>();
     private String album;
     private TextView errorDisplay;
@@ -55,11 +58,40 @@ public class ImageSelectActivity extends AppCompatActivity {
     private ContentObserver observer;
     private Handler handler;
     private Thread thread;
-    String CountrID = "";
-    String ImageCount = "";
-    String profile="";
-    int limit = 0;
-    private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
+    private final ActionMode.Callback callback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater menuInflater = mode.getMenuInflater();
+            menuInflater.inflate(R.menu.menu_contexual_action_bar, menu);
+            actionMode = mode;
+            countSelected = 0;
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int i = item.getItemId();
+            if (i == R.id.menu_item_add_image) {
+                sendIntent();
+
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            if (countSelected > 0) {
+                deselectAll();
+            }
+            actionMode = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +99,12 @@ public class ImageSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image_select);
         actionBar = getSupportActionBar();
         Bundle extras = getIntent().getExtras();
-        if(extras!=null) {
+        if (extras != null) {
             profile = extras.getString("ProfileScreen", "");
         }
-        if(profile.equals("Profile")){
+        if (profile.equals("Profile")) {
             limit = 1;
-        }
-        else {
+        } else {
             ImageCount = TeacherUtil_SharedPreference.getImageCount(ImageSelectActivity.this);
             if (ImageCount.equals("")) {
                 limit = 2;
@@ -228,59 +259,19 @@ public class ImageSelectActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-
-            default: {
-                return false;
-            }
-        }
-    }
-
-    private ActionMode.Callback callback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater menuInflater = mode.getMenuInflater();
-            menuInflater.inflate(R.menu.menu_contexual_action_bar, menu);
-            actionMode = mode;
-            countSelected = 0;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
             return true;
         }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            int i = item.getItemId();
-            if (i == R.id.menu_item_add_image) {
-                sendIntent();
-
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            if (countSelected > 0) {
-                deselectAll();
-            }
-            actionMode = null;
-        }
-    };
+        return false;
+    }
 
     private void toggleSelection(int position) {
         if (!images.get(position).isSelected && countSelected >= limit) {
             Toast.makeText(
-                    getApplicationContext(),
-                    String.format(getString(R.string.limit_exceeded), limit),
-                    Toast.LENGTH_SHORT)
+                            getApplicationContext(),
+                            String.format(getString(R.string.limit_exceeded), limit),
+                            Toast.LENGTH_SHORT)
                     .show();
             return;
         }
@@ -322,15 +313,49 @@ public class ImageSelectActivity extends AppCompatActivity {
     }
 
     private void sendIntent() {
-            Intent intent = new Intent(ImageSelectActivity.this, TeacherPhotosScreen.class);
-            intent.putStringArrayListExtra("images", getSelected());
-            setResult(RESULT_OK, intent);
-            finish();
+        Intent intent = new Intent(ImageSelectActivity.this, TeacherPhotosScreen.class);
+        intent.putStringArrayListExtra("images", getSelected());
+        setResult(RESULT_OK, intent);
+        finish();
 
     }
 
     private void loadImages() {
         startThread(new ImageLoaderRunnable());
+    }
+
+    private void startThread(Runnable runnable) {
+        stopThread();
+        thread = new Thread(runnable);
+        thread.start();
+    }
+
+    private void stopThread() {
+        if (thread == null || !thread.isAlive()) {
+            return;
+        }
+
+        thread.interrupt();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessage(int what) {
+        sendMessage(what, 0);
+    }
+
+    private void sendMessage(int what, int arg1) {
+        if (handler == null) {
+            return;
+        }
+
+        Message message = handler.obtainMessage();
+        message.what = what;
+        message.arg1 = arg1;
+        message.sendToTarget();
     }
 
     private class ImageLoaderRunnable implements Runnable {
@@ -406,40 +431,6 @@ public class ImageSelectActivity extends AppCompatActivity {
 
             sendMessage(Constants.FETCH_COMPLETED, tempCountSelected);
         }
-    }
-
-    private void startThread(Runnable runnable) {
-        stopThread();
-        thread = new Thread(runnable);
-        thread.start();
-    }
-
-    private void stopThread() {
-        if (thread == null || !thread.isAlive()) {
-            return;
-        }
-
-        thread.interrupt();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sendMessage(int what) {
-        sendMessage(what, 0);
-    }
-
-    private void sendMessage(int what, int arg1) {
-        if (handler == null) {
-            return;
-        }
-
-        Message message = handler.obtainMessage();
-        message.what = what;
-        message.arg1 = arg1;
-        message.sendToTarget();
     }
 
 //    @Override

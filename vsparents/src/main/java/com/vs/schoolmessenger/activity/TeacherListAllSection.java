@@ -1,20 +1,25 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.activity.TeacherAddTempClass.ADD_TEMP_CLASS_STATUS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.list_staffStdSecs;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.strNoClassWarning;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherSectionListAdapter;
@@ -27,26 +32,19 @@ import java.util.ArrayList;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
-import static com.vs.schoolmessenger.activity.TeacherAddTempClass.ADD_TEMP_CLASS_STATUS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.list_staffStdSecs;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.strNoClassWarning;
-
 
 public class TeacherListAllSection extends AppCompatActivity {//} implements TeacherOnCheckStdSecListener, TeacherOnSelectedStudentsListener {
 
+    static int SELECTED_STD_SEC_POSITION = 0;
+    static int SELECTED_STD_SEC_STUD_CODE = 1;
     TextView tvSelectAll;
     boolean bSelectAll = true;
     Button btnConfirm, btnAddNewClass;
-
     RecyclerView rvSectionList;
-    private TeacherSectionListAdapter adapter;
-    private ArrayList<TeacherSectionModel> sectionList = new ArrayList<>();
-
     ArrayList<TeacherSectionModel> listSelectedStandards = new ArrayList<>();
+    private TeacherSectionListAdapter adapter;
+    private final ArrayList<TeacherSectionModel> sectionList = new ArrayList<>();
     private int i_standards_count = 0;
-
-    static int SELECTED_STD_SEC_POSITION = 0;
-    static int SELECTED_STD_SEC_STUD_CODE = 1;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -57,7 +55,6 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_list_all_section);
-
 
 
         ImageView ivBack = (ImageView) findViewById(R.id.standards_toolBarIvBack);
@@ -131,7 +128,7 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
             public void stdSec_removeClass(TeacherSectionModel stdSec) {
                 if (stdSec != null) {
                     listSelectedStandards.remove(stdSec);
-                    Log.e("UnCheck", stdSec.getStdSecCode()+"-"+stdSec.getSubject());
+                    Log.e("UnCheck", stdSec.getStdSecCode() + "-" + stdSec.getSubject());
                     i_standards_count--;
                     enableDisableNext();
 
@@ -183,9 +180,7 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
     }
 
     private void enableDisableNext() {
-        if (i_standards_count > 0)
-            btnConfirm.setEnabled(true);
-        else btnConfirm.setEnabled(false);
+        btnConfirm.setEnabled(i_standards_count > 0);
     }
 
     private void showToast(String msg) {
@@ -231,7 +226,6 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
 
                 listSelectedStandards.get(SELECTED_STD_SEC_POSITION).setSelectedStudentsCount(String.valueOf(seleStudentsCount));
                 sectionList.get(SELECTED_STD_SEC_POSITION).setSelectedStudentsCount(String.valueOf(seleStudentsCount));
-
 
 
             }

@@ -1,16 +1,5 @@
 package com.vs.schoolmessenger.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import ss.com.bannerslider.Slider;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,6 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonObject;
@@ -44,13 +39,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import ss.com.bannerslider.Slider;
+
 
 public class LSRWListActivity extends AppCompatActivity {
 
     public ArrayList<lsrwModelClass> msgModelList = new ArrayList<>();
     RecyclerView recycleview;
     LSRWAdapter textAdapter;
-    Boolean show=false;
+    Boolean show = false;
     ImageView imgSearch;
     EditText Searchable;
     Slider slider;
@@ -88,9 +89,8 @@ public class LSRWListActivity extends AppCompatActivity {
 
         Slider.init(new PicassoImageLoadingService(LSRWListActivity.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
-
 
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -129,12 +129,11 @@ public class LSRWListActivity extends AppCompatActivity {
         });
 
 
-
         recycleview = (RecyclerView) findViewById(R.id.fees_pending_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recycleview.setLayoutManager(layoutManager);
         recycleview.setItemAnimator(new DefaultItemAnimator());
-        textAdapter = new LSRWAdapter(this,msgModelList);
+        textAdapter = new LSRWAdapter(this, msgModelList);
 
     }
 
@@ -142,7 +141,7 @@ public class LSRWListActivity extends AppCompatActivity {
         List<lsrwModelClass> temp = new ArrayList();
         for (lsrwModelClass d : msgModelList) {
 
-            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getSubmittedOn().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getSubmittedOn().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -154,7 +153,7 @@ public class LSRWListActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
 
         getLsrwListApi();
 
@@ -197,7 +196,7 @@ public class LSRWListActivity extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("LSRW:Code", response.code() + " - " + response.toString());
+                Log.d("LSRW:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("LSRW:Res", response.body().toString());
                 textAdapter.clearAllData();
@@ -233,7 +232,7 @@ public class LSRWListActivity extends AppCompatActivity {
                     } else {
                         recycleview.setAdapter(textAdapter);
                         textAdapter.notifyDataSetChanged();
-                        if(show==false) {
+                        if (!show) {
                             showAlertRecords(message);
                         }
 
@@ -257,7 +256,7 @@ public class LSRWListActivity extends AppCompatActivity {
     }
 
     private void showAlertRecords(String msg) {
-        show=true;
+        show = true;
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
         alertDialog.setTitle(R.string.alert);
@@ -267,7 +266,7 @@ public class LSRWListActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                show=false;
+                show = false;
                 finish();
 
             }

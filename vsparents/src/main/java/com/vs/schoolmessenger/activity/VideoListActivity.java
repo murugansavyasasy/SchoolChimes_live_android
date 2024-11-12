@@ -1,27 +1,25 @@
 package com.vs.schoolmessenger.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
@@ -39,7 +37,6 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -51,11 +48,10 @@ import ss.com.bannerslider.Slider;
 
 public class VideoListActivity extends AppCompatActivity {
 
-    RecyclerView videos_circularList;
     public ArrayList<VideoModelClass> videoList = new ArrayList<>();
     public ArrayList<VideoModelClass> totalvideoList = new ArrayList<>();
     public ArrayList<VideoModelClass> OfflinevideoList = new ArrayList<>();
-
+    RecyclerView videos_circularList;
     VideosAdapter imgAdapter;
     TextView lblNoMessages;
     String isNewVersion;
@@ -68,6 +64,7 @@ public class VideoListActivity extends AppCompatActivity {
     AdView mAdView;
 
     RelativeLayout voice_rlToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,8 +87,8 @@ public class VideoListActivity extends AppCompatActivity {
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         TextView tvTitle = (TextView) findViewById(R.id.image_ToolBarTvTitle);
-         LoadMore=(TextView) findViewById(R.id.btnSeeMore);
-         lblNoMessages=(TextView) findViewById(R.id.lblNoMessages);
+        LoadMore = (TextView) findViewById(R.id.btnSeeMore);
+        lblNoMessages = (TextView) findViewById(R.id.lblNoMessages);
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +104,6 @@ public class VideoListActivity extends AppCompatActivity {
         slider = findViewById(R.id.banner);
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
-
 
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -146,7 +142,7 @@ public class VideoListActivity extends AppCompatActivity {
         });
 
 
-        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(VideoListActivity.this);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(VideoListActivity.this);
 
         seeMoreButtonVisiblity();
         videos_circularList = (RecyclerView) findViewById(R.id.videos_circularList);
@@ -161,7 +157,7 @@ public class VideoListActivity extends AppCompatActivity {
         List<VideoModelClass> temp = new ArrayList();
         for (VideoModelClass d : videoList) {
 
-            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getCreatedOn().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getCreatedOn().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -171,10 +167,9 @@ public class VideoListActivity extends AppCompatActivity {
     }
 
     private void seeMoreButtonVisiblity() {
-        if(isNewVersion.equals("1")){
+        if (isNewVersion.equals("1")) {
             LoadMore.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             LoadMore.setVisibility(View.GONE);
             lblNoMessages.setVisibility(View.GONE);
         }
@@ -182,13 +177,12 @@ public class VideoListActivity extends AppCompatActivity {
 
     private void LoadMoreVideoListApi() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(VideoListActivity.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(VideoListActivity.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(VideoListActivity.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(VideoListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(VideoListActivity.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(VideoListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -198,9 +192,9 @@ public class VideoListActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String childID= Util_SharedPreference.getChildIdFromSP(VideoListActivity.this);
+        String childID = Util_SharedPreference.getChildIdFromSP(VideoListActivity.this);
         JsonObject object = new JsonObject();
-        object.addProperty("StudentId",childID);
+        object.addProperty("StudentId", childID);
         Log.d("video:req", object.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -214,7 +208,7 @@ public class VideoListActivity extends AppCompatActivity {
                     Log.d("Upload-Code:Response", response.code() + "-" + response);
 
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
                     mProgressDialog.dismiss();
                     LoadMore.setVisibility(View.GONE);
                     lblNoMessages.setVisibility(View.GONE);
@@ -224,7 +218,7 @@ public class VideoListActivity extends AppCompatActivity {
                         OfflinevideoList.clear();
                         JSONArray js = new JSONArray(response.body().toString());
                         if (js.length() > 0) {
-                            for(int i=0;i<js.length();i++) {
+                            for (int i = 0; i < js.length(); i++) {
                                 JSONObject jsonObject = js.getJSONObject(i);
 
                                 String result = jsonObject.getString("result");
@@ -242,18 +236,16 @@ public class VideoListActivity extends AppCompatActivity {
                                     String IsAppViewed = jsonObject.getString("IsAppViewed");
                                     String Iframe = jsonObject.getString("Iframe");
                                     boolean is_Archive = jsonObject.getBoolean("is_Archive");
-                                    VideoModelClass report = new VideoModelClass(VideoId,CreatedBy,CreatedOn,Title,Description,VimeoUrl,VimeoId,DetailID,IsAppViewed,Iframe,is_Archive);
+                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, is_Archive);
                                     videoList.add(report);
                                     OfflinevideoList.add(report);
-                                }
-                                else{
+                                } else {
                                     alert(Message);
                                 }
                             }
 
                             imgAdapter.notifyDataSetChanged();
-                        }
-                        else{
+                        } else {
                             alert("No Records Found");
                         }
 
@@ -273,32 +265,30 @@ public class VideoListActivity extends AppCompatActivity {
 
         });
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
         VideoListApi();
     }
 
     private void VideoListApi() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(VideoListActivity.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(VideoListActivity.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(VideoListActivity.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(VideoListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(VideoListActivity.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(VideoListActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(VideoListActivity.this);
@@ -307,9 +297,9 @@ public class VideoListActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String childID= Util_SharedPreference.getChildIdFromSP(VideoListActivity.this);
+        String childID = Util_SharedPreference.getChildIdFromSP(VideoListActivity.this);
         JsonObject object = new JsonObject();
-        object.addProperty("StudentId",childID);
+        object.addProperty("StudentId", childID);
         Log.d("video:req", object.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -323,23 +313,22 @@ public class VideoListActivity extends AppCompatActivity {
                     Log.d("Upload-Code:Response", response.code() + "-" + response);
 
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
                     mProgressDialog.dismiss();
                     try {
                         videoList.clear();
                         totalvideoList.clear();
 
-                        if(isNewVersion.equals("1")){
+                        if (isNewVersion.equals("1")) {
                             LoadMore.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             LoadMore.setVisibility(View.GONE);
                             lblNoMessages.setVisibility(View.GONE);
                         }
 
                         JSONArray js = new JSONArray(response.body().toString());
                         if (js.length() > 0) {
-                            for(int i=0;i<js.length();i++) {
+                            for (int i = 0; i < js.length(); i++) {
                                 JSONObject jsonObject = js.getJSONObject(i);
 
                                 String result = jsonObject.getString("result");
@@ -356,22 +345,20 @@ public class VideoListActivity extends AppCompatActivity {
                                     String IsAppViewed = jsonObject.getString("IsAppViewed");
                                     String Iframe = jsonObject.getString("Iframe");
 
-                                    VideoModelClass report = new VideoModelClass(VideoId,CreatedBy,CreatedOn,Title,Description,VimeoUrl,VimeoId,DetailID,IsAppViewed,Iframe,false);
+                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, false);
                                     videoList.add(report);
                                     totalvideoList.add(report);
-                                }
-                                else{
-                                    if(isNewVersion.equals("1")){
+                                } else {
+                                    if (isNewVersion.equals("1")) {
                                         lblNoMessages.setVisibility(View.VISIBLE);
                                         lblNoMessages.setText(Message);
 
-                                        String loadMoreCall=TeacherUtil_SharedPreference.getOnBackMethodVideo(VideoListActivity.this);
-                                        if(loadMoreCall.equals("1")){
-                                            TeacherUtil_SharedPreference.putOnBackPressedVideo(VideoListActivity.this,"");
+                                        String loadMoreCall = TeacherUtil_SharedPreference.getOnBackMethodVideo(VideoListActivity.this);
+                                        if (loadMoreCall.equals("1")) {
+                                            TeacherUtil_SharedPreference.putOnBackPressedVideo(VideoListActivity.this, "");
                                             LoadMoreVideoListApi();
                                         }
-                                    }
-                                    else {
+                                    } else {
                                         lblNoMessages.setVisibility(View.GONE);
                                         alert(Message);
                                     }
@@ -380,8 +367,7 @@ public class VideoListActivity extends AppCompatActivity {
                             }
 
                             imgAdapter.notifyDataSetChanged();
-                        }
-                        else{
+                        } else {
                             alert("No Records Found");
                         }
 

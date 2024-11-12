@@ -6,30 +6,29 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
-import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.fragments.CompletedExamEnhancement;
-import com.vs.schoolmessenger.fragments.EventsFragment;
-import com.vs.schoolmessenger.fragments.ExpiredExamEnhancement;
-import com.vs.schoolmessenger.fragments.HolidaysFragment;
-
-import com.vs.schoolmessenger.fragments.UpcomingExamEnhancement;
-import com.vs.schoolmessenger.util.Util_SharedPreference;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.tabs.TabLayout;
+import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.fragments.CompletedExamEnhancement;
+import com.vs.schoolmessenger.fragments.ExpiredExamEnhancement;
+import com.vs.schoolmessenger.fragments.UpcomingExamEnhancement;
+import com.vs.schoolmessenger.util.Util_SharedPreference;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
-public  class ParentOnlineExamScreen extends AppCompatActivity implements View.OnClickListener {
+public class ParentOnlineExamScreen extends AppCompatActivity implements View.OnClickListener {
 
-    private TabLayout allTabs;
     public static ParentOnlineExamScreen instance;
+    String strChildID = "", strSchoolID = "";
+    private TabLayout allTabs;
     private UpcomingExamEnhancement fragmentOne;
     private CompletedExamEnhancement fragmentTwo;
     private ExpiredExamEnhancement fragmentThree;
-    String strChildID = "", strSchoolID = "";
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -58,17 +57,18 @@ public  class ParentOnlineExamScreen extends AppCompatActivity implements View.O
             }
         });
 
-        instance=this;
+        instance = this;
         getAllWidgets();
         bindWidgetsWithAnEvent();
         setupTabLayout();
     }
+
     private void setupTabLayout() {
         fragmentOne = new UpcomingExamEnhancement();
         fragmentTwo = new CompletedExamEnhancement();
         fragmentThree = new ExpiredExamEnhancement();
 
-        allTabs.addTab(allTabs.newTab().setText("Upcoming"),true);
+        allTabs.addTab(allTabs.newTab().setText("Upcoming"), true);
         allTabs.addTab(allTabs.newTab().setText("Completed"));
         allTabs.addTab(allTabs.newTab().setText("Expired"));
     }
@@ -78,36 +78,37 @@ public  class ParentOnlineExamScreen extends AppCompatActivity implements View.O
         allTabs = (TabLayout) findViewById(R.id.tabs);
     }
 
-    private void bindWidgetsWithAnEvent()
-    {
+    private void bindWidgetsWithAnEvent() {
         allTabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 setCurrentTabFragment(tab.getPosition());
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
     }
-    private void setCurrentTabFragment(int tabPosition)
-    {
-        switch (tabPosition)
-        {
-            case 0 :
+
+    private void setCurrentTabFragment(int tabPosition) {
+        switch (tabPosition) {
+            case 0:
                 replaceFragment(fragmentOne);
                 break;
-            case 1 :
+            case 1:
                 replaceFragment(fragmentTwo);
                 break;
-            case 2 :
+            case 2:
                 replaceFragment(fragmentThree);
                 break;
         }
     }
+
     public void replaceFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

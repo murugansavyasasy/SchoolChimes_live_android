@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_QUIZ;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,7 +41,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonObject;
 import com.jsibbold.zoomage.ZoomageView;
@@ -66,42 +73,33 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_QUIZ;
-
-public class KnowledgeEnhancementQuestions extends AppCompatActivity implements QuestionClickListener,View.OnClickListener {
-    TextView lblStarttime, lblendtime, lblduration, lblmin, lblqueno, lblque,lblPDF,lblprev,lblnext;
+public class KnowledgeEnhancementQuestions extends AppCompatActivity implements QuestionClickListener, View.OnClickListener {
+    public QuestionForQuizAdapter mAdapter;
+    TextView lblStarttime, lblendtime, lblduration, lblmin, lblqueno, lblque, lblPDF, lblprev, lblnext;
     RadioGroup rgoptions;
     RecyclerView rcyquestions;
     FrameLayout videoview;
     ConstraintLayout constraint;
     LinearLayout lnrPDFtext;
-    ImageView imgview,imgVideo,imgplay,imgShadow,imgprev,imgnext;
+    ImageView imgview, imgVideo, imgplay, imgShadow, imgprev, imgnext;
     Button btnnext, btnprevious, btnsubmit;
-
-    String child_id,ansid,answer;
-    int adapterpos = 0, nextpos = 0, previouspos = 0,QuizId;
-    private ArrayList<QuestionForQuiz> msgModelList = new ArrayList<>();
+    String child_id, ansid, answer;
+    int adapterpos = 0, nextpos = 0, previouspos = 0, QuizId;
     QuestionForQuiz msgModel;
     KnowledgeEnhancementModel info;
-    ArrayList<String> answerlist=new ArrayList<>();
-    ArrayList<String> questionlist=new ArrayList<>();
-
-    public QuestionForQuizAdapter mAdapter;
+    ArrayList<String> answerlist = new ArrayList<>();
+    ArrayList<String> questionlist = new ArrayList<>();
     RelativeLayout ryttime;
-    String pdfuri,videourl,imageurl;
-    PopupWindow popupWindow,popupimage;
+    String pdfuri, videourl, imageurl;
+    PopupWindow popupWindow, popupimage;
     TabLayout tabLayout;
+    private final ArrayList<QuestionForQuiz> msgModelList = new ArrayList<>();
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +118,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             }
         });
 
-        tabLayout= Objects.requireNonNull(this).findViewById(R.id.tabs);
+        tabLayout = Objects.requireNonNull(this).findViewById(R.id.tabs);
 
 
         btnnext = findViewById(R.id.btnnext);
@@ -152,8 +150,8 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         child_id = Util_SharedPreference.getChildIdFromSP(this);
         info = (KnowledgeEnhancementModel) getIntent().getSerializableExtra("Knowledge");
         String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(KnowledgeEnhancementQuestions.this);
-        if(info.getIsAppRead().equals("0")){
-            ChangeMsgReadStatus.changeReadStatus(KnowledgeEnhancementQuestions.this, String.valueOf(info.getDetailId()), MSG_TYPE_QUIZ,"",isNewVersion,false, new OnRefreshListener() {
+        if (info.getIsAppRead().equals("0")) {
+            ChangeMsgReadStatus.changeReadStatus(KnowledgeEnhancementQuestions.this, String.valueOf(info.getDetailId()), MSG_TYPE_QUIZ, "", isNewVersion, false, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
 
@@ -179,12 +177,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             imgprev.setImageResource(R.drawable.bg_prev_enable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_black));
         }
-        if(answerlist.size()==0){
-            btnsubmit.setEnabled(false);
-        }
-        else{
-            btnsubmit.setEnabled(true);
-        }
+        btnsubmit.setEnabled(answerlist.size() != 0);
         imgnext.setOnClickListener(this);
         imgprev.setOnClickListener(this);
         btnnext.setOnClickListener(this);
@@ -197,7 +190,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         imgShadow.setOnClickListener(this);
         imgplay.setOnClickListener(this);
 
-        if(adapterpos==0) {
+        if (adapterpos == 0) {
             mAdapter = new QuestionForQuizAdapter(msgModelList, this, 0, this);
             rcyquestions.setHasFixedSize(true);
             rcyquestions.setLayoutManager(new LinearLayoutManager(KnowledgeEnhancementQuestions.this, LinearLayoutManager.HORIZONTAL, false));
@@ -208,7 +201,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
     }
 
     private void examEnhancement(int quizId) {
-        QuizId=quizId;
+        QuizId = quizId;
         String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(this);
         if (isNewVersionn.equals("1")) {
             String ReportURL = TeacherUtil_SharedPreference.getReportURL(this);
@@ -238,7 +231,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -256,11 +249,11 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                             if (status == 1) {
 
                                 String level = jsonObject.getString("Level");
-                                ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Level"+" "+level);
+                                ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Level" + " " + level);
 
                                 JSONArray data = jsonObject.getJSONArray("data");
 
-                                if(data.length()!=0) {
+                                if (data.length() != 0) {
                                     constraint.setVisibility(View.VISIBLE);
                                     for (int i = 0; i < data.length(); i++) {
                                         jsonObject = data.getJSONObject(i);
@@ -270,7 +263,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                                                 jsonObject.getString("FileType"),
                                                 jsonObject.getString("FileUrl"),
                                                 jsonObject.getInt("mark"),
-                                                String.valueOf(i+1),
+                                                String.valueOf(i + 1),
                                                 jsonObject.getJSONArray("Answer")
                                         );
 
@@ -285,8 +278,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                                     rcyquestions.setAdapter(mAdapter);
                                     mAdapter.notifyDataSetChanged();
 //                                    mAdapter.notifyDataSetChanged();
-                                }
-                                else{
+                                } else {
                                     constraint.setVisibility(View.GONE);
                                     mAdapter = new QuestionForQuizAdapter(msgModelList, KnowledgeEnhancementQuestions.this, 0, KnowledgeEnhancementQuestions.this);
 
@@ -295,12 +287,12 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                                     rcyquestions.setItemAnimator(new DefaultItemAnimator());
                                     rcyquestions.setAdapter(mAdapter);
                                     mAdapter.notifyDataSetChanged();
-                                    showAlert(getResources().getString(R.string.no_records),"0", "EXAM");
+                                    showAlert(getResources().getString(R.string.no_records), "0", "EXAM");
                                 }
 
                             } else {
                                 constraint.setVisibility(View.GONE);
-                                showAlert(message,"0", "EXAM");
+                                showAlert(message, "0", "EXAM");
                             }
 
                         } catch (Exception e) {
@@ -351,7 +343,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -362,29 +354,26 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                             QuizId = Integer.parseInt(jsonObject.getString("QuizId"));
 
                             if (strStatus == 1) {
-                                if(QuizId==0) {
-                                    showAlert(strMsg, String.valueOf(strStatus),"SUBMIT");
-                                }else{
-                                    showAlertApi("Submitted Successfully..!,Do you want to attend the next level","LEVEL");
+                                if (QuizId == 0) {
+                                    showAlert(strMsg, String.valueOf(strStatus), "SUBMIT");
+                                } else {
+                                    showAlertApi("Submitted Successfully..!,Do you want to attend the next level", "LEVEL");
                                 }
-                            }
-
-                            else {
-                                showAlert(strMsg,"0","SUBMIT");
+                            } else {
+                                showAlert(strMsg, "0", "SUBMIT");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                    }
-                    else {
+                    } else {
                         Toast.makeText(KnowledgeEnhancementQuestions.this, "Server Response Failed", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.e("Response Exception", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
@@ -394,6 +383,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             }
         });
     }
+
     private void showAlert(String msg, final String s, final String submit) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
@@ -403,21 +393,18 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(submit.equals("SUBMIT")){
-                    if(s.equals("1") && QuizId==0){
+                if (submit.equals("SUBMIT")) {
+                    if (s.equals("1") && QuizId == 0) {
                         dialog.cancel();
-                        Intent i=new Intent(KnowledgeEnhancementQuestions.this,ParentKnowledgeEnhancementScreen.class);
-                        i.putExtra("complete",1);
+                        Intent i = new Intent(KnowledgeEnhancementQuestions.this, ParentKnowledgeEnhancementScreen.class);
+                        i.putExtra("complete", 1);
                         startActivity(i);
                         finish();
-                    }
-                    else{
+                    } else {
                         dialog.cancel();
                         finish();
                     }
-                }
-
-                else {
+                } else {
                     dialog.cancel();
                     finish();
                 }
@@ -434,6 +421,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
+
     private void showAlertApi(String msg, final String submit) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
@@ -444,10 +432,9 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if(submit.equals("SUBMIT")) {
+                if (submit.equals("SUBMIT")) {
                     submitquiz(QuizId);
-                }
-                else if(submit.equals("LEVEL")){
+                } else if (submit.equals("LEVEL")) {
                     examEnhancement(QuizId);
                 }
                 dialog.cancel();
@@ -457,14 +444,13 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         alertDialog.setPositiveButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(submit.equals("SUBMIT")) {
+                if (submit.equals("SUBMIT")) {
                     dialog.cancel();
 //                    finish();
-                }
-                else if(submit.equals("LEVEL")){
+                } else if (submit.equals("LEVEL")) {
                     dialog.cancel();
-                    Intent i=new Intent(KnowledgeEnhancementQuestions.this,ParentKnowledgeEnhancementScreen.class);
-                    i.putExtra("complete",1);
+                    Intent i = new Intent(KnowledgeEnhancementQuestions.this, ParentKnowledgeEnhancementScreen.class);
+                    i.putExtra("complete", 1);
                     startActivity(i);
                     finish();
                 }
@@ -476,6 +462,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
+
     @Override
     public void addclass(final QuestionForQuiz menu, int position) {
         adapterpos = position;
@@ -527,7 +514,6 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                                     answerref = idref[1];
 
 
-
                                     if (answerlist.contains(menu.getQestionId() + "~" + ansidref)) {
                                         Log.d("changeexist", "changeexist");
                                         int replacepos = answerlist.indexOf(menu.getQestionId() + "~" + ansidref);
@@ -544,21 +530,16 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                             questionlist.add(String.valueOf(menu.getQestionId()));
                             answerlist.add(idcom);
                         }
-                        if(answerlist.size()==0){
-                            btnsubmit.setEnabled(false);
-                        }
-                        else{
-                            btnsubmit.setEnabled(true);
-                        }
+                        btnsubmit.setEnabled(answerlist.size() != 0);
 
                     }
                 }
             });
 
-            if(questionlist.contains(String.valueOf(menu.getQestionId()))){
-                int replacequepos=questionlist.indexOf(String.valueOf(menu.getQestionId()));
-                if(questionlist.get(replacequepos).equals(String.valueOf(menu.getQestionId()))){
-                    String answersetupl=answerlist.get(replacequepos);
+            if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
+                int replacequepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
+                if (questionlist.get(replacequepos).equals(String.valueOf(menu.getQestionId()))) {
+                    String answersetupl = answerlist.get(replacequepos);
 
                     String[] idsetup = new String[0];
                     idsetup = answersetupl.split("~");
@@ -566,7 +547,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                     Log.d("ansidsetup", String.valueOf(ansidsetup));
                     int answersetup = Integer.parseInt(idsetup[1]);
                     Log.d("answersetup", String.valueOf(answersetup));
-                    if(radioButton.getId()==answersetup){
+                    if (radioButton.getId() == answersetup) {
                         radioButton.setChecked(true);
                     }
 
@@ -577,24 +558,18 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
 
         }
 
-        if(answerlist.size()==0){
-            btnsubmit.setEnabled(false);
-        }
-        else{
-            btnsubmit.setEnabled(true);
-        }
-        if (adapterpos == msgModelList.size()-1 && msgModelList.size() != 0) {
+        btnsubmit.setEnabled(answerlist.size() != 0);
+        if (adapterpos == msgModelList.size() - 1 && msgModelList.size() != 0) {
             imgnext.setImageResource(R.drawable.bg_next_disable);
             lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
         } else {
             imgnext.setImageResource(R.drawable.bg_next_enable);
             lblnext.setTextColor(getResources().getColor(R.color.clr_black));
         }
-        if(adapterpos==0){
+        if (adapterpos == 0) {
             imgprev.setImageResource(R.drawable.bg_prev_disable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
-        }
-        else{
+        } else {
             imgprev.setImageResource(R.drawable.bg_prev_enable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_black));
         }
@@ -609,31 +584,28 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         lnrPDFtext.setVisibility(View.GONE);
         if (!menu.getVideoUrl().equals("")) {
             videoview.setVisibility(View.VISIBLE);
-            videourl=menu.getVideoUrl();
-        }
-        else{
+            videourl = menu.getVideoUrl();
+        } else {
             videoview.setVisibility(View.GONE);
         }
-        if(menu.getFileType().equals("IMAGE")&& !menu.getFileUrl().equals("")) {
+        if (menu.getFileType().equals("IMAGE") && !menu.getFileUrl().equals("")) {
 
             imgview.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(menu.getFileUrl())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imgview);
-            imageurl=menu.getFileUrl();
+            imageurl = menu.getFileUrl();
 
 
-        }
-        else{
+        } else {
             imgview.setVisibility(View.GONE);
         }
-        if(menu.getFileType().equals("PDF")&& !menu.getFileUrl().equals("")){
+        if (menu.getFileType().equals("PDF") && !menu.getFileUrl().equals("")) {
             lnrPDFtext.setVisibility(View.VISIBLE);
             lblPDF.setText(menu.getFileUrl());
-            pdfuri=menu.getFileUrl();
-        }
-        else{
+            pdfuri = menu.getFileUrl();
+        } else {
 
             lnrPDFtext.setVisibility(View.GONE);
         }
@@ -642,6 +614,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
     @Override
     public void removeclass(QuestionForQuiz menu) {
     }
+
     private void showvideopopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.vimeo_player, null);
@@ -704,7 +677,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
 
-        String VIDEO_URL="https://player.vimeo.com/video/"+ "425233784";
+        String VIDEO_URL = "https://player.vimeo.com/video/" + "425233784";
 
         String data_html = "<!DOCTYPE html><html> " +
                 "<head>" +
@@ -714,7 +687,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                 " <body style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;\"> " +
                 "<div class=\"vimeo\">" +
 
-                "<iframe  style=\"position:absolute;top:0;bottom:0;width:100%;height:100%\" src=\""+ videourl+"\" frameborder=\"0\">" +
+                "<iframe  style=\"position:absolute;top:0;bottom:0;width:100%;height:100%\" src=\"" + videourl + "\" frameborder=\"0\">" +
                 "</iframe>" +
                 " </div>" +
                 " </body>" +
@@ -761,6 +734,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                         onBackPressed();
                         return false;
                     }
+
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         mProgressDialog.dismiss();
@@ -848,28 +822,26 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                 break;
 
             case R.id.btnsubmit:
-                if(answerlist.size()==msgModelList.size()) {
-                    showAlertApi("Are you sure want to submit the Quiz ?","SUBMIT");
-                }
-                else if(questionlist.size()!=msgModelList.size()){
+                if (answerlist.size() == msgModelList.size()) {
+                    showAlertApi("Are you sure want to submit the Quiz ?", "SUBMIT");
+                } else if (questionlist.size() != msgModelList.size()) {
 
-                    for(int i=0;i<msgModelList.size();i++){
-                        if(!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))){
-                            String emptyque=msgModelList.get(i).getQestionId()+"~"+0;
+                    for (int i = 0; i < msgModelList.size(); i++) {
+                        if (!questionlist.contains(String.valueOf(msgModelList.get(i).getQestionId()))) {
+                            String emptyque = msgModelList.get(i).getQestionId() + "~" + 0;
                             answerlist.add(emptyque);
                         }
                     }
-                    if(answerlist.size()==msgModelList.size()) {
-                        showAlertApi("Are you sure want to submit the Quiz ?","SUBMIT");
+                    if (answerlist.size() == msgModelList.size()) {
+                        showAlertApi("Are you sure want to submit the Quiz ?", "SUBMIT");
                     }
                 }
-
 
 
                 break;
 
             case R.id.lnrPDFtext:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/gview?embedded=true&url="+pdfuri));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/gview?embedded=true&url=" + pdfuri));
                 browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 browserIntent.setPackage("com.android.chrome");
                 startActivity(browserIntent);

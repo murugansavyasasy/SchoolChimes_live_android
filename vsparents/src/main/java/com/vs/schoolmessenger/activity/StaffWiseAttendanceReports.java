@@ -34,7 +34,6 @@ import com.vs.schoolmessenger.adapter.AttendanceReportsAdapter;
 import com.vs.schoolmessenger.adapter.PunchHistoryAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.ViewPunchHistoryListener;
-import com.vs.schoolmessenger.model.DatesModel;
 import com.vs.schoolmessenger.model.PunchHistoryRes;
 import com.vs.schoolmessenger.model.StaffAttendanceBiometricReportRes;
 import com.vs.schoolmessenger.model.StaffListRes;
@@ -54,31 +53,31 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class StaffWiseAttendanceReports extends AppCompatActivity implements  View.OnClickListener {
-    String SchoolID = "", StaffID = "";
-
-    TextView btnTodaysReport,btnMonthWiseReports,lblNoRecords;
-    RecyclerView recycleReports;
-    Spinner spinnerStaffs,spinnerYears,spinnerMonths;
-    LinearLayout lnrHeaderSpinners,lnrDatesSpinners;
-    RelativeLayout rytStaffSpinner,rytParent;
+public class StaffWiseAttendanceReports extends AppCompatActivity implements View.OnClickListener {
     public List<PunchHistoryRes.PunchHistoryData> punchTimingList = new ArrayList<PunchHistoryRes.PunchHistoryData>();
     public PunchHistoryAdapter punchHistoryAdapter;
     public List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> attendanceReportsList = new ArrayList<StaffAttendanceBiometricReportRes.BiometriStaffReportData>();
     public List<StaffListRes.StaffListData> StaffList = new ArrayList<StaffListRes.StaffListData>();
-
     public AttendanceReportsAdapter mAdapter;
+    String SchoolID = "", StaffID = "";
+    TextView btnTodaysReport, btnMonthWiseReports, lblNoRecords;
+    RecyclerView recycleReports;
+    Spinner spinnerStaffs, spinnerYears, spinnerMonths;
+    LinearLayout lnrHeaderSpinners, lnrDatesSpinners;
+    RelativeLayout rytStaffSpinner, rytParent;
     String monthID = "";
-    private PopupWindow viewPunchHistoryPopup;
     int currentYear = 0;
     int selectedStaffID = 0;
     String[] Years = new String[20];
     String cardType = "DayWise";
     EditText txtSearch;
+    private PopupWindow viewPunchHistoryPopup;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +122,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (mAdapter == null)
@@ -135,12 +135,12 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                     if (txtSearch.getText().toString().isEmpty()) {
                         recycleReports.setVisibility(View.VISIBLE);
                     }
-                }
-                else {
+                } else {
                     recycleReports.setVisibility(View.VISIBLE);
                     lblNoRecords.setVisibility(View.GONE);
                 }
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
                 filterlist(editable.toString());
@@ -180,7 +180,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("attendance:code-res", response.code() + " - " + response.toString());
+                    Log.d("attendance:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
 
                         Gson gson = new Gson();
@@ -191,8 +191,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                         if (response.body().getStatus() == 1) {
                             StaffList = response.body().getData();
                             loadStaffListSpinner();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
@@ -219,7 +218,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
     private void loadStaffListSpinner() {
         String[] staffs = new String[StaffList.size()];
 
-        for(int i=0 ; i<StaffList.size() ;i++){
+        for (int i = 0; i < StaffList.size(); i++) {
             String staffname = StaffList.get(i).getStaffName();
             staffs[i] = staffname;
         }
@@ -236,6 +235,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                 getStaffWiseAttendanceReports();
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -259,11 +259,10 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         Call<StaffAttendanceBiometricReportRes> call;
-        if(cardType.equals("DayWise")){
+        if (cardType.equals("DayWise")) {
             call = apiService.getDayWiseBiometricAttendanceReport(formattedDate, SchoolID);
-        }
-        else {
-            call = apiService.getStaffWiseBiometricAttendanceReport(String.valueOf(selectedStaffID),monthID , SchoolID);
+        } else {
+            call = apiService.getStaffWiseBiometricAttendanceReport(String.valueOf(selectedStaffID), monthID, SchoolID);
         }
 
         call.enqueue(new Callback<StaffAttendanceBiometricReportRes>() {
@@ -272,7 +271,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("attendance:code-res", response.code() + " - " + response.toString());
+                    Log.d("attendance:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
 
                         Gson gson = new Gson();
@@ -297,8 +296,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                             recycleReports.setAdapter(mAdapter);
                             recycleReports.getRecycledViewPool().setMaxRecycledViews(0, 80);
                             mAdapter.notifyDataSetChanged();
-                        }
-                        else {
+                        } else {
                             txtSearch.setEnabled(false);
                             recycleReports.setVisibility(View.GONE);
                             lblNoRecords.setVisibility(View.VISIBLE);
@@ -344,7 +342,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         lblTitle.setTypeface(null, Typeface.BOLD);
         lblNoRecords.setTypeface(null, Typeface.BOLD);
 
-        viewPunchHistory(item,recycleHistory,lblNoRecords);
+        viewPunchHistory(item, recycleHistory, lblNoRecords);
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -362,22 +360,21 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        Call<PunchHistoryRes> call = apiService.viewPunchHistory(SchoolID,item.getStaffId(),item.getDate(),item.getDate());
+        Call<PunchHistoryRes> call = apiService.viewPunchHistory(SchoolID, item.getStaffId(), item.getDate(), item.getDate());
         call.enqueue(new Callback<PunchHistoryRes>() {
             @Override
             public void onResponse(Call<PunchHistoryRes> call, retrofit2.Response<PunchHistoryRes> response) {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("attendance:code-res", response.code() + " - " + response.toString());
+                    Log.d("attendance:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Gson gson = new Gson();
                         String data = gson.toJson(response.body());
                         Log.d("punchHistoryReport", data);
                         Log.d("punchHistoryReport", response.body().toString());
                         punchTimingList.clear();
-                        if (response.body().getStatus() == 1)
-                        {
+                        if (response.body().getStatus() == 1) {
                             recycleHistory.setVisibility(View.VISIBLE);
                             lblNoRecords.setVisibility(View.GONE);
                             punchTimingList = response.body().getData();
@@ -388,16 +385,13 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
                             recycleHistory.setAdapter(punchHistoryAdapter);
                             recycleHistory.getRecycledViewPool().setMaxRecycledViews(0, 80);
                             punchHistoryAdapter.notifyDataSetChanged();
-                        }
-                        else
-                        {
+                        } else {
                             recycleHistory.setVisibility(View.GONE);
                             lblNoRecords.setVisibility(View.VISIBLE);
                             lblNoRecords.setText(response.body().getMessage());
                         }
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
                     Log.e("Response Exception", e.getMessage());
@@ -420,7 +414,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         Calendar calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         Years[0] = String.valueOf(currentYear);
-        for(int i=1 ; i<20 ;i++){
+        for (int i = 1; i < 20; i++) {
             currentYear = currentYear - 1;
             Years[i] = String.valueOf(currentYear);
         }
@@ -431,9 +425,10 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         spinnerYears.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("SelectedYear",Years[position]);
+                Log.d("SelectedYear", Years[position]);
                 loadMonthsSpinner(Years[position]);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -448,16 +443,16 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
         List<String> monthList = new ArrayList<>();
         monthList.add(monthNames[currentMonthIndex]);
 
-        monthsModel data ;
+        monthsModel data;
         List<monthsModel> monthDataList = new ArrayList<>();
-        data = new monthsModel(currentMonthIndex,monthNames[currentMonthIndex]);
+        data = new monthsModel(currentMonthIndex, monthNames[currentMonthIndex]);
         monthDataList.add(data);
         Log.d("currentMonthIndex", String.valueOf(currentMonthIndex));
         // Add the rest of the months
         for (int i = 0; i < monthNames.length; i++) {
             if (i != currentMonthIndex) {
                 monthList.add(monthNames[i]);
-                data = new monthsModel(i,monthNames[i]);
+                data = new monthsModel(i, monthNames[i]);
                 monthDataList.add(data);
             }
         }
@@ -470,22 +465,21 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements  Vi
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("monthPosition", String.valueOf(position));
                 int ID = monthDataList.get(position).getID();
-                if(ID > 8){
-                    monthID = selectedYear+ "-"+String.valueOf(ID+1);
-                }
-                else {
-                    monthID = selectedYear+ "-"+"0"+String.valueOf(ID+1);
+                if (ID > 8) {
+                    monthID = selectedYear + "-" + (ID + 1);
+                } else {
+                    monthID = selectedYear + "-" + "0" + (ID + 1);
                 }
 
-                if(StaffList.size() == 0) {
+                if (StaffList.size() == 0) {
                     getStaffsList();
-                }
-                else {
+                } else {
                     getStaffWiseAttendanceReports();
                 }
 
-                Log.d("SelectedMonthID",monthID);
+                Log.d("SelectedMonthID", monthID);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }

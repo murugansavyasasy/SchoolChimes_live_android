@@ -6,12 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
@@ -48,20 +48,17 @@ import ss.com.bannerslider.Slider;
 
 public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerDialogFragment.OnDateSetListener {
 
+    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
+    private static final String FRAG_TAG_TIME_PICKER = "fragment_time_picker_name";
     TextView tv_fromdate, tv_todate;
     String strfromdate, strtodate, strreason, strdatevalue;
     EditText et_reason;
     Button btn_apply;
-
     String strDate, strCurrentDate, timeString, strTime;//strDuration
     int selDay, selMonth, selYear;
     String selHour, selMin;
     int minimumHour, minimumMinute;
     boolean bMinDateTime = true;
-
-    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
-    private static final String FRAG_TAG_TIME_PICKER = "fragment_time_picker_name";
-
     PopupWindow pwindow;
     Button btnLeaveHistory;
     Slider slider;
@@ -82,8 +79,8 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         tv_fromdate = (TextView) findViewById(R.id.appLeave_tvFromDate);
         tv_todate = (TextView) findViewById(R.id.appLeave_tvToDate);
         et_reason = (EditText) findViewById(R.id.applyleave_etReason);
-        btn_apply= (Button) findViewById(R.id.appLeave_btnSignIn);
-        btnLeaveHistory= (Button) findViewById(R.id.btnLeaveHistory);
+        btn_apply = (Button) findViewById(R.id.appLeave_btnSignIn);
+        btnLeaveHistory = (Button) findViewById(R.id.btnLeaveHistory);
 
         Slider.init(new PicassoImageLoadingService(ApplyLeave.this));
         slider = findViewById(R.id.banner);
@@ -95,8 +92,8 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
             @Override
             public void onClick(View v) {
 
-                Intent leavehistory=new Intent(ApplyLeave.this,LeaveRequestsByStaffs.class);
-                leavehistory.putExtra("type","child");
+                Intent leavehistory = new Intent(ApplyLeave.this, LeaveRequestsByStaffs.class);
+                leavehistory.putExtra("type", "child");
                 startActivity(leavehistory);
             }
         });
@@ -120,12 +117,11 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                strreason=et_reason.getText().toString();
-                if(strreason.isEmpty()){
+                strreason = et_reason.getText().toString();
+                if (strreason.isEmpty()) {
 
                     showToast(getResources().getString(R.string.enter_leave_reason));
-                }
-                else{
+                } else {
                     ApplyleaveAPI();
                 }
             }
@@ -149,7 +145,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"Dashboard",mAdView);
+        ShowAds.getAds(this, adImage, slider, "Dashboard", mAdView);
     }
 
     private void setMinDateTime() {
@@ -172,13 +168,11 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void datePicker() {
@@ -214,9 +208,10 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
             strtodate = dateFormater(dialog.getSelectedDay().getDateInMillis(), "dd-MM-yyyy");
         }
     }
+
     private void ApplyleaveAPI() {
 
-        String baseURL= TeacherUtil_SharedPreference.getBaseUrl(ApplyLeave.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ApplyLeave.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -237,24 +232,23 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
-                        Log.d("json length", js.length() + "");
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMessage = jsonObject.getString("Message");
+                        Log.d("json length", String.valueOf(js.length()));
+                        JSONObject jsonObject = js.getJSONObject(0);
+                        String strStatus = jsonObject.getString("Status");
+                        String strMessage = jsonObject.getString("Message");
 
-                            if (strStatus.equals("1")) {
-                                showRecords(strMessage);
-                            }
-                            else{
-                                showRecords(strMessage);
-                            }
+                        if (strStatus.equals("1")) {
+                            showRecords(strMessage);
+                        } else {
+                            showRecords(strMessage);
+                        }
                     } else {
                         showRecords(getResources().getString(R.string.no_records));
                     }
@@ -289,7 +283,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(et_reason.getWindowToken(), 0);
 
                 dialog.cancel();
@@ -299,11 +293,11 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         });
 
 
-         AlertDialog dialog = alertDialog.create();
-         dialog.setCanceledOnTouchOutside(false);
-         dialog.show();
-         Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE);
-         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+        AlertDialog dialog = alertDialog.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE);
+        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void showToast(String msg) {
@@ -314,7 +308,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
 
         String strChildID = Util_SharedPreference.getChildIdFromSP(ApplyLeave.this);
         String strSchoolID = Util_SharedPreference.getSchoolIdFromSP(ApplyLeave.this);
-        strreason=et_reason.getText().toString();
+        strreason = et_reason.getText().toString();
         JsonObject jsonObjectSchool = new JsonObject();
         try {
             jsonObjectSchool.addProperty("ChildID", strChildID);

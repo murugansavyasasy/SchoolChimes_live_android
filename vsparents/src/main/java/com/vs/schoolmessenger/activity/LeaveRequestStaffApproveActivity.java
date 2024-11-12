@@ -1,13 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -17,9 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.assignment.StudentSelectAssignment;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.LeaveRequestDetails;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -59,7 +54,7 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
         final EditText Reason = (EditText) findViewById(R.id.txtReason);
 
         if (history.getLoginType()) {
-            if(history.getApproved().equals("0")) {
+            if (history.getApproved().equals("0")) {
                 btnPopupApprove.setVisibility(View.VISIBLE);
                 btnPopupDecline.setVisibility(View.VISIBLE);
                 Reason.setVisibility(View.GONE);
@@ -71,7 +66,7 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
         }
 
 
-        lblPopupName.setText("" + history.getName());
+        lblPopupName.setText(history.getName());
         lblPopupStandard.setText(" " + history.getCLS());
         lblPopupSection.setText(history.getSection());
         lblPopupAppliedOn.setText(" : " + history.getLeaveAppliedOn());
@@ -91,17 +86,17 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
         btnPopupApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String reason=Reason.getText().toString();
+                String reason = Reason.getText().toString();
 
-                leaveApproveDeclineApi("1", history.getId(), history.getUpdatedOn(),reason);
+                leaveApproveDeclineApi("1", history.getId(), history.getUpdatedOn(), reason);
 
             }
         });
         btnPopupDecline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String reason=Reason.getText().toString();
-                leaveApproveDeclineApi("2", history.getId(), history.getUpdatedOn(),reason);
+                String reason = Reason.getText().toString();
+                leaveApproveDeclineApi("2", history.getId(), history.getUpdatedOn(), reason);
 
             }
         });
@@ -110,10 +105,10 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
 
     private void leaveApproveDeclineApi(String approve, String id, String updatedOn, String reason) {
 
-        String baseURL= TeacherUtil_SharedPreference.getBaseUrl(LeaveRequestStaffApproveActivity.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(LeaveRequestStaffApproveActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
-        String staffid=  TeacherUtil_Common.Principal_staffId;
+        String staffid = TeacherUtil_Common.Principal_staffId;
         final ProgressDialog mProgressDialog = new ProgressDialog(LeaveRequestStaffApproveActivity.this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
@@ -135,7 +130,7 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 

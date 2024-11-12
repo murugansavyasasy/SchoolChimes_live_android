@@ -4,10 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -19,10 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.assignment.StudentSelectAssignment;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -40,7 +39,8 @@ public class PaymentWebViewActivity extends AppCompatActivity {
     String childID = "";
     String SchoolID = "";
     ProgressDialog pDialog;
-    String PaymentLink ="";
+    String PaymentLink = "";
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -75,7 +75,7 @@ public class PaymentWebViewActivity extends AppCompatActivity {
 
     private void getPaymentLink() {
 
-        String baseURL= TeacherUtil_SharedPreference.getBaseUrl(PaymentWebViewActivity.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(PaymentWebViewActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -95,7 +95,7 @@ public class PaymentWebViewActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("Payment:code-res", response.code() + " - " + response.toString());
+                    Log.d("Payment:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
                         JSONArray js = new JSONArray(response.body().toString());
@@ -108,14 +108,11 @@ public class PaymentWebViewActivity extends AppCompatActivity {
                                 if (status.equals("1")) {
                                     PaymentLink = jsonObject.getString("URL");
                                     loadPaymentLink(PaymentLink);
-                                }
-                                else {
+                                } else {
                                     showAlert(Message);
                                 }
                             }
-                        }
-
-                        else {
+                        } else {
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                         }
                     }

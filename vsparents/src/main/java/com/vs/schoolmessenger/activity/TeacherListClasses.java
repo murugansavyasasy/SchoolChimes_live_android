@@ -1,13 +1,14 @@
 package com.vs.schoolmessenger.activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherClassListAdapter;
@@ -17,21 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class TeacherListClasses extends AppCompatActivity {
     RecyclerView rvClassList;
     TextView tvok, tvcancel;
 
     private TeacherClassListAdapter adapter;
-    private List<TeacherClassesListclass> classlist = new ArrayList<>();
+    private final List<TeacherClassesListclass> classlist = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_list_classes);
 
 
-
-        rvClassList=(RecyclerView)findViewById(R.id.rvClassList);
+        rvClassList = (RecyclerView) findViewById(R.id.rvClassList);
         ImageView ivBack = (ImageView) findViewById(R.id.classPopup_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,8 +39,8 @@ public class TeacherListClasses extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        tvok=(TextView)findViewById(R.id.class_ok);
-        tvcancel=(TextView)findViewById(R.id.class_cancel);
+        tvok = (TextView) findViewById(R.id.class_ok);
+        tvcancel = (TextView) findViewById(R.id.class_cancel);
 
         tvok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +54,7 @@ public class TeacherListClasses extends AppCompatActivity {
                 finish();
             }
         });
-        adapter=new TeacherClassListAdapter(TeacherListClasses.this,classlist);
+        adapter = new TeacherClassListAdapter(TeacherListClasses.this, classlist);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvClassList.setHasFixedSize(true);
         rvClassList.setLayoutManager(mLayoutManager);

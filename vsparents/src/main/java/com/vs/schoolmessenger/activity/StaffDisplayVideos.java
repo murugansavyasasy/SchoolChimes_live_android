@@ -1,4 +1,5 @@
 package com.vs.schoolmessenger.activity;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -8,10 +9,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -22,22 +25,24 @@ import com.vs.schoolmessenger.model.VideoModelClass;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class StaffDisplayVideos extends AppCompatActivity {
 
-    RecyclerView rvVoiceList;
     public ArrayList<TeacherMessageModel> msgModelList = new ArrayList<>();
+    public ArrayList<VideoModelClass> videoList = new ArrayList<>();
+    RecyclerView rvVoiceList;
     String selDate, staff_id, school_id;
     ImageView voice_ToolBarIvBack;
     VideosAdapter textAdapter;
-    public ArrayList<VideoModelClass> videoList = new ArrayList<>();
-
     Boolean is_Archive;
     String isNewVersion;
     TextView voice_ToolBarTvTitle;
@@ -54,7 +59,7 @@ public class StaffDisplayVideos extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        voice_ToolBarTvTitle=(TextView) findViewById(R.id.voice_ToolBarTvTitle);
+        voice_ToolBarTvTitle = (TextView) findViewById(R.id.voice_ToolBarTvTitle);
         selDate = getIntent().getExtras().getString("SEL_DATE");
         voice_ToolBarTvTitle.setText(selDate);
 
@@ -85,13 +90,12 @@ public class StaffDisplayVideos extends AppCompatActivity {
     }
 
     private void VideoListApi() {
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffDisplayVideos.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StaffDisplayVideos.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffDisplayVideos.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StaffDisplayVideos.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StaffDisplayVideos.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffDisplayVideos.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -109,10 +113,9 @@ public class StaffDisplayVideos extends AppCompatActivity {
         jsonObject.addProperty("Type", "VIDEO");
         Log.d(" jsonObject12344555", String.valueOf(jsonObject));
         Call<JsonArray> call;
-        if(isNewVersion.equals("1")&&is_Archive){
+        if (isNewVersion.equals("1") && is_Archive) {
             call = apiService.GetFilesStaff_Archive(jsonObject);
-        }
-        else {
+        } else {
             call = apiService.GetFilesStaff(jsonObject);
         }
         call.enqueue(new Callback<JsonArray>() {
@@ -122,7 +125,7 @@ public class StaffDisplayVideos extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
+                Log.d("overallUnreadCount:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("overallUnreadCount:Res", response.body().toString());
 
@@ -130,7 +133,7 @@ public class StaffDisplayVideos extends AppCompatActivity {
                     JSONArray js = new JSONArray(response.body().toString());
                     if (js.length() > 0) {
                         JSONObject jsonObject = js.getJSONObject(0);
-                        Log.d("json length", js.length() + "");
+                        Log.d("json length", String.valueOf(js.length()));
                         textAdapter.clearAllData();
                         videoList.clear();
                         for (int i = 0; i < js.length(); i++) {
@@ -149,7 +152,7 @@ public class StaffDisplayVideos extends AppCompatActivity {
                                 String Iframe = jsonObject.getString("URL");
                                 boolean is_Archive = jsonObject.getBoolean("is_Archive");
 
-                                VideoModelClass report = new VideoModelClass(VideoId,CreatedBy,CreatedOn,Title,Description,VimeoUrl,VimeoId,DetailID,IsAppViewed,Iframe,is_Archive);
+                                VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, is_Archive);
                                 videoList.add(report);
 
                             } else {

@@ -75,18 +75,17 @@ import retrofit2.Response;
 
 
 public class TeacherSchoolList extends AppCompatActivity {
-    private ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
+    public static ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
+    public static TeacherSchoolsModel schoolmodel;
     RecyclerView rvSchoolsList;
-    private int i_schools_count = 0;
-    private int iRequestCode;
     String SchoolId;
     TeacherSchoolListForPrincipalAdapter schoolsListAdapter;
     boolean singleschoollogin = false;
-    public static ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    public static TeacherSchoolsModel schoolmodel;
     String Role = "";
-
     String schoolId, staffId, filePath, duration, title, voiceType;
+    private final ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
+    private int i_schools_count = 0;
+    private int iRequestCode;
     private ProgressBar progressBar;
 
     @Override

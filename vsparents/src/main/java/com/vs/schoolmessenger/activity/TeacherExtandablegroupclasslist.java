@@ -1,14 +1,19 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.activity.TeacherListAllSection.SELECTED_STD_SEC_POSITION;
+import static com.vs.schoolmessenger.adapter.TeacherSelectedschoolListAdapter.bEditClick;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LIST_GROUPS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LIST_STANDARDS;
+
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherExpandableListAdapter;
@@ -19,11 +24,6 @@ import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import static com.vs.schoolmessenger.activity.TeacherListAllSection.SELECTED_STD_SEC_POSITION;
-import static com.vs.schoolmessenger.adapter.TeacherSelectedschoolListAdapter.bEditClick;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LIST_GROUPS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LIST_STANDARDS;
 
 
 public class TeacherExtandablegroupclasslist extends AppCompatActivity {
@@ -189,9 +189,7 @@ public class TeacherExtandablegroupclasslist extends AppCompatActivity {
     }
 
     private void enableConfirm() {
-        if (listStandardsSELECTED.size() > 0 || listGropusSELECTED.size() > 0)
-            btnConfirm.setEnabled(true);
-        else btnConfirm.setEnabled(false);
+        btnConfirm.setEnabled(listStandardsSELECTED.size() > 0 || listGropusSELECTED.size() > 0);
 
 
     }

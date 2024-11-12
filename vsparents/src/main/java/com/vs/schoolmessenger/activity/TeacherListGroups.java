@@ -1,13 +1,14 @@
 package com.vs.schoolmessenger.activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherGroupListApater;
@@ -22,14 +23,15 @@ public class TeacherListGroups extends AppCompatActivity {
     TextView tvok, tvcancel;
 
     private TeacherGroupListApater adapter;
-    private List<TeacherGroupclass> grouplist = new ArrayList<>();
+    private final List<TeacherGroupclass> grouplist = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_list_groups);
 
 
-        rvGroupList=(RecyclerView)findViewById(R.id.rvGroupList);
+        rvGroupList = (RecyclerView) findViewById(R.id.rvGroupList);
         ImageView ivBack = (ImageView) findViewById(R.id.groupPopup_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,8 +39,8 @@ public class TeacherListGroups extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        tvok=(TextView)findViewById(R.id.group_ok);
-        tvcancel=(TextView)findViewById(R.id.group_cancel);
+        tvok = (TextView) findViewById(R.id.group_ok);
+        tvcancel = (TextView) findViewById(R.id.group_cancel);
 
         tvok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +54,7 @@ public class TeacherListGroups extends AppCompatActivity {
                 finish();
             }
         });
-        adapter=new TeacherGroupListApater(TeacherListGroups.this,grouplist);
+        adapter = new TeacherGroupListApater(TeacherListGroups.this, grouplist);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvGroupList.setHasFixedSize(true);
         rvGroupList.setLayoutManager(mLayoutManager);

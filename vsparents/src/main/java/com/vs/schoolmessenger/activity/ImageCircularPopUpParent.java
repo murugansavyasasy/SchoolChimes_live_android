@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_IMAGE;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,6 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -21,20 +26,16 @@ import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_IMAGE;
 
 public class ImageCircularPopUpParent extends AppCompatActivity {
 
     MessageModel imgMsgModel;
     TextView tvTitle, tvTime, tvStatus, tvdescription;
     ImageView ivImage;
-    private ZoomageView demoView;
     String isNewVersion;
     Boolean is_Archive;
+    private ZoomageView demoView;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -52,7 +53,7 @@ public class ImageCircularPopUpParent extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TeacherUtil_SharedPreference.putOnBackPressedImages(ImageCircularPopUpParent.this,"1");
+                TeacherUtil_SharedPreference.putOnBackPressedImages(ImageCircularPopUpParent.this, "1");
                 onBackPressed();
             }
         });
@@ -84,9 +85,10 @@ public class ImageCircularPopUpParent extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TeacherUtil_SharedPreference.putOnBackPressedImages(ImageCircularPopUpParent.this,"1");
+        TeacherUtil_SharedPreference.putOnBackPressedImages(ImageCircularPopUpParent.this, "1");
         finish();
     }
+
     private void loadImage() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -103,13 +105,14 @@ public class ImageCircularPopUpParent extends AppCompatActivity {
                         showToast(getResources().getString(R.string.check_internet));
                         return false;
                     }
+
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                         mProgressDialog.dismiss();
 
                         if (imgMsgModel.getMsgReadStatus().equals("0"))
-                            ChangeMsgReadStatus.changeReadStatus(ImageCircularPopUpParent.this, imgMsgModel.getMsgID(), MSG_TYPE_IMAGE, imgMsgModel.getMsgDate(),isNewVersion,is_Archive, new OnRefreshListener() {
+                            ChangeMsgReadStatus.changeReadStatus(ImageCircularPopUpParent.this, imgMsgModel.getMsgID(), MSG_TYPE_IMAGE, imgMsgModel.getMsgDate(), isNewVersion, is_Archive, new OnRefreshListener() {
                                 @Override
                                 public void onRefreshItem() {
                                     imgMsgModel.setMsgReadStatus("1");

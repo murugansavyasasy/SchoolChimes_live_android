@@ -5,18 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,6 +18,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
@@ -46,7 +44,6 @@ import com.vs.schoolmessenger.util.Util_SharedPreference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -56,46 +53,37 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ss.com.bannerslider.Slider;
 
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_IMAGE;
-
 public class ImageCircular extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 1;
-
-    RecyclerView rvImageList;
-    ImageCircularListAdapterNEW imgAdapter;
-    public ArrayList<MessageModel> msgModelList = new ArrayList<>();
-    public ArrayList<MessageModel> OfflinemsgModelList = new ArrayList<>();
-    public ArrayList<MessageModel> totalmsgModelList = new ArrayList<>();
-    public ArrayList<MessageModel> totalOfflineData = new ArrayList<>();
-
-    String selDate;
-    private int iRequestCode;
-
-
-    ImageView imgSearch;
-    EditText Searchable;
-    RelativeLayout voice_rlToolbar;
-
-    private final String android_image_urls[] = {
+    private final String[] android_image_urls = {
             "https://static.pexels.com/photos/3247/nature-forest-industry-rails.jpg",
             "https://static.pexels.com/photos/33109/fall-autumn-red-season.jpg",
             "https://static.pexels.com/photos/115045/pexels-photo-115045.jpeg",
             "https://static.pexels.com/photos/26750/pexels-photo-26750.jpg",
             "https://static.pexels.com/photos/158607/cairn-fog-mystical-background-158607.jpeg"
     };
-
-    private final String android_image_status[] = {"1", "0", "0", "1", "0"};
+    private final String[] android_image_status = {"1", "0", "0", "1", "0"};
+    public ArrayList<MessageModel> msgModelList = new ArrayList<>();
+    public ArrayList<MessageModel> OfflinemsgModelList = new ArrayList<>();
+    public ArrayList<MessageModel> totalmsgModelList = new ArrayList<>();
+    public ArrayList<MessageModel> totalOfflineData = new ArrayList<>();
+    RecyclerView rvImageList;
+    ImageCircularListAdapterNEW imgAdapter;
+    String selDate;
+    ImageView imgSearch;
+    EditText Searchable;
+    RelativeLayout voice_rlToolbar;
     TextView lblNoMessages;
     String isNewVersion;
     TextView LoadMore;
     Calendar c;
     String previousDate;
     String childID;
-
     Slider slider;
     ImageView adImage;
     AdView mAdView;
+    private int iRequestCode;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -134,7 +122,7 @@ public class ImageCircular extends AppCompatActivity {
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               LoadMorecircularsImageAPI();
+                LoadMorecircularsImageAPI();
             }
         });
         isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ImageCircular.this);
@@ -148,9 +136,8 @@ public class ImageCircular extends AppCompatActivity {
 
         Slider.init(new PicassoImageLoadingService(ImageCircular.this));
         slider = findViewById(R.id.banner);
-         adImage = findViewById(R.id.adImage);
+        adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
-
 
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -198,12 +185,11 @@ public class ImageCircular extends AppCompatActivity {
     }
 
 
-
     private void filterlist(String s) {
         ArrayList<MessageModel> temp = new ArrayList();
         for (MessageModel d : msgModelList) {
 
-            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getMsgContent().toLowerCase().contains(s.toLowerCase()) || d.getMsgDate().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -223,13 +209,12 @@ public class ImageCircular extends AppCompatActivity {
 
     private void LoadMorecircularsImageAPI() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(ImageCircular.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(ImageCircular.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ImageCircular.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(ImageCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(ImageCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ImageCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -255,7 +240,7 @@ public class ImageCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -277,7 +262,7 @@ public class ImageCircular extends AppCompatActivity {
 
                                 msgModel = new MessageModel(jsonObject.getString("MessageID"), jsonObject.getString("Subject"),
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"),jsonObject.getBoolean("is_Archive"));
+                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), jsonObject.getBoolean("is_Archive"));
                                 msgModelList.add(msgModel);
                                 OfflinemsgModelList.add(msgModel);
                             }
@@ -314,19 +299,17 @@ public class ImageCircular extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return (true);
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return (true);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
         circularsImageAPI();
 
     }
@@ -354,23 +337,19 @@ public class ImageCircular extends AppCompatActivity {
     }
 
 
-
     private void showToast(String msg) {
         Toast.makeText(ImageCircular.this, msg, Toast.LENGTH_SHORT).show();
     }
 
 
-
-
     private void circularsImageAPI() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(ImageCircular.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(ImageCircular.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(ImageCircular.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(ImageCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(ImageCircular.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ImageCircular.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -399,7 +378,7 @@ public class ImageCircular extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -424,13 +403,13 @@ public class ImageCircular extends AppCompatActivity {
 
                         if (strStatus.equals("1")) {
                             MessageModel msgModel;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
 
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 msgModel = new MessageModel(jsonObject.getString("MessageID"), jsonObject.getString("Subject"),
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
-                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"),false);
+                                        jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), false);
                                 msgModelList.add(msgModel);
                                 totalmsgModelList.add(msgModel);
                             }
@@ -439,18 +418,16 @@ public class ImageCircular extends AppCompatActivity {
 
                             imgAdapter.notifyDataSetChanged();
 
-                        }
-                        else {
+                        } else {
                             if (isNewVersion.equals("1")) {
                                 lblNoMessages.setVisibility(View.VISIBLE);
                                 lblNoMessages.setText(strMessage);
-                                String loadMoreCall=TeacherUtil_SharedPreference.getOnBackMethodImages(ImageCircular.this);
-                                if(loadMoreCall.equals("1")){
-                                    TeacherUtil_SharedPreference.putOnBackPressedImages(ImageCircular.this,"");
+                                String loadMoreCall = TeacherUtil_SharedPreference.getOnBackMethodImages(ImageCircular.this);
+                                if (loadMoreCall.equals("1")) {
+                                    TeacherUtil_SharedPreference.putOnBackPressedImages(ImageCircular.this, "");
                                     LoadMorecircularsImageAPI();
                                 }
-                            }
-                            else {
+                            } else {
                                 lblNoMessages.setVisibility(View.GONE);
                                 showAlertRecords(strMessage);
                             }
@@ -520,13 +497,10 @@ public class ImageCircular extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.v("SDCard_Permission", "Permission: " + permissions[0] + "was " + grantResults[0]);
-                    circularsImageAPI();
-                }
-                return;
+        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.v("SDCard_Permission", "Permission: " + permissions[0] + "was " + grantResults[0]);
+                circularsImageAPI();
             }
         }
     }

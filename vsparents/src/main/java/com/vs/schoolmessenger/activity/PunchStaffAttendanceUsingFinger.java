@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -12,13 +13,6 @@ import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import android.Manifest;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,6 +27,17 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -55,18 +60,6 @@ import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import androidx.biometric.BiometricManager;
-import androidx.biometric.BiometricPrompt;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import org.json.JSONObject;
 
 import java.text.DateFormatSymbols;
@@ -75,41 +68,39 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implements GPSStatusListener, LocationLatLongListener, View.OnClickListener {
-    private int locationRequestCode = 1000;
-    private GPSStatusReceiver gpsStatusReceiver;
-    RelativeLayout rytGPSRedirect, rytParent, rytPresentlayout, rytAddLocation, rytMarkAttendanceSceen, rytAttendanceHistorySceen, rytProgressBar, rytEnableFingerPrint;
-    TextView btnPresent, lblErrorMessage, btnEnableLocation, btnMarkAttendance, btnAttendanceHistory, btnDatePicker, lblNoRecords;
-    private PopupWindow authenticatealertpopupWindow, enableBiometricPopup;
-    private BiometricPrompt biometricPrompt;
-    Boolean ifBiometricAvailable = false;
-    String SchoolID = "";
-    String StaffID = "";
-    private Switch enableSwitch;
-    RecyclerView recycleAttendanceReports;
-
     public AttendanceReportsAdapter mAdapter;
     public PunchHistoryAdapter punchHistoryAdapter;
-
-    RelativeLayout rytYears, rytMonths;
-    Spinner spinnerYears, spinnerMonths;
-
-    int currentYear = 0;
-    String[] Years = new String[20];
-
-    Boolean isMarkAttendnaceScreen = true;
-    String latitudeToStopCalling = "";
-    String langitudeToStopCalling = "";
-
-    Boolean ifFingerPrintCancelled = false;
-    private PopupWindow viewPunchHistoryPopup;
-    Boolean isFingerPrint = false;
-
-
     public List<StaffBiometricLocationRes.BiometricLoationData> locationsList = new ArrayList<StaffBiometricLocationRes.BiometricLoationData>();
     public List<PunchHistoryRes.PunchHistoryData> punchTimingList = new ArrayList<PunchHistoryRes.PunchHistoryData>();
     public List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> attendanceReportsList = new ArrayList<StaffAttendanceBiometricReportRes.BiometriStaffReportData>();
+    RelativeLayout rytGPSRedirect, rytParent, rytPresentlayout, rytAddLocation, rytMarkAttendanceSceen, rytAttendanceHistorySceen, rytProgressBar, rytEnableFingerPrint;
+    TextView btnPresent, lblErrorMessage, btnEnableLocation, btnMarkAttendance, btnAttendanceHistory, btnDatePicker, lblNoRecords;
+    Boolean ifBiometricAvailable = false;
+    String SchoolID = "";
+    String StaffID = "";
+    RecyclerView recycleAttendanceReports;
+    RelativeLayout rytYears, rytMonths;
+    Spinner spinnerYears, spinnerMonths;
+    int currentYear = 0;
+    String[] Years = new String[20];
+    Boolean isMarkAttendnaceScreen = true;
+    String latitudeToStopCalling = "";
+    String langitudeToStopCalling = "";
+    Boolean ifFingerPrintCancelled = false;
+    Boolean isFingerPrint = false;
+    private final int locationRequestCode = 1000;
+    private GPSStatusReceiver gpsStatusReceiver;
+    private PopupWindow authenticatealertpopupWindow, enableBiometricPopup;
+    private BiometricPrompt biometricPrompt;
+    private Switch enableSwitch;
+    private PopupWindow viewPunchHistoryPopup;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -171,11 +162,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         }
 
         Boolean isEnabled = TeacherUtil_SharedPreference.getBiometricEnabled(PunchStaffAttendanceUsingFinger.this);
-        if (isEnabled) {
-            enableSwitch.setChecked(true);
-        } else {
-            enableSwitch.setChecked(false);
-        }
+        enableSwitch.setChecked(isEnabled);
         enableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 Boolean enabled = TeacherUtil_SharedPreference.getBiometricEnabled(PunchStaffAttendanceUsingFinger.this);
@@ -285,9 +272,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 String monthID = "";
                 int ID = monthDataList.get(position).getID();
                 if (ID > 8) {
-                    monthID = selectedYear + "-" + String.valueOf(ID + 1);
+                    monthID = selectedYear + "-" + (ID + 1);
                 } else {
-                    monthID = selectedYear + "-" + "0" + String.valueOf(ID + 1);
+                    monthID = selectedYear + "-" + "0" + (ID + 1);
                 }
                 getBiometricAttendanceReport(monthID);
             }
@@ -316,11 +303,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 dialog.cancel();
 
                 Boolean enabled = TeacherUtil_SharedPreference.getBiometricEnabled(PunchStaffAttendanceUsingFinger.this);
-                if (enabled) {
-                    enableSwitch.setChecked(true);
-                } else {
-                    enableSwitch.setChecked(false);
-                }
+                enableSwitch.setChecked(enabled);
             }
         });
         AlertDialog dialog = alertDialog.create();
@@ -365,11 +348,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             public void onClick(View v) {
                 enableBiometricPopup.dismiss();
                 Boolean isEnabled = TeacherUtil_SharedPreference.getBiometricEnabled(PunchStaffAttendanceUsingFinger.this);
-                if (isEnabled) {
-                    enableSwitch.setChecked(true);
-                } else {
-                    enableSwitch.setChecked(false);
-                }
+                enableSwitch.setChecked(isEnabled);
             }
         });
     }
@@ -475,7 +454,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("locations:code-res", response.code() + " - " + response.toString());
+                    Log.d("locations:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
 
                         Gson gson = new Gson();
@@ -485,9 +464,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         if (response.body().getStatus() == 1) {
                             locationsList = response.body().getData();
 
-                        }
-
-                        else {
+                        } else {
                             showAlertMessage(response.body().getMessage());
                         }
                     } else {
@@ -529,7 +506,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("attendance:code-res", response.code() + " - " + response.toString());
+                    Log.d("attendance:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
 
                         Gson gson = new Gson();
@@ -597,7 +574,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("attendance:code-res", response.code() + " - " + response.toString());
+                    Log.d("attendance:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Gson gson = new Gson();
                         String data = gson.toJson(response.body());
@@ -715,7 +692,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
-                Log.d("Biometric:Code", response.code() + " - " + response.toString());
+                Log.d("Biometric:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201) {
                     Log.d("Biometric:Res", response.body().toString());
                     try {
@@ -822,23 +799,19 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1000: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (Util_Common.isGPSEnabled(this)) {
-                        rytGPSRedirect.setVisibility(View.GONE);
-                        getCurentLocation("new");
-                    } else {
-                        rytGPSRedirect.setVisibility(View.VISIBLE);
-                        rytPresentlayout.setVisibility(View.GONE);
-                        lblErrorMessage.setVisibility(View.GONE);
-                    }
+        if (requestCode == 1000) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (Util_Common.isGPSEnabled(this)) {
+                    rytGPSRedirect.setVisibility(View.GONE);
+                    getCurentLocation("new");
                 } else {
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                    rytGPSRedirect.setVisibility(View.VISIBLE);
+                    rytPresentlayout.setVisibility(View.GONE);
+                    lblErrorMessage.setVisibility(View.GONE);
                 }
-                break;
+            } else {
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -921,7 +894,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             if (latitudeToStopCalling.equals("null") || langitudeToStopCalling.equals("null") || latitudeToStopCalling.equals("") || langitudeToStopCalling.equals("")) {
                 latitudeToStopCalling = String.valueOf(latitude);
                 langitudeToStopCalling = String.valueOf(longitude);
-                punchHiddenShow(latitude,longitude,type);
+                punchHiddenShow(latitude, longitude, type);
             }
         }
     }
@@ -947,8 +920,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             if (type.equals("punch")) {
                 confirmPutAttendance();
             }
-        }
-        else {
+        } else {
             rytPresentlayout.setVisibility(View.GONE);
             lblErrorMessage.setVisibility(View.VISIBLE);
         }

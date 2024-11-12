@@ -70,14 +70,9 @@ import retrofit2.Response;
 public class TeacherAttendanceStudentList extends AppCompatActivity implements TeacherOnCheckStudentListener {
 
     RecyclerView rvStudentList;
-    private TeacherStudendListAdapter adapter;
     TextView tvOK, tvCancel, tvSelectedCount, tvTotalCount, tvStdSec, tvSubject; //tvSelectUnselect
-    private ArrayList<TeacherStudentsModel> studentList = new ArrayList<>();
-
     String schoolID, targetCode, stdcode, subcode;
     TeacherSectionModel selSection;
-
-    private int i_students_count;
     CheckBox cbSelectAll;
     String schoolId, sectioncode, filepath, duration, Description, strmessage, isAttendanceDate;
     int iRequestCode;
@@ -87,17 +82,18 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     AmazonS3 s3Client;
     TransferUtility transferUtility;
     S3Uploader s3uploaderObj;
-
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType = "";
     String flag = "";
-    String uploadFilePath="";
-    String SuccessFilePath="";
-    int pathIndex=0;
-
+    String uploadFilePath = "";
+    String SuccessFilePath = "";
+    int pathIndex = 0;
     String[] UploadedURLStringArray;
-    private ArrayList<String> UploadedS3URlList = new ArrayList<>();
+    private TeacherStudendListAdapter adapter;
+    private final ArrayList<TeacherStudentsModel> studentList = new ArrayList<>();
+    private int i_students_count;
+    private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -133,7 +129,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         targetCode = selSection.getStdSecCode();
         s3uploaderObj = new S3Uploader(TeacherAttendanceStudentList.this);
         rvStudentList = (RecyclerView) findViewById(R.id.attenStudent_rvStudentList);
-        adapter = new TeacherStudendListAdapter(TeacherAttendanceStudentList.this, this, studentList,iRequestCode);
+        adapter = new TeacherStudendListAdapter(TeacherAttendanceStudentList.this, this, studentList, iRequestCode);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvStudentList.setHasFixedSize(true);
@@ -158,10 +154,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             @Override
             public void onClick(View v) {
 
-                if (studentList.size()>0) {
+                if (studentList.size() > 0) {
                     showAttendanceConfirmationAlert();
-                }
-                else {
+                } else {
                     showToast(getResources().getString(R.string.no_students));
                 }
             }
@@ -176,14 +171,14 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         cbSelectAll = (CheckBox) findViewById(R.id.attenStudent_cbSelectAll);
 
-        if(iRequestCode == PRINCIPAL_ATTENDANCE || iRequestCode == STAFF_ATTENDANCE ){
+        if (iRequestCode == PRINCIPAL_ATTENDANCE || iRequestCode == STAFF_ATTENDANCE) {
             cbSelectAll.setText("Absentees All");
         }
 
         cbSelectAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(((CompoundButton) view).isChecked()){
+                if (((CompoundButton) view).isChecked()) {
 
                     for (int i = 0; i < studentList.size(); i++) {
                         studentList.get(i).setSelectStatus(true);
@@ -192,8 +187,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                     adapter.notifyDataSetChanged();
                     i_students_count = studentList.size();
                     enableDisableNext();
-                }
-                else {
+                } else {
                     System.out.println("Un-Checked");
                     for (int i = 0; i < studentList.size(); i++) {
                         studentList.get(i).setSelectStatus(false);
@@ -226,13 +220,12 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(TeacherAttendanceStudentList.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherAttendanceStudentList.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(TeacherAttendanceStudentList.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherAttendanceStudentList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -245,7 +238,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StudentsList:Code", response.code() + " - " + response.toString());
+                Log.d("StudentsList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StudentsList:Res", response.body().toString());
 
@@ -263,11 +256,11 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             cbSelectAll.setEnabled(false);
                         } else {
                             TeacherStudentsModel studentsModel;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 studentsModel = new TeacherStudentsModel(jsonObject.getString("StudentID"), jsonObject.getString("StudentName")
-                                        ,jsonObject.getString("StudentAdmissionNo"),jsonObject.getString("RollNO"), false);
+                                        , jsonObject.getString("StudentAdmissionNo"), jsonObject.getString("RollNO"), false);
                                 studentList.add(studentsModel);
                             }
                             selSection.setTotStudents(String.valueOf(0));//String.valueOf(studentList.size()));
@@ -324,14 +317,13 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     }
 
     private void enableDisableNext() {
-        tvSelectedCount.setText(i_students_count + "");
-        if (i_students_count > 0)
-            tvOK.setEnabled(true);
-        else tvOK.setEnabled(false);
-        if(studentList.size()==i_students_count) {
+        tvSelectedCount.setText(String.valueOf(i_students_count));
+        tvOK.setEnabled(i_students_count > 0);
+        if (studentList.size() == i_students_count) {
             cbSelectAll.setChecked(true);
         }
     }
+
     private void backToResultActvity(String msg) {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("MESSAGE", msg);
@@ -345,11 +337,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         alertDialog.setCancelable(false);
         alertDialog.setTitle(getResources().getString(R.string.confirmation));
-        if((iRequestCode == PRINCIPAL_ATTENDANCE) || (iRequestCode== STAFF_ATTENDANCE)) {
+        if ((iRequestCode == PRINCIPAL_ATTENDANCE) || (iRequestCode == STAFF_ATTENDANCE)) {
             alertDialog.setMessage(getStudentsName());
-        }
-
-        else if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
+        } else if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
             alertDialog.setMessage(getResources().getString(R.string.exam_will_be));
         } else {
             alertDialog.setMessage(getStudentsName1());
@@ -365,37 +355,35 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             public void onClick(DialogInterface dialog, int which) {
 
                 if (iRequestCode == STAFF_VOICE) {
-                    if(voicetype.equals("VoiceHistory")){
+                    if (voicetype.equals("VoiceHistory")) {
                         sendVoiceFromVoivehistory();
-                    }
-                    else {
+                    } else {
                         SendVoiceToEntireSection();
                     }
 
                 }
-                if(iRequestCode == STAFF_TEXT){
+                if (iRequestCode == STAFF_TEXT) {
                     SendSMSToEntireSection();
                 }
-                if(iRequestCode == STAFF_PHOTOS){
+                if (iRequestCode == STAFF_PHOTOS) {
 
-                    if(!strPDFFilepath.equals("")){
-                        contentType="application/pdf";
+                    if (!strPDFFilepath.equals("")) {
+                        contentType = "application/pdf";
                         slectedImagePath.clear();
                         slectedImagePath.add(strPDFFilepath);
                         UploadedS3URlList.clear();
-                        uploadFileToAWSs3(pathIndex,".pdf");
-                    }
-                    else {
-                        contentType="image/png";
+                        uploadFileToAWSs3(pathIndex, ".pdf");
+                    } else {
+                        contentType = "image/png";
                         UploadedS3URlList.clear();
-                        uploadFileToAWSs3(pathIndex,"IMG");
+                        uploadFileToAWSs3(pathIndex, "IMG");
                     }
 
                 }
-                if((iRequestCode == PRINCIPAL_ATTENDANCE) || (iRequestCode== STAFF_ATTENDANCE)){
+                if ((iRequestCode == PRINCIPAL_ATTENDANCE) || (iRequestCode == STAFF_ATTENDANCE)) {
                     sendAttenAPIAbsent();
                 }
-                if((iRequestCode == PRINCIPAL_EXAM_TEST) || (iRequestCode== STAFF_TEXT_EXAM)){
+                if ((iRequestCode == PRINCIPAL_EXAM_TEST) || (iRequestCode == STAFF_TEXT_EXAM)) {
                     SendExamstud();
                 }
             }
@@ -453,13 +441,13 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     }
 
     private void SendMultipleImagePDFAsStaffToSpecificStudentsWithCloudURL(String fileType) {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         JsonObject jsonReqArray = SendStudentJson(fileType);
-        Call<JsonArray> call = apiService. SendMultipleImagePDFAsStaffToSpecificStudentsWithCloudURL(jsonReqArray);
+        Call<JsonArray> call = apiService.SendMultipleImagePDFAsStaffToSpecificStudentsWithCloudURL(jsonReqArray);
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call,
@@ -469,7 +457,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -478,7 +466,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
 
                                 showAlert(strMsg);
                             } else {
@@ -507,12 +495,11 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
     private JsonObject SendStudentJson(String fileType) {
 
-        String isMultiple="";
-        if(fileType.equals(".pdf")){
-            isMultiple="0";
-        }
-        else {
-            isMultiple="1";
+        String isMultiple = "";
+        if (fileType.equals(".pdf")) {
+            isMultiple = "0";
+        } else {
+            isMultiple = "1";
         }
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
@@ -572,7 +559,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
 
     private void sendVoiceFromVoivehistory() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
@@ -606,7 +593,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -614,10 +601,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             JSONObject jsonObject = js.getJSONObject(0);
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
-                            }
-                            else{
+                            } else {
                                 showAlert(strMsg);
                             }
                         } else {
@@ -637,7 +623,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -688,7 +674,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     }
 
     private void SendVoiceToEntireSection() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -735,7 +721,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -743,12 +729,11 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             JSONObject jsonObject = js.getJSONObject(0);
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
 
 
                                 showAlert(strMsg);
-                            }
-                            else{
+                            } else {
                                 showAlert(strMsg);
                             }
                         } else {
@@ -760,9 +745,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                         showToast(getResources().getString(R.string.check_internet));
                         Log.d("Ex", e.toString());
                     }
-                }
-                else {
-                    Log.d("Response Body:", response.body()+"Response Error Body "+response.errorBody() );
+                } else {
+                    Log.d("Response Body:", response.body() + "Response Error Body " + response.errorBody());
                 }
             }
 
@@ -771,7 +755,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getStackTrace() + "\n" + t.toString());
+                Log.d("Upload error:", t.getStackTrace() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -810,6 +794,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             }
         }
     }
+
     private JsonObject constructJsonArrayVoice() {
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();
         try {
@@ -855,7 +840,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
     private void SendSMSToEntireSection() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -879,7 +864,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -888,11 +873,10 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
 
                                 showAlert(strMsg);
-                            }
-                            else{
+                            } else {
                                 showAlert(strMsg);
                             }
                         } else {
@@ -945,7 +929,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         return jsonObjectSchoolstdgrp;
     }
-
 
 
     private String getStudentsName() {
@@ -1009,7 +992,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         String schoolID = TeacherUtil_SharedPreference.getSchoolIdFromSP(TeacherAttendanceStudentList.this);
@@ -1025,7 +1008,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("AtteSMS:Code", response.code() + " - " + response.toString());
+                Log.d("AtteSMS:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("AtteSMS:Res", response.body().toString());
 
@@ -1037,11 +1020,10 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                         String strMsg = jsonObject.getString("Message");
 
 
-                        if ((strStatus.toLowerCase()).equals("1")) {
+                        if ((strStatus).equalsIgnoreCase("1")) {
 
                             showAlert(strMsg);
-                        }
-                        else{
+                        } else {
                             showAlert(strMsg);
                         }
 
@@ -1078,7 +1060,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
             JsonArray jsonArrayschoolstd = new JsonArray();
             for (int i = 0; i < studentList.size(); i++) {
-                if(studentList.get(i).isSelectStatus()) {
+                if (studentList.get(i).isSelectStatus()) {
                     JsonObject jsonObjectclass = new JsonObject();
                     jsonObjectclass.addProperty("ID", studentList.get(i).getStudentID());
                     Log.d("StudentID", studentList.get(i).getStudentID());
@@ -1095,7 +1077,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
 
     private void SendExamstud() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherAttendanceStudentList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -1119,7 +1101,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -1128,10 +1110,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
-                            }
-                            else{
+                            } else {
                                 showAlert(strMsg);
                             }
                         } else {
@@ -1155,6 +1136,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             }
         });
     }
+
     private JsonObject constructJsonArrayMgtSchoolstextExam() {
 
         JsonObject jsonObjectSchoolstdgrp = new JsonObject();

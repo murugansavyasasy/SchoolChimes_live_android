@@ -1,16 +1,14 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.activity.TeacherSignInScreen.hasPermissions;
+
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.provider.Settings;
 import android.text.InputFilter;
 import android.util.Log;
@@ -20,6 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -38,8 +39,6 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.vs.schoolmessenger.activity.TeacherSignInScreen.hasPermissions;
-
 /**
  * Created by voicesnap on 4/26/2018.
  */
@@ -48,7 +47,7 @@ public class MobileNumberScreen extends AppCompatActivity {
     Button btnNext;
     EditText enter_mobile;
     int PERMISSION_ALL = 1;
-    String strmobilenumberlength,mobileNumber;
+    String strmobilenumberlength, mobileNumber;
     int mobnumberlength;
 
     TextView textView2;
@@ -57,6 +56,7 @@ public class MobileNumberScreen extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -81,8 +81,8 @@ public class MobileNumberScreen extends AppCompatActivity {
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(mobnumberlength);
 
-        enter_mobile.setHint("Enter "+ strmobilenumberlength +" Digit Mobile Number");
-        textView2.setText(strmobilenumberlength+ " Digit Mobile Number");
+        enter_mobile.setHint("Enter " + strmobilenumberlength + " Digit Mobile Number");
+        textView2.setText(strmobilenumberlength + " Digit Mobile Number");
 
 
         enter_mobile.setFilters(fArray);
@@ -93,23 +93,23 @@ public class MobileNumberScreen extends AppCompatActivity {
                 if (validateLoginInputs()) {
                     ValidateUser();
                 } else {
-                    String msg =getResources().getString(R.string.enter_valid_mobile);
+                    String msg = getResources().getString(R.string.enter_valid_mobile);
                     showToast(msg);
                 }
             }
         });
     }
+
     private boolean validateLoginInputs() {
         mobileNumber = enter_mobile.getText().toString().trim();
         if (enter_mobile.length() != mobnumberlength) {
             showToast(getResources().getString(R.string.enter_valid_mobile));
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
-    public void ValidateUser(){
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(MobileNumberScreen.this);
+    public void ValidateUser() {
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(MobileNumberScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -119,7 +119,7 @@ public class MobileNumberScreen extends AppCompatActivity {
         final String mobilenumber = enter_mobile.getText().toString();
         String androidId = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        JsonObject json_object = TeacherUtil_JsonRequest.getJsonArray_ValidateUser(mobilenumber,androidId,"");
+        JsonObject json_object = TeacherUtil_JsonRequest.getJsonArray_ValidateUser(mobilenumber, androidId, "");
 
         TeacherUtil_SharedPreference.putStaffLoginInfoToSP(MobileNumberScreen.this, mobileNumber, "", false);
 
@@ -133,7 +133,7 @@ public class MobileNumberScreen extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -142,15 +142,14 @@ public class MobileNumberScreen extends AppCompatActivity {
                             JSONObject jsonObject = js.getJSONObject(0);
                             String Status = jsonObject.getString("Status");
                             String Message = jsonObject.getString("Message");
-                            if(Status.equals("1")) {
+                            if (Status.equals("1")) {
                                 String numberExists = jsonObject.getString("isNumberExists");
                                 String passwordUpdated = jsonObject.getString("isPasswordUpdated");
 
                                 String redirect_to_otp;
-                                if(jsonObject.has("redirect_to_otp")){
-                                     redirect_to_otp = jsonObject.getString("redirect_to_otp");
-                                }
-                                else {
+                                if (jsonObject.has("redirect_to_otp")) {
+                                    redirect_to_otp = jsonObject.getString("redirect_to_otp");
+                                } else {
                                     redirect_to_otp = "";
                                 }
 
@@ -160,29 +159,25 @@ public class MobileNumberScreen extends AppCompatActivity {
 
                                 if (numberExists.equals("1") && passwordUpdated.equals("1")) {
 
-                                    if(redirect_to_otp.equals("1")){
+                                    if (redirect_to_otp.equals("1")) {
                                         Intent inChangePass = new Intent(MobileNumberScreen.this, AutoReadOTPCallNumberScreen.class);
                                         startActivity(inChangePass);
                                         finish();
-                                    }
-                                    else {
+                                    } else {
                                         Intent i = new Intent(MobileNumberScreen.this, PasswordScreen.class);
                                         startActivity(i);
                                         finish();
                                     }
+                                } else if (numberExists.equals("1") && passwordUpdated.equals("0")) {
+                                    Util_SharedPreference.putForget(MobileNumberScreen.this, "New");
+                                    Intent inChangePass = new Intent(MobileNumberScreen.this, OTPCallNumberScreen.class);
+                                    inChangePass.putExtra("Type", "New");
+                                    inChangePass.putExtra("note_message", click_here);
+                                    startActivity(inChangePass);
+                                } else {
+                                    showAlert(Message);
                                 }
-                                else if (numberExists.equals("1") && passwordUpdated.equals("0")) {
-                                        Util_SharedPreference.putForget(MobileNumberScreen.this, "New");
-                                        Intent inChangePass = new Intent(MobileNumberScreen.this, OTPCallNumberScreen.class);
-                                        inChangePass.putExtra("Type", "New");
-                                        inChangePass.putExtra("note_message", click_here);
-                                        startActivity(inChangePass);
-                                   }
-                                   else {
-                                        showAlert(Message);
-                                    }
-                            }
-                            else {
+                            } else {
                                 showAlert(Message);
                             }
                         }
@@ -193,6 +188,7 @@ public class MobileNumberScreen extends AppCompatActivity {
                     Log.e("Response Exception", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
@@ -200,7 +196,6 @@ public class MobileNumberScreen extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void showAlert(String msg) {

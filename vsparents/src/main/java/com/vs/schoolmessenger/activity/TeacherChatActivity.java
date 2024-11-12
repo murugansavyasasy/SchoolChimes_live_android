@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
-import android.view.inputmethod.InputMethodManager;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -36,7 +38,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,6 +61,7 @@ public class TeacherChatActivity extends AppCompatActivity {
     boolean isLoading = false;
     boolean isLastPage = false;
     int totalPages;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -153,9 +155,9 @@ public class TeacherChatActivity extends AppCompatActivity {
 //            TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
 //        }
 //        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherChatActivity.this);
-            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
-      //  }
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherChatActivity.this);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        //  }
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -169,7 +171,7 @@ public class TeacherChatActivity extends AppCompatActivity {
         jsonObject.addProperty("SectionID", subject.SectionId);
         jsonObject.addProperty("SubjectID", subject.SubjectID);
         jsonObject.addProperty("isClassTeacher", subject.isClassTeacher);
-        Log.d("reqteachat",jsonObject.toString());
+        Log.d("reqteachat", jsonObject.toString());
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.teacherChat(jsonObject);
@@ -180,7 +182,7 @@ public class TeacherChatActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -215,16 +217,10 @@ public class TeacherChatActivity extends AppCompatActivity {
                                     adapter.notifyDataSetChanged();
                                     isLastPage = (currentOffset == totalPages - 1);
                                     offset = messages.get(0).Offset + 1;
-                                    Log.d("item count", binding.staffList.getLayoutManager().getItemCount() + "");
+                                    Log.d("item count", String.valueOf(binding.staffList.getLayoutManager().getItemCount()));
 
-                                    if (isLastPage)
-                                        isLoading = true;
-                                    else
-                                        isLoading = false;
-                                }
-
-
-                                else {
+                                    isLoading = isLastPage;
+                                } else {
                                     alertDialog("No records found", "OK");
                                 }
                             }
@@ -258,7 +254,7 @@ public class TeacherChatActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherChatActivity.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherChatActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("QuestionID", teacherChat.QuestionID);
@@ -278,7 +274,7 @@ public class TeacherChatActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         binding.layoutGroup.setVisibility(View.GONE);
                         binding.chatMessage.setText("");

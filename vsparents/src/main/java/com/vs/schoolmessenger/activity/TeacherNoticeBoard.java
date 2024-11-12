@@ -70,35 +70,23 @@ import retrofit2.Response;
 
 public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDatePickerDialogFragment.OnDateSetListener {
 
+    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
+    public ArrayList<String> isSchoolList = new ArrayList<>();
+    public ArrayList<MessageModel> msgModelList = new ArrayList<>();
     Button btnNext;
     EditText etMessage, etTopic;
-
     RelativeLayout RlaNoticeBoard;
     TextView tvcount;
     String strmessage;
     RecyclerView rvSchoolsList;
-
     LinearLayout nb_composemsg;
     int isDateType = 1;
-
     int selDay, selMonth, selYear;
-    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
-
-    private ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
-    private ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
-    private int i_schools_count = 0;
-
     String loginType;
-    private int iRequestCode;
     TextView lblFromDate, lblToDate;
     DatePickerDialog datePickerDialog;
-
     TextView lblHomework, lblHomeworkReport;
-
-    public ArrayList<String> isSchoolList = new ArrayList<>();
-
     TextCircularListAdapternew tvadapter;
-    public ArrayList<MessageModel> msgModelList = new ArrayList<>();
     RecyclerView text_rvCircularList;
     String SchoolID, StaffID;
     TextView norecords;
@@ -110,6 +98,23 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
     String Role = "";
     Spinner schoolList;
     LinearLayout rlaTitle;
+    private final ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
+    private final ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
+    private int i_schools_count = 0;
+    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //tvcount.setText("" + (460 - (s.length())));
+        }
+
+        public void afterTextChanged(Editable s) {
+            enableSubmitIfReady();
+        }
+    };
+    private int iRequestCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,10 +206,8 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
 
                 if (view.getId() == R.id.nb_txtmessage) {
                     view.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
+                    if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
                     }
                 }
                 return false;
@@ -307,7 +310,7 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
             @Override
             public void onClick(View v) {
                 validation();
-                Log.d("SelectedCount", "" + i_schools_count);
+                Log.d("SelectedCount", String.valueOf(i_schools_count));
                 if (i_schools_count > 0) {
                     SendEmergencyVoiceGroupheadAPI();
                 } else {
@@ -496,21 +499,6 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
         rvSchoolsList.setAdapter(schoolsListAdapter);
     }
 
-
-    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            //tvcount.setText("" + (460 - (s.length())));
-        }
-
-        public void afterTextChanged(Editable s) {
-            enableSubmitIfReady();
-        }
-    };
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -537,17 +525,9 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
         boolean isContentReady = etTopic.getText().toString().length() > 0;
 
         if (isContentReady && isTitleReady && (i_schools_count > 0)) {
-            if (!lblToDate.getText().toString().equals("") && !lblFromDate.getText().toString().equals("")) {
-                btnNext.setEnabled(true);
-            } else {
-                btnNext.setEnabled(false);
-            }
+            btnNext.setEnabled(!lblToDate.getText().toString().equals("") && !lblFromDate.getText().toString().equals(""));
         } else if ((isContentReady && isTitleReady) && (i_schools_count == 0)) {
-            if (!lblToDate.getText().toString().equals("") && !lblFromDate.getText().toString().equals("")) {
-                btnNext.setEnabled(true);
-            } else {
-                btnNext.setEnabled(false);
-            }
+            btnNext.setEnabled(!lblToDate.getText().toString().equals("") && !lblFromDate.getText().toString().equals(""));
         } else {
             btnNext.setEnabled(false);
         }
@@ -584,7 +564,7 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -593,7 +573,7 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
                             } else {
                                 showAlert(strMsg);

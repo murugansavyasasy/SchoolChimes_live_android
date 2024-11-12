@@ -1,31 +1,18 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_PHOTOS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.app.ActionBar;
-import android.content.ClipData;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,8 +27,14 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -52,77 +45,50 @@ import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSchoolsListener;
 import com.vs.schoolmessenger.interfaces.TeacherSchoolListPrincipalListener;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
-import com.vs.schoolmessenger.util.FileUtils;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Random;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_PHOTOS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 
 public class TeacherPhotosScreen extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String IMAGE_FOLDER_NAME = "School Messenger/image";
+    public static final String IMAGE_FILE_NAME = "imageCircular.png";
+    public static PopupWindow popupWindow;
     Uri picUri;
     Button btnNext, btnChangeImage;
     Button btnToSections, btnToStudents;
     ImageView ivImage;
     EditText et_tittle;
     String strSelectedImgFilePath;
-    public static final String IMAGE_FOLDER_NAME = "School Messenger/image";
-    public static final String IMAGE_FILE_NAME = "imageCircular.png";
-
-
-    private int iRequestCode;
     RecyclerView rvSchoolsList;
     String loginType;
-
-    private ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
-    private ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
-    private int i_schools_count = 0;
-
-
     String strCompressedImagePath, strPDfFilePath = "";
-
     boolean bEnableListView = false;
-
-    private ArrayList<String> imagePathList = new ArrayList<>();
-
     ImageView img1, img2, img3, img4, imgPdf;
     RelativeLayout frmImageClick;
     TextView lblClickImage, lblPdfFileName, lblImageCount;
-
-
     LinearLayout lnrImages, lnrPdf;
-    public static PopupWindow popupWindow;
-
     String ImageCount = "4";
     FrameLayout frmImageContainer;
-    private PopupWindow pwindow;
     ImageView imgColorShaddow;
-    Boolean alertshow=false;
-
-
+    Boolean alertshow = false;
     String imageFilePath;
     File photoFile;
     Button btnStaffGroups;
-
+    private int iRequestCode;
+    private final ArrayList<TeacherSchoolsModel> arrSchoolList = new ArrayList<>();
+    private final ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
+    private int i_schools_count = 0;
+    private ArrayList<String> imagePathList = new ArrayList<>();
+    private PopupWindow pwindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,9 +117,8 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
         btnStaffGroups.setEnabled(false);
 
 
-
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherPhotosScreen.this);
-        if(countryID.equals("11")){
+        if (countryID.equals("11")) {
             btnToSections.setText("To Grade or Sections");
         }
 
@@ -386,14 +351,14 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
         i_schools_count = 0;
         for (int i = 0; i < listschooldetails.size(); i++) {
             TeacherSchoolsModel ss = listschooldetails.get(i);
-            ss = new TeacherSchoolsModel(ss.getStrSchoolName(),ss.getSchoolNameRegional(), ss.getStrSchoolID(),
+            ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getSchoolNameRegional(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
-                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(),ss.getIsPaymentPending(),ss.getIsSchoolType(),ss.getIsBiometricEnable());
+                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType(), ss.getIsBiometricEnable());
             arrSchoolList.add(ss);
         }
         if (iRequestCode == PRINCIPAL_PHOTOS) {
             TeacherSchoolListForPrincipalAdapter schoolsListAdapter =
-                    new TeacherSchoolListForPrincipalAdapter(TeacherPhotosScreen.this, arrSchoolList,false, new TeacherSchoolListPrincipalListener() {
+                    new TeacherSchoolListForPrincipalAdapter(TeacherPhotosScreen.this, arrSchoolList, false, new TeacherSchoolListPrincipalListener() {
                         @Override
                         public void onItemClick(TeacherSchoolsModel item) {
                             String title = et_tittle.getText().toString();
@@ -496,8 +461,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
     }
 
 
-
-
     private void alert(String strStudName) {
         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(TeacherPhotosScreen.this);
         alertDialog.setTitle(R.string.alert);
@@ -580,7 +543,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                             } else {
                                 imagePathList.remove(imagePathList.get(1));
                                 String filecontent = TeacherUtil_SharedPreference.getFilecontent(TeacherPhotosScreen.this);
-                                if (alertshow == false) {
+                                if (!alertshow) {
                                     alert(filecontent);
                                     alertshow = true;
                                 }
@@ -601,7 +564,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                             } else {
                                 imagePathList.remove(imagePathList.get(2));
                                 String filecontent = TeacherUtil_SharedPreference.getFilecontent(TeacherPhotosScreen.this);
-                                if (alertshow == false) {
+                                if (!alertshow) {
                                     alert(filecontent);
                                     alertshow = true;
                                 }
@@ -619,7 +582,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
 
                                 if (imagePathList.size() > 4) {
                                     imgColorShaddow.setBackgroundColor(getResources().getColor(R.color.clr_black_trans_50));
-                                    lblImageCount.setText("+" + String.valueOf(imagePathList.size() - 3));
+                                    lblImageCount.setText("+" + (imagePathList.size() - 3));
                                 }
 
 
@@ -630,7 +593,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                             } else {
                                 imagePathList.remove(imagePathList.get(3));
                                 String filecontent = TeacherUtil_SharedPreference.getFilecontent(TeacherPhotosScreen.this);
-                                if (alertshow == false) {
+                                if (!alertshow) {
                                     alert(filecontent);
                                     alertshow = true;
                                 }
@@ -650,8 +613,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                         frmImageClick.setEnabled(true);
                     }
                 }
-            }
-            catch (Exception e){
+            } catch (Exception e) {
 
             }
 
@@ -667,9 +629,9 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                     File outputDir = TeacherPhotosScreen.this.getCacheDir(); // context being the Activity pointer
                     File outputFile = File.createTempFile("School_document", ".pdf", outputDir);
                     try (InputStream in = getContentResolver().openInputStream(uri)) {
-                        if(in == null) return;
+                        if (in == null) return;
                         try (OutputStream out = getContentResolver().openOutputStream(Uri.fromFile(outputFile))) {
-                            if(out == null) return;
+                            if (out == null) return;
                             // Transfer bytes from in to out
                             byte[] buf = new byte[1024];
                             int len;
@@ -702,8 +664,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                         alert(filecontent);
                     }
                 }
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 alert("Please choose pdf file to send");
             }
 
@@ -750,8 +711,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                     btnChangeImage.setEnabled(false);
                 }
 
-            }
-            catch (Exception e){
+            } catch (Exception e) {
 
             }
         } else {
@@ -783,7 +743,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
         }
         return file.delete();
     }
-
 
 
     @Override

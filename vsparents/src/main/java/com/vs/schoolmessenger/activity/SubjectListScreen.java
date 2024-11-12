@@ -49,35 +49,23 @@ import retrofit2.Response;
 
 public class SubjectListScreen extends AppCompatActivity implements SubjecstListener {
 
+    public static ArrayList<SubjectDetails> SubjectDetailsList = new ArrayList<SubjectDetails>();
+    public SubjectListAdapter mAdapter;
     String Staff_ID, school_ID, ExamName, ExamSyllabus, Sections, strSecCode;
-
     RecyclerView Exam_Date_recycle;
     Button btnSend, staffStdSecSub_btnToStudents;
-    private List<ExamList> Exam_list = new ArrayList<>();
-
-    public SubjectListAdapter mAdapter;
     ImageView schoollist_ToolBarIvBack;
-
-    private int iRequestCode = 0;
     String strToWhom = "";
-
     String schoolId, sectioncode, stdcode, subcode, filepath, Description, duration, strmessage, targetCode;
     String strStdName, strSecName, strSecCode1, strSubjectCode, strSubjectName, strTotalStudents;
-
-
     TeacherSectionModel selSection;
-
     ArrayList<TeacherSubjectModel> listSubjects1 = new ArrayList<TeacherSubjectModel>();
     ArrayList<TeacherSubjectModel> listSubjects2 = new ArrayList<TeacherSubjectModel>();
-
     ArrayList<TeacherSubjectModel> SelectedSubjects = new ArrayList<TeacherSubjectModel>();
-
     int i_sections_count;
-
-
-    public static ArrayList<SubjectDetails> SubjectDetailsList = new ArrayList<SubjectDetails>();
-
     ArrayList<TeacherSectionsListNEW> Section = new ArrayList<TeacherSectionsListNEW>();
+    private final List<ExamList> Exam_list = new ArrayList<>();
+    private int iRequestCode = 0;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -170,9 +158,9 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
             public void onClick(View v) {
 
                 if (SubjectDetailsList.size() > 0) {
-                        if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
-                            SendExam();
-                        }
+                    if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
+                        SendExam();
+                    }
 
                 } else {
                     showToast(getResources().getString(R.string.select_subjects));
@@ -212,14 +200,10 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
         Exam_Date_recycle.getRecycledViewPool().setMaxRecycledViews(0, 80);
 
 
-
     }
 
     private void enableDisableNext() {
-        if (i_sections_count > 0)
-            btnSend.setEnabled(true);
-        else
-            btnSend.setEnabled(false);
+        btnSend.setEnabled(i_sections_count > 0);
 
     }
 
@@ -228,7 +212,7 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
     }
 
     private void SendExam() {
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(SubjectListScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(SubjectListScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -252,7 +236,7 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
                         JSONArray js = new JSONArray(response.body().toString());
@@ -261,7 +245,7 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus.toLowerCase()).equals("1")) {
+                            if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
 
                             } else {
@@ -284,7 +268,7 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });

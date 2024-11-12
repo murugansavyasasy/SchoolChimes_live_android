@@ -32,58 +32,53 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class StaffDisplayImages extends AppCompatActivity {
-    RecyclerView rvVoiceList;
-    StaffDisplayImageAdapter imageAdapter;
-    public ArrayList<TeacherMessageModel> msgModelList = new ArrayList<>();
-
-    ImageView voice_ToolBarIvBack;
-
-    String selDate,staff_id,school_id;
-    private int iRequestCode;
-
-    Boolean is_Archive;
-    String isNewVersion;
-
-    private final String android_image_urls[] = {
+    private final String[] android_image_urls = {
             "https://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3",
             "http://9xmusiq.com/songs/Tamil%20Songs/2016%20Tamil%20Mp3/Devi%20(2016)/Chalmaar%20%5bStarmusiq.cc%5d.mp3"
     };
+    private final String[] android_image_status = {"1", "0"};
+    public ArrayList<TeacherMessageModel> msgModelList = new ArrayList<>();
+    RecyclerView rvVoiceList;
+    StaffDisplayImageAdapter imageAdapter;
+    ImageView voice_ToolBarIvBack;
+    String selDate, staff_id, school_id;
+    Boolean is_Archive;
+    String isNewVersion;
+    private int iRequestCode;
 
-    private final String android_image_status[] = {"1", "0"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_activity_voice_circular);
 
 
-
-        voice_ToolBarIvBack=(ImageView) findViewById(R.id.voice_ToolBarIvBack);
+        voice_ToolBarIvBack = (ImageView) findViewById(R.id.voice_ToolBarIvBack);
         voice_ToolBarIvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayImages.this,"1");
+                TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayImages.this, "1");
                 onBackPressed();
             }
         });
 
-        staff_id=Util_SharedPreference.getStaffID(StaffDisplayImages.this);
-        school_id=Util_SharedPreference.getSchoolId(StaffDisplayImages.this);
-        selDate=getIntent().getExtras().getString("SEL_DATE");
+        staff_id = Util_SharedPreference.getStaffID(StaffDisplayImages.this);
+        school_id = Util_SharedPreference.getSchoolId(StaffDisplayImages.this);
+        selDate = getIntent().getExtras().getString("SEL_DATE");
 
         is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
-        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffDisplayImages.this);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffDisplayImages.this);
 
         rvVoiceList = (RecyclerView) findViewById(R.id.voice_rvCircularList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvVoiceList.setLayoutManager(layoutManager);
         rvVoiceList.setItemAnimator(new DefaultItemAnimator());
-        imageAdapter = new StaffDisplayImageAdapter(msgModelList, StaffDisplayImages.this,is_Archive);
+        imageAdapter = new StaffDisplayImageAdapter(msgModelList, StaffDisplayImages.this, is_Archive);
         rvVoiceList.setAdapter(imageAdapter);
 
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         getImages();
 
@@ -91,19 +86,18 @@ public class StaffDisplayImages extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayImages.this,"1");
+        TeacherUtil_SharedPreference.putOnBackPressed(StaffDisplayImages.this, "1");
         finish();
     }
 
     private void getImages() {
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StaffDisplayImages.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StaffDisplayImages.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StaffDisplayImages.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StaffDisplayImages.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StaffDisplayImages.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StaffDisplayImages.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -124,10 +118,9 @@ public class StaffDisplayImages extends AppCompatActivity {
 
         Log.d("jsonObject___", String.valueOf(jsonObject));
         Call<JsonArray> call;
-        if(isNewVersion.equals("1")&&is_Archive){
+        if (isNewVersion.equals("1") && is_Archive) {
             call = apiService.GetFilesStaff_Archive(jsonObject);
-        }
-        else {
+        } else {
             call = apiService.GetFilesStaff(jsonObject);
         }
 
@@ -138,7 +131,7 @@ public class StaffDisplayImages extends AppCompatActivity {
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("overallUnreadCount:Code", response.code() + " - " + response.toString());
+                Log.d("overallUnreadCount:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("overallUnreadCount:Res", response.body().toString());
 
@@ -157,8 +150,7 @@ public class StaffDisplayImages extends AppCompatActivity {
                                         jsonObject.getString("URL"), jsonObject.getString("AppReadStatus"),
                                         jsonObject.getString("Date"), jsonObject.getString("Time"), jsonObject.getString("Description"), jsonObject.getBoolean("is_Archive"));
                                 msgModelList.add(msgModel);
-                            }
-                            else {
+                            } else {
                                 showToast(jsonObject.getString("URL"));
                             }
                         }

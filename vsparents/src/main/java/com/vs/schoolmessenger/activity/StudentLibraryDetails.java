@@ -7,22 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.ads.AdView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,6 +20,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.ads.AdView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -46,7 +42,6 @@ import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
-import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -65,26 +60,21 @@ import ss.com.bannerslider.Slider;
 public class StudentLibraryDetails extends AppCompatActivity implements View.OnClickListener {
 
 
-    String child_ID;
-    private List<LibraryDetails> librarylist = new ArrayList<>();
-    private RecyclerView library_student_list;
     public LibraryDetailsAdapter mAdapter;
-
-    private PopupWindow pHelpWindow;
-
-    RelativeLayout rytHome,rytLanguage, rytPassword,rytHelp,rytLogout;
+    String child_ID;
+    RelativeLayout rytHome, rytLanguage, rytPassword, rytHelp, rytLogout;
     ArrayList<Languages> LanguageList = new ArrayList<Languages>();
     String IDs = "";
     ArrayList<TeacherSchoolsModel> schools_list = new ArrayList<TeacherSchoolsModel>();
-    private ArrayList<Profiles> childList = new ArrayList<>();
-
     ImageView imgSearch;
     TextView Searchable;
     Slider slider;
     ImageView adImage;
-
     AdView mAdView;
-
+    private final List<LibraryDetails> librarylist = new ArrayList<>();
+    private RecyclerView library_student_list;
+    private PopupWindow pHelpWindow;
+    private ArrayList<Profiles> childList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -174,7 +164,6 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
         });
 
 
-
         libraryDetails();
 
         mAdapter = new LibraryDetailsAdapter(librarylist, StudentLibraryDetails.this);
@@ -190,14 +179,14 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this,adImage,slider,"",mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
     private void filterlist(String s) {
         List<LibraryDetails> temp = new ArrayList();
         for (LibraryDetails d : librarylist) {
 
-            if (d.getName().toLowerCase().contains(s.toLowerCase()) || d.getIssuedDate().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getName().toLowerCase().contains(s.toLowerCase()) || d.getIssuedDate().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -208,7 +197,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
 
     private void libraryDetails() {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(StudentLibraryDetails.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StudentLibraryDetails.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -230,7 +219,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
 
@@ -250,8 +239,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
                                     String DueDate = jsonObject.getString("DueDate");
                                     data = new LibraryDetails(RefBookID, BookName, IssuedOn, DueDate);
                                     librarylist.add(data);
-                                }
-                                else {
+                                } else {
                                     showRecordsFound(BookName1);
                                 }
 
@@ -313,8 +301,8 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
         switch (v.getId()) {
             case R.id.rytHome:
 
-                Intent homescreen=new Intent(StudentLibraryDetails.this,HomeActivity.class);
-                homescreen.putExtra("HomeScreen","1");
+                Intent homescreen = new Intent(StudentLibraryDetails.this, HomeActivity.class);
+                homescreen.putExtra("HomeScreen", "1");
                 homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homescreen);
                 finish();
@@ -322,9 +310,8 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
                 break;
             case R.id.rytHelp:
 
-                Intent faq=new Intent(StudentLibraryDetails.this,FAQScreen.class);
+                Intent faq = new Intent(StudentLibraryDetails.this, FAQScreen.class);
                 startActivity(faq);
-
 
 
                 break;
@@ -338,7 +325,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
                 break;
             case R.id.rytLogout:
 
-                Util_Common.popUpMenu(StudentLibraryDetails.this,v,"1");
+                Util_Common.popUpMenu(StudentLibraryDetails.this, v, "1");
 
 
                 break;
@@ -346,7 +333,6 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
 
         }
     }
-
 
 
     private void showLanguageListPopup() {
@@ -419,9 +405,9 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
             for (int i = 0; i < schools_list.size(); i++) {
                 final TeacherSchoolsModel model = schools_list.get(i);
 
-                jsonObject.addProperty("type","staff");
-                jsonObject.addProperty("id",model.getStrStaffID());
-                jsonObject.addProperty("schoolid",model.getStrSchoolID());
+                jsonObject.addProperty("type", "staff");
+                jsonObject.addProperty("id", model.getStrStaffID());
+                jsonObject.addProperty("schoolid", model.getStrSchoolID());
                 jsonArray.add(jsonObject);
 
             }
@@ -429,9 +415,9 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
         if (childList != null) {
             for (int i = 0; i < childList.size(); i++) {
                 final Profiles model = childList.get(i);
-                jsonObject.addProperty("type","parent");
-                jsonObject.addProperty("id",model.getChildID());
-                jsonObject.addProperty("schoolid",model.getSchoolID());
+                jsonObject.addProperty("type", "parent");
+                jsonObject.addProperty("id", model.getChildID());
+                jsonObject.addProperty("schoolid", model.getSchoolID());
                 jsonArray.add(jsonObject);
             }
         }
@@ -459,7 +445,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("VersionCheck:Code", response.code() + " - " + response.toString());
+                Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
 
@@ -472,18 +458,16 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
                         String message = jsonObject.getString("Message");
 
 
-
-                        LanguageIDAndNames. putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"),StudentLibraryDetails.this);
-                        LanguageIDAndNames.  putStaffIdstoSharedPref(jsonObject.getString("isStaffID"),StudentLibraryDetails.this);
-                        LanguageIDAndNames. putAdminIdstoSharedPref(jsonObject.getString("isAdminID"),StudentLibraryDetails.this);
-                        LanguageIDAndNames. putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"),StudentLibraryDetails.this);
-                        LanguageIDAndNames. putParentIdstoSharedPref(jsonObject.getString("isParentID"),StudentLibraryDetails.this);
-                        LanguageIDAndNames. putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"),StudentLibraryDetails.this);
-                        LanguageIDAndNames. putStaffNamestoSharedPref(jsonObject.getString("isStaff"),StudentLibraryDetails.this);
-                        LanguageIDAndNames. putAdminNamestoSharedPref(jsonObject.getString("isAdmin"),StudentLibraryDetails.this);
-                        LanguageIDAndNames. putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"),StudentLibraryDetails.this);
-                        LanguageIDAndNames. putParentNamestoSharedPref(jsonObject.getString("isParent"),StudentLibraryDetails.this);
-
+                        LanguageIDAndNames.putPrincipalIdstoSharedPref(jsonObject.getString("isPrincipalID"), StudentLibraryDetails.this);
+                        LanguageIDAndNames.putStaffIdstoSharedPref(jsonObject.getString("isStaffID"), StudentLibraryDetails.this);
+                        LanguageIDAndNames.putAdminIdstoSharedPref(jsonObject.getString("isAdminID"), StudentLibraryDetails.this);
+                        LanguageIDAndNames.putGroupHeadIdstosharedPref(jsonObject.getString("idGroupHeadID"), StudentLibraryDetails.this);
+                        LanguageIDAndNames.putParentIdstoSharedPref(jsonObject.getString("isParentID"), StudentLibraryDetails.this);
+                        LanguageIDAndNames.putPrincipalNametoSharedPref(jsonObject.getString("isPrincipal"), StudentLibraryDetails.this);
+                        LanguageIDAndNames.putStaffNamestoSharedPref(jsonObject.getString("isStaff"), StudentLibraryDetails.this);
+                        LanguageIDAndNames.putAdminNamestoSharedPref(jsonObject.getString("isAdmin"), StudentLibraryDetails.this);
+                        LanguageIDAndNames.putGroupHeadtoSharedPref(jsonObject.getString("idGroupHead"), StudentLibraryDetails.this);
+                        LanguageIDAndNames.putParentNamestoSharedPref(jsonObject.getString("isParent"), StudentLibraryDetails.this);
 
 
                         if (Integer.parseInt(status) > 0) {
@@ -495,7 +479,6 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
                             config.locale = myLocale;
                             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
                             recreate();
-
 
 
                         } else {
@@ -520,6 +503,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
             }
         });
     }
+
     private void showToast(String message) {
         Toast.makeText(StudentLibraryDetails.this, message, Toast.LENGTH_SHORT).show();
     }

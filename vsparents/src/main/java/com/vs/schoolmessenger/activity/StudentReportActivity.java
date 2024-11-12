@@ -54,14 +54,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StudentReportActivity extends AppCompatActivity{
+public class StudentReportActivity extends AppCompatActivity {
 
-    String school_ID,staff_ID;
-    RecyclerView Exam_list_recycle;
-    private List<StudentReportModel> Exam_list = new ArrayList<>();
     public StudentReportAdapter mAdapter;
+    String school_ID, staff_ID;
+    RecyclerView Exam_list_recycle;
     ImageView imgSearch;
-    TextView Searchable,lblGetAllStudent,lblSection;
+    TextView Searchable, lblGetAllStudent, lblSection;
     Spinner spinStandard, spinSection;
     ArrayAdapter<String> adaStd;
     ArrayAdapter<String> adaSection;
@@ -72,10 +71,10 @@ public class StudentReportActivity extends AppCompatActivity{
     List<TeacherSectionsListNEW> arrSectionCollections;
     String SchoolID;
     List<String> listTotalStudentsInSec;
-    private int iRequestCode = 0;
-    private ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
     String strStdName, strstdcode, strSecName, strSecCode, strTotalStudents;
-
+    private final List<StudentReportModel> Exam_list = new ArrayList<>();
+    private final int iRequestCode = 0;
+    private final ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -171,7 +170,7 @@ public class StudentReportActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if(position !=0) {
+                if (position != 0) {
                     lblSection.setVisibility(View.VISIBLE);
                     spinSection.setVisibility(View.VISIBLE);
                     arrSectionCollections = new ArrayList<>();
@@ -196,12 +195,10 @@ public class StudentReportActivity extends AppCompatActivity{
                     adaSection = new ArrayAdapter<>(StudentReportActivity.this, R.layout.teacher_spin_title, listSection);
                     adaSection.setDropDownViewResource(R.layout.teacher_spin_dropdown);
                     spinSection.setAdapter(adaSection);
-                }
-
-                else {
+                } else {
                     lblSection.setVisibility(View.GONE);
                     spinSection.setVisibility(View.GONE);
-                    getStudentReportList("","");
+                    getStudentReportList("", "");
 
                 }
             }
@@ -222,6 +219,7 @@ public class StudentReportActivity extends AppCompatActivity{
                 getStudentReportList(strstdcode, strSecCode);
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -231,7 +229,7 @@ public class StudentReportActivity extends AppCompatActivity{
         lblGetAllStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getStudentReportList("","");
+                getStudentReportList("", "");
 
             }
         });
@@ -244,13 +242,12 @@ public class StudentReportActivity extends AppCompatActivity{
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        String isNewVersion=TeacherUtil_SharedPreference.getNewVersion(StudentReportActivity.this);
-        if(isNewVersion.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(StudentReportActivity.this);
+        String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(StudentReportActivity.this);
+        if (isNewVersion.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(StudentReportActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(StudentReportActivity.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(StudentReportActivity.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
 
@@ -266,19 +263,18 @@ public class StudentReportActivity extends AppCompatActivity{
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("StdSecList:Code", response.code() + " - " + response.toString());
+                Log.d("StdSecList:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("StdSecList:Res", response.body().toString());
 
                 try {
                     JSONArray js = new JSONArray(response.body().toString());
 
-                    if (js.length() > 0)
-                    {
+                    if (js.length() > 0) {
                         {
 
                             TeacherStandardSectionsListModel stdSecList;
-                            Log.d("json length", js.length() + "");
+                            Log.d("json length", String.valueOf(js.length()));
 
                             listStd.clear();
                             listStdcode.clear();
@@ -290,9 +286,7 @@ public class StudentReportActivity extends AppCompatActivity{
                                 if (jsonObject.getString("StandardId").equals("0")) {
                                     showToast(getResources().getString(R.string.standard_sections_not_assigned));
                                     finish();
-                                }
-
-                                else {
+                                } else {
                                     stdSecList = new TeacherStandardSectionsListModel(jsonObject.getString("Standard"), jsonObject.getString("StandardId"));
                                     listStdcode.add(jsonObject.getString("StandardId"));
                                     listStd.add(jsonObject.getString("Standard"));
@@ -322,8 +316,7 @@ public class StudentReportActivity extends AppCompatActivity{
                                 spinStandard.setAdapter(adaStd);
                             }
                         }
-                    }
-                    else {
+                    } else {
                         showToast(getResources().getString(R.string.no_records));
                         onBackPressed();
                     }
@@ -372,7 +365,7 @@ public class StudentReportActivity extends AppCompatActivity{
         List<StudentReportModel> temp = new ArrayList();
         for (StudentReportModel d : Exam_list) {
 
-            if (d.getStudentName().toLowerCase().contains(s.toLowerCase()) || d.getClassName().toLowerCase().contains(s.toLowerCase()) || d.getSectionName().toLowerCase().contains(s.toLowerCase())  ) {
+            if (d.getStudentName().toLowerCase().contains(s.toLowerCase()) || d.getClassName().toLowerCase().contains(s.toLowerCase()) || d.getSectionName().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -386,9 +379,9 @@ public class StudentReportActivity extends AppCompatActivity{
         return connMgr.getActiveNetworkInfo() != null;
     }
 
-    private void getStudentReportList(String stdCode,String secCode) {
+    private void getStudentReportList(String stdCode, String secCode) {
 
-        String ReportURL=TeacherUtil_SharedPreference.getReportURL(StudentReportActivity.this);
+        String ReportURL = TeacherUtil_SharedPreference.getReportURL(StudentReportActivity.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -410,7 +403,7 @@ public class StudentReportActivity extends AppCompatActivity{
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response.toString());
+                    Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
                         StudentReportModel data;
@@ -418,11 +411,11 @@ public class StudentReportActivity extends AppCompatActivity{
 
                         int status = js.getInt("status");
                         String message = js.getString("message");
-                        if(status == 1){
+                        if (status == 1) {
                             mAdapter.clearAllData();
                             Exam_list.clear();
                             JSONArray array = js.getJSONArray("data");
-                            if(array.length()>0){
+                            if (array.length() > 0) {
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
 
@@ -439,16 +432,15 @@ public class StudentReportActivity extends AppCompatActivity{
                                     String fatherName = jsonObject.getString("fatherName");
                                     String classTeacher = jsonObject.getString("classTeacher");
 
-                                    data = new StudentReportModel(studentId, studentName,primaryMobile,admissionNo,gender,
-                                            dob,classId,className,sectionId,sectionName,fatherName,classTeacher);
+                                    data = new StudentReportModel(studentId, studentName, primaryMobile, admissionNo, gender,
+                                            dob, classId, className, sectionId, sectionName, fatherName, classTeacher);
                                     Exam_list.add(data);
 
                                 }
                                 mAdapter.notifyDataSetChanged();
                             }
 
-                        }
-                        else {
+                        } else {
                             showRecords(message);
                         }
 

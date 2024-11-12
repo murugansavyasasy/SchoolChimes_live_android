@@ -1,5 +1,9 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MEETING_URL;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -27,6 +31,12 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
@@ -56,57 +66,53 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_MEETING_URL;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
+public class TeacherMeetingURLScreen extends AppCompatActivity implements View.OnClickListener, CalendarDatePickerDialogFragment.OnDateSetListener, RadialTimePickerDialogFragment.OnTimeSetListener, OnlineClassStaffListener {
 
-public class TeacherMeetingURLScreen extends AppCompatActivity implements View.OnClickListener,CalendarDatePickerDialogFragment.OnDateSetListener, RadialTimePickerDialogFragment.OnTimeSetListener, OnlineClassStaffListener {
-
-    EditText genText_txtTitle,genText_txtmessage,txtMeetingURL;
-    TextView lblSelectDate,lblSelectTime,genText_msgcount;
-    Button genText_btnToSections,btnSendToGroupsStandard;
+    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
+    private static final String FRAG_TAG_TIME_PICKER = "fragment_time_picker_name";
+    public ArrayList<OnlineMeetingTypeModel> msgModelList = new ArrayList<>();
+    public ArrayList<OnlineStepsModel> StepsList = new ArrayList<>();
+    public ArrayList<OnlineClassByStaffModel> MeetingList = new ArrayList<>();
+    EditText genText_txtTitle, genText_txtmessage, txtMeetingURL;
+    TextView lblSelectDate, lblSelectTime, genText_msgcount;
+    Button genText_btnToSections, btnSendToGroupsStandard;
     Spinner spinnerMeetingPlatform;
-
     String strDate, strCurrentDate, timeString, strTime;//strDuration
     int selDay, selMonth, selYear;
     String selHour, selMin;
     int minimumHour, minimumMinute;
     boolean bMinDateTime = true;
+    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        public void afterTextChanged(Editable s) {
+            enableSubmitIfReady();
+        }
+    };
     PopupWindow pwindow;
-    private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
-    private static final String FRAG_TAG_TIME_PICKER = "fragment_time_picker_name";
-
     ArrayAdapter<String> platforms;
-
-
     List<String> meetingPlatforms = new ArrayList<>();
     int iRequestCode;
-
     OnlineMeetingTypeAdapter stepsAdapter;
-    public ArrayList<OnlineMeetingTypeModel> msgModelList = new ArrayList<>();
-    public ArrayList<OnlineStepsModel> StepsList = new ArrayList<>();
     RelativeLayout rytParent;
-    ImageView genTextPopup_ToolBarIvBack,imgEye,imgeditclose;
-    String SchoolID,StaffID;
+    ImageView genTextPopup_ToolBarIvBack, imgEye, imgeditclose;
+    String SchoolID, StaffID;
     LinearLayout lnrEye;
-    Boolean SlectMeetingType=false;
-
-    TextView tapCreate,tapUpcoming;
+    Boolean SlectMeetingType = false;
+    TextView tapCreate, tapUpcoming;
     RecyclerView recycleUpcomingMeetings;
     NestedScrollView ComposeMessgeNested;
-
-    public ArrayList<OnlineClassByStaffModel> MeetingList = new ArrayList<>();
     OnlineClassByStaffAdapter textAdapter;
 
     @Override
@@ -154,7 +160,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherMeetingURLScreen.this);
-        if(countryID.equals("11")){
+        if (countryID.equals("11")) {
             btnSendToGroupsStandard.setText("Send to Grade/Groups");
             genText_btnToSections.setText("Send to Grade/sections");
         }
@@ -179,14 +185,10 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
         if ((listschooldetails.size() == 1)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
-        }
-
-        else if(TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherMeetingURLScreen.this).equals(LOGIN_TYPE_TEACHER)){
+        } else if (TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherMeetingURLScreen.this).equals(LOGIN_TYPE_TEACHER)) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
-        }
-
-        else {
+        } else {
             SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
             StaffID = getIntent().getExtras().getString("STAFF_ID", "");
         }
@@ -200,15 +202,13 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
 
-        if(iRequestCode == PRINCIPAL_MEETING_URL){
+        if (iRequestCode == PRINCIPAL_MEETING_URL) {
             btnSendToGroupsStandard.setVisibility(View.VISIBLE);
             genText_btnToSections.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             btnSendToGroupsStandard.setVisibility(View.GONE);
             genText_btnToSections.setVisibility(View.VISIBLE);
         }
-
 
 
         genText_txtmessage.setOnTouchListener(new View.OnTouchListener() {
@@ -216,10 +216,8 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
                 if (view.getId() == R.id.genText_txtmessage) {
                     view.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
+                    if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
                     }
                 }
                 return false;
@@ -231,19 +229,18 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-                if(position>0) {
-                    SlectMeetingType=true;
-                    Constants.MeetingPlatform = meetingPlatforms.get(position-1);
-                    Constants.MeetingID = msgModelList.get(position-1).getID();
-                    Constants.MeetingType = msgModelList.get(position-1).getType();
-                    StepsList = msgModelList.get(position-1).getListSteps();
+                if (position > 0) {
+                    SlectMeetingType = true;
+                    Constants.MeetingPlatform = meetingPlatforms.get(position - 1);
+                    Constants.MeetingID = msgModelList.get(position - 1).getID();
+                    Constants.MeetingType = msgModelList.get(position - 1).getType();
+                    StepsList = msgModelList.get(position - 1).getListSteps();
 
-                    if(StepsList.size()>0) {
+                    if (StepsList.size() > 0) {
                         showStepsPopup();
                     }
-                }
-                else {
-                    SlectMeetingType=false;
+                } else {
+                    SlectMeetingType = false;
                 }
 
             }
@@ -303,13 +300,12 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
     private void getOnlineMeetingTypes() {
 
-        String isNewVersionn= TeacherUtil_SharedPreference.getNewVersion(TeacherMeetingURLScreen.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherMeetingURLScreen.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(TeacherMeetingURLScreen.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherMeetingURLScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherMeetingURLScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherMeetingURLScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -329,7 +325,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
@@ -338,7 +334,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                     msgModelList.clear();
                     meetingPlatforms.clear();
 
-                    if(js.length()>0){
+                    if (js.length() > 0) {
                         OnlineMeetingTypeModel msgModel;
                         meetingPlatforms.add("SELECT MEETING PLATFORM");
                         for (int i = 0; i < js.length(); i++) {
@@ -354,7 +350,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                                 stepsModel = new OnlineStepsModel(step.getString("id"), step.getString("st"));
                                 listSteps.add(stepsModel);
                             }
-                            msgModel = new OnlineMeetingTypeModel(jsonObject.getString("id"), jsonObject.getString("type"),listSteps);
+                            msgModel = new OnlineMeetingTypeModel(jsonObject.getString("id"), jsonObject.getString("type"), listSteps);
                             msgModelList.add(msgModel);
 
                         }
@@ -364,8 +360,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                         platforms.setDropDownViewResource(R.layout.teacher_spin_dropdown);
                         spinnerMeetingPlatform.setAdapter(platforms);
 
-                    }
-                    else {
+                    } else {
                         showAlertRecords("No Records Found");
                     }
 
@@ -447,7 +442,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
         switch (v.getId()) {
             case R.id.genText_btnToSections:
 
-                if(SlectMeetingType && txtMeetingURL.getText().toString().length()>0) {
+                if (SlectMeetingType && txtMeetingURL.getText().toString().length() > 0) {
                     saveValues();
                     Intent toSections = new Intent(TeacherMeetingURLScreen.this, TeacherStaffStandardSection.class);
                     toSections.putExtra("TO", "SEC");
@@ -455,8 +450,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                     toSections.putExtra("SCHOOL_ID", SchoolID);
                     toSections.putExtra("STAFF_ID", StaffID);
                     startActivity(toSections);
-                }
-                else {
+                } else {
                     showToast("Please select the meeting platform and meeting paste URL");
                 }
 
@@ -464,15 +458,14 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                 break;
             case R.id.btnSendToGroupsStandard:
 
-                if(SlectMeetingType && txtMeetingURL.getText().toString().length()>0) {
+                if (SlectMeetingType && txtMeetingURL.getText().toString().length() > 0) {
                     saveValues();
                     Intent toStaandardGroups = new Intent(TeacherMeetingURLScreen.this, TextStandardAndGroupList.class);
                     toStaandardGroups.putExtra("REQUEST_CODE", iRequestCode);
                     toStaandardGroups.putExtra("SCHOOL_ID", SchoolID);
                     toStaandardGroups.putExtra("STAFF_ID", StaffID);
                     startActivity(toStaandardGroups);
-                }
-                else {
+                } else {
                     showToast("Please select the meeting platform and paste meeting URL");
 
                 }
@@ -483,18 +476,16 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                 datePicker();
                 break;
             case R.id.lblSelectTime:
-                if(lblSelectDate.getText().toString().equalsIgnoreCase("Select Date")){
+                if (lblSelectDate.getText().toString().equalsIgnoreCase("Select Date")) {
                     showToast("Please select date");
-                }
-
-                else {
+                } else {
                     timePicker();
                 }
                 break;
 
             case R.id.lnrEye:
-                if(SlectMeetingType) {
-                    if(StepsList.size()>0) {
+                if (SlectMeetingType) {
+                    if (StepsList.size() > 0) {
                         showStepsPopup();
                     }
                 }
@@ -502,7 +493,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
             case R.id.txtMeetingURL:
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY,0);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
                 break;
 
@@ -543,7 +534,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                     @Override
                     public void onItemClick(OnlineClassByStaffModel item) {
 
-                        showCancelMeetAlert("Are you sure want to cancel the meeting",item);
+                        showCancelMeetAlert("Are you sure want to cancel the meeting", item);
 
                     }
                 });
@@ -551,6 +542,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                 break;
         }
     }
+
     private void showCancelMeetAlert(final String strMsg, final OnlineClassByStaffModel item) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherMeetingURLScreen.this);
 
@@ -564,7 +556,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
             }
         });
 
-        alertDialog.setPositiveButton(R.string.teacher_btn_ok,new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -586,7 +578,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
     private void cancelMeeting(OnlineClassByStaffModel item) {
 
-        String baseURL=TeacherUtil_SharedPreference.getBaseUrl(TeacherMeetingURLScreen.this);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherMeetingURLScreen.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -613,7 +605,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", "" + response.body().toString());
+                    Log.d("Upload:Body", response.body().toString());
 
                     try {
 
@@ -622,7 +614,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                             JSONObject jsonObject = js.getJSONObject(0);
                             String strStatus = jsonObject.getString("status");
                             String strMsg = jsonObject.getString("message");
-                            showCancelAlert(strStatus,strMsg);
+                            showCancelAlert(strStatus, strMsg);
                         }
 
 
@@ -638,7 +630,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
-                Log.d("Upload error:", t.getMessage() + "\n" + t.toString());
+                Log.d("Upload error:", t.getMessage() + "\n" + t);
                 showToast(t.toString());
             }
         });
@@ -654,11 +646,10 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if(strStatus.equals("1")){
+                if (strStatus.equals("1")) {
                     dialog.cancel();
                     getUpcommingMeetings();
-                }
-                else {
+                } else {
                     dialog.cancel();
                 }
             }
@@ -676,13 +667,12 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
     private void getUpcommingMeetings() {
 
-        String isNewVersionn=TeacherUtil_SharedPreference.getNewVersion(TeacherMeetingURLScreen.this);
-        if(isNewVersionn.equals("1")){
-            String ReportURL=TeacherUtil_SharedPreference.getReportURL(TeacherMeetingURLScreen.this);
+        String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(TeacherMeetingURLScreen.this);
+        if (isNewVersionn.equals("1")) {
+            String ReportURL = TeacherUtil_SharedPreference.getReportURL(TeacherMeetingURLScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(ReportURL);
-        }
-        else {
-            String baseURL= TeacherUtil_SharedPreference.getBaseUrl(TeacherMeetingURLScreen.this);
+        } else {
+            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherMeetingURLScreen.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -696,7 +686,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
         jsonObject.addProperty("schoolid", SchoolID);
         jsonObject.addProperty("staffid", StaffID);
 
-        Log.d("Request",jsonObject.toString());
+        Log.d("Request", jsonObject.toString());
 
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -708,17 +698,17 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
 
-                Log.d("TextMsg:Code", response.code() + " - " + response.toString());
+                Log.d("TextMsg:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("TextMsg:Res", response.body().toString());
 
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
-                    String status=jsonObject.getString("status");
-                    String message=jsonObject.getString("message");
+                    String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
 
-                    if(status.equals("1")){
-                        JSONArray data=jsonObject.getJSONArray("data");
+                    if (status.equals("1")) {
+                        JSONArray data = jsonObject.getJSONArray("data");
 
                         textAdapter.clearAllData();
                         MeetingList.clear();
@@ -726,10 +716,10 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
                         OnlineClassByStaffModel msgModel;
                         for (int i = 0; i < data.length(); i++) {
-                            JSONObject  js = data.getJSONObject(i);
+                            JSONObject js = data.getJSONObject(i);
                             msgModel = new OnlineClassByStaffModel(js.getString("header_id"), js.getString("subheader_id"),
-                                    js.getString("topic"),js.getString("description"), js.getString("url"),js.getString("meetingtype"),js.getString("meetingdatetime"),
-                                    js.getString("subject_name"),js.getString("target_type"),js.getString("created_on"),js.getInt("can_cancel"));
+                                    js.getString("topic"), js.getString("description"), js.getString("url"), js.getString("meetingtype"), js.getString("meetingdatetime"),
+                                    js.getString("subject_name"), js.getString("target_type"), js.getString("created_on"), js.getInt("can_cancel"));
                             MeetingList.add(msgModel);
                         }
 
@@ -737,8 +727,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                         textAdapter.notifyDataSetChanged();
 
 
-                    }
-                    else {
+                    } else {
                         showAlertRecords(message);
 
                     }
@@ -759,34 +748,18 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
     }
 
     private void saveValues() {
-        Constants.Title=genText_txtTitle.getText().toString();
-        Constants.Description=genText_txtmessage.getText().toString();
-        Constants.MeetingDate=strDate;
-        Constants.MeetingTime=lblSelectTime.getText().toString();
-        Constants.MeetingURL=txtMeetingURL.getText().toString();
+        Constants.Title = genText_txtTitle.getText().toString();
+        Constants.Description = genText_txtmessage.getText().toString();
+        Constants.MeetingDate = strDate;
+        Constants.MeetingTime = lblSelectTime.getText().toString();
+        Constants.MeetingURL = txtMeetingURL.getText().toString();
     }
-
-    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        public void afterTextChanged(Editable s) {
-            enableSubmitIfReady();
-        }
-    };
-
 
     private void timePicker() {
         int startHour = 0, startminute = 0;
 
         selHour = "";
         selMin = "";
-
 
 
         if (strCurrentDate.equals(strDate)) {
@@ -875,11 +848,10 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
     private void enableSubmitIfReady() {
 
-        if(bMinDateTime && genText_txtmessage.getText().toString().length()>0 ) {
+        if (bMinDateTime && genText_txtmessage.getText().toString().length() > 0) {
             genText_btnToSections.setEnabled(true);
             btnSendToGroupsStandard.setEnabled(true);
-        }
-        else {
+        } else {
             genText_btnToSections.setEnabled(false);
             btnSendToGroupsStandard.setEnabled(false);
         }

@@ -1,37 +1,18 @@
 package com.vs.schoolmessenger.activity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import static com.vs.schoolmessenger.util.Util_Common.milliSecondsToTimer;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -40,67 +21,42 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.jsibbold.zoomage.ZoomageView;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.assignment.AssignmentViewClass;
-import com.vs.schoolmessenger.assignment.ImageAdapter;
-import com.vs.schoolmessenger.assignment.ImageCircularPop;
-import com.vs.schoolmessenger.assignment.ImageCircularassgn;
-import com.vs.schoolmessenger.interfaces.OnRefreshListener;
-import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.SkillAttachmentModel;
-import com.vs.schoolmessenger.model.TeacherMessageModel;
-import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.MyWebViewClient;
-import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
-import com.vs.schoolmessenger.util.Util_SharedPreference;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
-import static com.vs.schoolmessenger.util.Util_Common.milliSecondsToTimer;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 public class PreviewLSRWScreen extends AppCompatActivity {
-    WebView pdfview,myWebView;
+    WebView pdfview, myWebView;
     ImageView imgBack;
     ZoomageView imgZoom;
     Button btnNext;
-    RelativeLayout rytTitle, rytVoiceLayout, rytTextLayout, rytPdfLayout, rytImageLayout,rytVideoLayout;
-    TextView txtmsg, txtType,txtTitle;
+    RelativeLayout rytTitle, rytVoiceLayout, rytTextLayout, rytPdfLayout, rytImageLayout, rytVideoLayout;
+    TextView txtmsg, txtType, txtTitle;
     TextView tvDuartion, tvTotDuration;
 
     SkillAttachmentModel skillmodel;
-    String path, AttachmentType,Content;
+    String path, AttachmentType, Content;
     ProgressDialog pDialog;
 
     ImageButton imgplaypause;
@@ -111,10 +67,12 @@ public class PreviewLSRWScreen extends AppCompatActivity {
     int iMediaDuration = 0;
     SeekBar myplayerseekber;
     String isNewVersion;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,8 +112,8 @@ public class PreviewLSRWScreen extends AppCompatActivity {
 
         isNewVersion = TeacherUtil_SharedPreference.getNewVersion(this);
         skillmodel = (SkillAttachmentModel) getIntent().getSerializableExtra("attachement");
-        AttachmentType=skillmodel.getType();
-        Content=skillmodel.getAttachment();
+        AttachmentType = skillmodel.getType();
+        Content = skillmodel.getAttachment();
 
         SetViewType();
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +125,7 @@ public class PreviewLSRWScreen extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(PreviewLSRWScreen.this,ParentSubmitLSRW.class);
+                Intent i = new Intent(PreviewLSRWScreen.this, ParentSubmitLSRW.class);
                 startActivity(i);
             }
         });
@@ -176,51 +134,49 @@ public class PreviewLSRWScreen extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onBackPressed() {
         if (mediaPlayer.isPlaying())
             mediaPlayer.stop();
         backToResultActvity("SENT");
     }
+
     private void backToResultActvity(String msg) {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("MESSAGE", msg);
         setResult(iRequestCode, returnIntent);
         finish();
     }
-    private  void  SetViewType(){
+
+    private void SetViewType() {
 
         if (AttachmentType.equals("TEXT")) {
             rytTextLayout.setVisibility(View.VISIBLE);
             txtmsg.setText(Content);
 
-        } else if(AttachmentType.equals("VOICE")) {
-            Log.d("AttachmentType",AttachmentType);
+        } else if (AttachmentType.equals("VOICE")) {
+            Log.d("AttachmentType", AttachmentType);
 
             rytVoiceLayout.setVisibility(View.VISIBLE);
-            Log.d("ContentVoice",Content);
+            Log.d("ContentVoice", Content);
 
             AudioPlayMethod(Content);
 
-        }
-        else if(AttachmentType.equals("IMAGE")){
+        } else if (AttachmentType.equals("IMAGE")) {
             rytImageLayout.setVisibility(View.VISIBLE);
             ViewImage();
 
-        }
-        else if(AttachmentType.equals("PDF")){
+        } else if (AttachmentType.equals("PDF")) {
             rytPdfLayout.setVisibility(View.VISIBLE);
             ViewPdf();
 
-        }
-        else if(AttachmentType.equals("VIDEO")){
+        } else if (AttachmentType.equals("VIDEO")) {
             rytVideoLayout.setVisibility(View.VISIBLE);
             videoview();
         }
     }
 
-    private  void ViewPdf(){
+    private void ViewPdf() {
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading");
         pDialog.setCancelable(false);
@@ -239,7 +195,7 @@ public class PreviewLSRWScreen extends AppCompatActivity {
         WebSettings webSettings = pdfview.getSettings();
         pdfview.getSettings().setBuiltInZoomControls(true);
         webSettings.setJavaScriptEnabled(true);
-        Log.d("content",Content);
+        Log.d("content", Content);
         pdfview.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + Content);
     }
 
@@ -261,6 +217,7 @@ public class PreviewLSRWScreen extends AppCompatActivity {
                         showToast(getResources().getString(R.string.check_internet));
                         return false;
                     }
+
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
@@ -272,7 +229,7 @@ public class PreviewLSRWScreen extends AppCompatActivity {
 
     }
 
-    private  void videoview(){
+    private void videoview() {
 
         myWebView.setBackgroundColor(getResources().getColor(R.color.clr_black));
         myWebView.getSettings().setJavaScriptEnabled(true);
@@ -310,7 +267,7 @@ public class PreviewLSRWScreen extends AppCompatActivity {
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
 
-        String VIDEO_URL="https://player.vimeo.com/video/"+ "425233784";
+        String VIDEO_URL = "https://player.vimeo.com/video/" + "425233784";
         String data_html = "<!DOCTYPE html><html> " +
                 "<head>" +
                 " <meta charset=\"UTF-8\">" +
@@ -319,7 +276,7 @@ public class PreviewLSRWScreen extends AppCompatActivity {
                 " <body style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;\"> " +
                 "<div class=\"vimeo\">" +
 
-                "<iframe  style=\"position:absolute;top:0;bottom:0;width:100%;height:100%\" src=\""+ Content+"\" frameborder=\"0\">" +
+                "<iframe  style=\"position:absolute;top:0;bottom:0;width:100%;height:100%\" src=\"" + Content + "\" frameborder=\"0\">" +
                 "</iframe>" +
                 " </div>" +
                 " </body>" +
@@ -329,10 +286,10 @@ public class PreviewLSRWScreen extends AppCompatActivity {
     }
 
 
-
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
     private void alert(String strStudName) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 

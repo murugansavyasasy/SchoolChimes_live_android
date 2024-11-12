@@ -47,6 +47,7 @@ import java.io.File;
 
 public class VimeoVideoPlayerActivity extends AppCompatActivity implements VimeoHelper.VimeoDownloadCallback {
 
+    private static final String VIDEO_FOLDER = "//SchoolChimesVideo";
     String VideoID, DETAILID, ISAPPVIEW;
     ImageView imgBack;
     WebView myWebView;
@@ -61,8 +62,32 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
     String isNewVersion;
     Boolean is_Archive;
     ImageView imgDownload;
-    private static final String VIDEO_FOLDER = "//SchoolChimesVideo";
     boolean isDownload = true;
+
+    public static boolean isVideoDownloaded() {
+        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), VIDEO_FOLDER);
+        File videoFile = new File(directory, "video_for_your_school.mp4");
+        return videoFile.exists();
+    }
+
+    public static void showAlert(final Activity activity, String title, String msg) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                activity);
+
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(msg);
+        alertDialog.setIcon(R.drawable.ic_pdf);
+
+        alertDialog.setNeutralButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+
+        alertDialog.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +103,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TeacherUtil_SharedPreference.putOnBackPressedVideo(VimeoVideoPlayerActivity.this,"1");
+                TeacherUtil_SharedPreference.putOnBackPressedVideo(VimeoVideoPlayerActivity.this, "1");
                 if (videoView.isPlaying()) {
                     videoView.pause();
                 }
@@ -103,7 +128,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         isNewVersion = TeacherUtil_SharedPreference.getNewVersion(VimeoVideoPlayerActivity.this);
 
         if (ISAPPVIEW.equals("0")) {
-            ChangeMsgReadStatus.changeReadStatus(VimeoVideoPlayerActivity.this, DETAILID, MSG_TYPE_VIDEO, "",isNewVersion,is_Archive, new OnRefreshListener() {
+            ChangeMsgReadStatus.changeReadStatus(VimeoVideoPlayerActivity.this, DETAILID, MSG_TYPE_VIDEO, "", isNewVersion, is_Archive, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
 
@@ -164,7 +189,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
 
-        String VIDEO_URL="https://player.vimeo.com/video/"+ "425233784";
+        String VIDEO_URL = "https://player.vimeo.com/video/" + "425233784";
         String data_html = "<!DOCTYPE html><html> " +
                 "<head>" +
                 " <meta charset=\"UTF-8\">" +
@@ -183,7 +208,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
             public void onClick(View view) {
                 isDownload = true;
                 downloadVideoId = "1026844236";
-                Log.d("downloadVideoId", String.valueOf(downloadVideoId));
+                Log.d("downloadVideoId", downloadVideoId);
                 VimeoHelper.getVimeoDownloadUrl(downloadVideoId, VimeoVideoPlayerActivity.this);
 
             }
@@ -301,32 +326,6 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         }
     }
 
-    public static boolean isVideoDownloaded() {
-        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), VIDEO_FOLDER);
-        File videoFile = new File(directory, "video_for_your_school.mp4");
-        return videoFile.exists();
-    }
-
-
-    public static void showAlert(final Activity activity, String title, String msg) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                activity);
-
-        alertDialog.setCancelable(false);
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(msg);
-        alertDialog.setIcon(R.drawable.ic_pdf);
-
-        alertDialog.setNeutralButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-
-            }
-        });
-
-        alertDialog.show();
-    }
-
     public void setVideoProgress() {
         //get the video duration
         current_pos = videoView.getCurrentPosition();
@@ -345,7 +344,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                     current.setText(timeConversion((long) current_pos));
                     seekBar.setProgress((int) current_pos);
                     handler.postDelayed(this, 1000);
-                } catch (IllegalStateException ed){
+                } catch (IllegalStateException ed) {
                     ed.printStackTrace();
                 }
             }
@@ -370,6 +369,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
             }
         });
     }
+
     //pause video
     public void setPause() {
         pause.setOnClickListener(new View.OnClickListener() {
