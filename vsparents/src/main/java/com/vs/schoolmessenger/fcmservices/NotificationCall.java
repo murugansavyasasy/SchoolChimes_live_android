@@ -9,19 +9,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -36,30 +35,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-//public class NotificationCall extends AppCompatActivity implements View.OnTouchListener {
 public class NotificationCall extends AppCompatActivity {
 
     private TextView lblVoiceDuration, lblTotalDuration;
     MediaPlayer mediaPlayer = new MediaPlayer();
     private Handler durationUpdateHandler;
     //    String voiceUrl = "http://vs5.voicesnapforschools.com/nodejs/voice/VS_1718181818812.wav";
-    ImageView rlyDecline, rlyAccept;
-    private int previousFingerPosition = 0;
-    private int baseLayoutPosition = 0;
-    private int defaultViewHeight;
-    private boolean isScrollingUp = false;
-    LinearLayout lneButtonHeight;
+    RelativeLayout lneButtonHeight;
     ImageView imgDeclineNotificationCall;
     private AlertDialog exitDialog;
     Boolean isAcceptCall = true;
-    Boolean isDeclineCall = true;
     String voiceUrl = "";
     String isReceiverId = "";
     String isUserResponse = "NO";
     int isDuration = 0;
     String retrycount, circularId, ei1, ei2, ei3, ei4, ei5, role, menuId;
-    private float initialY1, initialY2;
-    private float swipeThreshold = 200;
+    int notificationId;
+    ImageView imgDeclineCall, imgAcceptCall;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -74,39 +66,45 @@ public class NotificationCall extends AppCompatActivity {
 
         lblVoiceDuration = findViewById(R.id.lblVoiceDuration);
         lblTotalDuration = findViewById(R.id.lblTotalDuration);
-        rlyDecline = findViewById(R.id.imgDecline);
-        rlyAccept = findViewById(R.id.imgAccept);
+        imgDeclineCall = findViewById(R.id.imgDeclineCall);
+        imgAcceptCall = findViewById(R.id.imgAcceptCall);
         lneButtonHeight = findViewById(R.id.lneButtonHeight);
         imgDeclineNotificationCall = findViewById(R.id.imgDeclineNotificationCall);
 
-        setupSwipeListener(rlyAccept, 1);
-        setupSwipeListener(rlyDecline, 2);
 
         handleIntent(getIntent());
-
-        Glide.with(this)
-                .asGif()
-                .load(R.drawable.call_accept_notification)
-                .into(rlyAccept);
-
-
-        Glide.with(this)
-                .asGif()
-                .load(R.drawable.call_decline)
-                .into(rlyDecline);
 
         imgDeclineNotificationCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mediaPlayer.stop();
                 isUserResponse = "NO";
-              //  updateNotificationCallLog();
+                //  updateNotificationCallLog();
+                //   isWithOutApiCallPlaying();
+                finish();
+            }
+        });
+
+        imgDeclineCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isUserResponse = "NO";
+                //  updateNotificationCallLog();
              //   isWithOutApiCallPlaying();
                 finish();
             }
         });
 
-        long durationMillis = 0;
+        imgAcceptCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isUserResponse = "OC";
+            //  updateNotificationCallLog();
+            isWithOutApiCallPlaying();
+            }
+        });
+
+        long durationMillis;
         try {
             durationMillis = AudioUtils.getWavFileDurationFromUrl(voiceUrl);
         } catch (IOException e) {
@@ -129,11 +127,10 @@ public class NotificationCall extends AppCompatActivity {
 
     private void handleIntent(Intent intent) {
         if (intent != null) {
-            int notificationId = intent.getIntExtra("isNotificationId", -1);
+
+            notificationId = intent.getIntExtra("isNotificationId", -1);
             voiceUrl = intent.getStringExtra("isVoiceUrl");
             isReceiverId = intent.getStringExtra("isReceiverId");
-
-
             retrycount = intent.getStringExtra("retrycount");
             circularId = intent.getStringExtra("circularId");
             ei1 = intent.getStringExtra("ei1");
@@ -144,64 +141,6 @@ public class NotificationCall extends AppCompatActivity {
             role = intent.getStringExtra("role");
             menuId = intent.getStringExtra("menuId");
 
-        }
-    }
-
-    private void setupSwipeListener(ImageView button, int buttonNumber) {
-        button.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Record the initial Y position of the touch
-                        if (buttonNumber == 1) {
-                            initialY1 = event.getY();
-                        } else {
-                            initialY2 = event.getY();
-                        }
-                        return true;
-                    case MotionEvent.ACTION_MOVE:
-                        float deltaY = (buttonNumber == 1 ? initialY1 : initialY2) - event.getY();
-                        if (deltaY > 0) {
-                            // Move the button up as the user swipes up
-                            button.setTranslationY(-deltaY);
-                        }
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        float totalDeltaY = (buttonNumber == 1 ? initialY1 : initialY2) - event.getY();
-                        if (totalDeltaY > swipeThreshold) {
-                            // Perform the "swipe up" action for the specific button
-                            performSwipeUpAction(button);
-                        } else {
-                            // Reset the button position if swipe wasn't enough
-                            button.animate().translationY(0).start();
-                        }
-                        return true;
-                }
-                return false;
-            }
-        });
-    }
-
-
-    private void performSwipeUpAction(ImageView button) {
-        TranslateAnimation animate = new TranslateAnimation(0, 0, 0, -button.getHeight());
-        animate.setDuration(300);
-        animate.setFillAfter(true);
-        button.startAnimation(animate);
-        button.setVisibility(View.INVISIBLE);
-
-        if (button == rlyAccept) {
-            isUserResponse = "OC";
-            //  updateNotificationCallLog();
-            isWithOutApiCallPlaying();
-        } else if (button == rlyDecline) {
-            isUserResponse = "NO";
-            // updateNotificationCallLog();
-            isWithOutApiCallPlaying();
-            finish();
         }
     }
 
@@ -280,7 +219,7 @@ public class NotificationCall extends AppCompatActivity {
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
                 try {
                     Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {

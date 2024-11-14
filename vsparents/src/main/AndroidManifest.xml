@@ -358,9 +358,12 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- <receiver -->
+        </provider>
+
+        <!-- <receiver -->
         <!-- android:name=".util.DailyAlarmReceiver" -->
         <!-- android:exported="true" /> -->
+
         <receiver
             android:name=".fcmservices.MySMSBroadCastReceiver"
             android:exported="false">

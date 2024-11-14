@@ -4,9 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/rect_popup_white"
     android:paddingBottom="5dp"
-    android:orientation="vertical"
-   >
-
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +17,6 @@
             android:layout_height="80dp"
             android:src="@drawable/school_chimes"
             android:visibility="visible">
-
         </ImageView>
 
         <TextView
@@ -59,19 +56,18 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_alignParentRight="true"
-
                 android:src="@drawable/incomingcall"></ImageView>
 
         </RelativeLayout>
 
         <TextView
             android:id="@+id/lblSendBy"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/notification_title"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/rlaButtons"
             android:layout_toRightOf="@+id/logoCall"
-            android:gravity="center"
             android:text="Incoming call........"
             android:textSize="12dp"
             android:textStyle="bold">

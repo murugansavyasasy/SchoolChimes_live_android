@@ -482,7 +482,6 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
             for (int cnt = 0; cnt < countriesArray.length; cnt++) {
                 countriesArray[cnt] = LanguageList.get(cnt).getStrLanguageName();
             }
-
         }
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(ChildrenScreen.this);
@@ -726,7 +725,6 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         for (String itemtemp : items1) {
             int result = Integer.parseInt(itemtemp);
             isStaffMenuID.add(result);
-
         }
         TeacherUtil_SharedPreference.putStaffIDs(isStaffMenuID, ChildrenScreen.this);
     }
