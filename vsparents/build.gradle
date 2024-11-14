@@ -72,7 +72,6 @@ configurations {
     compile.exclude group: 'org.jetbrains', module: 'annotations'
 }
 
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/volley.jar')
