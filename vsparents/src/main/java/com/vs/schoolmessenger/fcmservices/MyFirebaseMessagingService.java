@@ -251,8 +251,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        remoteViews.setTextViewText(R.id.lblContent, body);
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_call_notification);
-//        remoteViews.setTextViewText(R.id.notification_title, title);
-//        remoteViews.setTextViewText(R.id.lblContent, body);
+        remoteViews.setTextViewText(R.id.notification_title, title);
+        remoteViews.setTextViewText(R.id.lblContent, body);
 
         // Create the notification
         Notification notification = new NotificationCompat.Builder(this, channelId)
