@@ -71,7 +71,6 @@ public class NotificationCall extends AppCompatActivity {
         lneButtonHeight = findViewById(R.id.lneButtonHeight);
         imgDeclineNotificationCall = findViewById(R.id.imgDeclineNotificationCall);
 
-
         handleIntent(getIntent());
 
         imgDeclineNotificationCall.setOnClickListener(new View.OnClickListener() {

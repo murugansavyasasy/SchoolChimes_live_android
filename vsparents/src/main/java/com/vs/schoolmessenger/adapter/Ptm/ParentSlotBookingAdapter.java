@@ -60,8 +60,6 @@ public class ParentSlotBookingAdapter extends RecyclerView.Adapter<ParentSlotBoo
         holder.txtStaffSubjectName.setTypeface(null, Typeface.BOLD);
 
         SlotDetailAdapter adapter = new SlotDetailAdapter(context, groupedSlot.getSlots(), allSlotDetails);
-//          adapter.setData(allSlotDetails); // Set the data to the child adapter
-
         adapter.setOnSlotSelectedListener(() -> {
             if (holder.gridViewSlots != null) {
                 holder.gridViewSlots.post(() -> notifyDataSetChanged());

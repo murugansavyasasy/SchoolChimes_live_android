@@ -698,18 +698,18 @@ public class TeacherSchoolList extends AppCompatActivity {
         rvSchoolsList.setAdapter(schoolsListAdapter);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("iRequestCode___", String.valueOf(iRequestCode));
-        if (requestCode == iRequestCode) {
-            Log.d("coming", "coming");
-            String message = data.getStringExtra("MESSAGE");
-            if (message.equals("SENT")) {
-                finish();
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Log.d("iRequestCode___", String.valueOf(iRequestCode));
+//        if (requestCode == iRequestCode) {
+//            Log.d("coming", "coming");
+//            String message = data.getStringExtra("MESSAGE");
+//            if (message.equals("SENT")) {
+//                finish();
+//            }
+//        }
+//    }
 
 
     @Override

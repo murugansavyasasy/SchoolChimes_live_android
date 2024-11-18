@@ -35,9 +35,6 @@ public class SlotDetailAdapter extends BaseAdapter {
         this.timeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
     }
 
-//    public void setData(List<SlotDetail> data) {
-//        Util_Common.isTotalItemCount = data.size();
-//    }
 
     @Override
     public int getCount() {
@@ -132,21 +129,12 @@ public class SlotDetailAdapter extends BaseAdapter {
         if (slotDetail.getIsBooking() == 1) {
             Util_Common.isBookedIds.add(slotDetail.getIsSpecificMeeting());
         }
-
-//        if (position == slotDetails.size() - 1) {
-////            Util_Common.isDataCounting = Util_Common.isDataCounting + slotDetails.size();
-//            Util_Common.isDataCounting = slotDetails.size();
-//        }
-
-
-        // if (Util_Common.isDataCounting != Util_Common.isTotalItemCount) {
         if (Util_Common.isDataLoadingOver) {
             if (onSlotSelectedListener != null) {
                 Util_Common.isDataLoadingOver = false;
                 onSlotSelectedListener.onSlotSelected();
             }
         }
-        //    }
 
         if (Util_Common.isBookedIds.size() > 0) {
             for (int i = 0; i <= Util_Common.isBookedIds.size() - 1; i++) {
@@ -155,7 +143,6 @@ public class SlotDetailAdapter extends BaseAdapter {
                         isTimeCard.setEnabled(false);
                         isTimeCard.setAlpha(0.5f);
                     } else {
-//                        Util_Common.isSelectedTime.add(slotDetail.getFrom_time() + isEqual + slotDetail.getTo_time() + isEqual + slotDetail.getSlot_id());
                         Util_Common.isSelectedTime.add(slotDetail.getFrom_time() + isEqual + slotDetail.getTo_time() + isEqual + slotDetail.getSlot_id() + isEqual + slotDetail.getIsBooking());
                         Util_Common.isHeaderSlotsIds.add(slotDetail.getSlot_id() + isHyphen + slotDetail.getIsSpecificMeeting());
                         isTimeCard.setBackgroundResource(R.drawable.bg_slots_selected);
@@ -188,7 +175,6 @@ public class SlotDetailAdapter extends BaseAdapter {
                         }
                     }
                 }
-//                Util_Common.isSelectedTime.add(slotDetail.getFrom_time() + isEqual + slotDetail.getTo_time() + isEqual + slotDetail.getSlot_id());
                 Util_Common.isSelectedTime.add(slotDetail.getFrom_time() + isEqual + slotDetail.getTo_time() + isEqual + slotDetail.getSlot_id() + isEqual + slotDetail.getIsBooking());
                 Util_Common.isHeaderSlotsIds.add(Util_Common.isSpecificSlotId + isHyphen + Util_Common.isSpecificSlot);
 
