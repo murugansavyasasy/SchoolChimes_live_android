@@ -67,33 +67,81 @@
         android:id="@+id/lneButtonHeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
-
-        <ImageView
-            android:id="@+id/imgDeclineCall"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="50dp"
             android:layout_marginBottom="100dp"
-            android:src="@drawable/decline_notification_call"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
 
-            >
+            <ImageView
+                android:id="@+id/imgDeclineCall"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/decline_notification_call"
 
-        </ImageView>
+                >
 
-        <ImageView
-            android:id="@+id/imgAcceptCall"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="150dp"
-            android:layout_toRightOf="@+id/imgDeclineCall"
-            android:src="@drawable/call_accept">
+            </ImageView>
 
-        </ImageView>
 
+            <TextView
+                android:id="@+id/lblCallEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgAcceptCall"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="End Call"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:textColor="@color/clr_white">
+
+
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="100dp"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgAcceptCall"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/call_accept">
+
+            </ImageView>
+
+
+            <TextView
+                android:id="@+id/lblCallStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Accept"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:textColor="@color/clr_white">
+
+            </TextView>
+        </LinearLayout>
     </RelativeLayout>
+
 
 
     <ImageView
@@ -108,5 +156,21 @@
         app:layout_constraintRight_toRightOf="parent">
 
     </ImageView>
+
+    <TextView
+        android:id="@+id/lblCutCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="End Call"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/imgDeclineNotificationCall"
+        android:textSize="15dp"
+        android:textColor="@color/clr_white">
+
+    </TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

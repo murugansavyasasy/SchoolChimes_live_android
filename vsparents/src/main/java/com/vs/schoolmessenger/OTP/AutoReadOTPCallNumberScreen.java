@@ -483,7 +483,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true,
                                             jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable"));
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable"),jsonObjectdetailsStaff.getBoolean("allowVideoDownload"));
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetailsStaff.getString("SchoolName"));
@@ -500,7 +500,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                     Util_Common.isSchoolType = object.getInt("school_type");
                                     TeacherUtil_Common.isBioMetricEnable = object.getInt("biometricEnable");
-
+                                    TeacherUtil_Common.isVideoDownload = object.getBoolean("allowVideoDownload");
                                     TeacherUtil_SharedPreference.putShoolID(AutoReadOTPCallNumberScreen.this, strSchoolId);
                                     TeacherUtil_SharedPreference.putStaffID(AutoReadOTPCallNumberScreen.this, strStaffId);
                                     String logo = object.getString("SchoolLogo");
@@ -605,7 +605,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetails.getString("SchoolName"),jsonObjectdetails.getString("SchoolNameRegional"), jsonObjectdetails.getString("SchoolID"),
                                             jsonObjectdetails.getString("city"), jsonObjectdetails.getString("SchoolAddress"), jsonObjectdetails.getString("SchoolLogo")
                                             , jsonObjectdetails.getString("StaffID"), jsonObjectdetails.getString("StaffName"), true, jsonObjectdetails.getString("isBooksEnabled"),
-                                            jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"), jsonObjectdetails.getInt("school_type"),jsonObjectdetails.getInt("biometricEnable"));
+                                            jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"), jsonObjectdetails.getInt("school_type"),jsonObjectdetails.getInt("biometricEnable"),jsonObjectdetails.getBoolean("allowVideoDownload"));
                                     Log.d("value1", jsonObjectdetails.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetails.getString("SchoolName"));
@@ -616,6 +616,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                         Util_Common.isSchoolType = jsonObjectdetails.getInt("school_type");
                                         TeacherUtil_Common.isBioMetricEnable = jsonObjectdetails.getInt("biometricEnable");
+                                        TeacherUtil_Common.isVideoDownload = jsonObjectdetails.getBoolean("allowVideoDownload");
                                         String logo = jsonObjectdetails.getString("SchoolLogo");
                                         TeacherUtil_SharedPreference.putSchoolLogo(AutoReadOTPCallNumberScreen.this, logo);
                                     }
@@ -637,7 +638,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"),jsonObjectdetailsgrouphead.getString("SchoolNameRegional"), jsonObjectdetailsgrouphead.getString("SchoolID"),
                                             jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
                                             , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type"),jsonObjectdetailsgrouphead.getInt("biometricEnable")
+                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type"),jsonObjectdetailsgrouphead.getInt("biometricEnable"),jsonObjectdetailsgrouphead.getBoolean("allowVideoDownload")
                                     );
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -660,7 +661,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"),jsonObjectdetailsgrouphead.getString("SchoolNameRegional"), jsonObjectdetailsgrouphead.getString("SchoolID"),
                                             jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
                                             , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type"),jsonObjectdetailsgrouphead.getInt("biometricEnable")
+                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type"),jsonObjectdetailsgrouphead.getInt("biometricEnable"),jsonObjectdetailsgrouphead.getBoolean("allowVideoDownload")
                                     );
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -669,7 +670,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                 schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"),jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
                                         jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                         , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                        jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable")
+                                        jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable"),jsonObjectdetailsStaff.getBoolean("allowVideoDownload")
                                 );
                                 Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
 
@@ -687,7 +688,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                 TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                 Util_Common.isSchoolType = jsonObjectdetailsStaff.getInt("school_type");
                                 TeacherUtil_Common.isBioMetricEnable = jsonObjectdetailsStaff.getInt("biometricEnable");
-
+                                TeacherUtil_Common.isVideoDownload = jsonObjectdetailsStaff.getBoolean("allowVideoDownload");
 
                                 if (listschooldetails.size() == 1) {
                                     Intent i = new Intent(AutoReadOTPCallNumberScreen.this, Teacher_AA_Test.class);
@@ -714,7 +715,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"),jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable")
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable"),jsonObjectdetailsStaff.getBoolean("allowVideoDownload")
                                     );
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -726,6 +727,8 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                         Util_Common.isSchoolType = jsonObjectdetailsStaff.getInt("school_type");
                                         TeacherUtil_Common.isBioMetricEnable = jsonObjectdetailsStaff.getInt("biometricEnable");
+                                        TeacherUtil_Common.isVideoDownload = jsonObjectdetailsStaff.getBoolean("allowVideoDownload");
+
                                     }
                                 }
 
@@ -745,7 +748,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                     schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"),jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
                                             jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
                                             , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable")
+                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"),jsonObjectdetailsStaff.getInt("biometricEnable"),jsonObjectdetailsStaff.getBoolean("allowVideoDownload")
                                     );
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
@@ -757,6 +760,7 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
                                         TeacherUtil_Common.Principal_SchoolId = strSchoolId;
                                         Util_Common.isSchoolType = jsonObjectdetailsStaff.getInt("school_type");
                                         TeacherUtil_Common.isBioMetricEnable = jsonObjectdetailsStaff.getInt("biometricEnable");
+                                        TeacherUtil_Common.isVideoDownload = jsonObjectdetailsStaff.getBoolean("allowVideoDownload");
                                     }
                                 }
 

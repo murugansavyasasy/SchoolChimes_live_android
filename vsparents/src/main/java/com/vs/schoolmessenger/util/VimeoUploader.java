@@ -91,6 +91,13 @@ public class VimeoUploader {
 
                     JSONObject privacy = new JSONObject();
                     privacy.put("view", "unlisted");
+
+                    if (TeacherUtil_Common.isVideoDownload) {
+                        privacy.put("download", true);
+                    } else {
+                        privacy.put("download", false);
+                    }
+
                     jsonParam.put("privacy", privacy);
 
                     JSONObject jsonshare = new JSONObject();

@@ -1,25 +1,18 @@
 package com.vs.schoolmessenger.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -27,8 +20,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.VimeoVideoPlayerActivity;
-import com.vs.schoolmessenger.assignment.view.DefaultControlPanelView;
-import com.vs.schoolmessenger.assignment.view.VimeoPlayerView;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.VideoModelClass;
 
@@ -37,6 +28,12 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHolder> {
 
@@ -127,6 +124,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
           play.putExtra("DETAILID",data.getDetailID());
           play.putExtra("ISAPPVIEW",data.getIsAppViewed());
           play.putExtra("is_Archive",data.getIs_Archive());
+          play.putExtra("is_Download",data.getDownload());
           context.startActivity(play);
 
 

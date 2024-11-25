@@ -167,7 +167,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:enabled="false"
-        android:text="@string/btn_save_image"
+        android:text="@string/btn_download_image"
         android:visibility="visible" />
 
 </LinearLayout>

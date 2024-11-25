@@ -25,12 +25,13 @@ public class TeacherSchoolsModel implements Serializable {
     String BookEnable;
     String isPaymentPending;
     int isBiometricEnable;
+    boolean allowVideoDownload;
 
     public TeacherSchoolsModel() {
     }
 
-    public TeacherSchoolsModel(String strSchoolName,String SchoolNameRegional, String strSchoolID, String strCity, String strSchoolAddress, String strSchoolLogoUrl, String strStaffID, String strStaffName, boolean selectStatus,
-                               String bookEnable, String Link, String isPayment, int isSchoolType,int isBiometricEnable) {
+    public TeacherSchoolsModel(String strSchoolName, String SchoolNameRegional, String strSchoolID, String strCity, String strSchoolAddress, String strSchoolLogoUrl, String strStaffID, String strStaffName, boolean selectStatus,
+                               String bookEnable, String Link, String isPayment, int isSchoolType, int isBiometricEnable, boolean allowVideoDownload) {
 
         this.strSchoolName = strSchoolName;
         this.SchoolNameRegional = SchoolNameRegional;
@@ -45,7 +46,8 @@ public class TeacherSchoolsModel implements Serializable {
         this.BookEnable = bookEnable;
         this.isPaymentPending = isPayment;
         this.isSchoolType = isSchoolType;
-        this.isBiometricEnable=isBiometricEnable;
+        this.isBiometricEnable = isBiometricEnable;
+        this.allowVideoDownload = allowVideoDownload;
     }
 
 
@@ -55,6 +57,15 @@ public class TeacherSchoolsModel implements Serializable {
         this.strSchoolLogoUrl = strSchoolLogoUrl;
         this.strSchoolAddress = strSchoolAddress;
         this.selectStatus = selectStatus;
+    }
+
+
+    public boolean getAllowDownload() {
+        return allowVideoDownload;
+    }
+
+    public void setAllowVideoDownload(boolean allowVideoDownload) {
+        this.allowVideoDownload = allowVideoDownload;
     }
 
     public int getIsBiometricEnable() {

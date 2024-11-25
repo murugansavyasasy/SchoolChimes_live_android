@@ -138,7 +138,7 @@ public class TeacherSchoolList extends AppCompatActivity {
             Log.d("test4", "test4");
             ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getSchoolNameRegional(), ss.getStrSchoolID(),
                     ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(),
-                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType(), ss.getIsBiometricEnable());
+                    ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType(), ss.getIsBiometricEnable(),ss.getAllowDownload());
             Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
             Log.d("Testing", "8***********************");
@@ -468,7 +468,7 @@ public class TeacherSchoolList extends AppCompatActivity {
                         public void onItemClick(TeacherSchoolsModel item) {
                             TeacherUtil_Common.Principal_SchoolId = item.getStrSchoolID();
                             TeacherUtil_Common.Principal_staffId = item.getStrStaffID();
-
+                            TeacherUtil_Common.isVideoDownload = item.getAllowDownload();
                             if (Type.equals("Recipient")) {
                                 Intent inPrincipal = new Intent(TeacherSchoolList.this, VideoPrincipalRecipient.class);
                                 inPrincipal.putExtra("REQUEST_CODE", VIDEO_GALLERY);

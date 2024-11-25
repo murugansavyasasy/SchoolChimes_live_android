@@ -4,7 +4,7 @@ public class VideoModelClass {
 
     private String VideoId,CreatedBy,CreatedOn,Title,Description,VimeoUrl,VimeoId,DetailID,IsAppViewed,Iframe;
     String VideoURL,VideoID;
-    Boolean is_Archive;
+    Boolean is_Archive,isDownload;
 
     public VideoModelClass() {
         this.VideoID = VideoID;
@@ -28,7 +28,7 @@ public class VideoModelClass {
     }
 
     public VideoModelClass(String videoId, String createdBy, String createdOn, String title, String description,
-                           String vimeoUrl, String vimeoId,String DetailID,String IsAppViewed,String Iframe,Boolean archive) {
+                           String vimeoUrl, String vimeoId,String DetailID,String IsAppViewed,String Iframe,Boolean archive,Boolean isDownload) {
         VideoId = videoId;
         CreatedBy = createdBy;
         CreatedOn = createdOn;
@@ -40,6 +40,15 @@ public class VideoModelClass {
         this.IsAppViewed = IsAppViewed;
         this.Iframe = Iframe;
         this.is_Archive = archive;
+        this.isDownload = isDownload;
+    }
+
+    public Boolean getDownload() {
+        return isDownload;
+    }
+
+    public void setDownload(Boolean download) {
+        isDownload = download;
     }
 
     public String getIframe() {

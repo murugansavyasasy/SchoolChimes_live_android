@@ -149,6 +149,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");
 
+
+
+
         btnEnableLocation.setOnClickListener(this);
         btnPresent.setOnClickListener(this);
         btnMarkAttendance.setOnClickListener(this);
@@ -779,8 +782,6 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Log.d("onResume", "onResume");
         getStaffLocations();
         getLocationPermissions();
-
-
     }
 
     @Override

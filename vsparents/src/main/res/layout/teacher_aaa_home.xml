@@ -9,6 +9,15 @@
     android:background="@drawable/img_app_bg"
     android:layout_height="match_parent">
 
+
+    <ProgressBar
+        android:id="@+id/isProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+    </ProgressBar>
+
     <LinearLayout
         android:id="@+id/lnrTop"
         android:layout_width="match_parent"

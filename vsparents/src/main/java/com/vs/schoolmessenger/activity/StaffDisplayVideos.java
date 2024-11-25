@@ -151,8 +151,9 @@ public class StaffDisplayVideos extends AppCompatActivity {
                                 String IsAppViewed = jsonObject.getString("AppReadStatus");
                                 String Iframe = jsonObject.getString("URL");
                                 boolean is_Archive = jsonObject.getBoolean("is_Archive");
+                                boolean isDownload = jsonObject.getBoolean("isDownload");
 
-                                VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, is_Archive);
+                                VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, is_Archive,isDownload);
                                 videoList.add(report);
 
                             } else {

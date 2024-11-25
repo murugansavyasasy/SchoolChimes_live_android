@@ -50,6 +50,10 @@
 
     <string name="hint_save_image">Click here to View full image</string>
     <string name="btn_save_image">Save Image</string>
+    <string name="btn_download_image">Download Image</string>
+
+
+
     <string name="txt_new">New</string>
     <string name="sample_txt_msg">Voice Snap is an innovative provider of Voice based Solutions and Products that add value to enterprises across the business value chain. From a technology perspective, we harness CTI, IVR and Web Technologies along with a deep understanding of Business Process Engineering to create value to Enterprises across the Business Value Chain.</string>
 

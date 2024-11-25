@@ -538,4 +538,5 @@
     <string name="standard_sections_not_assigned">Tiada Piawaian dan bahagian yang diberikan</string>
     <string name="null_time">0:00</string>
     <string name="txt_menu_settings">Tetapan</string>
+    <string name="btn_download_image">muat turun imej</string>
 </resources>

@@ -39,6 +39,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,6 +151,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     private PopupWindow SettingspopupWindow;
     private PopupWindow ContactpopupWindow;
     private List<NewUpdatesData> newUpdatesDataList = new ArrayList<NewUpdatesData>();
+    ProgressBar isProgressBar;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -237,6 +239,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         lnrScroll = (LinearLayout) findViewById(R.id.lnrScroll);
         rytParent = (RelativeLayout) findViewById(R.id.rytParent);
         tvLoggedInAs = (TextView) findViewById(R.id.aHome_tvLoggedInAs);
+        isProgressBar = (ProgressBar) findViewById(R.id.isProgressBar);
+        isProgressBar.setVisibility(View.VISIBLE);
         tvLoggedInAs.setText(TeacherUtil_SharedPreference.getLoginTypeFromSP(Teacher_AA_Test.this));
 
         tvSchoolName = (TextView) findViewById(R.id.aHome_tvSchoolName);
@@ -1031,6 +1035,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 }
             }
         }
+        isProgressBar.setVisibility(View.GONE);
         if (contacts.length != Contact_Count) {
             if (exist_Count == 0 || exist_Count < contacts.length) {
                 contactSaveContent();
@@ -1042,7 +1047,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.save_contact_alert, null);
-        PopupWindow ContactpopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
+        ContactpopupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
         ContactpopupWindow.setContentView(layout);
         rytParent.post(new Runnable() {
             public void run() {

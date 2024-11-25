@@ -2325,7 +2325,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             Log.d("test3", "test3" + listschooldetails.size());
             TeacherSchoolsModel ss = listschooldetails.get(i);
             Log.d("test4", "test4");
-            ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getSchoolNameRegional(), ss.getStrSchoolID(), ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(), ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType(), ss.getIsBiometricEnable());
+            ss = new TeacherSchoolsModel(ss.getStrSchoolName(), ss.getSchoolNameRegional(), ss.getStrSchoolID(), ss.getStrCity(), ss.getStrSchoolAddress(), ss.getStrSchoolLogoUrl(), ss.getStrStaffID(), ss.getStrStaffName(), true, ss.getBookEnable(), ss.getOnlineLink(), ss.getIsPaymentPending(), ss.getIsSchoolType(), ss.getIsBiometricEnable(),ss.getAllowDownload());
             Log.d("test", ss.getStrSchoolName());
             arrSchoolList.add(ss);
             Log.d("Testing", "8***********************");

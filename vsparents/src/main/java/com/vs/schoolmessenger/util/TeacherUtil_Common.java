@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -108,6 +107,7 @@ public class TeacherUtil_Common {
     public static String Principal_SchoolId = "";
     public static String Principal_staffId = "";
     public static int isBioMetricEnable = -1;
+    public static boolean isVideoDownload = false;
     public static String staff_schoolId = "";
     public static String lesson_request_type = "";
     public static int scroll_to_position = 0;

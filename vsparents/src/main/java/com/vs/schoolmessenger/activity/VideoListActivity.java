@@ -236,7 +236,10 @@ public class VideoListActivity extends AppCompatActivity {
                                     String IsAppViewed = jsonObject.getString("IsAppViewed");
                                     String Iframe = jsonObject.getString("Iframe");
                                     boolean is_Archive = jsonObject.getBoolean("is_Archive");
-                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, is_Archive);
+                                    //    boolean isDownload = jsonObject.getBoolean("isDownload");
+                                    boolean isDownload = true;
+
+                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, is_Archive, isDownload);
                                     videoList.add(report);
                                     OfflinevideoList.add(report);
                                 } else {
@@ -344,8 +347,9 @@ public class VideoListActivity extends AppCompatActivity {
                                     String DetailID = jsonObject.getString("DetailID");
                                     String IsAppViewed = jsonObject.getString("IsAppViewed");
                                     String Iframe = jsonObject.getString("Iframe");
-
-                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, false);
+//                                    boolean isDownload = jsonObject.getBoolean("isDownload");
+                                    boolean isDownload = true;
+                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, false, isDownload);
                                     videoList.add(report);
                                     totalvideoList.add(report);
                                 } else {

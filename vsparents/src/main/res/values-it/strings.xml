@@ -629,5 +629,6 @@
     <string name="standard_sections_not_assigned">Nessuna norma e sezione assegnate</string>
     <string name="null_time">0:00</string>
     <string name="txt_menu_settings">impostazioni</string>
+    <string name="btn_download_image">scarica l\'immagine</string>
 
 </resources>

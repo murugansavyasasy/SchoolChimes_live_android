@@ -40,6 +40,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.assignment.view.VimeoPlayerView;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
+import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.VimeoHelper;
 
@@ -98,6 +99,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         DETAILID = getIntent().getExtras().getString("DETAILID", "");
         ISAPPVIEW = getIntent().getExtras().getString("ISAPPVIEW", "");
         is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
+        isDownload = getIntent().getExtras().getBoolean("is_Download", false);
 
         imgBack = (ImageView) findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +128,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         total = (TextView) findViewById(R.id.total);
         showProgress = (LinearLayout) findViewById(R.id.showProgress);
         isNewVersion = TeacherUtil_SharedPreference.getNewVersion(VimeoVideoPlayerActivity.this);
+
 
         if (ISAPPVIEW.equals("0")) {
             ChangeMsgReadStatus.changeReadStatus(VimeoVideoPlayerActivity.this, DETAILID, MSG_TYPE_VIDEO, "", isNewVersion, is_Archive, new OnRefreshListener() {

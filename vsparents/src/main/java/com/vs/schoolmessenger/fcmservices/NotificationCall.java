@@ -52,6 +52,7 @@ public class NotificationCall extends AppCompatActivity {
     String retrycount, circularId, ei1, ei2, ei3, ei4, ei5, role, menuId;
     int notificationId;
     ImageView imgDeclineCall, imgAcceptCall;
+    TextView lblCutCall;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -70,6 +71,7 @@ public class NotificationCall extends AppCompatActivity {
         imgAcceptCall = findViewById(R.id.imgAcceptCall);
         lneButtonHeight = findViewById(R.id.lneButtonHeight);
         imgDeclineNotificationCall = findViewById(R.id.imgDeclineNotificationCall);
+        lblCutCall = findViewById(R.id.lblCutCall);
 
         handleIntent(getIntent());
 
@@ -233,6 +235,7 @@ public class NotificationCall extends AppCompatActivity {
 
                         durationUpdateHandler = new Handler();
                         imgDeclineNotificationCall.setVisibility(View.VISIBLE);
+                        lblCutCall.setVisibility(View.VISIBLE);
                         lneButtonHeight.setVisibility(View.GONE);
                         if (Util_Common.mediaPlayer.isPlaying()) {
                             Util_Common.mediaPlayer.stop();
@@ -293,6 +296,7 @@ public class NotificationCall extends AppCompatActivity {
 
         durationUpdateHandler = new Handler();
         imgDeclineNotificationCall.setVisibility(View.VISIBLE);
+        lblCutCall.setVisibility(View.VISIBLE);
         lneButtonHeight.setVisibility(View.GONE);
         if (Util_Common.mediaPlayer.isPlaying()) {
             Util_Common.mediaPlayer.stop();

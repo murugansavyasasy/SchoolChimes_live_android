@@ -34,6 +34,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -129,6 +130,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<Profiles> childList = new ArrayList<>();
     private PopupWindow popupWindow;
     private PopupWindow SettingspopupWindow;
+    ProgressBar isProgressBar;
 
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
@@ -156,6 +158,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_home);
+        isProgressBar = (ProgressBar) findViewById(R.id.isProgressBar);
+        isProgressBar.setVisibility(View.VISIBLE);
 
         String home = getIntent().getExtras().getString("HomeScreen", "");
         if (!home.equals("1")) {
@@ -877,6 +881,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         exist_Count = 0;
                         Contact_Count = Contact_Count - 1;
                     }
+
                 } finally {
                     if (cur != null)
                         cur.close();
@@ -1178,6 +1183,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        isProgressBar.setVisibility(View.VISIBLE);
         if (hasPermission()) {
             Constants.Menu_ID = "101";
             ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
@@ -1368,6 +1374,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         });
                         // idGridMenus.setSelection(TeacherUtil_Common.scroll_to_position);
                         idGridMenus.setAdapter(myAdapter);
+                        isProgressBar.setVisibility(View.GONE);
 
 
                     } else {

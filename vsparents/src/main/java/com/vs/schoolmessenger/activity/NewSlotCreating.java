@@ -761,7 +761,11 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
 //                            gridViewSection.setAdapter(isSectionListAdapter);
 //                            gridViewSection.setNestedScrollingEnabled(true);
 //                            isSectionListAdapter.notifyDataSetChanged();
+                        } else {
+                            isCheckSectionAssigning();
                         }
+                    } else {
+                        isCheckSectionAssigning();
                     }
                 } catch (Exception e) {
                     Log.e("Response Exception", e.getMessage());
@@ -776,6 +780,18 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
                 Toast.makeText(NewSlotCreating.this, getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void isCheckSectionAssigning() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Info")
+                .setMessage("You can't create a slot because the school is not assigning any sections to you.")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    onBackPressed();
+                })
+                .setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
