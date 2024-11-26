@@ -5,7 +5,6 @@ import static com.vs.schoolmessenger.util.Constants.updates;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -62,7 +61,6 @@ import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
-import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
@@ -743,7 +741,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getMenuDetails() {
-        LoadingView.showProgress(HomeActivity.this);
+      //  LoadingView.showProgress(HomeActivity.this);
 
 //        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(HomeActivity.this);
 //        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
@@ -781,7 +779,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                LoadingView.hideProgress();
+                //  LoadingView.hideProgress();
 
 
                 Log.d("GetMenuDetails:code", response.code() + " - " + response);
@@ -821,7 +819,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             } else {
                                 lnrScroll.setVisibility(View.GONE);
                             }
-
                             UnreadCount();
                         }
                     }
@@ -833,7 +830,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                LoadingView.hideProgress();
+                //  LoadingView.hideProgress();
 
                 showToast(getResources().getString(R.string.check_internet));
             }
@@ -1075,12 +1072,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
+//        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+//        mProgressDialog.setIndeterminate(true);
+//        mProgressDialog.setMessage("Loading...");
+//        mProgressDialog.setCancelable(false);
+//        if (!this.isFinishing())
+//            mProgressDialog.show();
 
         JsonObject jsonObjectlanguage = new JsonObject();
         jsonObjectlanguage.add("MemberData", jsonArray);
@@ -1093,8 +1090,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
                 Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
@@ -1142,8 +1139,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+//                if (mProgressDialog.isShowing())
+//                    mProgressDialog.dismiss();
                 showToast(getResources().getString(R.string.check_internet));
             }
         });

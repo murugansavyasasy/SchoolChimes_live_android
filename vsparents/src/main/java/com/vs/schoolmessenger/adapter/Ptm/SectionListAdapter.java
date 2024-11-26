@@ -80,7 +80,6 @@ public class SectionListAdapter extends BaseAdapter {
                 selectedIds.remove(remove_position);
                 holder.lblSectionName.setBackground(defaultBackground);
                 holder.lblSectionName.setTextColor(ContextCompat.getColor(holder.lblSectionName.getContext(), R.color.clr_black));
-
             } else {
                 selectedIds.add(item);
                 holder.lblSectionName.setBackground(selectedBackground);

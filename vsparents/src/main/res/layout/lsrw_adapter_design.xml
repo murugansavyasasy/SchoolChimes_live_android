@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<RelativeLayout
-    android:orientation="vertical"
+<RelativeLayout android:orientation="vertical"
     android:layout_margin="15dp"
     android:padding="5dp"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:id="@+id/rytOverall"
     android:background="@drawable/bg_shadow_white_card"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         android:id="@+id/lnrDateTime"
@@ -287,7 +285,6 @@
             android:textColor="@color/clr_black"
             android:textStyle="bold"
             android:layout_marginBottom="3dp"
-
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"/>
 

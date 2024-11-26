@@ -327,13 +327,9 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
         isCurrentDate = currentDate;
 
         getSection();
-
         isSlotPicking();
-
         isBreakPicking();
-
         isDurationPicking();
-
         isSelectModePicking();
 
     }

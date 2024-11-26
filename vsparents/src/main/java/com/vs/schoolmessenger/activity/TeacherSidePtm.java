@@ -2,7 +2,6 @@ package com.vs.schoolmessenger.activity;
 
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_PRINCIPAL;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -59,7 +58,7 @@ public class TeacherSidePtm extends AppCompatActivity implements View.OnClickLis
         loadFrag(new TodaySlots(), 0);
 
 
-        if ((TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherSidePtm.this).equals(LOGIN_TYPE_PRINCIPAL)) && (listschooldetails.size() == 1)) {
+        if ((TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherSidePtm.this).equals(LOGIN_TYPE_PRINCIPAL))) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
             StaffID = TeacherUtil_Common.Principal_staffId;
         } else if (TeacherUtil_SharedPreference.getLoginTypeFromSP(TeacherSidePtm.this).equals(LOGIN_TYPE_TEACHER)) {

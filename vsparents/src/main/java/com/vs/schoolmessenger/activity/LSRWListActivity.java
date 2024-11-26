@@ -56,7 +56,6 @@ public class LSRWListActivity extends AppCompatActivity {
     EditText Searchable;
     Slider slider;
     ImageView adImage;
-
     AdView mAdView;
 
 

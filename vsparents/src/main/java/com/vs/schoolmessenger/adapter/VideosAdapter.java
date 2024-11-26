@@ -107,7 +107,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
         holder.imgShadow.setEnabled(false);
         holder.imgShadow.setBackgroundColor(context.getResources().getColor(R.color.clr_white_fifty));
 
-
         Glide.with(context)
                 .load(R.drawable.video_parent_img)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

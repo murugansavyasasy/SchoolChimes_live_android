@@ -62,7 +62,6 @@ public class VideoListActivity extends AppCompatActivity {
     Slider slider;
     ImageView adImage;
     AdView mAdView;
-
     RelativeLayout voice_rlToolbar;
 
     @Override

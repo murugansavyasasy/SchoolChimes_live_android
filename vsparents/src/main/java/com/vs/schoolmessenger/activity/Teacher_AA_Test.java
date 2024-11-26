@@ -76,7 +76,6 @@ import com.vs.schoolmessenger.model.StaffMsgMangeCount;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
-import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -872,7 +871,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 //        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
 //        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
-
         String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(Teacher_AA_Test.this);
         if (isNewVersion.equals("1")) {
             String ReportURL = TeacherUtil_SharedPreference.getReportURL(Teacher_AA_Test.this);
@@ -907,7 +905,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                LoadingView.hideProgress();
+              //  LoadingView.hideProgress();
                 Log.d("VersionCheck:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("VersionCheck:Res", response.body().toString());
@@ -983,7 +981,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                LoadingView.hideProgress();
+                //    LoadingView.hideProgress();
 
                 showToast(getResources().getString(R.string.check_internet));
                 Log.d("VersionCheck:Failure", t.toString());
@@ -1496,7 +1494,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     }
 
     private void helpAPI(String msg) {
-        LoadingView.showProgress(Teacher_AA_Test.this);
+        //  LoadingView.showProgress(Teacher_AA_Test.this);
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(Teacher_AA_Test.this);
         Log.d("Help:Mob-Query", mobNumber + " - " + msg);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -1506,7 +1504,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                LoadingView.hideProgress();
+                // LoadingView.hideProgress();
                 Log.d("Help:Code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Help:Res", response.body().toString());
@@ -1529,7 +1527,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                     } else {
                         showToast(getResources().getString(R.string.no_records));
                     }
-
                 } catch (Exception e) {
                     Log.e("Help:Exception", e.getMessage());
                 }
@@ -1537,7 +1534,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                LoadingView.hideProgress();
+                // LoadingView.hideProgress();
                 showToast(getResources().getString(R.string.check_internet));
             }
         });
@@ -1652,7 +1649,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                LoadingView.hideProgress();
+                //  LoadingView.hideProgress();
                 showToast(getResources().getString(R.string.check_internet));
                 getMenuDetails();
             }
