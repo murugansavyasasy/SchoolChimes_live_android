@@ -94,7 +94,6 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         videoView = findViewById(R.id.videoview);
         imgDownload = findViewById(R.id.imgDownload);
 
-
         if (isDownload) {
             imgDownload.setVisibility(View.VISIBLE);
         } else {

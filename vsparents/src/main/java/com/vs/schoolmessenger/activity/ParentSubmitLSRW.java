@@ -1435,15 +1435,14 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
             }
         });
-
         alertDialog.show();
     }
 
     private void setAdapter() {
         uploadAdapter = new LsrwDocsAdapter(ParentSubmitLSRW.this, submitlist, "1", this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+     //   RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rcysubmissions.setHasFixedSize(true);
-        rcysubmissions.setLayoutManager(mLayoutManager);
+//        rcysubmissions.setLayoutManager(mLayoutManager);
         rcysubmissions.setItemAnimator(new DefaultItemAnimator());
         rcysubmissions.setAdapter(uploadAdapter);
         uploadAdapter.notifyDataSetChanged();
