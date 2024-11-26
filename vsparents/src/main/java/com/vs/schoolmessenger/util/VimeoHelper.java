@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.vs.schoolmessenger.activity.ParentSubmitLSRW;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ import okhttp3.Response;
 public class VimeoHelper {
 
     private static final String VIMEO_API_BASE_URL = "https://api.vimeo.com/videos/";
-    private static final String ACCESS_TOKEN = "8d74d8bf6b5742d39971cc7d3ffbb51a";  // Replace with your actual access token
+//    private static final String ACCESS_TOKEN = "8d74d8bf6b5742d39971cc7d3ffbb51a";  // Replace with your actual access token
 
     // Define the callback interface
     public interface VimeoDownloadCallback {
@@ -25,13 +26,13 @@ public class VimeoHelper {
         void onError(String errorMessage);
     }
 
-    public static void getVimeoDownloadUrl(String videoId, VimeoDownloadCallback callback) {
+    public static void getVimeoDownloadUrl(String videoId,String isVimeoToken, VimeoDownloadCallback callback) {
         OkHttpClient client = new OkHttpClient();
 
         // Create request
         Request request = new Request.Builder()
                 .url(VIMEO_API_BASE_URL + videoId)
-                .addHeader("Authorization", "Bearer " + ACCESS_TOKEN)
+                .addHeader("Authorization", "Bearer " + isVimeoToken)
                 .build();
 
         // Send request

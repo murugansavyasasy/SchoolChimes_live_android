@@ -236,10 +236,9 @@ public class VideoListActivity extends AppCompatActivity {
                                     String IsAppViewed = jsonObject.getString("IsAppViewed");
                                     String Iframe = jsonObject.getString("Iframe");
                                     boolean is_Archive = jsonObject.getBoolean("is_Archive");
-                                    //    boolean isDownload = jsonObject.getBoolean("isDownload");
-                                    boolean isDownload = true;
+                                    boolean isDownload = jsonObject.getBoolean("isDownload");
 
-                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, is_Archive, isDownload);
+                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, is_Archive,isDownload);
                                     videoList.add(report);
                                     OfflinevideoList.add(report);
                                 } else {
@@ -347,9 +346,9 @@ public class VideoListActivity extends AppCompatActivity {
                                     String DetailID = jsonObject.getString("DetailID");
                                     String IsAppViewed = jsonObject.getString("IsAppViewed");
                                     String Iframe = jsonObject.getString("Iframe");
-//                                    boolean isDownload = jsonObject.getBoolean("isDownload");
-                                    boolean isDownload = true;
-                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, false, isDownload);
+                                    boolean isDownload = jsonObject.getBoolean("isDownload");
+
+                                    VideoModelClass report = new VideoModelClass(VideoId, CreatedBy, CreatedOn, Title, Description, VimeoUrl, VimeoId, DetailID, IsAppViewed, Iframe, false,isDownload);
                                     videoList.add(report);
                                     totalvideoList.add(report);
                                 } else {

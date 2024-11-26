@@ -737,6 +737,7 @@ public class TeacherUtil_SharedPreference {
         String content = activity.getSharedPreferences(SIZES, MODE_PRIVATE).getString(Videotoken, "");
         return content;
     }
+
     public static void putPeopleDetails(Activity activity, String principal, String staf, String paren, String grouhead, String adminnn){
         SharedPreferences prefs = activity.getSharedPreferences(PEOPLE_DETAILS, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();

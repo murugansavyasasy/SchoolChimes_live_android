@@ -867,7 +867,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getMenuDetails() {
-        LoadingView.showProgress(Teacher_AA_Test.this);
+//        LoadingView.showProgress(Teacher_AA_Test.this);
 
 //        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
 //        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);

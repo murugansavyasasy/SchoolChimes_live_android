@@ -115,22 +115,30 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
                 .skipMemoryCache(false)
                 .into(holder.imgVideo);
 
-  holder.frmPlayVideo.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-          Intent play=new Intent(context, VimeoVideoPlayerActivity.class);
-          play.putExtra("VIDEO_ID",data.getIframe());
-          play.putExtra("Video_id",data.getVideoId());
-          play.putExtra("DETAILID",data.getDetailID());
-          play.putExtra("ISAPPVIEW",data.getIsAppViewed());
-          play.putExtra("is_Archive",data.getIs_Archive());
-          play.putExtra("is_Download",data.getDownload());
-          context.startActivity(play);
+        holder.frmPlayVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent play = new Intent(context, VimeoVideoPlayerActivity.class);
+                play.putExtra("VIDEO_ID", data.getIframe());
+                play.putExtra("Video_id", data.getVideoId());
+                play.putExtra("DETAILID", data.getDetailID());
+                play.putExtra("ISAPPVIEW", data.getIsAppViewed());
+                play.putExtra("is_Archive", data.getIs_Archive());
+                play.putExtra("is_Download", data.getDownload());
+                String vimeoId = extractVimeoId(data.getVimeoId());
+                Log.d("vimeoId", String.valueOf(vimeoId));
+                play.putExtra("isVideoDownloadId", vimeoId);
+                play.putExtra("isVideoTitle", data.getTitle());
+                context.startActivity(play);
+
+            }
+        });
+    }
 
 
-      }
-  });
-
+    public String extractVimeoId(String input) {
+        int index = input.indexOf("?");
+        return (index != -1) ? input.substring(0, index) : input;
     }
 
     @Override

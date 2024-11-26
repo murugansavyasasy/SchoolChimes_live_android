@@ -40,7 +40,6 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.assignment.view.VimeoPlayerView;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
-import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.VimeoHelper;
 
@@ -64,31 +63,8 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
     Boolean is_Archive;
     ImageView imgDownload;
     boolean isDownload = true;
-
-    public static boolean isVideoDownloaded() {
-        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), VIDEO_FOLDER);
-        File videoFile = new File(directory, "video_for_your_school.mp4");
-        return videoFile.exists();
-    }
-
-    public static void showAlert(final Activity activity, String title, String msg) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                activity);
-
-        alertDialog.setCancelable(false);
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(msg);
-        alertDialog.setIcon(R.drawable.ic_pdf);
-
-        alertDialog.setNeutralButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-
-            }
-        });
-
-        alertDialog.show();
-    }
+    String isVideoDownloadId;
+    String isVideoTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +76,8 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         ISAPPVIEW = getIntent().getExtras().getString("ISAPPVIEW", "");
         is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
         isDownload = getIntent().getExtras().getBoolean("is_Download", false);
+        isVideoDownloadId = getIntent().getExtras().getString("isVideoDownloadId", "");
+        isVideoTitle = getIntent().getExtras().getString("isVideoTitle", "");
 
         imgBack = (ImageView) findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +93,12 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         myWebView = findViewById(R.id.myWebView);
         videoView = findViewById(R.id.videoview);
         imgDownload = findViewById(R.id.imgDownload);
+
+        if (isDownload) {
+            imgDownload.setVisibility(View.VISIBLE);
+        } else {
+            imgDownload.setVisibility(View.GONE);
+        }
 
         VimeoPlayerView vimeoPlayer = findViewById(R.id.vimeoPlayer);
         vimeoPlayer.setVisibility(View.GONE);
@@ -210,21 +194,44 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
             @Override
             public void onClick(View view) {
                 isDownload = true;
-//                downloadVideoId = "1026844236";
-                downloadVideoId = "1029647739";
-                Log.d("downloadVideoId", downloadVideoId);
-                VimeoHelper.getVimeoDownloadUrl(downloadVideoId, VimeoVideoPlayerActivity.this);
+                Log.d("isVideoDownloadId", isVideoDownloadId);
+                String authToken = TeacherUtil_SharedPreference.getVideotoken(VimeoVideoPlayerActivity.this);
+
+                VimeoHelper.getVimeoDownloadUrl(isVideoDownloadId,authToken, VimeoVideoPlayerActivity.this);
 
             }
         });
     }
 
+    public static boolean isVideoDownloaded(String isVideoTitle) {
+        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), VIDEO_FOLDER);
+        File videoFile = new File(directory, isVideoTitle);
+        return videoFile.exists();
+    }
+
+    public static void showAlert(final Activity activity, String title, String msg) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                activity);
+
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(msg);
+        alertDialog.setIcon(R.drawable.ic_pdf);
+
+        alertDialog.setNeutralButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alertDialog.show();
+    }
+
     @Override
     public void onDownloadUrlRetrieved(String quality, String downloadUrl) {
-        downloadUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
         if (isDownload) {
             isDownload = false;
-            if (!isVideoDownloaded()) {
+            if (!isVideoDownloaded(isVideoTitle)) {
                 downloadVideo(VimeoVideoPlayerActivity.this, downloadUrl);
             } else {
                 ((Activity) VimeoVideoPlayerActivity.this).runOnUiThread(new Runnable() {
@@ -282,7 +289,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
 
         Uri uri = Uri.parse(downloadUrl);
         DownloadManager.Request request = new DownloadManager.Request(uri);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, VIDEO_FOLDER + "/video_for_your_school.mp4");
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, VIDEO_FOLDER + "/" + isVideoTitle);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -313,7 +320,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                             cursor.close();
                             progressDialog.dismiss(); // Dismiss dialog on completion or failure
                             if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                                showAlert((Activity) context, "Downloaded successfully..", "File stored in: " + VIDEO_FOLDER + "/" + "video_for_your_school.mp4");
+                                showAlert((Activity) context, "Downloaded successfully..", "File stored in: " + VIDEO_FOLDER + "/" + isVideoTitle);
                             } else if (status == DownloadManager.STATUS_FAILED) {
                                 showAlert((Activity) context, "Download failed.", "");
                             }

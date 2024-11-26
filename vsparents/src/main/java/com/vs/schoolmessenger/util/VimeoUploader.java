@@ -24,7 +24,7 @@ public class VimeoUploader {
         void onUploadComplete(boolean success, String iframe, String link);
     }
 
-    public static void uploadVideo(Activity activity, String title, String description, final String authToken, final String videoFilePath, final UploadCompletionListener listener) {
+    public static void uploadVideo(Activity activity, String title, String description, String authToken, String videoFilePath, UploadCompletionListener listener) {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(activity);
         mProgressDialog.setIndeterminate(true);
