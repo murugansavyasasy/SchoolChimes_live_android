@@ -139,6 +139,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         btnAttendanceHistory = (TextView) findViewById(R.id.btnAttendanceHistory);
         lblNoRecords = (TextView) findViewById(R.id.lblNoRecords);
         recycleAttendanceReports = (RecyclerView) findViewById(R.id.recycleAttendanceReports);
+
         rytYears = (RelativeLayout) findViewById(R.id.rytYears);
         rytMonths = (RelativeLayout) findViewById(R.id.rytMonths);
         spinnerYears = (Spinner) findViewById(R.id.spinnerYears);
@@ -147,7 +148,6 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         enableSwitch = (Switch) findViewById(R.id.enableSwitch);
         SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");
-
 
         btnEnableLocation.setOnClickListener(this);
         btnPresent.setOnClickListener(this);
@@ -211,6 +211,8 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                 // No biometric data enrolled; prompt the user to set up biometrics
                 break;
         }
+
+
     }
 
     private void loadYearsSpinner() {
@@ -726,6 +728,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
+                onBackPressed();
             }
         });
 
@@ -777,6 +780,8 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Log.d("onResume", "onResume");
         getStaffLocations();
         getLocationPermissions();
+
+
     }
 
     @Override
