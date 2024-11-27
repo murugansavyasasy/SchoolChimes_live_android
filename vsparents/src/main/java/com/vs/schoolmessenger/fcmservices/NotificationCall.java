@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -100,8 +100,8 @@ public class NotificationCall extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isUserResponse = "OC";
-            //  updateNotificationCallLog();
-            isWithOutApiCallPlaying();
+                updateNotificationCallLog();
+//            isWithOutApiCallPlaying();
             }
         });
 
@@ -197,6 +197,7 @@ public class NotificationCall extends AppCompatActivity {
     private void updateNotificationCallLog() {
 
         // Create the JSON object for the request
+        JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("url", voiceUrl);
         jsonObject.addProperty("duration", isDuration);
@@ -214,9 +215,11 @@ public class NotificationCall extends AppCompatActivity {
         jsonObject.addProperty("diallist_id", 1);
         jsonObject.addProperty("call_status", isUserResponse);
 
+        jsonArray.add(jsonObject);
+        Log.d("jsonArray", String.valueOf(jsonArray));
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        Call<JsonObject> call = apiService.isUpdateCallLog(jsonObject);
+        Call<JsonObject> call = apiService.isUpdateCallLog(jsonArray);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -285,53 +288,53 @@ public class NotificationCall extends AppCompatActivity {
         });
     }
 
-    public  void isWithOutApiCallPlaying(){
-        isAcceptCall = false;
-        try {
-            mediaPlayer.setDataSource(voiceUrl);
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        durationUpdateHandler = new Handler();
-        imgDeclineNotificationCall.setVisibility(View.VISIBLE);
-        lblCutCall.setVisibility(View.VISIBLE);
-        lneButtonHeight.setVisibility(View.GONE);
-        if (Util_Common.mediaPlayer.isPlaying()) {
-            Util_Common.mediaPlayer.stop();
-            mediaPlayer.start();
-        } else {
-            mediaPlayer.start();
-        }
-
-        durationUpdateHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mediaPlayer.isPlaying()) {
-                    int currentDuration = mediaPlayer.getCurrentPosition();
-                    int minutes = currentDuration / 1000 / 60;
-                    int seconds = currentDuration / 1000 % 60;
-                    lblVoiceDuration.setText(String.format("%02d:%02d", minutes, seconds));
-                    durationUpdateHandler.postDelayed(this, 1000);
-                }
-            }
-        }, 0);
-
-
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                final Handler handler = new Handler(Looper.getMainLooper());
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ScreenState.getInstance().setIncomingCallScreen(false);
-                        Toast.makeText(NotificationCall.this, "Call was ended.", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                }, 1000);
-            }
-        });
-    }
+//    public  void isWithOutApiCallPlaying(){
+//        isAcceptCall = false;
+//        try {
+//            mediaPlayer.setDataSource(voiceUrl);
+//            mediaPlayer.prepare();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        durationUpdateHandler = new Handler();
+//        imgDeclineNotificationCall.setVisibility(View.VISIBLE);
+//        lblCutCall.setVisibility(View.VISIBLE);
+//        lneButtonHeight.setVisibility(View.GONE);
+//        if (Util_Common.mediaPlayer.isPlaying()) {
+//            Util_Common.mediaPlayer.stop();
+//            mediaPlayer.start();
+//        } else {
+//            mediaPlayer.start();
+//        }
+//
+//        durationUpdateHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (mediaPlayer.isPlaying()) {
+//                    int currentDuration = mediaPlayer.getCurrentPosition();
+//                    int minutes = currentDuration / 1000 / 60;
+//                    int seconds = currentDuration / 1000 % 60;
+//                    lblVoiceDuration.setText(String.format("%02d:%02d", minutes, seconds));
+//                    durationUpdateHandler.postDelayed(this, 1000);
+//                }
+//            }
+//        }, 0);
+//
+//
+//        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                final Handler handler = new Handler(Looper.getMainLooper());
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        ScreenState.getInstance().setIncomingCallScreen(false);
+//                        Toast.makeText(NotificationCall.this, "Call was ended.", Toast.LENGTH_SHORT).show();
+//                        finish();
+//                    }
+//                }, 1000);
+//            }
+//        });
+//    }
 }

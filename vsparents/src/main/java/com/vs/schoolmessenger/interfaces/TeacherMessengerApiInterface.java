@@ -364,9 +364,7 @@ public interface TeacherMessengerApiInterface {
     Call<JsonArray> GetMessageCount(@Body JsonObject jsonObject);
 
     @POST("update-notification-call-log")
-    Call<JsonObject> isUpdateCallLog(@Body JsonObject jsonObject);
-
-
+    Call<JsonObject> isUpdateCallLog(@Body JsonArray jsonArray);
 
     @POST("GetMessageCount_Archive")
     Call<JsonArray> GetMessageCount_Archive(@Body JsonObject jsonObject);

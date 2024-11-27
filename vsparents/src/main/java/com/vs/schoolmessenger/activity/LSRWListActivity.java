@@ -58,7 +58,6 @@ public class LSRWListActivity extends AppCompatActivity {
     ImageView adImage;
     AdView mAdView;
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));

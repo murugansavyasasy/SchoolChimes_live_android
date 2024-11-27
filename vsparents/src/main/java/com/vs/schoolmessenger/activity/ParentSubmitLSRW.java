@@ -558,10 +558,12 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
             recTime = recTime + 1;
 
 
-            if (recTime != iMaxRecDur)
+            if (recTime != iMaxRecDur) {
                 recTimerHandler.postDelayed(this, 1000);
-            else
+            } else {
                 stop_RECORD();
+                Log.d("stoprecord", "stoprecord");
+            }
         }
     };
 
@@ -1439,14 +1441,17 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     }
 
     private void setAdapter() {
-        uploadAdapter = new LsrwDocsAdapter(ParentSubmitLSRW.this, submitlist, "1", this);
-     //   RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        rcysubmissions.setHasFixedSize(true);
-//        rcysubmissions.setLayoutManager(mLayoutManager);
-        rcysubmissions.setItemAnimator(new DefaultItemAnimator());
-        rcysubmissions.setAdapter(uploadAdapter);
-        uploadAdapter.notifyDataSetChanged();
-        btnsubmit.setEnabled(submitlist.size() != 0);
+
+        runOnUiThread(() -> {
+            uploadAdapter = new LsrwDocsAdapter(ParentSubmitLSRW.this, submitlist, "1", this);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+            rcysubmissions.setHasFixedSize(true);
+            rcysubmissions.setLayoutManager(mLayoutManager);
+            rcysubmissions.setItemAnimator(new DefaultItemAnimator());
+            rcysubmissions.setAdapter(uploadAdapter);
+            uploadAdapter.notifyDataSetChanged();
+            btnsubmit.setEnabled(submitlist.size() != 0);
+        });
     }
 
     private void selectedsetAdapter() {
@@ -1590,33 +1595,35 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onUploadComplete(boolean success, String isIframe, String isLink) {
-        Log.d("Vime_Video_upload", String.valueOf(success));
-        Log.d("VimeoIframe", isIframe);
-        Log.d("link", isLink);
 
-        if (success) {
-            iframe = isIframe;
-            link = isLink;
+        runOnUiThread(() -> {
 
-            submitlist.add(new UploadFilesModel(iframe, "VIDEO"));
-            setAdapter();
-            imagePathList.clear();
-            lnrImages.setVisibility(View.GONE);
-            lblvideo.setText("Upload Video");
-            btnadd.setEnabled(false);
+            Log.d("Vime_Video_upload", String.valueOf(success));
+            Log.d("VimeoIframe", isIframe);
+            Log.d("link", isLink);
 
-            if (submitlist.size() == 0) {
-                rcysubmissions.setVisibility(View.GONE);
-                lblAddAttachment.setVisibility(View.GONE);
+            if (success) {
+                iframe = isIframe;
+                link = isLink;
 
+                submitlist.add(new UploadFilesModel(iframe, "VIDEO"));
+                setAdapter();
+                imagePathList.clear();
+                lnrImages.setVisibility(View.GONE);
+                lblvideo.setText("Upload Video");
+                btnadd.setEnabled(false);
+
+                if (submitlist.size() == 0) {
+                    rcysubmissions.setVisibility(View.GONE);
+                    lblAddAttachment.setVisibility(View.GONE);
+
+                } else {
+                    rcysubmissions.setVisibility(View.VISIBLE);
+                    lblAddAttachment.setVisibility(View.VISIBLE);
+                }
             } else {
-                rcysubmissions.setVisibility(View.VISIBLE);
-                lblAddAttachment.setVisibility(View.VISIBLE);
+                alert("Video sending failed.");
             }
-        } else {
-            alert("Video sending failed.");
-        }
+        });
     }
-
-
 }

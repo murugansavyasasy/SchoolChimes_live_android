@@ -64,7 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().get("body") != null) {
             Log.d(TAG, "Notification Message sound: " + remoteMessage.getData().get("sound"));
             Log.d(TAG, "Notification Message tone: " + remoteMessage.getData().get("tone"));
-           // Log.d(TAG, "Notification Message type: " + remoteMessage.getData().get("type"));
+//            Log.d(TAG, "Notification Message type: " + remoteMessage.getData().get("type"));
 //            if (remoteMessage.getData().get("type").equals("isCall")) {
 //
 //                boolean isDashboardOpen = ScreenState.getInstance().isIncomingCallScreen();
@@ -76,9 +76,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                } else {
 //                    Log.d("PLEASE_WAIT", "Already playing the voice call right now so please wait.");
 //                }
-//            }
-//            else {
-                 createNotification(remoteMessage.getData().get("body"), remoteMessage.getData().get("title"), remoteMessage.getData().get("sound"), remoteMessage.getData().get("tone"));
+          //  } else {
+                createNotification(remoteMessage.getData().get("body"), remoteMessage.getData().get("title"), remoteMessage.getData().get("sound"), remoteMessage.getData().get("tone"));
            // }
         }
     }
@@ -92,99 +91,177 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         return remoteViews;
     }
 
-
     private void createNotification(String messageBody, String title, String sound, String tone) {
-
         Log.d("Received", "Received");
+
         Intent intent = new Intent(this, TeacherSplashScreen.class);
         intent.putExtra("CHILD_LIST", pubStArrChildList);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-
         PendingIntent resultIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            resultIntent = PendingIntent.getBroadcast(this, 0, intent,
-                    PendingIntent.FLAG_MUTABLE);
-
+            resultIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE);
         } else {
-            resultIntent = PendingIntent.getBroadcast(this, 0, intent,
-                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+            resultIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         }
 
-        message_voice = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.message);
-        emergency_message_voice = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.emergencyvoice);
+        Uri messageVoice = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.message);
+        Uri emergencyMessageVoice = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.emergencyvoice);
 
-
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            String CHANNEL_ID;
+            CharSequence channelName;
+            Uri notificationSound = null;
 
-            String CHANNEL_ID = "";
-            CharSequence name = "";
-            if (sound.equals("Enabled")) {
-                if (tone.equals("message")) {
-                    CHANNEL_ID = "voicesnap_channel_01"; // The id of the channel.
-                    name = "Voicesnap"; // The user-visible name of the channel.
-                } else if (tone.equals("emergency_voice")) {
-                    CHANNEL_ID = "voicesnap_channel_02"; // The id of the channel.
-                    name = "vssnap"; // The user-visible name of the channel.
+            if ("Enabled".equals(sound)) {
+                if ("message".equals(tone)) {
+                    CHANNEL_ID = "voicesnap_channel_01";
+                    channelName = "Voicesnap";
+                    notificationSound = messageVoice;
+                } else if ("emergency_voice".equals(tone)) {
+                    CHANNEL_ID = "voicesnap_channel_02";
+                    channelName = "vssnap";
+                    notificationSound = emergencyMessageVoice;
+                } else {
+                    throw new IllegalArgumentException("Invalid tone provided");
                 }
             } else {
-                CHANNEL_ID = "voicesnap_channel_03";// The id of the channel.
-                name = "snapvoice"; // The user-visible name of the channel.
+                CHANNEL_ID = "voicesnap_channel_03";
+                channelName = "snapvoice";
+                notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             }
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
 
-            AudioAttributes attributes = new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                    .build();
-            mChannel.enableLights(true);
-            mChannel.enableVibration(true);
-            if (sound.equals("Enabled")) {
-                if (tone.equals("message")) {
-                    mChannel.setSound(message_voice, attributes);
-                } else if (tone.equals("emergency_voice")) {
-                    mChannel.setSound(emergency_message_voice, attributes);
+            if (notificationManager.getNotificationChannel(CHANNEL_ID) == null) {
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
+                channel.enableLights(true);
+                channel.enableVibration(true);
+                if (notificationSound != null) {
+                    AudioAttributes attributes = new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                            .build();
+                    channel.setSound(notificationSound, attributes);
                 }
-            } else {
-                Uri notificationSoundURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                mChannel.setSound(notificationSoundURI, attributes);
+                notificationManager.createNotificationChannel(channel);
             }
-            notificationManager.createNotificationChannel(mChannel);
 
-            String GROUP_KEY_WORK_VOICESNAP = "com.vs.schoolmessenger.WORK_VOICESNAP";
-            @SuppressLint("NotificationTrampoline") NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContent(getCustomDesign(title, messageBody, ""))
-                    .setSmallIcon(R.drawable.school_chimes)
-                    .setChannelId(CHANNEL_ID)
-                    .setContentIntent(resultIntent)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                    .setAutoCancel(true)
-                    .setGroup(GROUP_KEY_WORK_VOICESNAP)
-                    .setGroupSummary(true)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH);
-            builder.build();
-
-            Config.NOTIFICATION_ID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-            Log.d("Config.NOTIFICATION_ID", "ID: " + Config.NOTIFICATION_ID);
-            notificationManager.notify(Config.NOTIFICATION_ID, builder.build());
-
-
-        } else {
-            @SuppressLint("NotificationTrampoline") NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(this)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.school_chimes)
                     .setContentTitle(title)
                     .setContentText(messageBody)
                     .setAutoCancel(true)
-                    .setSound(message_voice)
-                    .setContentIntent(resultIntent);
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    .setContent(getCustomDesign(title, messageBody, ""))
+                    .setContentIntent(resultIntent)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+
             Config.NOTIFICATION_ID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-            Log.d("Config.NOTIFICATION_ID", "ID: " + Config.NOTIFICATION_ID);
-            notificationManager.notify(Config.NOTIFICATION_ID, mNotificationBuilder.build());
+            notificationManager.notify(Config.NOTIFICATION_ID, builder.build());
+        } else {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.drawable.school_chimes)
+                    .setContentTitle(title)
+                    .setContentText(messageBody)
+                    .setAutoCancel(true)
+                    .setSound(messageVoice)
+                    .setContentIntent(resultIntent);
+
+            Config.NOTIFICATION_ID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+            notificationManager.notify(Config.NOTIFICATION_ID, builder.build());
         }
     }
+
+
+//    private void createNotification(String messageBody, String title, String sound, String tone) {
+//
+//        Log.d("Received", "Received");
+//        Intent intent = new Intent(this, TeacherSplashScreen.class);
+//        intent.putExtra("CHILD_LIST", pubStArrChildList);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//
+//
+//        PendingIntent resultIntent;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            resultIntent = PendingIntent.getBroadcast(this, 0, intent,
+//                    PendingIntent.FLAG_MUTABLE);
+//
+//        } else {
+//            resultIntent = PendingIntent.getBroadcast(this, 0, intent,
+//                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+//        }
+//
+//        message_voice = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.message);
+//        emergency_message_voice = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.emergencyvoice);
+//
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//            String CHANNEL_ID = "";
+//            CharSequence name = "";
+//            if (sound.equals("Enabled")) {
+//                if (tone.equals("message")) {
+//                    CHANNEL_ID = "voicesnap_channel_01"; // The id of the channel.
+//                    name = "Voicesnap"; // The user-visible name of the channel.
+//                } else if (tone.equals("emergency_voice")) {
+//                    CHANNEL_ID = "voicesnap_channel_02"; // The id of the channel.
+//                    name = "vssnap"; // The user-visible name of the channel.
+//                }
+//            } else {
+//                CHANNEL_ID = "voicesnap_channel_03";// The id of the channel.
+//                name = "snapvoice"; // The user-visible name of the channel.
+//            }
+//            int importance = NotificationManager.IMPORTANCE_HIGH;
+//            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+//
+//            AudioAttributes attributes = new AudioAttributes.Builder()
+//                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+//                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+//                    .build();
+//            mChannel.enableLights(true);
+//            mChannel.enableVibration(true);
+//            if (sound.equals("Enabled")) {
+//                if (tone.equals("message")) {
+//                    mChannel.setSound(message_voice, attributes);
+//                } else if (tone.equals("emergency_voice")) {
+//                    mChannel.setSound(emergency_message_voice, attributes);
+//                }
+//            } else {
+//                Uri notificationSoundURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//                mChannel.setSound(notificationSoundURI, attributes);
+//            }
+//            notificationManager.createNotificationChannel(mChannel);
+//
+//            String GROUP_KEY_WORK_VOICESNAP = "com.vs.schoolmessenger.WORK_VOICESNAP";
+//            @SuppressLint("NotificationTrampoline") NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+//                    .setContent(getCustomDesign(title, messageBody, ""))
+//                    .setSmallIcon(R.drawable.school_chimes)
+//                    .setChannelId(CHANNEL_ID)
+//                    .setContentIntent(resultIntent)
+//                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+//                    .setAutoCancel(true)
+//                    .setGroup(GROUP_KEY_WORK_VOICESNAP)
+//                    .setGroupSummary(true)
+//                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+//            builder.build();
+//
+//            Config.NOTIFICATION_ID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+//            Log.d("Config.NOTIFICATION_ID", "ID: " + Config.NOTIFICATION_ID);
+//            notificationManager.notify(Config.NOTIFICATION_ID, builder.build());
+//        } else {
+//            @SuppressLint("NotificationTrampoline") NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(this)
+//                    .setSmallIcon(R.drawable.school_chimes)
+//                    .setContentTitle(title)
+//                    .setContentText(messageBody)
+//                    .setAutoCancel(true)
+//                    .setSound(message_voice)
+//                    .setContentIntent(resultIntent);
+//            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//            Config.NOTIFICATION_ID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+//            Log.d("Config.NOTIFICATION_ID", "ID: " + Config.NOTIFICATION_ID);
+//            notificationManager.notify(Config.NOTIFICATION_ID, mNotificationBuilder.build());
+//        }
+//    }
 
 
     private void showNotificationCall(String title, String body, String url, String receiverId, String retrycount, String circularId, String ei1, String ei2, String ei3, String ei4, String ei5, String role, String menuId) {
