@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
@@ -57,6 +59,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
@@ -94,6 +97,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     private final ArrayList<TeacherStudentsModel> studentList = new ArrayList<>();
     private int i_students_count;
     private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
+    RelativeLayout fabFilter;
+    CheckBox isSelectedFilter;
+    String isSelectedItem = "";
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -142,6 +148,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         tvTotalCount = (TextView) findViewById(R.id.attenStudent_tvTotCount);
         tvStdSec = (TextView) findViewById(R.id.attenStudent_tvStdSec);
         tvSubject = (TextView) findViewById(R.id.attenStudent_tvSubject);
+        fabFilter = (RelativeLayout) findViewById(R.id.fabFilter);
 
         tvStdSec.setText(selSection.getStandard() + "-" + selSection.getSection());
         tvSubject.setText(selSection.getSubject());
@@ -159,6 +166,13 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 } else {
                     showToast(getResources().getString(R.string.no_students));
                 }
+            }
+        });
+
+        fabFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData();
             }
         });
 
@@ -182,7 +196,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                     for (int i = 0; i < studentList.size(); i++) {
                         studentList.get(i).setSelectStatus(true);
-
                     }
                     adapter.notifyDataSetChanged();
                     i_students_count = studentList.size();
@@ -1178,5 +1191,81 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         }
 
         return jsonObjectSchoolstdgrp;
+    }
+
+    private void setFilterData() {
+        View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_filter, null);
+        CheckBox cbStudentNameAZ = dialogView.findViewById(R.id.cbStudentNameAZ);
+        CheckBox cbStudentNameZA = dialogView.findViewById(R.id.cbStudentNameZA);
+        CheckBox cbRollNumber12 = dialogView.findViewById(R.id.cbRollNumber21);
+        CheckBox cbRollNumber21 = dialogView.findViewById(R.id.cbRollNumber12);
+        TextView lblDone = dialogView.findViewById(R.id.lblDone);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(TeacherAttendanceStudentList.this);
+        bottomSheetDialog.setContentView(dialogView);
+        bottomSheetDialog.show();
+
+        lblDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (isSelectedItem) {
+                    case "StudentNameAZ":
+                        bottomSheetDialog.cancel();
+                        Collections.sort(studentList, TeacherStudentsModel.sortByNameAZ);
+                        adapter.notifyDataSetChanged();
+                        break;
+                    case "StudentNameZA":
+                        bottomSheetDialog.cancel();
+                        Collections.sort(studentList, TeacherStudentsModel.sortByNameZA);
+                        adapter.notifyDataSetChanged();
+                        break;
+                    case "StudentRollNumber12":
+                        bottomSheetDialog.cancel();
+                        Collections.sort(studentList, TeacherStudentsModel.sortByAscRollNo);
+                        adapter.notifyDataSetChanged();
+                        break;
+                    case "StudentRollNumber21":
+                        bottomSheetDialog.cancel();
+                        Collections.sort(studentList, TeacherStudentsModel.sortByDescRollNo);
+                        adapter.notifyDataSetChanged();
+                        break;
+                }
+            }
+        });
+
+        cbStudentNameAZ.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                isSelectedItem = "StudentNameAZ";
+                cbStudentNameZA.setChecked(false);
+                cbRollNumber21.setChecked(false);
+                cbRollNumber12.setChecked(false);
+            }
+        });
+
+        cbStudentNameZA.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                isSelectedItem = "StudentNameZA";
+                cbStudentNameAZ.setChecked(false);
+                cbRollNumber21.setChecked(false);
+                cbRollNumber12.setChecked(false);
+            }
+        });
+
+        cbRollNumber12.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                isSelectedItem = "StudentRollNumber12";
+                cbStudentNameAZ.setChecked(false);
+                cbStudentNameZA.setChecked(false);
+                cbRollNumber21.setChecked(false);
+            }
+        });
+
+        cbRollNumber21.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                isSelectedItem = "StudentRollNumber21";
+                cbStudentNameAZ.setChecked(false);
+                cbStudentNameZA.setChecked(false);
+                cbRollNumber12.setChecked(false);
+            }
+        });
     }
 }

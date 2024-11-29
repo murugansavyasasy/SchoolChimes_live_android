@@ -4,9 +4,6 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANC
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_ATTENDANCE;
 
 import android.content.Context;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +14,8 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckStudentListener;
@@ -62,6 +61,8 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
             holder.cbSelect.setVisibility(View.VISIBLE);
             holder.lnrAbsent.setVisibility(View.GONE);
             holder.lnrPresent.setVisibility(View.GONE);
+
+
         }
 
         holder.bind(studentlist.get(position));
@@ -71,15 +72,22 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
         holder.lblRollNo.setText(profile.getRollNo());
 
         if(requestCode == 12){
-            if(!profile.getRollNo().equals("") && profile.getRollNo().equals("null")) {
+            if (!profile.getRollNo().equals("")) {
                 holder.rytRollNo.setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 holder.rytRollNo.setVisibility(View.GONE);
             }
         }
         else {
-            holder.rytRollNo.setVisibility(View.GONE);
+            if (requestCode == PRINCIPAL_ATTENDANCE || requestCode == STAFF_ATTENDANCE) {
+                if (!profile.getRollNo().equals("")) {
+                    holder.rytRollNo.setVisibility(View.VISIBLE);
+                } else {
+                    holder.rytRollNo.setVisibility(View.GONE);
+                }
+            } else {
+                holder.rytRollNo.setVisibility(View.GONE);
+            }
         }
 
         holder.tvstudentid.setTypeface(holder.tvstudentid.getTypeface(), Typeface.BOLD);

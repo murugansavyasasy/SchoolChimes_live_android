@@ -75,10 +75,42 @@
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
+        android:id="@+id/fabFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/attenStudent_toolbar"
+        android:gravity="center"
+        app:iconTint="@android:color/white">
+
+        <TextView
+            android:id="@+id/lblSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Sort"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="17sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/lblSort"
+            android:src="@drawable/round_sort_">
+
+        </ImageView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/layout_tittle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/attenStudent_toolbar"
+        android:layout_below="@+id/fabFilter"
         android:padding="10dp">
 
         <LinearLayout

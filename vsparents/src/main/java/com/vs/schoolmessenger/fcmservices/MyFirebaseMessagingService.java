@@ -25,6 +25,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherSplashScreen;
 import com.vs.schoolmessenger.model.Profiles;
+import com.vs.schoolmessenger.util.ScreenState;
 import com.vs.schoolmessenger.util.Util_Common;
 
 import java.util.ArrayList;
@@ -63,21 +64,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().get("body") != null) {
             Log.d(TAG, "Notification Message sound: " + remoteMessage.getData().get("sound"));
             Log.d(TAG, "Notification Message tone: " + remoteMessage.getData().get("tone"));
-//            Log.d(TAG, "Notification Message type: " + remoteMessage.getData().get("type"));
-//            if (remoteMessage.getData().get("type").equals("isCall")) {
-//
-//                boolean isDashboardOpen = ScreenState.getInstance().isIncomingCallScreen();
-//                Log.d("isDashboardOpen", String.valueOf(isDashboardOpen));
-//                if (!isDashboardOpen) {
-//                    showNotificationCall(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("url"), remoteMessage.getData().get("receiver_id"),
-//                            remoteMessage.getData().get("retrycount"), remoteMessage.getData().get("circular_id"), remoteMessage.getData().get("ei1"), remoteMessage.getData().get("ei2"), remoteMessage.getData().get("ei3"), remoteMessage.getData().get("ei4")
-//                            , remoteMessage.getData().get("ei5"), remoteMessage.getData().get("role"), remoteMessage.getData().get("menu_id"));
-//                } else {
-//                    Log.d("PLEASE_WAIT", "Already playing the voice call right now so please wait.");
-//                }
-          //  } else {
+            if (remoteMessage.getData().get("type").equals("isCall")) {
+                Log.d(TAG, "Notification Message type: " + remoteMessage.getData().get("type"));
+                boolean isDashboardOpen = ScreenState.getInstance().isIncomingCallScreen();
+                Log.d("isDashboardOpen", String.valueOf(isDashboardOpen));
+                if (!isDashboardOpen) {
+                    showNotificationCall(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("url"), remoteMessage.getData().get("receiver_id"),
+                            remoteMessage.getData().get("retrycount"), remoteMessage.getData().get("circular_id"), remoteMessage.getData().get("ei1"), remoteMessage.getData().get("ei2"), remoteMessage.getData().get("ei3"), remoteMessage.getData().get("ei4")
+                            , remoteMessage.getData().get("ei5"), remoteMessage.getData().get("role"), remoteMessage.getData().get("menu_id"));
+                } else {
+                    Log.d("PLEASE_WAIT", "Already playing the voice call right now so please wait.");
+                }
+            } else {
                 createNotification(remoteMessage.getData().get("body"), remoteMessage.getData().get("title"), remoteMessage.getData().get("sound"), remoteMessage.getData().get("tone"));
-           // }
+            }
         }
     }
 

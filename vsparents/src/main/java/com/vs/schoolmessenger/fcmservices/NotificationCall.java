@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.fcmservices;
 
-import android.annotation.SuppressLint;
+import static com.vs.schoolmessenger.util.TimeConverter.convertToSeconds;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,9 +28,13 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.AudioUtils;
 import com.vs.schoolmessenger.util.ScreenState;
+import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,17 +49,16 @@ public class NotificationCall extends AppCompatActivity {
     RelativeLayout lneButtonHeight;
     ImageView imgDeclineNotificationCall;
     private AlertDialog exitDialog;
-    Boolean isAcceptCall = true;
     String voiceUrl = "";
     String isReceiverId = "";
     String isUserResponse = "NO";
-    int isDuration = 0;
     String retrycount, circularId, ei1, ei2, ei3, ei4, ei5, role, menuId;
     int notificationId;
     ImageView imgDeclineCall, imgAcceptCall;
     TextView lblCutCall;
+    String isStartTime, isEndTime;
+    String isListeningDuration = "00:00";
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +83,10 @@ public class NotificationCall extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mediaPlayer.stop();
-                isUserResponse = "NO";
-                //  updateNotificationCallLog();
-                //   isWithOutApiCallPlaying();
-                finish();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                isEndTime = sdf.format(new Date());
+                isListeningDuration = lblVoiceDuration.getText().toString();
+                updateNotificationCallLog(isStartTime, isEndTime);
             }
         });
 
@@ -90,18 +94,22 @@ public class NotificationCall extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isUserResponse = "NO";
-                //  updateNotificationCallLog();
-             //   isWithOutApiCallPlaying();
-                finish();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                isEndTime = sdf.format(new Date());
+                isStartTime = isEndTime;
+                updateNotificationCallLog(isStartTime, isEndTime);
             }
         });
 
         imgAcceptCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 isUserResponse = "OC";
-                updateNotificationCallLog();
-//            isWithOutApiCallPlaying();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                isStartTime = sdf.format(new Date());
+                isEndTime = "00:00";
+                isVoicePlaying();
             }
         });
 
@@ -141,7 +149,6 @@ public class NotificationCall extends AppCompatActivity {
             ei5 = intent.getStringExtra("ei5");
             role = intent.getStringExtra("role");
             menuId = intent.getStringExtra("menuId");
-
         }
     }
 
@@ -194,87 +201,50 @@ public class NotificationCall extends AppCompatActivity {
     }
 
 
-    private void updateNotificationCallLog() {
+    private void updateNotificationCallLog(String isStartTime, String isEndTime) {
+
+        int totalSeconds = convertToSeconds(isListeningDuration);
+        isListeningDuration = "";
+        isListeningDuration = String.valueOf(totalSeconds);
+
+        String MobileNumber = TeacherUtil_SharedPreference.getMobileNumber(NotificationCall.this);
+
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(NotificationCall.this);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         // Create the JSON object for the request
-        JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("url", voiceUrl);
-        jsonObject.addProperty("duration", isDuration);
+        jsonObject.addProperty("duration", isListeningDuration);
         jsonObject.addProperty("ei1", ei1);
         jsonObject.addProperty("ei2", ei2);
         jsonObject.addProperty("ei3", ei3);
         jsonObject.addProperty("ei4", ei4);
         jsonObject.addProperty("ei5", ei5);
-        jsonObject.addProperty("start_time", "abc");
-        jsonObject.addProperty("end_time", "abc");
-        jsonObject.addProperty("retry_count", 1);
-        jsonObject.addProperty("phone", "Android");
+        jsonObject.addProperty("start_time", isStartTime);
+        jsonObject.addProperty("end_time", isEndTime);
+        jsonObject.addProperty("retry_count", retrycount);
+        jsonObject.addProperty("phone", MobileNumber);
         jsonObject.addProperty("receiver_id", isReceiverId);
         jsonObject.addProperty("circular_id", circularId);
-        jsonObject.addProperty("diallist_id", 1);
+        jsonObject.addProperty("diallist_id", ei5);
         jsonObject.addProperty("call_status", isUserResponse);
 
-        jsonArray.add(jsonObject);
-        Log.d("jsonArray", String.valueOf(jsonArray));
+        Log.d("jsonArray", String.valueOf(jsonObject));
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        Call<JsonObject> call = apiService.isUpdateCallLog(jsonArray);
+        Call<JsonArray> call = apiService.isUpdateCallLog(jsonObject);
 
-        call.enqueue(new Callback<JsonObject>() {
+        call.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonArray> call, @NonNull retrofit2.Response<JsonArray> response) {
                 try {
                     Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
-                        isAcceptCall = false;
-                        try {
-                            mediaPlayer.setDataSource(voiceUrl);
-                            mediaPlayer.prepare();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                        durationUpdateHandler = new Handler();
-                        imgDeclineNotificationCall.setVisibility(View.VISIBLE);
-                        lblCutCall.setVisibility(View.VISIBLE);
-                        lneButtonHeight.setVisibility(View.GONE);
-                        if (Util_Common.mediaPlayer.isPlaying()) {
-                            Util_Common.mediaPlayer.stop();
-                            mediaPlayer.start();
-                        } else {
-                            mediaPlayer.start();
-                        }
-
-                        durationUpdateHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (mediaPlayer.isPlaying()) {
-                                    int currentDuration = mediaPlayer.getCurrentPosition();
-                                    int minutes = currentDuration / 1000 / 60;
-                                    int seconds = currentDuration / 1000 % 60;
-                                    lblVoiceDuration.setText(String.format("%02d:%02d", minutes, seconds));
-                                    durationUpdateHandler.postDelayed(this, 1000);
-                                }
-                            }
-                        }, 0);
-
-
-                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                final Handler handler = new Handler(Looper.getMainLooper());
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ScreenState.getInstance().setIncomingCallScreen(false);
-                                        Toast.makeText(NotificationCall.this, "Call was ended.", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    }
-                                }, 1000);
-                            }
-                        });
+                        ScreenState.getInstance().setIncomingCallScreen(false);
+                        Toast.makeText(NotificationCall.this, "Call was ended.", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 } catch (Exception e) {
 
@@ -282,59 +252,59 @@ public class NotificationCall extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<JsonArray> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
             }
         });
     }
 
-//    public  void isWithOutApiCallPlaying(){
-//        isAcceptCall = false;
-//        try {
-//            mediaPlayer.setDataSource(voiceUrl);
-//            mediaPlayer.prepare();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        durationUpdateHandler = new Handler();
-//        imgDeclineNotificationCall.setVisibility(View.VISIBLE);
-//        lblCutCall.setVisibility(View.VISIBLE);
-//        lneButtonHeight.setVisibility(View.GONE);
-//        if (Util_Common.mediaPlayer.isPlaying()) {
-//            Util_Common.mediaPlayer.stop();
-//            mediaPlayer.start();
-//        } else {
-//            mediaPlayer.start();
-//        }
-//
-//        durationUpdateHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (mediaPlayer.isPlaying()) {
-//                    int currentDuration = mediaPlayer.getCurrentPosition();
-//                    int minutes = currentDuration / 1000 / 60;
-//                    int seconds = currentDuration / 1000 % 60;
-//                    lblVoiceDuration.setText(String.format("%02d:%02d", minutes, seconds));
-//                    durationUpdateHandler.postDelayed(this, 1000);
-//                }
-//            }
-//        }, 0);
-//
-//
-//        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//            @Override
-//            public void onCompletion(MediaPlayer mp) {
-//                final Handler handler = new Handler(Looper.getMainLooper());
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        ScreenState.getInstance().setIncomingCallScreen(false);
-//                        Toast.makeText(NotificationCall.this, "Call was ended.", Toast.LENGTH_SHORT).show();
-//                        finish();
-//                    }
-//                }, 1000);
-//            }
-//        });
-//    }
+    private void isVoicePlaying() {
+        try {
+            mediaPlayer.setDataSource(voiceUrl);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        durationUpdateHandler = new Handler();
+        imgDeclineNotificationCall.setVisibility(View.VISIBLE);
+        lblCutCall.setVisibility(View.VISIBLE);
+        lneButtonHeight.setVisibility(View.GONE);
+        if (Util_Common.mediaPlayer.isPlaying()) {
+            Util_Common.mediaPlayer.stop();
+            mediaPlayer.start();
+        } else {
+            mediaPlayer.start();
+        }
+
+        durationUpdateHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mediaPlayer.isPlaying()) {
+                    int currentDuration = mediaPlayer.getCurrentPosition();
+                    int minutes = currentDuration / 1000 / 60;
+                    int seconds = currentDuration / 1000 % 60;
+                    lblVoiceDuration.setText(String.format("%02d:%02d", minutes, seconds));
+                    durationUpdateHandler.postDelayed(this, 1000);
+                }
+            }
+        }, 0);
+
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        String currentTime = sdf.format(new Date());
+                        isEndTime = currentTime;
+                        isListeningDuration = lblVoiceDuration.getText().toString();
+                        updateNotificationCallLog(isStartTime, isEndTime);
+                    }
+                }, 1000);
+            }
+        });
+    }
 }

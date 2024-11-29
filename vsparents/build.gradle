@@ -135,7 +135,6 @@ dependencies {
     implementation 'com.github.fornewid:neumorphism:0.3.0'
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation 'androidx.biometric:biometric:1.1.0'
-
     implementation 'com.github.plusCubed:recycler-fast-scroll:0.3.2'
 
 
