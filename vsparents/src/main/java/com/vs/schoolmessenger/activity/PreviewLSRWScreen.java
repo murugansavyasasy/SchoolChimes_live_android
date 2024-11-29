@@ -54,11 +54,9 @@ public class PreviewLSRWScreen extends AppCompatActivity {
     RelativeLayout rytTitle, rytVoiceLayout, rytTextLayout, rytPdfLayout, rytImageLayout, rytVideoLayout;
     TextView txtmsg, txtType, txtTitle;
     TextView tvDuartion, tvTotDuration;
-
     SkillAttachmentModel skillmodel;
     String path, AttachmentType, Content;
     ProgressDialog pDialog;
-
     ImageButton imgplaypause;
     MediaPlayer mediaPlayer = new MediaPlayer();
     int iRequestCode;

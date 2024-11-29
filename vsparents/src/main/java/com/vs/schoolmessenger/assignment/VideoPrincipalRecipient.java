@@ -132,8 +132,6 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
         if (strPDFFilepath.equals("")) {
             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
         }
-
-
     }
 
     public void onClick(View v) {

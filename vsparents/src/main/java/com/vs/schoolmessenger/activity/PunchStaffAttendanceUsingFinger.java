@@ -463,7 +463,6 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         locationsList.clear();
                         if (response.body().getStatus() == 1) {
                             locationsList = response.body().getData();
-
                         } else {
                             showAlertMessage(response.body().getMessage());
                         }
@@ -535,7 +534,6 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                             lblNoRecords.setVisibility(View.VISIBLE);
                             lblNoRecords.setText(response.body().getMessage());
                             lblNoRecords.setTypeface(null, Typeface.BOLD);
-
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
@@ -724,11 +722,12 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(PunchStaffAttendanceUsingFinger.this);
         alertDialog.setTitle("Alert!!");
         alertDialog.setMessage(message);
+        Log.d("AlertMessage", message);
         alertDialog.setNegativeButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                onBackPressed();
+//                onBackPressed();
             }
         });
 
@@ -766,9 +765,10 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
     @SuppressLint("MissingPermission")
     private void getCurentLocation(String type) {
+        rytProgressBar.setVisibility(View.VISIBLE);
         LocationHelper call = new LocationHelper(PunchStaffAttendanceUsingFinger.this, this, type);
         call.getFreshLocation(PunchStaffAttendanceUsingFinger.this);
-        rytProgressBar.setVisibility(View.VISIBLE);
+
     }
 
 

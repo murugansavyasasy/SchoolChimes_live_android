@@ -104,6 +104,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickListener, UploadDocListener, VimeoUploader.UploadCompletionListener {
+
     public static PopupWindow popupWindowvideo;
     public static ArrayList<String> gallerylist = new ArrayList<>();
     public static ArrayList<String> contentlist = new ArrayList<>();
@@ -252,23 +253,28 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 lblAddAttachment.setVisibility(View.GONE);
                 btnadd.setText(" Add File Attachments ");
 
-                if (selected.equals("Text")) {
-                    edtextmsg.setVisibility(View.VISIBLE);
-                    btnadd.setText("Add Content");
-                    btnadd.setEnabled(true);
-                } else if (selected.equals("Voice")) {
-                    rytvoice.setVisibility(View.VISIBLE);
-                    btnadd.setEnabled(false);
-                } else if (selected.equals("Image")) {
-                    parentImagefile.setVisibility(View.VISIBLE);
-                    btnadd.setEnabled(false);
-                } else if (selected.equals("Pdf")) {
-                    parentBrowseFile.setVisibility(View.VISIBLE);
-                    btnadd.setEnabled(false);
-
-                } else if (selected.equals("Video")) {
-                    parentVideofile.setVisibility(View.VISIBLE);
-                    btnadd.setEnabled(false);
+                switch (selected) {
+                    case "Text":
+                        edtextmsg.setVisibility(View.VISIBLE);
+                        btnadd.setText("Add Content");
+                        btnadd.setEnabled(true);
+                        break;
+                    case "Voice":
+                        rytvoice.setVisibility(View.VISIBLE);
+                        btnadd.setEnabled(false);
+                        break;
+                    case "Image":
+                        parentImagefile.setVisibility(View.VISIBLE);
+                        btnadd.setEnabled(false);
+                        break;
+                    case "Pdf":
+                        parentBrowseFile.setVisibility(View.VISIBLE);
+                        btnadd.setEnabled(false);
+                        break;
+                    case "Video":
+                        parentVideofile.setVisibility(View.VISIBLE);
+                        btnadd.setEnabled(false);
+                        break;
                 }
 
 
@@ -1597,15 +1603,13 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     public void onUploadComplete(boolean success, String isIframe, String isLink) {
 
         runOnUiThread(() -> {
-
-            Log.d("Vime_Video_upload", String.valueOf(success));
+            Log.d("Vimeo_Video_upload", String.valueOf(success));
             Log.d("VimeoIframe", isIframe);
             Log.d("link", isLink);
 
             if (success) {
                 iframe = isIframe;
                 link = isLink;
-
                 submitlist.add(new UploadFilesModel(iframe, "VIDEO"));
                 setAdapter();
                 imagePathList.clear();

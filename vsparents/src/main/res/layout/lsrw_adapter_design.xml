@@ -54,8 +54,6 @@
             android:padding="3dp"
             android:gravity="right"/>
 
-
-
     </LinearLayout>
     <TextView
         android:id="@+id/lblNew"

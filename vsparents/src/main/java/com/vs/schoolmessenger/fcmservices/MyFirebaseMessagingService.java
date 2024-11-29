@@ -25,7 +25,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherSplashScreen;
 import com.vs.schoolmessenger.model.Profiles;
-import com.vs.schoolmessenger.util.ScreenState;
 import com.vs.schoolmessenger.util.Util_Common;
 
 import java.util.ArrayList;
