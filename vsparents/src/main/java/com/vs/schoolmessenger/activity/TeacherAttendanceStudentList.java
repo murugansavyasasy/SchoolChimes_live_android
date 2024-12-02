@@ -18,12 +18,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +65,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
@@ -98,8 +104,18 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     private int i_students_count;
     private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
     RelativeLayout fabFilter;
-    CheckBox isSelectedFilter;
-    String isSelectedItem = "";
+    String isSelectedItem = "StudentNameAZ";
+    EditText Searchable;
+    ImageView imgSearch;
+    private List<TeacherStudentsModel> workingList = new ArrayList<>();
+
+    CheckBox cbStudentNameAZ;
+    CheckBox cbStudentNameZA;
+    CheckBox cbRollNumber12;
+    CheckBox cbRollNumber21;
+    TextView lblSortItem;
+    TextView lblAZ, lblZA, lblAO, lblDO;
+    LinearLayout lnr01, lnr10, lnrZA, lnrAZ;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -131,6 +147,12 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         if (strPDFFilepath.equals("")) {
             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
         }
+
+        Searchable = (EditText) findViewById(R.id.Searchable);
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+        lblSortItem = (TextView) findViewById(R.id.lblSortItem);
+        lblSortItem.setText("Ascending Order - A-Z(Student Name)");
+
 
         targetCode = selSection.getStdSecCode();
         s3uploaderObj = new S3Uploader(TeacherAttendanceStudentList.this);
@@ -166,6 +188,41 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 } else {
                     showToast(getResources().getString(R.string.no_students));
                 }
+            }
+        });
+
+        Searchable.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (adapter == null)
+                    return;
+
+                if (adapter.getItemCount() < 1) {
+                    rvStudentList.setVisibility(View.GONE);
+                    if (Searchable.getText().toString().isEmpty()) {
+                        rvStudentList.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    rvStudentList.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() > 0) {
+                    imgSearch.setVisibility(View.GONE);
+                } else {
+                    imgSearch.setVisibility(View.VISIBLE);
+                }
+                filterlist(editable.toString());
             }
         });
 
@@ -213,6 +270,19 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             }
         });
         studentListAPI();
+    }
+
+
+
+    private void filterlist(String s) {
+        List<TeacherStudentsModel> temp = new ArrayList();
+        for (TeacherStudentsModel d : studentList) {
+
+            if (d.getStudentName().toLowerCase().contains(s.toLowerCase()) || d.getAdmisionNo().toLowerCase().contains(s.toLowerCase()) || d.getRollNo().toLowerCase().contains(s.toLowerCase())) {
+                temp.add(d);
+            }
+        }
+        adapter.updateList(temp);
     }
 
 
@@ -1195,11 +1265,21 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
     private void setFilterData() {
         View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_filter, null);
-        CheckBox cbStudentNameAZ = dialogView.findViewById(R.id.cbStudentNameAZ);
-        CheckBox cbStudentNameZA = dialogView.findViewById(R.id.cbStudentNameZA);
-        CheckBox cbRollNumber12 = dialogView.findViewById(R.id.cbRollNumber21);
-        CheckBox cbRollNumber21 = dialogView.findViewById(R.id.cbRollNumber12);
+        cbStudentNameAZ = dialogView.findViewById(R.id.cbStudentNameAZ);
+        cbStudentNameZA = dialogView.findViewById(R.id.cbStudentNameZA);
+        cbRollNumber12 = dialogView.findViewById(R.id.cbRollNumber21);
+        cbRollNumber21 = dialogView.findViewById(R.id.cbRollNumber12);
         TextView lblDone = dialogView.findViewById(R.id.lblDone);
+        lblAZ = dialogView.findViewById(R.id.lblAZ);
+        lblZA = dialogView.findViewById(R.id.lblZA);
+        lblAO = dialogView.findViewById(R.id.lblAO);
+        lblDO = dialogView.findViewById(R.id.lblDO);
+
+        lnr01 = dialogView.findViewById(R.id.lnr01);
+        lnr10 = dialogView.findViewById(R.id.lnr10);
+        lnrZA = dialogView.findViewById(R.id.lnrZA);
+        lnrAZ = dialogView.findViewById(R.id.lnrAZ);
+
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(TeacherAttendanceStudentList.this);
         bottomSheetDialog.setContentView(dialogView);
         bottomSheetDialog.show();
@@ -1207,28 +1287,66 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         lblDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                adapter.updateList(studentList);
+
                 switch (isSelectedItem) {
                     case "StudentNameAZ":
                         bottomSheetDialog.cancel();
+                        lblSortItem.setText(lblAZ.getText().toString());
                         Collections.sort(studentList, TeacherStudentsModel.sortByNameAZ);
                         adapter.notifyDataSetChanged();
                         break;
                     case "StudentNameZA":
                         bottomSheetDialog.cancel();
+                        lblSortItem.setText(lblZA.getText().toString());
                         Collections.sort(studentList, TeacherStudentsModel.sortByNameZA);
                         adapter.notifyDataSetChanged();
                         break;
                     case "StudentRollNumber12":
                         bottomSheetDialog.cancel();
+                        lblSortItem.setText(lblAO.getText().toString());
                         Collections.sort(studentList, TeacherStudentsModel.sortByAscRollNo);
                         adapter.notifyDataSetChanged();
                         break;
                     case "StudentRollNumber21":
                         bottomSheetDialog.cancel();
+                        lblSortItem.setText(lblDO.getText().toString());
                         Collections.sort(studentList, TeacherStudentsModel.sortByDescRollNo);
                         adapter.notifyDataSetChanged();
                         break;
                 }
+                isAlreadyShorting(isSelectedItem);
+            }
+        });
+
+        lnrAZ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isSelectedItem = "StudentNameAZ";
+                isAlreadyShorting(isSelectedItem);
+            }
+        });
+        lnrZA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isSelectedItem = "StudentNameZA";
+                isAlreadyShorting(isSelectedItem);
+            }
+        });
+
+        lnr10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isSelectedItem = "StudentRollNumber12";
+                isAlreadyShorting(isSelectedItem);
+            }
+        });
+
+        lnr01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isSelectedItem = "StudentRollNumber21";
+                isAlreadyShorting(isSelectedItem);
             }
         });
 
@@ -1267,5 +1385,39 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 cbRollNumber12.setChecked(false);
             }
         });
+        isAlreadyShorting(isSelectedItem);
+    }
+
+    private void isAlreadyShorting(String isSelectedItem) {
+        switch (isSelectedItem) {
+            case "StudentNameAZ":
+
+                cbStudentNameAZ.setChecked(true);
+                cbStudentNameZA.setChecked(false);
+                cbRollNumber21.setChecked(false);
+                cbRollNumber12.setChecked(false);
+                break;
+            case "StudentNameZA":
+
+                cbStudentNameZA.setChecked(true);
+                cbStudentNameAZ.setChecked(false);
+                cbRollNumber21.setChecked(false);
+                cbRollNumber12.setChecked(false);
+                break;
+            case "StudentRollNumber12":
+
+                cbRollNumber12.setChecked(true);
+                cbStudentNameAZ.setChecked(false);
+                cbStudentNameZA.setChecked(false);
+                cbRollNumber21.setChecked(false);
+                break;
+            case "StudentRollNumber21":
+
+                cbRollNumber21.setChecked(true);
+                cbStudentNameAZ.setChecked(false);
+                cbStudentNameZA.setChecked(false);
+                cbRollNumber12.setChecked(false);
+                break;
+        }
     }
 }

@@ -1,9 +1,7 @@
 package com.vs.schoolmessenger.model;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  * Created by devi on 5/19/2017.
@@ -64,6 +62,7 @@ public class TeacherStudentsModel implements Serializable {
     }
 
 
+    // Ascending order comparator for roll numbers based on numeric value
     public static Comparator<TeacherStudentsModel> sortByAscRollNo = new Comparator<TeacherStudentsModel>() {
         @Override
         public int compare(TeacherStudentsModel o1, TeacherStudentsModel o2) {
@@ -77,11 +76,23 @@ public class TeacherStudentsModel implements Serializable {
             if (o2.rollNo.isEmpty()) {
                 return -1; // o1 goes before o2
             }
-            return o1.rollNo.compareTo(o2.rollNo); // Default string comparison
+
+            // Extract numeric part from roll numbers
+            Integer num1 = extractNumericPart(o1.rollNo);
+            Integer num2 = extractNumericPart(o2.rollNo);
+
+            // Compare the numeric parts
+            return Integer.compare(num1, num2);
+        }
+
+        // Helper method to extract the numeric part of the roll number
+        private Integer extractNumericPart(String rollNo) {
+            String numericPart = rollNo.replaceAll("\\D+", ""); // Remove non-digit characters
+            return numericPart.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(numericPart); // Handle empty
         }
     };
 
-    // Descending order comparator
+    // Descending order comparator for roll numbers based on numeric value
     public static Comparator<TeacherStudentsModel> sortByDescRollNo = new Comparator<TeacherStudentsModel>() {
         @Override
         public int compare(TeacherStudentsModel o1, TeacherStudentsModel o2) {
@@ -95,10 +106,21 @@ public class TeacherStudentsModel implements Serializable {
             if (o2.rollNo.isEmpty()) {
                 return -1; // o1 goes before o2
             }
-            return o2.rollNo.compareTo(o1.rollNo); // Default string comparison
+
+            // Extract numeric part from roll numbers
+            Integer num1 = extractNumericPart(o1.rollNo);
+            Integer num2 = extractNumericPart(o2.rollNo);
+
+            // Compare the numeric parts in reverse order for descending
+            return Integer.compare(num2, num1);
+        }
+
+        // Helper method to extract the numeric part of the roll number
+        private Integer extractNumericPart(String rollNo) {
+            String numericPart = rollNo.replaceAll("\\D+", ""); // Remove non-digit characters
+            return numericPart.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(numericPart); // Handle empty
         }
     };
-
 
     public static Comparator<TeacherStudentsModel> sortByNameAZ = new Comparator<TeacherStudentsModel>() {
         @Override

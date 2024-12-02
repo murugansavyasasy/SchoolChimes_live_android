@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,8 +60,6 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
             holder.cbSelect.setVisibility(View.VISIBLE);
             holder.lnrAbsent.setVisibility(View.GONE);
             holder.lnrPresent.setVisibility(View.GONE);
-
-
         }
 
         holder.bind(studentlist.get(position));
@@ -133,11 +130,8 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
                 onCheckStudentListener.student_removeClass(profile);
                 holder.lnrPresent.setVisibility(View.VISIBLE);
                 holder.lnrAbsent.setVisibility(View.GONE);
-
             }
         });
-
-
     }
 
     @Override
@@ -154,7 +148,7 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
         public TextView tvstudentid, tvstudentname,lblRollNo;
         CheckBox cbSelect;
         LinearLayout lnrPresent, lnrAbsent;
-        RelativeLayout rytRollNo;
+        LinearLayout rytRollNo;
 
         public MyViewHolder(View view) {
             super(view);
@@ -166,12 +160,18 @@ public class TeacherStudendListAdapter extends RecyclerView.Adapter<TeacherStude
             cbSelect = (CheckBox) view.findViewById(R.id.Student_cbSelect);
             lnrPresent = (LinearLayout) view.findViewById(R.id.lnrPresent);
             lnrAbsent = (LinearLayout) view.findViewById(R.id.lnrAbsent);
-            rytRollNo = (RelativeLayout) view.findViewById(R.id.rytRollNo);
+            rytRollNo = (LinearLayout) view.findViewById(R.id.rytRollNo);
 
 
         }
 
         public void bind(TeacherStudentsModel studentsModel) {
+
         }
+    }
+
+    public void updateList(List<TeacherStudentsModel> temp) {
+        studentlist = temp;
+        notifyDataSetChanged();
     }
 }

@@ -49,6 +49,7 @@
         android:padding="10dp">
 
         <LinearLayout
+            android:id="@+id/lnrAZ"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -61,6 +62,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/lblAZ"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -71,6 +73,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lnrZA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -84,6 +87,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/lblZA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -94,6 +98,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lnr10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -107,6 +112,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/lblAO"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -117,6 +123,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lnr01"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -130,6 +137,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/lblDO"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"

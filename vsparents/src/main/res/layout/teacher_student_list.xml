@@ -17,70 +17,97 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="30dp"
             android:textColor="@color/teacher_clr_black"
             android:textSize="14dp"
             android:textStyle="bold"
             tools:text="John Deo" />
 
-        <RelativeLayout
-            android:layout_marginTop="20dp"
+        <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_below="@+id/Student_name"
             android:id="@+id/rytRollNo"
             android:visibility="visible"
-            android:layout_width="wrap_content"
+            android:weightSum="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/lblRoll"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textColor="@color/clr_black"
+                android:layout_weight="0.5"
                 android:textSize="14dp"
                 android:textStyle="bold"
-                android:text="Roll No      : " />
+                android:text="Roll No" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:layout_weight="0.01"
+                android:textSize="14dp"
+                android:textColor="@color/clr_black"
+                >
+
+            </TextView>
 
             <TextView
                 android:layout_toRightOf="@+id/lblRoll"
                 android:id="@+id/lblRollNo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_centerVertical="true"
                 android:textColor="@color/teacher_clr_black"
                 android:textSize="14dp"
                 tools:text="123" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_marginTop="10dp"
             android:layout_below="@+id/rytRollNo"
             android:id="@+id/rytAdmissionNo"
-            android:layout_width="wrap_content"
+            android:weightSum="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/lbladdMis"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textColor="@color/clr_black"
                 android:textSize="14dp"
                 android:textStyle="bold"
-                android:text="Admission No : " />
+                android:layout_weight="0.5"
+                android:text="Admission No" />
 
             <TextView
-                android:layout_toRightOf="@+id/lbladdMis"
-                android:id="@+id/Student_id"
-                android:layout_width="wrap_content"
+                android:layout_width="10dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:text=":"
+                android:textSize="14dp"
+                android:layout_weight="0.01"
+                android:textColor="@color/clr_black"
+                >
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/Student_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:textColor="@color/teacher_clr_black"
                 android:textSize="14dp"
                 tools:text="209345" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 

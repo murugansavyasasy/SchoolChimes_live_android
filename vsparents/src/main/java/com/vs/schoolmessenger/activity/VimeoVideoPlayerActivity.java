@@ -118,7 +118,6 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
             ChangeMsgReadStatus.changeReadStatus(VimeoVideoPlayerActivity.this, DETAILID, MSG_TYPE_VIDEO, "", isNewVersion, is_Archive, new OnRefreshListener() {
                 @Override
                 public void onRefreshItem() {
-
                 }
             });
         }
@@ -158,7 +157,6 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         myWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
-
                 return true;
             }
         });
