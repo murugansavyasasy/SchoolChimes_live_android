@@ -29,6 +29,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,9 +63,12 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
     String isNewVersion;
     Boolean is_Archive;
     ImageView imgDownload;
+    RelativeLayout RlaDownload;
     boolean isDownload = true;
     String isVideoDownloadId;
     String isVideoTitle;
+    int progressLoading = 0;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +97,12 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         myWebView = findViewById(R.id.myWebView);
         videoView = findViewById(R.id.videoview);
         imgDownload = findViewById(R.id.imgDownload);
+        RlaDownload = findViewById(R.id.RlaDownload);
 
         if (isDownload) {
-            imgDownload.setVisibility(View.VISIBLE);
+            RlaDownload.setVisibility(View.VISIBLE);
         } else {
-            imgDownload.setVisibility(View.GONE);
+            RlaDownload.setVisibility(View.GONE);
         }
 
         VimeoPlayerView vimeoPlayer = findViewById(R.id.vimeoPlayer);
@@ -188,13 +193,12 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                 " </html> ";
         myWebView.loadData(data_html, "text/html", "UTF-8");
 
-        imgDownload.setOnClickListener(new View.OnClickListener() {
+        RlaDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isDownload = true;
                 Log.d("isVideoDownloadId", isVideoDownloadId);
                 String authToken = TeacherUtil_SharedPreference.getVideotoken(VimeoVideoPlayerActivity.this);
-
                 VimeoHelper.getVimeoDownloadUrl(isVideoDownloadId,authToken, VimeoVideoPlayerActivity.this);
 
             }
@@ -263,16 +267,21 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                 LayoutInflater inflater = ((Activity) context).getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.dialog_progress, null);
 
-                ProgressBar progressBar = dialogView.findViewById(R.id.progress_bar);
+                progressBar = dialogView.findViewById(R.id.progress_bar);
                 TextView progressText = dialogView.findViewById(R.id.progress_text);
 
+                progressLoading = 13;
+                progressText.setText(progressLoading + "%");
+                progressBar.setProgress(progressLoading);
                 // Create and show the AlertDialog on the main thread
                 AlertDialog progressDialog = new AlertDialog.Builder(context)
                         .setView(dialogView)
                         .setCancelable(false)
                         .create();
                 progressDialog.show();
-
+                progressLoading = 27;
+                progressText.setText(progressLoading + "%");
+                progressBar.setProgress(progressLoading);
                 // Initialize the download after showing the dialog
                 startDownload(context, downloadUrl, progressDialog, progressBar, progressText);
             }
@@ -293,7 +302,9 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         if (downloadManager != null) {
             long downloadId = downloadManager.enqueue(request);
-
+            progressLoading = 49;
+            progressText.setText(progressLoading + "%");
+            progressBar.setProgress(progressLoading);
             // Handler to periodically check download progress
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
@@ -306,11 +317,16 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                     if (cursor != null && cursor.moveToFirst()) {
                         @SuppressLint("Range") int bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
                         @SuppressLint("Range") int totalBytes = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-
+                        progressLoading = 61;
+                        progressText.setText(progressLoading + "%");
+                        progressBar.setProgress(progressLoading);
                         if (totalBytes > 0) {
-                            int progress = (int) ((bytesDownloaded * 100L) / totalBytes);
-                            progressBar.setProgress(progress);
-                            progressText.setText(progress + "%");
+//                            int progress = (int) ((bytesDownloaded * 100L) / totalBytes);
+//                            progressBar.setProgress(progress);
+//                            progressText.setText(progress + "%");
+                            progressLoading = 91;
+                            progressText.setText(progressLoading + "%");
+                            progressBar.setProgress(progressLoading);
                         }
 
                         @SuppressLint("Range") int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
@@ -318,6 +334,9 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                             cursor.close();
                             progressDialog.dismiss(); // Dismiss dialog on completion or failure
                             if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                                progressLoading = 100;
+                                progressText.setText(progressLoading + "%");
+                                progressBar.setProgress(progressLoading);
                                 showAlert((Activity) context, "Downloaded successfully..", "File stored in: " + VIDEO_FOLDER + "/" + isVideoTitle);
                             } else if (status == DownloadManager.STATUS_FAILED) {
                                 showAlert((Activity) context, "Download failed.", "");

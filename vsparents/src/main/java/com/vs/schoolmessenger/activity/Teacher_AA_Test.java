@@ -169,6 +169,9 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
         checkAndRequestPermission();
 
+        isProgressBar = (ProgressBar) findViewById(R.id.isProgressBar);
+        isProgressBar.setVisibility(View.VISIBLE);
+
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -238,8 +241,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         lnrScroll = (LinearLayout) findViewById(R.id.lnrScroll);
         rytParent = (RelativeLayout) findViewById(R.id.rytParent);
         tvLoggedInAs = (TextView) findViewById(R.id.aHome_tvLoggedInAs);
-        isProgressBar = (ProgressBar) findViewById(R.id.isProgressBar);
-        isProgressBar.setVisibility(View.VISIBLE);
         tvLoggedInAs.setText(TeacherUtil_SharedPreference.getLoginTypeFromSP(Teacher_AA_Test.this));
 
         tvSchoolName = (TextView) findViewById(R.id.aHome_tvSchoolName);
@@ -879,7 +880,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             String baseURL = TeacherUtil_SharedPreference.getBaseUrl(Teacher_AA_Test.this);
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         }
-
+        isProgressBar.setVisibility(View.GONE);
         IDs = "";
         String countryId = TeacherUtil_SharedPreference.getCountryID(Teacher_AA_Test.this);
         JsonArray jsonArray = new JsonArray();
@@ -1033,7 +1034,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 }
             }
         }
-        isProgressBar.setVisibility(View.GONE);
         if (contacts.length != Contact_Count) {
             if (exist_Count == 0 || exist_Count < contacts.length) {
                 contactSaveContent();
@@ -1070,7 +1070,6 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                 } catch (Exception e) {
                     Log.d("failure_popup_error", e.toString());
                 }
-
             }
         });
 

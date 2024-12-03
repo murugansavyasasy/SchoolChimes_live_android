@@ -79,8 +79,6 @@ public class VoiceCircularListAdapterNEW extends RecyclerView.Adapter<VoiceCircu
             @Override
             public void onClick(View v) {
 
-
-
                 if (isNetworkConnected()) {
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);

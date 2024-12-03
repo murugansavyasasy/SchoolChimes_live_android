@@ -59,7 +59,7 @@ public class DownloadFileFromURL {
         if (!activity.isFinishing())
             mProgressDialog.show();
 
-        Log.d("File URL", url);
+        Log.d("File URL___", url);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<ResponseBody> call = apiService.downloadFileWithDynamicUrlAsync(url);

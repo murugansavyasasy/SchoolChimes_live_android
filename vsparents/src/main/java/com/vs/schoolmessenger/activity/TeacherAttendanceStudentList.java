@@ -151,7 +151,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         Searchable = (EditText) findViewById(R.id.Searchable);
         imgSearch = (ImageView) findViewById(R.id.imgSearch);
         lblSortItem = (TextView) findViewById(R.id.lblSortItem);
-        lblSortItem.setText("Ascending Order - A-Z(Student Name)");
+        lblSortItem.setText("Sort Alphabetically (A → Z)");
 
 
         targetCode = selSection.getStdSecCode();
@@ -1274,7 +1274,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         lblZA = dialogView.findViewById(R.id.lblZA);
         lblAO = dialogView.findViewById(R.id.lblAO);
         lblDO = dialogView.findViewById(R.id.lblDO);
-
         lnr01 = dialogView.findViewById(R.id.lnr01);
         lnr10 = dialogView.findViewById(R.id.lnr10);
         lnrZA = dialogView.findViewById(R.id.lnrZA);

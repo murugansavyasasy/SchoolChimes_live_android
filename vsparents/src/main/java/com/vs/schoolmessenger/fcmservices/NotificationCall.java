@@ -243,7 +243,7 @@ public class NotificationCall extends AppCompatActivity {
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
                         ScreenState.getInstance().setIncomingCallScreen(false);
-                        Toast.makeText(NotificationCall.this, "Call was ended.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationCall.this, "Call ended.", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } catch (Exception e) {
