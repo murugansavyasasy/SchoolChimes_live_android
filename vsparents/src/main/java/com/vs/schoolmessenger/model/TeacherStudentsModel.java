@@ -78,21 +78,20 @@ public class TeacherStudentsModel implements Serializable {
             }
 
             // Extract numeric part from roll numbers
-            Integer num1 = extractNumericPart(o1.rollNo);
-            Integer num2 = extractNumericPart(o2.rollNo);
+            Long num1 = extractNumericPart(o1.rollNo);
+            Long num2 = extractNumericPart(o2.rollNo);
 
             // Compare the numeric parts
-            return Integer.compare(num1, num2);
+            return Long.compare(num1, num2);
         }
 
         // Helper method to extract the numeric part of the roll number
-        private Integer extractNumericPart(String rollNo) {
+        private Long extractNumericPart(String rollNo) {
             String numericPart = rollNo.replaceAll("\\D+", ""); // Remove non-digit characters
-            return numericPart.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(numericPart); // Handle empty
+            return numericPart.isEmpty() ? Long.MAX_VALUE : Long.parseLong(numericPart); // Handle empty
         }
     };
 
-    // Descending order comparator for roll numbers based on numeric value
     public static Comparator<TeacherStudentsModel> sortByDescRollNo = new Comparator<TeacherStudentsModel>() {
         @Override
         public int compare(TeacherStudentsModel o1, TeacherStudentsModel o2) {
@@ -108,17 +107,17 @@ public class TeacherStudentsModel implements Serializable {
             }
 
             // Extract numeric part from roll numbers
-            Integer num1 = extractNumericPart(o1.rollNo);
-            Integer num2 = extractNumericPart(o2.rollNo);
+            Long num1 = extractNumericPart(o1.rollNo);
+            Long num2 = extractNumericPart(o2.rollNo);
 
             // Compare the numeric parts in reverse order for descending
-            return Integer.compare(num2, num1);
+            return Long.compare(num2, num1);
         }
 
         // Helper method to extract the numeric part of the roll number
-        private Integer extractNumericPart(String rollNo) {
+        private Long extractNumericPart(String rollNo) {
             String numericPart = rollNo.replaceAll("\\D+", ""); // Remove non-digit characters
-            return numericPart.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(numericPart); // Handle empty
+            return numericPart.isEmpty() ? Long.MAX_VALUE : Long.parseLong(numericPart); // Handle empty
         }
     };
 

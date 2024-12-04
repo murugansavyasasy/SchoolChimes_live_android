@@ -156,6 +156,7 @@ public class TeacherUtil_SharedPreference {
 
     public static final String Current_Date ="currentDate";
     public static final String Current_Date_voive ="currentDate_voice";
+    public static final String isSortSelected ="StudentNameAZ";
 
     public static void putPrincipalIDs(ArrayList<Integer> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
@@ -166,6 +167,19 @@ public class TeacherUtil_SharedPreference {
              editor.commit();
         }
     }
+
+
+    public static void putSortSelection(Activity activity,String isSort){
+        SharedPreferences prefs = activity.getSharedPreferences("SORT_SELECTION", MODE_PRIVATE);
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.putString(isSortSelected, isSort);
+        ed.commit();
+    }
+    public static String getSortSelection(Activity activity) {
+        String strupdate = activity.getSharedPreferences("SORT_SELECTION", MODE_PRIVATE).getString(isSortSelected, "StudentNameAZ");
+        return strupdate;
+    }
+
 
     public static Integer[] getPrincipalIDs(Activity mContext) {
         SharedPreferences prefs = mContext.getSharedPreferences(MENU_IDS, 0);
@@ -438,7 +452,6 @@ public class TeacherUtil_SharedPreference {
     public static void putLanguageType(Activity activity,String autoupdate){
         SharedPreferences prefs = activity.getSharedPreferences(LANGUAGE, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
-
         ed.putString(language_type, autoupdate);
         Log.d(language_type, "autoupdate Data stored in SP");
         ed.commit();

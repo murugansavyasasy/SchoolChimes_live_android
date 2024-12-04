@@ -192,7 +192,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             channel.setSound(null, attributes);  // Disabling default sound
             channel.enableVibration(true);
             if (!Util_Common.mediaPlayer.isPlaying()) {
-                Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.schoolchimes_tone);
+                Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.school_chimes_call_tone);
                 Util_Common.mediaPlayer.start();
             }
             notificationManager.createNotificationChannel(channel);

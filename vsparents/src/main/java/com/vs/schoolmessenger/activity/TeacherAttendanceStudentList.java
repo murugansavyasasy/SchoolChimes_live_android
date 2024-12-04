@@ -108,7 +108,6 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     EditText Searchable;
     ImageView imgSearch;
     private List<TeacherStudentsModel> workingList = new ArrayList<>();
-
     CheckBox cbStudentNameAZ;
     CheckBox cbStudentNameZA;
     CheckBox cbRollNumber12;
@@ -116,7 +115,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     TextView lblSortItem;
     TextView lblAZ, lblZA, lblAO, lblDO;
     LinearLayout lnr01, lnr10, lnrZA, lnrAZ;
-
+    String isSortSelection;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -151,8 +150,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         Searchable = (EditText) findViewById(R.id.Searchable);
         imgSearch = (ImageView) findViewById(R.id.imgSearch);
         lblSortItem = (TextView) findViewById(R.id.lblSortItem);
-        lblSortItem.setText("Sort Alphabetically (A → Z)");
 
+        isSortSelection = TeacherUtil_SharedPreference.getSortSelection(TeacherAttendanceStudentList.this);
 
         targetCode = selSection.getStdSecCode();
         s3uploaderObj = new S3Uploader(TeacherAttendanceStudentList.this);
@@ -242,9 +241,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         cbSelectAll = (CheckBox) findViewById(R.id.attenStudent_cbSelectAll);
 
-        if (iRequestCode == PRINCIPAL_ATTENDANCE || iRequestCode == STAFF_ATTENDANCE) {
-            cbSelectAll.setText("Absentees All");
-        }
+//        if (iRequestCode == PRINCIPAL_ATTENDANCE || iRequestCode == STAFF_ATTENDANCE) {
+//            cbSelectAll.setText("Absentees All");
+//        }
 
         cbSelectAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -349,8 +348,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             selSection.setTotStudents(String.valueOf(0));//String.valueOf(studentList.size()));
                             tvTotalCount.setText(String.valueOf(studentList.size()));
                             cbSelectAll.setChecked(false);
+                            isSorting(isSortSelection);
                         }
-
                     } else {
                         showToast(getResources().getString(R.string.no_records));
                     }
@@ -1279,6 +1278,13 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         lnrZA = dialogView.findViewById(R.id.lnrZA);
         lnrAZ = dialogView.findViewById(R.id.lnrAZ);
 
+        isSortSelection = TeacherUtil_SharedPreference.getSortSelection(TeacherAttendanceStudentList.this);
+        if (isSortSelection.equals("")) {
+            isSortSelection = "StudentNameAZ";
+        }
+        isAlreadyShorting(isSortSelection);
+
+
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(TeacherAttendanceStudentList.this);
         bottomSheetDialog.setContentView(dialogView);
         bottomSheetDialog.show();
@@ -1287,6 +1293,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             @Override
             public void onClick(View view) {
                 adapter.updateList(studentList);
+                TeacherUtil_SharedPreference.putSortSelection(TeacherAttendanceStudentList.this, isSelectedItem);
 
                 switch (isSelectedItem) {
                     case "StudentNameAZ":
@@ -1384,7 +1391,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 cbRollNumber12.setChecked(false);
             }
         });
-        isAlreadyShorting(isSelectedItem);
+        //  isAlreadyShorting(isSelectedItem);
     }
 
     private void isAlreadyShorting(String isSelectedItem) {
@@ -1416,6 +1423,36 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                 cbStudentNameAZ.setChecked(false);
                 cbStudentNameZA.setChecked(false);
                 cbRollNumber12.setChecked(false);
+                break;
+        }
+    }
+
+    public void isSorting(String isSelectedItem) {
+
+        switch (isSelectedItem) {
+
+            case "StudentNameAZ":
+                lblSortItem.setText("Sort Alphabetically (A → Z)");
+                Collections.sort(studentList, TeacherStudentsModel.sortByNameAZ);
+                adapter.notifyDataSetChanged();
+                break;
+
+            case "StudentNameZA":
+                lblSortItem.setText("Sort Alphabetically (Z → A)");
+                Collections.sort(studentList, TeacherStudentsModel.sortByNameZA);
+                adapter.notifyDataSetChanged();
+                break;
+
+            case "StudentRollNumber12":
+                lblSortItem.setText("Sort by Roll Number (Low → High)");
+                Collections.sort(studentList, TeacherStudentsModel.sortByAscRollNo);
+                adapter.notifyDataSetChanged();
+                break;
+
+            case "StudentRollNumber21":
+                lblSortItem.setText("Sort by Roll Number (High → Low)");
+                Collections.sort(studentList, TeacherStudentsModel.sortByDescRollNo);
+                adapter.notifyDataSetChanged();
                 break;
         }
     }

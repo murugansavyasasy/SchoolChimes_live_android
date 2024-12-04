@@ -527,7 +527,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 setProgress(progress * 100);
                 if (progress == 100) {
                     pDialog.dismiss();
-
                 }
             }
         });
@@ -658,7 +657,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 } else if (value.equals("1")) {
                     openSingInScreen();
                 } else {
-
                     openMobileNumbeScreen();
                 }
             }

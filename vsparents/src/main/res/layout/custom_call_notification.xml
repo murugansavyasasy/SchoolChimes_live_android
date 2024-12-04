@@ -67,6 +67,7 @@
                 android:layout_height="30dp"
                 android:layout_toLeftOf="@+id/imgAccept"
                 android:layout_marginLeft="10dp"
+                android:visibility="gone"
                 android:src="@drawable/declinecall">
 
             </ImageView>
