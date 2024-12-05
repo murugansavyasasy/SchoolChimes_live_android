@@ -94,6 +94,10 @@ public class NotificationCall extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isUserResponse = "NO";
+
+                if (Util_Common.mediaPlayer.isPlaying()) {
+                    Util_Common.mediaPlayer.stop();
+                }
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                 isEndTime = sdf.format(new Date());
                 isStartTime = isEndTime;
@@ -244,7 +248,8 @@ public class NotificationCall extends AppCompatActivity {
                         Log.d("Response", response.body().toString());
                         ScreenState.getInstance().setIncomingCallScreen(false);
                         Toast.makeText(NotificationCall.this, "Call ended.", Toast.LENGTH_SHORT).show();
-                        finish();
+                        exitApp();
+
                     }
                 } catch (Exception e) {
 
@@ -254,9 +259,17 @@ public class NotificationCall extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
+                exitApp();
             }
         });
     }
+
+    public void exitApp() {
+        // Clear app from recent tasks
+        finishAndRemoveTask();
+        System.exit(0);
+    }
+
 
     private void isVoicePlaying() {
         try {
