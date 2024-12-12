@@ -72,18 +72,9 @@ public class Util_Common {
     public static List<String> isSelectedDateList = new ArrayList<>();
     public static ArrayList<Integer> isBookedIds = new ArrayList<>();
     public static Boolean isDataLoadingOver = true;
-    public static int isDataCounting = 0;
-    public static int isTotalItemCount = 0;
     public static String isVideoSize = "";
     public static ArrayList<StaffMsgMangeCount> isStaffMsgMangeCount = new ArrayList<StaffMsgMangeCount>();
     public static int isStaffMsgFromManagementCount = 0;
-
-
-    // Redirect notification
-    public static String isItemId = "";
-    public static String isReceiverId = "";
-    public static String isMenuId = "";
-    public static Boolean isNotification = false;
 
     public static MediaPlayer mediaPlayer = new MediaPlayer();
 

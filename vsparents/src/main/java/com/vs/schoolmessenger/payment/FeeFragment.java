@@ -1,10 +1,10 @@
 package com.vs.schoolmessenger.payment;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +14,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.activity.ProfileLinkScreen;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -48,9 +49,6 @@ public class FeeFragment extends Fragment {
 
         Log.d("URL",PaymentUrl);
         loadWebView("");
-
-
-
         return rootView;
     }
 
@@ -140,8 +138,4 @@ public class FeeFragment extends Fragment {
         alertDialog.setCancelable(false);
         alertDialog.show();
     }
-
-
-
-
 }

@@ -1372,8 +1372,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         // idGridMenus.setSelection(TeacherUtil_Common.scroll_to_position);
                         idGridMenus.setAdapter(myAdapter);
                         isProgressBar.setVisibility(View.GONE);
-
-
                     } else {
                         showToast(getResources().getString(R.string.no_records));
                     }

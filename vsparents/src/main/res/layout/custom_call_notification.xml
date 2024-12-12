@@ -15,6 +15,7 @@
             android:id="@+id/logoCall"
             android:layout_width="50dp"
             android:layout_height="80dp"
+            android:padding="5dp"
             android:layout_centerVertical="true"
             android:src="@drawable/school_chimes"
             android:visibility="visible">
@@ -33,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:padding="5dp"
             android:text="N.S.V.V boys hr sec school"
             android:textColor="@color/clr_orange"
             android:textSize="15dp"
@@ -41,11 +41,9 @@
 
             <TextView
                 android:id="@+id/lblContent"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/notification_title"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:gravity="center"
                 android:text="Incoming call........"
                 android:textSize="12dp"
                 android:textStyle="bold"/>
@@ -55,7 +53,7 @@
 
         <RelativeLayout
             android:id="@+id/rlaButtons"
-            android:layout_width="100dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -76,7 +74,6 @@
                 android:id="@+id/imgAccept"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/incomingcall"></ImageView>
 

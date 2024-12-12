@@ -14,6 +14,7 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -41,6 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     NotificationChannel mChannel;
     Uri message_voice = null;
     Uri emergency_message_voice = null;
+    private Handler handler = new Handler();
 
     @Override
     public void onNewToken(String token) {
@@ -193,9 +195,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             channel.enableVibration(true);
             if (!Util_Common.mediaPlayer.isPlaying()) {
                 Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.school_chimes_call_tone);
+                Util_Common.mediaPlayer.setLooping(true);
                 Util_Common.mediaPlayer.start();
             }
             notificationManager.createNotificationChannel(channel);
+
+            handler.postDelayed(stopMediaPlayerRunnable, 30000);
         }
 
         Log.d("Received", "Notification Received");
@@ -239,14 +244,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setColor(ContextCompat.getColor(this, R.color.clr_white))
                 .setDeleteIntent(createDeleteIntent()) // Add delete intent for dismissal
+                .setCustomContentView(remoteViews)
                 .build();
 
+        notification.contentView = remoteViews;
         notification.bigContentView = remoteViews;
         notification.headsUpContentView = remoteViews;
 
         // Show the notification with the unique ID
         notificationManager.notify(notificationId, notification);
     }
+
+    private Runnable stopMediaPlayerRunnable = () -> {
+        if (Util_Common.mediaPlayer != null && Util_Common.mediaPlayer.isPlaying()) {
+            Util_Common.mediaPlayer.stop();
+            Util_Common.mediaPlayer.release();
+            Util_Common.mediaPlayer = new MediaPlayer();
+        }
+    };
 
     // Creates a delete intent for handling notification dismissal
     private PendingIntent createDeleteIntent() {
