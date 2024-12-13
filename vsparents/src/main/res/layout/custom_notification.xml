@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linear_layout"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
-    android:layout_marginBottom="5dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/bg_white_primary_shadow"
     android:orientation="horizontal"
-    android:padding="7dp">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:padding="2dp">
+                >
 
                 <TextView
                     android:id="@+id/message"
@@ -54,10 +53,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
-                    android:lineSpacingExtra="2dp"
-                    android:maxLines="100"
                     android:singleLine="false"
                     android:text="Message"
+                    android:paddingBottom="@dimen/_10sdp"
                     android:textColor="@color/clr_black"
                     android:textSize="14sp" />
 

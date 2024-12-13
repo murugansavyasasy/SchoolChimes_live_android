@@ -42,26 +42,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    //    flavorDimensions "version"
-//    productFlavors {
-//        mainschool{
-//            applicationIdSuffix ""
-//        }
-//        (1..100).each { flavorNumber ->
-//            "flavor${flavorNumber}" {
-//                dimension "version"
-//                applicationId "com.vs.schoolmessenger.flavor${flavorNumber}"
-//                versionName "1.0-flavor${flavorNumber}"
-//            }
-//        }
-//    }
 }
 
-//repositories {
-//    google()
-//    mavenCentral()
-//}
 repositories {
     maven {
         url "https://s3.amazonaws.com/repo.commonsware.com"

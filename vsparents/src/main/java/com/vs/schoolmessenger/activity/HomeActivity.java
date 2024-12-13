@@ -3,6 +3,7 @@ package com.vs.schoolmessenger.activity;
 import static com.vs.schoolmessenger.util.Constants.updates;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -622,8 +623,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                 img.startAnimation(slide_in_anim);
                 lblContent.startAnimation(slide_in_anim);
-
-
             }
         });
 
@@ -781,7 +780,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 //  LoadingView.hideProgress();
 
-
                 Log.d("GetMenuDetails:code", response.code() + " - " + response);
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("GetMenuDetails:Res", response.body().toString());
@@ -822,7 +820,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             UnreadCount();
                         }
                     }
-
                 } catch (Exception e) {
                     Log.e("menu:Exception", e.getMessage());
                 }
@@ -837,8 +834,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void checkIfContactsExist() {
 
+    private void checkIfContactsExist() {
 
         exist_Count = 0;
         ContentResolver contentResolver = HomeActivity.this.getContentResolver();
@@ -846,53 +843,116 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         String[] projection = new String[]{ContactsContract.PhoneLookup._ID};
         String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?";
         String[] selectionArguments = {contact_display_name};
-        Cursor cursor = contentResolver.query(uri, projection, selection, selectionArguments, null);
-        exist_Count = cursor.getCount();
-        Log.d("exist_Count", String.valueOf(exist_Count));
 
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
+        // Query for the display name.
+        try (Cursor cursor = contentResolver.query(uri, projection, selection, selectionArguments, null)) {
+            if (cursor != null) {
+                exist_Count = cursor.getCount();
+                Log.d("exist_Count", String.valueOf(exist_Count));
 
+                while (cursor.moveToNext()) {
+                    @SuppressLint("Range") String fetchedName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                    Log.d("Fetched Name", fetchedName);
+                }
+            } else {
+                Log.d("Error", "Cursor is null!");
             }
+        } catch (Exception e) {
+            Log.e("Query Error", e.getMessage());
         }
 
+
         Contact_Count = 0;
-        for (int i = 0; i < contacts.length; i++) {
-            String number = contacts[i];
+        for (String number : contacts) {
             if (number != null) {
                 Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-                String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME};
-                Cursor cur = HomeActivity.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
-                try {
-                    if (cur.getCount() > 0) {
-                        if (cur.moveToFirst()) {
-                            Contact_Count = Contact_Count + 1;
-                            int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                            Display_Name = cur.getString(indexName);
-                            Log.d("Display_Name", Display_Name);
-                            if (!Display_Name.equals(contact_display_name)) {
-                                Contact_Count = Contact_Count - 1;
-                            }
-                        }
-                    } else {
-                        exist_Count = 0;
-                        Contact_Count = Contact_Count - 1;
-                    }
+                String[] mPhoneNumberProjection = {
+                        ContactsContract.PhoneLookup._ID,
+                        ContactsContract.PhoneLookup.NUMBER,
+                        ContactsContract.PhoneLookup.DISPLAY_NAME
+                };
 
-                } finally {
-                    if (cur != null)
-                        cur.close();
+                try (Cursor cur = contentResolver.query(lookupUri, mPhoneNumberProjection, null, null, null)) {
+                    if (cur != null && cur.moveToFirst()) {
+                        Contact_Count++;
+                    } else {
+                        Log.d("No Match Found", "Number: " + number);
+                        exist_Count = 0;
+                    }
+                } catch (Exception e) {
+                    Log.e("Phone Query Error", e.getMessage());
                 }
             }
         }
+
         Log.d("exist_Count1", String.valueOf(exist_Count));
 
+        // Check and save contact if necessary.
         if (contacts.length != Contact_Count) {
             if (exist_Count == 0 || exist_Count < contacts.length) {
                 contactSaveContent();
             }
         }
     }
+
+//    private void checkIfContactsExist() {
+//        exist_Count = 0;
+//        ContentResolver contentResolver = HomeActivity.this.getContentResolver();
+//        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+//        String[] projection = new String[]{ContactsContract.PhoneLookup._ID};
+//        String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?";
+//        String[] selectionArguments = {contact_display_name};
+//
+//
+//        Cursor cursor = contentResolver.query(uri, projection, selection, selectionArguments, null);
+//        exist_Count = cursor.getCount();
+//        Log.d("exist_Count", String.valueOf(exist_Count));
+//
+//        if (cursor != null) {
+//            while (cursor.moveToNext()) {
+//
+//            }
+//        }
+//
+//        Contact_Count = 0;
+//        for (int i = 0; i < contacts.length; i++) {
+//            String number = contacts[i];
+//            if (number != null) {
+//                Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+//                String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME};
+//                Cursor cur = HomeActivity.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
+//                try {
+//                    if (cur.getCount() > 0) {
+//                        if (cur.moveToFirst()) {
+//                            Contact_Count = Contact_Count + 1;
+//                            int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+//                            Display_Name = cur.getString(indexName);
+//                            Log.d("Display_Name", Display_Name);
+//                            if (!Display_Name.equals(contact_display_name)) {
+//                                Contact_Count = Contact_Count - 1;
+//                            }
+//                        }else {
+//                            Log.d("isComing","moveToFirst");
+//                        }
+//                    } else {
+//                        Log.d("isComing","isComing");
+//                        exist_Count = 0;
+//                        Contact_Count = Contact_Count - 1;
+//                    }
+//                } finally {
+//                    if (cur != null)
+//                        cur.close();
+//                }
+//            }
+//        }
+//        Log.d("exist_Count1", String.valueOf(exist_Count));
+//
+//        if (contacts.length != Contact_Count) {
+//            if (exist_Count == 0 || exist_Count < contacts.length) {
+//                contactSaveContent();
+//            }
+//        }
+//    }
 
     private void contactSaveContent() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -961,7 +1021,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(activity, "Cache cleared", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(activity, "Cache not cleared", Toast.LENGTH_LONG).show();
-
             }
         } catch (Exception e) {
             e.printStackTrace();

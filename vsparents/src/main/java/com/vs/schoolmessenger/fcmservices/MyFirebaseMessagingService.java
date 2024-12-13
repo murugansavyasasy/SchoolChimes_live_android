@@ -148,9 +148,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.school_chimes)
                     .setContentTitle(title)
-                    .setContentText(messageBody)
+//                    .setContentText(messageBody)
                     .setAutoCancel(true)
                     .setContent(getCustomDesign(title, messageBody, ""))
+                    .setCustomContentView(getCustomDesign(title, messageBody, ""))
+                    .setCustomBigContentView(getCustomDesign(title, messageBody, ""))
+                    .setCustomHeadsUpContentView(getCustomDesign(title, messageBody, ""))
                     .setContentIntent(resultIntent)
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
 
@@ -193,6 +196,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             channel.setDescription("My Notification Channel");
             channel.setSound(null, attributes);  // Disabling default sound
             channel.enableVibration(true);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             if (!Util_Common.mediaPlayer.isPlaying()) {
                 Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.school_chimes_call_tone);
                 Util_Common.mediaPlayer.setLooping(true);
@@ -244,6 +248,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setColor(ContextCompat.getColor(this, R.color.clr_white))
                 .setDeleteIntent(createDeleteIntent()) // Add delete intent for dismissal
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setCustomContentView(remoteViews)
                 .build();
 
