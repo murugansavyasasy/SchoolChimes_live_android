@@ -46,7 +46,6 @@ public class S3Uploader {
             } else {
                 observer = transferUtility.upload(AWSKeys.BUCKET_NAME_SCHOOL_DOCS, "lms" + "/" + instituteId + "/" + fileNameDateTime + "_" + mediaUrl,
                         file, CannedAccessControlList.PublicRead);
-
             }
 
         } else {

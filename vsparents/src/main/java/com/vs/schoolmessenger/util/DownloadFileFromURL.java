@@ -66,6 +66,7 @@ public class DownloadFileFromURL {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, final Response<ResponseBody> response) {
+                Log.d("response",response.message());
                 if (response.isSuccessful()) {
                     Log.d("DOWNLOADING...", "server contacted and has file");
 

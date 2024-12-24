@@ -31,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,9 +55,12 @@ import com.vs.schoolmessenger.model.TeacherSectionsListNEW;
 import com.vs.schoolmessenger.model.TeacherStandardSectionsListModel;
 import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.UploadCallback;
+import com.vs.schoolmessenger.util.UploadFileToAws;
 import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
@@ -64,6 +68,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -121,6 +127,14 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
     private final ArrayList<TeacherSectionsListNEW> seletedSectionsList = new ArrayList<>();
     private int i_sections_count = 0;
     private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
+    UploadFileToAws isUploadFileToAws;
+    AwsUploadingPreSigned isAwsUploadingPreSigned;
+    private int totalFiles;
+    private int uploadedFiles;
+    private ProgressBar progressBar;
+    private TextView progressText;
+    LinearLayout lnrProgress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +154,9 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         duration = getIntent().getExtras().getString("DURATION", "");
         filepath = getIntent().getExtras().getString("FILEPATH", "");
         llSubject = (LinearLayout) findViewById(R.id.staffStdSecSub_llSubject);
-
+        progressBar = findViewById(R.id.progressBar);
+        progressText = findViewById(R.id.progressText);
+        lnrProgress = findViewById(R.id.lnrProgress);
 
         voicetype = getIntent().getExtras().getString("VOICE", "");
         strPDFFilepath = getIntent().getExtras().getString("FILE_PATH_PDF", "");
@@ -150,6 +166,9 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         if (strPDFFilepath.equals("")) {
             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
         }
+        isUploadFileToAws = new UploadFileToAws();
+        isAwsUploadingPreSigned = new AwsUploadingPreSigned();
+
 
         if (TeacherUtil_Common.listschooldetails.size() == 1) {
             SchoolID = TeacherUtil_Common.Principal_SchoolId;
@@ -292,7 +311,53 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         } else {
                             contentType = "image/png";
                             UploadedS3URlList.clear();
-                            uploadFileToAWSs3(pathIndex, "IMG", "");
+                            //  uploadFileToAWSs3(pathIndex, "IMG", "");
+
+                            totalFiles = slectedImagePath.size();
+                            uploadedFiles = 0;
+                            lnrProgress.setVisibility(View.VISIBLE);
+                            progressBar.setMax(totalFiles);
+                            progressBar.setProgress(0);
+                            progressText.setText("0/" + totalFiles);
+
+                            Log.d("slectedImagePath", String.valueOf(slectedImagePath.size()));
+
+                            LocalDate currentDate = null; // Get the current date
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                currentDate = LocalDate.now();
+                            }
+                            DateTimeFormatter formatter = null; // Define the desired format
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                            }
+                            String formattedDate = null;
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                formattedDate = currentDate.format(formatter);
+                            }
+
+                            for (int i = 0; i < slectedImagePath.size(); i++) {
+                                File file = new File(slectedImagePath.get(i));
+                                String isFileExtension;
+
+                                String fileExtension = getFileExtension(file.getName());
+                                switch (fileExtension) {
+                                    case "jpg":
+                                    case "jpeg":
+                                    case "png":
+                                        isFileExtension = "image";
+                                        break;
+                                    case "pdf":
+                                        isFileExtension = "application";
+                                        break;
+                                    case "mp3":
+                                    case "wav":
+                                        isFileExtension = "audio";
+                                        break;
+                                    default:
+                                        throw new UnsupportedOperationException("Unsupported file type: " + fileExtension);
+                                }
+                                AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), formattedDate + "/" + SchoolID, isFileExtension, "IMG", "");
+                            }
                         }
                     }
                     if (iRequestCode == STAFF_VOICE_HW || iRequestCode == PRINCIPAL_VOICE_HW) {
@@ -552,6 +617,52 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * FILE UPLOAD TO AWS
+     */
+
+    private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type) {
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String response, String isAwsFile) {
+                Log.d("Upload Success", response);
+                UploadedS3URlList.add(isAwsFile);
+
+                if (UploadedS3URlList.size() <= slectedImagePath.size()){
+                    uploadedFiles++;
+                    updateProgressBar();
+                }
+
+                if (UploadedS3URlList.size() == slectedImagePath.size()) {
+                     SendMultipleImagePDFAsStaffToEntireSectionWithCloudURL(filetype, type);
+                }
+            }
+
+            @Override
+            public void onUploadError(String error) {
+                uploadedFiles++;
+                updateProgressBar();
+                Log.e("Upload Error", error);
+            }
+        });
+    }
+
+    private String getFileExtension(String fileName) {
+        int lastIndexOfDot = fileName.lastIndexOf('.');
+        if (lastIndexOfDot > 0 && lastIndexOfDot < fileName.length() - 1) {
+            return fileName.substring(lastIndexOfDot + 1).toLowerCase();
+        }
+        return ""; // Return empty string if no extension found
+    }
+
+    private void updateProgressBar() {
+        runOnUiThread(() -> {
+            progressBar.setProgress(uploadedFiles);
+            progressText.setText(uploadedFiles + "/" + totalFiles);
+        });
+    }
+
 
     private void uploadHWAttachments(int pathind, final String fileType, final String type) {
 
@@ -2138,6 +2249,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
     }
 
     private void showAlert(String strMsg, final String status) {
+        lnrProgress.setVisibility(View.GONE);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherStaffStandardSection.this);
 
         alertDialog.setTitle(R.string.alert);

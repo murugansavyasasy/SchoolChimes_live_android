@@ -15,6 +15,7 @@ import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
 import com.vs.schoolmessenger.model.GetSection;
 import com.vs.schoolmessenger.model.HomeWorkModel;
 import com.vs.schoolmessenger.model.NewUpdatesModel;
+import com.vs.schoolmessenger.model.PreSignedUrl;
 import com.vs.schoolmessenger.model.PtmSubjectdata;
 import com.vs.schoolmessenger.model.PunchHistoryRes;
 import com.vs.schoolmessenger.model.SlotDetailsForStaff;
@@ -975,6 +976,13 @@ public interface TeacherMessengerApiInterface {
 
     @GET("homeworkReport")
     Call<StaffNoticeBoard> getHomeWorkReport(@Query("instituteId") String instituteId, @Query("sectionId") String sectionId, @Query("date") String date, @Query("userId") String userId);
+
+
+    @GET("get-s3-presigned-url")
+    Call<PreSignedUrl> getPreSignedUrl(@Query("bucket") String bucket,
+                                       @Query("fileName") String fileName,
+                                       @Query("bucketPath") String bucketPath,
+                                       @Query("fileType") String fileType);
 
 }
 

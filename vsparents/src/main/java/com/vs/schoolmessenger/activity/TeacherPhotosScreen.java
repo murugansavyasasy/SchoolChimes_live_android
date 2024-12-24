@@ -795,7 +795,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                         intoSec.putExtra("TITTLE", strtittle);
                         startActivityForResult(intoSec, iRequestCode);
                     } else {
-
                         showAlert(getResources().getString(R.string.image_maximum) + " " + ImageCount + " " + getResources().getString(R.string.images_only));
 
                     }
