@@ -39,7 +39,7 @@ public class AwsUploadingPreSigned {
                 } else {
                     isBucket = AWSKeys.BUCKET_NAME_SCHOOL_DOCS;
                 }
-            } else {
+            } else if (isCountryId.equals("4")){
                 if (isCommunication) {
                     isBucket = AWSKeys.BUCKET_NAME_BANGKOK;
                 } else {
