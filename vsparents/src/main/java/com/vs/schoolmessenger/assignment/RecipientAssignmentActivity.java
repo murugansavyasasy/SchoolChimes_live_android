@@ -39,8 +39,11 @@ import com.vs.schoolmessenger.model.TeacherSectionsListNEW;
 import com.vs.schoolmessenger.model.TeacherStandardSectionsListModel;
 import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
+import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.UploadCallback;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -111,7 +114,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
 
     TextView staffStdSecSub_tv1;
     private  ArrayList<String> UploadedS3URlList = new ArrayList<>();
-
+    AwsUploadingPreSigned isAwsUploadingPreSigned;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -129,7 +132,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
             staffStdSecSub_tv1.setText("Grades");
         }
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
-
+        isAwsUploadingPreSigned = new AwsUploadingPreSigned();
         strToWhom ="SEC";
         strtittle = getIntent().getExtras().getString("TITLE", "");
         strmessage = getIntent().getExtras().getString("CONTENT", "");
@@ -218,7 +221,8 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
 
                         contentType="image/png";
                         UploadedS3URlList.clear();
-                        uploadFileToAWSs3(pathIndex,"IMAGE");
+                       // uploadFileToAWSs3(pathIndex,"IMAGE");
+                        isUploadAWS("image", "IMG", "","IMAGE");
 
                     }
                     if (iRequestCode == STAFF_PDFASSIGNMENT) {
@@ -227,7 +231,8 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
                         slectedImagePath.clear();
                         slectedImagePath.add(filepath);
                         UploadedS3URlList.clear();
-                        uploadFileToAWSs3(pathIndex,"PDF");
+//                        uploadFileToAWSs3(pathIndex,"PDF");
+                        isUploadAWS("pdf", ".pdf", "","PDF");
 
                     }
                 }
@@ -297,6 +302,38 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void isUploadAWS(String contentType, String isType, String value,String fileType) {
+
+        Log.d("selectedImagePath", String.valueOf(slectedImagePath.size()));
+
+        String currentDate = CurrentDatePicking.getCurrentDate();
+        for (int i = 0; i < slectedImagePath.size(); i++) {
+            AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), currentDate + "/" + TeacherUtil_Common.Principal_SchoolId, contentType, isType, value,fileType);
+        }
+    }
+
+    private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type,String fileTypeNode) {
+        String countryID = TeacherUtil_SharedPreference.getCountryID(RecipientAssignmentActivity.this);
+
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,true, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String response, String isAwsFile) {
+                Log.d("Upload Success", response);
+                UploadedS3URlList.add(isAwsFile);
+
+                if (UploadedS3URlList.size() == slectedImagePath.size()) {
+                    ManageAssignmentFromAppWithCloudURL(fileTypeNode);
+                }
+            }
+
+            @Override
+            public void onUploadError(String error) {
+                Log.e("Upload Error", error);
+            }
+        });
     }
 
     private void uploadFileToAWSs3(int pathind, final String fileType) {

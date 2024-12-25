@@ -6,12 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,39 +31,30 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.AlbumSelectActivity;
-import com.vs.schoolmessenger.activity.ChildrenScreen;
-import com.vs.schoolmessenger.activity.HomeActivity;
-import com.vs.schoolmessenger.activity.TeacherPhotosScreen;
-import com.vs.schoolmessenger.activity.Teacher_AA_Test;
-import com.vs.schoolmessenger.activity.ToStaffGroupList;
 import com.vs.schoolmessenger.adapter.ImageListAdapter;
-
 import com.vs.schoolmessenger.aws.S3Uploader;
 import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.FileUtils;
-import com.vs.schoolmessenger.util.TeacherUtil_Common;
+import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
+import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.UploadCallback;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -75,7 +63,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
@@ -84,8 +71,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PDFASSIGNMENT;
 
 public class ParentSubmitActivity extends AppCompatActivity implements CalendarDatePickerDialogFragment.OnDateSetListener, View.OnClickListener {
     ImageView img1, img2, img3, img4, imgPdf,imgColorShaddow;
@@ -119,16 +104,16 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
 
     String urlFromS3 = null;
     ProgressDialog progressDialog;
-    String contentType="";
+    String contentType = "";
 
-    String flag="";
-    String uploadFilePath="";
-    String SuccessFilePath="";
-    int pathIndex=0;
-
+    String flag = "";
+    String uploadFilePath = "";
+    String SuccessFilePath = "";
+    int pathIndex = 0;
+    AwsUploadingPreSigned isAwsUploadingPreSigned;
     String[] UploadedURLStringArray;
 
-    private  ArrayList<String> UploadedS3URlList = new ArrayList<>();
+    private ArrayList<String> UploadedS3URlList = new ArrayList<>();
     ImageView imageview;
 
     String isNewVersion;
@@ -172,14 +157,15 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
         lblClickImage.setText("Click here to Upload Assignment");
         photos_tv1.setText("Submit Assignment");
         btnChangeImage.setText("CHANGE IMAGE/PDF");
+        isAwsUploadingPreSigned = new AwsUploadingPreSigned();
 
-        Id=getIntent().getExtras().getString("ID","");
-        EndDateAlert=getIntent().getExtras().getString("ENDDATE","");
+        Id = getIntent().getExtras().getString("ID", "");
+        EndDateAlert = getIntent().getExtras().getString("ENDDATE", "");
 
-        is_Archive  = getIntent().getExtras().getBoolean("is_Archive",false);
+        is_Archive = getIntent().getExtras().getBoolean("is_Archive", false);
         isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ParentSubmitActivity.this);
 
-        TeacherUtil_SharedPreference.putOnBackPressedAssignmentParent(ParentSubmitActivity.this,"1");
+        TeacherUtil_SharedPreference.putOnBackPressedAssignmentParent(ParentSubmitActivity.this, "1");
 
 
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -796,8 +782,8 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 UploadedS3URlList.clear();
-                uploadFileToAWSs3(pathIndex);
-
+                isUploadAWS("", "", "");
+                //   uploadFileToAWSs3(pathIndex);
 
 
             }
@@ -812,23 +798,64 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
         alertDialog.show();
     }
 
+    private void isUploadAWS(String contentType, String isType, String value) {
+
+        if (contentType.equals("application/pdf")) {
+            contentType = "pdf";
+            isType = ".pdf";
+        } else {
+            contentType = "image";
+            isType = "IMG";
+        }
+
+        Log.d("selectedImagePath", String.valueOf(imagePathList.size()));
+
+        String currentDate = CurrentDatePicking.getCurrentDate();
+        String schoolid = Util_SharedPreference.getSchoolIdFromSP(ParentSubmitActivity.this);
+
+        for (int i = 0; i < imagePathList.size(); i++) {
+            AwsUploadingFile(String.valueOf(imagePathList.get(i)), currentDate + "/" + schoolid, contentType, isType, value);
+        }
+    }
+
+    private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type) {
+        String countryID = TeacherUtil_SharedPreference.getCountryID(ParentSubmitActivity.this);
+
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,true, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String response, String isAwsFile) {
+                Log.d("Upload Success", response);
+                UploadedS3URlList.add(isAwsFile);
+
+                if (UploadedS3URlList.size() == imagePathList.size()) {
+                    SubmitAssignmentFromAppWithCloudURL();
+                }
+            }
+
+            @Override
+            public void onUploadError(String error) {
+                Log.e("Upload Error", error);
+            }
+        });
+    }
+
     private void uploadFileToAWSs3(final int pathind) {
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(ParentSubmitActivity.this);
-        String schoolid= Util_SharedPreference.getSchoolIdFromSP(ParentSubmitActivity.this);
+        String schoolid = Util_SharedPreference.getSchoolIdFromSP(ParentSubmitActivity.this);
 
-        pathIndex=pathind;
-           progressDialog = new ProgressDialog(ParentSubmitActivity.this);
+        pathIndex = pathind;
+        progressDialog = new ProgressDialog(ParentSubmitActivity.this);
         for (int index = pathIndex; index < imagePathList.size(); index++) {
             uploadFilePath = imagePathList.get(index);
             break;
         }
 
-        if(UploadedS3URlList.size()<imagePathList.size()) {
+        if (UploadedS3URlList.size() < imagePathList.size()) {
             Log.d("upload file", uploadFilePath);
             if (uploadFilePath != null) {
                 showLoading();
-                 fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
+                fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
                  fileNameDateTime="File_"+fileNameDateTime;
                  s3uploaderObj.initUpload(uploadFilePath, contentType,fileNameDateTime,schoolid,countryID,true);
                  s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {

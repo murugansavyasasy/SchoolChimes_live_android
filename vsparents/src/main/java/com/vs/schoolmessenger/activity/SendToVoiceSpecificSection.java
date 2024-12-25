@@ -27,8 +27,11 @@ import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
+import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.UploadCallback;
 import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
@@ -66,6 +69,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
     String uploadFilePath = "";
     int pathIndex = 0;
     private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
+    AwsUploadingPreSigned isAwsUploadingPreSigned;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -101,7 +105,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
             }
         });
 
-
+        isAwsUploadingPreSigned = new AwsUploadingPreSigned();
         iRequestCode = getIntent().getExtras().getInt("REQUEST_CODE", 0);
         SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");
@@ -206,7 +210,8 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
         alertDialog.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                progressDialog = new ProgressDialog(SendToVoiceSpecificSection.this);
+                showLoading();
                 if (iRequestCode == PRINCIPAL_VIDEOS) {
                     sendVideoEntireSchool("1");
 
@@ -217,13 +222,14 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                             slectedImagePath.clear();
                             slectedImagePath.add(strPDFFilepath);
                             UploadedS3URlList.clear();
-                            uploadFileToAWSs3(pathIndex, ".pdf");
-
+                            //  uploadFileToAWSs3(pathIndex, ".pdf");
+                            isUploadAWS("pdf", ".pdf", "");
                         } else {
                             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
                             contentType = "image/png";
                             UploadedS3URlList.clear();
-                            uploadFileToAWSs3(pathIndex, "IMG");
+                            //   uploadFileToAWSs3(pathIndex, "IMG");
+                            isUploadAWS("image", "IMG", "");
                         }
                     } else {
                         if (voicetype.equals("VoiceHistory")) {
@@ -250,6 +256,39 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
     }
+
+    private void isUploadAWS(String contentType, String isType, String value) {
+
+        Log.d("selectedImagePath", String.valueOf(slectedImagePath.size()));
+
+        String currentDate = CurrentDatePicking.getCurrentDate();
+
+        for (int i = 0; i < slectedImagePath.size(); i++) {
+            AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), currentDate + "/" + SchoolID, contentType, isType, value);
+        }
+    }
+
+    private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type) {
+        String countryID = TeacherUtil_SharedPreference.getCountryID(SendToVoiceSpecificSection.this);
+
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,true, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String response, String isAwsFile) {
+                Log.d("Upload Success", response);
+                UploadedS3URlList.add(isAwsFile);
+
+                if (UploadedS3URlList.size() == slectedImagePath.size()) {
+                    SendMultipleImagePDFToEntireSchoolsWithCloudURL(filetype, type);
+                }
+            }
+
+            @Override
+            public void onUploadError(String error) {
+                Log.e("Upload Error", error);
+            }
+        });
+    }
+
 
     private void uploadFileToAWSs3(final int pathind, final String fileType) {
 
@@ -278,9 +317,8 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                                 uploadFileToAWSs3(pathIndex + 1, fileType);
 
                                 if (slectedImagePath.size() == UploadedS3URlList.size()) {
-                                    SendMultipleImagePDFToEntireSchoolsWithCloudURL(fileType);
+                                    SendMultipleImagePDFToEntireSchoolsWithCloudURL(fileType, "");
                                 }
-
                             }
                         }
                     }
@@ -297,55 +335,61 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
     }
 
-    private void SendMultipleImagePDFToEntireSchoolsWithCloudURL(String fileType) {
+    private void SendMultipleImagePDFToEntireSchoolsWithCloudURL(String fileType, String type) {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(SendToVoiceSpecificSection.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         Log.d("BaseURL", TeacherSchoolsApiClient.BASE_URL);
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = SendEntireSChoolJson(fileType);
-        Call<JsonArray> call = apiService.SendMultipleImagePDFToEntireSchoolsWithCloudURL(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
 
-                hideLoading();
 
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", response.body().toString());
+        runOnUiThread(() -> {
 
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
+            TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+            JsonObject jsonReqArray = SendEntireSChoolJson(fileType);
+            Call<JsonArray> call = apiService.SendMultipleImagePDFToEntireSchoolsWithCloudURL(jsonReqArray);
+            call.enqueue(new Callback<JsonArray>() {
+                @Override
+                public void onResponse(Call<JsonArray> call,
+                                       Response<JsonArray> response) {
 
-                            if ((strStatus).equalsIgnoreCase("1")) {
+                    hideLoading();
 
-                                showAlert1(strMsg, strStatus);
+                    Log.d("Upload-Code:Response", response.code() + "-" + response);
+                    if (response.code() == 200 || response.code() == 201) {
+                        Log.d("Upload:Body", response.body().toString());
+
+                        try {
+                            JSONArray js = new JSONArray(response.body().toString());
+                            if (js.length() > 0) {
+                                JSONObject jsonObject = js.getJSONObject(0);
+                                String strStatus = jsonObject.getString("Status");
+                                String strMsg = jsonObject.getString("Message");
+
+                                if ((strStatus).equalsIgnoreCase("1")) {
+
+                                    showAlert1(strMsg, strStatus);
+                                } else {
+                                    showAlert1(strMsg, strStatus);
+                                }
                             } else {
-                                showAlert1(strMsg, strStatus);
+                                showToast(getResources().getString(R.string.check_internet));
                             }
-                        } else {
+
+
+                        } catch (Exception e) {
                             showToast(getResources().getString(R.string.check_internet));
+                            Log.d("Ex", e.toString());
                         }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                hideLoading();
-                showToast(getResources().getString(R.string.check_internet));
-                showToast(t.toString());
-            }
+                @Override
+                public void onFailure(Call<JsonArray> call, Throwable t) {
+                    hideLoading();
+                    showToast(getResources().getString(R.string.check_internet));
+                    showToast(t.toString());
+                }
+            });
+
         });
     }
 

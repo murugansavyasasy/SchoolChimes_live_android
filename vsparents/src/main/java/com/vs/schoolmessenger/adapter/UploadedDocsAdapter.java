@@ -8,15 +8,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.interfaces.DatesListListener;
 import com.vs.schoolmessenger.interfaces.UploadDocListener;
-import com.vs.schoolmessenger.model.DatesModel;
 import com.vs.schoolmessenger.model.UploadFilesModel;
 
 import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public  class UploadedDocsAdapter extends RecyclerView.Adapter<UploadedDocsAdapter.MyViewHolder> {
 

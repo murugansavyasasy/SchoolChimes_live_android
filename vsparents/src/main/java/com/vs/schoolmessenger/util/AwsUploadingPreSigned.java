@@ -3,23 +3,55 @@ package com.vs.schoolmessenger.util;
 import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.activity.AttendanceSectionList;
+import com.vs.schoolmessenger.aws.AWSKeys;
+import com.vs.schoolmessenger.aws.AWSUploadDocKeys;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.PreSignedUrl;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+
 import java.io.File;
 import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class AwsUploadingPreSigned {
 
     UploadFileToAws isUploadFileToAws = new UploadFileToAws();
-    String isBucket = "schoolchimes-communication";
+    String isBucket = "";
 
-    public void getPreSignedUrl(String isFilePathUrl, String bucketPath, String isFileExtension, Activity activity, UploadCallback uploadCallback) {
-        String baseURL = "https://api.schoolchimes.com/nodejs/api/MergedApi/";
+    public void getPreSignedUrl(String isFilePathUrl, String bucketPath, String isFileExtension, Activity activity, String isCountryId, Boolean isCommunication, UploadCallback uploadCallback) {
+
+        if (isCountryId.equals("")) {
+            if (isCommunication) {
+                isBucket = AWSUploadDocKeys.BUCKET_NAME;
+            } else {
+                isBucket = AWSUploadDocKeys.BUCKET_NAME_SCHOOL_DOCS;
+            }
+        } else {
+            if (isCountryId.equals("1")) {
+                if (isCommunication) {
+                    isBucket = AWSKeys.BUCKET_NAME;
+                } else {
+                    isBucket = AWSKeys.BUCKET_NAME_SCHOOL_DOCS;
+                }
+            } else {
+                if (isCommunication) {
+                    isBucket = AWSKeys.BUCKET_NAME_BANGKOK;
+                } else {
+                    isBucket = AWSKeys.BUCKET_NAME_SCHOOL_DOCS;
+                }
+            }
+        }
+
+        Log.d("isBucket",isBucket);
+
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(activity);
+        Log.d("baseURL",baseURL);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);

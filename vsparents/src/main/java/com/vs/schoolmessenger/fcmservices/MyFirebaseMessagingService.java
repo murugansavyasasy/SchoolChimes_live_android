@@ -198,7 +198,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             channel.enableVibration(true);
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             if (!Util_Common.mediaPlayer.isPlaying()) {
-                Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.school_chimes_call_tone);
+                Util_Common.mediaPlayer = MediaPlayer.create(this, R.raw.call_notification);
                 Util_Common.mediaPlayer.setLooping(true);
                 Util_Common.mediaPlayer.start();
             }

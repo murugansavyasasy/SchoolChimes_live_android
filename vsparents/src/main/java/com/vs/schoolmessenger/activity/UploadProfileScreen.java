@@ -54,7 +54,10 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.UploadDocListener;
 import com.vs.schoolmessenger.model.UploadFilesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
+import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.UploadCallback;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -107,6 +110,9 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
             lblFileName;
     private ArrayList<String> imagePathList = new ArrayList<>();
     private final List<UploadFilesModel> UploadedS3URlList = new ArrayList<>();
+    AwsUploadingPreSigned isAwsUploadingPreSigned;
+
+    boolean isProfile = true;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -183,7 +189,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
 
         }
 
-
+        isAwsUploadingPreSigned = new AwsUploadingPreSigned();
         String Title = TeacherUtil_SharedPreference.getUploadProfileTitle(UploadProfileScreen.this);
         getSupportActionBar().setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_dates);
@@ -219,12 +225,17 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         btnUploadFileToAWS.setEnabled(false);
 
         UploadedS3URlList.clear();
+
         s3uploaderObj = new UploadDocS3Uploader(UploadProfileScreen.this);
         btnUploadFileToAWS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!txtFileName.getText().toString().equals("")) {
-                    UploadFileToAWS(txtFileName.getText().toString());
+                    isProfile = false;
+                    //  UploadFileToAWS(txtFileName.getText().toString());
+
+                    isUploadAWS("pdf", ".pdf", "", txtFileName.getText().toString());
+
                 } else {
                     showToast("Please enter your file name");
                 }
@@ -507,7 +518,6 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                 i.putExtra("ProfileScreen", "Profile");
                 startActivityForResult(i, 1);
                 popupWindow.dismiss();
-
             }
         });
         rytCamera.setOnClickListener(new View.OnClickListener() {
@@ -589,7 +599,9 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                                 .load(imageUri)
                                 .into(imgProfile);
                         lblAddProfile.setText("Change Profile");
-                        profileUploadToAWS(imageFilePath);
+                        isProfile = true;
+                        //   profileUploadToAWS(imageFilePath);
+                        isUploadAWS("image", "IMG", "", "");
                     } else {
                         String filecontent = TeacherUtil_SharedPreference.getFilecontent(UploadProfileScreen.this);
                         alert(filecontent);
@@ -664,7 +676,9 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                                 .into(imgProfile);
 
                         lblAddProfile.setText("Change Profile");
-                        profileUploadToAWS(imageFilePath);
+                        isProfile = true;
+                        //  profileUploadToAWS(imageFilePath);
+                        isUploadAWS("image", "IMG", "", "");
                     } else {
                         String filecontent = TeacherUtil_SharedPreference.getFilecontent(UploadProfileScreen.this);
                         alert(filecontent);
@@ -680,6 +694,63 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+    private void isUploadAWS(String contentType, String isType, String value, String filename) {
+
+        Log.d("selectedImagePath", String.valueOf(imageFilePath));
+
+        String currentDate = CurrentDatePicking.getCurrentDate();
+        String schoolid = Util_SharedPreference.getSchoolIdFromSP(UploadProfileScreen.this);
+        if (isProfile) {
+            AwsUploadingFile(imageFilePath, currentDate + "/" + schoolid, contentType, isType, value, filename);
+        } else {
+            AwsUploadingFile(DocFilePath, currentDate + "/" + schoolid, contentType, isType, value, filename);
+        }
+    }
+
+
+    private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type, String isFileName) {
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this, "", isProfile, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String response, String isAwsFile) {
+                Log.d("Upload Success", response);
+
+                if (isProfile) {
+                    profileAwsFilePath = isAwsFile;
+                } else {
+                    runThread(isAwsFile, isFileName);
+                }
+            }
+
+            @Override
+            public void onUploadError(String error) {
+                Log.e("Upload Error", error);
+            }
+        });
+    }
+
+
+    private void runThread(String isAwsFile, String isFileName) {
+        runOnUiThread(new Thread(new Runnable() {
+            public void run() {
+                btnUploadFileToAWS.setVisibility(View.GONE);
+                lblClickUpload.setVisibility(View.GONE);
+                btnUploadFileToAWS.setEnabled(false);
+                lblBrowse.setText("Browse File");
+                lblSelectedFilePath.setVisibility(View.GONE);
+                lblUploadedDocuments.setVisibility(View.VISIBLE);
+
+                UploadFilesModel files;
+                files = new UploadFilesModel(isAwsFile, isFileName);
+                UploadedS3URlList.add(files);
+                Log.d("UploadedS3URlList", String.valueOf(UploadedS3URlList.size()));
+                txtFileName.setText("");
+                setAdapter();
+            }
+        }));
+    }
+
 
     private void alert(String filecontent) {
         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(UploadProfileScreen.this);

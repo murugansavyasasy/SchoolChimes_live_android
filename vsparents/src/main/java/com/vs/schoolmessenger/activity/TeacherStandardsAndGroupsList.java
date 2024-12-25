@@ -38,7 +38,10 @@ import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
+import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.UploadCallback;
 import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
@@ -83,6 +86,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
     TextView lblStandard;
     private int iRequestCode = 0;
     private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
+    AwsUploadingPreSigned isAwsUploadingPreSigned;
 
     private static void setViewAndChildrenEnabled(View view, boolean enabled) {
         view.setEnabled(enabled);
@@ -122,6 +126,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
         Log.d("FILEPATH", filepath);
         cbToAll = (CheckBox) findViewById(R.id.princiStdGrp_cbToAll);
         llStdGrp = (LinearLayout) findViewById(R.id.princiStdGrp_llStdGroups);
+        isAwsUploadingPreSigned = new AwsUploadingPreSigned();
 
         lblStandard = (TextView) findViewById(R.id.lblStandard);
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherStandardsAndGroupsList.this);
@@ -403,12 +408,14 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                         slectedImagePath.clear();
                         slectedImagePath.add(strfilepathPDF);
                         UploadedS3URlList.clear();
-                        uploadFileToAWSs3(pathIndex, ".pdf");
+                        //  uploadFileToAWSs3(pathIndex, ".pdf");
+                        isUploadAWS("pdf", ".pdf", "");
                     } else {
                         slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
                         contentType = "image/png";
                         UploadedS3URlList.clear();
-                        uploadFileToAWSs3(pathIndex, "IMG");
+                        //  uploadFileToAWSs3(pathIndex, "IMG");
+                        isUploadAWS("image", "IMG", "");
                     }
 
                 } else {
@@ -421,12 +428,14 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                             slectedImagePath.clear();
                             slectedImagePath.add(strfilepathPDF);
                             UploadedS3URlList.clear();
-                            uploadFileToAWSs3(pathIndex, ".pdf");
+//                            uploadFileToAWSs3(pathIndex, ".pdf");
+                            isUploadAWS("pdf", ".pdf", "");
                         } else {
                             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
                             contentType = "image/png";
                             UploadedS3URlList.clear();
-                            uploadFileToAWSs3(pathIndex, "IMG");
+//                            uploadFileToAWSs3(pathIndex, "IMG");
+                            isUploadAWS("image", "IMG", "");
                         }
                     } else {
                         showToast(getResources().getString(R.string.select_participants));
@@ -438,6 +447,39 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                 break;
         }
     }
+
+    private void isUploadAWS(String contentType, String isType, String value) {
+
+        Log.d("selectedImagePath", String.valueOf(slectedImagePath.size()));
+
+        String currentDate = CurrentDatePicking.getCurrentDate();
+
+        for (int i = 0; i < slectedImagePath.size(); i++) {
+            AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), currentDate + "/" + SchoolID, contentType, isType, value);
+        }
+    }
+
+    private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type) {
+        String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherStandardsAndGroupsList.this);
+
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,true, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String response, String isAwsFile) {
+                Log.d("Upload Success", response);
+                UploadedS3URlList.add(isAwsFile);
+
+                if (UploadedS3URlList.size() == slectedImagePath.size()) {
+                    SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(filetype, type);
+                }
+            }
+
+            @Override
+            public void onUploadError(String error) {
+                Log.e("Upload Error", error);
+            }
+        });
+    }
+
 
     private void uploadFileToAWSs3(int pathind, final String fileType) {
 
@@ -467,8 +509,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                                 uploadFileToAWSs3(pathIndex + 1, fileType);
 
                                 if (slectedImagePath.size() == UploadedS3URlList.size()) {
-                                    SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(fileType);
-
+                                    SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(fileType, "");
                                 }
                             }
                         }
@@ -487,55 +528,68 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
         }
     }
 
-    private void SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(String fileType) {
+    private void SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(String fileType, String type) {
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherStandardsAndGroupsList.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
-        JsonObject jsonReqArray = SendGroupAndStandardJson(fileType);
-        Call<JsonArray> call = apiService.SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
 
-                hideLoading();
+        runOnUiThread(() -> {
+            final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setCancelable(false);
 
-                Log.d("Upload-Code:Response", response.code() + "-" + response);
-                if (response.code() == 200 || response.code() == 201) {
-                    Log.d("Upload:Body", response.body().toString());
+            if (!this.isFinishing())
+                mProgressDialog.show();
 
-                    try {
-                        JSONArray js = new JSONArray(response.body().toString());
-                        if (js.length() > 0) {
-                            JSONObject jsonObject = js.getJSONObject(0);
-                            String strStatus = jsonObject.getString("Status");
-                            String strMsg = jsonObject.getString("Message");
 
-                            if ((strStatus).equalsIgnoreCase("1")) {
+            JsonObject jsonReqArray = SendGroupAndStandardJson(fileType);
+            Call<JsonArray> call = apiService.SendMultipleImagePDFToGroupsAndStandardsWithCloudURL(jsonReqArray);
+            call.enqueue(new Callback<JsonArray>() {
+                @Override
+                public void onResponse(Call<JsonArray> call,
+                                       Response<JsonArray> response) {
 
-                                showAlert(strMsg);
+                    hideLoading();
+
+                    Log.d("Upload-Code:Response", response.code() + "-" + response);
+                    if (response.code() == 200 || response.code() == 201) {
+                        Log.d("Upload:Body", response.body().toString());
+
+                        try {
+                            JSONArray js = new JSONArray(response.body().toString());
+                            if (js.length() > 0) {
+                                JSONObject jsonObject = js.getJSONObject(0);
+                                String strStatus = jsonObject.getString("Status");
+                                String strMsg = jsonObject.getString("Message");
+
+                                if ((strStatus).equalsIgnoreCase("1")) {
+
+                                    showAlert(strMsg);
+                                } else {
+                                    showAlert(strMsg);
+                                }
                             } else {
-                                showAlert(strMsg);
+                                showToast(getResources().getString(R.string.check_internet));
                             }
-                        } else {
+
+
+                        } catch (Exception e) {
                             showToast(getResources().getString(R.string.check_internet));
+                            Log.d("Ex", e.toString());
                         }
-
-
-                    } catch (Exception e) {
-                        showToast(getResources().getString(R.string.check_internet));
-                        Log.d("Ex", e.toString());
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                hideLoading();
-                showToast(getResources().getString(R.string.check_internet));
-                showToast(t.toString());
-            }
+                @Override
+                public void onFailure(Call<JsonArray> call, Throwable t) {
+                    hideLoading();
+                    showToast(getResources().getString(R.string.check_internet));
+                    showToast(t.toString());
+                }
+            });
+
         });
     }
 

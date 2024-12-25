@@ -192,9 +192,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
             rvSchoolsList.setVisibility(View.GONE);
             btnNext.setVisibility(View.GONE);
             btnStaffGroups.setVisibility(View.VISIBLE);
-
         }
-
     }
 
 
@@ -743,7 +741,6 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
         }
         return file.delete();
     }
-
 
     @Override
     public void onBackPressed() {

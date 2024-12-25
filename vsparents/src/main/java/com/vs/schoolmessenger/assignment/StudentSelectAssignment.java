@@ -1,9 +1,11 @@
 package com.vs.schoolmessenger.assignment;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_IMAGEASSIGNMENT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PDFASSIGNMENT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXTASSIGNMENT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICEASSIGNMENT;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -20,25 +22,30 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.activity.SendToVoiceSpecificSection;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.adapter.TeacherStudendListAdapter;
 import com.vs.schoolmessenger.aws.S3Uploader;
 import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckStudentListener;
-import com.vs.schoolmessenger.model.SubjectDetails;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherStudentsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
+import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
-import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.UploadCallback;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,21 +62,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.vs.schoolmessenger.activity.SubjectListScreen.SubjectDetailsList;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_ATTENDANCE;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_EXAM_TEST;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_ATTENDANCE;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_IMAGEASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PDFASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PHOTOS;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXTASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_EXAM;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICEASSIGNMENT;
 
 public class StudentSelectAssignment extends AppCompatActivity implements TeacherOnCheckStudentListener {
     RecyclerView rvStudentList;
@@ -106,6 +98,7 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
     String uploadFilePath="";
     int pathIndex=0;
     String Category = "";
+    AwsUploadingPreSigned isAwsUploadingPreSigned;
 
 
     private  ArrayList<String> UploadedS3URlList = new ArrayList<>();
@@ -137,7 +130,7 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
         if(iRequestCode==STAFF_IMAGEASSIGNMENT){
             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
         }
-
+        isAwsUploadingPreSigned = new AwsUploadingPreSigned();
         targetCode = sectioncode;
         rvStudentList = (RecyclerView) findViewById(R.id.attenStudent_rvStudentList);
         adapter = new TeacherStudendListAdapter(StudentSelectAssignment.this, this, studentList,0);
@@ -394,17 +387,22 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
                     SendVoiceTOSectionApi();
                 }
                 if (iRequestCode == STAFF_IMAGEASSIGNMENT) {
-                    contentType="image/png";
+                    contentType = "image/png";
                     UploadedS3URlList.clear();
-                    uploadFileToAWSs3(pathIndex,"IMAGE");
+                    //  uploadFileToAWSs3(pathIndex,"IMAGE");
+
+                    isUploadAWS("image", "IMG", "", "IMAGE");
+
                 }
                 if (iRequestCode == STAFF_PDFASSIGNMENT) {
 
-                    contentType="application/pdf";
+                    contentType = "application/pdf";
                     slectedImagePath.clear();
                     slectedImagePath.add(filepath);
                     UploadedS3URlList.clear();
-                    uploadFileToAWSs3(pathIndex,"PDF");
+                    //  uploadFileToAWSs3(pathIndex,"PDF");
+
+                    isUploadAWS("pdf", ".pdf", "", "PDF");
                 }
 
             }
@@ -413,11 +411,45 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
         alertDialog.show();
     }
 
+
+    private void isUploadAWS(String contentType, String isType, String value, String isFileTypeNode) {
+
+        Log.d("selectedImagePath", String.valueOf(slectedImagePath.size()));
+
+        String currentDate = CurrentDatePicking.getCurrentDate();
+
+        for (int i = 0; i < slectedImagePath.size(); i++) {
+            AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), currentDate + "/" + TeacherUtil_Common.Principal_SchoolId, contentType, isType, value, isFileTypeNode);
+        }
+    }
+
+    private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type, String isFileTypeNode) {
+        String countryID = TeacherUtil_SharedPreference.getCountryID(StudentSelectAssignment.this);
+
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this, countryID, true, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String response, String isAwsFile) {
+                Log.d("Upload Success", response);
+                UploadedS3URlList.add(isAwsFile);
+
+                if (UploadedS3URlList.size() == slectedImagePath.size()) {
+                    ManageAssignmentFromAppWithCloudURL(isFileTypeNode);
+                }
+            }
+
+            @Override
+            public void onUploadError(String error) {
+                Log.e("Upload Error", error);
+            }
+        });
+    }
+
+
     private void uploadFileToAWSs3(int pathind, final String fileType) {
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(StudentSelectAssignment.this);
 
-        pathIndex=pathind;
+        pathIndex = pathind;
         progressDialog = new ProgressDialog(StudentSelectAssignment.this);
         for (int index = pathIndex; index < slectedImagePath.size(); index++) {
             uploadFilePath = slectedImagePath.get(index);

@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT_HW;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_HW;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FILE_NAME;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FOLDER_NAME;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.milliSecondsToTimer;
@@ -64,7 +66,10 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.UploadDocListener;
 import com.vs.schoolmessenger.model.UploadFilesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
+import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.UploadCallback;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 import com.vs.schoolmessenger.util.VimeoUploader;
 import com.vs.schoolmessenger.videoalbum.AlbumVideoSelectVideoActivity;
@@ -157,6 +162,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     private final List<UploadFilesModel> UploadedS3URlList = new ArrayList<>();
     private final List<UploadFilesModel> submitlist = new ArrayList<>();
     private final List<UploadFilesModel> imagePathList = new ArrayList<>();
+    AwsUploadingPreSigned isAwsUploadingPreSigned;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -213,7 +219,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         btnsubmit.setOnClickListener(this);
         lblImageCount1.setOnClickListener(this);
 
-
+        isAwsUploadingPreSigned = new AwsUploadingPreSigned();
         seekBar = (SeekBar) findViewById(R.id.myAudioPlayer_seekBar);
         tvPlayDuration = (TextView) findViewById(R.id.myAudioPlayer_tvDuration);
         skillid = getIntent().getStringExtra("skillid");
@@ -388,14 +394,15 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                     DocFilePath = futureStudioIconFile.getPath();
 
                     imagePathList.add(new UploadFilesModel(DocFilePath, "VOICE"));
-                    UploadFileToAWS("voice_from_lsrw", 0);
+                    // UploadFileToAWS("voice_from_lsrw", 0);
+                    isUploadAWS("audio", ".mp3", "", "voice_from_lsrw");
                 } else if (selected.equals("Image")) {
 
-                    UploadFileToAWS("image_from_lsrw", 0);
-
+                    //UploadFileToAWS("image_from_lsrw", 0);
+                    isUploadAWS("image", "IMG", "", "image_from_lsrw");
                 } else if (selected.equals("Pdf")) {
-
-                    UploadFileToAWS("pdf_from_lsrw", 0);
+                    isUploadAWS("pdf", ".pdf", "", "pdf_from_lsrw");
+                    //    UploadFileToAWS("pdf_from_lsrw", 0);
                 }
                 if (submitlist.size() != 0) {
                     rcysubmissions.setVisibility(View.VISIBLE);
@@ -410,6 +417,70 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
         }
     }
+
+    private void isUploadAWS(String contentType, String isType, String value,String isLSRWtype) {
+
+        Log.d("selectedImagePath", String.valueOf(imagePathList.size()));
+
+        String currentDate = CurrentDatePicking.getCurrentDate();
+        String instituteID = Util_SharedPreference.getSchoolId(ParentSubmitLSRW.this);
+
+        for (int i = 0; i < imagePathList.size(); i++) {
+            AwsUploadingFile(String.valueOf(imagePathList.get(i).getWsUploadedDoc()), currentDate + "/" + instituteID, contentType, isType, value,isLSRWtype);
+        }
+    }
+
+
+    private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type,String isLSRWtype) {
+
+        String countryID = TeacherUtil_SharedPreference.getCountryID(ParentSubmitLSRW.this);
+
+
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,false, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String response, String isAwsFile) {
+                Log.d("Upload Success", response);
+
+                UploadFilesModel files;
+                files = new UploadFilesModel(isAwsFile, isLSRWtype);
+
+                UploadedS3URlList.add(files);
+                if (selected.equals("Voice")) {
+                    submitlist.add(new UploadFilesModel(isAwsFile, "VOICE"));
+                    setAdapter();
+                    voiceplay.setVisibility(View.GONE);
+                    btnadd.setEnabled(false);
+
+                } else if (selected.equals("Image")) {
+                    submitlist.add(new UploadFilesModel(isAwsFile, "IMAGE"));
+                    setAdapter();
+                    rcyselected.setVisibility(View.GONE);
+                    btnadd.setEnabled(false);
+                    lblImage.setText("Upload Image");
+                } else if (selected.equals("Pdf")) {
+                    submitlist.add(new UploadFilesModel(isAwsFile, "PDF"));
+                    setAdapter();
+                    rcyselected.setVisibility(View.GONE);
+                    btnadd.setEnabled(false);
+                    lblBrowse.setText("Browse File");
+                }
+                if (submitlist.size() == 0) {
+                    rcysubmissions.setVisibility(View.GONE);
+                    lblAddAttachment.setVisibility(View.GONE);
+
+                } else {
+                    rcysubmissions.setVisibility(View.VISIBLE);
+                    lblAddAttachment.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onUploadError(String error) {
+                Log.e("Upload Error", error);
+            }
+        });
+    }
+
 
 
     private void uploadVimeoVideo() {
@@ -761,6 +832,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), DocFilePath, fileNameDateTime, instituteID, countryID, false);
                             Log.d("urlFromS3", urlFromS3);
                             if (!TextUtils.isEmpty(urlFromS3)) {
+
                                 UploadFilesModel files;
                                 files = new UploadFilesModel(urlFromS3, FileDisplayname);
 

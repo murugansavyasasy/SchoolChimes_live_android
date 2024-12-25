@@ -38,6 +38,9 @@ public class S3Uploader {
 
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         TransferObserver observer = null;
+
+
+
         if (CountryID.equals("1")) {
             if (isCommunication) {
                 observer = transferUtility.upload(AWSKeys.BUCKET_NAME, "communication" + "/" + currentDate + "/" + fileNameDateTime + "_" + mediaUrl,
@@ -57,7 +60,6 @@ public class S3Uploader {
                 observer = transferUtility.upload(AWSKeys.BUCKET_NAME_SCHOOL_DOCS, "lms" + "/" + instituteId + "/" + fileNameDateTime + "_" + mediaUrl,
                         file, CannedAccessControlList.PublicRead);
             }
-
         }
 
 //         observer = transferUtility.upload(AWSKeys.BUCKET_NAME, fileNameDateTime+"_"+mediaUrl,
