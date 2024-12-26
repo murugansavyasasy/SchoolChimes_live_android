@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,9 +29,6 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3;
 import com.bumptech.glide.Glide;
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
@@ -41,11 +37,9 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.AlbumSelectActivity;
 import com.vs.schoolmessenger.adapter.ImageListAdapter;
-import com.vs.schoolmessenger.aws.S3Uploader;
-import com.vs.schoolmessenger.aws.S3Utils;
+import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.UploadCallback;
@@ -97,11 +91,6 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
     Boolean alertshow=false;
 
     String fileNameDateTime;
-
-    AmazonS3 s3Client;
-    TransferUtility transferUtility;
-    S3Uploader s3uploaderObj;
-
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType = "";
@@ -210,7 +199,6 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
             }
         });
 
-        s3uploaderObj = new S3Uploader(ParentSubmitActivity.this);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -782,10 +770,8 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 UploadedS3URlList.clear();
+                showLoading();
                 isUploadAWS("", "", "");
-                //   uploadFileToAWSs3(pathIndex);
-
-
             }
         });
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -814,14 +800,14 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
         String schoolid = Util_SharedPreference.getSchoolIdFromSP(ParentSubmitActivity.this);
 
         for (int i = 0; i < imagePathList.size(); i++) {
-            AwsUploadingFile(String.valueOf(imagePathList.get(i)), currentDate + "/" + schoolid, contentType, isType, value);
+            AwsUploadingFile(String.valueOf(imagePathList.get(i)),  schoolid, contentType, isType, value);
         }
     }
 
     private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type) {
         String countryID = TeacherUtil_SharedPreference.getCountryID(ParentSubmitActivity.this);
 
-        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,true, new UploadCallback() {
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,true,false, new UploadCallback() {
             @Override
             public void onUploadSuccess(String response, String isAwsFile) {
                 Log.d("Upload Success", response);
@@ -837,60 +823,6 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
                 Log.e("Upload Error", error);
             }
         });
-    }
-
-    private void uploadFileToAWSs3(final int pathind) {
-
-        String countryID = TeacherUtil_SharedPreference.getCountryID(ParentSubmitActivity.this);
-        String schoolid = Util_SharedPreference.getSchoolIdFromSP(ParentSubmitActivity.this);
-
-        pathIndex = pathind;
-        progressDialog = new ProgressDialog(ParentSubmitActivity.this);
-        for (int index = pathIndex; index < imagePathList.size(); index++) {
-            uploadFilePath = imagePathList.get(index);
-            break;
-        }
-
-        if (UploadedS3URlList.size() < imagePathList.size()) {
-            Log.d("upload file", uploadFilePath);
-            if (uploadFilePath != null) {
-                showLoading();
-                fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-                 fileNameDateTime="File_"+fileNameDateTime;
-                 s3uploaderObj.initUpload(uploadFilePath, contentType,fileNameDateTime,schoolid,countryID,true);
-                 s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
-                    @Override
-                    public void onUploadSuccess(String response) {
-                        if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath,fileNameDateTime,schoolid,countryID,true);
-                            if (!TextUtils.isEmpty(urlFromS3)) {
-                                UploadedS3URlList.add(urlFromS3);
-                                uploadFileToAWSs3(pathIndex + 1);
-
-                                if (imagePathList.size() == UploadedS3URlList.size()) {
-                                    SubmitAssignmentFromAppWithCloudURL();
-                                }
-
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onUploadError(String response) {
-                        hideLoading();
-                        Log.d("error", "Error Uploading");
-                    }
-                });
-
-
-            }
-
-        }
-
-
-            else {
-               // Toast.makeText(this, "Null Path", Toast.LENGTH_SHORT).show();
-            }
     }
 
     private void SubmitAssignmentFromAppWithCloudURL() {
@@ -996,13 +928,19 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
     }
 
     private void showLoading() {
-        {
-            if (progressDialog != null && !progressDialog.isShowing()) {
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Uploading..");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-            }
+        if (progressDialog == null) {
+            // Initialize the ProgressDialog if it hasn't been created yet
+            progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Uploading..");
+            progressDialog.setCancelable(false);
+        }
+
+        // Show the ProgressDialog if it is not already showing
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        } else {
+            Log.d("ProgressBar", "ProgressDialog is already showing");
         }
     }
 

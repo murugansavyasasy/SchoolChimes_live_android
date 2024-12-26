@@ -12,7 +12,6 @@ import com.vs.schoolmessenger.databinding.TeacherChatItemBinding;
 import com.vs.schoolmessenger.interfaces.PopupListener;
 import com.vs.schoolmessenger.model.TeacherChat;
 import com.vs.schoolmessenger.util.Constants;
-import com.vs.schoolmessenger.util.Utility;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;

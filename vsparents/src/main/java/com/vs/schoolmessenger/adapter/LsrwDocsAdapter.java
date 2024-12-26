@@ -41,7 +41,7 @@ public  class LsrwDocsAdapter extends RecyclerView.Adapter<LsrwDocsAdapter.MyVie
         final UploadFilesModel profile = dateList.get(position);
 
         if(type.equals("1")) {
-            holder.lblFilePath.setText(profile.getWsUploadedDoc());
+            holder.lblFilePath.setText(profile.getIsFileName());
             if (profile.getDisplayname().equals("IMAGE")) {
                 Glide.with(context)
                         .load(R.drawable.ic_image)
@@ -70,13 +70,13 @@ public  class LsrwDocsAdapter extends RecyclerView.Adapter<LsrwDocsAdapter.MyVie
                 Glide.with(context)
                         .load(profile.getWsUploadedDoc())
                         .into(holder.imgview);
-                holder.lblFilePath.setText(profile.getWsUploadedDoc());
+                holder.lblFilePath.setText(profile.getIsFileName());
             }
             else if(profile.getDisplayname().equals("PDF")){
                 Glide.with(context)
                         .load(R.drawable.pdf_image)
                         .into(holder.imgview);
-                holder.lblFilePath.setText(profile.getWsUploadedDoc());
+                holder.lblFilePath.setText(profile.getIsFileName());
             }
             else{
                 holder.constraint.setVisibility(View.GONE);

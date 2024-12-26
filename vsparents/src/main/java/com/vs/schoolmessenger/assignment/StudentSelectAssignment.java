@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,21 +26,17 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.adapter.TeacherStudendListAdapter;
-import com.vs.schoolmessenger.aws.S3Uploader;
-import com.vs.schoolmessenger.aws.S3Utils;
+import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckStudentListener;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherStudentsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -51,9 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
@@ -86,11 +79,6 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
     String AssignId="",strDate="";
 
     String fileNameDateTime;
-
-    AmazonS3 s3Client;
-    TransferUtility transferUtility;
-    S3Uploader s3uploaderObj;
-
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType="";
@@ -153,7 +141,6 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
 
         tvOK = (TextView) findViewById(R.id.attenStudent_tvOk);
         tvCancel = (TextView) findViewById(R.id.attenStudent_tvCancel);
-        s3uploaderObj = new S3Uploader(StudentSelectAssignment.this);
         tvOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -389,8 +376,7 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
                 if (iRequestCode == STAFF_IMAGEASSIGNMENT) {
                     contentType = "image/png";
                     UploadedS3URlList.clear();
-                    //  uploadFileToAWSs3(pathIndex,"IMAGE");
-
+                    showLoading();
                     isUploadAWS("image", "IMG", "", "IMAGE");
 
                 }
@@ -400,8 +386,7 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
                     slectedImagePath.clear();
                     slectedImagePath.add(filepath);
                     UploadedS3URlList.clear();
-                    //  uploadFileToAWSs3(pathIndex,"PDF");
-
+                    showLoading();
                     isUploadAWS("pdf", ".pdf", "", "PDF");
                 }
 
@@ -419,14 +404,14 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
         String currentDate = CurrentDatePicking.getCurrentDate();
 
         for (int i = 0; i < slectedImagePath.size(); i++) {
-            AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), currentDate + "/" + TeacherUtil_Common.Principal_SchoolId, contentType, isType, value, isFileTypeNode);
+            AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), TeacherUtil_Common.Principal_SchoolId, contentType, isType, value, isFileTypeNode);
         }
     }
 
     private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type, String isFileTypeNode) {
         String countryID = TeacherUtil_SharedPreference.getCountryID(StudentSelectAssignment.this);
 
-        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this, countryID, true, new UploadCallback() {
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this, countryID, true, false, new UploadCallback() {
             @Override
             public void onUploadSuccess(String response, String isAwsFile) {
                 Log.d("Upload Success", response);
@@ -442,63 +427,6 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
                 Log.e("Upload Error", error);
             }
         });
-    }
-
-
-    private void uploadFileToAWSs3(int pathind, final String fileType) {
-
-        String countryID = TeacherUtil_SharedPreference.getCountryID(StudentSelectAssignment.this);
-
-        pathIndex = pathind;
-        progressDialog = new ProgressDialog(StudentSelectAssignment.this);
-        for (int index = pathIndex; index < slectedImagePath.size(); index++) {
-            uploadFilePath = slectedImagePath.get(index);
-            break;
-        }
-
-        if(UploadedS3URlList.size()<slectedImagePath.size()) {
-            Log.d("upload file", uploadFilePath);
-            if (uploadFilePath != null) {
-                showLoading();
-                fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-                fileNameDateTime="File_"+fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType,fileNameDateTime,TeacherUtil_Common.Principal_SchoolId,countryID,true);
-                s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
-                    @Override
-                    public void onUploadSuccess(String response) {
-                        if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath,fileNameDateTime,TeacherUtil_Common.Principal_SchoolId,countryID,true);
-                            if (!TextUtils.isEmpty(urlFromS3)) {
-                                UploadedS3URlList.add(urlFromS3);
-                                uploadFileToAWSs3(pathIndex + 1,fileType);
-
-                                if (slectedImagePath.size() == UploadedS3URlList.size()) {
-                                    ManageAssignmentFromAppWithCloudURL(fileType);
-                                }
-
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onUploadError(String response) {
-                        hideLoading();
-                        Log.d("error", "Error Uploading");
-                    }
-                });
-
-
-            }
-
-        }
-
-
-        else {
-            // Toast.makeText(this, "Null Path", Toast.LENGTH_SHORT).show();
-        }
-
-
-
     }
 
     private void ManageAssignmentFromAppWithCloudURL(String fileType) {
@@ -611,13 +539,19 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
     }
 
     private void showLoading() {
-        {
-            if (progressDialog != null && !progressDialog.isShowing()) {
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("loading..");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-            }
+        if (progressDialog == null) {
+            // Initialize the ProgressDialog if it hasn't been created yet
+            progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Uploading..");
+            progressDialog.setCancelable(false);
+        }
+
+        // Show the ProgressDialog if it is not already showing
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        } else {
+            Log.d("ProgressBar", "ProgressDialog is already showing");
         }
     }
 

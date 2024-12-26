@@ -34,8 +34,7 @@ public  class UploadedDocsAdapter extends RecyclerView.Adapter<UploadedDocsAdapt
     public void onBindViewHolder(final UploadedDocsAdapter.MyViewHolder holder, int position) {
         holder.bind(dateList.get(position), listener);
         final UploadFilesModel profile = dateList.get(position);
-        holder.lblFilePath.setText(profile.getWsUploadedDoc());
-
+        holder.lblFilePath.setText(profile.getDisplayname());
     }
 
     @Override

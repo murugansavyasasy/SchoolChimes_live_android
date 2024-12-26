@@ -28,13 +28,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
-
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.aws.S3Uploader;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -70,9 +66,6 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
     ImageView genTextPopup_ToolBarIvBack;
     String voicetype = "", VideoDescription;
     String fileNameDateTime;
-    AmazonS3 s3Client;
-    TransferUtility transferUtility;
-    S3Uploader s3uploaderObj;
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType = "";

@@ -14,8 +14,8 @@ android {
         applicationId "com.vs.schoolmessenger"
         minSdk 24
         targetSdk 34
-        versionCode 127
-        versionName "7.6.21"
+        versionCode 128
+        versionName "7.6.22"
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -90,10 +90,6 @@ dependencies {
     implementation 'com.commonsware.cwac:camera:0.6.+'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'net.ypresto.androidtranscoder:android-transcoder:0.2.0'
-    //AWS s3 libraries
-    implementation 'com.amazonaws:aws-android-sdk-s3:2.59.0'
-    implementation 'com.amazonaws:aws-android-sdk-cognito:2.20.1'
-    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.25.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     // lib for SMS verification (Phone Auth)
     implementation 'com.google.android.gms:play-services-auth:21.2.0'

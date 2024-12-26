@@ -14,7 +14,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +30,10 @@ import androidx.gridlayout.widget.GridLayout;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.aws.S3Uploader;
-import com.vs.schoolmessenger.aws.S3Utils;
+import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -51,9 +48,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -78,7 +73,6 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
     String duration;
     ImageView genTextPopup_ToolBarIvBack;
     String fileNameDateTime;
-    S3Uploader s3uploaderObj;
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType = "";
@@ -120,7 +114,6 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
         Log.d("FILEPATH", filepath);
         strsize = getIntent().getExtras().getString("FILE_SIZE", "");
 
-        s3uploaderObj = new S3Uploader(ToStaffGroupList.this);
         isAwsUploadingPreSigned = new AwsUploadingPreSigned();
         strPDFFilepath = getIntent().getExtras().getString("FILE_PATH_PDF", "");
         if (strPDFFilepath.equals("")) {
@@ -299,13 +292,13 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
                         slectedImagePath.clear();
                         slectedImagePath.add(strPDFFilepath);
                         UploadedS3URlList.clear();
-//                        uploadFileToAWSs3(pathIndex, ".pdf");
+                        showLoading();
                         isUploadAWS("pdf", ".pdf", "");
                     } else {
                         slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
                         contentType = "image/png";
                         UploadedS3URlList.clear();
-//                        uploadFileToAWSs3(pathIndex, "IMG");
+                        showLoading();
                         isUploadAWS("image", "IMG", "");
                     }
                 } else {
@@ -337,14 +330,14 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
         String currentDate = CurrentDatePicking.getCurrentDate();
 
         for (int i = 0; i < slectedImagePath.size(); i++) {
-            AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), currentDate + "/" + SchoolID, contentType, isType, value);
+            AwsUploadingFile(String.valueOf(slectedImagePath.get(i)),  SchoolID, contentType, isType, value);
         }
     }
 
     private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type) {
         String countryID = TeacherUtil_SharedPreference.getCountryID(ToStaffGroupList.this);
 
-        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,true, new UploadCallback() {
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,true,false, new UploadCallback() {
             @Override
             public void onUploadSuccess(String response, String isAwsFile) {
                 Log.d("Upload Success", response);
@@ -672,54 +665,6 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
         positiveButton.setTextColor(getResources().getColor(R.color.teacher_colorPrimary));
     }
 
-    private void uploadFileToAWSs3(int pathind, final String fileType) {
-
-        String countryID = TeacherUtil_SharedPreference.getCountryID(ToStaffGroupList.this);
-
-        pathIndex = pathind;
-        progressDialog = new ProgressDialog(ToStaffGroupList.this);
-        for (int index = pathIndex; index < slectedImagePath.size(); index++) {
-            uploadFilePath = slectedImagePath.get(index);
-            break;
-        }
-        if (UploadedS3URlList.size() < slectedImagePath.size()) {
-            Log.d("upload file", uploadFilePath);
-            if (uploadFilePath != null) {
-                showLoading();
-                fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-                fileNameDateTime = "File_" + fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime, SchoolID, countryID, true);
-                s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
-                    @Override
-                    public void onUploadSuccess(String response) {
-                        if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime, SchoolID, countryID, true);
-                            if (!TextUtils.isEmpty(urlFromS3)) {
-                                UploadedS3URlList.add(urlFromS3);
-                                uploadFileToAWSs3(pathIndex + 1, fileType);
-
-                                if (slectedImagePath.size() == UploadedS3URlList.size()) {
-                                    SendMultipleImagePDFAsStaffToGroupsWithCloudURL(fileType,"");
-
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onUploadError(String response) {
-                        hideLoading();
-                        Log.d("error", "Error Uploading");
-                    }
-                });
-
-
-            }
-
-        }
-
-    }
-
     private void SendVoiceAsStaffToGroups() {
 
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ToStaffGroupList.this);
@@ -988,13 +933,19 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
     }
 
     private void showLoading() {
-        {
-            if (progressDialog != null && !progressDialog.isShowing()) {
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("loading..");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-            }
+        if (progressDialog == null) {
+            // Initialize the ProgressDialog if it hasn't been created yet
+            progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Uploading..");
+            progressDialog.setCancelable(false);
+        }
+
+        // Show the ProgressDialog if it is not already showing
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        } else {
+            Log.d("ProgressBar", "ProgressDialog is already showing");
         }
     }
 
@@ -1011,7 +962,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
             public void onResponse(Call<JsonArray> call,
                                    Response<JsonArray> response) {
 
-             //   hideLoading();
+                hideLoading();
 
                 Log.d("Upload-Code:Response", response.code() + "-" + response);
                 if (response.code() == 200 || response.code() == 201) {

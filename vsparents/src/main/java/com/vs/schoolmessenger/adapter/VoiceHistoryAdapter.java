@@ -108,9 +108,9 @@ public class VoiceHistoryAdapter extends RecyclerView.Adapter<VoiceHistoryAdapte
                     System.out.println("circular1: " + circular);
                     System.out.println("timeStamp1: " + timeStamp);
                     System.out.println("VOICE_FOLDER1: " + VOICE_FOLDER);
+                    System.out.println("MESSAGE_CONTENT: " + circular.getMsgContent());
 
                     String filename = String.valueOf(circular.getMsgID());
-
                     DownloadFileFromURL.downloadSampleFile((Activity) context, circular, VOICE_FOLDER, filename + "_" + circular.getMsgTitle() + ".mp3", MSG_TYPE_VOICE, "Voice_History");
 
                 } else {

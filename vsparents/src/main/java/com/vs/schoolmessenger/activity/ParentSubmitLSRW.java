@@ -1,7 +1,5 @@
 package com.vs.schoolmessenger.activity;
 
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_TEXT_HW;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXT_HW;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FILE_NAME;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FOLDER_NAME;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.milliSecondsToTimer;
@@ -24,7 +22,6 @@ import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -60,13 +57,11 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.LsrwDocsAdapter;
 import com.vs.schoolmessenger.assignment.ContentAdapter;
-import com.vs.schoolmessenger.aws.S3Uploader;
-import com.vs.schoolmessenger.aws.S3Utils;
+import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.UploadDocListener;
 import com.vs.schoolmessenger.model.UploadFilesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.UploadCallback;
@@ -90,7 +85,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -137,7 +131,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     String imageFilePath;
     String DocFilePath;
     ProgressDialog progressDialog;
-    S3Uploader s3uploaderObj;
     String fileNameDateTime;
     String urlFromS3 = null;
     String contentType = "", filecontent;
@@ -224,7 +217,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         tvPlayDuration = (TextView) findViewById(R.id.myAudioPlayer_tvDuration);
         skillid = getIntent().getStringExtra("skillid");
         Log.d("skillID", skillid);
-        s3uploaderObj = new S3Uploader(ParentSubmitLSRW.this);
         listtypes.clear();
         listtypes.add("Text");
         listtypes.add("Voice");
@@ -381,8 +373,8 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
                 if (selected.equals("Text")) {
                     if (!edtextmsg.getText().toString().equals("")) {
-                        submitlist.add(new UploadFilesModel(edtextmsg.getText().toString(), "TEXT"));
-                        UploadedS3URlList.add(new UploadFilesModel(edtextmsg.getText().toString(), "text"));
+                        submitlist.add(new UploadFilesModel(edtextmsg.getText().toString(), "TEXT", ""));
+                        UploadedS3URlList.add(new UploadFilesModel(edtextmsg.getText().toString(), "text", ""));
                         edtextmsg.setText("");
                     } else {
                         alert("Please Enter Text");
@@ -392,17 +384,16 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                     uploadVimeoVideo();
                 } else if (selected.equals("Voice")) {
                     DocFilePath = futureStudioIconFile.getPath();
-
-                    imagePathList.add(new UploadFilesModel(DocFilePath, "VOICE"));
-                    // UploadFileToAWS("voice_from_lsrw", 0);
+                    String isFilePath = getFileNameFromPath(DocFilePath);
+                    imagePathList.add(new UploadFilesModel(DocFilePath, "VOICE", isFilePath));
+                    showLoading();
                     isUploadAWS("audio", ".mp3", "", "voice_from_lsrw");
                 } else if (selected.equals("Image")) {
-
-                    //UploadFileToAWS("image_from_lsrw", 0);
+                    showLoading();
                     isUploadAWS("image", "IMG", "", "image_from_lsrw");
                 } else if (selected.equals("Pdf")) {
+                    showLoading();
                     isUploadAWS("pdf", ".pdf", "", "pdf_from_lsrw");
-                    //    UploadFileToAWS("pdf_from_lsrw", 0);
                 }
                 if (submitlist.size() != 0) {
                     rcysubmissions.setVisibility(View.VISIBLE);
@@ -426,7 +417,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         String instituteID = Util_SharedPreference.getSchoolId(ParentSubmitLSRW.this);
 
         for (int i = 0; i < imagePathList.size(); i++) {
-            AwsUploadingFile(String.valueOf(imagePathList.get(i).getWsUploadedDoc()), currentDate + "/" + instituteID, contentType, isType, value,isLSRWtype);
+            AwsUploadingFile(String.valueOf(imagePathList.get(i).getWsUploadedDoc()), instituteID, contentType, isType, value, isLSRWtype);
         }
     }
 
@@ -436,42 +427,62 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         String countryID = TeacherUtil_SharedPreference.getCountryID(ParentSubmitLSRW.this);
 
 
-        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this,countryID,false, new UploadCallback() {
+        isAwsUploadingPreSigned.getPreSignedUrl(isFilePath, bucketPath, isFileExtension, this, countryID, false, false, new UploadCallback() {
             @Override
             public void onUploadSuccess(String response, String isAwsFile) {
-                Log.d("Upload Success", response);
+                Log.d("Upload SuccessLsrw", response);
+                hideLoading();
+
+                String isFileName = getFileNameFromPath(isFilePath);
 
                 UploadFilesModel files;
-                files = new UploadFilesModel(isAwsFile, isLSRWtype);
+                files = new UploadFilesModel(isAwsFile, isLSRWtype, isFileName);
 
                 UploadedS3URlList.add(files);
-                if (selected.equals("Voice")) {
-                    submitlist.add(new UploadFilesModel(isAwsFile, "VOICE"));
-                    setAdapter();
-                    voiceplay.setVisibility(View.GONE);
-                    btnadd.setEnabled(false);
 
-                } else if (selected.equals("Image")) {
-                    submitlist.add(new UploadFilesModel(isAwsFile, "IMAGE"));
-                    setAdapter();
-                    rcyselected.setVisibility(View.GONE);
-                    btnadd.setEnabled(false);
-                    lblImage.setText("Upload Image");
-                } else if (selected.equals("Pdf")) {
-                    submitlist.add(new UploadFilesModel(isAwsFile, "PDF"));
-                    setAdapter();
-                    rcyselected.setVisibility(View.GONE);
-                    btnadd.setEnabled(false);
-                    lblBrowse.setText("Browse File");
-                }
-                if (submitlist.size() == 0) {
-                    rcysubmissions.setVisibility(View.GONE);
-                    lblAddAttachment.setVisibility(View.GONE);
+                runOnUiThread(() -> {
 
-                } else {
-                    rcysubmissions.setVisibility(View.VISIBLE);
-                    lblAddAttachment.setVisibility(View.VISIBLE);
-                }
+                    switch (selected) {
+                        case "Voice": {
+                            String isFileNameSubmitList = getFileNameFromPath(isFilePath);
+                            submitlist.add(new UploadFilesModel(isAwsFile, "VOICE", isFileNameSubmitList));
+                            Log.d("submitlist", String.valueOf(submitlist.size()));
+                            setAdapter();
+                            voiceplay.setVisibility(View.GONE);
+                            btnadd.setEnabled(false);
+
+                            break;
+                        }
+                        case "Image": {
+                            String isFileNameSubmitList = getFileNameFromPath(isFilePath);
+
+                            submitlist.add(new UploadFilesModel(isAwsFile, "IMAGE", isFileNameSubmitList));
+                            setAdapter();
+                            rcyselected.setVisibility(View.GONE);
+                            btnadd.setEnabled(false);
+                            lblImage.setText("Upload Image");
+                            break;
+                        }
+                        case "Pdf": {
+                            String isFileNameSubmitList = getFileNameFromPath(isFilePath);
+
+                            submitlist.add(new UploadFilesModel(isAwsFile, "PDF", isFileNameSubmitList));
+                            setAdapter();
+                            rcyselected.setVisibility(View.GONE);
+                            btnadd.setEnabled(false);
+                            lblBrowse.setText("Browse File");
+                            break;
+                        }
+                    }
+                    if (submitlist.size() == 0) {
+                        rcysubmissions.setVisibility(View.GONE);
+                        lblAddAttachment.setVisibility(View.GONE);
+
+                    } else {
+                        rcysubmissions.setVisibility(View.VISIBLE);
+                        lblAddAttachment.setVisibility(View.VISIBLE);
+                    }
+                });
             }
 
             @Override
@@ -481,6 +492,10 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         });
     }
 
+    public String getFileNameFromPath(String filePath) {
+        File file = new File(filePath);
+        return file.getName();
+    }
 
 
     private void uploadVimeoVideo() {
@@ -709,6 +724,8 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     private void hideLoading() {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
+        } else {
+            Log.d("ProgressBar", "ProgressBar");
         }
     }
 
@@ -716,15 +733,22 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     //IMAGE
 
     private void showLoading() {
-        {
-            if (progressDialog != null && !progressDialog.isShowing()) {
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Uploading..");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-            }
+        if (progressDialog == null) {
+            // Initialize the ProgressDialog if it hasn't been created yet
+            progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Uploading..");
+            progressDialog.setCancelable(false);
+        }
+
+        // Show the ProgressDialog if it is not already showing
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        } else {
+            Log.d("ProgressBar", "ProgressDialog is already showing");
         }
     }
+
 
     private void showFilePopup(View v) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -801,86 +825,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
         return image;
     }
 
-    private void UploadFileToAWS(final String FileDisplayname, int pathind) {
-        pathIndex = pathind;
-
-        progressDialog = new ProgressDialog(ParentSubmitLSRW.this);
-        for (int index = pathIndex; index < imagePathList.size(); index++) {
-
-            DocFilePath = imagePathList.get(index).getWsUploadedDoc();
-            break;
-        }
-        Log.d("upload", String.valueOf(UploadedS3URlList.size()));
-        Log.d("image", String.valueOf(imagePathList.size()));
-
-        String instituteID = Util_SharedPreference.getSchoolId(ParentSubmitLSRW.this);
-        String countryID = TeacherUtil_SharedPreference.getCountryID(ParentSubmitLSRW.this);
-
-        if (UploadedS3URlList.size() < imagePathList.size()) {
-            if (DocFilePath != null) {
-                showLoading();
-                fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-                fileNameDateTime = "File_" + fileNameDateTime;
-                Log.d("S3contentType", contentType);
-                s3uploaderObj.initUpload(DocFilePath, contentType, fileNameDateTime, instituteID, countryID, false);
-                s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
-                    @Override
-                    public void onUploadSuccess(String response) {
-                        hideLoading();
-
-                        if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), DocFilePath, fileNameDateTime, instituteID, countryID, false);
-                            Log.d("urlFromS3", urlFromS3);
-                            if (!TextUtils.isEmpty(urlFromS3)) {
-
-                                UploadFilesModel files;
-                                files = new UploadFilesModel(urlFromS3, FileDisplayname);
-
-
-                                UploadedS3URlList.add(files);
-                                UploadFileToAWS(FileDisplayname, pathIndex + 1);
-                                if (selected.equals("Voice")) {
-                                    submitlist.add(new UploadFilesModel(urlFromS3, "VOICE"));
-                                    setAdapter();
-                                    voiceplay.setVisibility(View.GONE);
-                                    btnadd.setEnabled(false);
-
-                                } else if (selected.equals("Image")) {
-                                    submitlist.add(new UploadFilesModel(urlFromS3, "IMAGE"));
-                                    setAdapter();
-                                    rcyselected.setVisibility(View.GONE);
-                                    btnadd.setEnabled(false);
-                                    lblImage.setText("Upload Image");
-                                } else if (selected.equals("Pdf")) {
-                                    submitlist.add(new UploadFilesModel(urlFromS3, "PDF"));
-                                    setAdapter();
-                                    rcyselected.setVisibility(View.GONE);
-                                    btnadd.setEnabled(false);
-                                    lblBrowse.setText("Browse File");
-                                }
-                                if (submitlist.size() == 0) {
-                                    rcysubmissions.setVisibility(View.GONE);
-                                    lblAddAttachment.setVisibility(View.GONE);
-
-                                } else {
-                                    rcysubmissions.setVisibility(View.VISIBLE);
-                                    lblAddAttachment.setVisibility(View.VISIBLE);
-
-                                }
-
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onUploadError(String response) {
-                        hideLoading();
-                    }
-                });
-            }
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SELECT_VIDEO && null != data) {
@@ -911,8 +855,9 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             img1.setVisibility(View.VISIBLE);
                             img1.seekTo(1);
                             lblImageCount1.setVisibility(View.VISIBLE);
+                            String isFileNameSubmitList = getFileNameFromPath(path.get(0));
 
-                            imagePathList.add(new UploadFilesModel(path.get(0), "VIDEO"));
+                            imagePathList.add(new UploadFilesModel(path.get(0), "VIDEO", isFileNameSubmitList));
 
                             if (imagePathList.size() != 0) {
 
@@ -1011,7 +956,9 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
                         long pathlength = file.length();
                         if (pathlength <= maxSize) {
-                            imagePathList.add(new UploadFilesModel(imageFilePath, "IMAGE"));
+                            String isFileNameSubmitList = getFileNameFromPath(gallerylist.get(i));
+
+                            imagePathList.add(new UploadFilesModel(imageFilePath, "IMAGE", isFileNameSubmitList));
                             if (imagePathList.size() != 0) {
                                 rcyselected.setVisibility(View.VISIBLE);
                                 selectedsetAdapter();
@@ -1047,7 +994,9 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
                         long pathlength = file.length();
                         if (pathlength <= maxSize) {
-                            imagePathList.add(new UploadFilesModel(imageFilePath, "IMAGE"));
+                            String isFileNameSubmitList = getFileNameFromPath(gallerylist.get(i));
+
+                            imagePathList.add(new UploadFilesModel(imageFilePath, "IMAGE", isFileNameSubmitList));
                             if (imagePathList.size() != 0) {
                                 rcyselected.setVisibility(View.VISIBLE);
                                 selectedsetAdapter();
@@ -1100,7 +1049,9 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                     File file = new File(DocFilePath);
                     long pathlength = file.length();
                     if (pathlength <= maxSize) {
-                        imagePathList.add(new UploadFilesModel(DocFilePath, "PDF"));
+                        String isFileNameSubmitList = getFileNameFromPath(DocFilePath);
+
+                        imagePathList.add(new UploadFilesModel(DocFilePath, "PDF", isFileNameSubmitList));
                         if (imagePathList.size() != 0) {
                             rcyselected.setVisibility(View.VISIBLE);
                             selectedsetAdapter();
@@ -1460,7 +1411,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 try {
                     if (response.isSuccessful()) {
 
-                        submitlist.add(new UploadFilesModel(iframe, "VIDEO"));
+                        submitlist.add(new UploadFilesModel(iframe, "VIDEO", "Video"));
                         setAdapter();
                         imagePathList.clear();
                         lnrImages.setVisibility(View.GONE);
@@ -1682,7 +1633,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
             if (success) {
                 iframe = isIframe;
                 link = isLink;
-                submitlist.add(new UploadFilesModel(iframe, "VIDEO"));
+                submitlist.add(new UploadFilesModel(iframe, "VIDEO", "Video"));
                 setAdapter();
                 imagePathList.clear();
                 lnrImages.setVisibility(View.GONE);

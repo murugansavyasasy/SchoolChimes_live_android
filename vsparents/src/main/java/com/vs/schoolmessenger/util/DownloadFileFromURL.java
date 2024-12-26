@@ -1,7 +1,7 @@
 package com.vs.schoolmessenger.util;
 
-import static android.os.Environment.DIRECTORY_DOCUMENTS;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,14 +25,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
 
 /**
  * Created by voicesnap on 5/11/2017.
@@ -83,7 +80,7 @@ public class DownloadFileFromURL {
                         protected void onPostExecute(Boolean status) {
                             super.onPostExecute(status);
                             if (status) {
-                                msgModel.setMsgContent(fileName);
+                                //   msgModel.setMsgContent(fileName);
                                 if (msgType.equals(MSG_TYPE_VOICE)) {
                                     Intent inPdfPopup = new Intent(activity, VoiceCircularPopup.class);
                                     inPdfPopup.putExtra("VOICE_ITEM", msgModel);

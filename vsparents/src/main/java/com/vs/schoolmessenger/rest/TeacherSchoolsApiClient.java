@@ -21,8 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TeacherSchoolsApiClient {
 
     public static String BASE_URL = "https://api.schoolchimes.com/nodejs/api/MergedApi/";   //live_URL
-//    public static String BASE_URL = "https://vss.voicesnapforschools.com/nodejs/api/MergedApi/";   //live_URL
-    // public static String BASE_URL = "http://vstest3.voicesnapforschools.com/nodejs/api/MergedApi/";   //testing_URL
+    public static String GET_PRESIGNED_BASE_URL = "https://api.schoolchimes.com/nodejs/api/MergedApi/";   //live_URL
 
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {

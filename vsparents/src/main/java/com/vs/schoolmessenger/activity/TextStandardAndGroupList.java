@@ -14,7 +14,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,14 +29,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
-
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.aws.S3Uploader;
-import com.vs.schoolmessenger.aws.S3Utils;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -49,9 +43,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -75,9 +67,6 @@ public class TextStandardAndGroupList extends AppCompatActivity {
     String duration;
     ImageView genTextPopup_ToolBarIvBack;
     String fileNameDateTime;
-    AmazonS3 s3Client;
-    TransferUtility transferUtility;
-    S3Uploader s3uploaderObj;
     String urlFromS3 = null;
     ProgressDialog progressDialog;
     String contentType = "";
@@ -545,58 +534,6 @@ public class TextStandardAndGroupList extends AppCompatActivity {
         }
 
         return jsonObjectSchoolstdgrp;
-    }
-
-    private void uploadFileToAWSs3(int pathind) {
-
-        String countryID = TeacherUtil_SharedPreference.getCountryID(TextStandardAndGroupList.this);
-
-        pathIndex = pathind;
-        progressDialog = new ProgressDialog(TextStandardAndGroupList.this);
-        for (int index = pathIndex; index < slectedImagePath.size(); index++) {
-            uploadFilePath = slectedImagePath.get(index);
-            break;
-        }
-
-        if (UploadedS3URlList.size() < slectedImagePath.size()) {
-            Log.d("upload file", uploadFilePath);
-            if (uploadFilePath != null) {
-                showLoading();
-                fileNameDateTime = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-                fileNameDateTime = "File_" + fileNameDateTime;
-                s3uploaderObj.initUpload(uploadFilePath, contentType, fileNameDateTime, SchoolID, countryID, true);
-                s3uploaderObj.setOns3UploadDone(new S3Uploader.S3UploadInterface() {
-                    @Override
-                    public void onUploadSuccess(String response) {
-                        if (response.equalsIgnoreCase("Success")) {
-                            urlFromS3 = S3Utils.generates3ShareUrl(getApplicationContext(), uploadFilePath, fileNameDateTime, SchoolID, countryID, true);
-                            if (!TextUtils.isEmpty(urlFromS3)) {
-                                UploadedS3URlList.add(urlFromS3);
-                                uploadFileToAWSs3(pathIndex + 1);
-
-                                if (slectedImagePath.size() == UploadedS3URlList.size()) {
-                                    //SubmitAssignmentFromAppWithCloudURL();
-                                }
-
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onUploadError(String response) {
-                        hideLoading();
-                        Log.d("error", "Error Uploading");
-                    }
-                });
-
-
-            }
-
-        } else {
-            // Toast.makeText(this, "Null Path", Toast.LENGTH_SHORT).show();
-        }
-
-
     }
 
     private void hideLoading() {

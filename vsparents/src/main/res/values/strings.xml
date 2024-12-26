@@ -124,7 +124,7 @@
     <string name="teacher_app_sub_title"></string>
     <string name="teacher_school_msg"></string>
 
-    <string name="teacher_app_version_id">102</string>
+    <string name="teacher_app_version_id">103</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
 
@@ -651,7 +651,7 @@
     <string name="viewMarks">View Marks</string>
     <string name="viewProgress">View report card</string>
 
-    <string name="app_version">7.6.21</string>
+    <string name="app_version">7.6.22</string>
 
 
     <string name="lbl_Yet_to_start">Yet to start</string>

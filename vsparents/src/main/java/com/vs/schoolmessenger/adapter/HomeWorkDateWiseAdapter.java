@@ -388,16 +388,16 @@ public class HomeWorkDateWiseAdapter extends RecyclerView.Adapter<HomeWorkDateWi
         ImageView imgBack = (ImageView) layout.findViewById(R.id.imgBack);
         TextView lblTitle = (TextView) layout.findViewById(R.id.lblTitle);
         ImageView imgDownload = (ImageView) layout.findViewById(R.id.imgDownload);
+        RelativeLayout rlaDownload = (RelativeLayout) layout.findViewById(R.id.rlaDownload);
         lblTitle.setText("IMAGE");
-        imgDownload.setVisibility(View.VISIBLE);
+        rlaDownload.setVisibility(View.VISIBLE);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popupView.dismiss();
             }
         });
-
-        imgDownload.setOnClickListener(new View.OnClickListener() {
+        rlaDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!path.equals("")) {
@@ -406,6 +406,7 @@ public class HomeWorkDateWiseAdapter extends RecyclerView.Adapter<HomeWorkDateWi
 
             }
         });
+
 
         img.setVisibility(View.VISIBLE);
         Glide.with(context)
