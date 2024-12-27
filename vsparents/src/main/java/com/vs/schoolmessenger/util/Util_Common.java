@@ -2,6 +2,7 @@ package com.vs.schoolmessenger.util;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,10 +11,17 @@ import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
@@ -21,7 +29,9 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.HelpActivity;
 import com.vs.schoolmessenger.activity.HomeActivity;
 import com.vs.schoolmessenger.activity.ProfileLinkScreen;
+import com.vs.schoolmessenger.activity.TeacherSplashScreen;
 import com.vs.schoolmessenger.activity.UploadProfileScreen;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.model.StaffMsgMangeCount;
 
 import java.util.ArrayList;
@@ -113,13 +123,13 @@ public class Util_Common {
 
         popup.getMenuInflater().inflate(R.menu.settings_popup, popup.getMenu());
         Menu menuOpts = popup.getMenu();
-        menuOpts.getItem(0).setTitle(UploadProfileTitle);
+        menuOpts.getItem(1).setTitle(UploadProfileTitle);
         //  menuOpts.getItem(1).setTitle(ProfileTitle);
         if (type.equals("1")) {
-            menuOpts.getItem(0).setVisible(true);
+            menuOpts.getItem(1).setVisible(true);
             //menuOpts.getItem(1).setVisible(true);
         } else {
-            menuOpts.getItem(0).setVisible(false);
+            menuOpts.getItem(1).setVisible(false);
             // menuOpts.getItem(1).setVisible(false);
         }
 
@@ -141,13 +151,127 @@ public class Util_Common {
                 } else if (item.getTitle().equals("Help")) {
                     Intent help = new Intent(activity, HelpActivity.class);
                     activity.startActivity(help);
+                } else if (item.getTitle().equals("Change Language")) {
+                    showLanguageSelectorDialog(activity);
                 }
+
                 return true;
             }
         });
 
         popup.show();//showing popup menu
     }
+
+
+    private static void showLanguageSelectorDialog(Activity activity) {
+        View dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_language_selector, null);
+        AlertDialog alertDialog = new AlertDialog.Builder(activity)
+                .setView(dialogView)
+                .setCancelable(true)
+                .create();
+
+        final String[] isSelectedLanguage = {null}; // Wrapper for isSelectedLanguage
+        final boolean[] isChecking = {false}; // Wrapper for isChecking
+
+        ImageView imgClose = dialogView.findViewById(R.id.imgClose);
+        CheckBox chEnglish = dialogView.findViewById(R.id.chEnglish);
+        CheckBox chThai = dialogView.findViewById(R.id.chThai);
+        TextView btnConfirm = dialogView.findViewById(R.id.btnConfirm);
+        ImageView imgEnglish = dialogView.findViewById(R.id.imgEnglish);
+        ImageView imgThai = dialogView.findViewById(R.id.imgThai);
+
+        isRemoveCheckBox(chThai, chEnglish);
+
+        chEnglish.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            isRemoveCheckBox(chThai, chEnglish);
+            if (isChecked) {
+                isChecking[0] = true;
+                isSelectedLanguage[0] = "en";
+                chEnglish.setChecked(true);
+                isSelectedImageSetting(imgEnglish, imgEnglish, imgThai);
+            } else {
+                isChecking[0] = false;
+            }
+        });
+
+        chThai.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            isRemoveCheckBox(chThai, chEnglish);
+            if (isChecked) {
+                isChecking[0] = true;
+                isSelectedLanguage[0] = "th";
+                chThai.setChecked(true);
+                isSelectedImageSetting(imgThai, imgEnglish, imgThai);
+            } else {
+                isChecking[0] = false;
+            }
+        });
+
+        String isAppLanguage = TeacherUtil_SharedPreference.getLanguageType(activity);
+        Log.d("isAppLanguage", isAppLanguage != null ? isAppLanguage : "null");
+        if (isAppLanguage == null || isAppLanguage.isEmpty()) {
+            isAppLanguage = "en";
+        }
+
+        switch (isAppLanguage) {
+            case "th":
+                chThai.setChecked(true);
+                break;
+            case "en":
+            default:
+                chEnglish.setChecked(true);
+                break;
+        }
+
+        btnConfirm.setOnClickListener(v -> {
+            if (isChecking[0]) {
+                isChecking[0] = false;
+                TeacherUtil_SharedPreference.putLanguageType(activity, isSelectedLanguage[0]);
+                refreshActivity(activity,isSelectedLanguage[0]);
+                alertDialog.dismiss();
+            } else {
+                Toast.makeText(activity, isSelectedLanguage[0], Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imgClose.setOnClickListener(v -> {
+            isChecking[0] = false;
+            alertDialog.dismiss();
+        });
+
+        alertDialog.show();
+    }
+
+
+    private static void isRemoveCheckBox(CheckBox chThai, CheckBox chEnglish) {
+        chEnglish.setChecked(false);
+        chThai.setChecked(false);
+    }
+
+
+    private static void isSelectedImageSetting(ImageView isSelectedImage, ImageView imgEnglish, ImageView imgThai) {
+        imgEnglish.setImageResource(R.drawable.en_language_gray);
+        imgThai.setImageResource(R.drawable.th_language_gray);
+
+        if (isSelectedImage == imgEnglish) {
+            imgEnglish.setImageResource(R.drawable.en_language_orange);
+        } else {
+            imgThai.setImageResource(R.drawable.th_language_orange);
+        }
+    }
+
+
+    public static void refreshActivity(Activity activity, String isSelectedLanguage) {
+        TeacherUtil_SharedPreference.putLanguageType(activity, isSelectedLanguage);
+        LocaleHelper.setLocale(activity, isSelectedLanguage);
+        Intent intent = new Intent(activity, TeacherSplashScreen.class); // Replace with your splash screen class
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.finish();
+        activity.startActivity(intent);
+        Log.d("language", "Language set to: " + isSelectedLanguage);
+    }
+
+
+
 
     public static boolean hasPermissions(Context context, String[] permissions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
@@ -159,6 +283,7 @@ public class Util_Common {
         }
         return true;
     }
+
 
     public boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

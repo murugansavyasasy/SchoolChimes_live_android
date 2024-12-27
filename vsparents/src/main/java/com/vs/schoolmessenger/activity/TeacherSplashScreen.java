@@ -68,6 +68,7 @@ import com.vs.schoolmessenger.BuildConfig;
 import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.NewupdatesAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.fcmservices.TokenUpdateScheduler;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Languages;
@@ -144,7 +145,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        String isLanguage = TeacherUtil_SharedPreference.getLanguageType(TeacherSplashScreen.this);
+        LocaleHelper.setLocale(this, isLanguage);
         appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
         installStateUpdatedListener = state -> {
             if (state.installStatus() == InstallStatus.DOWNLOADED) {

@@ -449,12 +449,13 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putLanguageType(Activity activity,String autoupdate){
+    public static String putLanguageType(Activity activity, String autoupdate){
         SharedPreferences prefs = activity.getSharedPreferences(LANGUAGE, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(language_type, autoupdate);
         Log.d(language_type, "autoupdate Data stored in SP");
         ed.commit();
+        return autoupdate;
     }
 
     public static String getLanguageType(Activity activity) {

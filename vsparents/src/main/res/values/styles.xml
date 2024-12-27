@@ -10,6 +10,12 @@
         <item name="buttonStyle">@style/RobotoButtonStyle</item>
     </style>
 
+
+    <style name="CustomCheckbox" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/custom_checkbox</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <style name="DialogThemesender" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/teacher_colorPrimary</item>
     </style>
