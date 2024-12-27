@@ -33,7 +33,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="0.4"
-                android:text="Receipt Number"
+                android:text="@string/receipt_number"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -80,7 +80,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="0.4"
-                android:text="Receipt Amount"
+                android:text="@string/receipt_amount"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -89,7 +89,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-
                 android:layout_marginRight="5dp"
                 android:text=":"
                 android:textColor="@color/clr_black"
@@ -129,7 +128,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="0.4"
-                android:text="Receipt Date"
+                android:text="@string/receipt_date"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -138,7 +137,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-
                 android:layout_marginRight="5dp"
                 android:text=":"
                 android:textColor="@color/clr_black"
@@ -170,7 +168,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:text="View Receipt"
+        android:text="@string/view_receipt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

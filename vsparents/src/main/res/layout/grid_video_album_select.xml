@@ -26,22 +26,7 @@
             android:visibility="visible"
             android:background="#80000000">
 
-            <!--<ImageView-->
-            <!--android:id="@+id/image_view_album_image"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:scaleType="centerCrop"/>-->
 
-            <!--<TextView-->
-            <!--android:id="@+id/text_view_album_name"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="bottom"-->
-            <!--android:background="@color/multiple_image_select_albumTextBackground"-->
-            <!--android:textColor="@color/multiple_image_select_primaryText"-->
-            <!--android:textSize="20dp"-->
-            <!--android:lines="1"-->
-            <!--android:gravity="center"/>-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

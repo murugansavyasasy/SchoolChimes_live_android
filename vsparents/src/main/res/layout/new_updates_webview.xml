@@ -12,7 +12,7 @@
         android:id="@+id/btnDownload"
         android:padding="10dp"
         android:layout_width="wrap_content"
-        android:text="Download"
+        android:text="@string/download"
         android:visibility="gone"
         android:layout_gravity="right"
         android:textColor="@color/bpWhite"

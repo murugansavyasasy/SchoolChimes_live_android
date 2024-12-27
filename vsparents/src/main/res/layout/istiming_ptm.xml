@@ -41,7 +41,7 @@
             android:layout_toRightOf="@+id/lblFromTime"
             android:layout_weight="0.3"
             android:fontFamily="@font/optima"
-            android:text="to"
+            android:text="@string/to"
             android:textColor="@color/bpBlue"
             android:textSize="18dp"
             android:textStyle="bold">

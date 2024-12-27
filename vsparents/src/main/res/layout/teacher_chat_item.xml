@@ -59,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_4sdp"
                             android:paddingRight="@dimen/_4sdp"
-                            android:text="Me"
+                            android:text="@string/me"
                             android:textColor="@color/clr_black"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintEnd_toStartOf="@+id/time"
@@ -165,7 +165,7 @@
                         android:textColor="@color/clr_white"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintTop_toBottomOf="@id/student_name"
-                        tools:text="Another question" />
+                        tools:text="@string/another_question" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

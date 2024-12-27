@@ -24,7 +24,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Update details!!"
+            android:text="@string/update_details"
             android:textColor="@color/bpBlue"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -35,7 +35,7 @@
             android:id="@+id/txtLocationName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter location name"
+            android:hint="@string/enter_location_name"
             android:padding="10dp"
             android:textColor="@color/clr_black1"
             android:textSize="13dp" />
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="Distance in meters"
+            android:hint="@string/distance_in_meters"
             android:inputType="number"
             android:padding="10dp"
             android:textColor="@color/clr_black1"
@@ -61,7 +61,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/bg_rect_yellow"
             android:gravity="center"
-            android:text="UPDATE"
+            android:text="@string/update"
             android:textColor="@color/bpWhite"
             android:textSize="13dp" />
 
@@ -72,7 +72,7 @@
             android:layout_height="40dp"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/clr_red"
             android:textSize="13dp" />
 

@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Sorting"
+            android:text="@string/sorting"
             android:textColor="@color/clr_black"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/_10sdp"
-            android:text="Done"
+            android:text="@string/done"
             android:textColor="@color/clr_blue"
             android:textSize="15dp"
             android:textStyle="bold">
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Sort Alphabetically (A → Z)"
+                android:text="@string/sort_alphabetically_a_z"
                 android:textStyle="bold"
                 android:textColor="@color/clr_black"
                 android:textSize="14sp" />
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Sort Alphabetically (Z → A)"
+                android:text="@string/sort_alphabetically_z_a"
 
                 android:textStyle="bold"
                 android:textColor="@color/clr_black"
@@ -119,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Sort by Roll Number (Low → High)"
+                android:text="@string/sort_by_roll_number_low_high"
 
 
                 android:textStyle="bold"
@@ -147,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Sort by Roll Number (High → Low)"
+                android:text="@string/sort_by_roll_number_high_low"
                 android:textStyle="bold"
                 android:textColor="@color/clr_black"
                 android:textSize="14sp" />

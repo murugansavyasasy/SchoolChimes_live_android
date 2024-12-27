@@ -25,13 +25,4 @@
         android:scrollbars="vertical" />
 
 
-    <!--<Button-->
-    <!--android:id="@+id/txt_btnchg"-->
-    <!--style="@style/btn_login"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:gravity="center"-->
-    <!--android:text="@string/txt_chgrecipient" />-->
 </LinearLayout>

@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="Reject"
+                android:text="@string/reject"
                 android:textColor="@color/clr_white_fifty"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Reason For Reject"
+                android:text="@string/reason_for_reject"
                 android:textColor="@color/bpblack"
                 android:textSize="20dp" />
 
@@ -83,7 +83,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/teacher_bg_primary_stroke_top"
                 android:padding="4dp"
-                android:text="Reject"
+                android:text="@string/reject"
                 android:visibility="visible" />
 
 

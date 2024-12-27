@@ -37,7 +37,7 @@
             android:layout_marginTop="20dp"
             android:gravity="left"
             android:padding="10dp"
-            android:text="To send media, allow School chimes access to your device's photos,media,microphone and files. Tap Settings >Permissions, and turn Files and media on "
+            android:text="@string/to_send_media_allow_school_chimes_access_to_your_device_s_photos_media_microphone_and_files_tap_settings_permissions_and_turn_files_and_media_on"
             android:textColor="@color/teacher_clr_btn_login"
             android:textSize="16dp"
             android:textStyle="bold"
@@ -57,7 +57,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Not now"
+                android:text="@string/not_now"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="18dp" />
 
@@ -72,7 +72,7 @@
                 android:layout_marginBottom="30dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Settings"
+                android:text="@string/settings"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="18dp" />
 

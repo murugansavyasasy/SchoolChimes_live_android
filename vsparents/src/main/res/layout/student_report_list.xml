@@ -27,7 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Student Name"
+                android:text="@string/student_name"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="@dimen/_14sdp" />
 
@@ -70,7 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Class Name"
+                android:text="@string/class_name"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="@dimen/_14sdp" />
 
@@ -114,7 +114,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Section Name"
+                android:text="@string/section_name"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="@dimen/_14sdp" />
 
@@ -156,7 +156,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Admission No"
+                android:text="@string/admission_noo"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="@dimen/_14sdp" />
 
@@ -197,7 +197,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Gender"
+                android:text="@string/gender"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="@dimen/_14sdp" />
 
@@ -283,7 +283,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Mobile No"
+                android:text="@string/mobile_no"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="@dimen/_14sdp" />
 
@@ -326,7 +326,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Class Teacher Name"
+                android:text="@string/class_teacher_name"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="@dimen/_14sdp" />
 
@@ -369,7 +369,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Father Name"
+                android:text="@string/father_name"
                 android:textColor="@color/teacher_colorPrimary"
                 android:textSize="@dimen/_14sdp" />
 
@@ -416,7 +416,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_shadow_white_card"
             android:paddingHorizontal="5dp"
-            android:text="Call"
+            android:text="@string/call"
             android:textColor="@color/teacher_clr_blue"
             android:textSize="14dp" />
 
@@ -429,7 +429,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/bg_shadow_white_card"
             android:paddingHorizontal="5dp"
-            android:text="Send SMS"
+            android:text="@string/send_sms"
             android:textColor="@color/teacher_clr_blue"
             android:textSize="14dp" />
 

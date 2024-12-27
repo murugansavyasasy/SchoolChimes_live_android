@@ -7,15 +7,6 @@
 
     android:orientation="vertical">
 
-    <!--<android.support.v7.widget.CardView-->
-    <!--android:id="@+id/cv_productItems"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="center"-->
-    <!--app:cardBackgroundColor="@color/clr_card_grey"-->
-    <!--android:elevation="5dp"-->
-    <!--card_view:cardCornerRadius="5dp">-->
-    <!--</android.support.v7.widget.CardView>-->
 
 
 
@@ -158,147 +149,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
-      android:layout_marginLeft="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@color/clr_grey">
 
     </View>
 
-
-
-
-
-
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/rytDetailsDisplay"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginRight="7dp"-->
-        <!--android:layout_marginLeft="25dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_marginBottom="5dp"-->
-        <!--android:background="@drawable/bg_layout_with_shadow">-->
-
-        <!--<LinearLayout-->
-            <!--android:id="@+id/linearLayout3"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<RelativeLayout-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/lblLate"-->
-                    <!--android:layout_width="100sp"-->
-                    <!--android:text="Max Mark"-->
-                    <!--android:textStyle="normal"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:textColor="@color/clr_grey"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_height="wrap_content" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/lblMaxMark"-->
-                    <!--android:layout_toRightOf="@+id/lblLate"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_marginLeft="5sp"-->
-                    <!--android:text=": 200"-->
-                    <!--android:textStyle="normal"-->
-                    <!--android:textColor="@color/clr_black"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:textSize="16sp"-->
-                    <!--android:layout_height="wrap_content" />-->
-            <!--</RelativeLayout>-->
-
-            <!--<RelativeLayout-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/lblCreate"-->
-                    <!--android:layout_width="100sp"-->
-                    <!--android:text="Subject Name"-->
-                    <!--android:textStyle="normal"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:textColor="@color/clr_grey"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_height="wrap_content" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/lblSubjectName"-->
-                    <!--android:layout_toRightOf="@+id/lblCreate"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_marginLeft="5sp"-->
-                    <!--android:text=": English"-->
-                    <!--android:textStyle="normal"-->
-                    <!--android:textColor="@color/clr_black"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:textSize="16sp"-->
-                    <!--android:layout_height="wrap_content" />-->
-            <!--</RelativeLayout>-->
-
-            <!--<RelativeLayout-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/lblTot"-->
-                    <!--android:textStyle="normal"-->
-                    <!--android:layout_width="100sp"-->
-                    <!--android:text="Exam date"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:textColor="@color/clr_grey"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_height="wrap_content" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/lblExamDate"-->
-                    <!--android:layout_toRightOf="@+id/lblTot"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_marginLeft="5sp"-->
-                    <!--android:text=": 12/06/2018"-->
-                    <!--android:textStyle="normal"-->
-                    <!--android:textColor="@color/clr_black"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:textSize="16sp"-->
-                    <!--android:layout_height="wrap_content" />-->
-            <!--</RelativeLayout>-->
-            <!--<RelativeLayout-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/lblPay"-->
-                    <!--android:layout_width="100sp"-->
-                    <!--android:textStyle="normal"-->
-                    <!--android:text="Session"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:textColor="@color/clr_grey"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_height="wrap_content" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/lblSession"-->
-                    <!--android:layout_toRightOf="@+id/lblPay"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_marginLeft="5sp"-->
-                    <!--android:text=": AN"-->
-                    <!--android:textStyle="normal"-->
-                    <!--android:textColor="@color/clr_black"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:textSize="16sp"-->
-                    <!--android:layout_height="wrap_content" />-->
-            <!--</RelativeLayout>-->
-
-
-
-
-        <!--</LinearLayout>-->
-
-
-
-    <!--</RelativeLayout>-->
 
 </LinearLayout>

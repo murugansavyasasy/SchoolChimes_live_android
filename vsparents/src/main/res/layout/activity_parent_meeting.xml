@@ -44,7 +44,7 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/_20sdp"
         android:padding="@dimen/_10sdp"
-        android:text="No Records Found"
+        android:text="@string/no_records_found"
         android:textColor="@color/clr_black"
         android:textStyle="bold"
         android:visibility="gone" />
@@ -75,7 +75,7 @@
         android:gravity="center"
         android:padding="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:text="book slot"
+        android:text="@string/book_slot"
         android:textColor="@color/bpWhite"
         android:textStyle="bold" />
 

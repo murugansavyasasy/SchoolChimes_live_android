@@ -123,7 +123,7 @@
                     android:padding="5dp"
                     android:gravity="center"
                     android:textSize="14dp"
-                    android:text="Submission Date" />
+                    android:text="@string/submission_date" />
 
                 <TextView
                     android:id="@+id/lblDate"
@@ -146,7 +146,7 @@
                 android:id="@+id/satffCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category"
+                android:text="@string/category"
                 android:textColor="@color/teacher_clr_grey"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -273,7 +273,7 @@
                         android:id="@+id/lblPdfFileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="File Name"
+                        android:text="@string/file_name"
                         android:textColor="@color/clr_white"
                         android:visibility="visible" />
 
@@ -314,7 +314,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:enabled="false"
-                android:text="Choose Recipients" />
+                android:text="@string/choose_recipients" />
 
             <ImageView
               android:id="@+id/imageview"
@@ -344,7 +344,7 @@
             android:textColor="@color/teacher_clr_grey"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="Chimes " />
+            tools:text="@string/school_chimes" />
 
         <TextView
             android:layout_width="wrap_content"

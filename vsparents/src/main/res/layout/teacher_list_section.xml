@@ -92,7 +92,7 @@
                         android:textColor="@color/teacher_clr_grey"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        tools:text="Subject: " />
+                        tools:text="@string/teacher_txt_subject" />
 
                     <TextView
                         android:id="@+id/liSection_tvSubject"

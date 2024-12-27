@@ -93,7 +93,7 @@
                         android:textColor="@color/teacher_clr_black"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        tools:text="Record Voice Message" />
+                        tools:text="@string/record_voice_message" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -256,7 +256,7 @@
             android:textColor="@color/teacher_clr_grey"
             android:textSize="10sp"
             android:textStyle="bold"
-            tools:text="for schools" />
+            tools:text="@string/for_schools" />
 
     </RelativeLayout>
 </RelativeLayout>

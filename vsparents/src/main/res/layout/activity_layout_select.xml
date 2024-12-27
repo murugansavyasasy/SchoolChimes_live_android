@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="gsdgsg"/>
+        android:text=""/>
 
     <GridView
         android:id="@+id/grid_view_album_select"

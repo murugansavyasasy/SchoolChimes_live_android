@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="7dp"
             android:padding="4dp"
-            android:text="9003769500"
+            android:text=""
             android:textColor="@color/clr_blue"
             android:textSize="20dp"
             android:textStyle="normal" />
@@ -30,12 +30,6 @@
             android:src="@drawable/telephone_call" />
 
     </RelativeLayout>
-
-<!--    <View-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"-->
-<!--        android:background="@color/clr_black"/>-->
 
 
 </LinearLayout>

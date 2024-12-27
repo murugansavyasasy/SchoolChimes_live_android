@@ -19,7 +19,7 @@
             android:background="@color/teacher_colorPrimaryDark"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Add Attachments"
+            android:text="@string/add_attachments"
             android:textColor="@color/teacher_clr_white"
             android:textSize="16dp"
             android:textStyle="bold" />
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
-                android:text="Add Image"
+                android:text="@string/add_image"
                 android:textColor="@color/clr_black1"
                 android:textSize="20dp"
                 android:textStyle="normal" />
@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
-                android:text="Add PDF"
+                android:text="@string/add_pdf"
                 android:textColor="@color/clr_black1"
                 android:textSize="20dp"
                 android:textStyle="normal" />
@@ -147,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
-                android:text="Add Voice"
+                android:text="@string/add_voice"
                 android:textColor="@color/clr_black1"
                 android:textSize="20dp"
                 android:textStyle="normal" />

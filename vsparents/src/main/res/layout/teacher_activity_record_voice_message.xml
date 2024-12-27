@@ -38,7 +38,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="gone"
-            tools:text="name" />
+            tools:text="@string/name" />
     </RelativeLayout>
 
     <LinearLayout
@@ -89,7 +89,7 @@
                     android:textColor="@color/teacher_clr_black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    tools:text="Record Voice Message" />
+                    tools:text="@string/record_voice_message" />
             </LinearLayout>
 
         </RelativeLayout>

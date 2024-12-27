@@ -20,7 +20,7 @@
             android:id="@+id/lblNoteMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OTP has been sent to your registered mobile number."
+            android:text="@string/otp_has_been_sent_to_your_registered_mobile_number"
             android:textStyle="normal"
             android:textColor="@color/clr_black"
             android:layout_marginTop="5dp"
@@ -151,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="Verify OTP" />
+                android:text="@string/verify_otp" />
         </RelativeLayout>
 
 
@@ -159,7 +159,7 @@
             android:id="@+id/lblNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="If you did not get OTP through SMS..Please call any of the below numbers to get OTP"
+            android:text="@string/if_you_did_not_get_otp_through_sms_please_call_any_of_the_below_numbers_to_get_otp"
             android:layout_gravity="center"
             android:textStyle="normal"
             android:textColor="@color/clr_black"

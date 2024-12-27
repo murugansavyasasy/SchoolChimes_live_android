@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_black"
                 android:textSize="14dp"
-                tools:text="GOOGLE MEET"/>
+                tools:text="@string/google_meet"/>
 
             <ImageView
                 android:layout_width="40dp"

@@ -40,7 +40,7 @@
                 android:layout_weight="0.5"
                 android:textSize="14dp"
                 android:textStyle="bold"
-                android:text="Roll No" />
+                android:text="@string/roll_no" />
 
             <TextView
                 android:layout_width="10dp"
@@ -84,7 +84,7 @@
                 android:textSize="14dp"
                 android:textStyle="bold"
                 android:layout_weight="0.5"
-                android:text="Admission No" />
+                android:text="@string/admission_noo" />
 
             <TextView
                 android:layout_width="10dp"
@@ -185,4 +185,3 @@
 </RelativeLayout>
 
 
-    <!--android:button="@drawable/teacher_bg_checkbox1"-->

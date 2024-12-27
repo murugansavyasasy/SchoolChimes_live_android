@@ -74,22 +74,11 @@
                         android:textColor="@color/teacher_clr_black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        tools:text="Record voice Message" />
+                        tools:text="@string/record_voice_message" />
 
                 </LinearLayout>
 
-                <!--<TextView-->
-                <!--android:id="@+id/cardVoice_tvTime"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentEnd="true"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:gravity="right"-->
-                <!--android:padding="3dp"-->
-                <!--android:textColor="@color/clr_black"-->
-                <!--android:textSize="14sp"-->
-                <!--tools:text="24th Apirl|11.30 AM" />-->
+
 
             </RelativeLayout>
 
@@ -124,21 +113,6 @@
 
             </RelativeLayout>
 
-            <!--<RelativeLayout-->
-            <!--android:id="@+id/visililitygone"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/audio_preview">-->
-
-            <!--<Button-->
-            <!--android:id="@+id/voice_btnchoose1"-->
-            <!--style="@style/btn_login"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="15dp"-->
-            <!--android:text="@string/choose_recipient" />-->
-            <!--</RelativeLayout>-->
 
             <RelativeLayout
                 android:id="@+id/choose_stud"

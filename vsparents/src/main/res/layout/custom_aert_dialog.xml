@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:padding="15dp"
             android:gravity="center"
-            android:text="Did you know?"
+            android:text="@string/did_you_know"
             android:textSize="18dp"
             android:textStyle="normal"
             android:textColor="@color/bpWhite"/>
@@ -47,7 +47,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:gravity="center_vertical|center_horizontal"
-        android:text="OK"
+        android:text="@string/ok"
         android:textSize="15dp"
         android:textColor="@color/clr_orange" />
 

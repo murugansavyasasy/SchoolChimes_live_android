@@ -21,7 +21,7 @@
             android:layout_marginLeft="5dp"
             android:id="@+id/lblQuestion"
             android:layout_width="wrap_content"
-            android:text="Question"
+            android:text="@string/question"
             android:textColor="@color/bpblack"
             android:textSize="20dp"
             android:layout_height="wrap_content" />
@@ -43,7 +43,7 @@
             <TextView
                 android:id="@+id/lblAnswer"
                 android:layout_marginLeft="5dp"
-                android:text="Answer"
+                android:text="@string/answer"
                 android:textSize="20dp"
                 android:textColor="@color/clr_green"
                 android:layout_toRightOf="@+id/lblAns"

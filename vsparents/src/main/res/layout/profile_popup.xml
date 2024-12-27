@@ -20,7 +20,7 @@
 
             <TextView
                 android:layout_alignParentLeft="true"
-                android:text="Profile photo"
+                android:text="@string/profile_photo"
                 android:textStyle="bold"
                 android:textSize="17dp"
                 android:textColor="@color/clr_black"
@@ -54,7 +54,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/imgGallery"
-                android:text="Gallery"
+                android:text="@string/gallery"
                 android:textColor="@color/clr_black" />
 
         </RelativeLayout>

@@ -13,7 +13,6 @@
 
     <RelativeLayout
         android:id="@+id/rlaHeader"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -61,7 +60,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_toEndOf="@+id/imgDownload"
-            android:text="Download"
+            android:text="@string/download"
             android:textColor="@color/clr_white"
             android:textSize="15dp"
             android:textStyle="bold">

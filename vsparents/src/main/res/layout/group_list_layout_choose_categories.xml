@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                android:text="Term 1"
+                android:text="@string/term_1"
                 android:textSize="15dp"
                 android:textColor="@color/bpBlue"/>
 

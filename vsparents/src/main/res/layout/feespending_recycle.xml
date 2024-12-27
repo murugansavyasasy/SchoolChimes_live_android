@@ -17,19 +17,6 @@
             android:orientation="vertical">
 
 
-<!--            <TextView-->
-<!--                android:layout_marginTop="35dp"-->
-<!--                android:padding="4dp"-->
-<!--                android:visibility="gone"-->
-<!--                android:textSize="15dp"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:id="@+id/lblNoMessages"-->
-<!--                android:textColor="@color/teacher_clr_red_red"-->
-<!--                android:text=""-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"/>-->
-
-
             <TextView
                 android:layout_marginTop="25dp"
                 android:visibility="gone"
@@ -57,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/bg_search_shadow"
-                    android:hint="Search"
+                    android:hint="@string/search"
                     android:textSize="15dp"
                     android:paddingLeft="15dp"
                     />

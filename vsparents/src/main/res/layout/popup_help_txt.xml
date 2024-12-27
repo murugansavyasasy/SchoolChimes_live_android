@@ -43,18 +43,6 @@
                 android:textStyle="bold" />
 
 
-            <!--<TextView-->
-                <!--android:id="@+id/lblFAQ"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:gravity="center"-->
-                <!--android:padding="7dp"-->
-                <!--android:text="@string/faq"-->
-                <!--android:textAllCaps="true"-->
-                <!--android:textColor="@color/clr_white"-->
-                <!--android:textSize="16dp"-->
-                <!--android:textStyle="bold" />-->
 
 
         </FrameLayout>

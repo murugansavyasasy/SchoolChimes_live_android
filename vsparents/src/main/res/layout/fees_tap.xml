@@ -56,9 +56,6 @@
     </LinearLayout>
 
 
-
-
-
     <LinearLayout
         android:id="@+id/lnrBottom"
         android:visibility="visible"

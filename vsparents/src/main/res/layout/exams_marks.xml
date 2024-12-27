@@ -29,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/clr_black"
             android:textSize="20sp"
-            android:text="STUDENT DETAILS"/>
+            android:text="@string/student_details"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                 <TextView
                     android:id="@+id/lblName"
                     android:layout_width="80sp"
-                    android:text="Name"
+                    android:text="@string/name"
                     android:textSize="15sp"
                     android:textColor="@color/clr_grey"
                     android:layout_centerVertical="true"
@@ -69,7 +69,7 @@
                 <TextView
                     android:id="@+id/lblSchool"
                     android:layout_width="80sp"
-                    android:text="School Name"
+                    android:text="@string/school_name"
                     android:textSize="15sp"
                     android:textColor="@color/clr_grey"
                     android:layout_centerVertical="true"
@@ -93,7 +93,7 @@
                 <TextView
                     android:id="@+id/lblCalss"
                     android:layout_width="80sp"
-                    android:text="Standard"
+                    android:text="@string/standard"
                     android:textSize="15sp"
                     android:textColor="@color/clr_grey"
                     android:layout_centerVertical="true"
@@ -116,7 +116,7 @@
                 <TextView
                     android:id="@+id/lblSec"
                     android:layout_width="80sp"
-                    android:text="Section"
+                    android:text="@string/section"
                     android:textSize="15sp"
                     android:textColor="@color/clr_grey"
                     android:layout_centerVertical="true"
@@ -140,7 +140,7 @@
                 <TextView
                     android:id="@+id/lblExam"
                     android:layout_width="80sp"
-                    android:text="Exam Name"
+                    android:text="@string/exam_name"
                     android:textSize="15sp"
                     android:textColor="@color/clr_grey"
                     android:layout_centerVertical="true"
@@ -163,7 +163,7 @@
                 <TextView
                     android:id="@+id/lblMax"
                     android:layout_width="80sp"
-                    android:text="Max Marks"
+                    android:text="@string/max_marks"
                     android:textSize="15sp"
                     android:textColor="@color/clr_grey"
                     android:layout_centerVertical="true"
@@ -187,7 +187,7 @@
                 <TextView
                     android:id="@+id/lblAvg"
                     android:layout_width="80sp"
-                    android:text="Hig/Avg Marks"
+                    android:text="@string/hig_avg_marks"
                     android:textSize="15sp"
                     android:textColor="@color/clr_grey"
                     android:layout_centerVertical="true"
@@ -225,7 +225,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             style="@style/Teacher_btn_login"
-            android:text="Display Marks"/>
+            android:text="@string/display_marks"/>
     </LinearLayout>
 
 </LinearLayout>

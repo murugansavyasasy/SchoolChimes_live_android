@@ -19,7 +19,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_rect_yellow"
             android:gravity="center"
-            android:text="Today's report"
+            android:text="@string/today_s_report"
             android:textAlignment="center"
             android:textColor="@color/bpWhite"
             android:textSize="14dp" />
@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_stroke_window_grey"
             android:gravity="center"
-            android:text="Staff wise reports"
+            android:text="@string/staff_wise_reports"
             android:textAlignment="center"
             android:textColor="@color/clr_black"
             android:textSize="14dp" />
@@ -168,7 +168,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rect_popup_white"
-            android:hint="Search"
+            android:hint="@string/search"
             android:padding="5dp"
             android:textColor="@color/clr_black"
             android:textSize="13dp"

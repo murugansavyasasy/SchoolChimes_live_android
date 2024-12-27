@@ -19,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
-            android:text="Alert"
+            android:text="@string/alert"
             android:textColor="@color/colorPrimary"
             android:textSize="18dp" />
 
@@ -29,7 +29,7 @@
         android:id="@+id/lblMessages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No records Fount"
+        android:text="@string/no_records_found"
         android:textColor="@color/clr_black"></TextView>
     <Button
         android:id="@+id/btnOk"
@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:background="@drawable/bg_solid_primary"
         android:layout_marginTop="30dp"
-        android:text="OK"
+        android:text="@string/ok"
         android:textColor="@color/bpWhite"
         android:textSize="15dp" />
 

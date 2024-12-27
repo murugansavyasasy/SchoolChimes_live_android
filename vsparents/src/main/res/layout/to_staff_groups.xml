@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Groups"
+                android:text="@string/groups"
                 android:textColor="@color/teacher_clr_white"
                 android:textSize="16dp"
                 android:textStyle="bold" />

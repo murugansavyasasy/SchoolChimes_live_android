@@ -194,7 +194,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:text="Sending........"
+            android:text="@string/sending"
             android:textColor="@color/clr_white"
             android:textSize="16sp"
             android:textStyle="bold" />

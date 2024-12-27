@@ -110,12 +110,6 @@
                         android:layout_height="wrap_content"
                         android:background="@color/teacher_clr_white_fifty">
 
-                        <!--<ProgressBar-->
-                        <!--android:id="@+id/cardImage_progress"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center" />-->
-
                         <ImageView
                             android:id="@+id/mgtImage_ivCircular"
                             android:layout_width="300dp"
@@ -146,7 +140,7 @@
                         android:textColor="@color/teacher_clr_grey"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        tools:text="Or" />
+                      />
 
 
                     <TextView
@@ -159,7 +153,7 @@
                         android:textColor="@color/teacher_clr_grey"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        tools:text="Choose Recipient" />
+                        tools:text="@string/choose_recipient" />
 
                     <include
                         android:id="@+id/mgtImage_llRecipient"

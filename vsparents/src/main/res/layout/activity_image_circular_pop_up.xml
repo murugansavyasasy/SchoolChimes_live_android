@@ -123,7 +123,7 @@
             android:visibility="gone"
             android:textColor="@color/clr_black"
             android:background="@color/bpLine_background"
-            android:text="Description" />
+            android:text="@string/description" />
         <ImageView
             android:id="@+id/imagePopup_ivImage"
             android:layout_width="match_parent"

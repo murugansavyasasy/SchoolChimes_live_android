@@ -62,18 +62,7 @@
                 android:textSize="10sp" />
         </LinearLayout>
 
-        <!--<TextView-->
-            <!--android:id="@+id/cardPDF_tvTime"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:gravity="right"-->
-            <!--android:padding="3dp"-->
-            <!--android:textColor="@color/clr_black"-->
-            <!--android:textSize="14sp"-->
-            <!--tools:text="11.30 AM" />-->
+
 
         <LinearLayout
             android:layout_width="wrap_content"

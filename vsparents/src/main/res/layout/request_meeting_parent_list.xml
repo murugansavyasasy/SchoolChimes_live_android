@@ -42,7 +42,7 @@
                 android:layout_gravity="center"
                 android:textSize="20dp"
                 android:textColor="@color/clr_white"
-                android:text="Approved"/>
+                android:text="@string/approved"/>
             </LinearLayout>
 
         </LinearLayout>

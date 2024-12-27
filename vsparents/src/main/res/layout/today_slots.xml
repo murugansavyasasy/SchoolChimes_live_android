@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="No Record Found"
+        android:text="@string/no_records_found"
         android:textColor="@color/clr_black"
         android:textSize="15dp"
         android:visibility="visible">
@@ -95,7 +95,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/_10sdp"
             android:padding="3dp"
-            android:text="Open new slots"
+            android:text="@string/open_new_slots"
             android:textColor="@android:color/black"
             android:textSize="15sp"
             android:textStyle="bold" />

@@ -59,7 +59,7 @@
             android:layout_marginTop="5dp"
             android:gravity="left"
             android:padding="10dp"
-            android:text="Kindly save the contacts to avoid spam calls"
+            android:text="@string/kindly_save_the_contacts_to_avoid_spam_calls"
             android:textColor="@color/clr_black"
             android:textSize="15dp"
             android:visibility="visible" />

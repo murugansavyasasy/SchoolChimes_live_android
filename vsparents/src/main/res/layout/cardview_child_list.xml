@@ -270,7 +270,7 @@
                     android:layout_marginTop="2dp"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Unread \n Messages"
+                    android:text="@string/unread_n_messages"
                     android:visibility="gone"
                     android:textColor="@color/clr_black"
                     android:textSize="8sp" />
@@ -292,7 +292,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
-                android:text="Note : "></TextView>
+                android:text="@string/note"></TextView>
 
             <TextView
                 android:id="@+id/lblDisplayMessage"
@@ -302,7 +302,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:text="test message"/>
+                android:text="@string/test_message"/>
 
         </RelativeLayout>
 

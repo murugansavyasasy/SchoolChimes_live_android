@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_width="100dp"
         android:id="@+id/btnView"
-        android:text="View"
+        android:text="@string/view"
         android:textSize="14sp"
         android:layout_margin="5dp"
         android:padding="5dp"

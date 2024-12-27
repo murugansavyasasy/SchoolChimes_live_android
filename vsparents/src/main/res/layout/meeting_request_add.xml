@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Staff"
+            android:text="@string/select_staff"
             android:textColor="@color/bpblack"
             android:textSize="20dp"
             android:textStyle="bold" />

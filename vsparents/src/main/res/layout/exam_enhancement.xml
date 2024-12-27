@@ -83,7 +83,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Subject"
+            android:text="@string/subject"
             android:textSize="16dp"
             android:layout_weight="0.5"
             android:textColor="@color/design_default_color_primary_dark"
@@ -129,7 +129,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Start Time"
+            android:text="@string/start_time"
             android:textSize="16dp"
             android:id="@+id/labelstarttime"
             android:layout_weight="0.5"
@@ -175,7 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:id="@+id/labelendtime"
-            android:text="End Time"
+            android:text="@string/end_time"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
             android:textStyle="bold"
@@ -219,7 +219,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Exam Date"
+            android:text="@string/exam_date"
             android:id="@+id/labelexamdate"
             android:layout_weight="0.5"
             android:textSize="16dp"
@@ -264,7 +264,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Sent By"
+            android:text="@string/sent_by"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -309,7 +309,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Time for Question Reading"
+            android:text="@string/time_for_question_reading"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -354,7 +354,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Mark per Question"
+            android:text="@string/mark_per_question"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -399,7 +399,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Total Questions"
+            android:text="@string/total_questions"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -443,7 +443,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Right Answer"
+            android:text="@string/right_answer"
             android:id="@+id/labelrightanswer"
             android:layout_weight="0.5"
             android:textSize="16dp"
@@ -488,7 +488,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Wrong Answer"
+            android:text="@string/wrong_answer"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -532,7 +532,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Total Marks"
+            android:text="@string/total_marks"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -581,7 +581,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/btnStart"
-            android:text="Start Exam"
+            android:text="@string/start_exam"
             android:textSize="16sp"
             android:layout_margin="5dp"
             android:layout_gravity="center"
@@ -598,7 +598,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Title"
+            android:text="@string/title"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -644,7 +644,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Description"
+            android:text="@string/description"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -677,32 +677,7 @@
             android:layout_marginLeft="2dp"/>
 
     </LinearLayout>
-<!--    <TextView-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:id="@+id/lblTextTitle"-->
-<!--        android:text=""-->
-<!--        android:textSize="18dp"-->
-<!--        android:textColor="@color/clr_black"-->
-<!--        android:layout_below="@+id/lnrDateTime"-->
-<!--        android:textStyle="bold"-->
-<!--        android:layout_marginRight="15dp"-->
-<!--        android:layout_toRightOf="@id/lblNew"-->
-<!--        android:layout_marginTop="2dp"-->
-<!--        android:layout_marginLeft="15dp"/>-->
-<!--    <TextView-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:id="@+id/lblDesc"-->
-<!--        android:text=""-->
-<!--        android:textSize="18dp"-->
-<!--        android:textColor="@color/clr_black"-->
-<!--        android:layout_below="@+id/lblTextTitle"-->
-<!--        android:textStyle="normal"-->
-<!--        android:layout_marginRight="15dp"-->
-<!--        android:layout_toRightOf="@id/lblNew"-->
-<!--        android:layout_marginTop="5dp"-->
-<!--        android:layout_marginLeft="15dp"/>-->
+
     <TextView
         android:id="@+id/lblNew"
         android:layout_width="wrap_content"

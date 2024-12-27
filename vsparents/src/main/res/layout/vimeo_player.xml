@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/bpWhite"
-                android:text="Download"
+                android:text="@string/download"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/imgDownload"
@@ -51,30 +51,6 @@
                 android:src="@drawable/cloud_download" />
 
         </RelativeLayout>
-
-
-        <!--<TextView-->
-        <!--android:id="@+id/image_ToolBarTvTitle"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_marginLeft="10dp"-->
-        <!--android:layout_marginStart="10dp"-->
-            <!--android:layout_toEndOf="@+id/image_ToolBarIvBack"-->
-            <!--android:layout_toRightOf="@+id/image_ToolBarIvBack"-->
-            <!--android:textColor="@color/clr_white"-->
-            <!--android:textSize="20sp"-->
-            <!--android:textStyle="bold"-->
-            <!--android:text="Back"-->
-             <!--/>-->
-
-<!--        <com.google.android.youtube.player.YouTubePlayerView-->
-
-<!--            android:layout_below="@+id/imgBack"-->
-<!--            android:id="@+id/youtube_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"/>-->
-
 
 
     </RelativeLayout>
@@ -117,7 +93,7 @@
         android:layout_centerInParent="true"
         android:textColor="@color/clr_white"
         android:layout_height="wrap_content"
-        android:text="Approve"/>
+        android:text="@string/approve"/>
 
     <LinearLayout
         android:id="@+id/showProgress"

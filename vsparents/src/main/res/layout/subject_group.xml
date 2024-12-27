@@ -14,7 +14,7 @@
         android:layout_marginLeft="5dp"
         android:textSize="15dp"
         android:layout_marginTop="5dp"
-        android:text="Exam Name"
+        android:text="@string/exam_name"
         android:textStyle="bold"
         android:textColor="@color/clr_black" />
 
@@ -26,7 +26,7 @@
         android:layout_marginLeft="5dp"
         android:textSize="12dp"
         android:layout_height="wrap_content"
-        android:text="exam name"
+        android:text="@string/exam_name"
         />
 
 
@@ -39,14 +39,14 @@
        android:layout_marginLeft="5dp"
         android:textSize="15dp"
         android:textStyle="bold"
-        android:text="Exam Description"
+        android:text="@string/exam_description"
         android:textColor="@color/clr_black" />
 
     <TextView
         android:id="@+id/lblSyllabusName"
         android:layout_below="@+id/lblSyllabus"
         android:layout_marginLeft="5dp"
-        android:text="Syllabus content"
+        android:text="@string/syllabus_content"
         android:textSize="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

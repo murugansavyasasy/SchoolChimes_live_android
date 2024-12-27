@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Amount to be Paid"
+            android:text="@string/amount_to_be_paid"
             android:textStyle="bold"
             android:textColor="@color/clr_black"
             android:textSize="20dp" />
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Online Charges"
+            android:text="@string/online_charges"
             android:textStyle="bold"
             android:textColor="@color/clr_black"
             android:textSize="20dp" />
@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Late Fee"
+            android:text="@string/late_fee"
             android:textStyle="bold"
             android:textColor="@color/clr_black"
             android:textSize="20dp" />
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Total"
+            android:text="@string/total"
             android:textStyle="bold"
             android:textColor="@color/clr_black"
             android:textSize="20dp" />
@@ -143,7 +143,7 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:layout_marginTop="30dp"
-        android:text="Make Payment"
+        android:text="@string/make_payment"
         android:textColor="@color/bpWhite"
         android:textSize="15dp" />
 

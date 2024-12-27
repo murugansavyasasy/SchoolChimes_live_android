@@ -58,13 +58,6 @@
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true" />
 
-                            <!--<ImageView-->
-                            <!--android:id="@+id/dates_nivThumbnailSchoolImg"-->
-                            <!--android:layout_width="@dimen/network_image_size_small"-->
-                            <!--android:layout_height="@dimen/network_image_size_small"-->
-                            <!--android:gravity="center_vertical"-->
-                            <!--android:src="@drawable/teacher_logo_school_messenger" />-->
-
 
                             <LinearLayout
                                 android:id="@+id/linearLayout1"
@@ -117,7 +110,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Logged in as"
-                                tools:text="Logged in as " />
+                                tools:text="@string/logged_in_as" />
 
                             <TextView
                                 android:id="@+id/home_tvLoggedInAs"
@@ -135,7 +128,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:padding="5dp"
-                                android:text="Change"
+                                android:text="@string/change"
                                 android:textSize="10dp" />
                         </LinearLayout>
                     </RelativeLayout>

@@ -12,8 +12,7 @@
             android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-           >
+            app:layout_constraintTop_toTopOf="parent">
 
 
         <ImageView
@@ -69,7 +68,7 @@
                 android:minLines="1"
                 android:maxLines="15"
                 android:background="@null"
-                android:hint="Type a answer"
+                android:hint="@string/type_a_answer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +85,7 @@
             android:background="@drawable/replay_button_bkg"
             android:minHeight="0dp"
             android:padding="@dimen/_4sdp"
-            android:text="Reply to all"
+            android:text="@string/reply_to_all"
             android:textAllCaps="false"
             android:textColor="@color/clr_white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -103,7 +102,7 @@
             android:background="@drawable/replay_button_bkg"
             android:minHeight="0dp"
             android:padding="@dimen/_4sdp"
-            android:text="Reply Privately"
+            android:text="@string/reply_privately"
             android:textAllCaps="false"
             android:textColor="@color/clr_white"
             app:layout_constraintBottom_toBottomOf="parent"

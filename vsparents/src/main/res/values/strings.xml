@@ -5,16 +5,13 @@
     <string name="app_id">3</string>
 
     <string name="flavour_name">Flavour</string>
-
     <string name="location_add_instructions_attendance">Accurate location settings are crucial for ensuring that attendance is only marked when users are within the designated area of the institute. Please double-check the location before submitting.\n\nOnce saved, this location will be used to verify the proximity of users when they mark their attendance. Ensure that the location is correct as it will directly impact attendance functionality.</string>
     <string name="outside_of_the_location">Note : You are outside the institutes boundary. you will not be able to mark your attendance.\n\nPlease try again when you are within the designated area.</string>
     <string name="mark_attendance_instruction">Tap on the <b>\"Punch\"</b> button to record your attendance for the day. A confirmation message will appear once your attendance is successfully marked.</string>
 
-
     <string name="selected">selected</string>
     <string name="done">Done</string>
     <string name="limit_exceeded">Can select a maximum of %d images</string>
-
     <string name="error_null_cursor">Oops, something went wrong!</string>
 
     <!--Request Permission-->
@@ -23,15 +20,12 @@
     <string name="permission_ok">OK</string>
     <string name="permission_settings">Settings</string>
     <string name="permission_package">package</string>
-
     <string name="app_sub_title">for Parents</string>
 
     <!-- Menu -->
     <string name="txt_menu_help">Help</string>
     <string name="txt_menu_logout">Logout</string>
     <string name="txt_menu_settings">Settings</string>
-
-
     <string name="txt_menu_change_password">Change Password</string>
 
     <!-- Splash -->
@@ -39,8 +33,6 @@
 
     <!-- Login -->
     <string name="txt_hello">Hello! \n Please fill out the form below to get started.</string>
-
-
     <string name="txt_signin">Sign in here.</string>
     <string name="txt_mobile">Mobile Number</string>
     <string name="hint_mobile">Enter Mobile Number</string>
@@ -51,8 +43,6 @@
     <string name="hint_save_image">Click here to View full image</string>
     <string name="btn_save_image">Save Image</string>
     <string name="btn_download_image">Download Image</string>
-
-
 
     <string name="txt_new">New</string>
     <string name="sample_txt_msg">Voice Snap is an innovative provider of Voice based Solutions and Products that add value to enterprises across the business value chain. From a technology perspective, we harness CTI, IVR and Web Technologies along with a deep understanding of Business Process Engineering to create value to Enterprises across the Business Value Chain.</string>
@@ -80,7 +70,6 @@
     <string name="pop_response_btn_send">Send</string>
     <string name="pop_response_hint_msg">Enter message here..</string>
     <string name="pop_response_txt_count">460</string>
-
 
     <string name="txt_test_ques">Did you accept?</string>
     <string name="rb_yes">Yes</string>
@@ -158,7 +147,6 @@
     <string name="teacher_btn_login">Login</string>
     <string name="teacher_btn_forgot_password">Forgot Password?</string>
 
-
     <!--Message Type-->
     <string name="teacher_txt_hello1">Hello! \n What would you like to send today?</string>
     <string name="teacher_txt_voice"><b>Voice</b> message</string>
@@ -181,7 +169,6 @@
     <string name="teacher_staff_to_students">TO SECTION OR STUDENTS</string>
     <string name="teacher_staff_hint_title">Title/Subject</string>
 
-
     <!--Imagess -->
     <string name="teacher_txt_composeImg">Upload Image/PDF</string>
     <string name="teacher_image_hint_title">About Image/PDF</string>
@@ -189,16 +176,12 @@
     <!--Voice Message-->
     <string name="teacher_txt_Recordvoice">Record Voice Message</string>
     <string name="teacher_txt_recorded_voice">Recorded Voice Message</string>
-    <!--<string name="txt_start_record">Press the button to <b>Start</b> recording the <b>voice message</b></string>-->
-    <!--<string name="txt_stop_record">Press the button to <b>Stop</b>  recording the <b>voice message</b></string>-->
-
     <string name="teacher_txt_start_record">Press the button to <b>RECORD</b></string>
     <string name="teacher_txt_stop_record">Press the button to <b>STOP RECORD</b></string>
     <string name="teacher_txt_PreviewVoice">Listen <b>Voice</b> Message</string>
     <string name="teacher_txt_next">Next</string>
     <string name="teacher_txt_sendimg">Send Image</string>
     <string name="teacher_txt_chgimg">CHANGE IMAGE/PDF</string>
-
     <string name="teacher_txt_general_title">You can record upto 3 minutes</string>
     <!--Emergency Voice Message-->
     <string name="teacher_txt_emergency_voice">Record Emergency Voice</string>
@@ -243,13 +226,10 @@
     <string name="teacher_pop_password_hint_repeat">Confirm New Password</string>
     <string name="teacher_pop_password_btnUpdate">Update</string>
     <string name="teacher_pop_password_btnCancel">Cancel</string>
-
     <!-- Menu -->
     <string name="teacher_txt_menu_help">Help</string>
     <string name="teacher_txt_menu_logout">Logout</string>
     <string name="teacher_txt_menu_change_password">Change Password</string>
-
-
     <string name="teacher_teacher_pop_response_title_help">Help</string>
     <string name="teacher_pop_response_btn_send">Send</string>
     <string name="teacher_pop_response_btn_clear">Clear</string>
@@ -258,7 +238,6 @@
     <string name="teacher_for_schools"></string>
     <string name="teacher_choosen_recipient">Choosen Recipient</string>
     <string name="teacher_Select_school">Select Schools</string>
-
     <string name="teacher_atten_sections">Section(s)</string>
     <!-- Attendance -->
     <string name="teacher_title_attendance">Attendance</string>
@@ -267,10 +246,8 @@
     <string name="teacher_atten_subject">Subject</string>
     <string name="teacher_btn_choose_students">Select Absentees</string>
     <string name="teacher_btn_mark_all_present">Mark All as Present</string>
-
     <string name="teacher_title_add_temp_class">Add New Class</string>
     <string name="teacher_btn_Add">Add</string>
-
     <string name="teacher_home_emergency">Emergency Voice</string>
     <string name="teacher_home_voice_parents">Voice to Parents</string>
     <string name="teacher_home_text_parents">Text to Parents</string>
@@ -288,10 +265,7 @@
     <string name="teacher_home_mesasagesfrommgmt">Messages From Management</string>
     <string name="teacher_btn_voice_play">Play Audio</string>
     <string name="teacher_btn_voice_save">Download</string>
-
-
     <string name="teacher_failuremsg">Check your Internet connectivity</string>
-
     <string name="School_title">Select School..</string>
     <string name="p_s_b_b_sr_secondary_school">P.S.B.B Sr Secondary School</string>
     <string name="chennai_india">Chennai,India</string>
@@ -390,6 +364,7 @@
     <string name="enter_your_otp">Enter Your OTP</string>
     <string name="resend_otp">Resend OTP</string>
     <string name="created_on">Created On</string>
+    <string name="created_onn">CREATED ON : </string>
     <string name="total_paid">Total Paid</string>
     <string name="payment_type">Payment Type</string>
     <string name="late_fee">Late Fee</string>
@@ -418,6 +393,7 @@
     <string name="subject_session">Session :</string>
     <string name="bill_date">Date :</string>
     <string name="payment_mode">Payment Mode :</string>
+    <string name="payment_modee">Payment Mode</string>
     <string name="s_no">S.No</string>
     <string name="bill_fee_name">Fee Name</string>
     <string name="bill_payment">Payment</string>
@@ -548,6 +524,7 @@
     <string name="staffsss">Staff</string>
     <string name="subject_name">"Subject Name "</string>
     <string name="staff_name">"Staff Name "</string>
+    <string name="staff_namee">"Staff Name  - "</string>
     <string name="standard">Standard</string>
     <string name="section">Section</string>
     <string name="class_teacher">Class Teacher</string>
@@ -634,8 +611,6 @@
     <string name="null_time">0:00</string>
 
     <string name="back_to_login"><u>Back to login</u></string>
-
-
     <string name="SeeMore">See More >> </string>
     <string name="maximum_size_20_mb">( Maximum size - 10 MB )</string>
     <string name="upload_student_profile">Upload Student Profile</string>
@@ -644,23 +619,15 @@
     <string name="browse_file">Browse File</string>
     <string name="enter_file_name">Enter file name</string>
     <string name="camera">Camera</string>
-
     <string name="uploadvideo">Upload Video</string>
     <string name="uploadimage">Upload Image</string>
-
     <string name="viewMarks">View Marks</string>
     <string name="viewProgress">View report card</string>
-
     <string name="app_version">7.6.22</string>
-
-
     <string name="lbl_Yet_to_start">Yet to start</string>
     <string name="lbl_in_progress">In Progress</string>
     <string name="lbl_completed">Completed</string>
-
-
     <!--   Update whats new features here-->
-
     <string name="text_feature_one">\u25CF   Bug fixed.</string>
     <string name="text_feature_two">\u25CF   Issues Resolved.  </string>
     <string name="text_feature_three">\u25CF   Collection widget present in layout file and change. </string>
@@ -668,21 +635,302 @@
     <string name="text_feature_five">\u25CF   Payment added.  </string>
     <string name="text_feature_six">\u25CF   We have got the reference to the Textview in layout file. </string>
     <string name="text_feature_seven">\u25CF   Staff details added.  </string>
-
     <string name="Rs">\u20B9</string>
-
-
     <string name="ads_size">BANNER</string>
     <string name="large_banner">LARGE_BANNER</string>
-    <!--    <string name="ads_size">MEDIUM_RECTANGLE</string>-->
-    <!--    <string name="ads_size">SMART_BANNER</string>-->
-
-    <!--    test unit id-->
-    <!--    <string name="ads_unit_one">ca-app-pub-3940256099942544/6300978111</string>-->
-
-    <!--    production unit ids-->
     <string name="ads_unit_one">ca-app-pub-4334956274721233/1811829719</string>
     <string name="native_ads_unit_one">ca-app-pub-4334956274721233/3918899445</string>
 
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="search">Search</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="submission_date">Submission Date</string>
+    <string name="category">Category</string>
+    <string name="choose_recipients">Choose Recipients</string>
+    <string name="school_chimes">School Chimes</string>
+    <string name="total_number_of_questions">Total Number Of Questions</string>
+    <string name="mark_per_question">Mark Per Question</string>
+    <string name="subject">Subject</string>
+    <string name="subjectss">SUBJECT : </string>
+    <string name="date">Date</string>
+    <string name="sort_order">Sort Order</string>
+    <string name="right_answer">Right Answer</string>
+    <string name="wrong_answer">Wrong Answer</string>
+    <string name="total_mark">Total Mark</string>
+    <string name="sent_by">Sent By</string>
+    <string name="get_questions">Get Questions</string>
+    <string name="no_records_found">No Records Found</string>
+    <string name="book_slot">book slot</string>
+    <string name="added_file_attachments">Added File Attachments</string>
+    <string name="str_class">Class</string>
+    <string name="compose_pdf">Compose Pdf</string>
+    <string name="assignment_title">Assignment Title</string>
+    <string name="click_here_to_upload_pdf">Click here to upload pdf</string>
+    <string name="change_pdf">CHANGE PDF</string>
+    <string name="no_messages_found">No messages found</string>
+    <string name="type_a_question">Type a question</string>
+    <string name="type_a_answer">Type a answer</string>
+    <string name="reply_to_all">Reply to all</string>
+    <string name="reply_privately">Reply Privately</string>
+    <string name="for_schools">for schools</string>
+    <string name="not_answered">Not Answered</string>
+    <string name="you_can_record_assignment_voice_message_upto_3_minutes">You can record assignment voice message upto 3 minutes</string>
+    <string name="allow_location_access_to_mark_your_attendance">Allow location access to mark your attendance!</string>
+    <string name="to_enhance_your_experience_and_provide_accurate_location_based_features_please_enable_gps">To enhance your experience and provide accurate location-based features, please enable GPS.</string>
+    <string name="enable_location">Enable Location</string>
+    <string name="fetching_location">Fetching Location.!!</string>
+    <string name="important_note">Important Note</string>
+    <string name="pin_your_location_name">Pin your location name *</string>
+    <string name="enter_location_name">Enter location name</string>
+    <string name="drop_your_boundary_location_distance_in_meters">Drop your boundary location distance in meters *</string>
+    <string name="your_address">Your Address *</string>
+    <string name="current_latitude_and_longitude_is">Current latitude and longitude is :</string>
+    <string name="pick_your_location">PICK YOUR LOCATION</string>
+    <string name="tap_to_view_your_existing_punch_locations">Tap to view your existing punch locations.</string>
+    <string name="submit_your_location">SUBMIT YOUR LOCATION</string>
+    <string name="submission_due">Submission Due</string>
+    <string name="submission_count">Submission Count</string>
+    <string name="total_count">Total Count</string>
+    <string name="view">View</string>
+    <string name="forward">Forward</string>
+    <string name="delete">Delete</string>
+    <string name="submissions">Submissions</string>
+    <string name="submitted_count">Submitted Count</string>
+    <string name="end_date">End Date</string>
+    <string name="present">Present</string>
+    <string name="biometric_authentications">Biometric authentications</string>
+    <string name="biometric_authentication_is_required_to_present">Biometric authentication is required to present</string>
+    <string name="authenticate_again">Authenticate again</string>
+    <string name="general_meeting">General meeting</string>
+    <string name="staff_subject_name">Staff - Subject Name :</string>
+    <string name="mode">Mode :</string>
+    <string name="modee">Mode</string>
+    <string name="phone_call">Phone call</string>
+    <string name="link">Link :</string>
+    <string name="check_slot_availability">Check slot availability</string>
+    <string name="fingerprint_authentication">Fingerprint Authentication</string>
+    <string name="please_allow_school_chimes_to_make_use_of_your_fingerprint_authentication_to_enable_seamless_attendance_registration">Please allow School Chimes to make use of your fingerprint authentication to enable seamless attendance registration.</string>
+    <string name="yes_enable_seamless_attendance">Yes. Enable seamless attendance</string>
+    <string name="no_i_ll_continue_with_the_conventional_method">No. I\'ll continue with the conventional method</string>
+    <string name="close">Close</string>
+    <string name="attachment">Attachment</string>
+    <string name="gallery">Gallery</string>
+    <string name="pdf">PDF</string>
+    <string name="voice">Voice</string>
+    <string name="sorting">Sorting</string>
+    <string name="sort_alphabetically_a_z">Sort Alphabetically (A → Z)</string>
+    <string name="sort_alphabetically_z_a">Sort Alphabetically (Z → A)</string>
+    <string name="sort_by_roll_number_low_high">Sort by Roll Number (Low → High)</string>
+    <string name="sort_by_roll_number_high_low">Sort by Roll Number (High → Low)</string>
+    <string name="order_details">Order Details</string>
+    <string name="proceed_payment">PROCEED PAYMENT</string>
+    <string name="send_to_standard_or_sections">SEND TO STANDARD OR SECTIONS</string>
+    <string name="calling_from_your_school">Calling from your school.......</string>
+    <string name="accept">Accept</string>
+    <string name="click_here">Click Here</string>
+    <string name="please_give_a_call_bellow_any_of_the_number_and_get_otp">Please give a call bellow any of the number and get OTP</string>
+    <string name="cancel_reason">Cancel Reason</string>
+    <string name="type_here">Type here</string>
+    <string name="note">Note :</string>
+    <string name="test_message">test message</string>
+    <string name="certificate_type">Certificate Type</string>
+    <string name="reason">Reason</string>
+    <string name="status">Status</string>
+    <string name="view_certificate">VIEW CERTIFICATE</string>
+    <string name="payment_status">Payment Status</string>
+    <string name="discount">Discount</string>
+    <string name="amount_to_be_paid">Amount to be paid</string>
+    <string name="choose_your_account">Choose your account</string>
+    <string name="teacher">Teacher</string>
+    <string name="parent">Parent</string>
+    <string name="add_attachments">Add Attachments</string>
+    <string name="add_image">Add Image</string>
+    <string name="add_pdf">Add PDF</string>
+    <string name="add_voice">Add Voice</string>
+    <string name="select_the_type_in_which_you_want_to_create_the_assignment">Select the type in which you want to create the Assignment</string>
+    <string name="text">Text</string>
+    <string name="image">Image</string>
+    <string name="did_you_know">Did you know?</string>
+    <string name="ok">OK</string>
+    <string name="incoming_call">Incoming call........</string>
+    <string name="to">To</string>
+    <string name="total_collected">Total Collected</string>
+    <string name="no_collection_for_the_selected_date">No Collection for the selected date</string>
+    <string name="current_year_fee">Current Year Fee</string>
+    <string name="previous_year_fee">Previous Year Fee</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="info">Info</string>
+    <string name="downloading_video">Downloading video...</string>
+    <string name="update">Update</string>
+    <string name="update_details">Update details!!</string>
+    <string name="distance_in_meters">Distance in meters</string>
+    <string name="cancel">Cancel</string>
+    <string name="an">AN</string>
+    <string name="exam_date">Exam Date</string>
+    <string name="time_for_question_reading">Time for Question Reading</string>
+    <string name="total_questions">Total Questions</string>
+    <string name="total_marks">Total Marks</string>
+    <string name="start_exam">Start Exam</string>
+    <string name="student_details">STUDENT DETAILS</string>
+    <string name="exam_name">Exam Name</string>
+    <string name="max_marks">Max Marks</string>
+    <string name="hig_avg_marks">Hig/Avg Marks</string>
+    <string name="display_marks">Display Marks</string>
+    <string name="question">Question</string>
+    <string name="category_wise">CATEGORY WISE</string>
+    <string name="class_wise">CLASS WISE</string>
+    <string name="send_data_to_next_activity">Send Data To Next Activity</string>
+    <string name="term_fees">Term Fees</string>
+    <string name="other_fess">Other Fess</string>
+    <string name="term_1">Term 1</string>
+    <string name="homework_title">Homework title</string>
+    <string name="preview">Preview</string>
+    <string name="receipt_number">Receipt Number</string>
+    <string name="receipt_amount">Receipt Amount</string>
+    <string name="receipt_date">Receipt Date</string>
+    <string name="view_receipt">View Receipt</string>
+    <string name="all_classes">All Classes</string>
+    <string name="classes_you_handle">Classes You Handle</string>
+    <string name="completed_status">Completed Status -</string>
+    <string name="google_meet">GOOGLE MEET</string>
+    <string name="click_to_view">Click to view</string>
+    <string name="your_locations">Your locations</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="submitted_on">Submitted On</string>
+    <string name="take_lsrw">Take LSRW</string>
+    <string name="sports_meeting">Sports Meeting.</string>
+    <string name="upcoming">Upcoming...</string>
+    <string name="take_me_to_meeting"><![CDATA[Take me to meeting >>]]></string>
+    <string name="cancel_amp_reopen"><![CDATA[Cancel & Reopen]]></string>
+    <string name="online_meeting">Online Meeting</string>
+    <string name="create">Create</string>
+    <string name="compose_meeting_url">Compose Meeting URL</string>
+    <string name="meeting_platform">Meeting Platform</string>
+    <string name="paste_your_meeting_link">Paste your meeting link</string>
+    <string name="month_name">Month Name</string>
+    <string name="download">Download</string>
+    <string name="end_call">End Call</string>
+    <string name="meeting_date_time">MEETING DATE TIME :</string>
+    <string name="meeting_type">MEETING TYPE :</string>
+    <string name="target_type">TARGET TYPE :</string>
+    <string name="cancel_meeting">Cancel Meeting</string>
+    <string name="otp_has_been_sent_to_your_registered_mobile_number">OTP has been sent to your registered mobile number.</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="Continue_n">Continue</string>
+    <string name="if_you_did_not_get_otp_through_sms_please_call_any_of_the_below_numbers_to_get_otp">If you did not get OTP through SMS..Please call any of the below numbers to get OTP</string>
+    <string name="online_charges">Online Charges</string>
+    <string name="payment_done">Payment Done !!</string>
+    <string name="payment_has_been_done_successfully_thank_you">Payment has been done successfully...Thank you !!</string>
+    <string name="profile_photo">Profile photo</string>
+    <string name="upload_student_photo_max_size_10mb">Upload Student Photo (Max size 10MB)</string>
+    <string name="upload_student_docs_fee_receipt_or_proof">Upload Student Docs / Fee Receipt or Proof</string>
+    <string name="click_upload_for_each_document_to_upload">( Click upload for each document to upload )</string>
+    <string name="upload">Upload</string>
+    <string name="uploaded_documents_only_these_documents_will_be_sent_for_approval">Uploaded Documents : (Only these documents will be sent for approval )</string>
+    <string name="schedule_meeting">Schedule Meeting</string>
+    <string name="your_meeting">Your Meeting</string>
+    <string name="punch_history">Punch History</string>
+    <string name="quiz">Quiz</string>
+    <string name="select_certificate">Select Certificate</string>
+    <string name="shedule_date">Shedule Date</string>
+    <string name="shedule_time">Shedule Time</string>
+    <string name="enter_your_comment">Enter Your Comment</string>
+    <string name="reject">Reject</string>
+    <string name="reason_for_reject">Reason For Reject</string>
+    <string name="kindly_save_the_contacts_to_avoid_spam_calls">Kindly save the contacts to avoid spam calls</string>
+    <string name="time_of_the_call">Time of the call</string>
+    <string name="initiate_call_on">Initiate Call on</string>
+    <string name="do_not_dial_beyond">Do not dial beyond</string>
+    <string name="select_the_dates_to_be_schedule">Select the dates to be schedule.</string>
+    <string name="select_the_date">Select the date</string>
+    <string name="class_name">Class Name</string>
+    <string name="to_help_you_receive_a_calls_on_school_chimes_allow_school_chimes_access_to_your_contacts_tap_settings_permissions_and_turn_contacts_on"><![CDATA[To help you receive a calls on school chimes, allow school chimes access to your contacts. Tap Settings > Permissions, and turn Contacts on.]]></string>
+    <string name="not_now">Not now</string>
+    <string name="settings">Settings</string>
+    <string name="to_send_media_allow_school_chimes_access_to_your_device_s_photos_media_camera_and_files_tap_settings_permissions_and_turn_files_camera_and_media_on"><![CDATA[To send media, allow School chimes access to your device\'s photos,media,camera and files. Tap Settings >Permissions, and turn Files,Camera and media on]]></string>
+    <string name="to_send_media_allow_school_chimes_access_to_your_device_s_photos_media_microphone_and_files_tap_settings_permissions_and_turn_files_and_media_on"><![CDATA[To send media, allow School chimes access to your device\'s photos,media,microphone and files. Tap Settings >Permissions, and turn Files and media on]]></string>
+    <string name="from_time">From Time</string>
+    <string name="to_time">To Time</string>
+    <string name="purpose_of_discussion">Purpose of discussion *</string>
+    <string name="select_mode">Select Mode</string>
+    <string name="paste_your_link_here">Paste your link here.</string>
+    <string name="select_class">Select Class</string>
+    <string name="open_slot_s_between">Open slot\'s between</string>
+    <string name="from">From</string>
+    <string name="select_from_time">Select from time</string>
+    <string name="select_to_time">Select to time</string>
+    <string name="slot_duration">Slot duration</string>
+    <string name="enter_slot_duration">Enter slot duration</string>
+    <string name="need_break_between_slots">Need break between slots?</string>
+    <string name="between">Between</string>
+    <string name="slots">Slots</string>
+    <string name="select_date_for_slot">Select date for slot</string>
+    <string name="not_available">Not Available</string>
+    <string name="select_date__">--- Select date ---</string>
+    <string name="mark_attendance">Mark Attendance</string>
+    <string name="your_attendance_details">Your Attendance Details</string>
+    <string name="punch">Punch</string>
+    <string name="add_punch_location">Add punch location</string>
+    <string name="today_s_report">Today\'s report</string>
+    <string name="staff_wise_reports">Staff wise reports</string>
+    <string name="admission_no">Admission No :</string>
+    <string name="admission_noo">Admission No</string>
+    <string name="another_question">Another question</string>
+    <string name="student_name">Student Name</string>
+    <string name="section_name">Section Name</string>
+    <string name="gender">Gender</string>
+    <string name="mobile_no">Mobile No</string>
+    <string name="class_teacher_name">Class Teacher Name</string>
+    <string name="father_name">Father Name</string>
+    <string name="call">Call</string>
+    <string name="send_sms">Send SMS</string>
+    <string name="get_all_student">GET ALL STUDENT</string>
+    <string name="exam_description">Exam Description</string>
+    <string name="syllabus_content">Syllabus content</string>
+    <string name="fee_details">Fee Details</string>
+    <string name="attendance_marking">Attendance Marking</string>
+    <string name="attendance_report">Attendance Report</string>
+    <string name="attendance_type">Attendance type</string>
+    <string name="sessions">Sessions</string>
+    <string name="sort">Sort</string>
+    <string name="record_voice_message">Record Voice Message</string>
+    <string name="add_file_audio">Add file(Audio)</string>
+    <string name="home_work">Home Work</string>
+    <string name="homework_reports">Homework Reports</string>
+    <string name="you_can_record_upto_3_minutes">You can record upto 3 minutes</string>
+    <string name="compose_notice_board">Compose Notice Board</string>
+    <string name="notice_board">Notice Board</string>
+    <string name="compose_noticeboard">Compose Noticeboard</string>
+    <string name="choose_recipient">Choose Recipient</string>
+    <string name="no_internet_connection">No Internet connection</string>
+    <string name="retry">RETRY</string>
+    <string name="install">INSTALL</string>
+    <string name="sending">Sending........</string>
+    <string name="me">Me</string>
+    <string name="roll_no">Roll No</string>
+    <string name="today_s_booked_slots">Today\'s Booked Slots</string>
+    <string name="all_slots">All Slots</string>
+    <string name="groups">Groups</string>
+    <string name="open_new_slots">Open new slots</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="i_agree">I agree</string>
+    <string name="assignment">Assignment</string>
+    <string name="yet_to_start">Yet to Start</string>
+    <string name="in_progress">In Progress</string>
+    <string name="completed">Completed</string>
+    <string name="all">All</string>
+    <string name="edit">Edit</string>
+    <string name="update_available">Update Available!</string>
+    <string name="your_version">Your Version</string>
+    <string name="what_s_new_in_this_version">What\'s new in this version :-</string>
+    <string name="new_version">New Version</string>
+    <string name="update_now">Update Now</string>
 
 </resources>

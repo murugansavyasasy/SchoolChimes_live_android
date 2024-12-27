@@ -23,8 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:orientation="vertical"
-           >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/cardImage_tvDate"
@@ -96,18 +95,6 @@
 
         </LinearLayout>
 
-        <!--<TextView-->
-        <!--android:id="@+id/cardImage_tvTime"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:gravity="right"-->
-        <!--android:padding="3dp"-->
-        <!--android:textColor="@color/clr_black"-->
-        <!--android:textSize="14sp"-->
-        <!--tools:text="11.30 AM" />-->
 
 
     </RelativeLayout>
@@ -122,7 +109,7 @@
         android:textColor="@color/clr_black"
         android:visibility="gone"
         android:background="@color/bpLine_background"
-        android:text="Description" />
+        android:text="@string/description" />
     <FrameLayout
         android:id="@+id/frmPlayVideo"
         android:layout_width="match_parent"
@@ -130,18 +117,6 @@
         android:background="@color/clr_white_fifty">
 
 
-<!--        <com.vs.schoolmessenger.assignment.view.VimeoPlayerView-->
-<!--            android:id="@+id/card_video_image"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            app:autoPlay="false"-->
-<!--            app:loop="false"-->
-<!--            app:muted="false"-->
-<!--            app:showFullscreenOption="false"-->
-<!--            app:showMenuOption="true"-->
-<!--            app:showOriginalControls="true"-->
-<!--            app:showTitle="true"/>-->
         <ImageView
             android:id="@+id/imgVideo"
             android:layout_marginLeft="1dp"

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/clr_black"
         android:textSize="@dimen/_16sdp"
-        android:text="Select Certificate"/>
+        android:text="@string/select_certificate"/>
 
     <RelativeLayout
         android:layout_below="@+id/lblCertificate"

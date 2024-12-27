@@ -27,7 +27,7 @@
             android:layout_below="@+id/imgClose"
             android:layout_marginLeft="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_30sdp"
-            android:text="Time of thr call"
+            android:text="@string/time_of_the_call"
             android:textColor="@color/bpblack"
             android:textSize="@dimen/_16sdp"
             android:textStyle="bold"></TextView>
@@ -40,7 +40,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="100dp"
-            android:text="Time"
+            android:text="@string/time"
             android:textColor="@color/bpblack"
             android:textSize="@dimen/_16sdp"
             android:textStyle="bold"></TextView>
@@ -60,7 +60,7 @@
                 android:layout_below="@+id/imgClose"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="0.25"
-                android:text="Initiate Call on "
+                android:text="@string/initiate_call_on"
                 android:textColor="@color/bpblack"
                 android:textSize="19dp"
                 android:textStyle="bold"></TextView>
@@ -100,7 +100,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="100dp"
-            android:text="Time"
+            android:text="@string/time"
             android:textColor="@color/bpblack"
             android:textSize="@dimen/_16sdp"
             android:textStyle="bold"></TextView>
@@ -120,7 +120,7 @@
                 android:layout_below="@+id/imgClose"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="0.25"
-                android:text="Do not dial beyond "
+                android:text="@string/do_not_dial_beyond"
                 android:textColor="@color/bpblack"
                 android:textSize="19dp"
                 android:textStyle="bold"></TextView>
@@ -160,7 +160,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="100dp"
-            android:text="Select the dates to be schedule."
+            android:text="@string/select_the_dates_to_be_schedule"
             android:textColor="@color/bpblack"
             android:textSize="@dimen/_16sdp"
             android:textStyle="bold"></TextView>
@@ -182,7 +182,7 @@
                 android:drawableRight="@drawable/ic_date"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
-                android:text="Select the date"
+                android:text="@string/select_the_date"
                 android:textColor="@color/bpblack"
                 android:textSize="18dp"></TextView>
 

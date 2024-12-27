@@ -34,8 +34,7 @@
                         android:id="@+id/expSubjects"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
-                        android:divider="@null"
-                        >
+                        android:divider="@null">
                     </ExpandableListView>
                 </RelativeLayout>
             </ScrollView>

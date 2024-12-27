@@ -22,7 +22,7 @@
             android:background="@color/is_dailycollection_header"
             android:gravity="center"
             android:padding="11dp"
-            android:text="CATEGORY WISE"
+            android:text="@string/category_wise"
             android:textColor="@color/bpWhite"
             android:textSize="15dp"
             android:textStyle="bold"></TextView>
@@ -34,7 +34,7 @@
             android:layout_weight="0.4"
             android:gravity="center"
             android:padding="11dp"
-            android:text="CLASS WISE"
+            android:text="@string/class_wise"
             android:textColor="@color/bpblack"
             android:textSize="15dp"
             android:textStyle="bold"></TextView>
@@ -78,7 +78,7 @@
         android:id="@+id/lblNoRecords"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Records Found"
+        android:text="@string/no_records_found"
         android:textColor="@color/clr_black"
         android:textSize="@dimen/_20sdp"
         android:visibility="gone"

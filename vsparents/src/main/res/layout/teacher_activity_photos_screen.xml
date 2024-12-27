@@ -122,12 +122,6 @@
                     android:visibility="visible" />
 
 
-                <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/imageRecyclerView"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-                <!--</android.support.v7.widget.RecyclerView>-->
 
                 <LinearLayout
                     android:id="@+id/lnrImages"
@@ -217,7 +211,7 @@
                         android:id="@+id/lblPdfFileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="File Name"
+                        android:text="@string/file_name"
                         android:textColor="@color/clr_white"
                         android:visibility="visible" />
 

@@ -65,7 +65,7 @@
                 android:id="@+id/lblStaff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Staff Name  - "
+                android:text="@string/staff_namee"
                 android:textColor="@color/clr_black"
                 android:textSize="@dimen/_12ssp"/>
 
@@ -75,7 +75,6 @@
                 android:layout_height="wrap_content"
                 android:text="Murugan"
                 android:textColor="@color/clr_black"
-
                 android:textSize="@dimen/_14ssp"/>
 
         </LinearLayout>
@@ -94,7 +93,7 @@
                 android:id="@+id/lblCompleted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Completed Status  - "
+                android:text="@string/completed_status"
                 android:textColor="@color/clr_black"
                 android:textSize="@dimen/_12ssp"/>
 
@@ -114,12 +113,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/card_grey" />
-
-
-
-
-
-
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -220,7 +213,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/bg_shadow_white_card"
                 android:paddingHorizontal="5dp"
-                android:text="VIEW"
+                android:text="@string/view"
                 android:textColor="@color/teacher_clr_blue"
                 android:textSize="14dp" />
 

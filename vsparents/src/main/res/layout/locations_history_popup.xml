@@ -37,7 +37,7 @@
                 android:id="@+id/lblTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Your locations"
+                android:text="@string/your_locations"
                 android:gravity="center"
                 android:layout_centerVertical="true"
                 android:textColor="@color/bpBlue"

@@ -47,21 +47,6 @@
 
 
 
-<!--        <TextView-->
-<!--            android:id="@+id/scrollingtext"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:ellipsize="marquee"-->
-<!--            android:focusable="true"-->
-<!--            android:focusableInTouchMode="true"-->
-<!--            android:marqueeRepeatLimit="marquee_forever"-->
-<!--            android:scrollHorizontally="true"-->
-<!--            android:singleLine="true"-->
-<!--            android:text=""-->
-<!--            android:textColor="@color/clr_criomson"-->
-<!--            android:textSize="14dp" />-->
-
             <TextView
                 android:gravity="center_vertical"
                 android:id="@+id/scrollingtext"

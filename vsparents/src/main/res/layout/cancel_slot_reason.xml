@@ -9,7 +9,7 @@
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel Reason"
+        android:text="@string/cancel_reason"
         android:textColor="@color/clr_black"
         android:textStyle="bold"
         android:textSize="18sp"
@@ -20,13 +20,13 @@
         android:id="@+id/editTextPopup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Type here" />
+        android:hint="@string/type_here" />
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/btn_submit"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp" />
 

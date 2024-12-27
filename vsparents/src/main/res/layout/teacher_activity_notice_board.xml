@@ -71,7 +71,7 @@
                     android:background="@color/clr_yellow"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Compose Notice Board"
+                    android:text="@string/compose_notice_board"
                     android:textColor="@color/clr_white"
                     android:textSize="13dp"
                     android:textStyle="bold">
@@ -85,7 +85,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Notice Board"
+                    android:text="@string/notice_board"
                     android:textColor="@color/clr_black"
                     android:textSize="13dp"
                     android:textStyle="bold">
@@ -126,7 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@drawable/bg_search_shadow"
-                        android:hint="Search"
+                        android:hint="@string/search"
                         android:paddingLeft="15dp"
                         android:textSize="15dp" />
 
@@ -242,7 +242,7 @@
                         android:layout_toEndOf="@+id/genTextPopup_ivDate"
                         android:layout_toRightOf="@+id/genTextPopup_ivDate"
                         android:gravity="center_vertical"
-                        android:text="Compose Noticeboard"
+                        android:text="@string/compose_noticeboard"
                         android:textColor="@color/teacher_clr_black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -265,7 +265,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="From"
+                            android:text="@string/from"
                             android:textAlignment="center"
                             android:textColor="@color/clr_white"
                             android:textSize="15dp" />
@@ -278,7 +278,7 @@
                             android:layout_marginLeft="3dp"
                             android:background="@drawable/bg_rect_white"
                             android:padding="10dp"
-                            android:text="Select Date"
+                            android:text="@string/select_date"
                             android:textAlignment="center"
                             android:textColor="@color/clr_black"
                             android:textSize="13dp" />
@@ -295,7 +295,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="To"
+                            android:text="@string/to"
                             android:textColor="@color/clr_white"
                             android:textSize="15dp" />
 
@@ -307,7 +307,7 @@
                             android:layout_marginLeft="3dp"
                             android:background="@drawable/bg_rect_white"
                             android:padding="10dp"
-                            android:text="Select Date"
+                            android:text="@string/select_date"
                             android:textAlignment="center"
                             android:textColor="@color/clr_black"
                             android:textSize="13dp" />

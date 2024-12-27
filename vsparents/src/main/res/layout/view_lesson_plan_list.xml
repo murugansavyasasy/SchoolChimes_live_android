@@ -141,33 +141,6 @@
             android:layout_height="wrap_content">
 
 
-
-<!--            <Button-->
-<!--                android:id="@+id/btnEdit"-->
-<!--                android:layout_width="80dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_alignParentLeft="true"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                android:background="@drawable/rect_edit_bg_shadow"-->
-<!--                android:paddingHorizontal="5dp"-->
-<!--                android:text="Edit"-->
-<!--                android:textColor="@color/bpBlue"-->
-<!--                android:textSize="14dp" />-->
-
-
-<!--            <Button-->
-<!--                android:id="@+id/btnDelete"-->
-<!--                android:layout_width="80dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                android:background="@drawable/rect_chimes_red"-->
-<!--                android:paddingHorizontal="5dp"-->
-<!--                android:text="Delete"-->
-<!--                android:textColor="@color/bpWhite"-->
-<!--                android:textSize="14dp" />-->
-
-
             <ImageView
                 android:id="@+id/btnEdit"
                 android:layout_width="30dp"
@@ -177,7 +150,7 @@
                 android:layout_marginBottom="10dp"
                 android:paddingHorizontal="2dp"
                 android:src="@drawable/edit_card"
-                android:text="Edit"
+                android:text="@string/edit"
                 android:textSize="14dp" />
 
 
@@ -190,7 +163,7 @@
                 android:src="@drawable/delete_card"
                 android:layout_marginBottom="10dp"
                 android:paddingHorizontal="2dp"
-                android:text="Delete"
+                android:text="@string/delete"
                 android:textSize="14dp" />
 
         </RelativeLayout>

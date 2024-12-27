@@ -94,22 +94,17 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/bpLine_background"-->
-        <!--android:padding="5dp">-->
+
 
         <TextView
             android:id="@+id/tv_description_voice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="@string/description"
             android:visibility="gone"
             android:background="@color/bpLine_background"
             android:padding="5dp"
             android:textColor="@color/clr_black"/>
-    <!--</LinearLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"

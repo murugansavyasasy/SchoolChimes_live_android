@@ -78,14 +78,6 @@
                 android:layout_centerVertical="true" />
         </LinearLayout>
 
-
-        <!--<View-->
-        <!--android:layout_below="@+id/princiSchool_ivRight"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:background="@color/clr_black"-->
-        <!--android:layout_height="1dp">-->
-        <!---->
-        <!--</View>-->
     </RelativeLayout>
 
     <View
@@ -96,4 +88,3 @@
 </LinearLayout>
 
 
-    <!--android:button="@drawable/teacher_bg_checkbox1"-->

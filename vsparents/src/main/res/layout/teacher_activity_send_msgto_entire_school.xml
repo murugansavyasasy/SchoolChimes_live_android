@@ -124,7 +124,7 @@
                         android:textColor="@color/teacher_clr_grey"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        tools:text="Or" />
+                    />
 
 
                     <TextView
@@ -137,7 +137,7 @@
                         android:textColor="@color/teacher_clr_grey"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        tools:text="Choose Recipient" />
+                        />
 
                     <include
                         android:id="@+id/mgtText_llRecipient"

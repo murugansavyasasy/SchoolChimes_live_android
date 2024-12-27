@@ -133,7 +133,7 @@
             android:linksClickable="true"
             android:textColor="@color/clr_black"
             android:background="@color/bpLine_background"
-            android:text="Description" />
+            android:text="@string/description" />
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

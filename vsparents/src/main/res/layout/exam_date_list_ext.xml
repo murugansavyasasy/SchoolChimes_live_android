@@ -45,33 +45,9 @@
                 android:textStyle="bold"
                 tools:text="@string/tamil" />
 
-            <!--<TextView-->
-                <!--android:id="@+id/cardText_tvNew"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginStart="5dp"-->
-                <!--android:background="@drawable/bg_unread_red"-->
-                <!--android:gravity="center"-->
-                <!--android:padding="3dp"-->
-                <!--android:text="@string/txt_new"-->
-                <!--android:textColor="@color/clr_white"-->
-                <!--android:textSize="10sp" />-->
         </LinearLayout>
 
-        <!--<TextView-->
-        <!--android:id="@+id/cardText_tvTime"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:gravity="right"-->
-        <!--android:padding="3dp"-->
-        <!--android:textColor="@color/clr_black"-->
-        <!--android:textSize="14sp"-->
-        <!--tools:text="11.30 AM" />-->
+
 
 
         <LinearLayout
@@ -100,7 +76,7 @@
                 android:padding="3dp"
                 android:textColor="@color/clr_black"
                 android:textSize="10sp"
-                tools:text="AN" />
+                tools:text="@string/an" />
         </LinearLayout>
 
     </RelativeLayout>
@@ -113,7 +89,7 @@
         android:textColor="@color/clr_black"
         android:visibility="visible"
         android:background="@color/bpLine_background"
-        android:text="Description" />
+        android:text="@string/description" />
 
     <RelativeLayout
         android:layout_width="match_parent"

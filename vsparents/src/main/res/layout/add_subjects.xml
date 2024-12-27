@@ -42,15 +42,7 @@
             android:textSize="14dp"
             />
 
-        <!--<ImageView-->
-            <!--android:id="@+id/imgSelectDate"-->
-            <!--android:layout_width="30dp"-->
-            <!--android:onClick="onDelete"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_marginRight="5dp"-->
-            <!--android:src="@drawable/library_image"-->
-            <!--android:layout_height="30dp" />-->
+
 
     </RelativeLayout>
 

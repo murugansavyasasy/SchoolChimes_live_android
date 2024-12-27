@@ -33,7 +33,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/genTextPopup_ToolBarIvBack"
-            android:text="Online Meeting"
+            android:text="@string/online_meeting"
             android:textColor="@color/teacher_clr_white"
             android:textSize="20sp"
             android:visibility="visible" />
@@ -62,7 +62,7 @@
                 android:gravity="center"
                 android:textColor="@color/bpblack"
                 android:textSize="14dp"
-                android:text="CREATE"/>
+                android:text="@string/create"/>
 
             <TextView
                 android:id="@+id/tapUpcoming"
@@ -72,7 +72,7 @@
                 android:layout_height="40dp"
                 android:textColor="@color/bpblack"
                 android:textSize="14dp"
-                android:text="VIEW"/>
+                android:text="@string/view"/>
 
 
         </LinearLayout>
@@ -135,7 +135,7 @@
                     android:textColor="@color/teacher_clr_black"
                     android:textSize="16sp"
 
-                    android:text="Compose Meeting URL" />
+                    android:text="@string/compose_meeting_url" />
 
             </RelativeLayout>
 
@@ -147,7 +147,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/teacher_clr_card_grey"
                 android:ems="10"
-                android:hint="Title"
+                android:hint="@string/title"
                 android:inputType="text"
                 android:maxLines="1"
                 android:padding="10dp"
@@ -197,7 +197,7 @@
                 android:background="@color/teacher_clr_card_grey"
                 android:ems="10"
                 android:gravity="top"
-                android:hint="Description"
+                android:hint="@string/description"
                 android:inputType="textMultiLine"
                 android:overScrollMode="always"
                 android:scrollbarStyle="insideInset"
@@ -253,7 +253,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/bpWhite"
-                android:text="Meeting Platform"/>
+                android:text="@string/meeting_platform"/>
 
 
             <RelativeLayout
@@ -299,7 +299,7 @@
                 <TextView
                     android:id="@+id/lblSelectDate"
                     android:background="@drawable/teacher_bg_stroke_grey"
-                    android:text="Select Date"
+                    android:text="@string/select_date"
                     android:padding="4dp"
                     android:gravity="center"
                     android:layout_weight="1"
@@ -309,7 +309,7 @@
                 <TextView
                     android:id="@+id/lblSelectTime"
                     android:background="@drawable/teacher_bg_stroke_grey"
-                    android:text="Select Time"
+                    android:text="@string/select_time"
                     android:layout_marginLeft="10dp"
                     android:padding="4dp"
                     android:gravity="center"
@@ -331,7 +331,7 @@
                 android:layout_marginRight="@dimen/_20sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:hint="Paste your meeting link"
+                android:hint="@string/paste_your_meeting_link"
                 android:inputType="none"
                 android:focusable="false"
                 android:longClickable="true"
@@ -394,8 +394,7 @@
             android:text="@string/teacher_school_msg"
             android:textColor="@color/teacher_clr_grey"
             android:textSize="20sp"
-
-            tools:text="Chimes " />
+            tools:text="@string/school_chimes" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -10,7 +10,7 @@
         android:id="@+id/lblDay"
         android:layout_width="60dp"
         android:layout_height="65dp"
-        android:text="Mon"
+        android:text=""
         android:textSize="17dp"
         android:gravity="center"
         android:textColor="@color/colorPrimary"

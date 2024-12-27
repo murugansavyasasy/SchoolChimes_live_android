@@ -80,31 +80,6 @@
         android:layout_below="@+id/photos_rlHeader"
         android:layout_height="wrap_content">
 
-
-        <!--<LinearLayout-->
-        <!--android:id="@+id/lblcompose"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/lnr"-->
-        <!--android:background="@color/clr_white"-->
-        <!--android:padding="5dp"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:layout_marginLeft="10dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/gallery"/>-->
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:text="Compose Image"-->
-        <!--android:textSize="20dp"-->
-        <!--android:textStyle="bold"/>-->
-        <!--</LinearLayout>-->
         <EditText
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -301,7 +276,7 @@
                         android:id="@+id/lblPdfFileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="File Name"
+                        android:text="@string/file_name"
                         android:textColor="@color/clr_white"
                         android:visibility="visible" />
 

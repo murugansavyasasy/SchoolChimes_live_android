@@ -12,8 +12,3 @@
     android:textSize="18sp"
     android:textStyle="bold" />
 
-    <!--
-    style="@style/spinnerItemStyle"
-    android:ellipsize="marquee"
-    android:layoutDirection="ltr"
-        -->

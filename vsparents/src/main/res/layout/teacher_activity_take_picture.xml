@@ -183,7 +183,7 @@
             android:textColor="@color/teacher_clr_grey"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="Chimes " />
+            tools:text="@string/school_chimes" />
 
         <TextView
             android:layout_width="wrap_content"

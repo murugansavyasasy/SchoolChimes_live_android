@@ -80,7 +80,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Total Number Of Questions"
+            android:text="@string/total_number_of_questions"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -125,7 +125,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Mark Per Question"
+            android:text="@string/mark_per_question"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -171,7 +171,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Subject"
+            android:text="@string/subject"
             android:textSize="16dp"
             android:layout_weight="0.5"
             android:textColor="@color/design_default_color_primary_dark"
@@ -218,7 +218,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Date"
+            android:text="@string/date"
             android:textSize="16dp"
             android:layout_weight="0.5"
             android:textColor="@color/design_default_color_primary_dark"
@@ -264,7 +264,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Time"
+            android:text="@string/time"
             android:textSize="16dp"
             android:layout_weight="0.5"
             android:textColor="@color/design_default_color_primary_dark"
@@ -310,7 +310,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Sort Order"
+            android:text="@string/sort_order"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
             android:textStyle="bold"
@@ -354,7 +354,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Right Answer"
+            android:text="@string/right_answer"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -399,7 +399,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Wrong Answer"
+            android:text="@string/wrong_answer"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -444,7 +444,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Total Mark"
+            android:text="@string/total_mark"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -488,7 +488,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Sent By"
+            android:text="@string/sent_by"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -534,7 +534,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:id="@+id/btnView"
-        android:text="Get Questions"
+        android:text="@string/get_questions"
         android:textSize="16sp"
         android:visibility="gone"
         android:layout_gravity="center"
@@ -584,17 +584,5 @@
         android:textSize="10sp" />
 
 
-
-<!--    <TextView-->
-
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textColor="@color/colorPrimaryDark"-->
-<!--        android:layout_toLeftOf="@+id/lnrDateTime"-->
-<!--        android:text=""-->
-<!--        android:textSize="12dp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:id="@+id/lblTitle"-->
-<!--        android:visibility="visible"/>-->
 
 </RelativeLayout>

@@ -13,7 +13,7 @@
         android:background="@drawable/bg_basecolor"
         android:padding="5dp"
         android:gravity="center"
-        android:text="Class Name"
+        android:text="@string/class_name"
         android:textColor="@color/bpWhite"
         android:textSize="12sp"
         android:textStyle="bold" />

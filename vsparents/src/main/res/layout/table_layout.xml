@@ -6,8 +6,7 @@
     android:shrinkColumns="*"
     android:orientation="vertical"
     android:stretchColumns="*">
-    <!-- Row 1 with single column -->
-    <!-- Row 2 with 3 columns -->
+
     <RelativeLayout
 
         android:layout_width="match_parent"
@@ -126,8 +125,8 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/TextView0223"
-        android:layout_width="70dp"
-      android:layout_height="match_parent"
+             android:layout_width="70dp"
+            android:layout_height="match_parent"
             android:background="@drawable/table_back_white"
             android:gravity="center"
             android:textSize="18sp"
@@ -157,34 +156,5 @@
             android:textStyle="bold"
             android:textColor="#000000" />
     </TableRow>
-
-
-
-    <!-- Row 3 with 2 columns -->
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!---->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textColor="@color/clr_black"-->
-            <!--android:background="@drawable/table_back"-->
-            <!--android:textSize="18sp"-->
-            <!--android:text="nxvbzv"/>-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:textColor="@color/clr_black"-->
-            <!--android:textSize="18sp"-->
-            <!--android:textStyle="bold"-->
-            <!--android:background="@drawable/table_back"-->
-            <!--android:layout_marginRight="5dp"-->
-            <!--android:text="nxvbzv"/>-->
-    <!--</RelativeLayout>-->
-
 
 </LinearLayout>

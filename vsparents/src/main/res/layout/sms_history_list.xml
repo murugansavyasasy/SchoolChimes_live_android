@@ -45,7 +45,6 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
-
                 android:gravity="center"
                 android:padding="3dp"
                 android:text="@string/txt_new"
@@ -75,22 +74,16 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@color/bpLine_background"-->
-    <!--android:padding="5dp">-->
 
     <TextView
         android:id="@+id/tv_description_voice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Description"
+        android:text="@string/description"
         android:visibility="gone"
         android:background="@color/bpLine_background"
         android:padding="5dp"
         android:textColor="@color/clr_black"/>
-    <!--</LinearLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -108,7 +101,7 @@
             android:layout_alignParentTop="true"
             android:gravity="center"
             android:padding="3dp"
-            android:text="Description "
+            android:text="@string/description"
             android:textColor="@color/clr_black"
             android:textSize="14sp" />
 

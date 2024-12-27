@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_yellow"
                 android:textSize="12dp"
-                android:text="MEETING DATE TIME : "/>
+                android:text="@string/meeting_date_time"/>
 
             <TextView
                 android:layout_toRightOf="@+id/lblMeetingDate"
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_yellow"
                 android:textSize="12dp"
-                android:text="MEETING TYPE : "/>
+                android:text="@string/meeting_type"/>
 
             <TextView
                 android:layout_toRightOf="@+id/lblMeeting"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_black"
                 android:textSize="14dp"
-                tools:text="MEETING TYPE : "/>
+                tools:text="@string/meeting_type"/>
 
             <ImageView
                 android:layout_width="40dp"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_yellow"
                 android:textSize="12dp"
-                android:text="SUBJECT : "/>
+                android:text="@string/subjectss"/>
 
             <TextView
                 android:layout_toRightOf="@+id/lblSub"
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_black"
                 android:textSize="14dp"
-                tools:text="SUBJECT"/>
+                tools:text="@string/subjectss"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rytCreatedon"
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_yellow"
                 android:textSize="12dp"
-                android:text="CREATED ON : "/>
+                android:text="@string/created_onn"/>
 
             <TextView
                 android:layout_toRightOf="@+id/lblCreated"
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/clr_yellow"
                 android:textSize="12dp"
-                android:text="TARGET TYPE : "/>
+                android:text="@string/target_type"/>
 
             <TextView
                 android:layout_toRightOf="@+id/lblTar"
@@ -207,7 +207,7 @@
         android:background="@drawable/online_bg_stroke"
         android:layout_gravity="center"
         android:textColor="@color/teacher_clr_btn_login"
-        android:text="Cancel Meeting"/>
+        android:text="@string/cancel_meeting"/>
 
     <LinearLayout
         android:layout_width="match_parent"

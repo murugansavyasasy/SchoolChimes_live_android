@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:text="Close"
+        android:text="@string/close"
         android:fontFamily="@font/roboto_bold"
         android:textColor="@color/bpRed"
         android:textSize="@dimen/_16sdp"/>
@@ -158,7 +158,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:text="SEND TO STANDARD OR SECTIONS"
+        android:text="@string/send_to_standard_or_sections"
         android:fontFamily="@font/roboto_bold"
         android:textColor="@color/bpBlue"
         android:textSize="@dimen/_16sdp"/>

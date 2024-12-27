@@ -10,30 +10,6 @@
         android:layout_marginTop="20sp"
         android:orientation="vertical">
 
-        <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<TextView-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_marginLeft="20dp"-->
-        <!--android:layout_marginTop="5dp"-->
-        <!--android:textSize="18sp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:textColor="@color/clr_black"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="SUBJECTS"/>-->
-        <!--<TextView-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_marginRight="20dp"-->
-        <!--android:textColor="@color/clr_black"-->
-        <!--android:textSize="18sp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:layout_marginTop="5dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="MARKS"/>-->
-        <!--</RelativeLayout>-->
 
 
         <TableRow
@@ -79,37 +55,6 @@
             android:scrollbars="vertical" />
 
 
-        <!--<TableRow-->
-        <!--android:id="@+id/tableRow11"-->
-        <!--android:layout_marginRight="5dp"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!---->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-
-        <!--<TextView-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/lblTot"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@drawable/table_back"-->
-        <!--android:gravity="center"-->
-        <!--android:text="Total"-->
-        <!--android:textSize="18sp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:textColor="#000000" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/lblTotal"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@drawable/table_back"-->
-        <!--android:gravity="center"-->
-        <!--android:text="MARKS "-->
-        <!--android:textSize="18sp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:textColor="#000000" />-->
-
-        <!--</TableRow>-->
 
 
     </LinearLayout>

@@ -26,7 +26,7 @@
                 android:id="@+id/lblYetToStart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Yet to Start"
+                android:text="@string/yet_to_start"
                 android:padding="5dp"
                 android:gravity="center"
                 android:textColor="@color/clr_white"
@@ -37,7 +37,7 @@
                 android:id="@+id/lblInProgress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="In Progress"
+                android:text="@string/in_progress"
                 android:padding="5dp"
                 android:gravity="center"
                 android:textColor="@color/clr_white"
@@ -55,7 +55,7 @@
                 android:background="@drawable/rect_bg_completed"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Completed" />
+                android:text="@string/completed" />
 
 
         </LinearLayout>
@@ -74,7 +74,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:visibility="gone"
-            android:text="All"
+            android:text="@string/all"
             android:textColor="@color/clr_white" />
 
         <RelativeLayout
@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/bg_search_shadow"
-                android:hint="Search"
+                android:hint="@string/search"
                 android:paddingLeft="15dp"
                 android:textSize="15dp" />
 

@@ -29,7 +29,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:text="From Date"
+                            android:text="@string/from_date"
                             android:layout_weight="0.5"
                             android:textColor="@color/clr_black"
                             android:textSize="15dp">
@@ -42,7 +42,7 @@
                             android:layout_weight="0.5"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:text="To Date"
+                            android:text="@string/to_date"
                             android:textColor="@color/clr_black"
                             android:textSize="15dp">
 
@@ -122,7 +122,7 @@
                             android:background="@color/is_dailycollection_header"
                             android:gravity="center"
                             android:padding="11dp"
-                            android:text="CATEGORY"
+                            android:text="@string/category"
                             android:textColor="@color/bpWhite"
                             android:textSize="14dp"
                             android:textStyle="bold"></TextView>
@@ -134,7 +134,7 @@
                             android:layout_weight="0.3"
                             android:gravity="center"
                             android:padding="11dp"
-                            android:text="CLASS"
+                            android:text="@string/str_class"
                             android:textColor="@color/bpblack"
                             android:textSize="14dp"
                             android:textStyle="bold"></TextView>
@@ -146,7 +146,7 @@
                             android:layout_weight="0.3"
                             android:gravity="center"
                             android:padding="11dp"
-                            android:text="MODE"
+                            android:text="@string/modee"
                             android:textColor="@color/bpblack"
                             android:textSize="14dp"
                             android:textStyle="bold">
@@ -189,26 +189,13 @@
     </FrameLayout>
 
 
-    <!--    <RelativeLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/rlySection">-->
-
-    <!--        <androidx.recyclerview.widget.RecyclerView-->
-    <!--            android:id="@+id/rcy_DailyReport"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:padding="10dp"-->
-
-    <!--            ></androidx.recyclerview.widget.RecyclerView>-->
-    <!--    </RelativeLayout>-->
 
 
     <TextView
         android:id="@+id/lblNoRecords"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Records Found"
+        android:text="@string/no_records_found"
         android:textColor="@color/clr_black"
         android:textSize="15dp"
         android:visibility="gone"

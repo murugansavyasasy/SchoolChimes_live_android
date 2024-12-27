@@ -317,7 +317,7 @@
                 android:textColor="@color/clr_black"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                tools:text="IMAGE (1)" />
+                tools:text="@string/image_1" />
 
         </LinearLayout>
 
@@ -382,7 +382,7 @@
                 android:textColor="@color/clr_black"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                tools:text="PDF (1)" />
+                tools:text="@string/pdf_1" />
 
         </LinearLayout>
 

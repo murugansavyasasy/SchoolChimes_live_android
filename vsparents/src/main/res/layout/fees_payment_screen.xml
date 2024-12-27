@@ -34,7 +34,7 @@
                         android:visibility="gone"
                         android:layout_marginBottom="20dp"
                         android:layout_marginTop="10dp"
-                        android:text="Send Data To Next Activity"/>
+                        android:text="@string/send_data_to_next_activity"/>
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -91,7 +91,7 @@
                             android:layout_centerVertical="true"
                             android:textColor="@color/clr_white"
                             android:textSize="15dp"
-                            android:text="Term Fees"/>
+                            android:text="@string/term_fees"/>
 
                         <ImageView
                             android:layout_centerVertical="true"
@@ -145,7 +145,7 @@
                             android:layout_centerVertical="true"
                             android:textSize="15dp"
                             android:textColor="@color/clr_white"
-                            android:text="Other Fess"/>
+                            android:text="@string/other_fess"/>
 
                         <ImageView
                             android:layout_centerVertical="true"
@@ -191,7 +191,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:text="Make Payment"
+        android:text="@string/make_payment"
         android:layout_marginBottom="7dp"
         android:visibility="gone"
         android:padding="5dp"

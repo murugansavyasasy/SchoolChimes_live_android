@@ -29,7 +29,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imgSuccess"
-            android:text="Payment Done !!"
+            android:text="@string/payment_done"
             android:textColor="@color/colorPrimary"
             android:textSize="15dp" />
 
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_centerInParent="true"
-            android:text="Payment has been done successfully...Thank you !!"
+            android:text="@string/payment_has_been_done_successfully_thank_you"
             android:textColor="@color/clr_black"></TextView>
 
     </RelativeLayout>
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:text="OK"
+        android:text="@string/ok"
         android:textColor="@color/colorPrimary"
         android:textSize="20dp" />
 

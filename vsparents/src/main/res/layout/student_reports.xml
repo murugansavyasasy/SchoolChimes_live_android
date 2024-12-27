@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/bg_search_shadow"
-                android:hint="Search"
+                android:hint="@string/search"
                 android:textSize="15dp"
                 android:paddingLeft="15dp"
                 />
@@ -94,7 +94,7 @@
             android:background="@drawable/bg_search_shadow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GET ALL STUDENT"/>
+            android:text="@string/get_all_student"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/Exam_list_recycle"

@@ -27,7 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Certificate Type"
+                android:text="@string/certificate_type"
                 android:textColor="@color/clr_green"
                 android:textSize="@dimen/_14sdp" />
 
@@ -70,7 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Created On"
+                android:text="@string/created_on"
                 android:textColor="@color/clr_green"
                 android:textSize="@dimen/_14sdp" />
 
@@ -114,7 +114,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Reason"
+                android:text="@string/reason"
                 android:textColor="@color/clr_green"
                 android:textSize="@dimen/_14sdp" />
 
@@ -157,7 +157,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Status"
+                android:text="@string/status"
                 android:textColor="@color/clr_green"
                 android:textSize="@dimen/_14sdp" />
 
@@ -201,7 +201,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/bg_shadow_white_card"
                 android:paddingHorizontal="5dp"
-                android:text="VIEW CERTIFICATE"
+                android:text="@string/view_certificate"
                 android:textColor="@color/teacher_clr_yellow"
                 android:textSize="14dp" />
 

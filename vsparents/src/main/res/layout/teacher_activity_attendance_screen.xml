@@ -55,7 +55,7 @@
                     android:background="@color/clr_yellow"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Attendance Marking"
+                    android:text="@string/attendance_marking"
                     android:textColor="@color/clr_white"
                     android:textSize="15dp"
                     android:textStyle="bold">
@@ -69,7 +69,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Attendance Report"
+                    android:text="@string/attendance_report"
                     android:textColor="@color/clr_black"
                     android:textSize="15dp"
                     android:textStyle="bold">
@@ -144,7 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Attendance type"
+                    android:text="@string/attendance_type"
                     android:textColor="@color/teacher_clr_grey"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -161,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Sessions"
+                    android:text="@string/sessions"
                     android:textColor="@color/teacher_clr_grey"
                     android:textSize="16sp"
                     android:textStyle="bold"

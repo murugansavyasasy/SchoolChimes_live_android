@@ -16,8 +16,7 @@
                     android:id="@+id/one"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_light_card"
-                   >
+                    android:background="@drawable/bg_light_card">
 
                     <TextView
                         android:id="@+id/lblEventName"
@@ -26,7 +25,7 @@
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/palatino_bold"
-                        android:text="General meeting"
+                        android:text="@string/general_meeting"
                         android:textColor="@color/clr_black"
                         android:textSize="15dp"
                         android:textStyle="bold"></TextView>
@@ -41,7 +40,7 @@
                         android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:visibility="gone"
-                        android:text="Staff - Subject Name : "
+                        android:text="@string/staff_subject_name"
                         android:textColor="@color/clr_black">
 
                     </TextView>
@@ -68,7 +67,7 @@
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/palatino_bold"
-                        android:text="Mode : "
+                        android:text="@string/mode"
                         android:visibility="gone"
                         android:paddingBottom="5dp"
                         android:textColor="@color/clr_black"
@@ -84,7 +83,7 @@
                         android:layout_toRightOf="@+id/lblMode"
                         android:fontFamily="@font/palatino_bold"
                         android:paddingBottom="5dp"
-                        android:text="Phone call"
+                        android:text="@string/phone_call"
                         android:textColor="@color/clr_black"
                         android:textSize="15dp"
                         android:textStyle="bold"></TextView>
@@ -98,7 +97,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/palatino_bold"
                         android:paddingBottom="10dp"
-                        android:text="Link : "
+                        android:text="@string/link"
                         android:textColor="@color/clr_black"
                         android:textSize="15dp"
                         android:visibility="gone"></TextView>

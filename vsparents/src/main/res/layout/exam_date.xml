@@ -35,22 +35,6 @@
     </LinearLayout>
 
 
-    <!--<Button-->
-        <!--android:id="@+id/btnSend"-->
-        <!--style="@style/Teacher_btn_green"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:paddingLeft="5dp"-->
-        <!--android:paddingRight="5dp"-->
-        <!--android:text="Send"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:layout_marginTop="5dp"-->
-        <!--android:visibility="visible" />-->
-
-
 
 
     <LinearLayout

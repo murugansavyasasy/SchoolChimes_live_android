@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="School Chimes"
+        android:text="@string/school_chimes"
         android:textColor="@color/bpWhite"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -86,9 +86,7 @@
                 android:id="@+id/imgDeclineCall"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@drawable/decline_notification_call"
-
-                >
+                android:src="@drawable/decline_notification_call">
 
             </ImageView>
 
@@ -100,7 +98,7 @@
                 android:layout_below="@+id/imgAcceptCall"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="End Call"
+                android:text="@string/end_call"
                 android:textStyle="bold"
                 android:textSize="15dp"
                 android:textColor="@color/clr_white">
@@ -132,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Accept"
+                android:text="@string/accept"
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textSize="15dp"

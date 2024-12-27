@@ -83,7 +83,7 @@
                     android:layout_toEndOf="@+id/photos_iv1"
                     android:layout_toRightOf="@+id/photos_iv1"
                     android:gravity="center_vertical"
-                    android:text="Compose Pdf"
+                    android:text="@string/compose_pdf"
                     android:textColor="@color/teacher_clr_black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -98,7 +98,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/teacher_clr_card_grey"
                 android:ems="10"
-                android:hint="Assignment Title"
+                android:hint="@string/assignment_title"
                 android:inputType="text"
                 android:maxLines="1"
                 android:padding="10dp"
@@ -124,7 +124,7 @@
                     android:padding="5dp"
                     android:gravity="center"
                     android:textSize="14dp"
-                    android:text="Submission Date" />
+                    android:text="@string/submission_date" />
 
                 <TextView
                     android:id="@+id/lblDate"
@@ -147,7 +147,7 @@
                 android:id="@+id/satffCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category"
+                android:text="@string/category"
                 android:textColor="@color/teacher_clr_grey"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -171,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Click here to upload pdf"
+                    android:text="@string/click_here_to_upload_pdf"
                     android:textColor="@color/teacher_clr_white"
                     android:textSize="20dp"
                     android:visibility="visible" />
@@ -272,7 +272,7 @@
                         android:id="@+id/lblPdfFileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="File Name"
+                        android:text="@string/file_name"
                         android:textColor="@color/clr_white"
                         android:visibility="visible" />
 
@@ -300,7 +300,7 @@
                 android:enabled="false"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="CHANGE PDF"
+                android:text="@string/change_pdf"
                 android:textSize="14sp" />
 
             <Button
@@ -311,7 +311,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:enabled="false"
-                android:text="Choose Recipients" />
+                android:text="@string/choose_recipients" />
 
 
         </LinearLayout>

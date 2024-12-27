@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Info"
+            android:text="@string/info"
             android:layout_marginTop="20dp"
             android:padding="10dp"
             android:textSize="15dp"
@@ -55,7 +55,7 @@
             android:layout_width="80dp"
             style="@style/btn_chimes_login"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:text="@string/ok"
             android:padding="5dp"
             android:layout_margin="10dp"
             android:gravity="center"

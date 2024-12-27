@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:gravity="center"
-            android:text="--- Select date ---"
+            android:text="@string/select_date__"
             android:textColor="@color/clr_black"
             android:textSize="15dp"
             android:textStyle="bold"></TextView>
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="No Record Found"
+        android:text="@string/no_records_found"
         android:textColor="@color/clr_black"
         android:textSize="15dp"
         android:visibility="visible">

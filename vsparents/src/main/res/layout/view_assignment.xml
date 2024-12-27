@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:text="Assignment"
+            android:text="@string/assignment"
             android:textColor="@color/clr_black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_search_shadow"
-            android:hint="Search"
+            android:hint="@string/search"
             android:textSize="15dp"
             android:paddingLeft="15dp"
             />

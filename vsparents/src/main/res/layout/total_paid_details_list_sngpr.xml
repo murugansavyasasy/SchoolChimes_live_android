@@ -9,49 +9,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_height="wrap_content">
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_height="40dp">-->
 
-        <!--<TextView-->
-            <!--android:id="@+id/lblSno"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textColor="@color/clr_black"-->
-            <!--android:textSize="16sp"-->
-            <!--android:textStyle="normal"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="S.No"/>-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/lblFeeName"-->
-            <!--android:textStyle="normal"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-          <!--android:layout_toRightOf="@+id/lblSno"-->
-            <!--android:textSize="16sp"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginLeft="60dp"-->
-            <!--android:textColor="@color/clr_black"-->
-            <!--android:text="FeeName"/>-->
-
-
-
-        <!--<TextView-->
-            <!--android:id="@+id/lblPaidAmount"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textColor="@color/clr_black"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:textStyle="normal"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:textSize="16sp"-->
-            <!--android:text="8000"/>-->
-    <!--</RelativeLayout>-->
         <TableRow
             android:id="@+id/tableRow1"
             android:layout_width="match_parent"
@@ -78,7 +36,6 @@
                 android:textColor="#000000" />
 
 
-
             <TextView
                 android:id="@+id/lblPaidAmount"
                 android:layout_weight="1"
@@ -92,14 +49,6 @@
 
         </TableRow>
 
-
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/clr_grey"-->
-            <!--/>-->
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

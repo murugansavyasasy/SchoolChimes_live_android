@@ -22,7 +22,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginTop="5dp"
-            android:text="Sports Meeting."
+            android:text="@string/sports_meeting"
             android:textColor="@color/clr_black"
             android:textSize="16dp"
             android:textStyle="bold">
@@ -80,7 +80,7 @@
             android:layout_marginRight="@dimen/_20sdp"
             android:background="@drawable/shape_rounded_corners"
             android:padding="3dp"
-            android:text="Upcoming..."
+            android:text="@string/upcoming"
             android:textColor="@color/clr_black"
             android:textSize="12dp"
             android:textStyle="bold">
@@ -169,13 +169,7 @@
             android:orientation="horizontal"
             android:paddingBottom="@dimen/_10sdp">
 
-            <!--            <ImageView-->
-            <!--                android:layout_width="30dp"-->
-            <!--                android:layout_height="30dp"-->
-            <!--                android:layout_gravity="center"-->
-            <!--                android:src="@drawable/online_meeting">-->
 
-            <!--            </ImageView>-->
 
             <TextView
                 android:id="@+id/lblEventMode"
@@ -202,7 +196,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="@dimen/_10sdp"
             android:paddingBottom="@dimen/_10sdp"
-            android:text="Take me to meeting >>"
+            android:text="@string/take_me_to_meeting"
             android:textColor="@color/teacher_clr_blue"
             android:textSize="15dp"
             android:visibility="gone">
@@ -221,7 +215,7 @@
             android:background="@drawable/bg_black_white_box"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/teacher_clr_pink"
             android:textSize="14dp"
             android:textStyle="bold"
@@ -239,7 +233,7 @@
             android:background="@drawable/bg_black_white_box"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Cancel &amp; Reopen"
+            android:text="@string/cancel_amp_reopen"
             android:textColor="@color/teacher_clr_blue"
             android:textSize="14dp"
             android:textStyle="bold"

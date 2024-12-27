@@ -122,7 +122,7 @@ android:background="@drawable/img_app_bg"
                 android:padding="3dp"
                 android:textColor="@color/clr_black"
                 android:textSize="14sp"
-                tools:text="11.30 AM" />
+                tools:text="" />
 
         </RelativeLayout>
         <TextView

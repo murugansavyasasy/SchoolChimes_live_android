@@ -8,9 +8,6 @@
     android:padding="5dp"
     tools:context=".activity.TeacherEmergencyVoice">
 
-    <!--    <ScrollView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent">-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -149,7 +146,7 @@
                             android:textColor="@color/teacher_clr_black"
                             android:textSize="14sp"
                             android:textStyle="bold"
-                            tools:text="Record Voice Message" />
+                            tools:text="@string/record_voice_message" />
                     </LinearLayout>
 
                 </RelativeLayout>
@@ -274,7 +271,7 @@
                             android:drawableLeft="@drawable/addmp3_file"
                             android:drawablePadding="5dp"
                             android:padding="@dimen/_4sdp"
-                            android:text="Add file(Audio)"
+                            android:text="@string/add_file_audio"
                             android:textColor="@color/clr_black"
                             android:textSize="14sp">
 
@@ -348,17 +345,6 @@
                     android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <!--                    <TextView-->
-                    <!--                        android:id="@+id/lblTime"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_alignParentRight="true"-->
-                    <!--                        android:layout_marginTop="10dp"-->
-                    <!--                        android:layout_marginRight="100dp"-->
-                    <!--                        android:text="Time"-->
-                    <!--                        android:textColor="@color/bpblack"-->
-                    <!--                        android:textSize="@dimen/_16sdp"-->
-                    <!--                        android:textStyle="bold"></TextView>-->
 
                     <LinearLayout
                         android:id="@+id/lnrInitiateTime"
@@ -375,7 +361,7 @@
                             android:layout_below="@+id/imgClose"
                             android:layout_marginLeft="15dp"
                             android:layout_weight="0.25"
-                            android:text="Initiate Call on "
+                            android:text="@string/initiate_call_on"
                             android:textColor="@color/bpblack"
                             android:textSize="15sp" />
 
@@ -404,18 +390,6 @@
                             android:textStyle="bold"></TextView>
                     </LinearLayout>
 
-                    <!--                    <TextView-->
-                    <!--                        android:id="@+id/lblTimeDial"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_below="@+id/lnrInitiateTime"-->
-                    <!--                        android:layout_alignParentRight="true"-->
-                    <!--                        android:layout_marginTop="10dp"-->
-                    <!--                        android:layout_marginRight="100dp"-->
-                    <!--                        android:text="Time"-->
-                    <!--                        android:textColor="@color/bpblack"-->
-                    <!--                        android:textSize="@dimen/_16sdp"-->
-                    <!--                        android:textStyle="bold"></TextView>-->
 
                     <LinearLayout
                         android:id="@+id/lnrdialbeyond"
@@ -433,7 +407,7 @@
                             android:layout_below="@+id/imgClose"
                             android:layout_marginLeft="15dp"
                             android:layout_weight="0.25"
-                            android:text="Do not dial beyond "
+                            android:text="@string/do_not_dial_beyond"
                             android:textColor="@color/bpblack"
                             android:textSize="15sp"></TextView>
 
@@ -482,7 +456,7 @@
                                 android:layout_marginLeft="8dp"
                                 android:layout_weight="0.25"
                                 android:padding="@dimen/_10sdp"
-                                android:text="Select the date"
+                                android:text="@string/select_the_date"
                                 android:textColor="@color/bpblack"
                                 android:textSize="15sp"></TextView>
 
@@ -677,17 +651,6 @@
                         android:visibility="gone"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <!--                        <TextView-->
-                        <!--                            android:id="@+id/lblTimeschedule"-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_alignParentRight="true"-->
-                        <!--                            android:layout_marginTop="10dp"-->
-                        <!--                            android:layout_marginRight="100dp"-->
-                        <!--                            android:text="Time"-->
-                        <!--                            android:textColor="@color/bpblack"-->
-                        <!--                            android:textSize="@dimen/_16sdp"-->
-                        <!--                            android:textStyle="bold"></TextView>-->
 
                         <LinearLayout
                             android:id="@+id/lnrInitiateTimeschedule"
@@ -704,7 +667,7 @@
                                 android:layout_below="@+id/imgClose1"
                                 android:layout_marginLeft="15dp"
                                 android:layout_weight="0.25"
-                                android:text="Initiate Call on "
+                                android:text="@string/initiate_call_on"
                                 android:textColor="@color/bpblack"
                                 android:textSize="15dp" />
 
@@ -732,18 +695,6 @@
                                 android:textSize="15dp"></TextView>
                         </LinearLayout>
 
-                        <!--                        <TextView-->
-                        <!--                            android:id="@+id/lblTimeDialschedule"-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_below="@+id/lnrInitiateTimeschedule"-->
-                        <!--                            android:layout_alignParentRight="true"-->
-                        <!--                            android:layout_marginTop="10dp"-->
-                        <!--                            android:layout_marginRight="100dp"-->
-                        <!--                            android:text="Time"-->
-                        <!--                            android:textColor="@color/bpblack"-->
-                        <!--                            android:textSize="@dimen/_16sdp"-->
-                        <!--                            android:textStyle="bold"></TextView>-->
 
                         <LinearLayout
                             android:id="@+id/lnrdialbeyondschedule"
@@ -760,7 +711,7 @@
                                 android:layout_below="@+id/imgClose"
                                 android:layout_marginLeft="15dp"
                                 android:layout_weight="0.25"
-                                android:text="Do not dial beyond "
+                                android:text="@string/do_not_dial_beyond"
                                 android:textColor="@color/bpblack"
                                 android:textSize="15dp"></TextView>
 
@@ -810,7 +761,7 @@
                                     android:layout_marginLeft="@dimen/_10sdp"
                                     android:layout_weight="0.25"
                                     android:padding="@dimen/_10sdp"
-                                    android:text="Select the date"
+                                    android:text="@string/select_the_date"
                                     android:textColor="@color/bpblack"
                                     android:textSize="15dp"></TextView>
 
@@ -955,7 +906,7 @@
                 android:textColor="@color/teacher_clr_grey"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="Chimes " />
+                tools:text="@string/school_chimes" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -968,7 +919,7 @@
                 android:textColor="@color/teacher_clr_grey"
                 android:textSize="10sp"
                 android:textStyle="bold"
-                tools:text="for schools" />
+                tools:text="@string/for_schools" />
 
         </RelativeLayout>
     </RelativeLayout>

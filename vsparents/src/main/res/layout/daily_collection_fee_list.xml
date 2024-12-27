@@ -19,7 +19,7 @@
             android:layout_weight="7"
             android:layout_height="wrap_content"
             android:textSize="15dp"
-            android:text="Name"
+            android:text="@string/name"
             />
 
         <TextView

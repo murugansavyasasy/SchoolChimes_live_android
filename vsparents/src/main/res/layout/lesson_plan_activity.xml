@@ -26,7 +26,7 @@
             android:id="@+id/lblAllClasses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="All Classes"
+            android:text="@string/all_classes"
             android:textSize="@dimen/_16sdp"
             android:textColor="@color/clr_black"
             android:gravity="center"
@@ -46,7 +46,7 @@
                 android:id="@+id/lblYouHandled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Classes You Handle"
+                android:text="@string/classes_you_handle"
                 android:textSize="@dimen/_16sdp"
                 android:textColor="@color/clr_black"
                 android:gravity="center"
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_search_shadow"
-            android:hint="Search"
+            android:hint="@string/search"
             android:paddingLeft="15dp"
             android:textSize="15dp" />
 

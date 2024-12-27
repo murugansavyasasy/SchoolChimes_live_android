@@ -43,7 +43,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:letterSpacing="0.05"
-                    android:text="Exam"
+                    android:text="@string/exam"
                     android:textColor="@color/clr_black"
                     android:textSize="16sp" />
 
@@ -79,7 +79,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:letterSpacing="0.05"
-                    android:text="Quiz"
+                    android:text="@string/quiz"
                     android:textColor="@color/clr_black"
                     android:textSize="16sp" />
 

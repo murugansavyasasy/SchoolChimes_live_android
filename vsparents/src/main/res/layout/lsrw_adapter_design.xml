@@ -82,7 +82,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Title"
+            android:text="@string/title"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:id="@+id/labeltext"
@@ -128,7 +128,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Description"
+            android:text="@string/description"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:id="@+id/labeldesc"
@@ -175,7 +175,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Subject"
+            android:text="@string/subject"
             android:textSize="16dp"
             android:layout_weight="0.5"
             android:textColor="@color/design_default_color_primary_dark"
@@ -219,7 +219,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Submitted On"
+            android:text="@string/submitted_on"
             android:textSize="16dp"
             android:layout_weight="0.5"
             android:textColor="@color/design_default_color_primary_dark"
@@ -265,7 +265,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Sent By"
+            android:text="@string/sent_by"
             android:layout_weight="0.5"
             android:textSize="16dp"
             android:textColor="@color/design_default_color_primary_dark"
@@ -316,18 +316,12 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/btnView"
-            android:text="Take LSRW"
+            android:text="@string/take_lsrw"
             android:textSize="14sp"
             android:textAllCaps="false"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             style="@style/btn_primary"/>
     </LinearLayout>
-
-
-
-
-
-
 
 </RelativeLayout>

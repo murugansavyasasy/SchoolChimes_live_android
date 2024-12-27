@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Homework title"
+            android:text="@string/homework_title"
             android:textSize="15dp"
             android:textColor="@color/clr_pink"
             android:fontFamily="@font/roboto_bold"/>
@@ -39,7 +39,7 @@
             android:id="@+id/lblTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Homework title"
+            android:text="@string/homework_title"
             android:textSize="13dp"
             android:textColor="@color/clr_black"
             android:fontFamily="@font/roboto_bold"/>
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="Preview"
+                android:text="@string/preview"
                 android:visibility="gone"
                 android:textColor="@color/tab_indicator"
                 android:textSize="15dp" />
@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/tab_indicator"
                 android:textSize="15dp"
-                android:text="Preview"/>
+                android:text="@string/preview"/>
 
         </RelativeLayout>
 
