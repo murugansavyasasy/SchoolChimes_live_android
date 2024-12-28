@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/isChangeLanguage"
-        android:title="Change Language" />
+        android:title="@string/Change_Language" />
 
     <item
         android:id="@+id/uploadDoc"
-        android:title="Upload profile/Documents" />
+        android:title="@string/Upload_profile_Documents" />
 
 
 <!--    <item-->
@@ -19,13 +19,13 @@
 
     <item
         android:id="@+id/ClearCache"
-        android:title="Clear Cache" />
+        android:title="@string/Clear_Cache" />
 
     <item
         android:id="@+id/help"
-        android:title="Help" />
+        android:title="@string/Help" />
 
     <item
         android:id="@+id/logout"
-        android:title="Logout"/>
+        android:title="@string/Logout"/>
 </menu>

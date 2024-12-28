@@ -16,10 +16,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,7 +85,6 @@ public class Util_Common {
     public static String isVideoSize = "";
     public static ArrayList<StaffMsgMangeCount> isStaffMsgMangeCount = new ArrayList<StaffMsgMangeCount>();
     public static int isStaffMsgFromManagementCount = 0;
-
     public static MediaPlayer mediaPlayer = new MediaPlayer();
 
 
@@ -117,7 +116,8 @@ public class Util_Common {
     public static void popUpMenu(final Activity activity, View v, String type) {
 
         final String ProfileTitle = TeacherUtil_SharedPreference.getProfileTitle(activity);
-        final String UploadProfileTitle = TeacherUtil_SharedPreference.getUploadProfileTitle(activity);
+//        final String UploadProfileTitle = TeacherUtil_SharedPreference.getUploadProfileTitle(activity);
+        final String UploadProfileTitle = activity.getString(R.string.Upload_profile_Documents);;
 
         PopupMenu popup = new PopupMenu(activity, v);
 
@@ -133,31 +133,66 @@ public class Util_Common {
             // menuOpts.getItem(1).setVisible(false);
         }
 
+//        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            public boolean onMenuItemClick(MenuItem item) {
+//
+//                Log.d("item.getTitle()",String.valueOf(item.getTitle()));
+//                Log.d("item.getTitle()asdf",String.valueOf(R.string.Change_Language));
+//                if (item.getTitle().equals(R.string.Clear_Cache)) {
+//                    HomeActivity object = new HomeActivity();
+//                    object.deleteCache(activity);
+//                } else if (item.getTitle().equals(R.string.Logout)) {
+//                    HomeActivity object = new HomeActivity();
+//                    object.showLogoutAlert(activity);
+//                } else if (item.getTitle().equals(UploadProfileTitle)) {
+//                    Intent profile = new Intent(activity, UploadProfileScreen.class);
+//                    activity.startActivity(profile);
+//                } else if (item.getTitle().equals(ProfileTitle)) {
+//                    Intent profile = new Intent(activity, ProfileLinkScreen.class);
+//                    activity.startActivity(profile);
+//                } else if (item.getTitle().equals(R.string.Help)) {
+//                    Intent help = new Intent(activity, HelpActivity.class);
+//                    activity.startActivity(help);
+//                } else if (item.getTitle().equals(R.string.Change_Language)) {
+//                    showLanguageSelectorDialog(activity);
+//                }
+//
+//                return true;
+//            }
+//        });
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
             public boolean onMenuItemClick(MenuItem item) {
+                String selectedTitle = String.valueOf(item.getTitle());
+                String clearCacheTitle = activity.getString(R.string.Clear_Cache);
+                String logoutTitle = activity.getString(R.string.Logout);
+                String helpTitle = activity.getString(R.string.Help);
+                String changeLanguageTitle = activity.getString(R.string.Change_Language);
 
-                if (item.getTitle().equals("Clear Cache")) {
+                Log.d("Selected Title", selectedTitle);
+
+                if (selectedTitle.equals(clearCacheTitle)) {
                     HomeActivity object = new HomeActivity();
                     object.deleteCache(activity);
-                } else if (item.getTitle().equals("Logout")) {
+                } else if (selectedTitle.equals(logoutTitle)) {
                     HomeActivity object = new HomeActivity();
                     object.showLogoutAlert(activity);
-                } else if (item.getTitle().equals(UploadProfileTitle)) {
+                } else if (selectedTitle.equals(UploadProfileTitle)) {
                     Intent profile = new Intent(activity, UploadProfileScreen.class);
                     activity.startActivity(profile);
-                } else if (item.getTitle().equals(ProfileTitle)) {
+                } else if (selectedTitle.equals(ProfileTitle)) {
                     Intent profile = new Intent(activity, ProfileLinkScreen.class);
                     activity.startActivity(profile);
-                } else if (item.getTitle().equals("Help")) {
+                } else if (selectedTitle.equals(helpTitle)) {
                     Intent help = new Intent(activity, HelpActivity.class);
                     activity.startActivity(help);
-                } else if (item.getTitle().equals("Change Language")) {
+                } else if (selectedTitle.equals(changeLanguageTitle)) {
                     showLanguageSelectorDialog(activity);
                 }
-
                 return true;
             }
         });
+
 
         popup.show();//showing popup menu
     }
@@ -174,6 +209,8 @@ public class Util_Common {
         final boolean[] isChecking = {false}; // Wrapper for isChecking
 
         ImageView imgClose = dialogView.findViewById(R.id.imgClose);
+        RelativeLayout rlaEnglish = dialogView.findViewById(R.id.rlaEnglish);
+        RelativeLayout rlaThai = dialogView.findViewById(R.id.rlaThai);
         CheckBox chEnglish = dialogView.findViewById(R.id.chEnglish);
         CheckBox chThai = dialogView.findViewById(R.id.chThai);
         TextView btnConfirm = dialogView.findViewById(R.id.btnConfirm);
@@ -181,6 +218,28 @@ public class Util_Common {
         ImageView imgThai = dialogView.findViewById(R.id.imgThai);
 
         isRemoveCheckBox(chThai, chEnglish);
+
+        rlaEnglish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isRemoveCheckBox(chThai, chEnglish);
+                isChecking[0] = true;
+                isSelectedLanguage[0] = "en";
+                chEnglish.setChecked(true);
+                isSelectedImageSetting(imgEnglish, imgEnglish, imgThai);
+            }
+        });
+
+        rlaThai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isRemoveCheckBox(chThai, chEnglish);
+                isChecking[0] = true;
+                isSelectedLanguage[0] = "th";
+                chThai.setChecked(true);
+                isSelectedImageSetting(imgThai, imgEnglish, imgThai);
+            }
+        });
 
         chEnglish.setOnCheckedChangeListener((buttonView, isChecked) -> {
             isRemoveCheckBox(chThai, chEnglish);

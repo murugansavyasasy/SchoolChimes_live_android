@@ -50,8 +50,8 @@ public class CertificateRequestActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Certificate");
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("Request");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.Certificate);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(R.string.Request);
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +81,8 @@ public class CertificateRequestActivity extends AppCompatActivity {
     private void setupTabLayout() {
         fragmentOne = new RequestCertificateFragment();
         fragmentTwo = new CertifiatesFragments();
-        allTabs.addTab(allTabs.newTab().setText("Request"), true);
-        allTabs.addTab(allTabs.newTab().setText("Certificates"));
+        allTabs.addTab(allTabs.newTab().setText(R.string.Request), true);
+        allTabs.addTab(allTabs.newTab().setText(R.string.Certificates));
     }
 
     private void getAllWidgets() {

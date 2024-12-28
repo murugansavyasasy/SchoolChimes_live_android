@@ -1,37 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_title">School Chimes</string>
     <string name="app_name">School Chimes</string>
     <string name="app_version_id">18</string>
     <string name="app_id">3</string>
-
     <string name="flavour_name">Flavour</string>
     <string name="location_add_instructions_attendance">Accurate location settings are crucial for ensuring that attendance is only marked when users are within the designated area of the institute. Please double-check the location before submitting.\n\nOnce saved, this location will be used to verify the proximity of users when they mark their attendance. Ensure that the location is correct as it will directly impact attendance functionality.</string>
     <string name="outside_of_the_location">Note : You are outside the institutes boundary. you will not be able to mark your attendance.\n\nPlease try again when you are within the designated area.</string>
     <string name="mark_attendance_instruction">Tap on the <b>\"Punch\"</b> button to record your attendance for the day. A confirmation message will appear once your attendance is successfully marked.</string>
-
     <string name="selected">selected</string>
     <string name="done">Done</string>
     <string name="limit_exceeded">Can select a maximum of %d images</string>
     <string name="error_null_cursor">Oops, something went wrong!</string>
-
-    <!--Request Permission-->
     <string name="permission_info">App requires permission to Storage to view images.</string>
     <string name="permission_force">App requires permission to Storage to view images. Tap Settings and go to Permissions to grant permission.</string>
     <string name="permission_ok">OK</string>
     <string name="permission_settings">Settings</string>
     <string name="permission_package">package</string>
     <string name="app_sub_title">for Parents</string>
-
-    <!-- Menu -->
     <string name="txt_menu_help">Help</string>
     <string name="txt_menu_logout">Logout</string>
     <string name="txt_menu_settings">Settings</string>
     <string name="txt_menu_change_password">Change Password</string>
-
-    <!-- Splash -->
     <string name="txt_copyright">© Voicesnap 2019. All rights reserved.</string>
-
-    <!-- Login -->
     <string name="txt_hello">Hello! \n Please fill out the form below to get started.</string>
     <string name="txt_signin">Sign in here.</string>
     <string name="txt_mobile">Mobile Number</string>
@@ -39,23 +30,17 @@
     <string name="hint_password">Enter Password</string>
     <string name="btn_login">Login</string>
     <string name="btn_forgot_password">Forgot Password?</string>
-
     <string name="hint_save_image">Click here to View full image</string>
     <string name="btn_save_image">Save Image</string>
     <string name="btn_download_image">Download Image</string>
-
     <string name="txt_new">New</string>
     <string name="sample_txt_msg">Voice Snap is an innovative provider of Voice based Solutions and Products that add value to enterprises across the business value chain. From a technology perspective, we harness CTI, IVR and Web Technologies along with a deep understanding of Business Process Engineering to create value to Enterprises across the Business Value Chain.</string>
-
     <string name="hint_play_voice">Press the Play button to play the voice message</string>
     <string name="hint_view_pdf">Press the Download button to download the attached file</string>
-
     <string name="btn_pdf_view">View File</string>
     <string name="btn_pdf_save">Download</string>
-
     <string name="btn_voice_play">Play Audio</string>
     <string name="btn_voice_save">Download</string>
-
     <string name="pop_password_title">Change Password</string>
     <string name="pop_password_txt_exist">Existing Password</string>
     <string name="pop_password_hint_exist">Enter Existing Password</string>
@@ -65,29 +50,24 @@
     <string name="pop_password_hint_repeat">Confirm New Password</string>
     <string name="pop_password_btnUpdate">Update</string>
     <string name="pop_password_btnCancel">Cancel</string>
-
     <string name="pop_response_title_help">Help</string>
     <string name="pop_response_btn_send">Send</string>
     <string name="pop_response_hint_msg">Enter message here..</string>
     <string name="pop_response_txt_count">460</string>
-
     <string name="txt_test_ques">Did you accept?</string>
     <string name="rb_yes">Yes</string>
     <string name="rb_no">No</string>
     <string name="btn_sign"><u>Sign here</u></string>
-
     <string name="btn_sign_cancel">Cancel</string>
     <string name="btn_sign_clear">Clear</string>
     <string name="btn_sign_submit">Submit</string>
     <string name="txt_signhere">Your Signature..</string>
     <string name="external_dir">GetSignature</string>
-
     <string name="hint_leave_reason">Reason for leave</string>
     <string name="txt_from">From</string>
     <string name="txt_to">To</string>
     <string name="btn_apply">Inform</string>
     <string name="hint_attendance">Your ward attendance report for past 30 working days</string>
-
     <string name="home_emergency">Emergency Voice</string>
     <string name="home_voice_parents">General Voice </string>
     <string name="home_text_parents">Text Messages</string>
@@ -102,43 +82,30 @@
     <string name="home_exam">Exam/Test</string>
     <string name="home_attendance">Attendance Report</string>
     <string name="home_leave_request">Leave Information</string>
-
     <string name="catch_message">Something went wrong.Try Again</string>
     <string name="else_error_message">Something went wrong.Try Again</string>
     <string name="Error_message">Check your Internet connectivity</string>
     <string name="home_pay_fees">Fee Details</string>
-
     <string name="teacher_app_title">Schools V4</string>
     <string name="teacher_app_name">Voicesnap Schools</string>
     <string name="teacher_app_sub_title"></string>
     <string name="teacher_school_msg"></string>
-
     <string name="teacher_app_version_id">103</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
-
-    <!-- Splash -->
     <string name="teacher_app_version_code">21</string>
     <string name="teacher_txt_copyright">© Voicesnap 2019. All rights reserved.</string>
-
-    <!-- Notice Board -->
     <string name="teacher_nb_hint_title">Type News Topic</string>
     <string name="teacher_nb_hint_msg">Type content here</string>
-
-    <!-- Events -->
     <string name="teacher_events_date">Date</string>
     <string name="teacher_events_time">Time</string>
     <string name="teacher_events_hint_title">Event Topic</string>
     <string name="teacher_events_hint_msg">Type Event content here</string>
     <string name="teacher_event_txt_datetime">Date Time</string>
-
-    <!-- pop up -->
     <string name="teacher_pop_remove_title">Remove Group</string>
     <string name="teacher_pop_remove_msg">Are you sure? Do you want to remove this group?</string>
     <string name="teacher_pop_remove_btn_yes">Ok</string>
     <string name="teacher_pop_remove_btn_no">Cancel</string>
-
-    <!-- Login -->
     <string name="teacher_txt_hello">Hello! \n Please fill out the form below to get started.</string>
     <string name="teacher_txt_signin">Sign in here.</string>
     <string name="teacher_txt_mobile">Mobile Number</string>
@@ -146,34 +113,24 @@
     <string name="teacher_hint_password">Enter Password</string>
     <string name="teacher_btn_login">Login</string>
     <string name="teacher_btn_forgot_password">Forgot Password?</string>
-
-    <!--Message Type-->
     <string name="teacher_txt_hello1">Hello! \n What would you like to send today?</string>
     <string name="teacher_txt_voice"><b>Voice</b> message</string>
     <string name="teacher_txt_text"><b>Text</b> or <b>Home Work</b></string>
     <string name="teacher_txt_Image"><b>Image</b></string>
     <string name="teacher_txt_attendance">Mark <b>Attendance</b></string>
-
-    <!--Text Message-->
     <string name="teacher_txt_composemsg">Compose Text Message</string>
     <string name="teacher_txt_composehwmsg">Compose Homework Message</string>
     <string name="teacher_txt_composeExammsg">Create Exam</string>
     <string name="teacher_txt_onwhat">On what?</string>
     <string name="teacher_txt_typemsg">Content?</string>
     <string name="teacher_txt_hw_title">HomeWork Topic</string>
-
     <string name="teacher_txt_exam_title">Exam Name</string>
     <string name="teacher_txt_exam_typemsg">Exam Description</string>
-
     <string name="teacher_staff_to_sections">TO STANDARD OR SECTIONS</string>
     <string name="teacher_staff_to_students">TO SECTION OR STUDENTS</string>
     <string name="teacher_staff_hint_title">Title/Subject</string>
-
-    <!--Imagess -->
     <string name="teacher_txt_composeImg">Upload Image/PDF</string>
     <string name="teacher_image_hint_title">About Image/PDF</string>
-
-    <!--Voice Message-->
     <string name="teacher_txt_Recordvoice">Record Voice Message</string>
     <string name="teacher_txt_recorded_voice">Recorded Voice Message</string>
     <string name="teacher_txt_start_record">Press the button to <b>RECORD</b></string>
@@ -183,24 +140,17 @@
     <string name="teacher_txt_sendimg">Send Image</string>
     <string name="teacher_txt_chgimg">CHANGE IMAGE/PDF</string>
     <string name="teacher_txt_general_title">You can record upto 3 minutes</string>
-    <!--Emergency Voice Message-->
     <string name="teacher_txt_emergency_voice">Record Emergency Voice</string>
     <string name="teacher_txt_emergency_title">You can record upto 30 seconds</string>
-
-    <!--Choose Recipients-->
     <string name="teacher_txt_send">Send</string>
     <string name="teacher_choose_recipient">Choose Recipients</string>
     <string name="teacher_send_entire_school">Send to All schools</string>
     <string name="teacher_txt_selectStudents">Select Students</string>
     <string name="teacher_Select_class">Select classes</string>
     <string name="teacher_Select_group">Select groups</string>
-
-    <!--List Section-->
     <string name="teacher_txt_section">Section:\t </string>
     <string name="teacher_txt_subject">Subject:\t </string>
     <string name="teacher_txt_student">Students</string>
-
-    <!--List Students-->
     <string name="teacher_txt_select">Select all</string>
     <string name="teacher_txt_unselect">Unselect all</string>
     <string name="teacher_confirm">Send</string>
@@ -210,13 +160,9 @@
     <string name="teacher_btn_remove">Remove</string>
     <string name="teacher_or">Or</string>
     <string name="teacher_text_msg">Text Message</string>
-
-    <!--send Audio to entire school-->
     <string name="teacher_hint_play_voice">Press the button to <b>Play</b> the <b>Voice message</b></string>
     <string name="teacher_change">Change</string>
     <string name="teacher_click">Click here to choose Image/PDF</string>
-
-    <!--change Password-->
     <string name="teacher_pop_password_title">Change Password</string>
     <string name="teacher_pop_password_txt_exist">Existing Password</string>
     <string name="teacher_pop_password_hint_exist">Enter Existing Password</string>
@@ -226,7 +172,6 @@
     <string name="teacher_pop_password_hint_repeat">Confirm New Password</string>
     <string name="teacher_pop_password_btnUpdate">Update</string>
     <string name="teacher_pop_password_btnCancel">Cancel</string>
-    <!-- Menu -->
     <string name="teacher_txt_menu_help">Help</string>
     <string name="teacher_txt_menu_logout">Logout</string>
     <string name="teacher_txt_menu_change_password">Change Password</string>
@@ -239,7 +184,6 @@
     <string name="teacher_choosen_recipient">Choosen Recipient</string>
     <string name="teacher_Select_school">Select Schools</string>
     <string name="teacher_atten_sections">Section(s)</string>
-    <!-- Attendance -->
     <string name="teacher_title_attendance">Attendance</string>
     <string name="teacher_atten_standard">Standard</string>
     <string name="teacher_atten_section">Section</string>
@@ -399,7 +343,6 @@
     <string name="bill_payment">Payment</string>
     <string name="bill_total">Total</string>
     <string name="paid_amount">Paid Amount</string>
-
     <string name="home_change">Change</string>
     <string name="teacher_libray">Library Details</string>
     <string name="conference_call">Conference Call With Teachers</string>
@@ -408,7 +351,6 @@
     <string name="calls_used">Calls Used:</string>
     <string name="sms_used">SMS Used:</string>
     <string name="select_exam_date">Select Exam Date</string>
-
     <string name="staff">Staff:</string>
     <string name="students">Students:</string>
     <string name="select_subjects">Select Subjects</string>
@@ -418,7 +360,6 @@
     <string name="image_1">IMAGE (1)</string>
     <string name="pdf_1">PDF (1)</string>
     <string name="edit_section">Edit</string>
-
     <string name="app_version_name">2.3</string>
     <string name="language_change">Change Language</string>
     <string name="choose_language">Choose Language</string>
@@ -445,7 +386,6 @@
     <string name="marksss">Marks</string>
     <string name="monthly_pending">Monthly pending</string>
     <string name="confirm_to_send">Are you sure want to send</string>
-
     <string name="library">Library</string>
     <string name="staff_list">Staff List</string>
     <string name="exam">Exam</string>
@@ -609,7 +549,6 @@
     <string name="need_permission">Need Permissions</string>
     <string name="this_app_need_permission">This app needs permission to use this feature. You can grant them in app settings.</string>
     <string name="null_time">0:00</string>
-
     <string name="back_to_login"><u>Back to login</u></string>
     <string name="SeeMore">See More >> </string>
     <string name="maximum_size_20_mb">( Maximum size - 10 MB )</string>
@@ -627,7 +566,6 @@
     <string name="lbl_Yet_to_start">Yet to start</string>
     <string name="lbl_in_progress">In Progress</string>
     <string name="lbl_completed">Completed</string>
-    <!--   Update whats new features here-->
     <string name="text_feature_one">\u25CF   Bug fixed.</string>
     <string name="text_feature_two">\u25CF   Issues Resolved.  </string>
     <string name="text_feature_three">\u25CF   Collection widget present in layout file and change. </string>
@@ -640,7 +578,6 @@
     <string name="large_banner">LARGE_BANNER</string>
     <string name="ads_unit_one">ca-app-pub-4334956274721233/1811829719</string>
     <string name="native_ads_unit_one">ca-app-pub-4334956274721233/3918899445</string>
-
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="search">Search</string>
@@ -932,5 +869,60 @@
     <string name="what_s_new_in_this_version">What\'s new in this version :-</string>
     <string name="new_version">New Version</string>
     <string name="update_now">Update Now</string>
+    <string name="Choose_Language">Choose Language</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Change_Language">Change Language</string>
+    <string name="Upload_profile_Documents">Upload profile/Documents</string>
+    <string name="Clear_Cache">Clear Cache</string>
+    <string name="Help">Help</string>
+    <string name="Logout">Logout</string>
+    <string name="Meeting_Slot">Meeting Slot</string>
+    <string name="Submit">Submit</string>
+    <string name="Slot_Creation">Slot Creation</string>
+    <string name="Onlylinksareallowed">Only links are allowed</string>
+    <string name="Entertheslotminutes">Enter the slot minutes</string>
+    <string name="Pasteyourlinkhere">Paste your link here.</string>
+    <string name="Selectthesection">Select the section</string>
+    <string name="Enterthepurposeofdiscussion">Enter the purpose of discussion</string>
+    <string name="Choose_the_from_and_to_time">Choose the from and to time</string>
+    <string name="Choose_the_from_time">Choose the from time</string>
+    <string name="Please_select_the_from_time_first">Please select the from time first</string>
+    <string name="To_time_cannot_be_before_or_equal_to_from_time">To time cannot be before or equal to from time</string>
+    <string name="Select_Time">Select Time</string>
+    <string name="From_time_is_past_time_today">From time is past time today</string>
+    <string name="Your_slot_time_is_not_available">Your slot time is not available</string>
+    <string name="Are_you_sure_want_to_submit">Are you sure want to submit?</string>
+    <string name="Loading">Loading...</string>
+    <string name="Add_Institute_Location">Add Institute Location</string>
+    <string name="Attendance_Report">Attendance Report</string>
+    <string name="Absentees_Students">Absentees Students</string>
+    <string name="Certificate">Certificate</string>
+    <string name="Request">Request</string>
+    <string name="Certificates">Certificates</string>
+    <string name="Daily_Collection_Fee">Daily Collection Fee</string>
+    <string name="Fee_Pending">Fee Pending</string>
+    <string name="Level">Level 1</string>
+    <string name="LSRW">LSRW</string>
+    <string name="New_Products">New Products</string>
+    <string name="Meetings">Meetings</string>
+    <string name="QUIZ">QUIZ</string>
+    <string name="Expired">Expired</string>
+    <string name="Submit_LSRW">Submit LSRW</string>
+    <string name="Make">Make</string>
+    <string name="Circulars">Circulars</string>
+    <string name="Pdf">Pdf</string>
+    <string name="Preview_LSRW">Preview LSRW</string>
+    <string name="Select">Select</string>
+    <string name="Your_School">You School</string>
+    <string name="Important_Info">Important Info</string>
+    <string name="Attendance_Reports">Attendance Reports</string>
+    <string name="Student_Report">Student Report</string>
+    <string name="Time_table">Time table</string>
+    <string name="Videos">Videos</string>
+    <string name="Locations">Locations</string>
+    <string name="View_Report">View Report</string>
+    <string name="View">View</string>
+    <string name="Lesson_Plan">Lesson Plan</string>
+    <string name="Receipt">Receipt</string>
 
 </resources>

@@ -51,7 +51,6 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.ChildMenuAdapter;
-import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.UpdatesListener;
 import com.vs.schoolmessenger.model.Languages;
@@ -148,16 +147,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         }
     }
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//
-//        String isSelectedLanguage = TeacherUtil_SharedPreference.getLanguageType(this);
-//        Log.d("language", isSelectedLanguage);
-//        Context context = LocaleHelper.setLocale(newBase, isSelectedLanguage);
-//        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
-//        super.attachBaseContext(context);
-//    }
-
 
     @Override
     protected void attachBaseContext(Context newBase) {

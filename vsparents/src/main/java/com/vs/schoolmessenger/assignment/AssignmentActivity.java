@@ -40,8 +40,8 @@ public class AssignmentActivity extends AppCompatActivity {
             }
         });
 
-        assignTab.addTab(assignTab.newTab().setText("Create"));
-        assignTab.addTab(assignTab.newTab().setText("View"));
+        assignTab.addTab(assignTab.newTab().setText(R.string.create));
+        assignTab.addTab(assignTab.newTab().setText(R.string.View));
 
         assignTab.setTabGravity(TabLayout.GRAVITY_FILL);
 

@@ -46,7 +46,7 @@ public class ParentKnowledgeEnhancementScreen extends AppCompatActivity implemen
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("QUIZ");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.QUIZ);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
@@ -67,11 +67,11 @@ public class ParentKnowledgeEnhancementScreen extends AppCompatActivity implemen
         fragmentTwo = new CompletedKnowledgeEnhancment();
         allTabs.removeAllTabs();
         if (complete == 0) {
-            allTabs.addTab(allTabs.newTab().setText("Upcoming"), true);
-            allTabs.addTab(allTabs.newTab().setText("Completed"));
+            allTabs.addTab(allTabs.newTab().setText(R.string.upcomming), true);
+            allTabs.addTab(allTabs.newTab().setText(R.string.lbl_completed));
         } else if (complete == 1) {
-            allTabs.addTab(allTabs.newTab().setText("Upcoming"));
-            allTabs.addTab(allTabs.newTab().setText("Completed"), true);
+            allTabs.addTab(allTabs.newTab().setText(R.string.upcomming));
+            allTabs.addTab(allTabs.newTab().setText(R.string.lbl_completed), true);
         }
     }
 

@@ -140,7 +140,7 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Slot Creation");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.Slot_Creation);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
@@ -212,7 +212,7 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
                         EdtOnlineLink.setText(pastedText);
                     } else {
                         imgClearLink.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(), "Only links are allowed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.Onlylinksareallowed, Toast.LENGTH_SHORT).show();
                     }
                 }
                 return true; // Return true to indicate the event is handled
@@ -245,13 +245,13 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
                                             isDuration = edt_slotDuration.getText().toString();
                                             DatePicker();
                                         } else {
-                                            Toast.makeText(NewSlotCreating.this, "Enter the slot minutes", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(NewSlotCreating.this, R.string.Entertheslotminutes, Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
                                         DatePicker();
                                     }
                                 } else {
-                                    Toast.makeText(NewSlotCreating.this, "Paste your link here.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(NewSlotCreating.this, R.string.Pasteyourlinkhere, Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 if (isDuration.equals("Custom")) {
@@ -260,23 +260,23 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
                                         isDuration = edt_slotDuration.getText().toString();
                                         DatePicker();
                                     } else {
-                                        Toast.makeText(NewSlotCreating.this, "Enter the slot minutes", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(NewSlotCreating.this, R.string.Entertheslotminutes, Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     DatePicker();
                                 }
                             }
                         } else {
-                            Toast.makeText(NewSlotCreating.this, "Select the section", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewSlotCreating.this, R.string.Selectthesection, Toast.LENGTH_SHORT).show();
                         }
 //                        } else {
 //                            Toast.makeText(NewSlotCreating.this, "Select the mode", Toast.LENGTH_SHORT).show();
 //                        }
                     } else {
-                        Toast.makeText(NewSlotCreating.this, "Enter the purpose of discussion", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewSlotCreating.this, R.string.Enterthepurposeofdiscussion, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(NewSlotCreating.this, "Choose the from and to time", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewSlotCreating.this, R.string.Choose_the_from_and_to_time, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -294,7 +294,7 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
                 if (!lblPickFromTime.getText().toString().equals("Select from time")) {
                     showTimePickerDialog(false);
                 } else {
-                    Toast.makeText(NewSlotCreating.this, "Choose the from time", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewSlotCreating.this, R.string.Choose_the_from_time, Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -367,13 +367,13 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
                     try {
                         String fromTime = lblPickFromTime.getText().toString();
                         if (fromTime.isEmpty()) {
-                            Toast.makeText(NewSlotCreating.this, "Please select the 'from' time first", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewSlotCreating.this, R.string.Please_select_the_from_time_first, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         Date fromTimeDate = fmtOut.parse(fromTime);
                         Date toTimeDate = fmtOut.parse(formattedTime);
                         if (toTimeDate.before(fromTimeDate) || toTimeDate.equals(fromTimeDate)) {
-                            Toast.makeText(NewSlotCreating.this, "To time cannot be before or equal to from time", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewSlotCreating.this, R.string.To_time_cannot_be_before_or_equal_to_from_time, Toast.LENGTH_SHORT).show();
                         } else {
                             lblPickToTime.setText(formattedTime);
                         }
@@ -391,7 +391,7 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
             negativeButton.setTextColor(ContextCompat.getColor(NewSlotCreating.this, R.color.teacher_colorPrimaryDark));
         });
 
-        mTimePicker.setTitle("Select Time");
+        mTimePicker.setTitle(R.string.Select_Time);
         mTimePicker.show();
     }
 
@@ -420,9 +420,9 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
     private void isTimeScheduleError(String isMsg) {
 
         new AlertDialog.Builder(this)
-                .setTitle("Alert")
+                .setTitle(R.string.alert)
                 .setMessage(isMsg)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
@@ -560,7 +560,7 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
             recyclerView.setAdapter(adapter);
         }
         Button dialogButton = dialogView.findViewById(R.id.btnCheck);
-        dialogButton.setText("Submit");
+        dialogButton.setText(R.string.btn_submit);
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -591,16 +591,16 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
         if (isSlotsAvailableTimeData.get(0).getData().size() > 0) {
             isSubmit();
         } else {
-            Toast.makeText(NewSlotCreating.this, "Your slot time is not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewSlotCreating.this, R.string.Your_slot_time_is_not_available, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void isSubmit() {
 
         new AlertDialog.Builder(this)
-                .setTitle("Alert")
-                .setMessage("Are you sure want to submit?")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.alert)
+                .setMessage(R.string.Are_you_sure_want_to_submit)
+                .setPositiveButton(R.string.permission_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         isSlotSubmit(isSlotsAvailableTimeData);
                         dialog.dismiss();
@@ -720,7 +720,7 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(String.valueOf(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -780,9 +780,9 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
 
     private void isCheckSectionAssigning(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Info")
+        builder.setTitle(R.string.info)
                 .setMessage(message)
-                .setPositiveButton("OK", (dialog, which) -> {
+                .setPositiveButton(R.string.permission_ok, (dialog, which) -> {
                     onBackPressed();
                 })
                 .setCancelable(false);
@@ -796,7 +796,7 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(String.valueOf(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -939,7 +939,7 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(String.valueOf(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

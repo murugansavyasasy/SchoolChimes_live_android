@@ -15,7 +15,7 @@
             android:id="@+id/imgClose"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/close_icon_without_bg">
+            android:src="@drawable/close_icon">
 
         </ImageView>
 
@@ -25,7 +25,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/imgClose"
-            android:text="Select Language"
+            android:text="@string/Choose_Language"
             android:textColor="@color/clr_black"
             android:textSize="15sp"
             android:textStyle="bold">
@@ -144,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lblThai"
                     android:layout_marginTop="10dp"
-                    android:text="Thai"
+                    android:text="แบบไทย"
                     android:textColor="@color/clr_black"
                     android:textSize="13sp"></TextView>
 
@@ -172,7 +172,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/rect_btn_orange"
         android:padding="8dp"
-        android:text="Confirm"
+        android:text="@string/Confirm"
         android:textColor="@color/bpWhite"
         android:textStyle="bold">
 

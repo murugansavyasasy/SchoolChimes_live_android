@@ -47,7 +47,7 @@ public class ParentOnlineExamScreen extends AppCompatActivity implements View.On
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Exam");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.exam);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
@@ -68,9 +68,9 @@ public class ParentOnlineExamScreen extends AppCompatActivity implements View.On
         fragmentTwo = new CompletedExamEnhancement();
         fragmentThree = new ExpiredExamEnhancement();
 
-        allTabs.addTab(allTabs.newTab().setText("Upcoming"), true);
-        allTabs.addTab(allTabs.newTab().setText("Completed"));
-        allTabs.addTab(allTabs.newTab().setText("Expired"));
+        allTabs.addTab(allTabs.newTab().setText(R.string.upcoming), true);
+        allTabs.addTab(allTabs.newTab().setText(R.string.completed));
+        allTabs.addTab(allTabs.newTab().setText(R.string.Expired));
     }
 
 

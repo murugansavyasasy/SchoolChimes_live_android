@@ -270,6 +270,7 @@ public class StudentChatActivity extends AppCompatActivity {
                     Log.d("login:code-res", response.code() + " - " + response);
                     if (response.code() == 200 || response.code() == 201) {
                         binding.chatMessage.setText("");
+                        binding.studentChatList.setVisibility(View.VISIBLE);
 //                        if (isLastPage)
 //                            studentChatApi(offset, true);
                         Log.d("Response", response.body().toString());
@@ -280,11 +281,12 @@ public class StudentChatActivity extends AppCompatActivity {
                             StudentChat studentChat = new Gson().fromJson(jsonObject.getString("result"), StudentChat.class);
                             if (studentChat != null) {
                                 studentMessages.add(studentChat);
-                                if (adapter.studentChats.size() == 1) {
-                                    binding.noMessages.setVisibility(View.GONE);
-                                    binding.studentChatList.setVisibility(View.VISIBLE);
-                                }
-                                binding.studentChatList.scrollToPosition(studentMessages.size() - 1);
+                                //   if (adapter.studentChats.size() == 1) {
+                                Log.d("adaptersizeone", "adaptersizeone");
+                                binding.noMessages.setVisibility(View.GONE);
+                                binding.studentChatList.setVisibility(View.VISIBLE);
+                                //  }
+                                //     binding.studentChatList.scrollToPosition(studentMessages.size() - 1);
                                 adapter.notifyDataSetChanged();
                             }
                         }

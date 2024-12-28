@@ -146,7 +146,7 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
         userId = shpRemember.getString(SH_USERID, "");
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Fee Details");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.home_pay_fees);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
@@ -164,8 +164,8 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
     private void setupTabLayout() {
         fragmentOne = new FeeFragment();
         fragmentTwo = new InvoiceFragment();
-        allTabs.addTab(allTabs.newTab().setText("Payment"),true);
-        allTabs.addTab(allTabs.newTab().setText("Receipt"));
+        allTabs.addTab(allTabs.newTab().setText(R.string.payment),true);
+        allTabs.addTab(allTabs.newTab().setText(R.string.Receipt));
     }
 
     public static FeesTab getInstance() {

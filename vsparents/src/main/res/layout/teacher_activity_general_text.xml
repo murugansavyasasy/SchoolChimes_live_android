@@ -551,9 +551,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/imgAttachment"
-                android:text="Add attachments"
+                android:text="@string/add_attachments"
                 android:visibility="gone" />
-
 
             <Button
                 android:id="@+id/genText_btnToSections"

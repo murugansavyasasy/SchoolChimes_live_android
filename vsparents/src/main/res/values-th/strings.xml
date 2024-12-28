@@ -4,64 +4,43 @@
     <string name="app_name">สคูลไชม์</string>
     <string name="app_version_id">18</string>
     <string name="app_id">3</string>
-
     <string name="flavour_name">รสชาติ</string>
-
     <string name="location_add_instructions_attendance">การตั้งค่าตำแหน่งที่แม่นยำมีความสำคัญต่อการรับประกันว่าการบันทึกเวลาจะเกิดขึ้นเมื่อผู้ใช้อยู่ในพื้นที่ที่กำหนดของสถาบันเท่านั้น กรุณาตรวจสอบตำแหน่งให้ถูกต้องก่อนส่ง\n\nเมื่อบันทึกแล้ว ตำแหน่งนี้จะถูกใช้เพื่อตรวจสอบความใกล้ชิดของผู้ใช้เมื่อพวกเขาทำการบันทึกเวลา ตรวจสอบให้แน่ใจว่าตำแหน่งถูกต้องเพราะจะส่งผลต่อฟังก์ชันการทำงานของการบันทึกเวลาโดยตรง</string>
     <string name="outside_of_the_location">หมายเหตุ: คุณอยู่นอกเขตของสถาบัน คุณจะไม่สามารถบันทึกเวลาของคุณได้\n\nโปรดลองอีกครั้งเมื่อคุณอยู่ในพื้นที่ที่กำหนด</string>
     <string name="mark_attendance_instruction">แตะปุ่ม <b>\"บันทึกเวลา\"</b> เพื่อบันทึกเวลาของคุณในวันนี้ ข้อความยืนยันจะแสดงขึ้นเมื่อการบันทึกเวลาของคุณสำเร็จ</string>
-
     <string name="selected">เลือกแล้ว</string>
     <string name="done">เสร็จสิ้น</string>
     <string name="limit_exceeded">สามารถเลือกภาพได้สูงสุด %d ภาพ</string>
-
     <string name="error_null_cursor">อ๊ะ! มีบางอย่างผิดพลาด!</string>
-
-    <!-- Request Permission -->
     <string name="permission_info">แอปต้องการสิทธิ์เข้าถึงพื้นที่เก็บข้อมูลเพื่อดูภาพ</string>
     <string name="permission_force">แอปต้องการสิทธิ์เข้าถึงพื้นที่เก็บข้อมูลเพื่อดูภาพ แตะการตั้งค่าและไปที่สิทธิ์เพื่อให้สิทธิ์</string>
     <string name="permission_ok">ตกลง</string>
     <string name="permission_settings">การตั้งค่า</string>
     <string name="permission_package">แพ็กเกจ</string>
-
     <string name="app_sub_title">สำหรับผู้ปกครอง</string>
-
-    <!-- Menu -->
     <string name="txt_menu_help">ช่วยเหลือ</string>
     <string name="txt_menu_logout">ออกจากระบบ</string>
     <string name="txt_menu_settings">การตั้งค่า</string>
-
     <string name="txt_menu_change_password">เปลี่ยนรหัสผ่าน</string>
-
-    <!-- Splash -->
     <string name="txt_copyright">© Voicesnap 2019. สงวนลิขสิทธิ์</string>
-
-    <!-- Login -->
     <string name="txt_hello">สวัสดี! \n กรุณากรอกแบบฟอร์มด้านล่างเพื่อเริ่มต้น</string>
-
     <string name="txt_signin">ลงชื่อเข้าใช้ที่นี่</string>
     <string name="txt_mobile">หมายเลขโทรศัพท์มือถือ</string>
     <string name="hint_mobile">กรอกหมายเลขโทรศัพท์มือถือ</string>
     <string name="hint_password">กรอกรหัสผ่าน</string>
     <string name="btn_login">เข้าสู่ระบบ</string>
     <string name="btn_forgot_password">ลืมรหัสผ่าน?</string>
-
     <string name="hint_save_image">คลิกที่นี่เพื่อดูภาพแบบเต็ม</string>
     <string name="btn_save_image">บันทึกรูปภาพ</string>
     <string name="btn_download_image">ดาวน์โหลดรูปภาพ</string>
-
     <string name="txt_new">ใหม่</string>
     <string name="sample_txt_msg">Voice Snap เป็นผู้ให้บริการโซลูชันและผลิตภัณฑ์ด้านเสียงที่เป็นนวัตกรรมใหม่ ซึ่งช่วยเพิ่มมูลค่าให้กับองค์กรในห่วงโซ่คุณค่าทางธุรกิจ จากมุมมองทางเทคโนโลยี เราใช้ CTI, IVR และเทคโนโลยีเว็บร่วมกับความเข้าใจลึกซึ้งในด้านการออกแบบกระบวนการทางธุรกิจเพื่อสร้างมูลค่าให้กับองค์กรในห่วงโซ่คุณค่าทางธุรกิจ</string>
-
     <string name="hint_play_voice">กดปุ่มเล่นเพื่อเล่นข้อความเสียง</string>
     <string name="hint_view_pdf">กดปุ่มดาวน์โหลดเพื่อดาวน์โหลดไฟล์ที่แนบมา</string>
-
     <string name="btn_pdf_view">ดูไฟล์</string>
     <string name="btn_pdf_save">ดาวน์โหลด</string>
-
     <string name="btn_voice_play">เล่นเสียง</string>
     <string name="btn_voice_save">ดาวน์โหลด</string>
-
     <string name="pop_password_title">เปลี่ยนรหัสผ่าน</string>
     <string name="pop_password_txt_exist">รหัสผ่านปัจจุบัน</string>
     <string name="pop_password_hint_exist">กรอกรหัสผ่านปัจจุบัน</string>
@@ -71,29 +50,24 @@
     <string name="pop_password_hint_repeat">ยืนยันรหัสผ่านใหม่</string>
     <string name="pop_password_btnUpdate">อัปเดต</string>
     <string name="pop_password_btnCancel">ยกเลิก</string>
-
     <string name="pop_response_title_help">ช่วยเหลือ</string>
     <string name="pop_response_btn_send">ส่ง</string>
     <string name="pop_response_hint_msg">กรอกข้อความที่นี่..</string>
     <string name="pop_response_txt_count">460</string>
-
     <string name="txt_test_ques">คุณยอมรับหรือไม่?</string>
     <string name="rb_yes">ใช่</string>
     <string name="rb_no">ไม่ใช่</string>
     <string name="btn_sign"><u>เซ็นที่นี่</u></string>
-
     <string name="btn_sign_cancel">ยกเลิก</string>
     <string name="btn_sign_clear">ล้าง</string>
     <string name="btn_sign_submit">ส่ง</string>
     <string name="txt_signhere">ลายเซ็นของคุณ..</string>
     <string name="external_dir">GetSignature</string>
-
     <string name="hint_leave_reason">เหตุผลในการลา</string>
     <string name="txt_from">จาก</string>
     <string name="txt_to">ถึง</string>
     <string name="btn_apply">แจ้ง</string>
     <string name="hint_attendance">รายงานการเข้าร่วมของบุตรหลานคุณในช่วง 30 วันที่ทำงาน</string>
-
     <string name="home_emergency">เสียงฉุกเฉิน</string>
     <string name="home_voice_parents">เสียงทั่วไป</string>
     <string name="home_text_parents">ข้อความ</string>
@@ -108,43 +82,30 @@
     <string name="home_exam">การสอบ/การทดสอบ</string>
     <string name="home_attendance">รายงานการเข้าร่วม</string>
     <string name="home_leave_request">ข้อมูลการลา</string>
-
     <string name="catch_message">มีบางอย่างผิดพลาด กรุณาลองอีกครั้ง</string>
     <string name="else_error_message">มีบางอย่างผิดพลาด กรุณาลองอีกครั้ง</string>
     <string name="Error_message">ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ</string>
     <string name="home_pay_fees">รายละเอียดค่าธรรมเนียม</string>
-
     <string name="teacher_app_title">Schools V4</string>
     <string name="teacher_app_name">Voicesnap Schools</string>
     <string name="teacher_app_sub_title"></string>
     <string name="teacher_school_msg"></string>
-
     <string name="teacher_app_version_id">103</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
-
-    <!-- Splash -->
     <string name="teacher_app_version_code">21</string>
     <string name="teacher_txt_copyright">© Voicesnap 2019. สงวนลิขสิทธิ์</string>
-
-    <!-- Notice Board -->
     <string name="teacher_nb_hint_title">พิมพ์หัวข้อข่าว</string>
     <string name="teacher_nb_hint_msg">พิมพ์เนื้อหาที่นี่</string>
-
-    <!-- Events -->
     <string name="teacher_events_date">วันที่</string>
     <string name="teacher_events_time">เวลา</string>
     <string name="teacher_events_hint_title">หัวข้อกิจกรรม</string>
     <string name="teacher_events_hint_msg">พิมพ์เนื้อหากิจกรรมที่นี่</string>
     <string name="teacher_event_txt_datetime">วันที่และเวลา</string>
-
-    <!-- pop up -->
     <string name="teacher_pop_remove_title">ลบกลุ่ม</string>
     <string name="teacher_pop_remove_msg">คุณแน่ใจหรือไม่? คุณต้องการลบกลุ่มนี้หรือไม่?</string>
     <string name="teacher_pop_remove_btn_yes">ตกลง</string>
     <string name="teacher_pop_remove_btn_no">ยกเลิก</string>
-
-    <!-- Login -->
     <string name="teacher_txt_hello">สวัสดี! \n กรุณากรอกแบบฟอร์มด้านล่างเพื่อเริ่มต้น</string>
     <string name="teacher_txt_signin">ลงชื่อเข้าใช้ที่นี่</string>
     <string name="teacher_txt_mobile">หมายเลขโทรศัพท์มือถือ</string>
@@ -152,34 +113,24 @@
     <string name="teacher_hint_password">กรอกรหัสผ่าน</string>
     <string name="teacher_btn_login">เข้าสู่ระบบ</string>
     <string name="teacher_btn_forgot_password">ลืมรหัสผ่าน?</string>
-
-    <!--Message Type-->
     <string name="teacher_txt_hello1">สวัสดี! \n วันนี้คุณต้องการส่งอะไร?</string>
     <string name="teacher_txt_voice"><b>ข้อความเสียง</b></string>
     <string name="teacher_txt_text"><b>ข้อความ</b> หรือ <b>การบ้าน</b></string>
     <string name="teacher_txt_Image"><b>รูปภาพ</b></string>
     <string name="teacher_txt_attendance">บันทึก<b>การเข้าร่วม</b></string>
-
-    <!--Text Message-->
     <string name="teacher_txt_composemsg">เขียนข้อความ</string>
     <string name="teacher_txt_composehwmsg">เขียนข้อความการบ้าน</string>
     <string name="teacher_txt_composeExammsg">สร้างการสอบ</string>
     <string name="teacher_txt_onwhat">เกี่ยวกับอะไร?</string>
     <string name="teacher_txt_typemsg">เนื้อหา?</string>
     <string name="teacher_txt_hw_title">หัวข้อการบ้าน</string>
-
     <string name="teacher_txt_exam_title">ชื่อการสอบ</string>
     <string name="teacher_txt_exam_typemsg">คำอธิบายการสอบ</string>
-
     <string name="teacher_staff_to_sections">ถึงมาตรฐานหรือกลุ่ม</string>
     <string name="teacher_staff_to_students">ถึงกลุ่มหรือผู้เรียน</string>
     <string name="teacher_staff_hint_title">หัวข้อ/เรื่อง</string>
-
-    <!-- Images -->
     <string name="teacher_txt_composeImg">อัปโหลดรูปภาพ/PDF</string>
     <string name="teacher_image_hint_title">เกี่ยวกับรูปภาพ/PDF</string>
-
-    <!-- Voice Message -->
     <string name="teacher_txt_Recordvoice">บันทึกข้อความเสียง</string>
     <string name="teacher_txt_recorded_voice">ข้อความเสียงที่บันทึกไว้</string>
     <string name="teacher_txt_start_record">กดปุ่มเพื่อ<b>บันทึก</b></string>
@@ -189,25 +140,17 @@
     <string name="teacher_txt_sendimg">ส่งรูปภาพ</string>
     <string name="teacher_txt_chgimg">เปลี่ยนรูปภาพ/PDF</string>
     <string name="teacher_txt_general_title">คุณสามารถบันทึกได้สูงสุด 3 นาที</string>
-
-    <!-- Emergency Voice Message -->
     <string name="teacher_txt_emergency_voice">บันทึกข้อความเสียงฉุกเฉิน</string>
     <string name="teacher_txt_emergency_title">คุณสามารถบันทึกได้สูงสุด 30 วินาที</string>
-
-    <!-- Choose Recipients -->
     <string name="teacher_txt_send">ส่ง</string>
     <string name="teacher_choose_recipient">เลือกผู้รับ</string>
     <string name="teacher_send_entire_school">ส่งถึงทุกโรงเรียน</string>
     <string name="teacher_txt_selectStudents">เลือกนักเรียน</string>
     <string name="teacher_Select_class">เลือกชั้นเรียน</string>
     <string name="teacher_Select_group">เลือกกลุ่ม</string>
-
-    <!-- List Section -->
     <string name="teacher_txt_section">ส่วน:\t </string>
     <string name="teacher_txt_subject">วิชา:\t </string>
     <string name="teacher_txt_student">นักเรียน</string>
-
-    <!-- List Students -->
     <string name="teacher_txt_select">เลือกทั้งหมด</string>
     <string name="teacher_txt_unselect">ยกเลิกการเลือกทั้งหมด</string>
     <string name="teacher_confirm">ส่ง</string>
@@ -217,13 +160,9 @@
     <string name="teacher_btn_remove">ลบ</string>
     <string name="teacher_or">หรือ</string>
     <string name="teacher_text_msg">ข้อความ</string>
-
-    <!-- Send Audio to Entire School -->
     <string name="teacher_hint_play_voice">กดปุ่มเพื่อ<b>เล่น</b>ข้อความ<b>เสียง</b></string>
     <string name="teacher_change">เปลี่ยน</string>
     <string name="teacher_click">คลิกที่นี่เพื่อเลือกรูปภาพ/PDF</string>
-
-    <!-- Change Password -->
     <string name="teacher_pop_password_title">เปลี่ยนรหัสผ่าน</string>
     <string name="teacher_pop_password_txt_exist">รหัสผ่านปัจจุบัน</string>
     <string name="teacher_pop_password_hint_exist">ป้อนรหัสผ่านปัจจุบัน</string>
@@ -233,12 +172,9 @@
     <string name="teacher_pop_password_hint_repeat">ยืนยันรหัสผ่านใหม่</string>
     <string name="teacher_pop_password_btnUpdate">อัปเดต</string>
     <string name="teacher_pop_password_btnCancel">ยกเลิก</string>
-
-    <!-- Menu -->
     <string name="teacher_txt_menu_help">ช่วยเหลือ</string>
     <string name="teacher_txt_menu_logout">ออกจากระบบ</string>
     <string name="teacher_txt_menu_change_password">เปลี่ยนรหัสผ่าน</string>
-
     <string name="teacher_teacher_pop_response_title_help">ช่วยเหลือ</string>
     <string name="teacher_pop_response_btn_send">ส่ง</string>
     <string name="teacher_pop_response_btn_clear">ล้าง</string>
@@ -247,10 +183,7 @@
     <string name="teacher_for_schools"></string>
     <string name="teacher_choosen_recipient">ผู้รับที่เลือก</string>
     <string name="teacher_Select_school">เลือกโรงเรียน</string>
-
     <string name="teacher_atten_sections">ส่วน</string>
-
-    <!-- Attendance -->
     <string name="teacher_title_attendance">การเข้าร่วม</string>
     <string name="teacher_atten_standard">ระดับชั้น</string>
     <string name="teacher_atten_section">ส่วน</string>
@@ -259,7 +192,6 @@
     <string name="teacher_btn_mark_all_present">ทำเครื่องหมายว่าทุกคนมาเรียน</string>
     <string name="teacher_title_add_temp_class">เพิ่มชั้นเรียนใหม่</string>
     <string name="teacher_btn_Add">เพิ่ม</string>
-
     <string name="teacher_home_emergency">ข้อความเสียงฉุกเฉิน</string>
     <string name="teacher_home_voice_parents">ส่งเสียงถึงผู้ปกครอง</string>
     <string name="teacher_home_text_parents">ส่งข้อความถึงผู้ปกครอง</string>
@@ -277,9 +209,7 @@
     <string name="teacher_home_mesasagesfrommgmt">ข้อความจากฝ่ายบริหาร</string>
     <string name="teacher_btn_voice_play">เล่นเสียง</string>
     <string name="teacher_btn_voice_save">ดาวน์โหลด</string>
-
     <string name="teacher_failuremsg">กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</string>
-
     <string name="School_title">เลือกโรงเรียน...</string>
     <string name="p_s_b_b_sr_secondary_school">โรงเรียนมัธยมปลาย พี.เอส.บี.บี</string>
     <string name="chennai_india">เจนไน, อินเดีย</string>
@@ -619,9 +549,7 @@
     <string name="need_permission">ต้องการสิทธิ์</string>
     <string name="this_app_need_permission">แอปนี้ต้องการสิทธิ์เพื่อใช้ฟีเจอร์นี้ คุณสามารถอนุญาตได้ในการตั้งค่าแอป</string>
     <string name="null_time">0:00</string>
-
     <string name="back_to_login"><u>กลับไปที่หน้าล็อกอิน</u></string>
-
     <string name="SeeMore">ดูเพิ่มเติม >> </string>
     <string name="maximum_size_20_mb">( ขนาดสูงสุด - 10 MB )</string>
     <string name="upload_student_profile">อัปโหลดโปรไฟล์นักเรียน</string>
@@ -630,21 +558,14 @@
     <string name="browse_file">เลือกไฟล์</string>
     <string name="enter_file_name">กรอกชื่อไฟล์</string>
     <string name="camera">กล้อง</string>
-
     <string name="uploadvideo">อัปโหลดวิดีโอ</string>
     <string name="uploadimage">อัปโหลดรูปภาพ</string>
-
     <string name="viewMarks">ดูคะแนน</string>
     <string name="viewProgress">ดูใบรายงานผลการเรียน</string>
-
     <string name="app_version">7.6.22</string>
-
     <string name="lbl_Yet_to_start">ยังไม่ได้เริ่ม</string>
     <string name="lbl_in_progress">กำลังดำเนินการ</string>
     <string name="lbl_completed">เสร็จสิ้น</string>
-
-    <!--   Update whats new features here-->
-
     <string name="text_feature_one">\u25CF   แก้ไขข้อผิดพลาด.</string>
     <string name="text_feature_two">\u25CF   ปัญหาถูกแก้ไข.</string>
     <string name="text_feature_three">\u25CF   วิดเจ็ตการเก็บข้อมูลมีอยู่ในไฟล์เลย์เอาต์และมีการเปลี่ยนแปลง.</string>
@@ -652,14 +573,11 @@
     <string name="text_feature_five">\u25CF   การชำระเงินถูกเพิ่มเข้าไป.</string>
     <string name="text_feature_six">\u25CF   เราได้อ้างอิงไปยัง Textview ในไฟล์เลย์เอาต์.</string>
     <string name="text_feature_seven">\u25CF   รายละเอียดบุคลากรถูกเพิ่มเข้าไป.</string>
-
     <string name="Rs">\u20B9</string>
-
     <string name="ads_size">แบนเนอร์</string>
     <string name="large_banner">แบนเนอร์ขนาดใหญ่</string>
     <string name="ads_unit_one">ca-app-pub-4334956274721233/1811829719</string>
     <string name="native_ads_unit_one">ca-app-pub-4334956274721233/3918899445</string>
-
     <string name="title">หัวข้อ</string>
     <string name="description">คำอธิบาย</string>
     <string name="search">ค้นหา</string>
@@ -951,5 +869,63 @@
     <string name="what_s_new_in_this_version">มีอะไรใหม่ในเวอร์ชันนี้ :-</string>
     <string name="new_version">เวอร์ชันใหม่</string>
     <string name="update_now">อัปเดตทันที</string>
+    <string name="Choose_Language">เลือกภาษา</string>
+    <string name="Confirm">ยืนยัน</string>
+    <string name="Change_Language">เปลี่ยนภาษา</string>
+    <string name="Upload_profile_Documents">อัปโหลดโปรไฟล์/เอกสาร</string>
+    <string name="Clear_Cache">ล้างแคช</string>
+    <string name="Help">ช่วยเหลือ</string>
+    <string name="Logout">ออกจากระบบ</string>
+    <string name="Meeting_Slot">ช่องการประชุม</string>
+    <string name="Slot_Creation">การสร้างช่วงเวลา</string>
+    <string name="Submit">ส่ง</string>
+    <string name="Onlylinksareallowed">อนุญาตเฉพาะลิงก์เท่านั้น</string>
+    <string name="Entertheslotminutes">กรอกนาทีของช่วงเวลา</string>
+    <string name="Pasteyourlinkhere">วางลิงก์ของคุณที่นี่</string>
+    <string name="Selectthesection">เลือกส่วน</string>
+    <string name="Enterthepurposeofdiscussion">กรอกวัตถุประสงค์ของการสนทนา</string>
+    <string name="Choose_the_from_and_to_time">เลือกเวลาจากและถึง</string>
+    <string name="Choose_the_from_time">เลือกเวลาจาก</string>
+    <string name="Please_select_the_from_time_first">โปรดเลือกเวลาจากก่อน</string>
+    <string name="To_time_cannot_be_before_or_equal_to_from_time">เวลาถึงต้องไม่ก่อนหรือเท่ากับเวลาจาก</string>
+    <string name="Select_Time">เลือกเวลา</string>
+    <string name="From_time_is_past_time_today">เวลาจากคือเวลาที่ผ่านไปในวันนี้</string>
+    <string name="Your_slot_time_is_not_available">ช่วงเวลาของคุณไม่พร้อมใช้งาน</string>
+    <string name="Are_you_sure_want_to_submit">คุณแน่ใจหรือไม่ว่าต้องการส่ง?</string>
+    <string name="Loading">กำลังโหลด...</string>
+    <string name="Add_Institute_Location">เพิ่มตำแหน่งที่ตั้งสถาบัน</string>
+    <string name="Attendance_Report">รายงานการเข้าเรียน</string>
+    <string name="Absentees_Students">นักเรียนที่ขาดเรียน</string>
+    <string name="Certificate">ใบรับรอง</string>
+    <string name="Request">คำขอ</string>
+    <string name="Certificates">ใบรับรองต่างๆ</string>
+    <string name="Daily_Collection_Fee">ค่าธรรมเนียมที่เก็บรายวัน</string>
+    <string name="Fee_Pending">ค่าธรรมเนียมที่ยังไม่ได้ชำระ</string>
+    <string name="Level">ระดับ 1</string>
+    <string name="LSRW">LSRW</string>
+    <string name="New_Products">ผลิตภัณฑ์ใหม่</string>
+    <string name="Meetings">การประชุม</string>
+    <string name="QUIZ">แบบทดสอบ</string>
+    <string name="Expired">หมดอายุ</string>
+    <string name="Submit_LSRW">ส่ง LSRW</string>
+    <string name="Make">สร้าง</string>
+    <string name="Circulars">หนังสือเวียน</string>
+    <string name="Pdf">ไฟล์</string>
+    <string name="Preview_LSRW">ดูตัวอย่าง LSRW</string>
+    <string name="Select">เลือก</string>
+    <string name="Your_School">โรงเรียนของคุณ</string>
+    <string name="Important_Info">ข้อมูลสำคัญ</string>
+    <string name="Attendance_Reports">รายงานการเข้าเรียน</string>
+    <string name="Student_Report">รายงานนักเรียน</string>
+    <string name="Time_table">ตารางเวลา</string>
+    <string name="Videos">วิดีโอ</string>
+    <string name="Locations">ตำแหน่งที่ตั้ง</string>
+    <string name="View_Report">ดูรายงาน</string>
+    <string name="View">ดู</string>
+    <string name="Lesson_Plan">แผนการสอน</string>
+    <string name="Receipt">ใบเสร็จ</string>
+
+
+
 
 </resources>

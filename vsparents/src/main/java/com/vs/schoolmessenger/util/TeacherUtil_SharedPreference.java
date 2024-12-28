@@ -1,5 +1,7 @@
 package com.vs.schoolmessenger.util;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,8 +19,6 @@ import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by voicesnap on 9/17/2016.
@@ -45,81 +45,80 @@ public class TeacherUtil_SharedPreference {
 
     public static final String SH_IMAGE_COUNT = "Images";
 
-    public static final String childFeeVisible ="";
-    public static final String childFeeMonthVisible ="";
+    public static final String childFeeVisible = "";
+    public static final String childFeeMonthVisible = "";
 
 
-    public static final String spNameinstall="SP_NAMEINSATALL";
-    public static final String spMobileNum="SP_MOBILENUM";
-    public static final String OTP_NUMBER="OTP_NUMBER";
-    public static final String MOBILENUMBER_SCREEN="MOBILE";
-    public static final String PERMISSION_PASSWORDSCREEN="PERMISSION_PASSWORDSCREEN";
+    public static final String spNameinstall = "SP_NAMEINSATALL";
+    public static final String spMobileNum = "SP_MOBILENUM";
+    public static final String OTP_NUMBER = "OTP_NUMBER";
+    public static final String MOBILENUMBER_SCREEN = "MOBILE";
+    public static final String PERMISSION_PASSWORDSCREEN = "PERMISSION_PASSWORDSCREEN";
 
-    public static final String COUNT_DETAILS="COUNT_DETAILS";
+    public static final String COUNT_DETAILS = "COUNT_DETAILS";
 
-    public static final String SH_AUTOUPDATE="Autoupdate";
-    public static final String SH_UPDATE="update";
-    public static final String SH_autoupdate="false";
-
-
-    public static final String CHECK_INSTALL="";
-    public static final String Mobile_number="";
-    public static final String IMEI_NUMBER="IMEI_NUMBER";
-    public static final String imei_number="";
-
-    public static final String otp_num="";
-    public static final String permission="";
-    public static final String child_screen="";
-    public static final String mobile_screen="";
-
-    public static final String PAID="PAID";
-    public static final String PENDING="PENDING";
-    public static final String Paid_Size="Paid_Size";
-    public static final String Pending_size="Pending_size";
-    public static final String PASSWORD_SCREEN="PASSWORD_SCREEN";
-    public static final String password_type="password_screen";
+    public static final String SH_AUTOUPDATE = "Autoupdate";
+    public static final String SH_UPDATE = "update";
+    public static final String SH_autoupdate = "false";
 
 
+    public static final String CHECK_INSTALL = "";
+    public static final String Mobile_number = "";
+    public static final String IMEI_NUMBER = "IMEI_NUMBER";
+    public static final String imei_number = "";
 
-    public static final String PDF="";
-    public static final String IMAGE="";
-    public static final String EMERGENCYVOICE="";
-    public static final String VOICE="";
-    public static final String SMS="";
-    public static final String NOTICEBOARD="";
-    public static final String EVENTS="";
-    public static final String HOMEWORK="";
-    public static final String EXAM="";
+    public static final String otp_num = "";
+    public static final String permission = "";
+    public static final String child_screen = "";
+    public static final String mobile_screen = "";
 
-    public static final String princi="";
-    public static final String staff="";
-    public static final String admin="";
-    public static final String grouphead="";
-    public static final String parent="";
-
-    public static final String SH_princi="";
-    public static final String SH_staff="";
-    public static final String SH_admin="";
-    public static final String SH_grouphead="";
-    public static final String SH_parent="";
-
-    public static final String OTP_timer="";
-
-    public static final String SH_ImageCount="";
+    public static final String PAID = "PAID";
+    public static final String PENDING = "PENDING";
+    public static final String Paid_Size = "Paid_Size";
+    public static final String Pending_size = "Pending_size";
+    public static final String PASSWORD_SCREEN = "PASSWORD_SCREEN";
+    public static final String password_type = "password_screen";
 
 
-    public static final String SCREEN_SHOTS="SCREEN_SHOTS";
-    public static final String MENU_IDS="MENU_ID";
-    public static final String screen_shot="";
+    public static final String PDF = "";
+    public static final String IMAGE = "";
+    public static final String EMERGENCYVOICE = "";
+    public static final String VOICE = "";
+    public static final String SMS = "";
+    public static final String NOTICEBOARD = "";
+    public static final String EVENTS = "";
+    public static final String HOMEWORK = "";
+    public static final String EXAM = "";
 
-    public static final String NotificationCount ="";
+    public static final String princi = "";
+    public static final String staff = "";
+    public static final String admin = "";
+    public static final String grouphead = "";
+    public static final String parent = "";
+
+    public static final String SH_princi = "";
+    public static final String SH_staff = "";
+    public static final String SH_admin = "";
+    public static final String SH_grouphead = "";
+    public static final String SH_parent = "";
+
+    public static final String OTP_timer = "";
+
+    public static final String SH_ImageCount = "";
+
+
+    public static final String SCREEN_SHOTS = "SCREEN_SHOTS";
+    public static final String MENU_IDS = "MENU_ID";
+    public static final String screen_shot = "";
+
+    public static final String NotificationCount = "";
     public static final String Count_notifi = "Notification";
 
 
     public static final String language_type = "en";
     public static final String LANGUAGE = "Language";
 
-    public static final String appTermsAndCondition ="";
+    public static final String appTermsAndCondition = "";
     public static final String APP_TERMS = "TERMS_AND_CONDITION";
     public static final String OFFER_LINK = "OfferLink";
     public static final String offerlink = "";
@@ -132,49 +131,50 @@ public class TeacherUtil_SharedPreference {
 
 
     public static final String FORGET_OTP_MESSAGE = "FORGET_MESSAGE";
-    public static final String forget_message ="";
+    public static final String forget_message = "";
 
     public static final String SIZES = "SIZES";
-    public static final String Imagesize ="img";
-    public static final String pdfsize ="pdf";
-    public static final String filecontent ="content";
-    public static final String videosize ="video";
-    public static final String videoalert ="videoalert";
-    public static final String Videotoken ="Videotoken";
+    public static final String Imagesize = "img";
+    public static final String pdfsize = "pdf";
+    public static final String filecontent = "content";
+    public static final String videosize = "video";
+    public static final String videoalert = "videoalert";
+    public static final String Videotoken = "Videotoken";
 
-    public static final String NewVersion ="NEWVERSION";
-    public static final String isNewVersion ="";
+    public static final String NewVersion = "NEWVERSION";
+    public static final String isNewVersion = "";
 
-    public static final String BASE_URL ="URL";
-    public static final String change_url ="change_url";
+    public static final String BASE_URL = "URL";
+    public static final String change_url = "change_url";
 
-    public static final String REPORT_BASE_URL ="REPORT_URL";
-    public static final String Report_change_url ="Report_change_url";
+    public static final String REPORT_BASE_URL = "REPORT_URL";
+    public static final String Report_change_url = "Report_change_url";
 
-    public static final String HELPLINE_BASE_URL ="HELPLINE_BASE_URL";
-    public static final String help_line_url ="help_line_url";
+    public static final String HELPLINE_BASE_URL = "HELPLINE_BASE_URL";
+    public static final String help_line_url = "help_line_url";
 
-    public static final String Current_Date ="currentDate";
-    public static final String Current_Date_voive ="currentDate_voice";
-    public static final String isSortSelected ="StudentNameAZ";
+    public static final String Current_Date = "currentDate";
+    public static final String Current_Date_voive = "currentDate_voice";
+    public static final String isSortSelected = "StudentNameAZ";
 
     public static void putPrincipalIDs(ArrayList<Integer> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("princi" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("princi" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putInt("Principal_ID" + "_" + i, array.get(i));
-             editor.commit();
+            editor.commit();
         }
     }
 
 
-    public static void putSortSelection(Activity activity,String isSort){
+    public static void putSortSelection(Activity activity, String isSort) {
         SharedPreferences prefs = activity.getSharedPreferences("SORT_SELECTION", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(isSortSelected, isSort);
         ed.commit();
     }
+
     public static String getSortSelection(Activity activity) {
         String strupdate = activity.getSharedPreferences("SORT_SELECTION", MODE_PRIVATE).getString(isSortSelected, "StudentNameAZ");
         return strupdate;
@@ -193,8 +193,8 @@ public class TeacherUtil_SharedPreference {
     public static void putStaffIDs(ArrayList<Integer> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("staff" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("staff" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putInt("Staff_ID" + "_" + i, array.get(i));
             editor.commit();
         }
@@ -213,8 +213,8 @@ public class TeacherUtil_SharedPreference {
     public static void putAdminIDs(ArrayList<Integer> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("admin" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("admin" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putInt("Admin_ID" + "_" + i, array.get(i));
             editor.commit();
         }
@@ -233,8 +233,8 @@ public class TeacherUtil_SharedPreference {
     public static void putGroupHeadIDs(ArrayList<Integer> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("grouphead" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("grouphead" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putInt("GroupHead_ID" + "_" + i, array.get(i));
             editor.commit();
         }
@@ -252,8 +252,8 @@ public class TeacherUtil_SharedPreference {
     public static void putparentIDs(ArrayList<Integer> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("parent" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("parent" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putInt("parent_ID" + "_" + i, array.get(i));
             editor.commit();
         }
@@ -269,13 +269,12 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-
     public static void putParentMenuNames(ArrayList<String> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("parent_name" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
-            editor.putString("parent_name" + "_" + i,array.get(i));
+        editor.putInt("parent_name" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
+            editor.putString("parent_name" + "_" + i, array.get(i));
             editor.commit();
         }
     }
@@ -292,8 +291,8 @@ public class TeacherUtil_SharedPreference {
     public static void putPrincipalNames(ArrayList<String> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("principal_name" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("principal_name" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putString("principal_name" + "_" + i, array.get(i));
             editor.commit();
         }
@@ -302,8 +301,8 @@ public class TeacherUtil_SharedPreference {
     public static void putUploadedFileList(ArrayList<String> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences("S3UploadedFiles", 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("s3_upload_file" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("s3_upload_file" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putString("s3_upload_file" + "_" + i, array.get(i));
             editor.commit();
         }
@@ -330,8 +329,8 @@ public class TeacherUtil_SharedPreference {
     public static void putStaffNames(ArrayList<String> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("staff_name" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("staff_name" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putString("staff_name" + "_" + i, array.get(i));
             editor.commit();
         }
@@ -349,8 +348,8 @@ public class TeacherUtil_SharedPreference {
     public static void putAdminNames(ArrayList<String> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("admin_name" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("admin_name" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putString("Admin_name" + "_" + i, array.get(i));
             editor.commit();
         }
@@ -369,8 +368,8 @@ public class TeacherUtil_SharedPreference {
     public static void putGroupHeadNames(ArrayList<String> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("group_name" +"size", array.size());
-        for(int i=0;i<array.size();i++) {
+        editor.putInt("group_name" + "size", array.size());
+        for (int i = 0; i < array.size(); i++) {
             editor.putString("groupHead_name" + "_" + i, array.get(i));
             editor.commit();
         }
@@ -385,19 +384,20 @@ public class TeacherUtil_SharedPreference {
         return array;
     }
 
-    public static void putChildVisible(Activity activity,String autoupdate){
+    public static void putChildVisible(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("CHILD_VISIBLE", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(childFeeVisible, autoupdate);
         Log.d("CHILD_VISIBLE", "autoupdate Data stored in SP");
         ed.commit();
     }
+
     public static String getChildFeeVisible(Activity activity) {
         String strupdate = activity.getSharedPreferences("CHILD_VISIBLE", MODE_PRIVATE).getString(childFeeVisible, "");
         return strupdate;
     }
 
-    public static void putChildMonthVisible(Activity activity,String autoupdate){
+    public static void putChildMonthVisible(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("CHILD_VISIBLE_MONTH", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -405,12 +405,13 @@ public class TeacherUtil_SharedPreference {
         Log.d("CHILD_VISIBLE_MONTH", "autoupdate Data stored in SP");
         ed.commit();
     }
+
     public static String getChildFeeMonthVisible(Activity activity) {
         String strupdate = activity.getSharedPreferences("CHILD_VISIBLE_MONTH", MODE_PRIVATE).getString(childFeeMonthVisible, "");
         return strupdate;
     }
 
-    public static void PutRazorPayKeyID(Activity activity,String autoupdate){
+    public static void PutRazorPayKeyID(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("RP_KEY_ID", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -418,12 +419,13 @@ public class TeacherUtil_SharedPreference {
         Log.d("RP_KEY_ID", "autoupdate Data stored in SP");
         ed.commit();
     }
+
     public static String getRazorPayKeyID(Activity activity) {
         String strupdate = activity.getSharedPreferences("RP_KEY_ID", MODE_PRIVATE).getString("Rp_key", "");
         return strupdate;
     }
 
-    public static void putMakePayment(Activity activity,String autoupdate){
+    public static void putMakePayment(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("MAKE_PAYMENT", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -431,12 +433,13 @@ public class TeacherUtil_SharedPreference {
         Log.d("RP_KEY_ID", "autoupdate Data stored in SP");
         ed.commit();
     }
+
     public static String getMakePayment(Activity activity) {
         String strupdate = activity.getSharedPreferences("MAKE_PAYMENT", MODE_PRIVATE).getString("make_enable", "");
         return strupdate;
     }
 
-    public static void putRazorPayAPIKey(Activity activity,String autoupdate){
+    public static void putRazorPayAPIKey(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("RP_API_KEY", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -444,12 +447,13 @@ public class TeacherUtil_SharedPreference {
         Log.d("RP_API_KEY", "autoupdate Data stored in SP");
         ed.commit();
     }
+
     public static String getRazorPayAPIKey(Activity activity) {
         String strupdate = activity.getSharedPreferences("RP_API_KEY", MODE_PRIVATE).getString("Rp_api_key_id", "");
         return strupdate;
     }
 
-    public static String putLanguageType(Activity activity, String autoupdate){
+    public static String putLanguageType(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(LANGUAGE, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(language_type, autoupdate);
@@ -463,29 +467,31 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putNewVersion(Activity activity,String value){
+    public static void putNewVersion(Activity activity, String value) {
         SharedPreferences prefs = activity.getSharedPreferences(NewVersion, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(isNewVersion, value);
         ed.commit();
     }
+
     public static String getNewVersion(Context activity) {
         String strupdate = activity.getSharedPreferences(NewVersion, MODE_PRIVATE).getString(isNewVersion, "1");
         return strupdate;
     }
 
-    public static void putLastVisibleUpdatesPosition(Activity activity,String value){
+    public static void putLastVisibleUpdatesPosition(Activity activity, String value) {
         SharedPreferences prefs = activity.getSharedPreferences("POPUP", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("position", value);
         ed.commit();
     }
+
     public static String getLastVisibleUpdatesPosition(Context activity) {
         String strupdate = activity.getSharedPreferences("POPUP", MODE_PRIVATE).getString("position", "0");
         return strupdate;
     }
 
-    public static void putScreen(Activity activity,String autoupdate){
+    public static void putScreen(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SCREEN_SHOTS, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -500,23 +506,25 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putBiometricEnabled(Activity activity,Boolean autoupdate){
+    public static void putBiometricEnabled(Activity activity, Boolean autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("BIO_METRIC", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putBoolean("enable_biometric", autoupdate);
         ed.commit();
     }
+
     public static boolean getBiometricEnabled(Activity activity) {
         boolean update = activity.getSharedPreferences("BIO_METRIC", MODE_PRIVATE).getBoolean("enable_biometric", false);
         return update;
     }
 
-    public static void putBiometricSkip(Activity activity,Boolean autoupdate){
+    public static void putBiometricSkip(Activity activity, Boolean autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("BIO_METRIC_SKIP", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putBoolean("enable_biometric_skip", autoupdate);
         ed.commit();
     }
+
     public static boolean getBiometricSkip(Activity activity) {
         boolean update = activity.getSharedPreferences("BIO_METRIC_SKIP", MODE_PRIVATE).getBoolean("enable_biometric_skip", false);
         return update;
@@ -550,36 +558,43 @@ public class TeacherUtil_SharedPreference {
         String mobileNumberlength = activity.getSharedPreferences(COUNT_DETAILS, MODE_PRIVATE).getString(IMAGE, "");
         return mobileNumberlength;
     }
+
     public static String getEmergencyVoive(Activity activity) {
         String mobileNumberlength = activity.getSharedPreferences(COUNT_DETAILS, MODE_PRIVATE).getString(EMERGENCYVOICE, "");
         return mobileNumberlength;
     }
+
     public static String getVoice(Activity activity) {
         String mobileNumberlength = activity.getSharedPreferences(COUNT_DETAILS, MODE_PRIVATE).getString(VOICE, "");
         return mobileNumberlength;
     }
+
     public static String getSms(Activity activity) {
         String mobileNumberlength = activity.getSharedPreferences(COUNT_DETAILS, MODE_PRIVATE).getString(SMS, "");
         return mobileNumberlength;
     }
+
     public static String getNoticeBoard(Activity activity) {
         String mobileNumberlength = activity.getSharedPreferences(COUNT_DETAILS, MODE_PRIVATE).getString(NOTICEBOARD, "");
         return mobileNumberlength;
     }
+
     public static String getEvents(Activity activity) {
         String mobileNumberlength = activity.getSharedPreferences(COUNT_DETAILS, MODE_PRIVATE).getString(EVENTS, "");
         return mobileNumberlength;
     }
+
     public static String getHomeWork(Activity activity) {
         String mobileNumberlength = activity.getSharedPreferences(COUNT_DETAILS, MODE_PRIVATE).getString(HOMEWORK, "");
         return mobileNumberlength;
     }
+
     public static String getExam(Activity activity) {
         String mobileNumberlength = activity.getSharedPreferences(COUNT_DETAILS, MODE_PRIVATE).getString(EXAM, "");
         return mobileNumberlength;
     }
 
-    public static void putInstall(Activity activity,String autoupdate){
+    public static void putInstall(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(spNameinstall, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -593,7 +608,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putReportURL(Activity activity,String autoupdate){
+    public static void putReportURL(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(REPORT_BASE_URL, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(Report_change_url, autoupdate);
@@ -605,7 +620,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putHelpLineUrl(Activity activity,String autoupdate){
+    public static void putHelpLineUrl(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(HELPLINE_BASE_URL, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(help_line_url, autoupdate);
@@ -618,7 +633,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putBaseURL(Activity activity,String autoupdate){
+    public static void putBaseURL(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(BASE_URL, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -636,7 +651,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putOTPTimer(Activity activity,String autoupdate){
+    public static void putOTPTimer(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("OTP_TIMER", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -650,7 +665,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putForgetPasswordOTP(Activity activity,String forgetotp){
+    public static void putForgetPasswordOTP(Activity activity, String forgetotp) {
         SharedPreferences prefs = activity.getSharedPreferences(FORGET_PASSWORD_OTP, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -658,37 +673,39 @@ public class TeacherUtil_SharedPreference {
         Log.d("forget", "autoupdate Data stored in SP");
         ed.commit();
     }
+
     public static String getForgetPasswordOtp(Activity activity) {
         String forg = activity.getSharedPreferences(FORGET_PASSWORD_OTP, MODE_PRIVATE).getString(forget, "");
         return forg;
     }
 
-    public static void putNoteMessage(Activity activity,String forgetotp){
+    public static void putNoteMessage(Activity activity, String forgetotp) {
         SharedPreferences prefs = activity.getSharedPreferences("Note_message", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("note_msg", forgetotp);
         Log.d("forget", "autoupdate Data stored in SP");
         ed.commit();
     }
+
     public static String getNoteMessage(Activity activity) {
         String forg = activity.getSharedPreferences("Note_message", MODE_PRIVATE).getString("note_msg", "");
         return forg;
     }
 
-    public static void putOTPNote(Activity activity,String forgetotp){
+    public static void putOTPNote(Activity activity, String forgetotp) {
         SharedPreferences prefs = activity.getSharedPreferences("OTP_Note_message", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("otp_msg_note", forgetotp);
         ed.commit();
     }
+
     public static String getOTPNote(Activity activity) {
         String forg = activity.getSharedPreferences("OTP_Note_message", MODE_PRIVATE).getString("otp_msg_note", "");
         return forg;
     }
 
 
-
-    public static void putDialNumbers(Activity activity,String forgetotp){
+    public static void putDialNumbers(Activity activity, String forgetotp) {
         SharedPreferences prefs = activity.getSharedPreferences(DIAL_NUMBERS, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -696,13 +713,14 @@ public class TeacherUtil_SharedPreference {
         Log.d("DialNumbers", "autoupdate Data stored in SP");
         ed.commit();
     }
+
     public static String getDialNumbers(Activity activity) {
         String forg = activity.getSharedPreferences(DIAL_NUMBERS, MODE_PRIVATE).getString(DialNumber, "");
         return forg;
     }
 
 
-    public static void putOfferLink(Activity activity,String link){
+    public static void putOfferLink(Activity activity, String link) {
         SharedPreferences prefs = activity.getSharedPreferences(OFFER_LINK, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(offerlink, link);
@@ -713,15 +731,16 @@ public class TeacherUtil_SharedPreference {
         String strupdate = activity.getSharedPreferences(OFFER_LINK, MODE_PRIVATE).getString(offerlink, "");
         return strupdate;
     }
-    public static void putSize(Activity activity,String imgsize,String pdfsizes,String filecontents,String size,String alert,String token){
+
+    public static void putSize(Activity activity, String imgsize, String pdfsizes, String filecontents, String size, String alert, String token) {
         SharedPreferences prefs = activity.getSharedPreferences(SIZES, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(Imagesize, imgsize);
         ed.putString(pdfsize, pdfsizes);
         ed.putString(filecontent, filecontents);
         ed.putString(videosize, size);
-        ed.putString(videoalert,alert);
-        ed.putString(Videotoken,token);
+        ed.putString(videoalert, alert);
+        ed.putString(Videotoken, token);
         ed.commit();
     }
 
@@ -739,20 +758,23 @@ public class TeacherUtil_SharedPreference {
         String content = activity.getSharedPreferences(SIZES, MODE_PRIVATE).getString(filecontent, "");
         return content;
     }
+
     public static String getVideosize(Activity activity) {
         String content = activity.getSharedPreferences(SIZES, MODE_PRIVATE).getString(videosize, "");
         return content;
     }
+
     public static String getVideoalert(Activity activity) {
         String content = activity.getSharedPreferences(SIZES, MODE_PRIVATE).getString(videoalert, "");
         return content;
     }
+
     public static String getVideotoken(Activity activity) {
         String content = activity.getSharedPreferences(SIZES, MODE_PRIVATE).getString(Videotoken, "");
         return content;
     }
 
-    public static void putPeopleDetails(Activity activity, String principal, String staf, String paren, String grouhead, String adminnn){
+    public static void putPeopleDetails(Activity activity, String principal, String staf, String paren, String grouhead, String adminnn) {
         SharedPreferences prefs = activity.getSharedPreferences(PEOPLE_DETAILS, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -762,9 +784,10 @@ public class TeacherUtil_SharedPreference {
         ed.putString(SH_grouphead, grouhead);
         ed.putString(SH_parent, paren);
         Log.d(PEOPLE_DETAILS, "autoupdate Data stored in SP");
-        Log.d("Login values", principal +staf +adminnn +grouhead +paren );
+        Log.d("Login values", principal + staf + adminnn + grouhead + paren);
         ed.commit();
     }
+
     public static String getprincipalFromSP(Activity activity) {
         String principal = activity.getSharedPreferences(PEOPLE_DETAILS, MODE_PRIVATE).getString(SH_princi, "");
         return principal;
@@ -789,35 +812,39 @@ public class TeacherUtil_SharedPreference {
         String grouphead = activity.getSharedPreferences(PEOPLE_DETAILS, MODE_PRIVATE).getString(SH_grouphead, "");
         return grouphead;
     }
+
     public static String getPrinci(Activity activity) {
         String strprinci = activity.getSharedPreferences(PEOPLE_DETAILS, MODE_PRIVATE).getString(princi, "");
-        Log.d("strprinci", strprinci );
+        Log.d("strprinci", strprinci);
         return strprinci;
     }
 
     public static String getStaff1(Activity activity) {
         String strstaff = activity.getSharedPreferences(PEOPLE_DETAILS, MODE_PRIVATE).getString(staff, "");
-        Log.d("strstaff", strstaff );
+        Log.d("strstaff", strstaff);
         return strstaff;
     }
+
     public static String getAdmin1(Activity activity) {
         String stradmin = activity.getSharedPreferences(PEOPLE_DETAILS, MODE_PRIVATE).getString(admin, "");
-        Log.d("stradmin", stradmin );
+        Log.d("stradmin", stradmin);
         return stradmin;
     }
+
     public static String getGrouphead(Activity activity) {
         String strgrphead = activity.getSharedPreferences(PEOPLE_DETAILS, MODE_PRIVATE).getString(grouphead, "");
-        Log.d("strgrphead", strgrphead );
+        Log.d("strgrphead", strgrphead);
         return strgrphead;
     }
+
     public static String getParent1(Activity activity) {
         String strparent = activity.getSharedPreferences(PEOPLE_DETAILS, MODE_PRIVATE).getString(parent, "");
-        Log.d("strparent", strparent );
+        Log.d("strparent", strparent);
         return strparent;
     }
 
 
-    public static void putPrincipal(Activity activity,String autoupdate){
+    public static void putPrincipal(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_PRINCIPAL, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -831,7 +858,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putImageCount(Activity activity,String autoupdate){
+    public static void putImageCount(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_IMAGE_COUNT, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -846,7 +873,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putLoginMessage(Activity activity,String autoupdate){
+    public static void putLoginMessage(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("LOGIN_MESSAGE", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -860,7 +887,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putRole(Activity activity,String autoupdate){
+    public static void putRole(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("ROLE", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("role", autoupdate);
@@ -873,7 +900,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putIsStaff(Activity activity,Boolean autoupdate){
+    public static void putIsStaff(Activity activity, Boolean autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("IS_STAFF", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putBoolean("is_staff_type", autoupdate);
@@ -886,7 +913,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putIsParent(Activity activity,Boolean autoupdate){
+    public static void putIsParent(Activity activity, Boolean autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("IS_PARENT", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putBoolean("is_parent_type", autoupdate);
@@ -900,7 +927,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putDisplayRoleMessage(Activity activity,String autoupdate){
+    public static void putDisplayRoleMessage(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("ROLE_DISP", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -914,7 +941,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putStaff(Activity activity,String autoupdate){
+    public static void putStaff(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_STAFF, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -929,10 +956,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-
-
-
-    public static void putGroupHead(Activity activity,String autoupdate){
+    public static void putGroupHead(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_GROUPHEAD, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -947,7 +971,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putAdmin(Activity activity,String autoupdate){
+    public static void putAdmin(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_ADMIN, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -961,7 +985,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putParent(Activity activity,String autoupdate){
+    public static void putParent(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(SH_parent, autoupdate);
@@ -975,7 +999,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putNewProduct(Activity activity,String autoupdate){
+    public static void putNewProduct(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("SH_New_product", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("New_product", autoupdate);
@@ -989,7 +1013,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putCurrentDate(Activity activity,String autoupdate){
+    public static void putCurrentDate(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences("SH_CURRENT_DATE", MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("current_date", autoupdate);
@@ -1001,7 +1025,8 @@ public class TeacherUtil_SharedPreference {
         String strupdate = activity.getSharedPreferences("SH_CURRENT_DATE", MODE_PRIVATE).getString("current_date", "");
         return strupdate;
     }
-    public static void putProfilLink(Activity activity,String autoupdate){
+
+    public static void putProfilLink(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("ProfileLink", autoupdate);
@@ -1014,7 +1039,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putUploadProfileTitle(Activity activity,String autoupdate){
+    public static void putUploadProfileTitle(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("UploadProfileTitle", autoupdate);
@@ -1028,7 +1053,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putPaymentUrl(Activity activity,String autoupdate){
+    public static void putPaymentUrl(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("PaymentUrl", autoupdate);
@@ -1042,7 +1067,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putNewProductsLink(Activity activity,String autoupdate){
+    public static void putNewProductsLink(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("NewProductsLink", autoupdate);
@@ -1056,8 +1081,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-
-    public static void putAdTimeInterval(Activity activity,String autoupdate){
+    public static void putAdTimeInterval(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("AdTimeInterval", autoupdate);
@@ -1070,7 +1094,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putProfilTitle(Activity activity,String autoupdate){
+    public static void putProfilTitle(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_PARENT, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString("ProfileTitle", autoupdate);
@@ -1083,7 +1107,7 @@ public class TeacherUtil_SharedPreference {
         return strupdate;
     }
 
-    public static void putPermission(Activity activity,String autoupdate){
+    public static void putPermission(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(PERMISSION_PASSWORDSCREEN, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -1098,7 +1122,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putMobileNum(Activity activity,String autoupdate){
+    public static void putMobileNum(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(spMobileNum, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
         ed.putString(Mobile_number, autoupdate);
@@ -1111,7 +1135,7 @@ public class TeacherUtil_SharedPreference {
 //        return strupdate;
 //    }
 
-    public static void putPassWordType(Activity activity,String autoupdate){
+    public static void putPassWordType(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(PASSWORD_SCREEN, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -1126,7 +1150,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putOTPNum(Activity activity,String autoupdate){
+    public static void putOTPNum(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(OTP_NUMBER, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -1136,7 +1160,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putMobileNumberScreen(Activity activity,String autoupdate){
+    public static void putMobileNumberScreen(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(MOBILENUMBER_SCREEN, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -1156,7 +1180,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putChild(Activity activity,String autoupdate){
+    public static void putChild(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(CHILD_DATAS, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -1169,7 +1193,8 @@ public class TeacherUtil_SharedPreference {
         String strupdate = activity.getSharedPreferences(OTP_NUMBER, MODE_PRIVATE).getString(Mobile_number, "");
         return strupdate;
     }
-    public static void putIMEI(Activity activity,String autoupdate){
+
+    public static void putIMEI(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(IMEI_NUMBER, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -1184,8 +1209,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putNotification(Activity activity, String value)
-    {
+    public static void putNotification(Activity activity, String value) {
         SharedPreferences sp = activity.getSharedPreferences(Count_notifi, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.putString(NotificationCount, value);
@@ -1193,8 +1217,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putAppTermsAndConditions(Activity activity, String value)
-    {
+    public static void putAppTermsAndConditions(Activity activity, String value) {
         SharedPreferences sp = activity.getSharedPreferences(APP_TERMS, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.putString(appTermsAndCondition, value);
@@ -1207,8 +1230,7 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-    public static void putForgetMessage(Activity activity, String value)
-    {
+    public static void putForgetMessage(Activity activity, String value) {
         SharedPreferences sp = activity.getSharedPreferences(FORGET_OTP_MESSAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.putString(forget_message, value);
@@ -1230,7 +1252,7 @@ public class TeacherUtil_SharedPreference {
         return value;
     }
 
-    public static void putautoupdateToSP(Activity activity,String autoupdate){
+    public static void putautoupdateToSP(Activity activity, String autoupdate) {
         SharedPreferences prefs = activity.getSharedPreferences(SH_AUTOUPDATE, MODE_PRIVATE);
         SharedPreferences.Editor ed = prefs.edit();
 
@@ -1238,6 +1260,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(SH_AUTOUPDATE, "autoupdate Data stored in SP");
         ed.commit();
     }
+
     public static boolean getupdateFromSP(Activity activity) {
         boolean update = activity.getSharedPreferences(SH_AUTOUPDATE, MODE_PRIVATE).getBoolean(SH_autoupdate, false);
         return update;
@@ -1247,6 +1270,7 @@ public class TeacherUtil_SharedPreference {
         String strupdate = activity.getSharedPreferences(SH_AUTOUPDATE, MODE_PRIVATE).getString(SH_UPDATE, "");
         return strupdate;
     }
+
     public static void updatePreferences(Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(spCountryName, MODE_PRIVATE);
         if (prefs.getBoolean(spUpdateRequired, true)) {
@@ -1273,6 +1297,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spCountryName, "Country Data stored in SP");
         ed.commit();
     }
+
     public static String getShCountryCode(Activity activity) {
         String CountryCode = activity.getSharedPreferences(spCountryName, MODE_PRIVATE).getString(SH_COUNTRY_CODE, "");
         return CountryCode;
@@ -1292,6 +1317,7 @@ public class TeacherUtil_SharedPreference {
         String mobileNumberlength = activity.getSharedPreferences(spCountryName, MODE_PRIVATE).getString(SH_COUNTRY_MOBILE_LENGTH, "");
         return mobileNumberlength;
     }
+
     public static void clearCountrySharedPreference(Activity activity) {
         SharedPreferences preferences = activity.getSharedPreferences(spCountryName, MODE_PRIVATE);
         preferences.edit().clear().commit();
@@ -1325,6 +1351,7 @@ public class TeacherUtil_SharedPreference {
         String mobileNumber = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(SH_STAFF_MOBILE, "");
         return mobileNumber;
     }
+
     public static String getPasswordFromSP(Activity activity) {
         String password = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(SH_STAFF_PASSWORD, "");
         return password;
@@ -1380,11 +1407,12 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Staff Data stored in SP");
         ed.commit();
     }
+
     public static boolean saveArraystaffId(String[] array, String arrayName, Context mContext) {
         SharedPreferences prefs = mContext.getSharedPreferences(SH_STAFF_ID, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(arrayName +"size", array.length);
-        for(int i=0;i<array.length;i++)
+        editor.putInt(arrayName + "size", array.length);
+        for (int i = 0; i < array.length; i++)
             editor.putString(arrayName + "_" + i, array[i]);
         return editor.commit();
     }
@@ -1403,8 +1431,8 @@ public class TeacherUtil_SharedPreference {
     public static boolean saveArraystaffName(String[] array, String arrayName, Context mContext) {
         SharedPreferences prefs = mContext.getSharedPreferences(SH_STAFF_NAME, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(arrayName +"size", array.length);
-        for(int i=0;i<array.length;i++)
+        editor.putInt(arrayName + "size", array.length);
+        for (int i = 0; i < array.length; i++)
             editor.putString(arrayName + "_" + i, array[i]);
         return editor.commit();
     }
@@ -1423,8 +1451,8 @@ public class TeacherUtil_SharedPreference {
     public static boolean saveArrayschoolName(String[] array, String arrayName, Context mContext) {
         SharedPreferences prefs = mContext.getSharedPreferences(SH_SCHOOL_NAME, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(arrayName +"size", array.length);
-        for(int i=0;i<array.length;i++)
+        editor.putInt(arrayName + "size", array.length);
+        for (int i = 0; i < array.length; i++)
             editor.putString(arrayName + "_" + i, array[i]);
         return editor.commit();
     }
@@ -1442,8 +1470,8 @@ public class TeacherUtil_SharedPreference {
     public static boolean saveArrayschoolId(String[] array, String arrayName, Context mContext) {
         SharedPreferences prefs = mContext.getSharedPreferences(SH_SCHOOL_ID, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(arrayName +"size", array.length);
-        for(int i=0;i<array.length;i++)
+        editor.putInt(arrayName + "size", array.length);
+        for (int i = 0; i < array.length; i++)
             editor.putString(arrayName + "_" + i, array[i]);
         return editor.commit();
     }
@@ -1457,6 +1485,7 @@ public class TeacherUtil_SharedPreference {
             array[i] = prefs.getString(arrayName + "_" + i, null);
         return array;
     }
+
     public static void putSelecedStaffInfoToSPnew(Activity activity, String staffID, String staffName, String schoolID,
                                                   String schoolName, String schoolAddress, String schoolLogo, boolean isAdmin,
                                                   boolean isManagement, boolean isStaff, boolean isGrouphead) {
@@ -1490,6 +1519,7 @@ public class TeacherUtil_SharedPreference {
         String loggedInAs = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(SH_LOGGEDIN_AS, "");
         return loggedInAs;
     }
+
     public static String getLoginTypeContextFromSP(Context activity) {
         String loggedInAs = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(SH_LOGGEDIN_AS, "");
         return loggedInAs;
@@ -1516,7 +1546,6 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-
     public static void putSchoolLogo(Activity activity, String logo) {
         SharedPreferences sp = activity.getSharedPreferences(spName, MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
@@ -1537,6 +1566,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getEmergencyCurrentDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("Emergency_date", "");
         return Date;
@@ -1549,10 +1579,12 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getEventDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("Event_Date", "");
         return Date;
     }
+
     public static void putHolidayCurrentDate(Activity activity, String date) {
         SharedPreferences sp = activity.getSharedPreferences(spName, MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
@@ -1560,6 +1592,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getHolidayDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("Holiday_date", "");
         return Date;
@@ -1572,6 +1605,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getCircularDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("Circular_date", "");
         return Date;
@@ -1584,6 +1618,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getAssignmentDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("Assignment_date", "");
         return Date;
@@ -1596,6 +1631,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getVideoDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("Video_Date", "");
         return Date;
@@ -1608,6 +1644,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethod(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBack", "");
         return onback;
@@ -1620,6 +1657,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodText(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackText", "");
         return onback;
@@ -1632,6 +1670,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodVoice(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackVoice", "");
         return onback;
@@ -1644,6 +1683,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodEmeVoice(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackEmeVoice", "");
         return onback;
@@ -1656,6 +1696,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodHWTEXT(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackHWText", "");
         return onback;
@@ -1668,6 +1709,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodHWVOICE(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackHWVoice", "");
         return onback;
@@ -1680,6 +1722,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodCirculars(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackCirculars", "");
         return onback;
@@ -1692,10 +1735,12 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodImages(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackImages", "");
         return onback;
     }
+
     public static void putOnBackPressedAssignmentParent(Activity activity, String onback) {
         SharedPreferences sp = activity.getSharedPreferences(spName, MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
@@ -1703,6 +1748,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodAssignmentParent(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackAssignmentParent", "");
         return onback;
@@ -1715,6 +1761,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodAssignmentStaff(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackAssignmentStaff", "");
         return onback;
@@ -1727,6 +1774,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodVideo(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackVideo", "");
         return onback;
@@ -1739,11 +1787,11 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getOnBackMethodMFM(Activity activity) {
         String onback = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("OnBackMFM", "");
         return onback;
     }
-
 
 
     public static void putImageCurrentDate(Activity activity, String date) {
@@ -1753,6 +1801,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getImageDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("Image_date", "");
         return Date;
@@ -1765,6 +1814,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getHomeWorkDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("Homework_Date", "");
         return Date;
@@ -1777,6 +1827,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getNoticeBoardDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("NoticeBoard_Date", "");
         return Date;
@@ -1790,11 +1841,11 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getAttedanceCurrentDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString("Attedance_Date", "");
         return Date;
     }
-
 
 
     public static void putReadContactsPermission(Activity activity, String date) {
@@ -1804,6 +1855,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getReadContactsPermission(Activity activity) {
         String Date = activity.getSharedPreferences("CONTACTS", MODE_PRIVATE).getString("Permission", "");
         return Date;
@@ -1816,6 +1868,7 @@ public class TeacherUtil_SharedPreference {
         ed.putString("parent_media", date);
         ed.commit();
     }
+
     public static String getParentStoragePermission(Context activity) {
         String Date = activity.getSharedPreferences("PARENT_STORAGE", MODE_PRIVATE).getString("parent_media", "");
         return Date;
@@ -1828,12 +1881,11 @@ public class TeacherUtil_SharedPreference {
         ed.putString("parent_media_camera", date);
         ed.commit();
     }
+
     public static String getParentStorageandCameraPermission(Context activity) {
         String Date = activity.getSharedPreferences("PARENT_STORAGE_CAMERA", MODE_PRIVATE).getString("parent_media_camera", "");
         return Date;
     }
-
-
 
 
     public static void putStaffRecordPermission(Context activity, String date) {
@@ -1842,6 +1894,7 @@ public class TeacherUtil_SharedPreference {
         ed.putString("staff_record", date);
         ed.commit();
     }
+
     public static String getStaffRecordPermission(Context activity) {
         String Date = activity.getSharedPreferences("STAFF_RECORD_VOICE", MODE_PRIVATE).getString("staff_record", "");
         return Date;
@@ -1853,6 +1906,7 @@ public class TeacherUtil_SharedPreference {
         ed.putString("staff_cameras", date);
         ed.commit();
     }
+
     public static String getStaffCameraPermission(Context activity) {
         String Date = activity.getSharedPreferences("STAFF_CAMERA", MODE_PRIVATE).getString("staff_cameras", "");
         return Date;
@@ -1865,10 +1919,12 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getDateListVoiceDate(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(Current_Date_voive, "");
         return Date;
     }
+
     public static void putDateListCurrentDate(Activity activity, String date) {
         SharedPreferences sp = activity.getSharedPreferences(spName, MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
@@ -1876,6 +1932,7 @@ public class TeacherUtil_SharedPreference {
         Log.d(spName, "Login Type stored in SP");
         ed.commit();
     }
+
     public static String getCurrent_Date_DateList(Activity activity) {
         String Date = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(Current_Date, "");
         return Date;
@@ -1911,9 +1968,8 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-
     public static void PutChildrenScreenMyArray(Context context, ArrayList<String> arrayList, String key) {
-        SharedPreferences db= PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor collection = db.edit();
         Gson gson = new Gson();
         String arrayList1 = gson.toJson(arrayList);
@@ -1923,18 +1979,19 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static ArrayList<String> getChildrenScreenMyArray(Context context, String key) {
-        SharedPreferences db=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
 
         Gson gson = new Gson();
         String arrayList = db.getString(key, "");
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
 
         return gson.fromJson(arrayList, type);
     }
 
 
     public static void PutChildrenScreenschoolmodel(Context context, TeacherSchoolsModel arrayList, String key) {
-        SharedPreferences db= PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor collection = db.edit();
         Gson gson = new Gson();
         String arrayList1 = gson.toJson(arrayList);
@@ -1944,16 +2001,17 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static TeacherSchoolsModel getChildrenScreenSchoolModel(Context context, String key) {
-        SharedPreferences db=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
 
         Gson gson = new Gson();
         String arrayList = db.getString(key, "");
-        Type type = new TypeToken<TeacherSchoolsModel>() {}.getType();
+        Type type = new TypeToken<TeacherSchoolsModel>() {
+        }.getType();
         return gson.fromJson(arrayList, type);
     }
 
     public static void putChildItems(Context context, Profiles arrayList, String key) {
-        SharedPreferences db= PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor collection = db.edit();
         Gson gson = new Gson();
         String arrayList1 = gson.toJson(arrayList);
@@ -1963,18 +2021,18 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static Profiles getChildItems(Context context, String key) {
-        SharedPreferences db=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
 
         Gson gson = new Gson();
         String arrayList = db.getString(key, "");
-        Type type = new TypeToken<Profiles>() {}.getType();
+        Type type = new TypeToken<Profiles>() {
+        }.getType();
         return gson.fromJson(arrayList, type);
     }
 
 
-
     public static void putChildrenDetails(Context context, ArrayList<Profiles> arrayList, String key) {
-        SharedPreferences db= PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor collection = db.edit();
         Gson gson = new Gson();
         String arrayList1 = gson.toJson(arrayList);
@@ -1984,20 +2042,19 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static ArrayList<Profiles> getChildrenDetails(Context context, String key) {
-        SharedPreferences db=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
 
         Gson gson = new Gson();
         String arrayList = db.getString(key, "");
-        Type type = new TypeToken<ArrayList<Profiles>>() {}.getType();
+        Type type = new TypeToken<ArrayList<Profiles>>() {
+        }.getType();
 
         return gson.fromJson(arrayList, type);
     }
 
 
-
-
     public static void putChildrenScreenSchool_list(Context context, ArrayList<TeacherSchoolsModel> arrayList, String key) {
-        SharedPreferences db= PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor collection = db.edit();
         Gson gson = new Gson();
         String arrayList1 = gson.toJson(arrayList);
@@ -2007,18 +2064,19 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static ArrayList<TeacherSchoolsModel> getChildrenScreenSchools_List(Context context, String key) {
-        SharedPreferences db=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
 
         Gson gson = new Gson();
         String arrayList = db.getString(key, "");
-        Type type = new TypeToken<ArrayList<TeacherSchoolsModel>>() {}.getType();
+        Type type = new TypeToken<ArrayList<TeacherSchoolsModel>>() {
+        }.getType();
 
         return gson.fromJson(arrayList, type);
     }
 
 
     public static void putLanguages(Context context, ArrayList<Languages> arrayList, String key) {
-        SharedPreferences db= PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor collection = db.edit();
         Gson gson = new Gson();
         String arrayList1 = gson.toJson(arrayList);
@@ -2026,24 +2084,25 @@ public class TeacherUtil_SharedPreference {
         collection.putString(key, arrayList1);
         collection.commit();
     }
+
     public static ArrayList<Languages> getLanguages(Context context, String key) {
-        SharedPreferences db=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
 
         Gson gson = new Gson();
         String arrayList = db.getString(key, "");
-        Type type = new TypeToken<ArrayList<Languages>>() {}.getType();
+        Type type = new TypeToken<ArrayList<Languages>>() {
+        }.getType();
 
         return gson.fromJson(arrayList, type);
     }
 
 
-    public  static final String school_name="school";
-    public  static final String school_Address="address";
-    public  static final String school_SH="school_SH";
+    public static final String school_name = "school";
+    public static final String school_Address = "address";
+    public static final String school_SH = "school_SH";
 
 
-    public static void putChildrenScreenSchoolName(Activity activity, String value)
-    {
+    public static void putChildrenScreenSchoolName(Activity activity, String value) {
         SharedPreferences sp = activity.getSharedPreferences(school_SH, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.putString(school_name, value);
@@ -2054,8 +2113,8 @@ public class TeacherUtil_SharedPreference {
         String value = activity.getSharedPreferences(school_SH, Context.MODE_PRIVATE).getString(school_name, "");
         return value;
     }
-    public static void putChildrenScreenSchoolAddress(Activity activity, String value)
-    {
+
+    public static void putChildrenScreenSchoolAddress(Activity activity, String value) {
         SharedPreferences sp = activity.getSharedPreferences(school_SH, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.putString(school_Address, value);
@@ -2068,21 +2127,8 @@ public class TeacherUtil_SharedPreference {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     public static void listSchoolDetails(Context context, ArrayList<TeacherSchoolsModel> arrayList, String key) {
-        SharedPreferences db= PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor collection = db.edit();
         Gson gson = new Gson();
         String arrayList1 = gson.toJson(arrayList);
@@ -2092,17 +2138,18 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static ArrayList<TeacherSchoolsModel> getlistSchoolDetails(Context context, String key) {
-        SharedPreferences db=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
 
         Gson gson = new Gson();
         String arrayList = db.getString(key, "");
-        Type type = new TypeToken<ArrayList<TeacherSchoolsModel>>() {}.getType();
+        Type type = new TypeToken<ArrayList<TeacherSchoolsModel>>() {
+        }.getType();
 
         return gson.fromJson(arrayList, type);
     }
 
     public static void schoollist(Context context, ArrayList<String> arrayList, String key) {
-        SharedPreferences db= PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor collection = db.edit();
         Gson gson = new Gson();
         String arrayList1 = gson.toJson(arrayList);
@@ -2112,18 +2159,19 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static ArrayList<TeacherSchoolsModel> getschoollist(Context context, String key) {
-        SharedPreferences db=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
 
         Gson gson = new Gson();
         String arrayList = db.getString(key, "");
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
 
         return gson.fromJson(arrayList, type);
     }
 
 
     public static void schoolmodel(Context context, TeacherSchoolsModel arrayList, String key) {
-        SharedPreferences db= PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor collection = db.edit();
         Gson gson = new Gson();
         String arrayList1 = gson.toJson(arrayList);
@@ -2133,11 +2181,12 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static TeacherSchoolsModel getschoolmodel(Context context, String key) {
-        SharedPreferences db=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences db = PreferenceManager.getDefaultSharedPreferences(context);
 
         Gson gson = new Gson();
         String arrayList = db.getString(key, "");
-        Type type = new TypeToken<TeacherSchoolsModel>() {}.getType();
+        Type type = new TypeToken<TeacherSchoolsModel>() {
+        }.getType();
         return gson.fromJson(arrayList, type);
     }
 
@@ -2198,6 +2247,7 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static final String spquiz = "SP_QUIZ";
+
     public static void putQuizid(Activity activity, int quizid) {
         SharedPreferences sp = activity.getSharedPreferences(spquiz, MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();

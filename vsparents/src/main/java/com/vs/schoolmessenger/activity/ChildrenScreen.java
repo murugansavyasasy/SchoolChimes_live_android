@@ -3,6 +3,7 @@ package com.vs.schoolmessenger.activity;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LOGIN_TYPE_TEACHER;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -110,6 +111,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
