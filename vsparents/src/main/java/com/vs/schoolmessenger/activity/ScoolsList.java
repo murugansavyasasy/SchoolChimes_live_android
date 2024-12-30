@@ -205,7 +205,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -323,7 +323,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -442,7 +442,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -572,7 +572,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -697,7 +697,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -821,7 +821,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -934,7 +934,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ScoolsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())

@@ -86,10 +86,10 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
 
         if (Type.equals("student")) {
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.leave_history);
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.leave_history));
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
         } else {
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.leave_request);
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.leave_request));
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teacher_colorAccent)));
         }
@@ -181,7 +181,7 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -256,9 +256,9 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
 
     private void showRecordsFound(String no_records_found) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(LeaveRequestsByStaffs.this);
-        alertDialog.setTitle(R.string.alert);
+        alertDialog.setTitle(getResources().getString(R.string.alert));
         alertDialog.setMessage(no_records_found);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

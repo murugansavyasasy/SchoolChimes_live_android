@@ -105,7 +105,7 @@ public class ImageCircular extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_children);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.home_photos);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.home_photos));
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ImageView ivBack = (ImageView) findViewById(R.id.image_ToolBarIvBack);
@@ -219,7 +219,7 @@ public class ImageCircular extends AppCompatActivity {
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -316,9 +316,9 @@ public class ImageCircular extends AppCompatActivity {
 
     private void showSettingsAlert1() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ImageCircular.this);
-        alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage(R.string.connect_internet);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setTitle(getResources().getString(R.string.alert));
+        alertDialog.setMessage(getResources().getString(R.string.connect_internet));
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -355,7 +355,7 @@ public class ImageCircular extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -455,10 +455,10 @@ public class ImageCircular extends AppCompatActivity {
     private void showAlertRecords(String strMessage) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ImageCircular.this);
 
-        alertDialog.setTitle(R.string.alert);
+        alertDialog.setTitle(getResources().getString(R.string.alert));
 
         alertDialog.setMessage(strMessage);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

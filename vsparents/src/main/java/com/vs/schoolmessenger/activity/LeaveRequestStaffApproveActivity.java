@@ -111,7 +111,7 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
         String staffid = TeacherUtil_Common.Principal_staffId;
         final ProgressDialog mProgressDialog = new ProgressDialog(LeaveRequestStaffApproveActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -152,7 +152,7 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
 
 
                     } else {
-                        Toast.makeText(LeaveRequestStaffApproveActivity.this, R.string.check_internet, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LeaveRequestStaffApproveActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -163,7 +163,7 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
-                Toast.makeText(LeaveRequestStaffApproveActivity.this, R.string.check_internet, Toast.LENGTH_SHORT).show();
+                Toast.makeText(LeaveRequestStaffApproveActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
 
             }
         });

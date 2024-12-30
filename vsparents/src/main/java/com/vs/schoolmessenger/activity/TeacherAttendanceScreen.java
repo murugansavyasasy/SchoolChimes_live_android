@@ -167,7 +167,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
         btnMarkAllPresent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showConfirmAlert("Confirm", "Mark All as Present?");
+                showConfirmAlert(String.valueOf(R.string.Confirm), String.valueOf(R.string.Mark_Present));
             }
         });
 
@@ -197,7 +197,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
                     inStud.putExtra("ATTENDANCE_DATE", isAttendanceDate);
                     startActivityForResult(inStud, iRequestCode);
                 } else {
-                    showToast("Kindly select the attendance type");
+                    showToast(String.valueOf(R.string.Kindly_attendance));
                 }
             }
         });
@@ -448,7 +448,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
     private void standardsAndSectoinsListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -568,7 +568,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
     private void sendAttenAPIPresent() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(String.valueOf(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -692,7 +692,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
                 if (!attendanceType.equals("")) {
                     sendAttenAPIPresent();
                 } else {
-                    showToast("Kindly select the attendance type");
+                    showToast(String.valueOf(R.string.Kindly_attendance));
                 }
             }
         });
@@ -721,7 +721,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(String.valueOf(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);

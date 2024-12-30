@@ -233,7 +233,7 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(ParentSubmitActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -932,7 +932,7 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Uploading..");
+            progressDialog.setMessage(getResources().getString(R.string.Loading));
             progressDialog.setCancelable(false);
         }
 

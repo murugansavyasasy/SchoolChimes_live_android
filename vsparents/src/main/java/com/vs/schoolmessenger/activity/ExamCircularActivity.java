@@ -115,8 +115,8 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.exam_test);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(R.string.circulars);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.exam_test));
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(getResources().getString(R.string.circulars));
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,12 +217,12 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
     private void showSettingsAlert1(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ExamCircularActivity.this);
 
-        alertDialog.setTitle(R.string.alert);
+        alertDialog.setTitle(getResources().getString(R.string.alert));
 
         alertDialog.setMessage(msg);
 
 
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -264,7 +264,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -398,9 +398,9 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
     private void showLogoutAlert() {
         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(ExamCircularActivity.this);
-        alertDialog.setTitle(R.string.txt_menu_logout);
-        alertDialog.setMessage(R.string.want_to_logut);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setTitle(getResources().getString(R.string.txt_menu_logout));
+        alertDialog.setMessage(getResources().getString(R.string.want_to_logut));
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -418,7 +418,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
             }
         });
-        alertDialog.setPositiveButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getResources().getString(R.string.btn_sign_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -450,10 +450,10 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ExamCircularActivity.this);
         android.app.AlertDialog alertDialog;
-        builder.setTitle(R.string.choose_language);
+        builder.setTitle(getResources().getString(R.string.choose_language));
         builder.setCancelable(false);
         builder.setSingleChoiceItems(countriesArray, 0, null);
-        builder.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 int selectedPosition = ((android.app.AlertDialog) dialog).getListView().getCheckedItemPosition();
@@ -469,7 +469,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
             }
         });
-        builder.setNegativeButton(R.string.pop_password_btnCancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.pop_password_btnCancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -545,7 +545,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -678,7 +678,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
     private void helpAPI(String strMsg) {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -721,11 +721,11 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                             showToast(strMessage);
                         }
                     } else {
-                        showToast(String.valueOf(getResources().getText(R.string.else_error_message)));
+                        showToast(getResources().getString(R.string.else_error_message));
                     }
 
                 } catch (Exception e) {
-                    showToast(String.valueOf(getResources().getText(R.string.catch_message)));
+                    showToast(getResources().getString(R.string.catch_message));
                     Log.e("Help:Exception", e.getMessage());
                 }
             }

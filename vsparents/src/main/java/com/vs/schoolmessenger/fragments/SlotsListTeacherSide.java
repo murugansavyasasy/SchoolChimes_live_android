@@ -109,8 +109,8 @@ public class SlotsListTeacherSide extends Fragment implements CalendarDatePicker
                 .setFirstDayOfWeek(Calendar.SUNDAY) // Optional: Set the first day of the week
                 .setPreselectedDate(year, month, day) // Use today's date
                 .setDateRange(null, null) // Set the minimum date to today
-                .setDoneText("OK")
-                .setCancelText("Cancel");
+                .setDoneText(requireActivity().getString(R.string.ok))
+                .setCancelText(requireActivity().getString(R.string.cancel));
         cdp.show(getChildFragmentManager(), "DATE_PICKER_TAG");
     }
 
@@ -143,7 +143,7 @@ public class SlotsListTeacherSide extends Fragment implements CalendarDatePicker
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(requireContext());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);

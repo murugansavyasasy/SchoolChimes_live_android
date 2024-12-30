@@ -153,7 +153,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ChangePasswordScreen.this);
@@ -212,7 +212,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
     private void alertShow(String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChangePasswordScreen.this);
         alertDialog.setMessage(message);
-        alertDialog.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 getUserDetails();
             }
@@ -233,7 +233,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ChangePasswordScreen.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing()) mProgressDialog.show();
 
@@ -598,7 +598,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
     private void loginApi() {
         final ProgressDialog mProgressDialog = new ProgressDialog(ChangePasswordScreen.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing()) mProgressDialog.show();
 
@@ -1093,9 +1093,9 @@ public class ChangePasswordScreen extends AppCompatActivity {
 
     private void showAlert(String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChangePasswordScreen.this);
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(getResources().getString(R.string.alert));
         alertDialog.setMessage(message);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

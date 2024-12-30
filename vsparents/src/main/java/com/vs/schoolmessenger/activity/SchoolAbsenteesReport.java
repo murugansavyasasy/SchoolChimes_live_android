@@ -171,7 +171,7 @@ public class SchoolAbsenteesReport extends AppCompatActivity {
     private void AbsenteesReportListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

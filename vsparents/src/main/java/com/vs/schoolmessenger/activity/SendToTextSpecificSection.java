@@ -164,7 +164,7 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
 
         final ProgressDialog mProgressDialog = new ProgressDialog(SendToTextSpecificSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())

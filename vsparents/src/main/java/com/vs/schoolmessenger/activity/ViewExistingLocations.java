@@ -97,7 +97,7 @@ public class ViewExistingLocations extends AppCompatActivity {
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -181,7 +181,7 @@ public class ViewExistingLocations extends AppCompatActivity {
         TextView btnUpdate = (TextView) layout.findViewById(R.id.btnUpdate);
         TextView btnCancel = (TextView) layout.findViewById(R.id.btnCancel);
         txtLocationName.setText(item.getLocation());
-        txtDistance.setText(item.getDistance() + " Meters");
+        txtDistance.setText(item.getDistance() + R.string.Meters);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,7 +193,7 @@ public class ViewExistingLocations extends AppCompatActivity {
                     Log.d("en_distance", "true");
                     updateLocationAPI(String.valueOf(distanceCheck), txtLocationName.getText().toString(), item.getId());
                 } else {
-                    Toast.makeText(ViewExistingLocations.this, "Distance should be minimum 10 Meters", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewExistingLocations.this, R.string.Distance_should_be_minimum_Meters, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -208,7 +208,7 @@ public class ViewExistingLocations extends AppCompatActivity {
     private void updateLocationAPI(String distance, String locationName, int id) {
         final ProgressDialog mProgressDialog = new ProgressDialog(ViewExistingLocations.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ViewExistingLocations.this);
@@ -259,9 +259,9 @@ public class ViewExistingLocations extends AppCompatActivity {
 
     private void deleteAlert(StaffBiometricLocationRes.BiometricLoationData item) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ViewExistingLocations.this);
-        alertDialog.setTitle("Delete location !!");
-        alertDialog.setMessage("Are you sure you want to delete this location?");
-        alertDialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialog.setTitle(R.string.Delete_location);
+        alertDialog.setMessage(R.string.Are_you_sure_you_want_delete_location);
+        alertDialog.setNegativeButton(R.string.rb_yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -283,7 +283,7 @@ public class ViewExistingLocations extends AppCompatActivity {
     private void removeLocationApi(StaffBiometricLocationRes.BiometricLoationData item) {
         final ProgressDialog mProgressDialog = new ProgressDialog(ViewExistingLocations.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(ViewExistingLocations.this);

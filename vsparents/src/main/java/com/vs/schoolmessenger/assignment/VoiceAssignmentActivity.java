@@ -1,7 +1,9 @@
 package com.vs.schoolmessenger.assignment;
 
-import androidx.appcompat.app.AppCompatActivity;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICEASSIGNMENT;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FILE_NAME;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FOLDER_NAME;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.milliSecondsToTimer;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -24,6 +26,8 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
 import com.vs.schoolmessenger.R;
@@ -34,12 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXTASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICEASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FILE_NAME;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.VOICE_FOLDER_NAME;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.milliSecondsToTimer;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class VoiceAssignmentActivity extends AppCompatActivity implements CalendarDatePickerDialogFragment.OnDateSetListener {
     private MediaPlayer mediaPlayer;
@@ -413,7 +412,6 @@ public class VoiceAssignmentActivity extends AppCompatActivity implements Calend
         minimumMinute = cal.get(Calendar.MINUTE);
         selHour = Integer.toString(minimumHour);
         selMin = Integer.toString(minimumMinute);
-
 
 //        tvTime.setText(timeFormater(minimumHour, minimumMinute));
 

@@ -65,9 +65,9 @@ public class HelperActivity extends AppCompatActivity {
     private void showAppPermissionSettings() {
         Snackbar snackbar = Snackbar.make(
                         view,
-                        getString(R.string.permission_force),
+                        getResources().getString(R.string.permission_force),
                         Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(R.string.permission_settings), new View.OnClickListener() {
+                .setAction(getResources().getString(R.string.permission_settings), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Uri uri = Uri.fromParts(

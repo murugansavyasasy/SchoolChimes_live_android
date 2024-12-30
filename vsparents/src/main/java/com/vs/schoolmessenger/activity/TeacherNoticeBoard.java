@@ -399,7 +399,7 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
 
                         if (date1.compareTo(date2) < 0) {
                             lblFromDate.setText(outputDateStr);
-                            Toast.makeText(getApplicationContext(), "Please select toDate is after fromDate", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.Please_select_toDate_after_fromDate, Toast.LENGTH_SHORT).show();
                             lblToDate.setText("");
                         } else {
                             lblFromDate.setText(outputDateStr);
@@ -416,7 +416,7 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
                     Date date2 = dateFormat.parse(outputDateStr);
 
                     if (date1.compareTo(date2) > 0) {
-                        Toast.makeText(getApplicationContext(), "Please select toDate is after fromDate", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.Please_select_toDate_after_fromDate, Toast.LENGTH_SHORT).show();
                         lblToDate.setText("");
                     } else {
                         lblToDate.setText(outputDateStr);
@@ -547,7 +547,7 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherNoticeBoard.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -700,7 +700,7 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -794,7 +794,7 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();

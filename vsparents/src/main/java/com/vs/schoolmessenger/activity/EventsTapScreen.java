@@ -135,7 +135,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.events);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.events));
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
@@ -162,8 +162,8 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
     private void setupTabLayout() {
         fragmentOne = new EventsFragment();
         fragmentTwo = new HolidaysFragment();
-        allTabs.addTab(allTabs.newTab().setText(R.string.events), true);
-        allTabs.addTab(allTabs.newTab().setText(R.string.holidays));
+        allTabs.addTab(allTabs.newTab().setText(getResources().getString(R.string.events)), true);
+        allTabs.addTab(allTabs.newTab().setText(getResources().getString(R.string.holidays)));
     }
 
     private void getAllWidgets() {
@@ -260,10 +260,10 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
         AlertDialog.Builder builder = new AlertDialog.Builder(EventsTapScreen.this);
         AlertDialog alertDialog;
-        builder.setTitle(R.string.choose_language);
+        builder.setTitle(getResources().getString(R.string.choose_language));
         builder.setCancelable(false);
         builder.setSingleChoiceItems(countriesArray, 0, null);
-        builder.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
@@ -281,7 +281,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-        builder.setNegativeButton(R.string.pop_password_btnCancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.pop_password_btnCancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -339,7 +339,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(String.valueOf(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();

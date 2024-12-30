@@ -64,9 +64,9 @@ public class NewPopUpActivity extends AppCompatActivity {
     private void alert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(NewPopUpActivity.this);
         alertDialog.setIcon(R.drawable.ic_voice_snap);
-        alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage(R.string.you_have_new_message);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setTitle(getResources().getString(R.string.alert));
+        alertDialog.setMessage(getResources().getString(R.string.you_have_new_message));
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

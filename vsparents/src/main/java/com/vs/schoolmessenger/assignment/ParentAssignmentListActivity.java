@@ -214,7 +214,7 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ParentAssignmentListActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -343,7 +343,7 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ParentAssignmentListActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

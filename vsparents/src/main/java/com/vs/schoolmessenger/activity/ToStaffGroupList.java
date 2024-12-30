@@ -157,7 +157,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
     private void getStaffGroups() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String isNewVersion = TeacherUtil_SharedPreference.getNewVersion(ToStaffGroupList.this);
@@ -371,7 +371,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
             link = isLink;
             SendVideoAsStaffToGroups();
         } else {
-            alert("Video sending failed.");
+            alert(String.valueOf(R.string.Video_sending_failed));
         }
     }
 
@@ -688,7 +688,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(ToStaffGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -798,7 +798,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ToStaffGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -937,7 +937,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Uploading..");
+            progressDialog.setMessage(getResources().getString(R.string.Uploading));
             progressDialog.setCancelable(false);
         }
 

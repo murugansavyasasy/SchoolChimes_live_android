@@ -108,7 +108,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.Level);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.Level));
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
@@ -212,7 +212,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -325,7 +325,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -387,10 +387,10 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
     private void showAlert(String msg, final String s, final String submit) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(getResources().getString(R.string.alert));
 
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (submit.equals("SUBMIT")) {
@@ -425,10 +425,10 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
     private void showAlertApi(String msg, final String submit) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(getResources().getString(R.string.alert));
 
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -441,7 +441,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             }
         });
 
-        alertDialog.setPositiveButton("cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (submit.equals("SUBMIT")) {
@@ -658,7 +658,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             }
         });
         final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading");
+        pDialog.setMessage(getResources().getString(R.string.Loading));
         pDialog.setCancelable(false);
         myWebView.setBackgroundColor(getResources().getColor(R.color.clr_black));
 
@@ -720,7 +720,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         });
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -823,7 +823,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
 
             case R.id.btnsubmit:
                 if (answerlist.size() == msgModelList.size()) {
-                    showAlertApi("Are you sure want to submit the Quiz ?", "SUBMIT");
+                    showAlertApi(getResources().getString(R.string.want_submit_Quiz), "SUBMIT");
                 } else if (questionlist.size() != msgModelList.size()) {
 
                     for (int i = 0; i < msgModelList.size(); i++) {
@@ -833,7 +833,7 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                         }
                     }
                     if (answerlist.size() == msgModelList.size()) {
-                        showAlertApi("Are you sure want to submit the Quiz ?", "SUBMIT");
+                        showAlertApi(getResources().getString(R.string.want_submit_Quiz), "SUBMIT");
                     }
                 }
 

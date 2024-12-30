@@ -145,7 +145,7 @@ public class UpcomingExamEnhancement extends Fragment {
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -249,10 +249,10 @@ public class UpcomingExamEnhancement extends Fragment {
     private void showAlert(String msg) {
         show=true;
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(requireActivity().getString(R.string.alert));
 
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(requireActivity().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

@@ -309,7 +309,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         if (strSubjectCode != null) {
                             SendVoiceToEntireSectionHW();
                         } else {
-                            showToast("Please select the subject");
+                            showToast(String.valueOf(R.string.Please_select_subject));
                         }
                     }
                     if (iRequestCode == STAFF_TEXT_HW || iRequestCode == PRINCIPAL_TEXT_HW) {
@@ -342,7 +342,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
 //                            SendTextToEntireSectionHW();
                         } else {
-                            showToast("Please select the subject");
+                            showToast(String.valueOf(R.string.Please_select_subject));
 
                         }
                     }
@@ -368,7 +368,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         if (strSubjectCode != null) {
                             sendOnlineClassToSections();
                         } else {
-                            showToast("Please select the subject");
+                            showToast(String.valueOf(R.string.Please_select_subject));
 
                         }
                     }
@@ -378,7 +378,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         if (strSubjectCode != null) {
                             sendOnlineClassToSections();
                         } else {
-                            showToast("Please select the subject");
+                            showToast(String.valueOf(R.string.Please_select_subject));
 
                         }
                     }
@@ -645,7 +645,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -884,7 +884,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Uploading..");
+            progressDialog.setMessage(String.valueOf(R.string.Uploading));
             progressDialog.setCancelable(false);
         }
 
@@ -909,7 +909,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -1012,7 +1012,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1114,7 +1114,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1228,7 +1228,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1333,7 +1333,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -1463,7 +1463,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1551,7 +1551,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1651,7 +1651,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1772,7 +1772,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -1895,7 +1895,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -2072,7 +2072,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -2202,7 +2202,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -2354,7 +2354,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStaffStandardSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())

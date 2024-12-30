@@ -187,8 +187,8 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         Boolean is_parent = TeacherUtil_SharedPreference.getIsParent(ChildrenScreen.this);
 
         if (is_staff && is_parent) {
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.choose);
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(R.string.role);
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.choose));
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(getResources().getString(R.string.role));
 
             aHome_llSchoollayout.setVisibility(View.VISIBLE);
             aHome_tvSchoolName.setText(role_display);
@@ -236,8 +236,8 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
             });
 
         } else {
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.choose);
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(R.string.your_child);
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.choose));
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(getResources().getString(R.string.your_child));
         }
 
         childList = TeacherUtil_SharedPreference.getChildrenDetails(ChildrenScreen.this, "child_list");
@@ -409,7 +409,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.exit_app);
+        builder.setMessage(getResources().getString(R.string.exit_app));
         builder.setPositiveButton(R.string.rb_yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 21) {
@@ -421,7 +421,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
-        builder.setNegativeButton(R.string.teacher_cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.teacher_cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
@@ -488,10 +488,10 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(ChildrenScreen.this);
         AlertDialog alertDialog;
-        builder.setTitle(R.string.choose_language);
+        builder.setTitle(getResources().getString(R.string.choose_language));
         builder.setCancelable(false);
         builder.setSingleChoiceItems(countriesArray, 0, null);
-        builder.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
@@ -511,7 +511,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-        builder.setNegativeButton(R.string.pop_password_btnCancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.pop_password_btnCancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -796,7 +796,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
     private void helpAPI(String msg) {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -836,11 +836,11 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
                             showToast(strMessage);
                         }
                     } else {
-                        showToast(String.valueOf(getResources().getText(R.string.else_error_message)));
+                        showToast(getResources().getString(R.string.else_error_message));
                     }
 
                 } catch (Exception e) {
-                    showToast(String.valueOf(getResources().getText(R.string.catch_message)));
+                    showToast(getResources().getString(R.string.catch_message));
                     Log.e("Help:Exception", e.getMessage());
                 }
             }
@@ -881,7 +881,7 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(ChildrenScreen.this);

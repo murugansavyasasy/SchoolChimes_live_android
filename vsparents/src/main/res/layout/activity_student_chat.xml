@@ -51,7 +51,7 @@
             android:layout_marginRight="@dimen/_8sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:textSize="@dimen/_14ssp"
             android:textColor="@color/clr_white"
             android:layout_marginLeft="@dimen/_8sdp" />

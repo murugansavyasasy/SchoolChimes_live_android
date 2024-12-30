@@ -119,7 +119,6 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
             public void onClick(View v) {
                 strreason = et_reason.getText().toString();
                 if (strreason.isEmpty()) {
-
                     showToast(getResources().getString(R.string.enter_leave_reason));
                 } else {
                     ApplyleaveAPI();
@@ -130,8 +129,8 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.leave);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(R.string.requesttttt);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.leave));
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(getResources().getString(R.string.requesttttt));
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +214,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -272,14 +271,14 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ApplyLeave.this);
 
         //Setting Dialog Title
-        alertDialog.setTitle(R.string.alert);
+        alertDialog.setTitle(getResources().getString(R.string.alert));
 
         //Setting Dialog Message
         alertDialog.setMessage(strMessage);
 
         //On Pressing Setting button
         // On pressing cancel button
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

@@ -1018,9 +1018,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         try {
             File dir = activity.getCacheDir();
             if (deleteDir(dir)) {
-                Toast.makeText(activity, "Cache cleared", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, R.string.Cache_cleared, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(activity, "Cache not cleared", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, R.string.Cache_not_cleared, Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1209,7 +1209,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void showLogoutAlert(final Activity activity) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
-        alertDialog.setTitle("Logout");
+        alertDialog.setTitle(R.string.txt_menu_logout);
         alertDialog.setMessage(R.string.want_to_logut);
         alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             @Override

@@ -138,7 +138,7 @@ public class ViewExamMarks extends AppCompatActivity {
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService =
@@ -287,7 +287,7 @@ public class ViewExamMarks extends AppCompatActivity {
                         } catch (Exception e) {
                         }
                     } else {
-                        Toast.makeText(ViewExamMarks.this, "Server Response Failed",
+                        Toast.makeText(ViewExamMarks.this, R.string.Server_Response_Failed,
                                 Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
@@ -300,7 +300,7 @@ public class ViewExamMarks extends AppCompatActivity {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(ViewExamMarks.this, "Server Connection Failed",
+                Toast.makeText(ViewExamMarks.this, R.string.Server_Connection_Failed,
                         Toast.LENGTH_SHORT).show();
 
             }
@@ -309,9 +309,9 @@ public class ViewExamMarks extends AppCompatActivity {
 
     private void showAlertfinish(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();

@@ -110,7 +110,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_dates);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_acTitle)).setText(R.string.home_homework_text);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_acTitle)).setText(getResources().getString(R.string.home_homework_text));
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,7 +216,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -290,7 +290,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -448,10 +448,10 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
     private void showrecordsFound(String s) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MessageDatesScreen.this);
-        alertDialog.setTitle(R.string.alert);
+        alertDialog.setTitle(getResources().getString(R.string.alert));
         //Setting Dialog Message
         alertDialog.setMessage(s);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -553,7 +553,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     private void helpAPI(String strMsg) {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -588,11 +588,11 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                             showToast(strMessage);
                         }
                     } else {
-                        showToast(String.valueOf(getResources().getText(R.string.else_error_message)));
+                        showToast(getResources().getString(R.string.else_error_message));
                     }
 
                 } catch (Exception e) {
-                    showToast(String.valueOf(getResources().getText(R.string.catch_message)));
+                    showToast(getResources().getString(R.string.catch_message));
                     Log.e("Help:Exception", e.getMessage());
                 }
             }
@@ -626,10 +626,10 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MessageDatesScreen.this);
         android.app.AlertDialog alertDialog;
-        builder.setTitle(R.string.choose_language);
+        builder.setTitle(getResources().getString(R.string.choose_language));
         builder.setCancelable(false);
         builder.setSingleChoiceItems(countriesArray, 0, null);
-        builder.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 int selectedPosition = ((android.app.AlertDialog) dialog).getListView().getCheckedItemPosition();
@@ -643,7 +643,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
             }
         });
-        builder.setNegativeButton(R.string.pop_password_btnCancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.pop_password_btnCancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -697,7 +697,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();

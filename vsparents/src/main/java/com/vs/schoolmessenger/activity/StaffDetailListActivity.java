@@ -70,7 +70,7 @@ public class StaffDetailListActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String Code = TeacherUtil_SharedPreference.getShCountryCode(StaffDetailListActivity.this);

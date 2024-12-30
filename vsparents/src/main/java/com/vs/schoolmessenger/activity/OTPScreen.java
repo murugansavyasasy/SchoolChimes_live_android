@@ -136,7 +136,7 @@ public class OTPScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -207,7 +207,7 @@ public class OTPScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -308,7 +308,7 @@ public class OTPScreen extends AppCompatActivity {
 
     private void alertShow() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(OTPScreen.this);
-        alertDialog.setMessage(getResources().getString(R.string.otp_time_expired));
+        alertDialog.setMessage(R.string.otp_time_expired);
         alertDialog.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 againOtpApi();
@@ -329,7 +329,7 @@ public class OTPScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

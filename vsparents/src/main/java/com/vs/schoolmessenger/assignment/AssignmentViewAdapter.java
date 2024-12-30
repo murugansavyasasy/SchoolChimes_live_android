@@ -1,4 +1,5 @@
 package com.vs.schoolmessenger.assignment;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -6,28 +7,22 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.Button;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-        import android.widget.Toast;
+import android.widget.Toast;
 
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.activity.AlbumSelectActivity;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
@@ -35,7 +30,6 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,9 +39,6 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXTASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICEASSIGNMENT;
 
 public class AssignmentViewAdapter extends RecyclerView.Adapter<AssignmentViewAdapter.MyViewHolder> {
 
@@ -163,7 +154,7 @@ public class AssignmentViewAdapter extends RecyclerView.Adapter<AssignmentViewAd
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertassign("Are you sure you want to Delete Assignment ?",assignment.getAssignmentId(),assignment.getIs_Archive());
+                alertassign(context.getString(R.string.Are_sure_Delete_Assignment),assignment.getAssignmentId(),assignment.getIs_Archive());
             }
 
         });
@@ -312,7 +303,7 @@ public class AssignmentViewAdapter extends RecyclerView.Adapter<AssignmentViewAd
     private void DeleteApi(String id,Boolean Archive) {
         final ProgressDialog mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(context.getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -382,14 +373,14 @@ public class AssignmentViewAdapter extends RecyclerView.Adapter<AssignmentViewAd
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
         builder.setCancelable(false);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.rb_yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DeleteApi(id,archive);
+                DeleteApi(id, archive);
 
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.rb_no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -403,9 +394,9 @@ public class AssignmentViewAdapter extends RecyclerView.Adapter<AssignmentViewAd
 
     private void alertdelete(String msg) {
         final AlertDialog.Builder dlg = new AlertDialog.Builder(context);
-        dlg.setTitle("Alert");
+        dlg.setTitle(R.string.alert);
         dlg.setMessage(msg);
-        dlg.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        dlg.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -419,9 +410,9 @@ public class AssignmentViewAdapter extends RecyclerView.Adapter<AssignmentViewAd
 
     private void alert(String msg) {
         final AlertDialog.Builder dlg = new AlertDialog.Builder(context);
-        dlg.setTitle("Alert");
+        dlg.setTitle(R.string.alert);
         dlg.setMessage(msg);
-        dlg.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        dlg.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

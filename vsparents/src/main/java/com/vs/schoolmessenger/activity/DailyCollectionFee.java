@@ -84,7 +84,7 @@ public class DailyCollectionFee extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
 
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.Daily_Collection_Fee);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.Daily_Collection_Fee));
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
@@ -248,7 +248,7 @@ public class DailyCollectionFee extends AppCompatActivity implements View.OnClic
 
                         if (date1.compareTo(date2) < 0) {
                             lblDateFrom.setText(outputDateStr);
-                            Toast.makeText(getApplicationContext(), "Please select toDate is after fromDate", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.Please_select_toDate_after_fromDate), Toast.LENGTH_SHORT).show();
                             lblDateTo.setText("");
                             clearAdapter();
                         } else {
@@ -266,7 +266,7 @@ public class DailyCollectionFee extends AppCompatActivity implements View.OnClic
                     Date date2 = dateFormat.parse(outputDateStr);
 
                     if (date1.compareTo(date2) > 0) {
-                        Toast.makeText(getApplicationContext(), "Please select toDate is after fromDate", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Please_select_toDate_after_fromDate), Toast.LENGTH_SHORT).show();
                         lblDateTo.setText("");
                         clearAdapter();
                     } else {
@@ -295,7 +295,7 @@ public class DailyCollectionFee extends AppCompatActivity implements View.OnClic
     private void DailyCollection() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

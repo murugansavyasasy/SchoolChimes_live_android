@@ -137,7 +137,7 @@ public class PdfListAcivity extends AppCompatActivity {
     private void ViewAssignmentContent() {
         final ProgressDialog mProgressDialog = new ProgressDialog(PdfListAcivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

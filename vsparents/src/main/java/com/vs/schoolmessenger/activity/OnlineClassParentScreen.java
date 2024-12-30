@@ -83,7 +83,7 @@ public class OnlineClassParentScreen extends AppCompatActivity implements OnItem
         });
         rvTextMsgList = (RecyclerView) findViewById(R.id.text_rvCircularList);
         TextView tvTitle = (TextView) findViewById(R.id.text_ToolBarTvTitle);
-        tvTitle.setText("Online Meetings");
+        tvTitle.setText(R.string.Online_Meetings);
         Searchable = (EditText) findViewById(R.id.Searchable);
         imgSearch = (ImageView) findViewById(R.id.imgSearch);
 
@@ -92,7 +92,7 @@ public class OnlineClassParentScreen extends AppCompatActivity implements OnItem
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_children);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.Meetings);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.Meetings));
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         Slider.init(new PicassoImageLoadingService(OnlineClassParentScreen.this));
@@ -194,7 +194,7 @@ public class OnlineClassParentScreen extends AppCompatActivity implements OnItem
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();

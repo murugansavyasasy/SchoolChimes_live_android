@@ -249,12 +249,12 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 lnrImages.setVisibility(View.GONE);
                 rcyselected.setVisibility(View.GONE);
                 lblAddAttachment.setVisibility(View.GONE);
-                btnadd.setText(" Add File Attachments ");
+                btnadd.setText(R.string.Add_Attachments);
 
                 switch (selected) {
                     case "Text":
                         edtextmsg.setVisibility(View.VISIBLE);
-                        btnadd.setText("Add Content");
+                        btnadd.setText(R.string.Add_Content);
                         btnadd.setEnabled(true);
                         break;
                     case "Voice":
@@ -274,8 +274,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                         btnadd.setEnabled(false);
                         break;
                 }
-
-
             }
 
             @Override
@@ -377,7 +375,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                         UploadedS3URlList.add(new UploadFilesModel(edtextmsg.getText().toString(), "text", ""));
                         edtextmsg.setText("");
                     } else {
-                        alert("Please Enter Text");
+                        alert(String.valueOf(R.string.Please_Enter_Text));
                     }
                 } else if (selected.equals("Video")) {
                     //   VimeoAPi();
@@ -460,7 +458,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             setAdapter();
                             rcyselected.setVisibility(View.GONE);
                             btnadd.setEnabled(false);
-                            lblImage.setText("Upload Image");
+                            lblImage.setText(R.string.Upload_Image);
                             break;
                         }
                         case "Pdf": {
@@ -470,7 +468,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             setAdapter();
                             rcyselected.setVisibility(View.GONE);
                             btnadd.setEnabled(false);
-                            lblBrowse.setText("Browse File");
+                            lblBrowse.setText(R.string.Browse_File);
                             break;
                         }
                     }
@@ -737,7 +735,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Uploading..");
+            progressDialog.setMessage(String.valueOf(R.string.Uploading));
             progressDialog.setCancelable(false);
         }
 
@@ -860,12 +858,11 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             imagePathList.add(new UploadFilesModel(path.get(0), "VIDEO", isFileNameSubmitList));
 
                             if (imagePathList.size() != 0) {
-
-                                lblvideo.setText("Change Video");
+                                lblvideo.setText(R.string.Change_Video);
                                 btnadd.setEnabled(true);
                             } else {
 
-                                lblvideo.setText("Upload Video");
+                                lblvideo.setText(R.string.compose_video);
                                 btnadd.setEnabled(false);
                             }
 
@@ -890,7 +887,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             final FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                             final ProgressDialog progressBar = new ProgressDialog(ParentSubmitLSRW.this);
                             progressBar.setCancelable(false);
-                            progressBar.setMessage("loading");
+                            progressBar.setMessage(String.valueOf(R.string.Loading));
                             progressBar.show();
                             final long startTime = SystemClock.uptimeMillis();
                             MediaTranscoder.Listener listener = new MediaTranscoder.Listener() {
@@ -935,7 +932,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             alert(filecontent);
                         }
                     } else {
-                        alert("Please Choose Valid Video format to send");
+                        alert(String.valueOf(R.string.Please_Choose_Valid_Video));
                     }
 
                 }
@@ -962,10 +959,10 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             if (imagePathList.size() != 0) {
                                 rcyselected.setVisibility(View.VISIBLE);
                                 selectedsetAdapter();
-                                lblImage.setText("Change Image");
+                                lblImage.setText(R.string.Change_Image);
                             } else {
                                 rcyselected.setVisibility(View.GONE);
-                                lblImage.setText("Upload Image");
+                                lblImage.setText(R.string.Upload_Image);
                             }
 
                         } else {
@@ -1000,10 +997,10 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             if (imagePathList.size() != 0) {
                                 rcyselected.setVisibility(View.VISIBLE);
                                 selectedsetAdapter();
-                                lblImage.setText("Change Image");
+                                lblImage.setText(R.string.Change_Image);
                             } else {
                                 rcyselected.setVisibility(View.GONE);
-                                lblImage.setText("Upload Image");
+                                lblImage.setText(R.string.Upload_Image);
                             }
 
                         } else {
@@ -1055,10 +1052,10 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                         if (imagePathList.size() != 0) {
                             rcyselected.setVisibility(View.VISIBLE);
                             selectedsetAdapter();
-                            lblBrowse.setText("Change File");
+                            lblBrowse.setText(R.string.Change_File);
                         } else {
                             rcyselected.setVisibility(View.GONE);
-                            lblBrowse.setText("Browse File");
+                            lblBrowse.setText(R.string.Browse_File);
                         }
                     } else {
                         String filecontent = TeacherUtil_SharedPreference.getFilecontent(ParentSubmitLSRW.this);
@@ -1077,7 +1074,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
     private void onTranscodeFinished(boolean isSuccess, ParcelFileDescriptor parcelFileDescriptor) {
         final ProgressDialog progressBar = new ProgressDialog(ParentSubmitLSRW.this);
         progressBar.setCancelable(false);
-        progressBar.setMessage("loading");
+        progressBar.setMessage(getResources().getString(R.string.Loading));
         progressBar.setCancelable(false);
         progressBar.show();
         progressBar.setIndeterminate(false);
@@ -1523,7 +1520,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -1575,7 +1572,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                         }
 
                     } else {
-                        Toast.makeText(ParentSubmitLSRW.this, "Server Response Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ParentSubmitLSRW.this, R.string.Server_Response_Failed, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -1588,7 +1585,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(ParentSubmitLSRW.this, "Server Connection Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ParentSubmitLSRW.this, R.string.Server_Response_Failed, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -1596,10 +1593,10 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
     private void showAlert(String msg, final int strStatus) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(R.string.alert);
 
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (strStatus == 0) {
@@ -1637,7 +1634,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                 setAdapter();
                 imagePathList.clear();
                 lnrImages.setVisibility(View.GONE);
-                lblvideo.setText("Upload Video");
+                lblvideo.setText(R.string.compose_video);
                 btnadd.setEnabled(false);
 
                 if (submitlist.size() == 0) {
@@ -1649,7 +1646,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                     lblAddAttachment.setVisibility(View.VISIBLE);
                 }
             } else {
-                alert("Video sending failed.");
+                alert(String.valueOf(R.string.Video_sending_failed));
             }
         });
     }

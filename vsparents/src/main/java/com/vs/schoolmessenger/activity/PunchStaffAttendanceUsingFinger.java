@@ -287,9 +287,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
     private void showFingerPrintDisablepopup() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(PunchStaffAttendanceUsingFinger.this);
-        alertDialog.setTitle("Disable Fingerprint !!");
-        alertDialog.setMessage("Are you sure you want to disable fingerprint authentication?");
-        alertDialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialog.setTitle(R.string.Disable_Fingerprint);
+        alertDialog.setMessage(R.string.disable_fingerprint_authentication);
+        alertDialog.setNegativeButton(R.string.rb_yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -427,9 +427,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         });
 
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Biometric Authentications")
-                .setSubtitle("Mark attendance using your biometric credential")
-                .setNegativeButtonText("Cancel")
+                .setTitle(String.valueOf(R.string.Biometric_Authentications))
+                .setSubtitle(String.valueOf(R.string.Mark_attendance_biometric_credential))
+                .setNegativeButtonText(String.valueOf(R.string.cancel))
                 .build();
         biometricPrompt.authenticate(promptInfo);
     }
@@ -441,7 +441,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -494,7 +494,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -561,7 +561,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -653,7 +653,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -720,10 +720,10 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
     private void showAlertMessage(String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(PunchStaffAttendanceUsingFinger.this);
-        alertDialog.setTitle("Alert!!");
+        alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(message);
         Log.d("AlertMessage", message);
-        alertDialog.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -812,7 +812,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                     lblErrorMessage.setVisibility(View.GONE);
                 }
             } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.Permission_denied, Toast.LENGTH_SHORT).show();
             }
         }
     }

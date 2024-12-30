@@ -81,10 +81,10 @@ public class MobileNumberScreen extends AppCompatActivity {
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(mobnumberlength);
 
-        enter_mobile.setHint("Enter " + strmobilenumberlength + " Digit Mobile Number");
-        textView2.setText(strmobilenumberlength + " Digit Mobile Number");
+        enter_mobile.setHint(getResources().getString(R.string.Enter) + strmobilenumberlength + getResources().getString(R.string.Digit_Mobile_Number));
+        textView2.setText(strmobilenumberlength +getResources().getString(R.string.Digit_Mobile_Number));
 
-
+        Log.d("textView2", textView2.getText().toString());
         enter_mobile.setFilters(fArray);
         TeacherUtil_SharedPreference.putInstall(MobileNumberScreen.this, "1");
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +113,7 @@ public class MobileNumberScreen extends AppCompatActivity {
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         final String mobilenumber = enter_mobile.getText().toString();
@@ -200,9 +200,9 @@ public class MobileNumberScreen extends AppCompatActivity {
 
     private void showAlert(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MobileNumberScreen.this);
-        alertDialog.setTitle(R.string.alert);
+        alertDialog.setTitle(getResources().getString(R.string.alert));
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

@@ -134,7 +134,7 @@ public class PdfQuizScreen extends AppCompatActivity {
 
     private void ViewPdf() {
         pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading");
+        pDialog.setMessage(String.valueOf(R.string.Loading));
         pDialog.setCancelable(false);
         pdfview.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {

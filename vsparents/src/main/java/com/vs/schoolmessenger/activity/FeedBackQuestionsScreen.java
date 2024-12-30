@@ -107,8 +107,8 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.feedback);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(R.string.to_voicesnap);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.feedback));
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText(getResources().getString(R.string.to_voicesnap));
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -541,7 +541,7 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
             TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
             final ProgressDialog mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setMessage(getResources().getString(R.string.Loading));
             mProgressDialog.setCancelable(false);
             mProgressDialog.show();
 
@@ -609,10 +609,10 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
     private void ALert(String question) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(FeedBackQuestionsScreen.this);
 
-        alertDialog.setTitle(R.string.alert);
+        alertDialog.setTitle(getResources().getString(R.string.alert));
 
         alertDialog.setMessage(question);
-        alertDialog.setNegativeButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -644,7 +644,7 @@ public class FeedBackQuestionsScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

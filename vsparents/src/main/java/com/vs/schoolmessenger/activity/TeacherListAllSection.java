@@ -159,7 +159,7 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
 
 
         if (list_staffStdSecs.size() < 1) {
-            showAlert("Warning", strNoClassWarning);
+            showAlert(String.valueOf(R.string.Warning), strNoClassWarning);
         }
 
         sectionList.addAll(list_staffStdSecs);

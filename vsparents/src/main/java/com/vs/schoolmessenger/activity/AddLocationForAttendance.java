@@ -214,7 +214,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
                     frmAddLocationLayout.setVisibility(View.GONE);
                 }
             } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.Permission_denied), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -223,7 +223,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     private void addLocationAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(AddLocationForAttendance.this);
@@ -303,10 +303,10 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
                     if (distanceCheck >= 10) {
                         addConfirmationAlert();
                     } else {
-                        Toast.makeText(AddLocationForAttendance.this, "Distance should be minimum 10 Meters", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddLocationForAttendance.this, getResources().getString(R.string.Distance_should_be_minimum_Meters), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(AddLocationForAttendance.this, "Please enter all the required fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLocationForAttendance.this, getResources().getString(R.string.Please_enter_all_the_required_fields), Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -332,9 +332,9 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
 
     private void addConfirmationAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddLocationForAttendance.this);
-        alertDialog.setTitle("Add location !!");
-        alertDialog.setMessage("Are you sure you want to add this location?");
-        alertDialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialog.setTitle(R.string.Add_location);
+        alertDialog.setMessage(R.string.Are_you_sure_you_want_add_this_location);
+        alertDialog.setNegativeButton(R.string.rb_yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -390,7 +390,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "Address not found";
+        return String.valueOf(R.string.Address_not_found);
     }
 
     @Override
@@ -427,7 +427,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
             lnrAddressLayout.setVisibility(View.GONE);
             btnAddLocation.setVisibility(View.GONE);
             btnPickLocation.setVisibility(View.VISIBLE);
-            Toast.makeText(AddLocationForAttendance.this, "Unable to fetch location. Try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddLocationForAttendance.this, R.string.Unable_fetch_location, Toast.LENGTH_SHORT).show();
         }
 
     }

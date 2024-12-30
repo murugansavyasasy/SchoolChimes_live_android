@@ -148,7 +148,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                     }
 
                 } else {
-                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
+                    showAlertfinish(getResources().getString(R.string.Can_able_submit));
                 }
             }
             if (curdifferenceque <= 0) {
@@ -191,7 +191,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             }
 
             if (lblduration.getText().toString().equals("Exam Time:01:00") || lblduration.getText().toString().equals("Exam Time:1:00")) {
-                showAlert("Please submit your exam on time or else exam will be submitted automatically");
+                showAlert(getResources().getString(R.string.Please_submit_your_exam));
             }
 
             recTime = recTime - 1;
@@ -220,7 +220,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
 
                 } else {
-                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
+                    showAlertfinish(getResources().getString(R.string.Can_able_submit));
                 }
             }
 
@@ -275,7 +275,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText("Exam");
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.Exam));
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
@@ -430,11 +430,11 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
         long curdifferenceend = curEndend.getTime() - curStartend.getTime();
         if (!formattedDate.equals(info.ExamDate)) {
-            showAlertfinish("This Exam Not Allocated for Today");
+            showAlertfinish(getResources().getString(R.string.This_Exam_Not_Allocated));
         } else if (curdifference < 0) {
-            showAlertfinish("Please wait! Exam Not Started yet");
+            showAlertfinish(getResources().getString(R.string.Please_wait_Exam_Not_Started));
         } else if (curdifferenceend < 0) {
-            showAlertfinish("Exam no longer exist");
+            showAlertfinish(getResources().getString(R.string.Exam_no_longer_exist));
         } else {
             constraint.setVisibility(View.VISIBLE);
             examEnhancement();
@@ -503,7 +503,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                     }
 
                 } else {
-                    showAlertfinish("Can't able to submit this exam ,Because no Answer Choosed for this exam");
+                    showAlertfinish(getResources().getString(R.string.Can_able_submit));
                 }
             }
             if (lblqueduration.getText().toString().equals("Question Reading Time : 00:00") || lblqueduration.getText().toString().equals("Question Reading Time : 0:00")) {
@@ -557,7 +557,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -646,7 +646,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -706,10 +706,10 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
     private void showAlert(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(getResources().getString(R.string.alert));
 
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -729,10 +729,10 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     private void showAlertfinish(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(getResources().getString(R.string.alert));
 
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -754,10 +754,10 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
     private void showAlertApi(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(getResources().getString(R.string.alert));
 
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 submitquiz();
@@ -765,7 +765,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             }
         });
 
-        alertDialog.setPositiveButton("cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -1077,7 +1077,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             }
         });
         final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading");
+        pDialog.setMessage(getResources().getString(R.string.Loading));
         pDialog.setCancelable(false);
         myWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
@@ -1127,7 +1127,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 //        private void loadImage() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing()) {
             mProgressDialog.show();
@@ -1243,7 +1243,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 }
 
                 if (answerlist.size() == msgModelList.size()) {
-                    showAlertApi("Are you sure want to submit the Exam ?");
+                    showAlertApi(getResources().getString(R.string.Are_want_submit_Exam));
                 }
 
                 break;

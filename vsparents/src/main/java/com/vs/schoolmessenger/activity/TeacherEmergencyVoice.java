@@ -339,7 +339,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherEmergencyVoice.this);
         if (countryID.equals("11")) {
-            btnToSections.setText("To Grade or Sections");
+            btnToSections.setText(R.string.To_Grade_or_Sections);
         }
 
         VoiceHistoryRecycle = (RecyclerView) findViewById(R.id.VoiceHistoryRecycle);
@@ -712,7 +712,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
             iMaxRecDur = TeacherUtil_Common.maxEmergencyvoicecount; // 31; // 30 seconds
             tvEmergTitle.setText(getText(R.string.teacher_txt_emergency_title));
         } else if (iRequestCode == PRINCIPAL_VOICE_HW || iRequestCode == STAFF_VOICE_HW) {
-            emergVoice_tvTitle.setText("Record Homework");
+            emergVoice_tvTitle.setText(R.string.Record_Homework);
             iMaxRecDur = TeacherUtil_Common.maxHWVoiceDuration; // 181; // 3 mins
             tvEmergTitle.setText(getText(R.string.teacher_txt_general_title));
         } else {
@@ -914,7 +914,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -1336,7 +1336,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                         btnGHHistoryStandardGroups(title);
                     }
                 } else {
-                    showAlertMessage("Please select atleast one message");
+                    showAlertMessage(String.valueOf(R.string.Please_select_atleast_one_message));
                 }
                 break;
 
@@ -1609,16 +1609,16 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                                 Util_Common.isEndTime = isDatePickingView.getText().toString();
                             } else if (date1.after(date2)) {
                                 isDatePickingView.setText("");
-                                showAlertMessage("Please select dial beyond time is after the initial call time.");
+                                showAlertMessage(String.valueOf(R.string.Please_select_dial_beyond_time));
                             } else {
                                 isDatePickingView.setText("");
-                                showAlertMessage("Please select dial beyond time is after the initial call time.");
+                                showAlertMessage(String.valueOf(R.string.Please_select_dial_beyond_time));
                             }
                         } catch (ParseException e) {
                             Log.d("Exception", String.valueOf(e));
                         }
                     } else {
-                        showAlertMessage("Select the initial call time");
+                        showAlertMessage(String.valueOf(R.string.Select_initial_call_time));
                     }
 
                 } else if (Time == 3) {
@@ -1641,28 +1641,28 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                                 Util_Common.isEndTime = isDatePickingView.getText().toString();
                             } else if (date1.after(date2)) {
                                 isDatePickingView.setText("");
-                                showAlertMessage("Please select dial beyond time is after the initial call time.");
+                                showAlertMessage(String.valueOf(R.string.Please_select_dial_beyond_time));
                             } else {
                                 isDatePickingView.setText("");
-                                showAlertMessage("Please select dial beyond time is after the initial call time.");
+                                showAlertMessage(String.valueOf(R.string.Please_select_dial_beyond_time));
                             }
                         } catch (ParseException e) {
                             Log.d("Exception", String.valueOf(e));
                         }
                     } else {
-                        showAlertMessage("Select the initial call time");
+                        showAlertMessage(String.valueOf(R.string.Select_initial_call_time));
                     }
                 }
             }
         }, hour, minute, true);
-        timePickerDialog.setTitle("Choose hour:");
+        timePickerDialog.setTitle(String.valueOf(R.string.Choose_hour));
         timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         if (Time == 2 || Time == 4) {
             if (!lblTimePicking.getText().toString().equals("") || !lblTimePickingschedule.getText().toString().equals("")) {
                 timePickerDialog.show();
             } else {
-                showAlertMessage("Select the initial call time");
+                showAlertMessage(String.valueOf(R.string.Select_initial_call_time));
             }
         } else {
             timePickerDialog.show();
@@ -1827,7 +1827,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                     Log.d("mp3File", String.valueOf(mp3File));
                     futureStudioIconFile = mp3File;
                 } else {
-                    Toast.makeText(this, "Please try again...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.Please_try_again, Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception exception) {
                 Log.d("isException", String.valueOf(exception));
@@ -1948,7 +1948,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherEmergencyVoice.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing()) mProgressDialog.show();
@@ -2097,7 +2097,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         RequestBody requestBody = RequestBody.create(MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherEmergencyVoice.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing()) mProgressDialog.show();
@@ -2212,7 +2212,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         RequestBody requestBody = RequestBody.create(MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherEmergencyVoice.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing()) mProgressDialog.show();

@@ -219,7 +219,7 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
 
         final ProgressDialog mProgressDialog = new ProgressDialog(SubjectListScreen.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())

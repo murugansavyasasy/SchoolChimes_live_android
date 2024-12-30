@@ -305,7 +305,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
 
         final ProgressDialog mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(context.getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService =
@@ -352,7 +352,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(context, "Server Connection Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.Server_Connection_Failed), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -364,7 +364,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
 
         final ProgressDialog mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(context.getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService =
@@ -445,7 +445,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                         }
 
                     } else {
-                        Toast.makeText(context, "Server Response Failed",
+                        Toast.makeText(context, context.getString(R.string.Server_Connection_Failed),
                                 Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
@@ -458,7 +458,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(context, "Server Connection Failed",
+                Toast.makeText(context, context.getString(R.string.Server_Connection_Failed),
 
                         Toast.LENGTH_SHORT).show();
             }
@@ -473,7 +473,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
 
         final ProgressDialog mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(context.getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService =
@@ -553,7 +553,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                         }
 
                     } else {
-                        Toast.makeText(context, "Server Response Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.Server_Connection_Failed), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.e("Response Exception", e.getMessage());
@@ -565,7 +565,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(context, "Server Connection Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.Server_Connection_Failed), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -577,7 +577,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
 
         final ProgressDialog mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(context.getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService =
@@ -611,7 +611,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                         }
 
                     } else {
-                        Toast.makeText(context, "Server Response Failed",
+                        Toast.makeText(context, context.getString(R.string.Server_Connection_Failed),
                                 Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
@@ -624,7 +624,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(context, "Server Connection Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.Server_Connection_Failed), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -680,9 +680,9 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
 
     private void showAlertfinish(String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(message);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

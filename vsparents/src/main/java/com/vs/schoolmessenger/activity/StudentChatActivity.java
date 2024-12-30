@@ -50,12 +50,9 @@ public class StudentChatActivity extends AppCompatActivity {
     AlertDialog alertDialog;
     StudentChatAdapter adapter;
     ArrayList<StudentChat> studentMessages = new ArrayList<>();
-
     int chatCount;
     int offset = 0;
     int limit;
-
-
     boolean isLoading = false;
     boolean isLastPage = false;
     int totalPages;
@@ -149,7 +146,7 @@ public class StudentChatActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String childID = Util_SharedPreference.getChildIdFromSP(StudentChatActivity.this);
@@ -242,7 +239,7 @@ public class StudentChatActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String childID = Util_SharedPreference.getChildIdFromSP(StudentChatActivity.this);
@@ -281,12 +278,12 @@ public class StudentChatActivity extends AppCompatActivity {
                             StudentChat studentChat = new Gson().fromJson(jsonObject.getString("result"), StudentChat.class);
                             if (studentChat != null) {
                                 studentMessages.add(studentChat);
-                                //   if (adapter.studentChats.size() == 1) {
-                                Log.d("adaptersizeone", "adaptersizeone");
-                                binding.noMessages.setVisibility(View.GONE);
-                                binding.studentChatList.setVisibility(View.VISIBLE);
-                                //  }
-                                //     binding.studentChatList.scrollToPosition(studentMessages.size() - 1);
+                                if (adapter.studentChats.size() == 1) {
+                                    Log.d("adaptersizeone", "adaptersizeone");
+                                    binding.noMessages.setVisibility(View.GONE);
+                                    binding.studentChatList.setVisibility(View.VISIBLE);
+                                }
+                                binding.studentChatList.scrollToPosition(studentMessages.size() - 1);
                                 adapter.notifyDataSetChanged();
                             }
                         }

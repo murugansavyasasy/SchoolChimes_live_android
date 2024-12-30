@@ -263,7 +263,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
         tvTitle.setText(getResources().getString(R.string.date_time));
 
         TextView tvMsg = (TextView) layout.findViewById(R.id.popupRemove_tvMsg);
-        tvMsg.setText("Set 10 mins from now for today's meeting");
+        tvMsg.setText(R.string.Set_from_for_today_meeting);
 
         TextView tvCancel = (TextView) layout.findViewById(R.id.popupRemove_tvCancel);
         tvCancel.setVisibility(View.GONE);
@@ -310,7 +310,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -361,7 +361,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                         spinnerMeetingPlatform.setAdapter(platforms);
 
                     } else {
-                        showAlertRecords("No Records Found");
+                        showAlertRecords(String.valueOf(R.string.no_records));
                     }
 
                 } catch (Exception e) {
@@ -451,7 +451,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                     toSections.putExtra("STAFF_ID", StaffID);
                     startActivity(toSections);
                 } else {
-                    showToast("Please select the meeting platform and meeting paste URL");
+                    showToast(String.valueOf(R.string.meeting_platform_meetingpaste));
                 }
 
 
@@ -466,7 +466,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                     toStaandardGroups.putExtra("STAFF_ID", StaffID);
                     startActivity(toStaandardGroups);
                 } else {
-                    showToast("Please select the meeting platform and paste meeting URL");
+                    showToast(String.valueOf(R.string.meeting_platform_meetingpaste));
 
                 }
 
@@ -477,7 +477,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                 break;
             case R.id.lblSelectTime:
                 if (lblSelectDate.getText().toString().equalsIgnoreCase("Select Date")) {
-                    showToast("Please select date");
+                    showToast(String.valueOf(R.string.Please_select_date));
                 } else {
                     timePicker();
                 }
@@ -499,7 +499,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
             case R.id.imgeditclose:
                 txtMeetingURL.setText("");
-                txtMeetingURL.setHint("Paste your meeting link");
+                txtMeetingURL.setHint(R.string.paste_your_meeting_link);
 
                 break;
 
@@ -534,7 +534,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                     @Override
                     public void onItemClick(OnlineClassByStaffModel item) {
 
-                        showCancelMeetAlert("Are you sure want to cancel the meeting", item);
+                        showCancelMeetAlert(String.valueOf(R.string.Are_you_sure_want_cancel_meeting), item);
 
                     }
                 });
@@ -585,7 +585,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherMeetingURLScreen.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -677,7 +677,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();

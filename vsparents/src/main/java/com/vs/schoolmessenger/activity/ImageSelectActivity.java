@@ -131,7 +131,7 @@ public class ImageSelectActivity extends AppCompatActivity {
                     actionMode = ImageSelectActivity.this.startActionMode(callback);
                 }
                 toggleSelection(position);
-                actionMode.setTitle(countSelected + " " + getString(R.string.selected));
+                actionMode.setTitle(countSelected + " " + getResources().getString(R.string.selected));
 
                 if (countSelected == 0) {
                     actionMode.finish();
@@ -184,7 +184,7 @@ public class ImageSelectActivity extends AppCompatActivity {
                              */
                             if (actionMode != null) {
                                 countSelected = msg.arg1;
-                                actionMode.setTitle(countSelected + " " + getString(R.string.selected));
+                                actionMode.setTitle(countSelected + " " + getResources().getString(R.string.selected));
                             }
                         }
                         break;
@@ -270,7 +270,7 @@ public class ImageSelectActivity extends AppCompatActivity {
         if (!images.get(position).isSelected && countSelected >= limit) {
             Toast.makeText(
                             getApplicationContext(),
-                            String.format(getString(R.string.limit_exceeded), limit),
+                            String.format(getResources().getString(R.string.limit_exceeded), limit),
                             Toast.LENGTH_SHORT)
                     .show();
             return;

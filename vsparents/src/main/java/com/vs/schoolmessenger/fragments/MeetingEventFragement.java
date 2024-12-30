@@ -100,10 +100,10 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
                 if (Util_Common.isSelectedSlotIds.size() > 0) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                    builder.setTitle("Info..");
-                    builder.setMessage("Are you sure to booking?");
+                    builder.setTitle(requireActivity().getString(R.string.info));
+                    builder.setMessage(requireActivity().getString(R.string.Are_you_sure_booking));
 
-                    builder.setPositiveButton("Ok", (dialog, which) -> {
+                    builder.setPositiveButton(requireActivity().getString(R.string.ok), (dialog, which) -> {
                         Log.d("isSelectedSlotIdsSize", String.valueOf(Util_Common.isSelectedSlotIds.size()));
                         for (int i = 0; i <= Util_Common.isSelectedSlotIds.size() - 1; i++) {
                             Log.d("SelectedIds", String.valueOf(Util_Common.isSelectedSlotIds.get(i)));
@@ -113,8 +113,6 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
 
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
-                } else {
-                    Toast.makeText(requireContext(), "Select the slot(s).", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -169,7 +167,7 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
 
         final ProgressDialog mProgressDialog = new ProgressDialog(requireContext());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -230,7 +228,7 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
 
         final ProgressDialog mProgressDialog = new ProgressDialog(requireContext());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -336,7 +334,7 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
 
         final ProgressDialog mProgressDialog = new ProgressDialog(requireContext());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -448,7 +446,7 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(requireContext());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -481,10 +479,10 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
                         int isStatus = jsonObject.getInt("Status");
                         if (isStatus == 1) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                            builder.setTitle("Success");
+                            builder.setTitle(requireActivity().getString(R.string.Success));
                             builder.setMessage(isMessage);
 
-                            builder.setPositiveButton("Ok", (dialog, which) -> {
+                            builder.setPositiveButton(requireActivity().getString(R.string.ok), (dialog, which) -> {
                                 isUpComingFragment();
                                 dialog.dismiss();
                             });

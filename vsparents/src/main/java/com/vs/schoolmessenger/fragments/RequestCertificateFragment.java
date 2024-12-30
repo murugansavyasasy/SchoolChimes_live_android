@@ -69,7 +69,7 @@ public class RequestCertificateFragment extends Fragment {
                     requestCertificate();
                 }
                 else {
-                    showAlert("Please enter the reason");
+                    showAlert(requireActivity().getString(R.string.Please_enter_reason));
                 }
             }
         });
@@ -84,7 +84,7 @@ public class RequestCertificateFragment extends Fragment {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -151,7 +151,7 @@ public class RequestCertificateFragment extends Fragment {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);

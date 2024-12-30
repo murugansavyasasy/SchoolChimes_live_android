@@ -111,9 +111,10 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
         strmobilenumberlength = TeacherUtil_SharedPreference.getMobileNumberLengthFromSP(TeacherSignInScreen.this);
         mobnumberlength = Integer.parseInt(strmobilenumberlength);
 
-        etMobile.setHint("Enter " + strmobilenumberlength + " Digit Mobile Number");
-        textView2.setText(strmobilenumberlength + " Digit Mobile Number");
+        etMobile.setHint(getResources().getString(R.string.Enter) + strmobilenumberlength + getResources().getString(R.string.Digit_Mobile_Number));
+        textView2.setText(strmobilenumberlength + getResources().getString(R.string.Digit_Mobile_Number));
 
+        Log.d("textView2", textView2.getText().toString());
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(mobnumberlength);
         etMobile.setFilters(fArray);
@@ -188,7 +189,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -309,7 +310,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -400,7 +401,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherSignInScreen.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -787,7 +788,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
                         }
 
                     } else {
-                        showToast("No Records Found..");
+                        showToast(String.valueOf(R.string.no_records));
                         finish();
                     }
 

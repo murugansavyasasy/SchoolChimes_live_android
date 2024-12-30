@@ -173,7 +173,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
     private void standardsListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -374,7 +374,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
             case PRINCIPAL_NOTICE_BOARD:
                 if (cbToAll.isChecked()) {
-                    showToast("NB-Sent to entire school");
+                    showToast(String.valueOf(R.string.NB_Sent_entire_school));
                     backToResultActvity("SENT");
                 } else {
                     listOfSelectedStdAndGroups("NB");
@@ -601,7 +601,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Uploading..");
+            progressDialog.setMessage(getResources().getString(R.string.Uploading));
             progressDialog.setCancelable(false);
         }
 
@@ -782,7 +782,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -958,7 +958,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1059,7 +1059,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1161,7 +1161,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1264,7 +1264,7 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherStandardsAndGroupsList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())

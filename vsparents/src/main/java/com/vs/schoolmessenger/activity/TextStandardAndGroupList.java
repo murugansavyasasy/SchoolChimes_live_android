@@ -163,7 +163,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
     private void standardsListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -365,7 +365,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
             case PRINCIPAL_NOTICE_BOARD:
                 if (cbToAll.isChecked()) {
-                    showToast("NB-Sent to entire school");
+                    showToast(String.valueOf(R.string.NB_Sent_entire_school));
                     backToResultActvity("SENT");
                 } else {
                     listOfSelectedStdAndGroups("NB");
@@ -412,7 +412,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TextStandardAndGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -587,7 +587,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(TextStandardAndGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -727,7 +727,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(TextStandardAndGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -890,7 +890,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TextStandardAndGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -998,7 +998,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TextStandardAndGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1106,7 +1106,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TextStandardAndGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1215,7 +1215,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TextStandardAndGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1466,7 +1466,7 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(TextStandardAndGroupList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())

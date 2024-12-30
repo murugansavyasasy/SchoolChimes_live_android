@@ -93,7 +93,7 @@ public class ViewQuizResult extends AppCompatActivity {
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -160,7 +160,7 @@ public class ViewQuizResult extends AppCompatActivity {
                             Log.e("TextMsg:Exception", e.getMessage());
                         }
                     } else {
-                        Toast.makeText(ViewQuizResult.this, "Server Response Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewQuizResult.this, R.string.Server_Response_Failed, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -173,7 +173,7 @@ public class ViewQuizResult extends AppCompatActivity {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(ViewQuizResult.this, "Server Connection Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewQuizResult.this, R.string.Server_Response_Failed, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -181,10 +181,10 @@ public class ViewQuizResult extends AppCompatActivity {
 
     private void showAlert(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(R.string.alert);
 
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

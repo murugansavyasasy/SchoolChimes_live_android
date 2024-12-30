@@ -449,7 +449,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Uploading..");
+            progressDialog.setMessage(getResources().getString(R.string.Loading));
             progressDialog.setCancelable(false);
         }
 
@@ -485,7 +485,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(RecipientAssignmentActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String secids = "";
@@ -574,7 +574,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(RecipientAssignmentActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -679,7 +679,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(RecipientAssignmentActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -794,7 +794,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(RecipientAssignmentActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -906,7 +906,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
                         MultipartBody.FORM, jsonReqArray.toString());
         final ProgressDialog mProgressDialog = new ProgressDialog(RecipientAssignmentActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1008,7 +1008,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -1096,7 +1096,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -1219,7 +1219,7 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

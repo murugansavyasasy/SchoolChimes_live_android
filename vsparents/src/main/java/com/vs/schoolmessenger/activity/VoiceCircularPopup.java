@@ -39,7 +39,6 @@ public class VoiceCircularPopup extends AppCompatActivity {
     ProgressBar pbLoading;
     int mediaFileLengthInMilliseconds = 0;
     Handler handler = new Handler();
-
     MessageModel voiceModel;
     String voicetype = "";
     String isNewVersion;

@@ -158,7 +158,7 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(getActivity());
@@ -287,7 +287,7 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(getActivity());

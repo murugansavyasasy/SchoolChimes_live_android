@@ -121,7 +121,7 @@ public class PdfViewActivity extends AppCompatActivity {
         rytPdfLayout.setVisibility(View.VISIBLE);
         txtType.setText("PDF");
         pDialog = new ProgressDialog(PdfViewActivity.this);
-        pDialog.setMessage("Loading");
+        pDialog.setMessage(getResources().getString(R.string.Loading));
         pDialog.setCancelable(false);
 
         pdfview.setWebChromeClient(new WebChromeClient() {

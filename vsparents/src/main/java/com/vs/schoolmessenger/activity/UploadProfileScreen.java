@@ -230,7 +230,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                     isUploadAWS("pdf", ".pdf", "", txtFileName.getText().toString());
 
                 } else {
-                    showToast("Please enter your file name");
+                    showToast(String.valueOf(R.string.Please_enter_your_file_name));
                 }
             }
         });
@@ -240,7 +240,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                 if (!profileAwsFilePath.equals("") || UploadedS3URlList.size() > 0) {
                     submitStudentDetatils();
                 } else {
-                    showToast("Please upload the profile and documents");
+                    showToast(String.valueOf(R.string.Please_upload_profile_documents));
                 }
             }
         });
@@ -292,7 +292,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
 
         final ProgressDialog mProgressDialog = new ProgressDialog(UploadProfileScreen.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -430,7 +430,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Uploading..");
+            progressDialog.setMessage(getResources().getString(R.string.Uploading));
             progressDialog.setCancelable(false);
         }
 
@@ -554,7 +554,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                         Glide.with(UploadProfileScreen.this)
                                 .load(imageUri)
                                 .into(imgProfile);
-                        lblAddProfile.setText("Change Profile");
+                        lblAddProfile.setText(R.string.Change_Profile);
                         isProfile = true;
                         showLoading();
                         isUploadAWS("image", "IMG", "", "");
@@ -577,7 +577,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                     btnUploadFileToAWS.setVisibility(View.VISIBLE);
                     lblClickUpload.setVisibility(View.VISIBLE);
                     btnUploadFileToAWS.setEnabled(true);
-                    lblBrowse.setText("Change File");
+                    lblBrowse.setText(R.string.Change_File);
                     lblSelectedFilePath.setVisibility(View.VISIBLE);
 
                     Uri uri = data.getData();
@@ -631,7 +631,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                                 .load(imageFilePath)
                                 .into(imgProfile);
 
-                        lblAddProfile.setText("Change Profile");
+                        lblAddProfile.setText(R.string.Change_Profile);
                         isProfile = true;
                         showLoading();
                         isUploadAWS("image", "IMG", "", "");
@@ -697,7 +697,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                 btnUploadFileToAWS.setVisibility(View.GONE);
                 lblClickUpload.setVisibility(View.GONE);
                 btnUploadFileToAWS.setEnabled(false);
-                lblBrowse.setText("Browse File");
+                lblBrowse.setText(R.string.browse_file);
                 lblSelectedFilePath.setVisibility(View.GONE);
                 lblUploadedDocuments.setVisibility(View.VISIBLE);
                 String isFileName=getFileNameFromPath(DocFilePath);

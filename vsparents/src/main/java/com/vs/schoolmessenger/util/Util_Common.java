@@ -132,34 +132,6 @@ public class Util_Common {
             menuOpts.getItem(1).setVisible(false);
             // menuOpts.getItem(1).setVisible(false);
         }
-
-//        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            public boolean onMenuItemClick(MenuItem item) {
-//
-//                Log.d("item.getTitle()",String.valueOf(item.getTitle()));
-//                Log.d("item.getTitle()asdf",String.valueOf(R.string.Change_Language));
-//                if (item.getTitle().equals(R.string.Clear_Cache)) {
-//                    HomeActivity object = new HomeActivity();
-//                    object.deleteCache(activity);
-//                } else if (item.getTitle().equals(R.string.Logout)) {
-//                    HomeActivity object = new HomeActivity();
-//                    object.showLogoutAlert(activity);
-//                } else if (item.getTitle().equals(UploadProfileTitle)) {
-//                    Intent profile = new Intent(activity, UploadProfileScreen.class);
-//                    activity.startActivity(profile);
-//                } else if (item.getTitle().equals(ProfileTitle)) {
-//                    Intent profile = new Intent(activity, ProfileLinkScreen.class);
-//                    activity.startActivity(profile);
-//                } else if (item.getTitle().equals(R.string.Help)) {
-//                    Intent help = new Intent(activity, HelpActivity.class);
-//                    activity.startActivity(help);
-//                } else if (item.getTitle().equals(R.string.Change_Language)) {
-//                    showLanguageSelectorDialog(activity);
-//                }
-//
-//                return true;
-//            }
-//        });
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

@@ -139,7 +139,7 @@ public class PasswordScreen extends AppCompatActivity {
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -175,9 +175,8 @@ public class PasswordScreen extends AppCompatActivity {
                         }
 
                     } else {
-                        showToast("Invalid password");
+                        showToast(String.valueOf(R.string.Invalid_password));
                     }
-
                 } catch (Exception e) {
                     Log.e("ForgotPassword:Ex", e.getMessage());
                 }
@@ -224,7 +223,7 @@ public class PasswordScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -310,7 +309,7 @@ public class PasswordScreen extends AppCompatActivity {
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(PasswordScreen.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();
@@ -701,7 +700,7 @@ public class PasswordScreen extends AppCompatActivity {
                         }
 
                     } else {
-                        showToast("No Records Found..");
+                        showToast(String.valueOf(R.string.no_records));
                         finish();
                     }
 

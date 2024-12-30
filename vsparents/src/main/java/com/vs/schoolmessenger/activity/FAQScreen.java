@@ -77,7 +77,7 @@ public class FAQScreen extends AppCompatActivity {
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.faq);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.faq));
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
 
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setOnClickListener(new View.OnClickListener() {
@@ -105,7 +105,7 @@ public class FAQScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -153,7 +153,7 @@ public class FAQScreen extends AppCompatActivity {
 
         pdfPopup_webView = (WebView) findViewById(R.id.pdfPopup_webView);
         pDialog = new ProgressDialog(FAQScreen.this);
-        pDialog.setMessage("Loading");
+        pDialog.setMessage(getResources().getString(R.string.Loading));
         pDialog.setCancelable(false);
 
         pdfPopup_webView.setWebChromeClient(new WebChromeClient() {

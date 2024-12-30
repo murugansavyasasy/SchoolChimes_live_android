@@ -293,7 +293,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     private void studentListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -512,7 +512,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         runOnUiThread(() -> {
             final ProgressDialog mProgressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
             mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setMessage(getResources().getString(R.string.Loading));
             mProgressDialog.setCancelable(false);
 
             if (!this.isFinishing())
@@ -622,7 +622,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Uploading..");
+            progressDialog.setMessage(String.valueOf(R.string.Uploading));
             progressDialog.setCancelable(false);
         }
 
@@ -644,7 +644,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         JsonObject jsonReqArray = jsonArrayFromVoiceHistory();
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -773,7 +773,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -923,7 +923,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1064,7 +1064,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
     private void sendAttenAPIAbsent() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -1160,7 +1160,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherAttendanceStudentList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -1426,25 +1426,25 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
         switch (isSelectedItem) {
 
             case "StudentNameAZ":
-                lblSortItem.setText("Sort Alphabetically (A → Z)");
+                lblSortItem.setText(R.string.Sort_Alphabetically);
                 Collections.sort(studentList, TeacherStudentsModel.sortByNameAZ);
                 adapter.notifyDataSetChanged();
                 break;
 
             case "StudentNameZA":
-                lblSortItem.setText("Sort Alphabetically (Z → A)");
+                lblSortItem.setText(R.string.Sort_Alphabetically_z_a);
                 Collections.sort(studentList, TeacherStudentsModel.sortByNameZA);
                 adapter.notifyDataSetChanged();
                 break;
 
             case "StudentRollNumber12":
-                lblSortItem.setText("Sort by Roll Number (Low → High)");
+                lblSortItem.setText(R.string.Sort_by_Roll_Number_Low);
                 Collections.sort(studentList, TeacherStudentsModel.sortByAscRollNo);
                 adapter.notifyDataSetChanged();
                 break;
 
             case "StudentRollNumber21":
-                lblSortItem.setText("Sort by Roll Number (High → Low)");
+                lblSortItem.setText(R.string.Sort_Roll_Number_High);
                 Collections.sort(studentList, TeacherStudentsModel.sortByDescRollNo);
                 adapter.notifyDataSetChanged();
                 break;

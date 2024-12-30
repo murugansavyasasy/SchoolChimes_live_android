@@ -112,7 +112,7 @@ public class EventsFragment extends Fragment {
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -178,7 +178,7 @@ public class EventsFragment extends Fragment {
                             Log.e("TextMsg:Exception", e.getMessage());
                         }
                     } else {
-                        Toast.makeText(getActivity(), "Server Response Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), requireActivity().getString(R.string.Server_Connection_Failed), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -191,7 +191,7 @@ public class EventsFragment extends Fragment {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(getActivity(), "Server Connection Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), requireActivity().getString(R.string.Server_Connection_Failed), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -217,7 +217,7 @@ public class EventsFragment extends Fragment {
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(requireActivity().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -290,7 +290,7 @@ public class EventsFragment extends Fragment {
                             Log.e("TextMsg:Exception", e.getMessage());
                         }
                     } else {
-                        Toast.makeText(getActivity(), "Server Response Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), requireActivity().getString(R.string.Server_Connection_Failed), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -303,7 +303,7 @@ public class EventsFragment extends Fragment {
                 Log.e("Response Failure", t.getMessage());
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
-                Toast.makeText(getActivity(), "Server Connection Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), requireActivity().getString(R.string.Server_Connection_Failed), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -311,10 +311,10 @@ public class EventsFragment extends Fragment {
 
     private void showAlert(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(requireActivity().getString(R.string.alert));
 
         alertDialog.setMessage(msg);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(requireActivity().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -332,9 +332,9 @@ public class EventsFragment extends Fragment {
 
     private void showRecordsFound(String name) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setTitle("Alert");
+        alertDialog.setTitle(requireActivity().getString(R.string.alert));
         alertDialog.setMessage(name);
-        alertDialog.setNegativeButton("ok", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(requireActivity().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

@@ -390,7 +390,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Uploading..");
+            progressDialog.setMessage(getResources().getString(R.string.Uploading));
             progressDialog.setCancelable(false);
         }
 
@@ -422,7 +422,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
         final ProgressDialog mProgressDialog = new ProgressDialog(SendToVoiceSpecificSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -529,7 +529,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
         final ProgressDialog mProgressDialog = new ProgressDialog(SendToVoiceSpecificSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -663,7 +663,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
         final ProgressDialog mProgressDialog = new ProgressDialog(SendToVoiceSpecificSection.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())

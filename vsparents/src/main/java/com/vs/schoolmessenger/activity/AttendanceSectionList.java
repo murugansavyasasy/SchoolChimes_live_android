@@ -72,7 +72,7 @@ public class AttendanceSectionList extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(R.string.Absentees_Students);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(getResources().getString(R.string.Absentees_Students));
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acSubTitle)).setText("");
         ((ImageView) getSupportActionBar().getCustomView().findViewById(R.id.actBarDate_ivBack)).setVisibility(View.GONE);
         rvDateListSection = (RecyclerView) findViewById(R.id.absentee_rvDateList);
@@ -152,7 +152,7 @@ public class AttendanceSectionList extends AppCompatActivity {
     private void AbsenteesStudentListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

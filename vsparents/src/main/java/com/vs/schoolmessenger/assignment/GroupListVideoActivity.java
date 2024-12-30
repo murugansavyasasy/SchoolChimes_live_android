@@ -185,7 +185,7 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
             link = isLink;
             SendVideotoSecApi();
         } else {
-            showAlertfinal("Video sending failed.Retry", "0");
+            showAlertfinal(getResources().getString(R.string.Video_sending_failedRetry), "0");
         }
     }
 
@@ -214,7 +214,7 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
     private void groupListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -300,7 +300,7 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
     private void standardsListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

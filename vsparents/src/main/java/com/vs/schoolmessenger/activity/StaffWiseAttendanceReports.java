@@ -130,7 +130,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements Vie
 
                 if (mAdapter.getItemCount() < 1) {
                     recycleReports.setVisibility(View.GONE);
-                    lblNoRecords.setText("No Records Found");
+                    lblNoRecords.setText(R.string.no_records);
                     lblNoRecords.setVisibility(View.VISIBLE);
                     if (txtSearch.getText().toString().isEmpty()) {
                         recycleReports.setVisibility(View.VISIBLE);
@@ -168,7 +168,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements Vie
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -253,7 +253,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements Vie
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -356,7 +356,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements Vie
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);

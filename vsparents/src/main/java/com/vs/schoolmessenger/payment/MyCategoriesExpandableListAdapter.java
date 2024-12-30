@@ -307,8 +307,8 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
         Button btnOk = (Button) promptsView.findViewById(R.id.btnOk);
         TextView lblMessages = (TextView) promptsView.findViewById(R.id.lblMessages);
         TextView lblAlertTitle = (TextView) promptsView.findViewById(R.id.lblAlertTitle);
-        lblAlertTitle.setText("Alert");
-        lblMessages.setText("Please pay previous Term Fees");
+        lblAlertTitle.setText(R.string.alert);
+        lblMessages.setText(R.string.Please_previous_Term_Fees);
         final AlertDialog alertDialog = alertDialogBuilder.create();
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -588,8 +588,8 @@ public class MyCategoriesExpandableListAdapter extends BaseExpandableListAdapter
         Button btnOk = (Button) promptsView.findViewById(R.id.btnOk);
         TextView lblMessages = (TextView) promptsView.findViewById(R.id.lblMessages);
         TextView lblAlertTitle = (TextView) promptsView.findViewById(R.id.lblAlertTitle);
-        lblAlertTitle.setText("Alert");
-        lblMessages.setText("Please pay previous Month Fees");
+        lblAlertTitle.setText(R.string.alert);
+        lblMessages.setText(R.string.Please_previous_Month_Fees);
         final AlertDialog alertDialog = alertDialogBuilder.create();
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override

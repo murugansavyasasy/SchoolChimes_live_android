@@ -451,7 +451,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherGeneralText.this);
         if (countryID.equals("11")) {
-            btnToSections.setText("To Grade or Sections");
+            btnToSections.setText(R.string.To_Grade_or_Sections);
         }
 
         TextRadio = (RadioGroup) findViewById(R.id.TextRadio);
@@ -891,7 +891,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -1671,7 +1671,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
                 }
             } catch (Exception e) {
-                alert("Please choose pdf file to send");
+                alert(String.valueOf(R.string.Please_choose_pdf_file_send));
             }
 
 
@@ -1688,7 +1688,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                     long length = img.length();
                     Log.d("length", String.valueOf(length));
 
-                    lblAttachments.setText("Attachments +" + imagePathList.size());
+                    lblAttachments.setText(R.string.Attachments  + imagePathList.size());
                     imagepathList = imagePathList.size();
 
                     if (length <= sizekb) {
@@ -1866,7 +1866,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     }
 
     private void visibleAttachments(BottomSheetDialog bottomSheetDialog) {
-        lblAttachments.setText("Attachments +" + imagePathList.size());
+        lblAttachments.setText(R.string.Attachments + imagePathList.size());
         imagepathList = imagePathList.size();
 
         if (imagePathList.size() > 0) {
@@ -1901,7 +1901,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherGeneralText.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(String.valueOf(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -2064,7 +2064,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -2128,7 +2128,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     private void standardsAndSectoinsListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 

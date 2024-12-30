@@ -167,7 +167,7 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(PrincipalAssignmentList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(PrincipalAssignmentList.this);
@@ -275,7 +275,7 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
 
         final ProgressDialog mProgressDialog = new ProgressDialog(PrincipalAssignmentList.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         String MobileNumber= TeacherUtil_SharedPreference.getMobileNumberFromSP(PrincipalAssignmentList.this);

@@ -79,7 +79,7 @@ public class PaymentWebViewActivity extends AppCompatActivity {
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
@@ -158,7 +158,7 @@ public class PaymentWebViewActivity extends AppCompatActivity {
     private void loadPaymentLink(String paymentLink) {
 
         pDialog = new ProgressDialog(PaymentWebViewActivity.this);
-        pDialog.setMessage("Loading");
+        pDialog.setMessage(String.valueOf(R.string.Loading));
         pDialog.setCancelable(false);
         webView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {

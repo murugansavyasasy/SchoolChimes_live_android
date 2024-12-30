@@ -335,7 +335,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                     withErrorListener(new PermissionRequestErrorListener() {
                         @Override
                         public void onError(DexterError error) {
-                            Toast.makeText(getApplicationContext(), "Error occurred! ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.Error_occurred, Toast.LENGTH_SHORT).show();
                         }
                     })
                     .onSameThread()
@@ -366,7 +366,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                     withErrorListener(new PermissionRequestErrorListener() {
                         @Override
                         public void onError(DexterError error) {
-                            Toast.makeText(getApplicationContext(), "Error occurred! ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.Error_occurred, Toast.LENGTH_SHORT).show();
                         }
                     })
                     .onSameThread()
@@ -1511,7 +1511,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         }
 
                     } else {
-                        showToast("No Records Found..");
+                        showToast(String.valueOf(R.string.no_records));
                         finish();
                     }
 

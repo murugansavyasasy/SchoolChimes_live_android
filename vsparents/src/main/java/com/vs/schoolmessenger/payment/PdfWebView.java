@@ -259,10 +259,10 @@ public class PdfWebView extends AppCompatActivity {
         mProgressDialog = new ProgressDialog(PdfWebView.this);
         mProgressDialog.setIndeterminate(true);
         if(type.equals("isOpen")){
-            mProgressDialog.setMessage("Please wait...");
+            mProgressDialog.setMessage(getResources().getString(R.string.Please_wait));
         }
         else {
-            mProgressDialog.setMessage("Downloading...");
+            mProgressDialog.setMessage(getResources().getString(R.string.Downloading));
         }
         mProgressDialog.setCancelable(false);
         if (!PdfWebView.this.isFinishing())
@@ -295,7 +295,7 @@ public class PdfWebView extends AppCompatActivity {
                                             .load();
                                 }
                                 else {
-                                    showAlert(PdfWebView.this, "Success", "File stored in: " + folder + "/" + filename);
+                                    showAlert(PdfWebView.this, getResources().getString(R.string.Success), getResources().getString(R.string.File_stored) + folder + "/" + filename);
 
                                 }
                             }

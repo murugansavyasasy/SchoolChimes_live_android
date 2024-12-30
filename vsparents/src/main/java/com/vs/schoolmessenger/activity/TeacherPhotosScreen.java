@@ -119,7 +119,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherPhotosScreen.this);
         if (countryID.equals("11")) {
-            btnToSections.setText("To Grade or Sections");
+            btnToSections.setText(R.string.To_Grade_or_Sections);
         }
 
         ImageCount = TeacherUtil_SharedPreference.getImageCount(TeacherPhotosScreen.this);
@@ -663,7 +663,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                     }
                 }
             } catch (Exception e) {
-                alert("Please choose pdf file to send");
+                alert(String.valueOf(R.string.Please_choose_pdf_file_send));
             }
 
 

@@ -94,7 +94,7 @@ public class UploadVideoActivity extends AppCompatActivity implements View.OnCli
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(UploadVideoActivity.this);
         if (countryID.equals("11")) {
-            videos_btnToSections.setText("To Grade or Sections");
+            videos_btnToSections.setText(R.string.To_Grade_or_Sections);
         }
 
         rytVideoClick.setVisibility(View.VISIBLE);

@@ -532,7 +532,7 @@ public class VideoUpload extends AppCompatActivity {
     private void onTranscodeFinished(boolean isSuccess, ParcelFileDescriptor parcelFileDescriptor) {
         final ProgressDialog progressBar = new ProgressDialog(VideoUpload.this);
         progressBar.setCancelable(false);
-        progressBar.setMessage("loading");
+        progressBar.setMessage(getResources().getString(R.string.Loading));
         progressBar.setCancelable(false);
         progressBar.show();
         progressBar.setIndeterminate(false);

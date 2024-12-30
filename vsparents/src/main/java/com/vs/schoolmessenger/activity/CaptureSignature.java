@@ -290,7 +290,7 @@ public class CaptureSignature extends Activity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(CaptureSignature.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())
@@ -479,6 +479,4 @@ public class CaptureSignature extends Activity {
             dirtyRect.bottom = Math.max(lastTouchY, eventY);
         }
     }
-
-
 }

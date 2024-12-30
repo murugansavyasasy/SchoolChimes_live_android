@@ -57,7 +57,7 @@ public class FeeFragment extends Fragment {
         String mime = "text/html";
         String encoding = "utf-8";
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Loading..");
+        progressDialog.setMessage(getResources().getString(R.string.Loading));
         progressDialog.setCancelable(false);
         WebSettings settings = web_view.getSettings();
         settings.setJavaScriptEnabled(true);

@@ -187,7 +187,7 @@ public class VideoListActivity extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(VideoListActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -247,7 +247,7 @@ public class VideoListActivity extends AppCompatActivity {
 
                             imgAdapter.notifyDataSetChanged();
                         } else {
-                            alert("No Records Found");
+                            alert(String.valueOf(R.string.no_records));
                         }
 
 
@@ -260,7 +260,7 @@ public class VideoListActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
-                showToast("Server Connection Failed");
+                showToast(String.valueOf(R.string.Server_Response_Failed));
             }
 
 
@@ -294,7 +294,7 @@ public class VideoListActivity extends AppCompatActivity {
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(VideoListActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -370,7 +370,7 @@ public class VideoListActivity extends AppCompatActivity {
 
                             imgAdapter.notifyDataSetChanged();
                         } else {
-                            alert("No Records Found");
+                            alert(String.valueOf(R.string.no_records));
                         }
 
 
@@ -382,7 +382,7 @@ public class VideoListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                showToast("Server Connection Failed");
+                showToast(String.valueOf(R.string.Server_Connection_Failed));
             }
         });
     }

@@ -239,7 +239,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                 ((Activity) VimeoVideoPlayerActivity.this).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(VimeoVideoPlayerActivity.this, "Video is already downloaded!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VimeoVideoPlayerActivity.this, R.string.Video_already_downloaded, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -254,7 +254,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
         ((Activity) VimeoVideoPlayerActivity.this).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(VimeoVideoPlayerActivity.this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+                Toast.makeText(VimeoVideoPlayerActivity.this, R.string.Error + errorMessage, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -337,9 +337,9 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                                 progressLoading = 100;
                                 progressText.setText(progressLoading + "%");
                                 progressBar.setProgress(progressLoading);
-                                showAlert((Activity) context, "Downloaded successfully..", "File stored in: " + VIDEO_FOLDER + "/" + isVideoTitle);
+                                showAlert((Activity) context, String.valueOf(R.string.Downloaded_successfully), R.string.File_stored + VIDEO_FOLDER + "/" + isVideoTitle);
                             } else if (status == DownloadManager.STATUS_FAILED) {
-                                showAlert((Activity) context, "Download failed.", "");
+                                showAlert((Activity) context, String.valueOf(R.string.Download_failed), "");
                             }
                             return;
                         }
