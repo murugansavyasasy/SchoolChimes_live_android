@@ -21,6 +21,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.jsibbold.zoomage.ZoomageView;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
@@ -41,7 +42,10 @@ public class ImageCircularPopUp extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override

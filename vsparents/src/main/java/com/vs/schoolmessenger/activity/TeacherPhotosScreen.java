@@ -42,6 +42,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.ImageListAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSchoolsListener;
 import com.vs.schoolmessenger.interfaces.TeacherSchoolListPrincipalListener;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
@@ -55,6 +56,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 public class TeacherPhotosScreen extends AppCompatActivity implements View.OnClickListener {
@@ -89,6 +92,14 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
     private int i_schools_count = 0;
     private ArrayList<String> imagePathList = new ArrayList<>();
     private PopupWindow pwindow;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -663,7 +674,7 @@ public class TeacherPhotosScreen extends AppCompatActivity implements View.OnCli
                     }
                 }
             } catch (Exception e) {
-                alert(String.valueOf(R.string.Please_choose_pdf_file_send));
+                alert(getResources().getString(R.string.Please_choose_pdf_file_send));
             }
 
 

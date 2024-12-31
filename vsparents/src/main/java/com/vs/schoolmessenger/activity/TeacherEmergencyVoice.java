@@ -85,6 +85,7 @@ import com.vs.schoolmessenger.adapter.CallScheduleAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
 import com.vs.schoolmessenger.adapter.VoiceHistoryAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSchoolsListener;
 import com.vs.schoolmessenger.interfaces.TeacherSchoolListPrincipalListener;
@@ -196,6 +197,14 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
     private final ArrayList<MessageModel> voiceHistoryList = new ArrayList<>();
     private final ArrayList<MessageModel> selectedVoiceList = new ArrayList<>();
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
+
     public static long getDateDifferenceInDays(int year, int month, int day) {
         // Get current date
         Calendar currentDate = Calendar.getInstance();
@@ -242,10 +251,6 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         return finalTimerString;
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1336,7 +1341,7 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                         btnGHHistoryStandardGroups(title);
                     }
                 } else {
-                    showAlertMessage(String.valueOf(R.string.Please_select_atleast_one_message));
+                    showAlertMessage(getResources().getString(R.string.Please_select_atleast_one_message));
                 }
                 break;
 
@@ -1609,16 +1614,16 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                                 Util_Common.isEndTime = isDatePickingView.getText().toString();
                             } else if (date1.after(date2)) {
                                 isDatePickingView.setText("");
-                                showAlertMessage(String.valueOf(R.string.Please_select_dial_beyond_time));
+                                showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
                             } else {
                                 isDatePickingView.setText("");
-                                showAlertMessage(String.valueOf(R.string.Please_select_dial_beyond_time));
+                                showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
                             }
                         } catch (ParseException e) {
                             Log.d("Exception", String.valueOf(e));
                         }
                     } else {
-                        showAlertMessage(String.valueOf(R.string.Select_initial_call_time));
+                        showAlertMessage(getResources().getString(R.string.Select_initial_call_time));
                     }
 
                 } else if (Time == 3) {
@@ -1641,28 +1646,28 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                                 Util_Common.isEndTime = isDatePickingView.getText().toString();
                             } else if (date1.after(date2)) {
                                 isDatePickingView.setText("");
-                                showAlertMessage(String.valueOf(R.string.Please_select_dial_beyond_time));
+                                showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
                             } else {
                                 isDatePickingView.setText("");
-                                showAlertMessage(String.valueOf(R.string.Please_select_dial_beyond_time));
+                                showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
                             }
                         } catch (ParseException e) {
                             Log.d("Exception", String.valueOf(e));
                         }
                     } else {
-                        showAlertMessage(String.valueOf(R.string.Select_initial_call_time));
+                        showAlertMessage(getResources().getString(R.string.Select_initial_call_time));
                     }
                 }
             }
         }, hour, minute, true);
-        timePickerDialog.setTitle(String.valueOf(R.string.Choose_hour));
+        timePickerDialog.setTitle(getResources().getString(R.string.Choose_hour));
         timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         if (Time == 2 || Time == 4) {
             if (!lblTimePicking.getText().toString().equals("") || !lblTimePickingschedule.getText().toString().equals("")) {
                 timePickerDialog.show();
             } else {
-                showAlertMessage(String.valueOf(R.string.Select_initial_call_time));
+                showAlertMessage(getResources().getString(R.string.Select_initial_call_time));
             }
         } else {
             timePickerDialog.show();

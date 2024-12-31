@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,7 +69,10 @@ public class VoiceAssignmentActivity extends AppCompatActivity implements Calend
     private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +130,7 @@ public class VoiceAssignmentActivity extends AppCompatActivity implements Calend
             @Override
             public void onClick(View view) {
                 if(edtitle.getText().toString().isEmpty()){
-                    alert("Please enter the assignment title");
+                    alert(getResources().getString(R.string.Please_enter_assignment_title));
                 }
                 else {
                     Intent i = new Intent(VoiceAssignmentActivity.this, RecipientAssignmentActivity.class);

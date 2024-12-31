@@ -108,7 +108,10 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @SuppressLint("ClickableViewAccessibility")

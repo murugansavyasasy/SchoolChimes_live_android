@@ -37,6 +37,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.AlbumSelectActivity;
 import com.vs.schoolmessenger.adapter.ImageListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -110,7 +111,10 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,9 +123,9 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
 
         edtitle = (EditText) findViewById(R.id.photos_txtTitle);
         imageview = (ImageView) findViewById(R.id.imageview);
-        edtitle.setHint("Description");
+        edtitle.setHint(getResources().getString(R.string.voice_description));
         btnNext = (Button) findViewById(R.id.photos_btnNext);
-        btnNext.setText("Send");
+        btnNext.setText(getResources().getString(R.string.teacher_pop_response_btn_send));
 
         btnChangeImage = (Button) findViewById(R.id.photos_tvChangeImg);
         ImageView ivBack = (ImageView) findViewById(R.id.photos_ToolBarIvBack);
@@ -203,9 +207,9 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
             @Override
             public void onClick(View view) {
                    if(EndDateAlert.equals("1"))
-                    alert("Submission date crossed. you still want to submit the Assignment?");
+                    alert(getResources().getString(R.string.Submission_date_crossed_submit_Assignment));
                    else
-                       alert("Are you sure you want to send the Assignment?");
+                       alert(getResources().getString(R.string.Are_want_send_Assignment));
 
             }
         });
@@ -679,7 +683,7 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
 
            }
            catch (Exception e){
-               alertdialog("Please choose pdf file to send");
+               alertdialog(getResources().getString(R.string.Please_choose_pdf_file_send));
            }
         }
         else if (requestCode == 3) {
@@ -774,7 +778,7 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
                 isUploadAWS("", "", "");
             }
         });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

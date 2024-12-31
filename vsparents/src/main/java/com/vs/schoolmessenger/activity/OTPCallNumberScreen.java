@@ -35,6 +35,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.OTP.SmsBroadcastReceiver;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.ForgetPaswordDialinNumbers;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.GenericTextWatcher;
@@ -83,7 +84,10 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -185,7 +189,6 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
                 TeacherUtil_SharedPreference.putOTPNum(OTPCallNumberScreen.this, "");
                 if (!otp.equals("")) {
                     verifyOTP(otp);
-
                 } else {
                     String msg = getResources().getString(R.string.enter_your_otp);
                     showAlert(msg);
@@ -209,6 +212,7 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
             task.addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
+
                 }
             });
 
@@ -217,7 +221,6 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
                 public void onFailure(@NonNull Exception e) {
                 }
             });
-
 
         } catch (Exception e) {
             Log.d("Exception", e.toString());
@@ -230,7 +233,6 @@ public class OTPCallNumberScreen extends AppCompatActivity implements SmsBroadca
         super.onDestroy();
 
     }
-
 
     @Override
     public void onResume() {

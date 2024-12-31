@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.StudentChatAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.databinding.ActivityStudentChatBinding;
 import com.vs.schoolmessenger.interfaces.PaginationScrollListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -59,7 +60,10 @@ public class StudentChatActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -94,7 +98,7 @@ public class StudentChatActivity extends AppCompatActivity {
                 closeKeyBoard();
             }
         });
-        adapter = new StudentChatAdapter(subjectDetail.staffname);
+        adapter = new StudentChatAdapter(studentMessages, subjectDetail.staffname);
         binding.studentChatList.addOnScrollListener(new PaginationScrollListener((LinearLayoutManager) binding.studentChatList.getLayoutManager()) {
             @Override
             protected void loadMoreItems() {
@@ -121,6 +125,10 @@ public class StudentChatActivity extends AppCompatActivity {
                 return isLoading;
             }
         });
+
+        adapter = new StudentChatAdapter(studentMessages, subjectDetail.staffname);
+        binding.studentChatList.setAdapter(adapter);
+
     }
 
     public void closeKeyBoard() {
@@ -197,7 +205,7 @@ public class StudentChatActivity extends AppCompatActivity {
                                 }
                                 studentMessages.clear();
                                 studentMessages.addAll(messages);
-                                adapter.addStudentChatList(studentMessages);
+//                                adapter.addStudentChatList(studentMessages);
                                 binding.studentChatList.setAdapter(adapter);
                             } else {
                                 if (!messages.isEmpty()) {
@@ -227,7 +235,6 @@ public class StudentChatActivity extends AppCompatActivity {
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
-
             }
         });
     }
@@ -264,27 +271,38 @@ public class StudentChatActivity extends AppCompatActivity {
                 try {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
-                    Log.d("login:code-res", response.code() + " - " + response);
+
                     if (response.code() == 200 || response.code() == 201) {
                         binding.chatMessage.setText("");
                         binding.studentChatList.setVisibility(View.VISIBLE);
-//                        if (isLastPage)
-//                            studentChatApi(offset, true);
-                        Log.d("Response", response.body().toString());
+
                         JSONArray js = new JSONArray(response.body().toString());
                         if (js.length() > 0) {
                             JSONObject jsonObject = js.getJSONObject(0);
-                            Log.d("message", jsonObject.getString("Message"));
-                            StudentChat studentChat = new Gson().fromJson(jsonObject.getString("result"), StudentChat.class);
-                            if (studentChat != null) {
-                                studentMessages.add(studentChat);
-                                if (adapter.studentChats.size() == 1) {
-                                    Log.d("adaptersizeone", "adaptersizeone");
-                                    binding.noMessages.setVisibility(View.GONE);
-                                    binding.studentChatList.setVisibility(View.VISIBLE);
+                            String message = jsonObject.optString("Message", "No Message");
+                            Log.d("Message", message);
+
+                            if (jsonObject.has("result")) {
+                                String result = jsonObject.getString("result");
+                                StudentChat studentChat = new Gson().fromJson(result, StudentChat.class);
+
+                                if (studentChat != null) {
+                                    if (studentMessages == null) {
+                                        studentMessages = new ArrayList<>();
+                                    }
+                                    studentMessages.add(studentChat);
+
+                                    if (adapter == null) {
+                                        adapter = new StudentChatAdapter(studentMessages, subjectDetail.staffname);
+                                        binding.studentChatList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                        binding.studentChatList.setAdapter(adapter);
+                                    } else {
+                                        adapter.notifyDataSetChanged();
+                                    }
+
+                                    // Scroll to the latest message
+                                    binding.studentChatList.scrollToPosition(studentMessages.size() - 1);
                                 }
-                                binding.studentChatList.scrollToPosition(studentMessages.size() - 1);
-                                adapter.notifyDataSetChanged();
                             }
                         }
                     } else {
@@ -301,6 +319,7 @@ public class StudentChatActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     public void alertDialog(String message, String positiveText) {

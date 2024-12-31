@@ -22,7 +22,7 @@
     <string name="txt_menu_logout">ออกจากระบบ</string>
     <string name="txt_menu_settings">การตั้งค่า</string>
     <string name="txt_menu_change_password">เปลี่ยนรหัสผ่าน</string>
-    <string name="txt_copyright">© Voicesnap 2019. สงวนลิขสิทธิ์</string>
+    <string name="txt_copyright">© ซาวยาซาซี 2019. สงวนลิขสิทธิ์</string>
     <string name="txt_hello">สวัสดี! \n กรุณากรอกแบบฟอร์มด้านล่างเพื่อเริ่มต้น</string>
     <string name="txt_signin">ลงชื่อเข้าใช้ที่นี่</string>
     <string name="txt_mobile">หมายเลขโทรศัพท์มือถือ</string>
@@ -34,7 +34,7 @@
     <string name="btn_save_image">บันทึกรูปภาพ</string>
     <string name="btn_download_image">ดาวน์โหลดรูปภาพ</string>
     <string name="txt_new">ใหม่</string>
-    <string name="sample_txt_msg">Voice Snap เป็นผู้ให้บริการโซลูชันและผลิตภัณฑ์ด้านเสียงที่เป็นนวัตกรรมใหม่ ซึ่งช่วยเพิ่มมูลค่าให้กับองค์กรในห่วงโซ่คุณค่าทางธุรกิจ จากมุมมองทางเทคโนโลยี เราใช้ CTI, IVR และเทคโนโลยีเว็บร่วมกับความเข้าใจลึกซึ้งในด้านการออกแบบกระบวนการทางธุรกิจเพื่อสร้างมูลค่าให้กับองค์กรในห่วงโซ่คุณค่าทางธุรกิจ</string>
+    <string name="sample_txt_msg">ซาวยาซาซี เป็นผู้ให้บริการโซลูชันและผลิตภัณฑ์ด้านเสียงที่เป็นนวัตกรรมใหม่ ซึ่งช่วยเพิ่มมูลค่าให้กับองค์กรในห่วงโซ่คุณค่าทางธุรกิจ จากมุมมองทางเทคโนโลยี เราใช้ CTI, IVR และเทคโนโลยีเว็บร่วมกับความเข้าใจลึกซึ้งในด้านการออกแบบกระบวนการทางธุรกิจเพื่อสร้างมูลค่าให้กับองค์กรในห่วงโซ่คุณค่าทางธุรกิจ</string>
     <string name="hint_play_voice">กดปุ่มเล่นเพื่อเล่นข้อความเสียง</string>
     <string name="hint_view_pdf">กดปุ่มดาวน์โหลดเพื่อดาวน์โหลดไฟล์ที่แนบมา</string>
     <string name="btn_pdf_view">ดูไฟล์</string>
@@ -87,14 +87,14 @@
     <string name="Error_message">ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ</string>
     <string name="home_pay_fees">รายละเอียดค่าธรรมเนียม</string>
     <string name="teacher_app_title">Schools V4</string>
-    <string name="teacher_app_name">Voicesnap Schools</string>
+    <string name="teacher_app_name">ซาวยาซาซี โรงเรียน</string>
     <string name="teacher_app_sub_title"></string>
     <string name="teacher_school_msg"></string>
     <string name="teacher_app_version_id">103</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
     <string name="teacher_app_version_code">21</string>
-    <string name="teacher_txt_copyright">© Voicesnap 2019. สงวนลิขสิทธิ์</string>
+    <string name="teacher_txt_copyright">© ซาวยาซาซี 2019. สงวนลิขสิทธิ์</string>
     <string name="teacher_nb_hint_title">พิมพ์หัวข้อข่าว</string>
     <string name="teacher_nb_hint_msg">พิมพ์เนื้อหาที่นี่</string>
     <string name="teacher_events_date">วันที่</string>
@@ -373,7 +373,7 @@
     <string name="exam_test">ทดสอบการสอบ</string>
     <string name="circulars">ประกาศ</string>
     <string name="exams">คะแนนสอบ</string>
-    <string name="to_voicesnap">ถึง VoiceSnap</string>
+    <string name="to_voicesnap">ถึง ซาวยาซาซี</string>
     <string name="paid_details">รายละเอียดการชำระเงิน</string>
     <string name="upcomming">กำลังจะมาถึง</string>
     <string name="fee">ค่าใช้จ่าย</string>
@@ -1007,8 +1007,22 @@
     <string name="Please_enter_reason">กรุณาใส่เหตุผล</string>
     <string name="Are_sure_Delete_Assignment">คุณแน่ใจหรือไม่ว่าต้องการลบงานนี้?</string>
     <string name="Video_sending_failedRetry">การส่งวิดีโอล้มเหลว กรุณาลองใหม่</string>
-
-
+    <string name="Please_enter_assignment_title">กรุณาใส่ชื่อหัวข้องาน</string>
+    <string name="Submission_date_crossed_submit_Assignment">วันส่งงานเกินกำหนดแล้ว คุณยังต้องการส่งงานหรือไม่?</string>
+    <string name="Are_want_send_Assignment">คุณแน่ใจหรือไม่ว่าต้องการส่งงานนี้?</string>
+    <string name="Please_Choose_Subject">กรุณาเลือกวิชา</string>
+    <string name="No_subject_create_assignment">ไม่มีวิชาให้สร้างงาน</string>
+    <string name="want_end_video">คุณต้องการส่งวิดีโอหรือไม่?</string>
+    <string name="Connecting">กำลังเชื่อมต่อ...</string>
+    <string name="you_sure_you_want_send_the_Video">คุณแน่ใจหรือไม่ว่าต้องการส่งวิดีโอ</string>
+    <string name="Please_allow_storage_permission">กรุณาอนุญาตการเข้าถึงที่เก็บข้อมูล</string>
+    <string name="Please_Enter_Title">กรุณาใส่ชื่อเรื่อง</string>
+    <string name="Please_Enter_Description">กรุณาใส่คำอธิบาย</string>
+    <string name="Please_Choose_Video">กรุณาเลือกวิดีโอ</string>
+    <string name="video_1">วิดีโอ</string>
+    <string name="Request_Certificate">ขอใบรับรอง</string>
+    <string name="Reason_for_certificate">เหตุผลสำหรับใบรับรอง</string>
+    <string name="Select_Urgency_Level">เลือกระดับความเร่งด่วน</string>
 
 
 

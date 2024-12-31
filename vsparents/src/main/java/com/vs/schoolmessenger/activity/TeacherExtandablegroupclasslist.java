@@ -5,6 +5,7 @@ import static com.vs.schoolmessenger.adapter.TeacherSelectedschoolListAdapter.bE
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LIST_GROUPS;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.LIST_STANDARDS;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherExpandableListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherOnClassGroupItemCheckListener;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
@@ -24,6 +26,8 @@ import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 public class TeacherExtandablegroupclasslist extends AppCompatActivity {
@@ -46,6 +50,14 @@ public class TeacherExtandablegroupclasslist extends AppCompatActivity {
 
     TeacherExpandableListAdapter expListAdapter;
 
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

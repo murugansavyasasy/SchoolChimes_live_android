@@ -125,9 +125,11 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1511,7 +1513,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         }
 
                     } else {
-                        showToast(String.valueOf(R.string.no_records));
+                        showToast(getResources().getString(R.string.no_records));
                         finish();
                     }
 

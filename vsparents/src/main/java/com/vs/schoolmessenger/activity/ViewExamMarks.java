@@ -26,6 +26,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.ElementExamListAdapter;
 import com.vs.schoolmessenger.adapter.ExamMarksExpandableListAdapter;
 import com.vs.schoolmessenger.adapter.GroupExamListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Element;
 import com.vs.schoolmessenger.model.Group;
@@ -62,7 +63,10 @@ public class ViewExamMarks extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override

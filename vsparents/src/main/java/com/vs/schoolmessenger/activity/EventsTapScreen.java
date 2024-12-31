@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.fragments.EventsFragment;
 import com.vs.schoolmessenger.fragments.HolidaysFragment;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -93,9 +94,11 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -339,7 +342,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(String.valueOf(R.string.Loading));
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!this.isFinishing())
             mProgressDialog.show();

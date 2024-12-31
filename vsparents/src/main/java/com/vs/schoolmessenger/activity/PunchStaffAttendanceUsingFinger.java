@@ -44,6 +44,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.AttendanceReportsAdapter;
 import com.vs.schoolmessenger.adapter.PunchHistoryAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.GPSStatusListener;
 import com.vs.schoolmessenger.interfaces.LocationLatLongListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -104,9 +105,11 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -427,9 +430,9 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         });
 
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle(String.valueOf(R.string.Biometric_Authentications))
-                .setSubtitle(String.valueOf(R.string.Mark_attendance_biometric_credential))
-                .setNegativeButtonText(String.valueOf(R.string.cancel))
+                .setTitle(getResources().getString(R.string.Biometric_Authentications))
+                .setSubtitle(getResources().getString(R.string.Mark_attendance_biometric_credential))
+                .setNegativeButtonText(getResources().getString(R.string.cancel))
                 .build();
         biometricPrompt.authenticate(promptInfo);
     }

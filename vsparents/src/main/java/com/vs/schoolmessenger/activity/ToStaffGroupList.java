@@ -10,6 +10,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.VIDEO_GALLERY;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import androidx.gridlayout.widget.GridLayout;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
@@ -51,6 +53,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -90,6 +93,14 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
     private int iRequestCode = 0;
     private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
     AwsUploadingPreSigned isAwsUploadingPreSigned;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -371,7 +382,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
             link = isLink;
             SendVideoAsStaffToGroups();
         } else {
-            alert(String.valueOf(R.string.Video_sending_failed));
+            alert(getResources().getString(R.string.Video_sending_failed));
         }
     }
 

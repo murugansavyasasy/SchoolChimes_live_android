@@ -35,6 +35,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.DailyFeeCollectionActivity;
 import com.vs.schoolmessenger.activity.TeacherGeneralText;
 import com.vs.schoolmessenger.adapter.PaymentTypeAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.DailyFeeCollectionModelItem;
 import com.vs.schoolmessenger.model.DatesModel;
@@ -68,7 +69,10 @@ public class LessonPlanActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.jsibbold.zoomage.ZoomageView;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.util.MyWebViewClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
@@ -49,7 +50,10 @@ public class PdfQuizScreen extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -134,7 +138,7 @@ public class PdfQuizScreen extends AppCompatActivity {
 
     private void ViewPdf() {
         pDialog = new ProgressDialog(this);
-        pDialog.setMessage(String.valueOf(R.string.Loading));
+        pDialog.setMessage(getResources().getString(R.string.Loading));
         pDialog.setCancelable(false);
         pdfview.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {

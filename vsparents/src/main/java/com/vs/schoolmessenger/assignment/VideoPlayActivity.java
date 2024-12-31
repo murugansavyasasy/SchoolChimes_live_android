@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 
 import static com.vs.schoolmessenger.assignment.VideoUpload.imagePathList;
 
@@ -41,7 +42,10 @@ public class VideoPlayActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -269,7 +273,7 @@ public class VideoPlayActivity extends AppCompatActivity {
             case  PERMISSION_READ: {
                 if (grantResults.length > 0 && permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                        Toast.makeText(getApplicationContext(), "Please allow storage permission", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Please_allow_storage_permission), Toast.LENGTH_LONG).show();
                     } else {
                         setVideo();
                     }

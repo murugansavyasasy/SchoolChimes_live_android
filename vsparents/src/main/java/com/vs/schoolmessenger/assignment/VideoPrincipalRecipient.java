@@ -22,6 +22,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -74,9 +75,11 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -137,7 +140,7 @@ public class VideoPrincipalRecipient extends AppCompatActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.SendToEntireSchool:
-                showAlert("Do you want to send the video");
+                showAlert(getResources().getString(R.string.want_end_video));
                 break;
             case R.id.SendToStansGroups:
 

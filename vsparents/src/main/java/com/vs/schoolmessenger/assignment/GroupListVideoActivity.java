@@ -30,6 +30,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherEmergencyVoice;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.activity.ToStaffGroupList;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -99,9 +100,11 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -264,7 +267,6 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
                                     @Override
                                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                         listGroups.get(finalI).setbSelected(isChecked);
-
                                         if (isChecked)
                                             iSelStdGrpCount++;
                                         else iSelStdGrpCount--;
@@ -295,7 +297,6 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
             }
         });
     }
-
 
     private void standardsListAPI() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
@@ -418,7 +419,6 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
                                     showToast(GroupName);
                                 }
                             }
-
                         }
 
 
@@ -427,7 +427,6 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
 //                        if(PRINCIPAL_IMAGE.equals("IMAGE")){
                         cbToAll.setChecked(false);
                         cbToAll.setVisibility(View.GONE);
-
 
                     } else {
                         showToast(getResources().getString(R.string.no_records));
@@ -454,6 +453,7 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         backToResultActvity("BACK");
     }
 

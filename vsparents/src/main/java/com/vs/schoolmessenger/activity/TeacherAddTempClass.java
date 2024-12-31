@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherSectionsListModel;
@@ -30,6 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +57,14 @@ public class TeacherAddTempClass extends AppCompatActivity {
     String strStdName, strSecName, strSecCode, strSubjectCode, strSubjectName, strTotalStudents;
     TeacherSectionModel stdSec;// = new TeacherSectionModel(false, strStdName, strSecName, strSecCode, "English", "101", "9", "0", false);
     private final ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

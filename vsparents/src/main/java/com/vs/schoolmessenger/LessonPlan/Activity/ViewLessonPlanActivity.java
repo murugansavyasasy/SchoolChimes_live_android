@@ -41,6 +41,7 @@ import com.vs.schoolmessenger.LessonPlan.Model.ViewLessonPlanModel;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherGeneralText;
 import com.vs.schoolmessenger.activity.TeacherStandardsAndGroupsList;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.DatesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -81,7 +82,10 @@ public class ViewLessonPlanActivity extends AppCompatActivity implements View.On
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override

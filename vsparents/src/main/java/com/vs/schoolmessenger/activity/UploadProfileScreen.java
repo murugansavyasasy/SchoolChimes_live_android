@@ -47,6 +47,7 @@ import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.UploadedDocsAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.UploadDocListener;
@@ -111,9 +112,11 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -230,7 +233,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                     isUploadAWS("pdf", ".pdf", "", txtFileName.getText().toString());
 
                 } else {
-                    showToast(String.valueOf(R.string.Please_enter_your_file_name));
+                    showToast(getResources().getString(R.string.Please_enter_your_file_name));
                 }
             }
         });
@@ -240,7 +243,7 @@ public class UploadProfileScreen extends AppCompatActivity implements UploadDocL
                 if (!profileAwsFilePath.equals("") || UploadedS3URlList.size() > 0) {
                     submitStudentDetatils();
                 } else {
-                    showToast(String.valueOf(R.string.Please_upload_profile_documents));
+                    showToast(getResources().getString(R.string.Please_upload_profile_documents));
                 }
             }
         });

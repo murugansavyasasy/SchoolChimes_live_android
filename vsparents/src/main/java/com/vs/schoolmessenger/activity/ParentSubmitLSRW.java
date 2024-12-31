@@ -56,6 +56,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.LsrwDocsAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.assignment.ContentAdapter;
 import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -159,9 +160,11 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -375,7 +378,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                         UploadedS3URlList.add(new UploadFilesModel(edtextmsg.getText().toString(), "text", ""));
                         edtextmsg.setText("");
                     } else {
-                        alert(String.valueOf(R.string.Please_Enter_Text));
+                        alert(getResources().getString(R.string.Please_Enter_Text));
                     }
                 } else if (selected.equals("Video")) {
                     //   VimeoAPi();
@@ -735,7 +738,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage(String.valueOf(R.string.Uploading));
+            progressDialog.setMessage(getResources().getString(R.string.Uploading));
             progressDialog.setCancelable(false);
         }
 
@@ -887,7 +890,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             final FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                             final ProgressDialog progressBar = new ProgressDialog(ParentSubmitLSRW.this);
                             progressBar.setCancelable(false);
-                            progressBar.setMessage(String.valueOf(R.string.Loading));
+                            progressBar.setMessage(getResources().getString(R.string.Loading));
                             progressBar.show();
                             final long startTime = SystemClock.uptimeMillis();
                             MediaTranscoder.Listener listener = new MediaTranscoder.Listener() {
@@ -932,7 +935,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                             alert(filecontent);
                         }
                     } else {
-                        alert(String.valueOf(R.string.Please_Choose_Valid_Video));
+                        alert(getResources().getString(R.string.Please_Choose_Valid_Video));
                     }
 
                 }
@@ -1646,7 +1649,7 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                     lblAddAttachment.setVisibility(View.VISIBLE);
                 }
             } else {
-                alert(String.valueOf(R.string.Video_sending_failed));
+                alert(getResources().getString(R.string.Video_sending_failed));
             }
         });
     }

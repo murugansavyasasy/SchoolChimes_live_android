@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.SelectStaffSchoolsAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -26,9 +27,11 @@ public class SelectStaffSchools extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

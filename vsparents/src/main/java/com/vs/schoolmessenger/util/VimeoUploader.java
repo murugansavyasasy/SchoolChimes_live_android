@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.vs.schoolmessenger.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +30,7 @@ public class VimeoUploader {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(activity);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Uploading...");
+        mProgressDialog.setMessage(activity.getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!activity.isFinishing())

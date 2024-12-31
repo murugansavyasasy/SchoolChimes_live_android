@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -37,6 +38,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.AttendanceStudentReport;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.StudentAttendanceReport;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
@@ -57,6 +59,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -92,6 +95,15 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
     AttendanceStudentReport isAttendanceStudentReport;
     private int iRequestCode = 0;
     private final ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,7 +179,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
         btnMarkAllPresent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showConfirmAlert(String.valueOf(R.string.Confirm), String.valueOf(R.string.Mark_Present));
+                showConfirmAlert(getResources().getString(R.string.Confirm), getResources().getString(R.string.Mark_Present));
             }
         });
 
@@ -197,7 +209,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
                     inStud.putExtra("ATTENDANCE_DATE", isAttendanceDate);
                     startActivityForResult(inStud, iRequestCode);
                 } else {
-                    showToast(String.valueOf(R.string.Kindly_attendance));
+                    showToast(getResources().getString(R.string.Kindly_attendance));
                 }
             }
         });
@@ -568,7 +580,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
     private void sendAttenAPIPresent() {
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(String.valueOf(R.string.Loading));
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -681,18 +693,18 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setIcon(R.drawable.teacher_ic_voice_snap);
-        builder.setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.btn_sign_cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
             }
         });
 
-        builder.setPositiveButton(R.string.teacher_btn_ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 if (!attendanceType.equals("")) {
                     sendAttenAPIPresent();
                 } else {
-                    showToast(String.valueOf(R.string.Kindly_attendance));
+                    showToast(getResources().getString(R.string.Kindly_attendance));
                 }
             }
         });
@@ -721,7 +733,7 @@ public class TeacherAttendanceScreen extends AppCompatActivity {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(String.valueOf(R.string.Loading));
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);

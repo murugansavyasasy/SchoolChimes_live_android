@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,10 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherGroupListApater;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.model.TeacherGroupclass;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 public class TeacherListGroups extends AppCompatActivity {
@@ -24,6 +28,14 @@ public class TeacherListGroups extends AppCompatActivity {
 
     private TeacherGroupListApater adapter;
     private final List<TeacherGroupclass> grouplist = new ArrayList<>();
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

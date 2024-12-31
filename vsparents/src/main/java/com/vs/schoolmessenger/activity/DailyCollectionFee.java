@@ -73,7 +73,10 @@ public class DailyCollectionFee extends AppCompatActivity implements View.OnClic
 
 //    @Override
 //    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+//        String savedLanguage = LocaleHelper.getLanguage(newBase);
+//        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+//        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+//        super.attachBaseContext(wrappedContext);
 //    }
 
     @Override

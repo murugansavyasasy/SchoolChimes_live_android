@@ -2,6 +2,7 @@ package com.vs.schoolmessenger.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,6 +29,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.adapter.VideosAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.VideoModelClass;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,6 +66,14 @@ public class VideoListActivity extends AppCompatActivity {
     ImageView adImage;
     AdView mAdView;
     RelativeLayout voice_rlToolbar;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,7 +258,7 @@ public class VideoListActivity extends AppCompatActivity {
 
                             imgAdapter.notifyDataSetChanged();
                         } else {
-                            alert(String.valueOf(R.string.no_records));
+                            alert(getResources().getString(R.string.no_records));
                         }
 
 
@@ -260,7 +271,7 @@ public class VideoListActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
-                showToast(String.valueOf(R.string.Server_Response_Failed));
+                showToast(getResources().getString(R.string.Server_Response_Failed));
             }
 
 
@@ -370,7 +381,7 @@ public class VideoListActivity extends AppCompatActivity {
 
                             imgAdapter.notifyDataSetChanged();
                         } else {
-                            alert(String.valueOf(R.string.no_records));
+                            alert(getResources().getString(R.string.no_records));
                         }
 
 
@@ -382,7 +393,7 @@ public class VideoListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                showToast(String.valueOf(R.string.Server_Connection_Failed));
+                showToast(getResources().getString(R.string.Server_Connection_Failed));
             }
         });
     }

@@ -26,6 +26,7 @@ import com.vs.schoolmessenger.activity.TeacherStaffStandardSection;
 import com.vs.schoolmessenger.activity.TeacherStandardsAndGroupsList;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.adapter.TeacherNewSectionsListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSectionListListener;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
@@ -128,7 +129,10 @@ public class RecipientVideoActivity extends AppCompatActivity implements VimeoUp
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -199,7 +203,7 @@ public class RecipientVideoActivity extends AppCompatActivity implements VimeoUp
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alert("Do you want to send video ?");
+                alert(getResources().getString(R.string.want_end_video));
 
             }
         });
@@ -336,7 +340,7 @@ public class RecipientVideoActivity extends AppCompatActivity implements VimeoUp
                 uploadVimeoVideo();
             }
         });
-        alertDialog.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -363,7 +367,7 @@ public class RecipientVideoActivity extends AppCompatActivity implements VimeoUp
             link = isLink;
             SendVideotoSecApi();
         } else {
-            showAlertfinal("Video sending failed.Retry", "0");
+            showAlertfinal(getResources().getString(R.string.Video_sending_failedRetry), "0");
         }
     }
 
@@ -832,7 +836,7 @@ public class RecipientVideoActivity extends AppCompatActivity implements VimeoUp
         Retrofit retrofit = new Retrofit.Builder().client(client1).baseUrl("https://api.vimeo.com/").addConverterFactory(GsonConverterFactory.create()).build();
         final ProgressDialog mProgressDialog = new ProgressDialog(RecipientVideoActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Connecting...");
+        mProgressDialog.setMessage(getResources().getString(R.string.Connecting));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing()) mProgressDialog.show();

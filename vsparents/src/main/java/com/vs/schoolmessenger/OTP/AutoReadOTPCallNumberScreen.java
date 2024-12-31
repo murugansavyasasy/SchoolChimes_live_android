@@ -41,6 +41,7 @@ import com.vs.schoolmessenger.activity.TeacherChangePassword;
 import com.vs.schoolmessenger.activity.TeacherSignInScreen;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.adapter.ForgetPaswordDialinNumbers;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
@@ -101,7 +102,10 @@ public class AutoReadOTPCallNumberScreen extends AppCompatActivity implements Sm
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override

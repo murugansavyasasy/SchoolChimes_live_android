@@ -39,6 +39,7 @@ import com.vs.schoolmessenger.activity.AlbumSelectActivity;
 import com.vs.schoolmessenger.activity.TeacherPhotosScreen;
 
 import com.vs.schoolmessenger.adapter.ImageListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.util.FileUtils;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
@@ -84,10 +85,12 @@ public class ImageAssignmentActivity extends AppCompatActivity implements View.O
     Spinner staff_category_spin;
     List<String> listCategory = new ArrayList<>();
     ArrayAdapter<String> cateAdapter;
-
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -196,7 +199,7 @@ public class ImageAssignmentActivity extends AppCompatActivity implements View.O
             @Override
             public void onClick(View view) {
                 if (edtitle.getText().toString().isEmpty()) {
-                    alert("Please enter the assignment title");
+                    alert(getResources().getString(R.string.Please_enter_assignment_title));
                 } else {
                     Intent i = new Intent(ImageAssignmentActivity.this, RecipientAssignmentActivity.class);
                     i.putExtra("REQUEST_CODE", STAFF_IMAGEASSIGNMENT);
@@ -263,7 +266,6 @@ public class ImageAssignmentActivity extends AppCompatActivity implements View.O
             @Override
             public void onClick(View v) {
                 lnrGalleryOrCamera.setVisibility(View.VISIBLE);
-
             }
         });
 
@@ -459,10 +461,7 @@ public class ImageAssignmentActivity extends AppCompatActivity implements View.O
                                     alertshow = true;
                                 }
                             }
-
                         }
-
-
                     }
 
                     if (imagePathList.size() == 0) {

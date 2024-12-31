@@ -29,11 +29,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.assignment.VideoUpload;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 public class ImageSelectVideoActivity extends HelperVideoActivity {
@@ -56,6 +59,16 @@ public class ImageSelectVideoActivity extends HelperVideoActivity {
     private Thread thread;
 
     private final String[] projection = new String[]{MediaStore.Video.Media._ID, MediaStore.Video.Media.DISPLAY_NAME, MediaStore.Video.Media.DATA};
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

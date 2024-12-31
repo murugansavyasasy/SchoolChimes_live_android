@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.LeaveRequestDetails;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -23,13 +25,20 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 import org.json.JSONObject;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
 
     LeaveRequestDetails history;
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

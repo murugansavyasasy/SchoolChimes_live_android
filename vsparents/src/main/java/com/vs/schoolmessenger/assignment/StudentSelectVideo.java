@@ -1,5 +1,9 @@
 package com.vs.schoolmessenger.assignment;
 
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_IMAGEASSIGNMENT;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,18 +20,22 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.activity.SendToVoiceSpecificSection;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.adapter.TeacherStudendListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckStudentListener;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherStudentsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
-import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.VimeoUploader;
@@ -35,21 +43,14 @@ import com.vs.schoolmessenger.util.VimeoUploader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -58,13 +59,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_SchoolId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.Principal_staffId;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_IMAGEASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_PDFASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_TEXTASSIGNMENT;
-import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICEASSIGNMENT;
 
 public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCheckStudentListener, VimeoUploader.UploadCompletionListener {
     RecyclerView rvStudentList;
@@ -92,10 +86,12 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
     String v6;
     String redirect_url, strsize;
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -400,7 +396,7 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
 
         alertDialog.setCancelable(false);
         alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage("Are you sure you want to send the Video");
+        alertDialog.setMessage(getResources().getString(R.string.you_sure_you_want_send_the_Video));
 
 
         alertDialog.setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
@@ -437,7 +433,7 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
             link = isLink;
             SendVideotoSecApi();
         } else {
-            showAlertfinal("Video sending failed.Retry", "0");
+            showAlertfinal(getResources().getString(R.string.Video_sending_failedRetry), "0");
         }
     }
 
@@ -916,7 +912,6 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
                 } else {
                     dialog.dismiss();
                 }
-
             }
         });
 

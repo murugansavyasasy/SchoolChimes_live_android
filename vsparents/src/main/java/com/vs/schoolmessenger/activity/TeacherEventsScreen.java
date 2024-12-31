@@ -33,6 +33,7 @@ import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFra
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSchoolsListener;
 import com.vs.schoolmessenger.interfaces.TeacherSchoolListPrincipalListener;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
@@ -42,6 +43,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 public class TeacherEventsScreen extends AppCompatActivity implements CalendarDatePickerDialogFragment.OnDateSetListener, RadialTimePickerDialogFragment.OnTimeSetListener {
@@ -76,6 +79,14 @@ public class TeacherEventsScreen extends AppCompatActivity implements CalendarDa
     private final ArrayList<TeacherSchoolsModel> seletedschoollist = new ArrayList<>();
     private int i_schools_count = 0;
     private int iRequestCode;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

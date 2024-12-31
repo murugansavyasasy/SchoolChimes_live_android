@@ -43,6 +43,7 @@ import com.google.gson.JsonArray;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherSchoolList;
 import com.vs.schoolmessenger.activity.ToStaffGroupList;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.FileUtils;
@@ -102,9 +103,11 @@ public class VideoUpload extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,12 +235,12 @@ public class VideoUpload extends AppCompatActivity {
                 total = 0;
                 sizekb = (1000) * Integer.parseInt(String.valueOf(length));
                 if (edtitle.getText().toString().equals("")) {
-                    alert("Please Enter Title");
+                    alert(getResources().getString(R.string.Please_Enter_Title));
                 } else if (edgallery.getText().toString().equals("")) {
-                    alert("Please Enter Description");
+                    alert(getResources().getString(R.string.Please_Enter_Description));
 
                 } else if (imagePathList.isEmpty()) {
-                    alert("Please Choose Video");
+                    alert(getResources().getString(R.string.Please_Choose_Video));
 
                 } else {
                     Intent i = new Intent(VideoUpload.this, RecipientVideoActivity.class);
@@ -262,9 +265,9 @@ public class VideoUpload extends AppCompatActivity {
                 total = 0;
                 sizekb = (1000) * Integer.parseInt(String.valueOf(length));
                 if (edtitle.getText().toString().equals("")) {
-                    alert("Please Enter Title");
+                    alert(getResources().getString(R.string.Please_Enter_Title));
                 } else if (edgallery.getText().toString().equals("")) {
-                    alert("Please Enter Description");
+                    alert(getResources().getString(R.string.Please_Enter_Description));
                 } else {
                     Intent i = new Intent(VideoUpload.this, ToStaffGroupList.class);
                     i.putExtra("REQUEST_CODE", VIDEO_GALLERY);
@@ -307,7 +310,7 @@ public class VideoUpload extends AppCompatActivity {
                     tostart.setDataAndType(Uri.parse(imagePathList.get(0)), "video/*");
                     startActivity(tostart);
                 } else {
-                    alert("Please Choose Video");
+                    alert(getResources().getString(R.string.Please_Choose_Video));
                 }
             }
         });
@@ -458,7 +461,7 @@ public class VideoUpload extends AppCompatActivity {
                                 final FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                                 final ProgressDialog progressBar = new ProgressDialog(VideoUpload.this);
                                 progressBar.setCancelable(false);
-                                progressBar.setMessage("loading");
+                                progressBar.setMessage(getResources().getString(R.string.Loading));
                                 progressBar.show();
                                 final long startTime = SystemClock.uptimeMillis();
                                 MediaTranscoder.Listener listener = new MediaTranscoder.Listener() {
@@ -503,7 +506,7 @@ public class VideoUpload extends AppCompatActivity {
                                 alert(filecontent);
                             }
                         } else {
-                            alert("Please Choose Valid Video format to send");
+                            alert(getResources().getString(R.string.Please_Choose_Valid_Video));
                         }
 
                     }

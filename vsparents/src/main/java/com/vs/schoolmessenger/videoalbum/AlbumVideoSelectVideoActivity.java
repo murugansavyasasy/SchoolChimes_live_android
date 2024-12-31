@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.videoalbum;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -24,10 +25,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
     private ArrayList<AlbumVideo> albumVideos;
@@ -43,6 +47,14 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
     private ContentObserver observer;
     private Handler handler;
     private Thread thread;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     private final String[] projection = new String[]{
             MediaStore.Video.Media.BUCKET_ID,
@@ -81,6 +93,7 @@ public class AlbumVideoSelectVideoActivity extends HelperVideoActivity {
         super.onStart();
 
         handler = new Handler() {
+            @SuppressLint("HandlerLeak")
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {

@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/clr_black"
         android:textSize="@dimen/_16sdp"
-        android:text="Select Urgency Level"/>
+        android:text="@string/Select_Urgency_Level"/>
 
     <RelativeLayout
         android:layout_below="@+id/lblUrgency"
@@ -108,7 +108,7 @@
         android:background="@color/clr_white"
         android:ems="10"
         android:gravity="top"
-        android:hint="Reason for certificate"
+        android:hint="@string/Reason_for_certificate"
         android:inputType="textMultiLine"
         android:maxLength="150"
         android:maxLines="10"
@@ -125,7 +125,7 @@
         android:layout_gravity="end"
         android:layout_marginTop="25dp"
         android:layout_centerHorizontal="true"
-        android:text="Request Certificate" />
+        android:text="@string/Request_Certificate" />
 
 
 

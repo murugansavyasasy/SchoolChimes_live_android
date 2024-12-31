@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,6 +29,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.DatesList;
 import com.vs.schoolmessenger.activity.TextCircular;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
@@ -50,6 +54,14 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
 
     AssignmentViewAdapter assignment_adapter;
     private ArrayList<AssignmentViewClass> assignlist = new ArrayList<>();
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -233,7 +245,7 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
                         }
                         else{
 
-                            alert("No Records Found");
+                            alert(getResources().getString(R.string.no_records));
                         }
 
 
@@ -247,7 +259,7 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
                 Log.e("Response Failure", t.getMessage());
-                showToast("Server Connection Failed");
+                showToast(getResources().getString(R.string.Server_Connection_Failed));
             }
 
 
@@ -361,7 +373,7 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
                         }
                         else{
 
-                            alert("No Records Found");
+                            alert(getResources().getString(R.string.no_records));
                         }
 
 
@@ -375,7 +387,7 @@ public class PrincipalAssignmentList extends AppCompatActivity implements Refres
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
                 Log.e("Response Failure", t.getMessage());
-                showToast("Server Connection Failed");
+                showToast(getResources().getString(R.string.Server_Connection_Failed));
             }
 
 

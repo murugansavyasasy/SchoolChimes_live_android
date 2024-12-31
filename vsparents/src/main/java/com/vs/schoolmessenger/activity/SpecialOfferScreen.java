@@ -2,6 +2,7 @@ package com.vs.schoolmessenger.activity;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class SpecialOfferScreen extends AppCompatActivity {
 
@@ -22,6 +26,14 @@ public class SpecialOfferScreen extends AppCompatActivity {
     ProgressDialog pDialog;
     String MobileNumber;
     String OfferLink;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

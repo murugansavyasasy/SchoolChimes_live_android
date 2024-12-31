@@ -2,6 +2,7 @@ package com.vs.schoolmessenger.activity;
 
 import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,10 +18,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class PdfWebViewPopup extends AppCompatActivity {
 
@@ -36,6 +40,14 @@ public class PdfWebViewPopup extends AppCompatActivity {
     String strAcceptanceStatus = "";
     Boolean is_Archive;
     String isNewVersion;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

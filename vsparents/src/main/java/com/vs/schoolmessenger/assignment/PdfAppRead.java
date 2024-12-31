@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.assignment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.CaptureSignature;
 import com.vs.schoolmessenger.activity.PdfCircular;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
@@ -33,6 +35,8 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class PdfAppRead extends AppCompatActivity {
 
@@ -55,6 +59,13 @@ public class PdfAppRead extends AppCompatActivity {
 
     public static final int SIGNATURE_ACTIVITY = 1;
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherChatAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.databinding.ActivityTeacherChatBinding;
 import com.vs.schoolmessenger.interfaces.PaginationScrollListener;
 import com.vs.schoolmessenger.interfaces.PopupListener;
@@ -64,7 +65,10 @@ public class TeacherChatActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override

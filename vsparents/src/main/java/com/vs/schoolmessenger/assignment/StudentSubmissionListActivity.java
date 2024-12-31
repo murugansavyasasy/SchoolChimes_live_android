@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.DatesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -51,7 +52,6 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
     String MobileNumber,schoolID;
     Boolean is_Archive;
     String isNewVersion;
-
     Boolean IsArchice;
     ImageView imgSearch;
     EditText Searchable;
@@ -60,7 +60,10 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,7 +260,7 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
                             studentListAdapter.notifyDataSetChanged();
                         }
                         else{
-                                alert("No Records Found");
+                                alert(getResources().getString(R.string.no_records));
                         }
 
 
@@ -271,7 +274,7 @@ public class StudentSubmissionListActivity extends AppCompatActivity {
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
                 Log.e("Response Failure", t.getMessage());
-                showToast("Server Connection Failed");
+                showToast(getResources().getString(R.string.Server_Connection_Failed));
             }
 
 

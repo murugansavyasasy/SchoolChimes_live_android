@@ -37,6 +37,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherProfiles;
@@ -94,9 +95,11 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -788,7 +791,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
                         }
 
                     } else {
-                        showToast(String.valueOf(R.string.no_records));
+                        showToast(getResources().getString(R.string.no_records));
                         finish();
                     }
 

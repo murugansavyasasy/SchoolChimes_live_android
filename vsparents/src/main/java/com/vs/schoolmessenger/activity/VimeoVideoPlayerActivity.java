@@ -38,6 +38,7 @@ import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.assignment.view.VimeoPlayerView;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
@@ -45,6 +46,8 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.VimeoHelper;
 
 import java.io.File;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class VimeoVideoPlayerActivity extends AppCompatActivity implements VimeoHelper.VimeoDownloadCallback {
 
@@ -69,6 +72,14 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
     String isVideoTitle;
     int progressLoading = 0;
     ProgressBar progressBar;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -337,9 +348,9 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                                 progressLoading = 100;
                                 progressText.setText(progressLoading + "%");
                                 progressBar.setProgress(progressLoading);
-                                showAlert((Activity) context, String.valueOf(R.string.Downloaded_successfully), R.string.File_stored + VIDEO_FOLDER + "/" + isVideoTitle);
+                                showAlert((Activity) context, getResources().getString(R.string.Downloaded_successfully), R.string.File_stored + VIDEO_FOLDER + "/" + isVideoTitle);
                             } else if (status == DownloadManager.STATUS_FAILED) {
-                                showAlert((Activity) context, String.valueOf(R.string.Download_failed), "");
+                                showAlert((Activity) context, getResources().getString(R.string.Download_failed), "");
                             }
                             return;
                         }

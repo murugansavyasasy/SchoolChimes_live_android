@@ -35,6 +35,7 @@ import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.AlbumSelectActivity;
 import com.vs.schoolmessenger.activity.TeacherPhotosScreen;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.util.FileUtils;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
@@ -84,7 +85,10 @@ public class PdfAssignmentActivity extends AppCompatActivity implements Calendar
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +187,7 @@ public class PdfAssignmentActivity extends AppCompatActivity implements Calendar
             @Override
             public void onClick(View view) {
                 if(edtitle.getText().toString().isEmpty()){
-                    alert("Please enter the assignment title");
+                    alert(getResources().getString(R.string.Please_enter_assignment_title));
                 }
                 else {
                     Intent i = new Intent(PdfAssignmentActivity.this, RecipientAssignmentActivity.class);
@@ -282,7 +286,7 @@ public class PdfAssignmentActivity extends AppCompatActivity implements Calendar
                 }
             }
             catch (Exception e){
-                alert("Please choose pdf file to send");
+                alert(getResources().getString(R.string.Please_choose_pdf_file_send));
             }
         }
 

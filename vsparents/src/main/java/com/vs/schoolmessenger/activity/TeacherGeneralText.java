@@ -82,6 +82,7 @@ import com.vs.schoolmessenger.adapter.SmsHistoryAdapter;
 import com.vs.schoolmessenger.adapter.StaffHomeWorkReport;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
 import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.SmsHistoryListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSchoolsListener;
@@ -111,6 +112,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -228,6 +230,15 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     private ArrayList<String> imagePathList = new ArrayList<>();
     private MediaPlayer mediaPlayer;
     private final ArrayList<TeacherStandardSectionsListModel> arrStandardsAndSectionsList = new ArrayList<>();
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1671,7 +1682,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
                 }
             } catch (Exception e) {
-                alert(String.valueOf(R.string.Please_choose_pdf_file_send));
+                alert(getResources().getString(R.string.Please_choose_pdf_file_send));
             }
 
 
@@ -1901,7 +1912,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
         final ProgressDialog mProgressDialog = new ProgressDialog(TeacherGeneralText.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(String.valueOf(R.string.Uploading));
+        mProgressDialog.setMessage(getResources().getString(R.string.Uploading));
         mProgressDialog.setCancelable(false);
 
         if (!this.isFinishing())

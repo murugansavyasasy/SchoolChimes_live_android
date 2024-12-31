@@ -101,6 +101,7 @@ public class HelperActivity extends AppCompatActivity {
     }
 
     protected void permissionGranted() {
+
     }
 
     private void permissionDenied() {
@@ -109,6 +110,7 @@ public class HelperActivity extends AppCompatActivity {
     }
 
     protected void hideViews() {
+
     }
 
     protected void setView(View view) {

@@ -3,6 +3,7 @@ package com.vs.schoolmessenger.assignment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -25,6 +26,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +38,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.TeacherSchoolList;
 import com.vs.schoolmessenger.adapter.TeacherSchoolListForPrincipalAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.assignment.AssignmentViewAdapter;
 import com.vs.schoolmessenger.assignment.AssignmentViewClass;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -74,6 +78,9 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
     TextView lblNoMessages;
 
     RelativeLayout rytSearch;
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -213,7 +220,7 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
                         }
                         else{
 
-                            alert("No Records Found");
+                            alert(getResources().getString(R.string.no_records));
                         }
 
 
@@ -227,7 +234,7 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
                 Log.e("Response Failure", t.getMessage());
-                showToast("Server Connection Failed");
+                showToast(getResources().getString(R.string.Server_Connection_Failed));
             }
         });
     }
@@ -373,7 +380,7 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
                             }
                             else{
 
-                                alert("No Records Found");
+                                alert(getResources().getString(R.string.no_records));
                             }
 
 
@@ -387,7 +394,7 @@ public class ViewAssignment extends Fragment implements RefreshInterface{
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
                 Log.e("Response Failure", t.getMessage());
-                showToast("Server Connection Failed");
+                showToast(getResources().getString(R.string.Server_Connection_Failed));
             }
 
 

@@ -46,6 +46,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.OnlineClassByStaffAdapter;
 import com.vs.schoolmessenger.adapter.OnlineMeetingTypeAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnlineClassStaffListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.OnlineClassByStaffModel;
@@ -117,9 +118,11 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -361,7 +364,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                         spinnerMeetingPlatform.setAdapter(platforms);
 
                     } else {
-                        showAlertRecords(String.valueOf(R.string.no_records));
+                        showAlertRecords(getResources().getString(R.string.no_records));
                     }
 
                 } catch (Exception e) {
@@ -451,7 +454,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                     toSections.putExtra("STAFF_ID", StaffID);
                     startActivity(toSections);
                 } else {
-                    showToast(String.valueOf(R.string.meeting_platform_meetingpaste));
+                    showToast(getResources().getString(R.string.meeting_platform_meetingpaste));
                 }
 
 
@@ -466,7 +469,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                     toStaandardGroups.putExtra("STAFF_ID", StaffID);
                     startActivity(toStaandardGroups);
                 } else {
-                    showToast(String.valueOf(R.string.meeting_platform_meetingpaste));
+                    showToast(getResources().getString(R.string.meeting_platform_meetingpaste));
 
                 }
 
@@ -477,7 +480,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                 break;
             case R.id.lblSelectTime:
                 if (lblSelectDate.getText().toString().equalsIgnoreCase("Select Date")) {
-                    showToast(String.valueOf(R.string.Please_select_date));
+                    showToast(getResources().getString(R.string.Please_select_date));
                 } else {
                     timePicker();
                 }
@@ -534,7 +537,7 @@ public class TeacherMeetingURLScreen extends AppCompatActivity implements View.O
                     @Override
                     public void onItemClick(OnlineClassByStaffModel item) {
 
-                        showCancelMeetAlert(String.valueOf(R.string.Are_you_sure_want_cancel_meeting), item);
+                        showCancelMeetAlert(getResources().getString(R.string.Are_you_sure_want_cancel_meeting), item);
 
                     }
                 });

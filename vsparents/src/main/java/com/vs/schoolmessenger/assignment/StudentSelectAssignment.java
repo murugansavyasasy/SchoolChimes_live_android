@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.adapter.TeacherStudendListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckStudentListener;
@@ -93,7 +94,10 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -353,7 +357,7 @@ public class StudentSelectAssignment extends AppCompatActivity implements Teache
 
         alertDialog.setCancelable(false);
         alertDialog.setTitle(R.string.alert);
-        alertDialog.setMessage("Are you sure you want to send the assignment");
+        alertDialog.setMessage(getResources().getString(R.string.Are_want_send_Assignment));
         alertDialog.setNegativeButton(R.string.btn_sign_cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                  dialog.dismiss();

@@ -11,6 +11,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import androidx.gridlayout.widget.GridLayout;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -43,6 +45,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -78,6 +81,14 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
     boolean isStandardDisable = false;
     private int iRequestCode = 0;
     private final ArrayList<String> UploadedS3URlList = new ArrayList<>();
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -323,7 +334,7 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
         if (iSelStdGrpCount > 0) {
             showToast(strMsgType + "-" + sbStd + "\n" + sbGrp.toString().trim());
             backToResultActvity("SENT");
-        } else showToast(String.valueOf(R.string.Select_participants));
+        } else showToast(getResources().getString(R.string.Select_participants));
 
     }
 
@@ -399,7 +410,7 @@ public class VoiceStandardAndGroupList extends AppCompatActivity {
 
             case PRINCIPAL_NOTICE_BOARD:
                 if (cbToAll.isChecked()) {
-                    showToast(String.valueOf(R.string.NB_Sent_entire_school));
+                    showToast(getResources().getString(R.string.NB_Sent_entire_school));
                     backToResultActvity("SENT");
                 } else {
                     listOfSelectedStdAndGroups("NB");

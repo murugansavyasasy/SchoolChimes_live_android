@@ -228,7 +228,7 @@ public class ImageCircularassgn extends RecyclerView.Adapter<ImageCircularassgn.
         alertDialog.setMessage(msg);
         alertDialog.setIcon(R.drawable.ic_image);
 
-        alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+        alertDialog.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
             }

@@ -53,6 +53,7 @@ import com.google.gson.JsonObject;
 import com.jsibbold.zoomage.ZoomageView;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.QuestionForQuizAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.interfaces.QuestionClickListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -105,6 +106,14 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     String currenttime24, pdfuri, videourl, imageurl, quetime;
     PopupWindow popupWindow, popupimage, popuppdfWindow;
     private final ArrayList<QuestionForQuiz> msgModelList = new ArrayList<>();
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
     private final Runnable querunson = new Runnable() {
         @Override
         public void run() {
@@ -259,11 +268,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
         // return timer string
         return finalTimerString;
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override

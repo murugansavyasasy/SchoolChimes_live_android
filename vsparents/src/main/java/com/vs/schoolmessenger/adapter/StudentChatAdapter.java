@@ -20,8 +20,14 @@ public class StudentChatAdapter extends RecyclerView.Adapter<BaseViewHolders<Stu
    public ArrayList<StudentChat> studentChats;
     public String staffName;
 
-    public StudentChatAdapter(String staffName) {
-        this.staffName = staffName;
+//    public StudentChatAdapter(String staffName) {
+//        this.staffName = staffName;
+//    }
+
+
+    public StudentChatAdapter(ArrayList<StudentChat> studentChats,String isStaffName) {
+        this.studentChats=studentChats;
+        this.staffName = isStaffName;
     }
 
     @NonNull
@@ -64,7 +70,8 @@ public class StudentChatAdapter extends RecyclerView.Adapter<BaseViewHolders<Stu
         return studentChats != null ? studentChats.size() : 0;
     }
 
-    public void addStudentChatList(ArrayList<StudentChat> studentChats) {
-        this.studentChats = studentChats;
-    }
+//    public void addStudentChatList(ArrayList<StudentChat> studentChats) {
+//        this.studentChats = studentChats;
+//        notifyDataSetChanged();
+//    }
 }

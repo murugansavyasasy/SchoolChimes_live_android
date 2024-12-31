@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.SendToVoiceSpecificSection;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
@@ -27,7 +28,7 @@ public class ChangeMsgReadStatus {
     public static void changeReadStatus(Activity activity, String msgID, String msgType, String msgDate,String isNewVersion,Boolean is_Archive, final OnRefreshListener onRefreshListener) {
         final ProgressDialog mProgressDialog = new ProgressDialog(activity);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(activity.getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
 
         String baseURL=TeacherUtil_SharedPreference.getBaseUrl(activity);

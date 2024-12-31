@@ -77,7 +77,7 @@ public class TeacherCircularsDateListAdapter extends RecyclerView.Adapter<Teache
         //********
 
 
-        holder.tvVideoTotal.setText("VIDEO"+"(" + date.getVideoTotCount() + ")");
+        holder.tvVideoTotal.setText(context.getResources().getString(R.string.video_1)+"(" + date.getVideoTotCount() + ")");
         holder.tvVideoUnread.setText(date.getVideoUnreadCount());
         int iVideoUnread = Integer.parseInt(date.getVideoUnreadCount());
         int iVideoTotal = Integer.parseInt(date.getVideoTotCount());

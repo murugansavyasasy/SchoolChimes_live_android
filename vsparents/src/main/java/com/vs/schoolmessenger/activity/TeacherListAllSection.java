@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherSectionListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckStdSecListener;
 import com.vs.schoolmessenger.interfaces.TeacherOnSelectedStudentsListener;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
@@ -48,7 +49,10 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -159,7 +163,7 @@ public class TeacherListAllSection extends AppCompatActivity {//} implements Tea
 
 
         if (list_staffStdSecs.size() < 1) {
-            showAlert(String.valueOf(R.string.Warning), strNoClassWarning);
+            showAlert(getResources().getString(R.string.Warning), strNoClassWarning);
         }
 
         sectionList.addAll(list_staffStdSecs);

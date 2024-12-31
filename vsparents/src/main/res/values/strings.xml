@@ -22,7 +22,7 @@
     <string name="txt_menu_logout">Logout</string>
     <string name="txt_menu_settings">Settings</string>
     <string name="txt_menu_change_password">Change Password</string>
-    <string name="txt_copyright">© Voicesnap 2019. All rights reserved.</string>
+    <string name="txt_copyright">© Savyasasy 2019. All rights reserved.</string>
     <string name="txt_hello">Hello! \n Please fill out the form below to get started.</string>
     <string name="txt_signin">Sign in here.</string>
     <string name="txt_mobile">Mobile Number</string>
@@ -34,7 +34,7 @@
     <string name="btn_save_image">Save Image</string>
     <string name="btn_download_image">Download Image</string>
     <string name="txt_new">New</string>
-    <string name="sample_txt_msg">Voice Snap is an innovative provider of Voice based Solutions and Products that add value to enterprises across the business value chain. From a technology perspective, we harness CTI, IVR and Web Technologies along with a deep understanding of Business Process Engineering to create value to Enterprises across the Business Value Chain.</string>
+    <string name="sample_txt_msg">Savyasasy is an innovative provider of Voice based Solutions and Products that add value to enterprises across the business value chain. From a technology perspective, we harness CTI, IVR and Web Technologies along with a deep understanding of Business Process Engineering to create value to Enterprises across the Business Value Chain.</string>
     <string name="hint_play_voice">Press the Play button to play the voice message</string>
     <string name="hint_view_pdf">Press the Download button to download the attached file</string>
     <string name="btn_pdf_view">View File</string>
@@ -87,14 +87,14 @@
     <string name="Error_message">Check your Internet connectivity</string>
     <string name="home_pay_fees">Fee Details</string>
     <string name="teacher_app_title">Schools V4</string>
-    <string name="teacher_app_name">Voicesnap Schools</string>
+    <string name="teacher_app_name">Savyasasy Schools</string>
     <string name="teacher_app_sub_title"></string>
     <string name="teacher_school_msg"></string>
     <string name="teacher_app_version_id">103</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
     <string name="teacher_app_version_code">21</string>
-    <string name="teacher_txt_copyright">© Voicesnap 2019. All rights reserved.</string>
+    <string name="teacher_txt_copyright">© Savyasasy 2019. All rights reserved.</string>
     <string name="teacher_nb_hint_title">Type News Topic</string>
     <string name="teacher_nb_hint_msg">Type content here</string>
     <string name="teacher_events_date">Date</string>
@@ -1007,5 +1007,21 @@
     <string name="Please_enter_reason">Please enter the reason</string>
     <string name="Are_sure_Delete_Assignment">Are you sure you want to Delete Assignment ?</string>
     <string name="Video_sending_failedRetry">Video sending failed.Retry</string>
+    <string name="Please_enter_assignment_title">Please enter the assignment title</string>
+    <string name="Submission_date_crossed_submit_Assignment">Submission date crossed. you still want to submit the Assignment?</string>
+    <string name="Are_want_send_Assignment">Are you sure you want to send the Assignment?</string>
+    <string name="Please_Choose_Subject">Please Choose Subject</string>
+    <string name="No_subject_create_assignment">No subject to create assignment</string>
+    <string name="want_end_video">Do you want to send video ?</string>
+    <string name="Connecting">Connecting...</string>
+    <string name="you_sure_you_want_send_the_Video">Are you sure you want to send the Video</string>
+    <string name="Please_allow_storage_permission">Please allow storage permission</string>
+    <string name="Please_Enter_Title">Please Enter Title</string>
+    <string name="Please_Enter_Description">Please Enter Description</string>
+    <string name="Please_Choose_Video">Please Choose Video</string>
+    <string name="video_1">VIDEO</string>
+    <string name="Request_Certificate">Request Certificate</string>
+    <string name="Reason_for_certificate">Reason for certificate</string>
+    <string name="Select_Urgency_Level">Select Urgency Level</string>
 
 </resources>

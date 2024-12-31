@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.StaffChatListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.databinding.ActivityStaffListBinding;
 import com.vs.schoolmessenger.interfaces.SubjectSelectedListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -41,7 +42,10 @@ public class StaffListActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -54,7 +58,6 @@ public class StaffListActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
 
         binding.Searchable.addTextChangedListener(new TextWatcher() {
             @Override
@@ -72,11 +75,9 @@ public class StaffListActivity extends AppCompatActivity {
                     if (binding.Searchable.getText().toString().isEmpty()) {
                         binding.staffList.setVisibility(View.VISIBLE);
                     }
-
                 } else {
                     binding.staffList.setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override

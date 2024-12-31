@@ -28,6 +28,7 @@ import com.vs.schoolmessenger.R;
 
 import com.vs.schoolmessenger.activity.Teacher_AA_Test;
 import com.vs.schoolmessenger.adapter.TeacherNewSectionsListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSectionListListener;
@@ -110,7 +111,10 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
     AwsUploadingPreSigned isAwsUploadingPreSigned;
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,10 +159,10 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(strSubjectCode.equals("")&& AssignId.equals("")){
-                    alert("Please Choose Subject");
+                    alert(getResources().getString(R.string.Please_Choose_Subject));
                 }
                 else if(strSubjectCode.equals("0")){
-                    alert("No subject to create assignment");
+                    alert(getResources().getString(R.string.No_subject_create_assignment));
                 }
                 else{
                     strSecCode=seletedSectionsList.get(0).getStrSectionCode();
@@ -194,10 +198,10 @@ public class RecipientAssignmentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(strSubjectCode.equals("") && AssignId.equals("")){
-                    alert("Please Choose Subject");
+                    alert(getResources().getString(R.string.Please_Choose_Subject));
                 }
                 else if(strSubjectCode.equals("0")){
-                    alert("No subject to create assignment");
+                    alert(getResources().getString(R.string.No_subject_create_assignment));
                 }
                 else {
                     if(!AssignId.equals("")){

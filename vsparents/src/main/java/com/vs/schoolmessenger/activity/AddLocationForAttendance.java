@@ -38,6 +38,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.LocationsHistoryAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.GPSStatusListener;
 import com.vs.schoolmessenger.interfaces.LocationLatLongListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -87,9 +88,13 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     private GPSStatusReceiver gpsStatusReceiver;
     private PopupWindow locationHistoryPopup;
 
+
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -390,7 +395,7 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return String.valueOf(R.string.Address_not_found);
+        return getResources().getString(R.string.Address_not_found);
     }
 
     @Override

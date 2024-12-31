@@ -39,6 +39,8 @@ public class DownloadImageAssgn {
     static TeacherMessageModel msgModel;
     static String msgType;
 
+
+
     public static void downloadSampleFile(final Activity activity, String imageurl, final String folder, final String fileName, String type) {
 //        msgModel = msg;
         msgType = type;
@@ -48,7 +50,7 @@ public class DownloadImageAssgn {
 
         mProgressDialog = new ProgressDialog(activity);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Downloading...");
+        mProgressDialog.setMessage(activity.getString(R.string.Downloading));
         mProgressDialog.setCancelable(false);
         if (!activity.isFinishing())
             mProgressDialog.show();
@@ -77,7 +79,7 @@ public class DownloadImageAssgn {
                             super.onPostExecute(status);
                             if (status) {
 
-                                showAlert(activity, "Success", "File stored in: " + folder + "/" + fileName);
+                                showAlert(activity, activity.getString(R.string.Success), activity.getString(R.string.File_stored) + folder + "/" + fileName);
                             }
                         }
                     }.execute();
@@ -179,7 +181,7 @@ public class DownloadImageAssgn {
         alertDialog.setMessage(msg);
         alertDialog.setIcon(R.drawable.teacher_ic_atten);
 
-        alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+        alertDialog.setNeutralButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
 

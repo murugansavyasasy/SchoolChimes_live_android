@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -24,6 +25,14 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 public class NewUpdateWebView extends AppCompatActivity {
     WebView receiptWebView;
     String PdfURL = "", Title = "";
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     public static void showAlert(final Activity activity, String title, String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
@@ -41,11 +50,6 @@ public class NewUpdateWebView extends AppCompatActivity {
         });
 
         alertDialog.show();
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override

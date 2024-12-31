@@ -32,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
@@ -78,7 +79,10 @@ public class PasswordScreen extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
@@ -175,7 +179,7 @@ public class PasswordScreen extends AppCompatActivity {
                         }
 
                     } else {
-                        showToast(String.valueOf(R.string.Invalid_password));
+                        showToast(getResources().getString(R.string.Invalid_password));
                     }
                 } catch (Exception e) {
                     Log.e("ForgotPassword:Ex", e.getMessage());
@@ -700,7 +704,7 @@ public class PasswordScreen extends AppCompatActivity {
                         }
 
                     } else {
-                        showToast(String.valueOf(R.string.no_records));
+                        showToast(getResources().getString(R.string.no_records));
                         finish();
                     }
 

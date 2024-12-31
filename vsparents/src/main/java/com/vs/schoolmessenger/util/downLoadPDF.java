@@ -49,7 +49,7 @@ public class downLoadPDF  {
         Log.d("File URL", url);
         mProgressDialog = new ProgressDialog(activity);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setMessage(activity.getString(R.string.Loading));
         mProgressDialog.setCancelable(false);
         if (!activity.isFinishing())
             mProgressDialog.show();
@@ -206,7 +206,7 @@ public class downLoadPDF  {
         alertDialog.setMessage(msg);
         alertDialog.setIcon(R.drawable.teacher_ic_atten);
 
-        alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+        alertDialog.setNeutralButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
 

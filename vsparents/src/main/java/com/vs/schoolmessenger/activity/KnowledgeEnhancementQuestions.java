@@ -52,6 +52,7 @@ import com.google.gson.JsonObject;
 import com.jsibbold.zoomage.ZoomageView;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.QuestionForQuizAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.interfaces.QuestionClickListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -97,7 +98,10 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override

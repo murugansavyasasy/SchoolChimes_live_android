@@ -20,6 +20,7 @@ import static com.vs.schoolmessenger.util.TeacherUtil_Common.STAFF_VOICE_HW;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherNewSectionsListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSectionListListener;
@@ -67,6 +69,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -125,7 +128,13 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView progressText;
     LinearLayout lnrProgress;
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,7 +318,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         if (strSubjectCode != null) {
                             SendVoiceToEntireSectionHW();
                         } else {
-                            showToast(String.valueOf(R.string.Please_select_subject));
+                            showToast(getResources().getString(R.string.Please_select_subject));
                         }
                     }
                     if (iRequestCode == STAFF_TEXT_HW || iRequestCode == PRINCIPAL_TEXT_HW) {
@@ -342,7 +351,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
 //                            SendTextToEntireSectionHW();
                         } else {
-                            showToast(String.valueOf(R.string.Please_select_subject));
+                            showToast(getResources().getString(R.string.Please_select_subject));
 
                         }
                     }
@@ -368,7 +377,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         if (strSubjectCode != null) {
                             sendOnlineClassToSections();
                         } else {
-                            showToast(String.valueOf(R.string.Please_select_subject));
+                            showToast(getResources().getString(R.string.Please_select_subject));
 
                         }
                     }
@@ -378,7 +387,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         if (strSubjectCode != null) {
                             sendOnlineClassToSections();
                         } else {
-                            showToast(String.valueOf(R.string.Please_select_subject));
+                            showToast(getResources().getString(R.string.Please_select_subject));
 
                         }
                     }
@@ -884,7 +893,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             // Initialize the ProgressDialog if it hasn't been created yet
             progressDialog = new ProgressDialog(this); // Replace 'this' with your Context if not in an Activity
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage(String.valueOf(R.string.Uploading));
+            progressDialog.setMessage(getResources().getString(R.string.Uploading));
             progressDialog.setCancelable(false);
         }
 

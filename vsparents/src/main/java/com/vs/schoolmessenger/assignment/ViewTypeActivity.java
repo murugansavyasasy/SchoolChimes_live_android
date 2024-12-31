@@ -1,15 +1,6 @@
 package com.vs.schoolmessenger.assignment;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_ASSIGNMENT;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -41,9 +32,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -51,7 +49,6 @@ import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
-
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,7 +64,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_ASSIGNMENT;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ViewTypeActivity extends AppCompatActivity {
@@ -111,7 +111,10 @@ int Count;
 //    LinearLayout lnrImages;
 @Override
 protected void attachBaseContext(Context newBase) {
-    super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    String savedLanguage = LocaleHelper.getLanguage(newBase);
+    Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+    Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+    super.attachBaseContext(wrappedContext);
 }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,7 +306,7 @@ protected void attachBaseContext(Context newBase) {
 
                         }
                         else {
-                            alert("No Records Found");
+                            alert(getResources().getString(R.string.no_records));
                         }
 
 
@@ -317,7 +320,7 @@ protected void attachBaseContext(Context newBase) {
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
                 Log.e("Response Failure", t.getMessage());
-                showToast("Server Connection Failed");
+                showToast(getResources().getString(R.string.Server_Connection_Failed));
             }
 
 
@@ -479,7 +482,7 @@ protected void attachBaseContext(Context newBase) {
             super.onPreExecute();
             this.progressDialog = new ProgressDialog(ViewTypeActivity.this);
             this.progressDialog.setIndeterminate(true);
-            this.progressDialog.setMessage("Downloading...");
+            this.progressDialog.setMessage(getResources().getString(R.string.Downloading));
             this.progressDialog.setCancelable(false);
             this.progressDialog.show();
         }

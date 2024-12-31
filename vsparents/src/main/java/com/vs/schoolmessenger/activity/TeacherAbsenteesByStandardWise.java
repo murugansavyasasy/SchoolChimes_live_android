@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,12 +13,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherAbsenteesExpandableListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.model.TeacherABS_Section;
 import com.vs.schoolmessenger.model.TeacherABS_Standard;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
@@ -29,6 +33,14 @@ public class TeacherAbsenteesByStandardWise extends AppCompatActivity {
 
     ArrayList<TeacherABS_Section> listClassGroupsCollection;
     private int lastExpandedPosition = -1;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

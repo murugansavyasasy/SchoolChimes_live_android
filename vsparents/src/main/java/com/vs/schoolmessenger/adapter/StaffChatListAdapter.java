@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.databinding.StaffListItemBinding;
 import com.vs.schoolmessenger.interfaces.SubjectSelectedListener;
-import com.vs.schoolmessenger.model.StaffListChat;
 import com.vs.schoolmessenger.model.SubjectDetail;
 import com.vs.schoolmessenger.util.Constants;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class StaffChatListAdapter extends RecyclerView.Adapter<BaseViewHolders<StaffListItemBinding>> {
 

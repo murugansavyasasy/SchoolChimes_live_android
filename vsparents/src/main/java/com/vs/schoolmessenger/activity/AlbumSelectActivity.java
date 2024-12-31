@@ -24,11 +24,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.CustomAlbumSelectAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.model.Constants;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 /**
  * Created by Darshan on 4/14/2015.
@@ -47,6 +50,15 @@ public class AlbumSelectActivity extends AppCompatActivity {
     private ContentObserver observer;
     private Handler handler;
     private Thread thread;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

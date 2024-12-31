@@ -51,7 +51,7 @@ public class DownloadFileFromURL {
 
         mProgressDialog = new ProgressDialog(activity);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Downloading...");
+        mProgressDialog.setMessage(activity.getString(R.string.download));
         mProgressDialog.setCancelable(false);
         if (!activity.isFinishing())
             mProgressDialog.show();
@@ -87,7 +87,7 @@ public class DownloadFileFromURL {
                                     inPdfPopup.putExtra("VOICE_TYPE", voicetype);
                                     activity.startActivity(inPdfPopup);
                                 } else
-                                    showAlert(activity, "Success", "File stored in: " + folder + "/" + fileName);
+                                    showAlert(activity, activity.getString(R.string.Success), activity.getString(R.string.File_stored) + folder + "/" + fileName);
                             }
                         }
                     }.execute();

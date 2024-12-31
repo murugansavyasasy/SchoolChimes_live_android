@@ -99,7 +99,6 @@ public class ChildMenuAdapter extends ArrayAdapter {
         this.bookLink = BookLink;
         this.rytParent = rytParent;
         this.listener = listener;
-
     }
 
     @Override

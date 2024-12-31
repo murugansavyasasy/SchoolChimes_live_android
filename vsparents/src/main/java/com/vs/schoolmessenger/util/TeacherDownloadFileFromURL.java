@@ -53,7 +53,7 @@ public class TeacherDownloadFileFromURL {
 
         mProgressDialog = new ProgressDialog(activity);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Downloading...");
+        mProgressDialog.setMessage(activity.getString(R.string.Downloading));
         mProgressDialog.setCancelable(false);
         if (!activity.isFinishing())
             mProgressDialog.show();
@@ -90,7 +90,7 @@ public class TeacherDownloadFileFromURL {
                                     inPdfPopup.putExtra("is_Archive", is_Archive);
                                     activity.startActivity(inPdfPopup);
                                 } else
-                                    showAlert(activity, "Success", "File stored in: " + folder + "/" + fileName);
+                                    showAlert(activity, activity.getString(R.string.Success), activity.getString(R.string.File_stored) + folder + "/" + fileName);
                             }
                         }
                     }.execute();
@@ -212,7 +212,7 @@ public class TeacherDownloadFileFromURL {
         alertDialog.setMessage(msg);
         alertDialog.setIcon(R.drawable.teacher_ic_atten);
 
-        alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+        alertDialog.setNeutralButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
 

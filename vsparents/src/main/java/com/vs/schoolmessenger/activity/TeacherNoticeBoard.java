@@ -44,6 +44,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.TeacherSchoolsListAdapter;
 import com.vs.schoolmessenger.adapter.TextCircularListAdapternew;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.interfaces.TeacherOnCheckSchoolsListener;
 import com.vs.schoolmessenger.model.MessageModel;
@@ -63,6 +64,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -115,6 +117,14 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
         }
     };
     private int iRequestCode;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

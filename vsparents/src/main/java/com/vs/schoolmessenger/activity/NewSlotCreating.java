@@ -56,6 +56,7 @@ import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.Ptm.DateAvailableAdapter;
 import com.vs.schoolmessenger.adapter.Ptm.DateShowingAdapter;
 import com.vs.schoolmessenger.adapter.Ptm.SectionListAdapter;
+import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.DatePicking;
 import com.vs.schoolmessenger.model.GetSection;
@@ -130,7 +131,10 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+        String savedLanguage = LocaleHelper.getLanguage(newBase);
+        Context localeUpdatedContext = LocaleHelper.setLocale(newBase, savedLanguage);
+        Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
+        super.attachBaseContext(wrappedContext);
     }
 
     @Override
