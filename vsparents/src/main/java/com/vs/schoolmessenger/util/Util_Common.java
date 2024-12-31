@@ -189,49 +189,79 @@ public class Util_Common {
         ImageView imgEnglish = dialogView.findViewById(R.id.imgEnglish);
         ImageView imgThai = dialogView.findViewById(R.id.imgThai);
 
-        isRemoveCheckBox(chThai, chEnglish);
+        RelativeLayout rlaHindi = dialogView.findViewById(R.id.rlaHindi);
+        CheckBox chHindi = dialogView.findViewById(R.id.chHindi);
+        ImageView imgHindi = dialogView.findViewById(R.id.imgHindi);
+
+        isRemoveCheckBox(chThai, chEnglish, chHindi);
+
+
+        rlaHindi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isRemoveCheckBox(chThai, chEnglish, chHindi);
+                isChecking[0] = true;
+                isSelectedLanguage[0] = "hi";
+                chHindi.setChecked(true);
+                isSelectedImageSetting(imgHindi, imgEnglish, imgThai, imgHindi);
+            }
+        });
+
 
         rlaEnglish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isRemoveCheckBox(chThai, chEnglish);
+                isRemoveCheckBox(chThai, chEnglish, chHindi);
                 isChecking[0] = true;
                 isSelectedLanguage[0] = "en";
                 chEnglish.setChecked(true);
-                isSelectedImageSetting(imgEnglish, imgEnglish, imgThai);
+                isSelectedImageSetting(imgEnglish, imgEnglish, imgThai, imgHindi);
             }
         });
 
         rlaThai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isRemoveCheckBox(chThai, chEnglish);
+                isRemoveCheckBox(chThai, chEnglish, chHindi);
                 isChecking[0] = true;
                 isSelectedLanguage[0] = "th";
                 chThai.setChecked(true);
-                isSelectedImageSetting(imgThai, imgEnglish, imgThai);
+                isSelectedImageSetting(imgThai, imgEnglish, imgThai, imgHindi);
+            }
+        });
+
+
+        chHindi.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            isRemoveCheckBox(chThai, chEnglish, chHindi);
+            if (isChecked) {
+                isChecking[0] = true;
+                isSelectedLanguage[0] = "hi";
+                chHindi.setChecked(true);
+                isSelectedImageSetting(imgHindi, imgEnglish, imgThai, imgHindi);
+            } else {
+                isChecking[0] = false;
             }
         });
 
         chEnglish.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            isRemoveCheckBox(chThai, chEnglish);
+            isRemoveCheckBox(chThai, chEnglish, chHindi);
             if (isChecked) {
                 isChecking[0] = true;
                 isSelectedLanguage[0] = "en";
                 chEnglish.setChecked(true);
-                isSelectedImageSetting(imgEnglish, imgEnglish, imgThai);
+                isSelectedImageSetting(imgEnglish, imgEnglish, imgThai, imgHindi);
             } else {
                 isChecking[0] = false;
             }
         });
 
         chThai.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            isRemoveCheckBox(chThai, chEnglish);
+            isRemoveCheckBox(chThai, chEnglish, chHindi);
             if (isChecked) {
                 isChecking[0] = true;
                 isSelectedLanguage[0] = "th";
                 chThai.setChecked(true);
-                isSelectedImageSetting(imgThai, imgEnglish, imgThai);
+                isSelectedImageSetting(imgThai, imgEnglish, imgThai, imgHindi);
             } else {
                 isChecking[0] = false;
             }
@@ -246,6 +276,9 @@ public class Util_Common {
         switch (isAppLanguage) {
             case "th":
                 chThai.setChecked(true);
+                break;
+            case "hi":
+                chHindi.setChecked(true);
                 break;
             case "en":
             default:
@@ -273,18 +306,22 @@ public class Util_Common {
     }
 
 
-    private static void isRemoveCheckBox(CheckBox chThai, CheckBox chEnglish) {
+    private static void isRemoveCheckBox(CheckBox chThai, CheckBox chEnglish, CheckBox chHindi) {
         chEnglish.setChecked(false);
         chThai.setChecked(false);
+        chHindi.setChecked(false);
     }
 
 
-    private static void isSelectedImageSetting(ImageView isSelectedImage, ImageView imgEnglish, ImageView imgThai) {
+    private static void isSelectedImageSetting(ImageView isSelectedImage, ImageView imgEnglish, ImageView imgThai, ImageView imgHindi) {
         imgEnglish.setImageResource(R.drawable.en_language_gray);
         imgThai.setImageResource(R.drawable.th_language_gray);
+        imgHindi.setImageResource(R.drawable.hi_language_gray);
 
         if (isSelectedImage == imgEnglish) {
             imgEnglish.setImageResource(R.drawable.en_language_orange);
+        } else if (isSelectedImage == imgHindi) {
+            imgHindi.setImageResource(R.drawable.hi_language_orange);
         } else {
             imgThai.setImageResource(R.drawable.th_language_orange);
         }

@@ -114,8 +114,8 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
         strmobilenumberlength = TeacherUtil_SharedPreference.getMobileNumberLengthFromSP(TeacherSignInScreen.this);
         mobnumberlength = Integer.parseInt(strmobilenumberlength);
 
-        etMobile.setHint(getResources().getString(R.string.Enter) + strmobilenumberlength + getResources().getString(R.string.Digit_Mobile_Number));
-        textView2.setText(strmobilenumberlength + getResources().getString(R.string.Digit_Mobile_Number));
+        etMobile.setHint(getResources().getString(R.string.Enter) + " " + strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
+        textView2.setText(strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
 
         Log.d("textView2", textView2.getText().toString());
         InputFilter[] fArray = new InputFilter[1];

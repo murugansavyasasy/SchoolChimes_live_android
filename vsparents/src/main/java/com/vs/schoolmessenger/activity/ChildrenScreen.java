@@ -391,7 +391,6 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
 
                 break;
             case R.id.rytLanguage:
-
                 showLanguageListPopup();
                 break;
             case R.id.rytPassword:
