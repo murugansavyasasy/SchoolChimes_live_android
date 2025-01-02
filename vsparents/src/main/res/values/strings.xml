@@ -1027,5 +1027,7 @@
     <string name="Number_of_Levels">Number of Levels</string>
     <string name="Get_Questions">Get Questions</string>
     <string name="Submission_on">Submission on</string>
+    <string name="Invalid_Time">Invalid Time</string>
+    <string name="Please_select_time_between">Please select a time between 04:00 and 22:00.</string>
 
 </resources>

@@ -1027,6 +1027,8 @@
     <string name="Number_of_Levels">จำนวนระดับ</string>
     <string name="Get_Questions">รับคำถาม</string>
     <string name="Submission_on">ส่งเมื่อ</string>
+    <string name="Invalid_Time">เวลาที่ไม่ถูกต้อง</string>
+    <string name="Please_select_time_between">โปรดเลือกเวลาระหว่าง 04:00 ถึง 22:00</string>
 
 
 

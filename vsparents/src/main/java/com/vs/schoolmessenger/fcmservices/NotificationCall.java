@@ -117,19 +117,26 @@ public class NotificationCall extends AppCompatActivity {
             }
         });
 
-        long durationMillis;
-        try {
-            durationMillis = AudioUtils.getWavFileDurationFromUrl(voiceUrl);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String isTotalDuration = AudioUtils.formatDuration(durationMillis);
-        Log.d("isTotalDuration", (isTotalDuration));
-        if (!isTotalDuration.equals("-1")) {
-            lblTotalDuration.setText(" / " + isTotalDuration);
-        } else {
-            System.out.println("Error getting duration");
-        }
+        // Using Java
+        new Thread(() -> {
+            try {
+                long durationMillis;
+                try {
+                    durationMillis = AudioUtils.getWavFileDurationFromUrl(voiceUrl);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                String isTotalDuration = AudioUtils.formatDuration(durationMillis);
+                Log.d("isTotalDuration", (isTotalDuration));
+                if (!isTotalDuration.equals("-1")) {
+                    lblTotalDuration.setText(" / " + isTotalDuration);
+                } else {
+                    System.out.println("Error getting duration");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Override
@@ -187,13 +194,13 @@ public class NotificationCall extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Exit")
                     .setMessage("Are you sure you want to exit?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.rb_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.rb_no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

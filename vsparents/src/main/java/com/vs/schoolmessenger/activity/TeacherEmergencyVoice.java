@@ -1582,6 +1582,35 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         startActivityForResult(intoStu, iRequestCode);
     }
 
+    private boolean isTimeWithinRange(String selectedTime, String fromTime, String toTime) {
+        try {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+            // Parse times
+            Date from = timeFormat.parse(fromTime);
+            Date to = timeFormat.parse(toTime);
+            Date selected = timeFormat.parse(selectedTime);
+
+            // Handle range crossing midnight
+            if (to.before(from)) {
+                return selected.after(from) || selected.before(to);
+            } else {
+                return selected.after(from) && selected.before(to);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void showPopup(String message) {
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.Invalid_Time))
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
     private void isTimePicking(TextView isDatePickingView) {
 
 
@@ -1595,64 +1624,91 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
                 String formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute);
 
                 if (Time == 1) {
-                    isDatePickingView.setText(formattedTime);
-                    Util_Common.isStartTime = isDatePickingView.getText().toString();
+
+                    if (!isTimeWithinRange(formattedTime, "04:00", "22:00")) {
+                        isDatePickingView.setText("");
+                        showPopup(getResources().getString(R.string.Please_select_time_between));
+                    } else {
+                        isDatePickingView.setText(formattedTime);
+                        Util_Common.isStartTime = isDatePickingView.getText().toString();
+                    }
 
                 } else if (Time == 2) {
 
                     if (!lblTimePicking.getText().toString().isEmpty()) {
-                        String isFromTime = lblTimePicking.getText().toString();
-                        isDatePickingView.setText(formattedTime);
-
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                        try {
-                            Date date1 = sdf.parse(isFromTime);
-                            Date date2 = sdf.parse(isDatePickingView.getText().toString());
-                            assert date1 != null;
-                            if (date1.before(date2)) {
-                                isDatePickingView.setText(formattedTime);
-                                Util_Common.isEndTime = isDatePickingView.getText().toString();
-                            } else if (date1.after(date2)) {
-                                isDatePickingView.setText("");
-                                showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
-                            } else {
-                                isDatePickingView.setText("");
-                                showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
+                        if (!isTimeWithinRange(formattedTime, "04:00", "22:00")) {
+                            isDatePickingView.setText("");
+                            showPopup(getResources().getString(R.string.Please_select_time_between));
+                        } else {
+                            String isFromTime = lblTimePicking.getText().toString();
+                            isDatePickingView.setText(formattedTime);
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                            try {
+                                Date date1 = sdf.parse(isFromTime);
+                                Date date2 = sdf.parse(isDatePickingView.getText().toString());
+                                assert date1 != null;
+                                if (date1.before(date2)) {
+                                    if (!isTimeWithinRange(formattedTime, "04:00", "22:00")) {
+                                        isDatePickingView.setText("");
+                                        showPopup(getResources().getString(R.string.Please_select_time_between));
+                                    } else {
+                                        isDatePickingView.setText(formattedTime);
+                                        Util_Common.isEndTime = isDatePickingView.getText().toString();
+                                    }
+                                } else if (date1.after(date2)) {
+                                    isDatePickingView.setText("");
+                                    showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
+                                } else {
+                                    isDatePickingView.setText("");
+                                    showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
+                                }
+                            } catch (ParseException e) {
+                                Log.d("Exception", String.valueOf(e));
                             }
-                        } catch (ParseException e) {
-                            Log.d("Exception", String.valueOf(e));
                         }
+
                     } else {
                         showAlertMessage(getResources().getString(R.string.Select_initial_call_time));
                     }
 
                 } else if (Time == 3) {
-                    isDatePickingView.setText(formattedTime);
-                    Util_Common.isStartTime = isDatePickingView.getText().toString();
+                    if (!isTimeWithinRange(formattedTime, "04:00", "22:00")) {
+                        isDatePickingView.setText("");
+                        showPopup(getResources().getString(R.string.Please_select_time_between));
+                    } else {
+                        isDatePickingView.setText(formattedTime);
+                        Util_Common.isStartTime = isDatePickingView.getText().toString();
+                    }
 
                 } else if (Time == 4) {
 
                     if (!lblTimePickingschedule.getText().toString().isEmpty()) {
-                        String isFromTime = lblTimePickingschedule.getText().toString();
-                        isDatePickingView.setText(formattedTime);
+                        if (!isTimeWithinRange(formattedTime, "04:00", "22:00")) {
+                            isDatePickingView.setText("");
+                            showPopup(getResources().getString(R.string.Please_select_time_between));
+                        } else {
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                        try {
-                            Date date1 = sdf.parse(isFromTime);
-                            Date date2 = sdf.parse(isDatePickingView.getText().toString());
-                            assert date1 != null;
-                            if (date1.before(date2)) {
-                                isDatePickingView.setText(formattedTime);
-                                Util_Common.isEndTime = isDatePickingView.getText().toString();
-                            } else if (date1.after(date2)) {
-                                isDatePickingView.setText("");
-                                showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
-                            } else {
-                                isDatePickingView.setText("");
-                                showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
+                            String isFromTime = lblTimePickingschedule.getText().toString();
+                            isDatePickingView.setText(formattedTime);
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                            try {
+                                Date date1 = sdf.parse(isFromTime);
+                                Date date2 = sdf.parse(isDatePickingView.getText().toString());
+                                assert date1 != null;
+                                if (date1.before(date2)) {
+                                    isDatePickingView.setText(formattedTime);
+                                    Util_Common.isEndTime = isDatePickingView.getText().toString();
+                                } else if (date1.after(date2)) {
+                                    isDatePickingView.setText("");
+                                    showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
+                                } else {
+                                    isDatePickingView.setText("");
+                                    showAlertMessage(getResources().getString(R.string.Please_select_dial_beyond_time));
+                                }
+                            } catch (ParseException e) {
+                                Log.d("Exception", String.valueOf(e));
                             }
-                        } catch (ParseException e) {
-                            Log.d("Exception", String.valueOf(e));
                         }
                     } else {
                         showAlertMessage(getResources().getString(R.string.Select_initial_call_time));

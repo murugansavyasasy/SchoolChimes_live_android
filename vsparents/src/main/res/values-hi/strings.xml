@@ -1027,6 +1027,8 @@
     <string name="Number_of_Levels">स्तरों की संख्या</string>
     <string name="Get_Questions">प्रश्न प्राप्त करें</string>
     <string name="Submission_on">जमा करने की तारीख</string>
+    <string name="Invalid_Time">अमान्य समय</string>
+    <string name="Please_select_time_between">कृपया 04:00 और 22:00 के बीच का समय चुनें।</string>
 
 
 </resources>
