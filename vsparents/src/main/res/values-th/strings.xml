@@ -1023,6 +1023,10 @@
     <string name="Request_Certificate">ขอใบรับรอง</string>
     <string name="Reason_for_certificate">เหตุผลสำหรับใบรับรอง</string>
     <string name="Select_Urgency_Level">เลือกระดับความเร่งด่วน</string>
+    <string name="Level_">ระดับ</string>
+    <string name="Number_of_Levels">จำนวนระดับ</string>
+    <string name="Get_Questions">รับคำถาม</string>
+    <string name="Submission_on">ส่งเมื่อ</string>
 
 
 

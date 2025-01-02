@@ -1023,5 +1023,10 @@
     <string name="Request_Certificate">प्रमाण पत्र का अनुरोध करें</string>
     <string name="Reason_for_certificate">प्रमाण पत्र के लिए कारण</string>
     <string name="Select_Urgency_Level">तात्कालिकता स्तर चुनें</string>
+    <string name="Level_">स्तर</string>
+    <string name="Number_of_Levels">स्तरों की संख्या</string>
+    <string name="Get_Questions">प्रश्न प्राप्त करें</string>
+    <string name="Submission_on">जमा करने की तारीख</string>
+
 
 </resources>

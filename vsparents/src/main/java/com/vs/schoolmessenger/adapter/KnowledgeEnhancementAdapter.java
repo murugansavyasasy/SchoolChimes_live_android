@@ -10,15 +10,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.KnowledgeEnhancementQuestions;
 import com.vs.schoolmessenger.activity.ViewQuizResult;
 import com.vs.schoolmessenger.model.KnowledgeEnhancementModel;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class KnowledgeEnhancementAdapter extends RecyclerView.Adapter<KnowledgeEnhancementAdapter.MyViewHolder> {
 
@@ -57,17 +56,17 @@ public class KnowledgeEnhancementAdapter extends RecyclerView.Adapter<KnowledgeE
         holder.lblTextTitle.setText(data.getTitle());
         holder.lblDesc.setText(data.getDescription());
 
-        holder.labelstarttime.setText("Level");
-        holder.lblStarttime.setText("Level"+" "+data.getLevel());
+        holder.labelstarttime.setText(context.getResources().getString(R.string.Level_));
+        holder.lblStarttime.setText(context.getResources().getString(R.string.Level) + " " + data.getLevel());
 
-        if(type.equals("1")){
-            holder.labelendtime.setText("Number of Levels");
+        if (type.equals("1")) {
+            holder.labelendtime.setText(context.getResources().getString(R.string.Number_of_Levels));
             holder.lblEndtime.setText(data.getNoOfLevels());
-            holder.btnStart.setText("Get Questions");
+            holder.btnStart.setText(context.getResources().getString(R.string.Get_Questions));
             holder.lnrBtn.setVisibility(View.VISIBLE);
             holder.lnrRightAns.setVisibility(View.GONE);
             holder.lnrWrongAns.setVisibility(View.GONE);
-            if(data.getIsAppRead().equals("0")){
+            if (data.getIsAppRead().equals("0")) {
                 holder.lblNew.setVisibility(View.VISIBLE);
             }
             else{
@@ -75,10 +74,10 @@ public class KnowledgeEnhancementAdapter extends RecyclerView.Adapter<KnowledgeE
             }
         }
         else{
-            holder.btnStart.setText("View");
+            holder.btnStart.setText(context.getResources().getString(R.string.view));
             holder.lnrendtime.setVisibility(View.GONE);
             holder.lnrexamdate.setVisibility(View.VISIBLE);
-            holder.labelexamdate.setText("Submission on");
+            holder.labelexamdate.setText(context.getResources().getString(R.string.Submission_on));
             holder.lblExamdate.setText(data.getSubmittedOn());
             holder.lnrBtn.setVisibility(View.VISIBLE);
             holder.lblNew.setVisibility(View.GONE);
@@ -147,7 +146,6 @@ public class KnowledgeEnhancementAdapter extends RecyclerView.Adapter<KnowledgeE
             labelendtime = (TextView) view.findViewById(R.id.labelendtime);
             labelexamdate = (TextView) view.findViewById(R.id.labelexamdate);
             btnStart = (Button) view.findViewById(R.id.btnStart);
-
             lnrSubject = (LinearLayout) view.findViewById(R.id.lnrSubject);
             lnrStarttime = (LinearLayout) view.findViewById(R.id.lnrStarttime);
             lnrendtime = (LinearLayout) view.findViewById(R.id.lnrendtime);

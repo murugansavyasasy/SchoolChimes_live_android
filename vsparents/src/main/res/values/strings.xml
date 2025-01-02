@@ -1023,5 +1023,9 @@
     <string name="Request_Certificate">Request Certificate</string>
     <string name="Reason_for_certificate">Reason for certificate</string>
     <string name="Select_Urgency_Level">Select Urgency Level</string>
+    <string name="Level_">Level</string>
+    <string name="Number_of_Levels">Number of Levels</string>
+    <string name="Get_Questions">Get Questions</string>
+    <string name="Submission_on">Submission on</string>
 
 </resources>
