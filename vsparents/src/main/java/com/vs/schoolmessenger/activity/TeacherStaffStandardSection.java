@@ -56,7 +56,6 @@ import com.vs.schoolmessenger.model.TeacherStandardSectionsListModel;
 import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Constants;
-import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.UploadCallback;
@@ -128,6 +127,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView progressText;
     LinearLayout lnrProgress;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         String savedLanguage = LocaleHelper.getLanguage(newBase);
@@ -283,6 +283,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 if (strToWhom.equals("SEC")) {
                     if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
                         SendExamhomework();
@@ -323,8 +324,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                     }
                     if (iRequestCode == STAFF_TEXT_HW || iRequestCode == PRINCIPAL_TEXT_HW) {
                         if (strSubjectCode != null) {
-
-
                             if (!strPDFFilepath.equals("")) {
                                 HOMEWORK_TYPE = "PDF";
                                 contentType = "application/pdf";
@@ -342,14 +341,13 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                                 showLoading();
                                 isUploadAWS("audio", ".mp3", "");
                             } else {
+
                                 HOMEWORK_TYPE = "IMAGE";
                                 contentType = "image/png";
                                 UploadedS3URlList.clear();
                                 showLoading();
                                 isUploadAWS("image", "IMG", "");
                             }
-
-//                            SendTextToEntireSectionHW();
                         } else {
                             showToast(getResources().getString(R.string.Please_select_subject));
 
@@ -590,10 +588,12 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
         Log.d("selectedImagePath", String.valueOf(slectedImagePath.size()));
 
-        String currentDate = CurrentDatePicking.getCurrentDate();
-
-        for (int i = 0; i < slectedImagePath.size(); i++) {
-            AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), SchoolID, contentType, isType, value);
+        if (slectedImagePath.size() > 0) {
+            for (int i = 0; i < slectedImagePath.size(); i++) {
+                AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), SchoolID, contentType, isType, value);
+            }
+        } else {
+            SendTextToEntireSectionHW();
         }
     }
 
@@ -612,13 +612,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 //                    updateProgressBar();
 //                }
 
-                if (UploadedS3URlList.size() == slectedImagePath.size()) {
-                    if (iRequestCode == STAFF_TEXT_HW || iRequestCode == PRINCIPAL_TEXT_HW) {
-                        SendTextToEntireSectionHW();
-                    } else {
-                        SendMultipleImagePDFAsStaffToEntireSectionWithCloudURL(filetype, type);
-                    }
-                }
+                SendMultipleImagePDFAsStaffToEntireSectionWithCloudURL(filetype, type);
+
             }
 
             @Override
