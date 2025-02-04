@@ -611,9 +611,11 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 //                    uploadedFiles++;
 //                    updateProgressBar();
 //                }
-
-                SendMultipleImagePDFAsStaffToEntireSectionWithCloudURL(filetype, type);
-
+                if (iRequestCode == STAFF_TEXT_HW || iRequestCode == PRINCIPAL_TEXT_HW) {
+                    SendTextToEntireSectionHW();
+                } else {
+                    SendMultipleImagePDFAsStaffToEntireSectionWithCloudURL(filetype, type);
+                }
             }
 
             @Override
