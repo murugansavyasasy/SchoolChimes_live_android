@@ -6,28 +6,28 @@ import java.util.List;
 
 public class TodaySlotsStaff {
     @SerializedName("Status")
-    int status;
+    int Status;
 
     @SerializedName("Message")
-    String message;
+    String Message;
 
     @SerializedName("data")
     List<TodaySlotsData> data;
 
     public void setStatus(int status) {
-        this.status = status;
+        this.Status = status;
     }
 
     public int getStatus() {
-        return status;
+        return Status;
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.Message = message;
     }
 
     public String getMessage() {
-        return message;
+        return Message;
     }
 
     public void setData(List<TodaySlotsData> data) {

@@ -13,4 +13,8 @@ public class AWSKeys {
     public static final String THAI_SCHOOL_DOCS ="thai-schoolchimes-schooldocs";
     public static final String THAI_SCHOOL_PHOTOS ="thai-schoolchimes-studentphotos";
     public static final String THAI_SCHOOL_CHIMES_COMMUNICATION ="thai-schoolchimes-communication";
+
+
+
+
 }

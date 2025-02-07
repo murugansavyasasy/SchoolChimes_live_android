@@ -29,7 +29,6 @@ public class AttendanceReportsAdapter extends RecyclerView.Adapter<AttendanceRep
     private List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> lib_list;
     Context context;
     String Type;
-
     private final ViewPunchHistoryListener listener;
 
 

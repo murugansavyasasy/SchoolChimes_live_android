@@ -14,7 +14,7 @@ android {
         applicationId "com.vs.schoolmessenger"
         minSdk 24
         targetSdk 34
-        versionCode 130
+        versionCode 131
         versionName "7.6.22"
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,9 +31,9 @@ android {
 
     buildTypes {
         release {
-            shrinkResources true
+            shrinkResources false
             //It will remove unused resource files automatically from signed APK
-            minifyEnabled true
+            minifyEnabled false
             //It will remove unused code and libraries automatically from signed APK
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
