@@ -165,6 +165,23 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
         bindWidgetsWithAnEvent();
         setupTabLayout();
     }
+
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
+
     private void setupTabLayout() {
         fragmentOne = new FeeFragment();
         fragmentTwo = new InvoiceFragment();

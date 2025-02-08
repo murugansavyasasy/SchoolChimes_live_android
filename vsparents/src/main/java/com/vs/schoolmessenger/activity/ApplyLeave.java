@@ -150,6 +150,21 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         super.onResume();
         ShowAds.getAds(this, adImage, slider, "Dashboard", mAdView);
     }
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
 
     private void setMinDateTime() {
         tv_fromdate.setText(dateFormater(System.currentTimeMillis(), "dd MMM yyyy"));

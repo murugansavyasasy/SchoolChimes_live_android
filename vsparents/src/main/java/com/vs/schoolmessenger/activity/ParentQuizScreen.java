@@ -73,6 +73,24 @@ public class ParentQuizScreen extends AppCompatActivity implements View.OnClickL
 
 
     @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.menu_Exam:

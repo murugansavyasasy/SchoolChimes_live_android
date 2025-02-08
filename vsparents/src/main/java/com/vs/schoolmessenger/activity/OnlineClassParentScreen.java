@@ -180,10 +180,17 @@ public class OnlineClassParentScreen extends AppCompatActivity implements OnItem
     @Override
     public void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+//        ShowAds.getAds(this, adImage, slider, "", mAdView);
 
         getOnlineClasses();
 
+    }
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     private void getOnlineClasses() {

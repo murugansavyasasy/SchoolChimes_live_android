@@ -183,6 +183,21 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
          seeMoreButtonVisiblity();
 
     }
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
 
     private void filterlist(String s) {
         List<AssignmentViewClass> temp = new ArrayList();

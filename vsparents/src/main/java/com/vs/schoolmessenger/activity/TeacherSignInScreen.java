@@ -139,6 +139,9 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
         super.onDestroy();
     }
 
@@ -147,6 +150,15 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
         Constants.Menu_ID = "100";
         ShowAds.getAds(TeacherSignInScreen.this, adImage, slider, "Signin", mAdView);
     }
+
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
+
 
     private void passwordVisibilityOnOff() {
         if (bEyeVisible) {

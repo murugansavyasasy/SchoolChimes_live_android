@@ -214,6 +214,23 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
         ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
+
     private boolean isNetworkConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) ExamCircularActivity.this
                 .getSystemService(Context.CONNECTIVITY_SERVICE);

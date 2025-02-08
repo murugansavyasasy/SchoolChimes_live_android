@@ -720,7 +720,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 SettingspopupWindow.dismiss();
                 Constants.Menu_ID = "101";
-                ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
+//                ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
                 getMenuDetails();
             }
         });
@@ -1251,6 +1251,25 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
             getMenuDetails();
         }
+    }
+    @Override
+    protected void onDestroy() {
+
+        Log.d("onDestroyHome","onDestroy");
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d("onPauseHome","onPause");
+
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
     }
 
     private void checkAndRequestPermission() {

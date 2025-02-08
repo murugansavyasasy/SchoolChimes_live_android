@@ -159,6 +159,14 @@ public class TimeTableActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
+
 
     private void getTimeTableApi(Integer position) {
         isApiCallPosition = position;

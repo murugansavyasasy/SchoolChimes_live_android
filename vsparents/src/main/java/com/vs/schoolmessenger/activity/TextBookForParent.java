@@ -87,7 +87,7 @@ public class TextBookForParent extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+//        ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
     @Override

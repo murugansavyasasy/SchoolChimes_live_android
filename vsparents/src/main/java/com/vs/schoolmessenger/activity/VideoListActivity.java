@@ -293,6 +293,21 @@ public class VideoListActivity extends AppCompatActivity {
         VideoListApi();
     }
 
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
     private void VideoListApi() {
 
         String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(VideoListActivity.this);

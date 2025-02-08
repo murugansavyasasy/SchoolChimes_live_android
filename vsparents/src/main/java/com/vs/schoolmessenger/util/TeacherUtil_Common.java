@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -114,6 +115,8 @@ public class TeacherUtil_Common {
     public static int school_scroll_to_position = 0;
     public static List<EditDataItem> EditDataList = new ArrayList<EditDataItem>();
 
+
+
     public static boolean isNetworkAvailable(Activity activity) {
         ConnectivityManager connectivity = (ConnectivityManager) activity
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -158,6 +161,7 @@ public class TeacherUtil_Common {
 
 
     }
+
 
 
     public static void showGoogleAds(final Activity activity, AdView mAdView) {
@@ -212,6 +216,8 @@ public class TeacherUtil_Common {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+
 
     }
 

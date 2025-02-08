@@ -36,6 +36,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.adapter.HomeWorkDateWiseAdapter;
 import com.vs.schoolmessenger.adapter.HomeWorkGridAdapter;
@@ -207,6 +208,14 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         rvGridHW = (GridView) findViewById(R.id.GridHW);
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
 
     private void LoadMoreGetHomeWorkDetails() {
         String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(MessageDatesScreen.this);
@@ -329,7 +338,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         HomeWorkData = (ArrayList<com.vs.schoolmessenger.model.HomeWorkData>) response.body().get(0).getData();
 
                         if (HomeWorkData.size() < 4) {
-                            native_ads.setVisibility(View.VISIBLE);
+                            native_ads.setVisibility(View.GONE);
                             adsClose.setVisibility(View.VISIBLE);
                         } else {
                             native_ads.setVisibility(View.GONE);
@@ -347,7 +356,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         rvGridHW.setAdapter((ListAdapter) mAdapter);
                         mAdapter.notifyDataSetChanged();
                     } else {
-                        native_ads.setVisibility(View.VISIBLE);
+                        native_ads.setVisibility(View.GONE);
 
                         if (isNewVersion.equals("1")) {
                             lblNoMessages.setVisibility(View.VISIBLE);
@@ -360,7 +369,9 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                             showrecordsFound(message);
                         }
                     }
-                    ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
+                    ShowAds.getAds(MessageDatesScreen.this, adImage, slider, "", mAdView);
+
+//                    ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
 
 
                 } catch (Exception e) {

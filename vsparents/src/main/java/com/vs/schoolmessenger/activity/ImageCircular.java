@@ -318,6 +318,22 @@ public class ImageCircular extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
+
     private void showSettingsAlert1() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ImageCircular.this);
         alertDialog.setTitle(getResources().getString(R.string.alert));

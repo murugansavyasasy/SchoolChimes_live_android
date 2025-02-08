@@ -161,6 +161,21 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
         super.onResume();
         ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
 
     private void setupTabLayout() {
         fragmentOne = new EventsFragment();

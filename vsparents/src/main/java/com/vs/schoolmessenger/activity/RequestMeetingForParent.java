@@ -178,7 +178,7 @@ public class RequestMeetingForParent extends AppCompatActivity implements View.O
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+//        ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
     private void showAlert1(String no_pending_records_found) {

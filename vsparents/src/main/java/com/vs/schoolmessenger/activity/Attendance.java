@@ -230,6 +230,21 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         ShowAds.getAds(this, adImage, slider, "", mAdView);
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();  // Pause the ad
+        }
+        super.onPause();
+    }
 
     private void filterlist(String s) {
         List<DatesModel> temp = new ArrayList();

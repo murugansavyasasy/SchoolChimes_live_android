@@ -107,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/lnrBottom"
-        ads:adSize="@string/large_banner"
+        ads:adSize="@string/ads_size"
         ads:adUnitId="@string/ads_unit_one">
     </com.google.android.gms.ads.AdView>
 
