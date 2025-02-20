@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,7 +72,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
     TextView Searchable;
     Slider slider;
     ImageView adImage;
-    AdView mAdView;
+    LinearLayout mAdView;
     private final List<LibraryDetails> librarylist = new ArrayList<>();
     private RecyclerView library_student_list;
     private PopupWindow pHelpWindow;
@@ -187,17 +188,11 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
     }
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

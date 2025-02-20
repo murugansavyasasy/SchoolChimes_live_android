@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,7 @@ public class LSRWListActivity extends AppCompatActivity {
     EditText Searchable;
     Slider slider;
     ImageView adImage;
-    AdView mAdView;
+    LinearLayout mAdView;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -162,16 +163,10 @@ public class LSRWListActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

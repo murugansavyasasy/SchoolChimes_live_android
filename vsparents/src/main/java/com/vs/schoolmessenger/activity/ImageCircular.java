@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,12 +34,14 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.adapter.ImageCircularListAdapterNEW;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -83,8 +86,10 @@ public class ImageCircular extends AppCompatActivity {
     String childID;
     Slider slider;
     ImageView adImage;
-    AdView mAdView;
+    LinearLayout mAdView;
     private int iRequestCode;
+    TemplateView native_ads;
+    ImageView adsClose;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -143,6 +148,15 @@ public class ImageCircular extends AppCompatActivity {
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
+        native_ads = findViewById(R.id.my_template);
+        adsClose = findViewById(R.id.lblClose);
+        adsClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                native_ads.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+            }
+        });
 
         Searchable.addTextChangedListener(new TextWatcher() {
             @Override
@@ -282,6 +296,22 @@ public class ImageCircular extends AppCompatActivity {
                         showToast(getResources().getString(R.string.check_internet));
                     }
 
+                    if(msgModelList == null){
+                        if (native_ads == null) {
+                            ShowAdvancedNativeAds.getAds(ImageCircular.this, adImage, slider, "", native_ads, adsClose);
+                        }
+                    }
+
+                    else if(msgModelList.size() < 2) {
+                        if (native_ads == null) {
+                            ShowAdvancedNativeAds.getAds(ImageCircular.this, adImage, slider, "", native_ads, adsClose);
+                        }
+                    }
+                    else {
+                        native_ads.setVisibility(View.GONE);
+                        adsClose.setVisibility(View.GONE);
+                    }
+
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());
                 }
@@ -320,17 +350,11 @@ public class ImageCircular extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 
@@ -457,6 +481,12 @@ public class ImageCircular extends AppCompatActivity {
                         showToast(getResources().getString(R.string.check_internet));
                     }
 
+                    if(totalmsgModelList == null){
+                        ShowAdvancedNativeAds.getAds(ImageCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
+                    else if(totalmsgModelList.size() < 2) {
+                        ShowAdvancedNativeAds.getAds(ImageCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());
                 }

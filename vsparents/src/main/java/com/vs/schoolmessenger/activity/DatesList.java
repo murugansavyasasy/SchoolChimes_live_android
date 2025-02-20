@@ -20,24 +20,35 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.adapter.DatesListAdapter;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.DatesListListener;
@@ -47,8 +58,10 @@ import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.BannerAdManager;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
@@ -92,10 +105,14 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     Slider slider;
     ImageView adImage;
     String Title = "";
-    AdView mAdView;
+    LinearLayout mAdView;
     private int iRequestCode;
     private PopupWindow pHelpWindow;
     private ArrayList<Profiles> childList = new ArrayList<>();
+    TemplateView native_ads;
+    ImageView adsClose;
+
+    FrameLayout native_ad_container;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -120,6 +137,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
             Title = "Voice";
         }
 
+
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_children);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -135,6 +153,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         rytPassword = (RelativeLayout) findViewById(R.id.rytPassword);
         rytLogout = (RelativeLayout) findViewById(R.id.rytLogout);
         mAdView = findViewById(R.id.adView);
+        native_ad_container = findViewById(R.id.native_ad_container);
 
 
         rytLogout.setOnClickListener(this);
@@ -146,6 +165,17 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         Slider.init(new PicassoImageLoadingService(DatesList.this));
         slider = findViewById(R.id.banner);
         adImage = findViewById(R.id.adImage);
+
+
+        native_ads = findViewById(R.id.my_template);
+        adsClose = findViewById(R.id.lblClose);
+        adsClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                native_ads.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+            }
+        });
 
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -231,7 +261,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         rvDateList.setAdapter(datesListAdapter);
 
     }
-
 
     private void filterlist(String s) {
         List<DatesModel> temp = new ArrayList();
@@ -322,6 +351,22 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                         showRecords(getResources().getString(R.string.no_records));
                     }
 
+                    if(arrayList == null){
+                        if (native_ads == null) {
+                            ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                        }
+                    }
+
+                   else if(arrayList.size() < 4) {
+                        if (native_ads == null) {
+                            ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                        }
+                    }
+                    else {
+                        native_ads.setVisibility(View.GONE);
+                        adsClose.setVisibility(View.GONE);
+                    }
+
                 } catch (Exception e) {
                     Log.e("GroupList:Excep", e.getMessage());
                 }
@@ -407,6 +452,22 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                         showRecords(getResources().getString(R.string.no_records));
                     }
 
+                    if(arrayList == null){
+                        if (native_ads == null) {
+                            ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                        }
+                    }
+
+                   else if(arrayList.size() < 4) {
+                        if (native_ads == null) {
+                            ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                        }
+                    }
+                    else {
+                        native_ads.setVisibility(View.GONE);
+                        adsClose.setVisibility(View.GONE);
+                    }
+
                 } catch (Exception e) {
                     Log.e("GroupList:Excep", e.getMessage());
                 }
@@ -438,6 +499,7 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
+
         ShowAds.getAds(this, adImage, slider, "", mAdView);
 
         if (iRequestCode == MENU_TEXT) {
@@ -454,17 +516,12 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
+
         super.onPause();
     }
 
@@ -565,6 +622,13 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
 
                     } else {
                         showRecords(getResources().getString(R.string.no_records));
+                    }
+
+                    if(arrayList == null){
+                        ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                    }
+                    else if(arrayList.size() < 4) {
+                        ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
                 } catch (Exception e) {
@@ -723,6 +787,13 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                         showRecords(getResources().getString(R.string.no_records));
                     }
 
+                    if(arrayList == null){
+                        ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                    }
+                    else if(arrayList.size() < 4) {
+                        ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                    }
+
                 } catch (Exception e) {
                     Log.e("GroupList:Excep", e.getMessage());
                 }
@@ -793,131 +864,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         }
     }
 
-    private void setupHelpPopUp() {
-
-        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.popup_help_txt, null);
-
-        pHelpWindow = new PopupWindow(layout, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
-        pHelpWindow.setContentView(layout);
-
-        ImageView ivClose = (ImageView) layout.findViewById(R.id.popupHelp_ivClose);
-        ivClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pHelpWindow.dismiss();
-                hideKeyBoard();
-            }
-        });
-
-        final EditText etmsg = (EditText) layout.findViewById(R.id.popupHelp_etMsg);
-
-
-        final TextView tvTxtCount = (TextView) layout.findViewById(R.id.popupHelp_tvTxtCount);
-        etmsg.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTxtCount.setText(String.valueOf(460 - (s.length())));
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        TextView tvSend = (TextView) layout.findViewById(R.id.popupHelp_tvSend);
-        tvSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String strMsg = etmsg.getText().toString().trim();
-
-                if (strMsg.length() > 0)
-                    helpAPI(strMsg);
-                else
-                    showToast(getResources().getString(R.string.enter_message));
-            }
-        });
-
-    }
-
-    private void helpAPI(String strMsg) {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
-        mProgressDialog.setCancelable(false);
-        if (!this.isFinishing())
-            mProgressDialog.show();
-
-
-        String mobNumber = TeacherUtil_SharedPreference.getMobileNumberFromSP(DatesList.this);
-
-
-        Log.d("Help:Mob-Query", mobNumber + " - " + strMsg);
-
-        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-        JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_GetHelp(mobNumber, strMsg);
-        Call<JsonArray> call = apiService.GetHelpnew(jsonReqArray);
-        call.enqueue(new Callback<JsonArray>() {
-
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-
-                Log.d("Help:Code", response.code() + " - " + response);
-                if (response.code() == 200 || response.code() == 201)
-                    Log.d("Help:Res", response.body().toString());
-
-                try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
-                        String strStatus = jsonObject.getString("Status");
-                        String strMessage = jsonObject.getString("Message");
-
-
-                        if ((strStatus).equalsIgnoreCase("1")) {
-                            showToast(strMessage);
-                            if (pHelpWindow.isShowing()) {
-                                pHelpWindow.dismiss();
-                                hideKeyBoard();
-                            }
-                        } else {
-                            showToast(strMessage);
-                        }
-                    } else {
-                        showToast(getResources().getString(R.string.else_error_message));
-                    }
-
-                } catch (Exception e) {
-                    showToast(getResources().getString(R.string.catch_message));
-                    Log.e("Help:Exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
-                showToast(getResources().getString(R.string.check_internet));
-                Log.d("Help:Failure", t.toString());
-            }
-        });
-    }
-
-    private void hideKeyBoard() {
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
-
-
-    }
 
     private void showLanguageListPopup() {
         LanguageList = TeacherUtil_SharedPreference.getLanguages(DatesList.this, "Language");
@@ -1094,44 +1040,4 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         });
     }
 
-    private void showLogoutAlert() {
-        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(DatesList.this);
-        alertDialog.setTitle(getResources().getString(R.string.txt_menu_logout));
-        alertDialog.setMessage(getResources().getString(R.string.want_to_logut));
-        alertDialog.setNegativeButton(getResources().getString(R.string.teacher_btn_ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-
-                dialog.cancel();
-
-                TeacherUtil_SharedPreference.putInstall(DatesList.this, "1");
-                TeacherUtil_SharedPreference.putOTPNum(DatesList.this, "");
-                TeacherUtil_SharedPreference.putMobileNumberScreen(DatesList.this, "");
-
-                TeacherUtil_SharedPreference.clearStaffSharedPreference(DatesList.this);
-                startActivity(new Intent(DatesList.this, TeacherSignInScreen.class));
-                finish();
-
-
-            }
-        });
-        alertDialog.setPositiveButton(getResources().getString(R.string.btn_sign_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        android.app.AlertDialog dialog = alertDialog.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        Button positiveButton = dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
-        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-        Button negativebutton = dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
-        negativebutton.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-
-    }
 }

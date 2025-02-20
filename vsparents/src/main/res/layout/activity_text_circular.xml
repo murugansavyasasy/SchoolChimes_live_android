@@ -145,4 +145,34 @@
         ads:adSize="@string/ads_size"
         ads:adUnitId="@string/ads_unit_one">
     </com.google.android.gms.ads.AdView>
+
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/native_ad_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/lblClose"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/ic_rounded_block_close"
+            android:textColor="@color/clr_black"
+            android:visibility="gone" />
+
+        <com.vs.schoolmessenger.util.TemplateView
+            android:id="@+id/my_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblClose"
+            android:visibility="gone"
+            app:gnt_template_type="@layout/gnt_medium_template_view" />
+
+    </RelativeLayout>
+
+
 </RelativeLayout>

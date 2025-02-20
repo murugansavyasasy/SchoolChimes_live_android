@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@+id/lnrBottom"
@@ -9,7 +10,19 @@
     tools:context=".activity.DatesList">
 
 
+
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+       />
+
+
     <RelativeLayout
+        android:layout_below="@+id/adView"
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="5dp"
         android:id="@+id/rytSearch"
@@ -100,16 +113,56 @@
         android:layout_marginTop="10dp"
         layout="@layout/ads_view"/>
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
+<!--    <com.google.android.gms.ads.AdView-->
+<!--        android:id="@+id/adView"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_above="@+id/lnrBottom"-->
+<!--        ads:adSize="@string/ads_size"-->
+<!--        ads:adUnitId="@string/ads_unit_one">-->
+<!--    </com.google.android.gms.ads.AdView>-->
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/native_ad_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/lnrBottom"
-        ads:adSize="@string/ads_size"
-        ads:adUnitId="@string/ads_unit_one">
-    </com.google.android.gms.ads.AdView>
+        android:layout_above="@+id/lnrBottom">
+
+        <ImageView
+            android:id="@+id/lblClose"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/ic_rounded_block_close"
+            android:textColor="@color/clr_black"
+            android:visibility="gone" />
+
+
+        <FrameLayout
+            android:id="@+id/native_ad_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:padding="5dp"/>
+
+<!--        <com.vs.schoolmessenger.util.TemplateView-->
+<!--            android:id="@+id/my_template"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/lblClose"-->
+<!--            android:visibility="gone"-->
+<!--            app:gnt_template_type="@layout/gnt_medium_template_view" />-->
+
+    </RelativeLayout>
+
 
 
 

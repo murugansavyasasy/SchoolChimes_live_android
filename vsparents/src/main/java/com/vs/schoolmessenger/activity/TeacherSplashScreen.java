@@ -1071,12 +1071,14 @@ public class TeacherSplashScreen extends AppCompatActivity {
                     final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                     try {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setPackage("com.android.vending"); // Force open in Play Store
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.setData(Uri.parse(playstoreMarketId + appPackageName));
                         startActivity(intent);
 
                     } catch (android.content.ActivityNotFoundException anfe) {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setPackage("com.android.vending"); // Force open in Play Store
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.setData(Uri.parse(playStoreLink + appPackageName));
                         startActivity(intent);

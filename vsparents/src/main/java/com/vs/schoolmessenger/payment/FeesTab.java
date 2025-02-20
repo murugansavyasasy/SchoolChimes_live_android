@@ -103,7 +103,7 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
 
     Slider slider;
     LinearLayout lnrAdView;
-    AdView mAdView;
+    LinearLayout mAdView;
 
 
     @Override
@@ -168,17 +168,11 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

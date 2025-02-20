@@ -8,8 +8,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import com.google.android.gms.ads.MobileAds;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.util.BannerAdManager;
 import com.vs.schoolmessenger.util.LruBitmapCache;
+import com.vs.schoolmessenger.util.NativeAdManager;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
@@ -30,6 +33,10 @@ public class AppController extends Application
     @Override
     public void onCreate() {
         super.onCreate();
+        MobileAds.initialize(this, initializationStatus -> {
+            // 🔥 AdMob Initialized
+        });
+
 
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(

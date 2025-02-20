@@ -117,7 +117,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     String contact_alert_title = "", contact_alert_Content = "", contact_display_name = "", contact_numbers = "", contact_button = "";
     String[] contacts;
     String Display_Name = "";
-    AdView mAdView;
+    LinearLayout mAdView;
     String redirect_url = "";
     String image_url = "";
     String title = "";
@@ -1254,21 +1254,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     protected void onDestroy() {
-
-        Log.d("onDestroyHome","onDestroy");
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
         Log.d("onPauseHome","onPause");
-
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

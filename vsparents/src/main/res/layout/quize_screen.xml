@@ -98,16 +98,16 @@
         android:layout_marginTop="10dp"
         layout="@layout/ads_view"/>
 
-    <com.google.android.gms.ads.AdView
+
+
+
+    <LinearLayout
         app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/adView"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        ads:adSize="@string/ads_size"
-        ads:adUnitId="@string/ads_unit_one"
-        tools:ignore="MissingConstraints">
-    </com.google.android.gms.ads.AdView>
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

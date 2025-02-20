@@ -135,7 +135,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     String contact_alert_title = "", contact_alert_Content = "", contact_display_name = "", contact_numbers = "", contact_button = "";
     String[] contacts;
     String Display_Name = "";
-    AdView mAdView;
+    LinearLayout mAdView;
     Slider slider;
     ImageView adImage;
     int initial_pos = 0;
@@ -1310,17 +1310,11 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
     }
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

@@ -134,14 +134,12 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         LoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                native_ads.setVisibility(View.GONE);
-                adsClose.setVisibility(View.GONE);
                 LoadMoreGetHomeWorkDetails();
 
             }
         });
 
-        MobileAds.initialize(this);
+//        MobileAds.initialize(this);
         native_ads = findViewById(R.id.my_template);
         adsClose = findViewById(R.id.lblClose);
         adsClose.setOnClickListener(new View.OnClickListener() {
@@ -276,6 +274,19 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         showrecordsFound(message);
                     }
 
+                    if(HomeWorkData == null){
+                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
+                    }
+                   else if(HomeWorkData.size() < 4) {
+                        if (native_ads == null) {
+                            ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
+                        }
+                    }
+                    else {
+                        native_ads.setVisibility(View.GONE);
+                        adsClose.setVisibility(View.GONE);
+                    }
+
                 } catch (Exception e) {
                     Log.e("MsgDates:Exception", e.getMessage());
                 }
@@ -336,17 +347,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                     HomeWorkData.clear();
                     if (status.equals("1")) {
                         HomeWorkData = (ArrayList<com.vs.schoolmessenger.model.HomeWorkData>) response.body().get(0).getData();
-
-                        if (HomeWorkData.size() < 4) {
-                            native_ads.setVisibility(View.GONE);
-                            adsClose.setVisibility(View.VISIBLE);
-                        } else {
-                            native_ads.setVisibility(View.GONE);
-                            adsClose.setVisibility(View.GONE);
-
-                        }
-
-
                         mAdapter = new HomeWorkGridAdapter(MessageDatesScreen.this, HomeWorkData, rytParent, new OnItemHomeworkClick() {
                             @Override
                             public void onMsgItemClick(HomeWorkData item) {
@@ -369,10 +369,13 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                             showrecordsFound(message);
                         }
                     }
-                    ShowAds.getAds(MessageDatesScreen.this, adImage, slider, "", mAdView);
 
-//                    ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
-
+                    if(HomeWorkData == null){
+                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
+                    }
+                   else if(HomeWorkData.size() < 4) {
+                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
+                    }
 
                 } catch (Exception e) {
                     Log.e("MsgDates:Exception", e.getMessage());
@@ -470,7 +473,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                finish();
+//                finish();
 
             }
         });

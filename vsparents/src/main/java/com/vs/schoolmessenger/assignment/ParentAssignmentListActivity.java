@@ -75,7 +75,7 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
     Slider slider;
     LinearLayout lnrAction;
 
-    AdView mAdView;
+    LinearLayout mAdView;
 
 
     @Override
@@ -185,17 +185,11 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
     }
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

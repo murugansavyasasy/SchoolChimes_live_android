@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdView;
@@ -37,7 +38,9 @@ public class ShowAds {
     public static String redirectURL = "";
     public static int addID = 0;
     public static String advertisementName = "";
-    public static void getAds(final Activity activity, ImageView image, Slider slider, String Menu_Type,AdView mAdView) {
+
+
+    public static void getAds(final Activity activity, ImageView image, Slider slider, String Menu_Type,LinearLayout mAdView) {
         stop();
         Log.d("Menu_ID", Constants.Menu_ID);
         String baseURL = TeacherUtil_SharedPreference.getReportURL(activity);
@@ -75,7 +78,7 @@ public class ShowAds {
                                 if(google_ad){
                                    mAdView.setVisibility(View.VISIBLE);
                                    image.setVisibility(View.GONE);
-                                   TeacherUtil_Common.showGoogleAds(activity,mAdView);
+                                   TeacherUtil_Common.showBannerAds(activity,mAdView);
                                 }
                                 else {
                                     mAdView.setVisibility(View.GONE);

@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +77,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
     ArrayList<Profiles> arrayList;
     ArrayList<Profiles> arrChildList = new ArrayList<>();
     ArrayList<String> schoolNamelist = new ArrayList<>();
-    AdView mAdView;
+    LinearLayout mAdView;
     ImageView adImage;
     Slider slider;
 
@@ -139,9 +140,6 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
@@ -153,9 +151,6 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

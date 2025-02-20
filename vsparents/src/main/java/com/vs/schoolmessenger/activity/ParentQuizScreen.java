@@ -27,7 +27,7 @@ public class ParentQuizScreen extends AppCompatActivity implements View.OnClickL
     Slider slider;
     ImageView adImage;
 
-    AdView mAdView;
+    LinearLayout mAdView;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -74,17 +74,11 @@ public class ParentQuizScreen extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 

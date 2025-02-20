@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -72,7 +73,7 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
     TextView Searchable;
     Slider slider;
     ImageView adImage;
-    AdView mAdView;
+    LinearLayout mAdView;
     private final List<ExamList> Exam_list = new ArrayList<>();
     private PopupWindow pHelpWindow;
     private ArrayList<Profiles> childList = new ArrayList<>();
@@ -191,17 +192,11 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
     private void filterlist(String s) {

@@ -22,11 +22,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_Common;
 
 import java.io.File;
@@ -48,6 +50,9 @@ public class VoiceCircularPopup extends AppCompatActivity {
     String isNewVersion;
     Boolean is_Archive;
     private MediaPlayer mediaPlayer;
+
+    TemplateView native_ads;
+    ImageView adsClose;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -79,6 +84,16 @@ public class VoiceCircularPopup extends AppCompatActivity {
         tvTime = (TextView) findViewById(R.id.voicePopup_tvTime);
         tvStatus = (TextView) findViewById(R.id.voicePopup_tvNew);
         tvdescription = (TextView) findViewById(R.id.voicePopup_tvdescrip);
+
+        native_ads = findViewById(R.id.my_template);
+        adsClose = findViewById(R.id.lblClose);
+        adsClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                native_ads.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+            }
+        });
 
         tvTitle.setText(voiceModel.getMsgTitle());
         tvdescription.setText(voiceModel.getMsgdescription());
@@ -144,6 +159,10 @@ public class VoiceCircularPopup extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (native_ads == null) {
+            ShowAdvancedNativeAds.getAdswithoutSlider(VoiceCircularPopup.this, "", native_ads, adsClose);
+        }
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
@@ -155,6 +174,8 @@ public class VoiceCircularPopup extends AppCompatActivity {
             mediaPlayer.stop();
         finish();
     }
+
+
 
     @Override
     protected void onPause() {

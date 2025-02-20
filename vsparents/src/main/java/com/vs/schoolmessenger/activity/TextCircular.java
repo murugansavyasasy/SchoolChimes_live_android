@@ -37,6 +37,7 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.adapter.ExamDateListAdapter;
 import com.vs.schoolmessenger.adapter.TextCircularListAdapter;
 import com.vs.schoolmessenger.adapter.TextCircularListAdapternew;
@@ -48,6 +49,7 @@ import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -90,6 +92,10 @@ public class TextCircular extends AppCompatActivity {
     RelativeLayout voice_rlToolbar;
     private int iRequestCode;
 
+    TemplateView native_ads;
+    ImageView adsClose;
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
         String savedLanguage = LocaleHelper.getLanguage(newBase);
@@ -125,6 +131,15 @@ public class TextCircular extends AppCompatActivity {
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
+        native_ads = findViewById(R.id.my_template);
+        adsClose = findViewById(R.id.lblClose);
+        adsClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                native_ads.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+            }
+        });
 
         ImageView ivBack = (ImageView) findViewById(R.id.text_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -355,6 +370,20 @@ public class TextCircular extends AppCompatActivity {
                         showAlertRecords(getResources().getString(R.string.no_records));
                     }
 
+                    if(arrayList == null){
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
+
+                   else if(arrayList.size() < 4) {
+                        if (native_ads == null) {
+                            ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        }
+                    }
+                    else {
+                        native_ads.setVisibility(View.GONE);
+                        adsClose.setVisibility(View.GONE);
+                    }
+
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());
                 }
@@ -397,7 +426,7 @@ public class TextCircular extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+//        ShowAds.getAds(this, adImage, slider, "", mAdView);
         switch (iRequestCode) {
             case MENU_TEXT:
                 if (isNetworkConnected()) {
@@ -547,6 +576,13 @@ public class TextCircular extends AppCompatActivity {
                         showAlertRecords(getResources().getString(R.string.no_records));
                     }
 
+                    if(arrayList == null){
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
+                    else if(arrayList.size() < 4) {
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
+
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());
                 }
@@ -639,6 +675,12 @@ public class TextCircular extends AppCompatActivity {
                         showAlertRecords(getResources().getString(R.string.no_records));
                     }
 
+                    if(subjects == null){
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
+                   else if(subjects.size() < 4) {
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());
                 }
@@ -655,6 +697,9 @@ public class TextCircular extends AppCompatActivity {
 
 
     private void circularsNoticeboardAPI() {
+
+        Log.d("TextMsg:Code", "Noticeboard");
+
         String isNewVersionn = TeacherUtil_SharedPreference.getNewVersion(TextCircular.this);
         if (isNewVersionn.equals("1")) {
             String ReportURL = TeacherUtil_SharedPreference.getReportURL(TextCircular.this);
@@ -738,8 +783,19 @@ public class TextCircular extends AppCompatActivity {
                             }
 
                         }
+
+
+
+
                     } else {
                         showAlertRecords(getResources().getString(R.string.no_records));
+                    }
+
+                    if(arrayList == null){
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
+                    else if(arrayList.size() < 4) {
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
                     }
 
 
@@ -823,6 +879,13 @@ public class TextCircular extends AppCompatActivity {
                         }
                     } else {
                         showAlertRecords(getResources().getString(R.string.no_records));
+                    }
+
+                    if(arrayList == null){
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
+                   else if(arrayList.size() < 4) {
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
                     }
 
                 } catch (Exception e) {
@@ -935,6 +998,13 @@ public class TextCircular extends AppCompatActivity {
 
                     } else {
                         showAlertRecords(getResources().getString(R.string.no_records));
+                    }
+
+                    if(arrayList == null){
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                    }
+                   else if(arrayList.size() < 4) {
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
                     }
 
                 } catch (Exception e) {
