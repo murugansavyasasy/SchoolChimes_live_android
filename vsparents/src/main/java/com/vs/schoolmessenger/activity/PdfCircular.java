@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -87,7 +88,7 @@ public class PdfCircular extends AppCompatActivity {
     LinearLayout mAdView;
     private int iRequestCode;
 
-    TemplateView native_ads;
+    FrameLayout native_ad_container;
     ImageView adsClose;
 
     @Override
@@ -135,12 +136,12 @@ public class PdfCircular extends AppCompatActivity {
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
-        native_ads = findViewById(R.id.my_template);
+        native_ad_container = findViewById(R.id.native_ad_container);
         adsClose = findViewById(R.id.lblClose);
         adsClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                native_ads.setVisibility(View.GONE);
+                native_ad_container.setVisibility(View.GONE);
                 adsClose.setVisibility(View.GONE);
             }
         });
@@ -302,18 +303,16 @@ public class PdfCircular extends AppCompatActivity {
 
 
                     if(arrayList == null){
-                        if (native_ads == null) {
-                            ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ads, adsClose);
-                        }
+                            ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ad_container, adsClose);
+
                     }
 
                     else if(arrayList.size() < 4) {
-                        if (native_ads == null) {
-                            ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ads, adsClose);
-                        }
+                            ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ad_container, adsClose);
+
                     }
                     else {
-                        native_ads.setVisibility(View.GONE);
+                        native_ad_container.setVisibility(View.GONE);
                         adsClose.setVisibility(View.GONE);
                     }
 
@@ -476,10 +475,10 @@ public class PdfCircular extends AppCompatActivity {
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                     else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
 

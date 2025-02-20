@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class TextMessagePopup extends AppCompatActivity {
     String isNewVersion;
     Boolean is_Archive;
 
-    TemplateView native_ads;
+    FrameLayout native_ad_container;
     ImageView adsClose;
 
     @Override
@@ -70,12 +71,12 @@ public class TextMessagePopup extends AppCompatActivity {
         tvStatus = (TextView) findViewById(R.id.textPopup_tvNew);
         tvMsgContent = (TextView) findViewById(R.id.textPopup_tvMsg);
 
-        native_ads = findViewById(R.id.my_template);
+        native_ad_container = findViewById(R.id.native_ad_container);
         adsClose = findViewById(R.id.lblClose);
         adsClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                native_ads.setVisibility(View.GONE);
+                native_ad_container.setVisibility(View.GONE);
                 adsClose.setVisibility(View.GONE);
             }
         });
@@ -118,9 +119,8 @@ public class TextMessagePopup extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (native_ads == null) {
-            ShowAdvancedNativeAds.getAdswithoutSlider(TextMessagePopup.this, "", native_ads, adsClose);
-        }
+            ShowAdvancedNativeAds.getAdswithoutSlider(TextMessagePopup.this, "", native_ad_container, adsClose);
+
 
     }
 

@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -92,7 +93,7 @@ public class TextCircular extends AppCompatActivity {
     RelativeLayout voice_rlToolbar;
     private int iRequestCode;
 
-    TemplateView native_ads;
+    FrameLayout native_ad_container;
     ImageView adsClose;
 
 
@@ -131,12 +132,12 @@ public class TextCircular extends AppCompatActivity {
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
-        native_ads = findViewById(R.id.my_template);
+        native_ad_container = findViewById(R.id.native_ad_container);
         adsClose = findViewById(R.id.lblClose);
         adsClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                native_ads.setVisibility(View.GONE);
+                native_ad_container.setVisibility(View.GONE);
                 adsClose.setVisibility(View.GONE);
             }
         });
@@ -371,16 +372,15 @@ public class TextCircular extends AppCompatActivity {
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
                    else if(arrayList.size() < 4) {
-                        if (native_ads == null) {
-                            ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
-                        }
+                            ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
+
                     }
                     else {
-                        native_ads.setVisibility(View.GONE);
+                        native_ad_container.setVisibility(View.GONE);
                         adsClose.setVisibility(View.GONE);
                     }
 
@@ -577,10 +577,10 @@ public class TextCircular extends AppCompatActivity {
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                     else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
                 } catch (Exception e) {
@@ -676,10 +676,10 @@ public class TextCircular extends AppCompatActivity {
                     }
 
                     if(subjects == null){
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                    else if(subjects.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());
@@ -792,10 +792,10 @@ public class TextCircular extends AppCompatActivity {
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                     else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
 
@@ -882,10 +882,10 @@ public class TextCircular extends AppCompatActivity {
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                    else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
                 } catch (Exception e) {
@@ -1001,10 +1001,10 @@ public class TextCircular extends AppCompatActivity {
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                    else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(TextCircular.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
                 } catch (Exception e) {

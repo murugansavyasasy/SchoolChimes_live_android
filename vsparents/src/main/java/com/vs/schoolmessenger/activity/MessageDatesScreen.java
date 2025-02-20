@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -90,7 +91,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     GridView rvGridHW;
     HomeWorkGridAdapter mAdapter;
     RelativeLayout rytParent;
-    TemplateView native_ads;
+    FrameLayout native_ad_container;
     ImageView adsClose;
     private final ArrayList<CircularDates> datesList = new ArrayList<>();
     private final ArrayList<CircularDates> totaldatesList = new ArrayList<>();
@@ -139,13 +140,12 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             }
         });
 
-//        MobileAds.initialize(this);
-        native_ads = findViewById(R.id.my_template);
+        native_ad_container = findViewById(R.id.native_ad_container);
         adsClose = findViewById(R.id.lblClose);
         adsClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                native_ads.setVisibility(View.GONE);
+                native_ad_container.setVisibility(View.GONE);
                 adsClose.setVisibility(View.GONE);
             }
         });
@@ -275,15 +275,14 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                     }
 
                     if(HomeWorkData == null){
-                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                    else if(HomeWorkData.size() < 4) {
-                        if (native_ads == null) {
-                            ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
-                        }
+                            ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ad_container, adsClose);
+
                     }
                     else {
-                        native_ads.setVisibility(View.GONE);
+                        native_ad_container.setVisibility(View.GONE);
                         adsClose.setVisibility(View.GONE);
                     }
 
@@ -356,8 +355,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         rvGridHW.setAdapter((ListAdapter) mAdapter);
                         mAdapter.notifyDataSetChanged();
                     } else {
-                        native_ads.setVisibility(View.GONE);
-
+                        native_ad_container.setVisibility(View.GONE);
                         if (isNewVersion.equals("1")) {
                             lblNoMessages.setVisibility(View.VISIBLE);
                             lblNoMessages.setText(message);
@@ -371,10 +369,10 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                     }
 
                     if(HomeWorkData == null){
-                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                    else if(HomeWorkData.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ads, adsClose);
+                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
                 } catch (Exception e) {

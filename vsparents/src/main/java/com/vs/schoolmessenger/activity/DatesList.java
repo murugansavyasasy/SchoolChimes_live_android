@@ -41,6 +41,8 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.gson.JsonArray;
@@ -60,6 +62,8 @@ import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.BannerAdManager;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
+import com.vs.schoolmessenger.util.NativeAdManager;
+import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -109,7 +113,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     private int iRequestCode;
     private PopupWindow pHelpWindow;
     private ArrayList<Profiles> childList = new ArrayList<>();
-    TemplateView native_ads;
     ImageView adsClose;
 
     FrameLayout native_ad_container;
@@ -156,6 +159,8 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         native_ad_container = findViewById(R.id.native_ad_container);
 
 
+
+
         rytLogout.setOnClickListener(this);
         rytHelp.setOnClickListener(this);
         rytLanguage.setOnClickListener(this);
@@ -167,12 +172,11 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
         adImage = findViewById(R.id.adImage);
 
 
-        native_ads = findViewById(R.id.my_template);
         adsClose = findViewById(R.id.lblClose);
         adsClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                native_ads.setVisibility(View.GONE);
+                native_ad_container.setVisibility(View.GONE);
                 adsClose.setVisibility(View.GONE);
             }
         });
@@ -352,18 +356,13 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                     }
 
                     if(arrayList == null){
-                        if (native_ads == null) {
-                            ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
-                        }
+                            ShowAdvancedNativeAds.getAds(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
                     }
-
                    else if(arrayList.size() < 4) {
-                        if (native_ads == null) {
-                            ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
-                        }
-                    }
+                            ShowAdvancedNativeAds.getAds(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                   }
                     else {
-                        native_ads.setVisibility(View.GONE);
+                        native_ad_container.setVisibility(View.GONE);
                         adsClose.setVisibility(View.GONE);
                     }
 
@@ -453,18 +452,15 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                     }
 
                     if(arrayList == null){
-                        if (native_ads == null) {
-                            ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
-                        }
-                    }
+                        ShowAdvancedNativeAds.getAds(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
 
+                    }
                    else if(arrayList.size() < 4) {
-                        if (native_ads == null) {
-                            ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
-                        }
+                            ShowAdvancedNativeAds.getAds(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+
                     }
                     else {
-                        native_ads.setVisibility(View.GONE);
+                        native_ad_container.setVisibility(View.GONE);
                         adsClose.setVisibility(View.GONE);
                     }
 
@@ -625,10 +621,10 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAdvancedNativeAds.getAds(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                     else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAdvancedNativeAds.getAds(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
                 } catch (Exception e) {
@@ -788,10 +784,10 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAdvancedNativeAds.getAds(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
                     }
                     else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAdsTesting(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAdvancedNativeAds.getAds(DatesList.this, adImage, slider, "", native_ad_container, adsClose);
                     }
 
                 } catch (Exception e) {

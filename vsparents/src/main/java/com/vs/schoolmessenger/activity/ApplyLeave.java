@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -69,8 +70,9 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     ImageView adImage;
     LinearLayout mAdView;
 
-    TemplateView native_ads;
     ImageView adsClose;
+    FrameLayout native_ad_container;
+
 
 
     @Override
@@ -97,12 +99,12 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
-        native_ads = findViewById(R.id.my_template);
+        native_ad_container = findViewById(R.id.native_ad_container);
         adsClose = findViewById(R.id.lblClose);
         adsClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                native_ads.setVisibility(View.GONE);
+                native_ad_container.setVisibility(View.GONE);
                 adsClose.setVisibility(View.GONE);
             }
         });
@@ -165,9 +167,8 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     @Override
     protected void onResume() {
         super.onResume();
-        if (native_ads == null) {
-            ShowAdvancedNativeAds.getAds(ApplyLeave.this, adImage, slider, "", native_ads, adsClose);
-        }
+        ShowAdvancedNativeAds.getAds(ApplyLeave.this, adImage, slider, "", native_ad_container, adsClose);
+
         ShowAds.getAds(this, adImage, slider, "Dashboard", mAdView);
     }
     @Override
