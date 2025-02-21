@@ -23,7 +23,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.MessageModel;
@@ -161,7 +161,7 @@ public class VoiceCircularPopup extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        ShowAdvancedNativeAds.getAdswithoutSlider(VoiceCircularPopup.this, "", native_ad_container, adsClose);
+        ShowAds.getNativeAdsOnly(VoiceCircularPopup.this, "", native_ad_container, adsClose);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }

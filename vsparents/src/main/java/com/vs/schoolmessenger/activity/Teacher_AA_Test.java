@@ -1303,7 +1303,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             TeacherUtil_SharedPreference.putCurrentDate(Teacher_AA_Test.this, date);
             Constants.Menu_ID = "102";
-            ShowAds.getAds(Teacher_AA_Test.this, adImage, slider, "school_dashboard", mAdView);
+            ShowAds.getAdsWithoutNative(Teacher_AA_Test.this, adImage, slider, "school_dashboard", mAdView);
 //            getMenuDetails();
             getMegFromManageMentCount();
         }

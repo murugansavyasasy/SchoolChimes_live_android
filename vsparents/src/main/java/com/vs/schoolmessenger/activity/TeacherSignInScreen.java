@@ -146,7 +146,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         Constants.Menu_ID = "100";
-        ShowAds.getAds(TeacherSignInScreen.this, adImage, slider, "Signin", mAdView);
+        ShowAds.getAdsWithoutNative(TeacherSignInScreen.this, adImage, slider, "Signin", mAdView);
     }
 
     @Override

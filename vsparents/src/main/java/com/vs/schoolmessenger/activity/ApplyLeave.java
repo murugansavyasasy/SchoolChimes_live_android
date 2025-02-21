@@ -30,7 +30,6 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
-import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
@@ -167,9 +166,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAdvancedNativeAds.getAds(ApplyLeave.this, adImage, slider, "", native_ad_container, adsClose);
-
-        ShowAds.getAds(this, adImage, slider, "Dashboard", mAdView);
+        ShowAds.getAds(this, adImage, slider, "Dashboard", mAdView,native_ad_container,adsClose);
     }
     @Override
     protected void onDestroy() {

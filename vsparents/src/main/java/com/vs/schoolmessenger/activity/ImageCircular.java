@@ -35,7 +35,6 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
-import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.adapter.ImageCircularListAdapterNEW;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -298,13 +297,11 @@ public class ImageCircular extends AppCompatActivity {
                     }
 
                     if(msgModelList == null){
-                            ShowAdvancedNativeAds.getAds(ImageCircular.this, adImage, slider, "", native_ad_container, adsClose);
-
+                        ShowAds.getAds(ImageCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
 
                     else if(msgModelList.size() < 2) {
-                            ShowAdvancedNativeAds.getAds(ImageCircular.this, adImage, slider, "", native_ad_container, adsClose);
-
+                        ShowAds.getAds(ImageCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
                     else {
                         native_ad_container.setVisibility(View.GONE);
@@ -342,7 +339,6 @@ public class ImageCircular extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
         circularsImageAPI();
 
     }
@@ -481,10 +477,10 @@ public class ImageCircular extends AppCompatActivity {
                     }
 
                     if(totalmsgModelList == null){
-                        ShowAdvancedNativeAds.getAds(ImageCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(ImageCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
                     else if(totalmsgModelList.size() < 2) {
-                        ShowAdvancedNativeAds.getAds(ImageCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(ImageCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());

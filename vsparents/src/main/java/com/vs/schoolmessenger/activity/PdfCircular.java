@@ -36,7 +36,6 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
-import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.adapter.PdfCircularListAdapter;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -303,12 +302,11 @@ public class PdfCircular extends AppCompatActivity {
 
 
                     if(arrayList == null){
-                            ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ad_container, adsClose);
-
+                        ShowAds.getAds(PdfCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
 
                     else if(arrayList.size() < 4) {
-                            ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(PdfCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
 
                     }
                     else {
@@ -348,7 +346,6 @@ public class PdfCircular extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
         if (isNetworkConnected()) {
             circularsPdfAPI();
         }
@@ -475,10 +472,10 @@ public class PdfCircular extends AppCompatActivity {
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(PdfCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
                     else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(PdfCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(PdfCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
 
 

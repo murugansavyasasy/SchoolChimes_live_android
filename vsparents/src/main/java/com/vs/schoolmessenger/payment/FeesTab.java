@@ -139,7 +139,7 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
         mAdView = findViewById(R.id.adView);
 
 
-        ShowAds.getAds(FeesTab.this,adImage,slider,"",mAdView);
+        ShowAds.getAdsWithoutNative(FeesTab.this,adImage,slider,"",mAdView);
 
         rytLogout.setOnClickListener(this);
         rytHelp.setOnClickListener(this);

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -40,7 +41,7 @@ public class ShowAds {
     public static String advertisementName = "";
 
 
-    public static void getAds(final Activity activity, ImageView image, Slider slider, String Menu_Type,LinearLayout mAdView) {
+    public static void getAds(final Activity activity, ImageView image, Slider slider, String Menu_Type, LinearLayout banner_ads, FrameLayout native_ads,ImageView adsClose) {
         stop();
         Log.d("Menu_ID", Constants.Menu_ID);
         String baseURL = TeacherUtil_SharedPreference.getReportURL(activity);
@@ -73,21 +74,31 @@ public class ShowAds {
                             JSONArray data = jsonObject.getJSONArray("data");
                             boolean google_ad = jsonObject.getBoolean("google_ad");
                             boolean enable_ad = jsonObject.getBoolean("enable_ad");
+                            boolean native_ad = true;
+                            boolean banner_ad = true;
 
                             if(enable_ad){
                                 if(google_ad){
-                                   mAdView.setVisibility(View.VISIBLE);
-                                   image.setVisibility(View.GONE);
-                                   TeacherUtil_Common.showBannerAds(activity,mAdView);
+                                    image.setVisibility(View.GONE);
+
+                                    if(native_ad && banner_ad) {
+                                       TeacherUtil_Common.showBannerAds(activity, banner_ads);
+                                       TeacherUtil_Common.showNtiveAds(activity, native_ads, adsClose);
+                                   }
+                                   else if(banner_ad){
+                                       TeacherUtil_Common.showBannerAds(activity, banner_ads);
+                                   }
+                                   else if(native_ad) {
+                                       TeacherUtil_Common.showNtiveAds(activity, native_ads, adsClose);
+                                   }
+
                                 }
                                 else {
-                                    mAdView.setVisibility(View.GONE);
                                     image.setVisibility(View.VISIBLE);
                                 }
                             }
                             else {
                                 image.setVisibility(View.GONE);
-                                mAdView.setVisibility(View.GONE);
                             }
 
                             adsModel ads;
@@ -104,10 +115,145 @@ public class ShowAds {
                                 rotateAds(activity, image);
 
                             }
+                        }
+                    }
+
+                } catch (Exception e) {
+                    Log.e("VersionCheck:Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                Log.d("VersionCheck:Failure", t.toString());
+            }
+        });
+    }
+
+
+    public static void getAdsWithoutNative(final Activity activity, ImageView image, Slider slider, String Menu_Type, LinearLayout banner_ads) {
+        stop();
+        Log.d("Menu_ID", Constants.Menu_ID);
+        String baseURL = TeacherUtil_SharedPreference.getReportURL(activity);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        String ChildId = Util_SharedPreference.getChildIdFromSP(activity);
+        String schoolId = Util_SharedPreference.getSchoolIdFromSP(activity);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("MemberId", ChildId);
+        jsonObject.addProperty("MemberType", "student");
+        jsonObject.addProperty("MenuId", Constants.Menu_ID);
+        jsonObject.addProperty("SchoolId", schoolId);
+        Log.d("Request", jsonObject.toString());
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        Call<JsonArray> call = apiService.getAds(jsonObject);
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                Log.d("GetMenuDetails:code", response.code() + " - " + response.toString());
+                if (response.code() == 200 || response.code() == 201)
+                    Log.d("GetMenuDetails:Res", response.body().toString());
+
+                try {
+                    JSONArray js = new JSONArray(response.body().toString());
+                    if (js.length() > 0) {
+                        JSONObject jsonObject = js.getJSONObject(0);
+                        String status = jsonObject.getString("Status");
+                        String message = jsonObject.getString("Message");
+
+                        if (status.equals("1")) {
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            boolean google_ad = jsonObject.getBoolean("google_ad");
+                            boolean enable_ad = jsonObject.getBoolean("enable_ad");
+                            boolean native_ad = true;
+                            boolean banner_ad = true;
+
+                            if(enable_ad){
+                                if(google_ad){
+                                    image.setVisibility(View.GONE);
+                                    if(banner_ad) {
+                                        TeacherUtil_Common.showBannerAds(activity, banner_ads);
+                                    }
+                                }
+                                else {
+                                    image.setVisibility(View.VISIBLE);
+                                }
+                            }
                             else {
+                                image.setVisibility(View.GONE);
                             }
 
+                            adsModel ads;
+                            adsList.clear();
 
+                            if(data.length() > 0) {
+                                //image.setVisibility(View.GONE);
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject object = data.getJSONObject(i);
+                                    ads = new adsModel(object.getInt("id"), object.getString("advertisementName"), object.getString("contentUrl"), object.getString("redirectUrl"));
+                                    adsList.add(ads);
+                                }
+                                i = 0;
+                                rotateAds(activity, image);
+
+                            }
+                        }
+                    }
+
+                } catch (Exception e) {
+                    Log.e("VersionCheck:Exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                Log.d("VersionCheck:Failure", t.toString());
+            }
+        });
+    }
+
+    public static void getNativeAdsOnly(final Activity activity, String Menu_Type, FrameLayout native_ads,ImageView adsClose) {
+        stop();
+        Log.d("Menu_ID", Constants.Menu_ID);
+        String baseURL = TeacherUtil_SharedPreference.getReportURL(activity);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        String ChildId = Util_SharedPreference.getChildIdFromSP(activity);
+        String schoolId = Util_SharedPreference.getSchoolIdFromSP(activity);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("MemberId", ChildId);
+        jsonObject.addProperty("MemberType", "student");
+        jsonObject.addProperty("MenuId", Constants.Menu_ID);
+        jsonObject.addProperty("SchoolId", schoolId);
+        Log.d("Request", jsonObject.toString());
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        Call<JsonArray> call = apiService.getAds(jsonObject);
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                Log.d("GetMenuDetails:code", response.code() + " - " + response.toString());
+                if (response.code() == 200 || response.code() == 201)
+                    Log.d("GetMenuDetails:Res", response.body().toString());
+
+                try {
+                    JSONArray js = new JSONArray(response.body().toString());
+                    if (js.length() > 0) {
+                        JSONObject jsonObject = js.getJSONObject(0);
+                        String status = jsonObject.getString("Status");
+                        String message = jsonObject.getString("Message");
+
+                        if (status.equals("1")) {
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            boolean google_ad = jsonObject.getBoolean("google_ad");
+                            boolean enable_ad = jsonObject.getBoolean("enable_ad");
+                            boolean native_ad = true;
+                            boolean banner_ad = true;
+
+                            if(enable_ad){
+                                if(google_ad){
+                                    if(native_ad) {
+                                        TeacherUtil_Common.showNtiveAds(activity, native_ads, adsClose);
+                                    }
+                                }
+                            }
                         }
                     }
 

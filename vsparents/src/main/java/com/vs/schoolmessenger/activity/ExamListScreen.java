@@ -187,7 +187,7 @@ public class ExamListScreen extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(this, adImage, slider, "", mAdView);
     }
 
     @Override

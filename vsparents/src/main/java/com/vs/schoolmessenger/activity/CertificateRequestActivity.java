@@ -72,7 +72,7 @@ public class CertificateRequestActivity extends AppCompatActivity {
         slider = findViewById(R.id.banner);
         ImageView adImage = findViewById(R.id.adImage);
 
-        ShowAds.getAds(CertificateRequestActivity.this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(CertificateRequestActivity.this, adImage, slider, "", mAdView);
 
         instance = this;
         getAllWidgets();

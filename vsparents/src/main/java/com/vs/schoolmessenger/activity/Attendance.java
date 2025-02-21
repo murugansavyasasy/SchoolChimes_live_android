@@ -228,7 +228,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(this, adImage, slider, "", mAdView);
     }
 
     @Override

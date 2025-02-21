@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -38,7 +39,6 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
-import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.adapter.HomeWorkDateWiseAdapter;
 import com.vs.schoolmessenger.adapter.HomeWorkGridAdapter;
 import com.vs.schoolmessenger.app.LocaleHelper;
@@ -51,6 +51,7 @@ import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.BannerAdManager;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.TemplateView;
@@ -87,7 +88,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
     EditText Searchable;
     Slider slider;
     ImageView adImage;
-    AdView mAdView;
+    LinearLayout mAdView;
     GridView rvGridHW;
     HomeWorkGridAdapter mAdapter;
     RelativeLayout rytParent;
@@ -208,9 +209,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
+
         super.onDestroy();
     }
 
@@ -275,10 +274,11 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                     }
 
                     if(HomeWorkData == null){
-                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(MessageDatesScreen.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
+
                     }
                    else if(HomeWorkData.size() < 4) {
-                            ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(MessageDatesScreen.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
 
                     }
                     else {
@@ -369,10 +369,10 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                     }
 
                     if(HomeWorkData == null){
-                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(MessageDatesScreen.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
                    else if(HomeWorkData.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(MessageDatesScreen.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(MessageDatesScreen.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
 
                 } catch (Exception e) {
@@ -419,8 +419,8 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             getHomeWorkDetails();
         }
 
-        // ShowAds.getAds(this,adImage,slider,"",mAdView);
-//        ShowAdvancedNativeAds.getAds(this, adImage, slider, "", native_ads, adsClose);
+//        BannerAdManager.getInstance(this).startAutoRefresh();
+
 
         if (HomeWorkDateWiseAdapter.mediaPlayer != null) {
             if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
@@ -439,6 +439,9 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 HomeWorkDateWiseAdapter.mediaPlayer.stop();
             }
         }
+
+//        BannerAdManager.getInstance(this).stopAutoRefresh();
+
     }
 
     private boolean isNetworkConnected() {

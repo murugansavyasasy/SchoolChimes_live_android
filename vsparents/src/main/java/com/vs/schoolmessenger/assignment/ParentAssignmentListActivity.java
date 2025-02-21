@@ -111,7 +111,7 @@ public class ParentAssignmentListActivity extends AppCompatActivity implements R
         mAdView = findViewById(R.id.adView);
 
 
-        ShowAds.getAds(ParentAssignmentListActivity.this,adImage,slider,"",mAdView);
+        ShowAds.getAdsWithoutNative(ParentAssignmentListActivity.this,adImage,slider,"",mAdView);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

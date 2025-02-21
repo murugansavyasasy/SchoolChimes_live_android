@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,6 @@ import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.SliderAdsImage.PicassoImageLoadingService;
 import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
-import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
 import com.vs.schoolmessenger.adapter.VoiceCircularListAdapterNEW;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
@@ -86,7 +86,7 @@ public class VoiceCircular extends AppCompatActivity {
     EditText Searchable;
     Slider slider;
     ImageView adImage;
-    AdView mAdView;
+    LinearLayout mAdView;
     RelativeLayout voice_rlToolbar;
     private int iRequestCode;
 
@@ -328,10 +328,10 @@ public class VoiceCircular extends AppCompatActivity {
 
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(VoiceCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(VoiceCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
                    else if(arrayList.size() < 4) {
-                            ShowAdvancedNativeAds.getAds(VoiceCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(VoiceCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
 
                     }
                     else {
@@ -365,7 +365,6 @@ public class VoiceCircular extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        ShowAds.getAds(this, adImage, slider, "", mAdView);
         switch (iRequestCode) {
             case MENU_EMERGENCY:
 
@@ -396,17 +395,11 @@ public class VoiceCircular extends AppCompatActivity {
     }
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
     private boolean isNetworkConnected() {
@@ -522,10 +515,10 @@ public class VoiceCircular extends AppCompatActivity {
                     }
 
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(VoiceCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(VoiceCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
                    else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(VoiceCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(VoiceCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
 
 
@@ -642,11 +635,11 @@ public class VoiceCircular extends AppCompatActivity {
                         showAlertRecords(getResources().getString(R.string.no_records));
                     }
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(VoiceCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(VoiceCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
 
                     else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(VoiceCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(VoiceCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
 
                 } catch (Exception e) {
@@ -735,10 +728,10 @@ public class VoiceCircular extends AppCompatActivity {
                         showToast(getResources().getString(R.string.no_records));
                     }
                     if(arrayList == null){
-                        ShowAdvancedNativeAds.getAds(VoiceCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(VoiceCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
                    else if(arrayList.size() < 4) {
-                        ShowAdvancedNativeAds.getAds(VoiceCircular.this, adImage, slider, "", native_ad_container, adsClose);
+                        ShowAds.getAds(VoiceCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
 
                 } catch (Exception e) {

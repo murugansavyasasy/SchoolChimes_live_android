@@ -159,7 +159,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(this, adImage, slider, "", mAdView);
     }
     @Override
     protected void onDestroy() {

@@ -212,7 +212,7 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(this, adImage, slider, "", mAdView);
     }
 
     @Override

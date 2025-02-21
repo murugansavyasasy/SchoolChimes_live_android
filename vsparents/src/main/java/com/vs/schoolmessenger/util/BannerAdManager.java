@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.util;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.google.android.gms.ads.AdRequest;
@@ -12,6 +13,9 @@ public class BannerAdManager {
     private static BannerAdManager instance;
     private AdView adView;
     private Context context;
+    private final int REFRESH_INTERVAL = 60000; // 60 seconds
+    private Handler handler;
+
 
     private BannerAdManager(Context context) {
         this.context = context.getApplicationContext();
@@ -34,6 +38,9 @@ public class BannerAdManager {
         adView.setAdUnitId(context.getResources().getString(R.string.ads_unit_one)); // 🔹 Test Ad Unit ID
         adView.loadAd(new AdRequest.Builder().build());
 
+        // Set up Handler for refreshing ads
+//        handler = new Handler();
+//        startAutoRefresh();
         Log.d("AdmobFirstTime","AdmobFirstTime");
     }
 
@@ -45,5 +52,21 @@ public class BannerAdManager {
     // ✅ Reload Ad When Needed
     public void refreshAd() {
         adView.loadAd(new AdRequest.Builder().build());
+    }
+
+    // Start Auto Refresh
+    public void startAutoRefresh() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshAd();
+                handler.postDelayed(this, REFRESH_INTERVAL);
+            }
+        }, REFRESH_INTERVAL);
+    }
+
+    // Stop Auto Refresh (Optional for resource optimization)
+    public void stopAutoRefresh() {
+        handler.removeCallbacksAndMessages(null);
     }
 }

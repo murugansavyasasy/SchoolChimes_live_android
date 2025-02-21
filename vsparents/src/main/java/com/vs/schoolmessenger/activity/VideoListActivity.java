@@ -290,7 +290,7 @@ public class VideoListActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(this, adImage, slider, "", mAdView);
         VideoListApi();
     }
 

@@ -1248,7 +1248,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         isProgressBar.setVisibility(View.VISIBLE);
         if (hasPermission()) {
             Constants.Menu_ID = "101";
-            ShowAds.getAds(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
+            ShowAds.getAdsWithoutNative(HomeActivity.this, adImage, slider, "Dashboard", mAdView);
             getMenuDetails();
         }
     }

@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.SliderAdsImage.ShowAdvancedNativeAds;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
@@ -119,7 +119,7 @@ public class TextMessagePopup extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-            ShowAdvancedNativeAds.getAdswithoutSlider(TextMessagePopup.this, "", native_ad_container, adsClose);
+        ShowAds.getNativeAdsOnly(TextMessagePopup.this, "", native_ad_container, adsClose);
 
 
     }

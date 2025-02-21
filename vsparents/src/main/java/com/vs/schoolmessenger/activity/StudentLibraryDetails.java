@@ -184,7 +184,7 @@ public class StudentLibraryDetails extends AppCompatActivity implements View.OnC
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(this, adImage, slider, "", mAdView);
     }
     @Override
     protected void onDestroy() {
