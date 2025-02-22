@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="days_of_week">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+    <string name="app_name">CustomCalendarLibrary</string>
+    <declare-styleable name="CustomCalendar">
+        <attr format="enum" name="month_year_format">
+            <enum name="three_letter_month__with_year" value="0"/>
+            <enum name="full_month__with_year" value="1"/>
+        </attr>
+        <attr format="integer" name="day_of_week_length"/>
+        <attr format="dimension" name="row_height"/>
+        <attr format="enum" name="day_of_week_start_from">
+            <enum name="sunday" value="0"/>
+            <enum name="monday" value="1"/>
+            <enum name="tuesday" value="2"/>
+            <enum name="wednesday" value="3"/>
+            <enum name="thursday" value="4"/>
+            <enum name="friday" value="5"/>
+            <enum name="saturday" value="6"/>
+        </attr>
+        <attr format="reference" name="left_button_src"/>
+        <attr format="reference" name="right_button_src"/>
+    </declare-styleable>
+</resources>
