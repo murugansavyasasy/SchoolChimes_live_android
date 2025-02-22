@@ -97,6 +97,8 @@
                         android:drawableLeft="@drawable/teacher_draw_mobile"
                         android:drawablePadding="5dp"
                         android:ems="10"
+                        android:textSize="13sp"
+
                         android:hint="@string/teacher_hint_mobile"
                         android:inputType="number"
                         android:maxLength="10" />
@@ -140,6 +142,7 @@
                     android:drawableLeft="@drawable/teacher_draw_password"
                     android:drawablePadding="5dp"
                     android:ems="10"
+                    android:textSize="13sp"
                     android:hint="@string/teacher_hint_password"
                     android:inputType="textPassword"
                     android:maxLength="20" />
