@@ -130,17 +130,46 @@
         android:layout_marginTop="10dp"
         layout="@layout/ads_view"/>
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+
+
+    <LinearLayout
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/adView"
         android:layout_marginTop="10dp"
-        ads:adSize="@string/ads_size"
-        ads:adUnitId="@string/ads_unit_one">
-    </com.google.android.gms.ads.AdView>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/native_ad_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/lblClose"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/ic_rounded_block_close"
+            android:textColor="@color/clr_black"
+            android:visibility="gone" />
+
+
+        <FrameLayout
+            android:layout_below="@+id/lblClose"
+            android:id="@+id/native_ad_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
+
+
+    </RelativeLayout>
+
 
 
 </RelativeLayout>

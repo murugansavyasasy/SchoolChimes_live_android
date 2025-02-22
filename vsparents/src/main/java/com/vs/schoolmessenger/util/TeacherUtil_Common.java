@@ -1,13 +1,21 @@
 package com.vs.schoolmessenger.util;
 
+import static android.view.View.VISIBLE;
+
 import android.app.Activity;
 import android.content.Context;
+import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -17,9 +25,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.nativead.MediaView;
 import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
 import com.vs.schoolmessenger.LessonPlan.Model.EditDataItem;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
@@ -115,8 +126,6 @@ public class TeacherUtil_Common {
     public static int school_scroll_to_position = 0;
     public static List<EditDataItem> EditDataList = new ArrayList<EditDataItem>();
 
-
-
     public static boolean isNetworkAvailable(Activity activity) {
         ConnectivityManager connectivity = (ConnectivityManager) activity
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -136,90 +145,76 @@ public class TeacherUtil_Common {
         return false;
     }
 
-    public static void showNativeAds(final Activity activity, TemplateView native_ads, ImageView adsClose) {
-        AdLoader adLoader = new AdLoader.Builder(activity, activity.getResources().getString(R.string.native_ads_unit_one))
-                .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-                    @Override
-                    public void onNativeAdLoaded(NativeAd nativeAd) {
-                        NativeTemplateStyle styles = new NativeTemplateStyle.Builder().build();
-                        native_ads.setStyles(styles);
-                        native_ads.setNativeAd(nativeAd);
-                        native_ads.setVisibility(View.VISIBLE);
-                        adsClose.setVisibility(View.VISIBLE);
-                    }
-                }).withAdListener(new AdListener() {
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError var1) {
-                        native_ads.setVisibility(View.GONE);
-                        adsClose.setVisibility(View.GONE);
-                    }
+    public  static void showNtiveAds(Activity activity, FrameLayout nativeContainer,ImageView adsClose){
+        // ✅ Get the Loaded Native Ad
+        NativeAd nativeAd = NativeAdManager.getInstance(activity).getNativeAd();
 
-                })
-                .build();
+        // 🔥 Check if Ad is Available
+        if (nativeAd != null) {
+            adsClose.setVisibility(VISIBLE);
+            // ✅ Inflate Native Ad Layout
+            NativeAdView adView = (NativeAdView)activity.getLayoutInflater().inflate(R.layout.native_ad_layout, null);
 
-        adLoader.loadAd(new AdRequest.Builder().build());
+            // ✅ Bind and Display Ad
+            populateNativeAdView(nativeAd, adView);
+            nativeContainer.removeAllViews();
+            nativeContainer.addView(adView);
+        }
+    }
 
+    public static void populateNativeAdView(NativeAd nativeAd, NativeAdView adView) {
+        // Headline (Required)
+        adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
+        ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
+        // Media View (Required for images/videos)
+        adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
+        adView.getMediaView().setMediaContent(nativeAd.getMediaContent());
 
+        // App Icon (Optional)
+        adView.setIconView(adView.findViewById(R.id.ad_app_icon));
+        if (nativeAd.getIcon() != null) {
+            ((ImageView) adView.getIconView()).setImageDrawable(nativeAd.getIcon().getDrawable());
+            adView.getIconView().setVisibility(VISIBLE);
+        } else {
+            adView.getIconView().setVisibility(View.GONE);
+        }
+
+        // Call to Action (Optional)
+        adView.setCallToActionView(adView.findViewById(R.id.ad_call_to_action));
+        if (nativeAd.getCallToAction() != null) {
+            ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
+            adView.getCallToActionView().setVisibility(VISIBLE);
+        } else {
+            adView.getCallToActionView().setVisibility(View.INVISIBLE);
+        }
+
+        // Body (Optional)
+        adView.setBodyView(adView.findViewById(R.id.ad_body));
+        if (nativeAd.getBody() != null) {
+            ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
+            adView.getBodyView().setVisibility(VISIBLE);
+        } else {
+            adView.getBodyView().setVisibility(View.GONE);
+        }
+
+        // Finalize
+        adView.setNativeAd(nativeAd);
     }
 
 
+    public  static void showBannerAds(Activity activity,LinearLayout bannerContainer){
 
-    public static void showGoogleAds(final Activity activity, AdView mAdView) {
+        AdView adView = BannerAdManager.getInstance(activity.getApplicationContext()).getAdView();
 
-        mAdView.setVisibility(View.VISIBLE);
-        mAdView.setAdListener(new AdListener() {
-            @Override
+        // 🔹 Remove previous view (if any) to avoid duplicate ads
+        if (adView.getParent() != null) {
+            ((ViewGroup) adView.getParent()).removeView(adView);
+        }
 
-            public void onAdClicked() {
-                Log.d("adClicked", "Clicked");
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-            }
-
-            @Override
-
-            public void onAdFailedToLoad(LoadAdError adError) {
-                Log.d("failed", adError.toString());
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdImpression() {
-                // Code to be executed when an impression is recorded
-                // for an ad.
-
-            }
-
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-        });
-
-        MobileAds.initialize(activity, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-                Log.d("initializationStatus", initializationStatus.toString());
-            }
-
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-
-
+        bannerContainer.addView(adView);
     }
+
+
 
     public static String milliSecondsToTimer(long milliseconds) {
         String finalTimerString = "";

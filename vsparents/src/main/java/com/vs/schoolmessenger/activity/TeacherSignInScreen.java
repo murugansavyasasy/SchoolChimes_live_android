@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +77,7 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
     ArrayList<Profiles> arrayList;
     ArrayList<Profiles> arrChildList = new ArrayList<>();
     ArrayList<String> schoolNamelist = new ArrayList<>();
-    AdView mAdView;
+    LinearLayout mAdView;
     ImageView adImage;
     Slider slider;
 
@@ -114,8 +115,17 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
         strmobilenumberlength = TeacherUtil_SharedPreference.getMobileNumberLengthFromSP(TeacherSignInScreen.this);
         mobnumberlength = Integer.parseInt(strmobilenumberlength);
 
-        etMobile.setHint(getResources().getString(R.string.Enter) + " " + strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
-        textView2.setText(strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
+
+        String mobileHint = TeacherUtil_SharedPreference.getMobileHint(TeacherSignInScreen.this);
+
+        if(mobileHint.equals("")) {
+            etMobile.setHint(getResources().getString(R.string.Enter) + " " + strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
+            textView2.setText(strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
+        }
+        else {
+            etMobile.setHint(mobileHint);
+            textView2.setText(strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
+        }
 
         Log.d("textView2", textView2.getText().toString());
         InputFilter[] fArray = new InputFilter[1];
@@ -139,23 +149,17 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     protected void onResume() {
         super.onResume();
         Constants.Menu_ID = "100";
-        ShowAds.getAds(TeacherSignInScreen.this, adImage, slider, "Signin", mAdView);
+        ShowAds.getAdsWithoutNative(TeacherSignInScreen.this, adImage, slider, "Signin", mAdView);
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

@@ -85,6 +85,7 @@ public class StaffDisplayTextMessages extends AppCompatActivity {
                 Intent inTextPopup = new Intent(StaffDisplayTextMessages.this, TextMessagePopup.class);
                 inTextPopup.putExtra("TEXT_ITEM", item);
                 inTextPopup.putExtra("is_Archive", item.getIs_Archive());
+                inTextPopup.putExtra("type","school");
                 startActivity(inTextPopup);
             }
         });

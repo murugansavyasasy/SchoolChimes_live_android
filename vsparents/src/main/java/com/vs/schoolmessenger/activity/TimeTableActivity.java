@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,7 @@ public class TimeTableActivity extends AppCompatActivity {
     Slider slider;
     ImageView adImage;
 
-    AdView mAdView;
+    LinearLayout mAdView;
 
     Boolean isApiCall = true;
     int isApiCallPosition = 10;
@@ -154,16 +155,13 @@ public class TimeTableActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(this, adImage, slider, "", mAdView);
 //        getTimeTableApi();
 
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

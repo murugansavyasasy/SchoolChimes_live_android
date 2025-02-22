@@ -5,16 +5,17 @@ package com.vs.schoolmessenger.model;
  */
 
 public class TeacherCountryList {
-    String strCountyID, strCountyName, strCountyMobileLength, strCountyCode, strBaseURL;
+    String strCountyID, strCountyName, strCountyMobileLength, strCountyCode, strBaseURL,strMobileHint;
 
     public TeacherCountryList() {}
 
-    public TeacherCountryList(String strCountyID, String strCountyName, String strCountyMobileLength, String strCountyCode, String strBaseURL) {
+    public TeacherCountryList(String strCountyID, String strCountyName, String strCountyMobileLength, String strCountyCode, String strBaseURL,String mobileHint) {
         this.strCountyID = strCountyID;
         this.strCountyName = strCountyName;
         this.strCountyMobileLength = strCountyMobileLength;
         this.strCountyCode = strCountyCode;
         this.strBaseURL = strBaseURL;
+        this.strMobileHint = mobileHint;
 
     }
 
@@ -56,6 +57,14 @@ public class TeacherCountryList {
 
     public void setStrBaseURL(String strBaseURL) {
         this.strBaseURL = strBaseURL;
+    }
+
+    public String getStrMobileHint() {
+        return strMobileHint;
+    }
+
+    public void setStrMobileHint(String strBaseURL) {
+        this.strMobileHint = strBaseURL;
     }
 
 

@@ -14,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +41,7 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -83,8 +86,10 @@ public class ImageCircular extends AppCompatActivity {
     String childID;
     Slider slider;
     ImageView adImage;
-    AdView mAdView;
+    LinearLayout mAdView;
     private int iRequestCode;
+    FrameLayout native_ad_container;
+    ImageView adsClose;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -143,6 +148,15 @@ public class ImageCircular extends AppCompatActivity {
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
+        native_ad_container = findViewById(R.id.native_ad_container);
+        adsClose = findViewById(R.id.lblClose);
+        adsClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                native_ad_container.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+            }
+        });
 
         Searchable.addTextChangedListener(new TextWatcher() {
             @Override
@@ -282,6 +296,18 @@ public class ImageCircular extends AppCompatActivity {
                         showToast(getResources().getString(R.string.check_internet));
                     }
 
+                    if(msgModelList == null){
+                        ShowAds.getAds(ImageCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
+                    }
+
+                    else if(msgModelList.size() < 2) {
+                        ShowAds.getAds(ImageCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
+                    }
+                    else {
+                        native_ad_container.setVisibility(View.GONE);
+                        adsClose.setVisibility(View.GONE);
+                    }
+
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());
                 }
@@ -313,24 +339,17 @@ public class ImageCircular extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
         circularsImageAPI();
 
     }
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 
@@ -457,6 +476,12 @@ public class ImageCircular extends AppCompatActivity {
                         showToast(getResources().getString(R.string.check_internet));
                     }
 
+                    if(totalmsgModelList == null){
+                        ShowAds.getAds(ImageCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
+                    }
+                    else if(totalmsgModelList.size() < 2) {
+                        ShowAds.getAds(ImageCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
+                    }
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());
                 }

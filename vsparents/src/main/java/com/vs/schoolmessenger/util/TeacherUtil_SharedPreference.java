@@ -32,6 +32,7 @@ public class TeacherUtil_SharedPreference {
     public static final String SH_COUNTRY_MOBILE_LENGTH = "CountryMobileLength";
     public static final String SH_COUNTRY_CODE = "CountryCode";
     public static final String SH_COUNTRY_BASE_URL = "BaseURL";
+    public static final String SH_COUNTRY_MOBILE_HINT = "mobileHint";
     public static final String CHILD_DATAS = "Datas";
 
 
@@ -1285,7 +1286,7 @@ public class TeacherUtil_SharedPreference {
     }
 
     public static void putCountryInforToSP(Activity activity, String CountryID,
-                                           String CountryName, String CountryMobileLength, String CountryCode, String BaseURL) {
+                                           String CountryName, String CountryMobileLength, String CountryCode, String BaseURL,String mobileHint) {
         SharedPreferences sp = activity.getSharedPreferences(spCountryName, MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.putString(SH_COUNTRY_ID, CountryID);
@@ -1293,6 +1294,7 @@ public class TeacherUtil_SharedPreference {
         ed.putString(SH_COUNTRY_MOBILE_LENGTH, CountryMobileLength);
         ed.putString(SH_COUNTRY_CODE, CountryCode);
         ed.putString(SH_COUNTRY_BASE_URL, BaseURL);
+        ed.putString(SH_COUNTRY_MOBILE_HINT, mobileHint);
 
         Log.d(spCountryName, "Country Data stored in SP");
         ed.commit();
@@ -1316,6 +1318,11 @@ public class TeacherUtil_SharedPreference {
     public static String getMobileNumberLengthFromSP(Activity activity) {
         String mobileNumberlength = activity.getSharedPreferences(spCountryName, MODE_PRIVATE).getString(SH_COUNTRY_MOBILE_LENGTH, "");
         return mobileNumberlength;
+    }
+
+    public static String getMobileHint(Activity activity) {
+        String mobileHint = activity.getSharedPreferences(spCountryName, MODE_PRIVATE).getString(SH_COUNTRY_MOBILE_HINT, "");
+        return mobileHint;
     }
 
     public static void clearCountrySharedPreference(Activity activity) {

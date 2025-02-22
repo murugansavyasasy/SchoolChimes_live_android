@@ -10,16 +10,15 @@
     tools:ignore="MissingPrefix">
 
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+
+    <LinearLayout
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        ads:adSize="@string/ads_size"
-        ads:adUnitId="@string/ads_unit_one">
-    </com.google.android.gms.ads.AdView>
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 
     <include
         android:layout_width="match_parent"
@@ -98,6 +97,8 @@
                         android:drawableLeft="@drawable/teacher_draw_mobile"
                         android:drawablePadding="5dp"
                         android:ems="10"
+                        android:textSize="13sp"
+
                         android:hint="@string/teacher_hint_mobile"
                         android:inputType="number"
                         android:maxLength="10" />
@@ -141,6 +142,7 @@
                     android:drawableLeft="@drawable/teacher_draw_password"
                     android:drawablePadding="5dp"
                     android:ems="10"
+                    android:textSize="13sp"
                     android:hint="@string/teacher_hint_password"
                     android:inputType="textPassword"
                     android:maxLength="20" />

@@ -84,9 +84,16 @@ public class MobileNumberScreen extends AppCompatActivity {
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(mobnumberlength);
 
+        String mobileHint = TeacherUtil_SharedPreference.getMobileHint(MobileNumberScreen.this);
 
-        enter_mobile.setHint(getResources().getString(R.string.Enter) + " " + strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
-        textView2.setText(strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
+        if(mobileHint.equals("")) {
+            enter_mobile.setHint(getResources().getString(R.string.Enter) + " " + strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
+            textView2.setText(strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
+        }
+        else {
+            enter_mobile.setHint(mobileHint);
+            textView2.setText(strmobilenumberlength + " " + getResources().getString(R.string.Digit_Mobile_Number));
+        }
 
         Log.d("textView2", textView2.getText().toString());
         enter_mobile.setFilters(fArray);

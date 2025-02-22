@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -64,7 +67,11 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     Button btnLeaveHistory;
     Slider slider;
     ImageView adImage;
-    AdView mAdView;
+    LinearLayout mAdView;
+
+    ImageView adsClose;
+    FrameLayout native_ad_container;
+
 
 
     @Override
@@ -90,6 +97,17 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
         slider = findViewById(R.id.banner);
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
+
+        native_ad_container = findViewById(R.id.native_ad_container);
+        adsClose = findViewById(R.id.lblClose);
+        adsClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                native_ad_container.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+            }
+        });
+
 
 
         btnLeaveHistory.setOnClickListener(new View.OnClickListener() {
@@ -148,21 +166,15 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "Dashboard", mAdView);
+        ShowAds.getAds(this, adImage, slider, "", mAdView,native_ad_container,adsClose);
     }
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

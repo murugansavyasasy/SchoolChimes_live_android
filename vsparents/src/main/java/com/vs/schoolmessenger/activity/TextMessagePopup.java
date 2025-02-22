@@ -8,6 +8,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,11 +17,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.OnRefreshListener;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
 import com.vs.schoolmessenger.util.ChangeMsgReadStatus;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.TemplateView;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -29,6 +33,9 @@ public class TextMessagePopup extends AppCompatActivity {
     TextView tvTitle, tvTime, tvStatus, tvMsgContent, tvdescription;
     String isNewVersion;
     Boolean is_Archive;
+
+    FrameLayout native_ad_container;
+    ImageView adsClose;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -64,6 +71,16 @@ public class TextMessagePopup extends AppCompatActivity {
         tvStatus = (TextView) findViewById(R.id.textPopup_tvNew);
         tvMsgContent = (TextView) findViewById(R.id.textPopup_tvMsg);
 
+        native_ad_container = findViewById(R.id.native_ad_container);
+        adsClose = findViewById(R.id.lblClose);
+        adsClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                native_ad_container.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+            }
+        });
+
 
         tvdescription = (TextView) findViewById(R.id.textPopup_tvdescrip);
         registerForContextMenu(tvdescription);
@@ -98,6 +115,11 @@ public class TextMessagePopup extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        ShowAds.getNativeAdsOnlyforSchool(TextMessagePopup.this, "", native_ad_container, adsClose);
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,

@@ -30,7 +30,7 @@ public class CertificateRequestActivity extends AppCompatActivity {
     public static CertificateRequestActivity instance;
     Slider slider;
     LinearLayout lnrAdView;
-    AdView mAdView;
+    LinearLayout mAdView;
     private TabLayout allTabs;
     private RequestCertificateFragment fragmentOne;
     private CertifiatesFragments fragmentTwo;
@@ -72,7 +72,7 @@ public class CertificateRequestActivity extends AppCompatActivity {
         slider = findViewById(R.id.banner);
         ImageView adImage = findViewById(R.id.adImage);
 
-        ShowAds.getAds(CertificateRequestActivity.this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(CertificateRequestActivity.this, adImage, slider, "", mAdView);
 
         instance = this;
         getAllWidgets();
@@ -83,17 +83,11 @@ public class CertificateRequestActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

@@ -54,6 +54,7 @@
                     android:drawablePadding="5dp"
                     android:drawableStart="@drawable/teacher_draw_mobile"
                     android:ems="10"
+                    android:textSize="13sp"
                     android:hint="@string/teacher_hint_mobile"
                     android:inputType="number"
                     android:maxLength="10" />

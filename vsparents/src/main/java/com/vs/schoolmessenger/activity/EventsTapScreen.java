@@ -81,7 +81,7 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
     Slider slider;
     LinearLayout lnrAdView;
     ImageView adImage;
-    AdView mAdView;
+    LinearLayout mAdView;
     private TabLayout allTabs;
     private EventsFragment fragmentOne;
     private HolidaysFragment fragmentTwo;
@@ -159,21 +159,15 @@ public class EventsTapScreen extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
+        ShowAds.getAdsWithoutNative(this, adImage, slider, "", mAdView);
     }
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 

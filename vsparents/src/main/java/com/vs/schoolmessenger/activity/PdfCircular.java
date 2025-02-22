@@ -15,7 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.TemplateView;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -81,8 +84,11 @@ public class PdfCircular extends AppCompatActivity {
     Slider slider;
     ImageView adImage;
     RelativeLayout voice_rlToolbar;
-    AdView mAdView;
+    LinearLayout mAdView;
     private int iRequestCode;
+
+    FrameLayout native_ad_container;
+    ImageView adsClose;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -129,6 +135,15 @@ public class PdfCircular extends AppCompatActivity {
         adImage = findViewById(R.id.adImage);
         mAdView = findViewById(R.id.adView);
 
+        native_ad_container = findViewById(R.id.native_ad_container);
+        adsClose = findViewById(R.id.lblClose);
+        adsClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                native_ad_container.setVisibility(View.GONE);
+                adsClose.setVisibility(View.GONE);
+            }
+        });
 
         Searchable.addTextChangedListener(new TextWatcher() {
             @Override
@@ -285,6 +300,20 @@ public class PdfCircular extends AppCompatActivity {
                         showRecordsfound(getResources().getString(R.string.no_records));
                     }
 
+
+                    if(arrayList == null){
+                        ShowAds.getAds(PdfCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
+                    }
+
+                    else if(arrayList.size() < 4) {
+                        ShowAds.getAds(PdfCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
+
+                    }
+                    else {
+                        native_ad_container.setVisibility(View.GONE);
+                        adsClose.setVisibility(View.GONE);
+                    }
+
                 } catch (Exception e) {
                     Log.e("TextMsg:Exception", e.getMessage());
                 }
@@ -317,7 +346,6 @@ public class PdfCircular extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        ShowAds.getAds(this, adImage, slider, "", mAdView);
         if (isNetworkConnected()) {
             circularsPdfAPI();
         }
@@ -325,17 +353,11 @@ public class PdfCircular extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();  // Pause the ad
-        }
         super.onPause();
     }
 
@@ -447,6 +469,13 @@ public class PdfCircular extends AppCompatActivity {
                         }
                     } else {
                         showRecordsfound(getResources().getString(R.string.no_records));
+                    }
+
+                    if(arrayList == null){
+                        ShowAds.getAds(PdfCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
+                    }
+                    else if(arrayList.size() < 4) {
+                        ShowAds.getAds(PdfCircular.this, adImage, slider, "", mAdView,native_ad_container,adsClose);
                     }
 
 
