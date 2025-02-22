@@ -71,6 +71,7 @@ public class VoiceCircularPopup extends AppCompatActivity {
         voiceModel = (MessageModel) getIntent().getSerializableExtra("VOICE_ITEM");
         voicetype = getIntent().getExtras().getString("VOICE_TYPE", "");
 
+
         ImageView ivBack = (ImageView) findViewById(R.id.voicePopup_ToolBarIvBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +162,8 @@ public class VoiceCircularPopup extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        ShowAds.getNativeAdsOnly(VoiceCircularPopup.this, "", native_ad_container, adsClose);
+//        ShowAds.getNativeAdsOnlyforSchool(VoiceCircularPopup.this, "", native_ad_container, adsClose);
+
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }

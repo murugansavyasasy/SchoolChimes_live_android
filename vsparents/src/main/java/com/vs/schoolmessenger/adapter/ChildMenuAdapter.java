@@ -749,6 +749,8 @@ public class ChildMenuAdapter extends ArrayAdapter {
             inNext.putExtra("REQUEST_CODE", MENU_NOTICE_BOARD);
             inNext.putExtra("HEADER", R.string.home_notice_board);
             inNext.putExtra("Profiles", HomeActivity.childItem);
+            inNext.putExtra("type","parent");
+
             context.startActivity(inNext);
         } else if (substring.equals("_8")) {
             Constants.Menu_ID = menuIDSingle;

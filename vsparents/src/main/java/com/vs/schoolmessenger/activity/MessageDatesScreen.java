@@ -419,9 +419,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
             getHomeWorkDetails();
         }
 
-//        BannerAdManager.getInstance(this).startAutoRefresh();
-
-
         if (HomeWorkDateWiseAdapter.mediaPlayer != null) {
             if (HomeWorkDateWiseAdapter.mediaPlayer.isPlaying()) {
                 HomeWorkDateWiseAdapter.mediaPlayer.stop();
@@ -429,7 +426,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
         }
 
     }
-
 
     @Override
     protected void onPause() {
@@ -439,8 +435,6 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                 HomeWorkDateWiseAdapter.mediaPlayer.stop();
             }
         }
-
-//        BannerAdManager.getInstance(this).stopAutoRefresh();
 
     }
 

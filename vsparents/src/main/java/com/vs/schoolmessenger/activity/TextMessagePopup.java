@@ -118,10 +118,7 @@ public class TextMessagePopup extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        ShowAds.getNativeAdsOnly(TextMessagePopup.this, "", native_ad_container, adsClose);
-
-
+//        ShowAds.getNativeAdsOnlyforSchool(TextMessagePopup.this, "", native_ad_container, adsClose);
     }
 
     @Override

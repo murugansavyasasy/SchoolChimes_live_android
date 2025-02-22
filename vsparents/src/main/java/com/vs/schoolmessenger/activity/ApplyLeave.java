@@ -166,7 +166,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
     @Override
     protected void onResume() {
         super.onResume();
-        ShowAds.getAds(this, adImage, slider, "Dashboard", mAdView,native_ad_container,adsClose);
+        ShowAds.getAds(this, adImage, slider, "", mAdView,native_ad_container,adsClose);
     }
     @Override
     protected void onDestroy() {

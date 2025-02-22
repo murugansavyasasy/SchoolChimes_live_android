@@ -74,14 +74,15 @@ public class ShowAds {
                             JSONArray data = jsonObject.getJSONArray("data");
                             boolean google_ad = jsonObject.getBoolean("google_ad");
                             boolean enable_ad = jsonObject.getBoolean("enable_ad");
-                            boolean native_ad = true;
-                            boolean banner_ad = true;
+                            boolean native_ad = jsonObject.getBoolean("native_ad");
+                            boolean banner_ad = jsonObject.getBoolean("banner_ad");
 
                             if(enable_ad){
                                 if(google_ad){
                                     image.setVisibility(View.GONE);
 
                                     if(native_ad && banner_ad) {
+                                        Log.d("ShowAds","Both");
                                        TeacherUtil_Common.showBannerAds(activity, banner_ads);
                                        TeacherUtil_Common.showNtiveAds(activity, native_ads, adsClose);
                                    }
@@ -164,8 +165,8 @@ public class ShowAds {
                             JSONArray data = jsonObject.getJSONArray("data");
                             boolean google_ad = jsonObject.getBoolean("google_ad");
                             boolean enable_ad = jsonObject.getBoolean("enable_ad");
-                            boolean native_ad = true;
-                            boolean banner_ad = true;
+                            boolean native_ad = jsonObject.getBoolean("native_ad");
+                            boolean banner_ad = jsonObject.getBoolean("banner_ad");
 
                             if(enable_ad){
                                 if(google_ad){
@@ -211,7 +212,7 @@ public class ShowAds {
         });
     }
 
-    public static void getNativeAdsOnly(final Activity activity, String Menu_Type, FrameLayout native_ads,ImageView adsClose) {
+    public static void getNativeAdsOnlyforSchool(final Activity activity, String Menu_Type, FrameLayout native_ads,ImageView adsClose) {
         stop();
         Log.d("Menu_ID", Constants.Menu_ID);
         String baseURL = TeacherUtil_SharedPreference.getReportURL(activity);
@@ -244,8 +245,8 @@ public class ShowAds {
                             JSONArray data = jsonObject.getJSONArray("data");
                             boolean google_ad = jsonObject.getBoolean("google_ad");
                             boolean enable_ad = jsonObject.getBoolean("enable_ad");
-                            boolean native_ad = true;
-                            boolean banner_ad = true;
+                            boolean native_ad = jsonObject.getBoolean("native_ad");
+                            boolean banner_ad = jsonObject.getBoolean("banner_ad");
 
                             if(enable_ad){
                                 if(google_ad){

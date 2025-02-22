@@ -709,7 +709,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
                                 countryList = new TeacherCountryList(jsonObject.getString("CountryID"), jsonObject.getString("CountryName")
-                                        , jsonObject.getString("MobileNumberLength"), jsonObject.getString("CountryCode"), jsonObject.getString("BaseUrl"));
+                                        , jsonObject.getString("MobileNumberLength"), jsonObject.getString("CountryCode"), jsonObject.getString("BaseUrl"), jsonObject.getString("mobile_no_hint"));
 
                                 arrCountryList.add(countryList);
                                 countryNameList.add(countryList.getStrCountyName());
@@ -753,7 +753,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 TeacherCountryList item = arrCountryList.get(selectedPosition);
                 TeacherUtil_SharedPreference.putCountryInforToSP(TeacherSplashScreen.this, item.getStrCountyID(),
                         item.getStrCountyName(), item.getStrCountyMobileLength(), item.getStrCountyCode(),
-                        item.getStrBaseURL());
+                        item.getStrBaseURL(),item.getStrMobileHint());
 
                 TeacherUtil_SharedPreference.putBaseURL(TeacherSplashScreen.this, item.getStrBaseURL());
                 CountrID = TeacherUtil_SharedPreference.getCountryID(TeacherSplashScreen.this);

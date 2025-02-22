@@ -42,18 +42,11 @@
     </RelativeLayout>
 
 
-    <LinearLayout
-        android:layout_below="@+id/image_rlToolbar"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical" />
+
 
 
     <RelativeLayout
-        android:layout_below="@+id/adView"
+        android:layout_below="@+id/image_rlToolbar"
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="5dp"
         android:id="@+id/rytSearch"
@@ -166,6 +159,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom" />
+
+
+        <LinearLayout
+            android:layout_below="@+id/native_ad_container"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" />
 
     </RelativeLayout>
 

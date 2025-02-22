@@ -246,6 +246,8 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
                     in.putExtra("REQUEST_CODE", iRequestCode);
                     in.putExtra("SEL_DATE", item.getDate());
                     in.putExtra("is_Archive", item.getIs_Archive());
+                    in.putExtra("type","parent");
+
                     startActivity(in);
                 } else if (iRequestCode == MENU_VOICE) {
                     Intent in = new Intent(DatesList.this, VoiceCircular.class);
@@ -494,9 +496,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-
-//        BannerAdManager.getInstance(this).startAutoRefresh();
-
         if (iRequestCode == MENU_TEXT) {
             if (isNetworkConnected()) {
                 DatewisetListSmsAPI();
@@ -517,7 +516,6 @@ public class DatesList extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onPause() {
         super.onPause();
-//        BannerAdManager.getInstance(this).stopAutoRefresh();
     }
 
     private boolean isNetworkConnected() {
