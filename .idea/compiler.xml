@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="21" />
+    <bytecodeTargetLevel target="17">
+      <module name="SchoolChimes_live_android.Bannerslider" target="21" />
+      <module name="SchoolChimes_live_android.SchoolChimes_live_android.vsparents" target="21" />
+      <module name="SchoolChimes_live_android.vsparents" target="21" />
+      <module name="SchoolChimes_live_android.Zcustomcalendar" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

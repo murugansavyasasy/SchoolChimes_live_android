@@ -10,6 +10,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Bannerslider" />
+            <option value="$PROJECT_DIR$/Transcoder" />
+            <option value="$PROJECT_DIR$/Zcustomcalendar" />
             <option value="$PROJECT_DIR$/vsparents" />
           </set>
         </option>

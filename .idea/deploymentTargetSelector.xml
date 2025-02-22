@@ -5,6 +5,9 @@
       <SelectionState runConfigName="vsparents">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="SchoolChimes_live_android.vsparents">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>
