@@ -4,7 +4,7 @@
             "outputFile": "ss.com.bannerslider.test.Bannerslider-mergeDebugAndroidTestResources-10:/values-sr/values-sr.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\USER\\.gradle\\caches\\8.14-milestone-2\\transforms\\f2d750dd092486d5b96988fa8535381b\\transformed\\core-1.13.0\\res\\values-sr\\values-sr.xml",
+                    "source": "/Users/admin/.gradle/caches/8.14-milestone-2/transforms/f2d750dd092486d5b96988fa8535381b/transformed/core-1.13.0/res/values-sr/values-sr.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

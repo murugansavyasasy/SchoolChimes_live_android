@@ -1,5 +1,5 @@
-net.ypresto.androidtranscoder.test.Transcoder-androidTest-0 E:\SchoolChimes_live_android\Transcoder\build\generated\res\resValues\androidTest\debug
-net.ypresto.androidtranscoder.test.Transcoder-mergeDebugAndroidTestResources-1 E:\SchoolChimes_live_android\Transcoder\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
-net.ypresto.androidtranscoder.test.Transcoder-mergeDebugAndroidTestResources-2 E:\SchoolChimes_live_android\Transcoder\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
-net.ypresto.androidtranscoder.test.Transcoder-debugAndroidTest-3 E:\SchoolChimes_live_android\Transcoder\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
-net.ypresto.androidtranscoder.test.Transcoder-debug-4 E:\SchoolChimes_live_android\Transcoder\build\intermediates\packaged_res\debug\packageDebugResources
+net.ypresto.androidtranscoder.test.Transcoder-androidTest-0 /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/build/generated/res/resValues/androidTest/debug
+net.ypresto.androidtranscoder.test.Transcoder-mergeDebugAndroidTestResources-1 /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+net.ypresto.androidtranscoder.test.Transcoder-mergeDebugAndroidTestResources-2 /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+net.ypresto.androidtranscoder.test.Transcoder-debugAndroidTest-3 /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/build/intermediates/merged_res/debugAndroidTest/mergeDebugAndroidTestResources
+net.ypresto.androidtranscoder.test.Transcoder-debug-4 /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/build/intermediates/packaged_res/debug/packageDebugResources

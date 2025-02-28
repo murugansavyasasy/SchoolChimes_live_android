@@ -4,7 +4,7 @@
             "outputFile": "org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-mergeDebugAndroidTestResources-4:/values-cs/values-cs.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\USER\\.gradle\\caches\\8.14-milestone-2\\transforms\\f99c71a92ade8e4408a54fa8cf3f8895\\transformed\\core-1.0.0\\res\\values-cs\\values-cs.xml",
+                    "source": "/Users/admin/.gradle/caches/8.14-milestone-2/transforms/f99c71a92ade8e4408a54fa8cf3f8895/transformed/core-1.0.0/res/values-cs/values-cs.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\USER\\.gradle\\caches\\8.14-milestone-2\\transforms\\180b7de068878e196af50f2e1af7ec8c\\transformed\\appcompat-1.0.0\\res\\values-cs\\values-cs.xml",
+                    "source": "/Users/admin/.gradle/caches/8.14-milestone-2/transforms/180b7de068878e196af50f2e1af7ec8c/transformed/appcompat-1.0.0/res/values-cs/values-cs.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

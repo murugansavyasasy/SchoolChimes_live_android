@@ -1,24 +1,24 @@
 -- Merging decision tree log ---
 manifest
-ADDED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml:1:1-11:12
-INJECTED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml:1:1-11:12
+ADDED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml:1:1-11:12
+INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml:1:1-11:12
 	package
-		INJECTED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml
+		INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml:1:11-69
+		ADDED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml:1:11-69
 application
-ADDED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml:4:5-9:19
+ADDED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml:4:5-9:19
 	android:supportsRtl
-		ADDED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml:6:18-44
+		ADDED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml:6:18-44
 	android:label
-		ADDED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml:5:18-50
+		ADDED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml:5:18-50
 	android:allowBackup
-		ADDED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml:4:18-44
+		ADDED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml:4:18-44
 uses-sdk
-INJECTED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml
-INJECTED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml
+INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml
+INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml
+		INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from E:\SchoolChimes_live_android\Zcustomcalendar\src\main\AndroidManifest.xml
+		INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Zcustomcalendar/src/main/AndroidManifest.xml
