@@ -2,20 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Transcoder.iml" filepath="$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Transcoder.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Transcoder.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Transcoder.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Transcoder.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Transcoder.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Transcoder.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Transcoder.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Zcustomcalendar/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Zcustomcalendar.iml" filepath="$PROJECT_DIR$/.idea/modules/Zcustomcalendar/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Zcustomcalendar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Zcustomcalendar/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Zcustomcalendar.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/Zcustomcalendar/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Zcustomcalendar.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Zcustomcalendar/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Zcustomcalendar.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Zcustomcalendar/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Zcustomcalendar.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Zcustomcalendar/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Zcustomcalendar.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/Zcustomcalendar/SchoolChimes_129(7.6.22).SchoolChimes_live_android.Zcustomcalendar.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolChimes_live_android.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolChimes_live_android.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bannerslider/SchoolChimes_live_android.Bannerslider.iml" filepath="$PROJECT_DIR$/.idea/modules/Bannerslider/SchoolChimes_live_android.Bannerslider.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bannerslider/SchoolChimes_live_android.Bannerslider.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/Bannerslider/SchoolChimes_live_android.Bannerslider.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bannerslider/SchoolChimes_live_android.Bannerslider.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Bannerslider/SchoolChimes_live_android.Bannerslider.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bannerslider/SchoolChimes_live_android.Bannerslider.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/Bannerslider/SchoolChimes_live_android.Bannerslider.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.SchoolChimes_live_android.vsparents.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.SchoolChimes_live_android.vsparents.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_live_android.Transcoder.iml" filepath="$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_live_android.Transcoder.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_live_android.Transcoder.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_live_android.Transcoder.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_live_android.Transcoder.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Transcoder/SchoolChimes_live_android.Transcoder.main.iml" />
@@ -28,10 +19,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.main.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/vsparents/SchoolChimes_live_android.vsparents.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bannerslider/com.ss.bannerslider.SchoolChimes_live_android.Bannerslider.iml" filepath="$PROJECT_DIR$/.idea/modules/Bannerslider/com.ss.bannerslider.SchoolChimes_live_android.Bannerslider.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bannerslider/com.ss.bannerslider.SchoolChimes_live_android.Bannerslider.androidTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/Bannerslider/com.ss.bannerslider.SchoolChimes_live_android.Bannerslider.androidTest~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bannerslider/com.ss.bannerslider.SchoolChimes_live_android.Bannerslider.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/Bannerslider/com.ss.bannerslider.SchoolChimes_live_android.Bannerslider.main~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bannerslider/com.ss.bannerslider.SchoolChimes_live_android.Bannerslider.unitTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/Bannerslider/com.ss.bannerslider.SchoolChimes_live_android.Bannerslider.unitTest~1.iml" />
     </modules>
   </component>
 </project>

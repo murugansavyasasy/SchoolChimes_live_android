@@ -5,7 +5,7 @@
 5    <uses-sdk android:minSdkVersion="21" />
 6
 7    <application android:label="@string/app_name" />
-7-->/Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Bannerslider/src/main/AndroidManifest.xml:3:5-53
-7-->/Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Bannerslider/src/main/AndroidManifest.xml:3:19-51
+7-->D:\Master\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml:3:5-53
+7-->D:\Master\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml:3:19-51
 8
 9</manifest>
