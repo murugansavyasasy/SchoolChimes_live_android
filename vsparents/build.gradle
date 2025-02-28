@@ -8,7 +8,7 @@ android {
             keyPassword 'android123'
         }
     }
-    compileSdk 34
+    compileSdk 35
     namespace 'com.vs.schoolmessenger'
     defaultConfig {
         applicationId "com.vs.schoolmessenger"
@@ -42,6 +42,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+//    kotlinOptions {
+//        jvmTarget = '11'
+//    }
 }
 
 repositories {
@@ -59,12 +66,12 @@ dependencies {
     implementation files('libs/volley.jar')
     implementation files('libs/IBookGPT.aar')
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.10.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
@@ -72,13 +79,16 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.ms-square:expandableTextView:0.1.4'
-    implementation 'id.zelory:compressor:2.1.0'
-    implementation 'com.jsibbold:zoomage:1.2.0'
+//    implementation 'id.zelory:compressor:2.1.0'
+    implementation 'com.jsibbold:zoomage:1.3.1'
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
     implementation 'io.github.inflationx:viewpump:2.0.3'
     implementation 'com.google.firebase:firebase-core:21.1.1'
-    implementation 'com.google.firebase:firebase-messaging:24.0.1'
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.google.firebase:firebase-messaging:24.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation project(':Transcoder')
+    implementation project(':Zcustomcalendar')
+    implementation project(':Bannerslider')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.kbeanie:multipicker:1.1.31@aar'
     implementation 'com.code-troopers.betterpickers:library:3.1.0'
@@ -88,26 +98,28 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.2'
     implementation 'com.commonsware.cwac:camera:0.6.+'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'net.ypresto.androidtranscoder:android-transcoder:0.2.0'
+//    implementation 'net.ypresto.androidtranscoder:android-transcoder:0.2.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.google.android.gms:play-services-auth:21.2.0'
+    implementation 'com.google.android.gms:play-services-auth:21.3.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:18.1.0'
     implementation 'com.google.android.gms:play-services-base:18.5.0'
     implementation 'com.google.android.play:app-update:2.1.0'
-    implementation 'com.ss.bannerslider:bannerslider:2.0.0'
+//    implementation 'com.ss.bannerslider:bannerslider:2.0.0'
     implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.android.gms:play-services-ads:23.6.0'
+    implementation 'com.google.android.ump:user-messaging-platform:3.1.0'
 
     implementation 'com.google.android.gms:play-services-ads:23.6.0'
     implementation 'com.google.android.ump:user-messaging-platform:2.2.0'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.applandeo:material-calendar-view:1.9.2'
-    implementation 'org.naishadhparmar.zcustomcalendar:zcustomcalendar:1.0.1'
+//    implementation 'org.naishadhparmar.zcustomcalendar:zcustomcalendar:1.0.1'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
     implementation 'com.applandeo:material-calendar-view:1.9.2'
     implementation 'com.annimon:stream:1.2.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.google.errorprone:error_prone_annotations:2.23.0'
+    implementation 'com.google.errorprone:error_prone_annotations:2.26.0'
     implementation 'com.github.fornewid:neumorphism:0.3.0'
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation 'androidx.biometric:biometric:1.1.0'

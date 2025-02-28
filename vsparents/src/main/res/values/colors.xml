@@ -5,6 +5,7 @@
     <color name="colorAccent">#006064</color>
     <color name="clr_window_bg">#F4F4F4</color>
     <color name="clr_btn_login">#006064</color>
+    <color name="custom_pink">#FBEBED</color>
     <color name="clr_blue_events">#FF74C2EA</color>
     <color name="clr_blue_bg">#FFACDEF7</color>
     <color name="clr_chimes_red">#f64148</color>
@@ -37,6 +38,7 @@
     <color name="clr_yellow">#F8A220</color>
     <color name="clr_yellow_transparency">#ffa79d</color>
     <color name="clr_pink">#D51F45</color>
+    <color name="grey">#ACACBA</color>
     <color name="clr_blue">#006064</color>
     <color name="light_grey">#f5f6f8</color>
     <color name="clr_bottombar_bg">#4B4B4D</color>
