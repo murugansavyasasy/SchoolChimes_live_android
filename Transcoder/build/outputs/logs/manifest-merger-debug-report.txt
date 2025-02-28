@@ -1,18 +1,18 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:1:1-5:12
+ADDED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:1:1-5:12
 	package
-		INJECTED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
+		INJECTED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:1:11-69
+		ADDED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:1:11-69
 application
-ADDED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:3:5-20
+ADDED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:3:5-20
 uses-sdk
-INJECTED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
-INJECTED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
+INJECTED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
+INJECTED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
+		INJECTED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\Master\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
+		INJECTED from D:\Development\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
