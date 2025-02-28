@@ -1,0 +1,4 @@
+#Fri Feb 21 18:20:05 IST 2025
+base.0=E\:\\SchoolChimes_live_android\\Zcustomcalendar\\build\\intermediates\\dex\\debugAndroidTest\\mergeDexDebugAndroidTest\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

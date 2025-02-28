@@ -1,0 +1,20 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml:1:1-5:12
+	package
+		INJECTED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml:1:11-69
+application
+ADDED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml:3:5-53
+	android:label
+		ADDED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml:3:19-51
+uses-sdk
+INJECTED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml
+INJECTED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\SchoolChimes_live_android\Bannerslider\src\main\AndroidManifest.xml
