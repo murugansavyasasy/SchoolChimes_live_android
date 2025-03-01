@@ -30,6 +30,7 @@
             android:layout_marginTop="15dp"
             android:gravity="center"
             android:layout_gravity="center"
+
             android:textSize="20sp"/>
 
         <LinearLayout
@@ -58,6 +59,7 @@
                     android:text="Date"
                     android:textColor="@color/grey"
                     android:textStyle="normal"
+                    android:fontFamily="@font/montserratmedium"
                     android:textSize="13sp" />
 
                 <TextView
@@ -68,6 +70,7 @@
                     android:textColor="@color/clr_black"
                     android:textStyle="normal"
                     android:textSize="15sp"
+                    android:fontFamily="@font/montserratmedium"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
 
@@ -88,6 +91,7 @@
                     android:textColor="@color/grey"
                     android:textStyle="normal"
                     android:textSize="13sp"
+                    android:fontFamily="@font/montserratmedium"
                     />
 
                 <TextView
@@ -98,6 +102,7 @@
                     android:textColor="@color/clr_black"
                     android:textStyle="normal"
                     android:textSize="15sp"
+                    android:fontFamily="@font/montserratmedium"
                     android:layout_marginTop="8dp"
                     />
             </LinearLayout>
@@ -119,6 +124,7 @@
                     android:textColor="@color/grey"
                     android:textStyle="normal"
                     android:textSize="13sp"
+                    android:fontFamily="@font/montserratmedium"
                     />
 
                 <TextView
@@ -129,6 +135,7 @@
                     android:textColor="@color/clr_black"
                     android:textStyle="normal"
                     android:textSize="15sp"
+                    android:fontFamily="@font/montserratmedium"
                     android:layout_marginTop="8dp"
                     />
             </LinearLayout>
@@ -149,6 +156,7 @@
         android:textAllCaps="true"
         android:textStyle="bold"
         android:textSize="17sp"
+        android:fontFamily="@font/montserratmedium"
         android:gravity="center"
         android:background="@drawable/bg_background_coupon"
         android:layout_marginBottom="13dp"
@@ -183,8 +191,9 @@
         android:textColor="@color/teacher_clr_grey_dark"
         android:textAllCaps="true"
             android:layout_marginStart="5dp"
+            android:fontFamily="@font/montserratmedium"
         android:textStyle="normal"
-        android:textSize="8sp"
+        android:textSize="10sp"
          />
 
     </LinearLayout>
@@ -215,7 +224,8 @@
         android:textAllCaps="true"
         android:layout_marginStart="5dp"
         android:textStyle="normal"
-        android:textSize="8sp" />
+        android:fontFamily="@font/montserratmedium"
+        android:textSize="10sp" />
 
     </LinearLayout>
 
@@ -241,6 +251,7 @@
                 android:textStyle="normal"
                 android:textSize="15sp"
                 android:layout_weight="1"
+                android:fontFamily="@font/montserratmedium"
                 android:layout_marginStart="10dp"/>
 
             <ImageView
@@ -261,8 +272,10 @@
             android:text="Here are some important thakdjnkasjdn jkansjdknkjnadksad nkajndkjnkjasnkjasndkings to remember..."
             android:textSize="14sp"
             android:textStyle="normal"
-            android:padding="10dp"
+           android:layout_marginTop="@dimen/_6sdp"
             android:layout_marginEnd="40dp"
+            android:fontFamily="@font/montserratmedium"
+            android:layout_marginStart="10dp"
             android:visibility="gone"
             android:textColor="@color/grey"/>
     </LinearLayout>
@@ -300,6 +313,7 @@
                 android:textStyle="normal"
                 android:textSize="15sp"
                 android:layout_weight="1"
+                android:fontFamily="@font/montserratmedium"
                 android:layout_marginStart="10dp"/>
 
             <ImageView
@@ -321,6 +335,7 @@
             android:textStyle="normal"
             android:padding="10dp"
             android:layout_marginEnd="40dp"
+            android:fontFamily="@font/montserratmedium"
             android:visibility="gone"
             android:textColor="@color/grey"/>
     </LinearLayout>
@@ -395,6 +410,7 @@
                         android:textStyle="bold"
                         android:textSize="17sp"
                         android:layout_marginTop="12dp"
+                        android:fontFamily="@font/montserratmedium"
                         android:layout_marginStart="5dp"/>
 
                     <TextView
@@ -402,9 +418,9 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/offer_text1"
                         android:text="FUN2023"
-                        android:textColor="@color/clr_black"
                         android:textStyle="normal"
                         android:textSize="13sp"
+                        android:fontFamily="@font/montserratmedium"
                         android:layout_marginStart="5dp"/>
 
                 </LinearLayout>

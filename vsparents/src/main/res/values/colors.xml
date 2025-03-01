@@ -6,6 +6,8 @@
     <color name="clr_window_bg">#F4F4F4</color>
     <color name="clr_btn_login">#006064</color>
     <color name="custom_pink">#FBEBED</color>
+
+    <color name="custom_pink1">#FFEEEF</color>
     <color name="clr_blue_events">#FF74C2EA</color>
     <color name="clr_blue_bg">#FFACDEF7</color>
     <color name="clr_chimes_red">#f64148</color>
@@ -27,6 +29,7 @@
     <color name="clr_white">#FFFFFF</color>
     <color name="clr_white_fifty">#80FFFFFF</color>
     <color name="clr_black">#000000</color>
+    <color name="clr_black9">#0000000D</color>
     <color name="clr_black1">#414040</color>
     <color name="clr_black_trans_50">#80000000</color>
     <color name="clr_black_trans_20">#33000000</color>

@@ -47,6 +47,7 @@
                     android:textColor="@color/clr_black"
                     android:textStyle="bold"
                     android:textSize="15sp"
+                    android:fontFamily="@font/montserratmedium"
                     android:layout_marginStart="5dp"/>
 
                 <TextView
@@ -54,9 +55,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/desc_text"
                     android:text="Saloon&amp;Spa"
-                    android:textColor="@color/clr_black"
                     android:textStyle="normal"
                     android:textSize="13sp"
+                    android:fontFamily="@font/montserratmedium"
                     android:layout_marginStart="5dp"/>
 
             </LinearLayout>
@@ -88,6 +89,7 @@
                 android:textStyle="normal"
                 android:layout_marginTop="5dp"
                 android:textSize="13sp"
+                android:fontFamily="@font/montserratmedium"
                 android:layout_marginStart="5dp"/>
 
 
@@ -111,6 +113,8 @@
         android:orientation="vertical"
         android:padding="10dp"
         android:layout_marginTop="20dp">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -142,14 +146,17 @@
                 android:src="@drawable/frame_text"
                 android:layout_gravity="center"/>
 
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/desc_text6"
                 android:text="Let the staff can scan the QR Code or"
-                android:textColor="@color/clr_black"
+                android:textColor="@color/teacher_clr_grey_dark"
                 android:textStyle="normal"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/montserratmedium"
                 android:textSize="11sp"
                 android:layout_marginStart="5dp"/>
 
@@ -158,8 +165,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/desc_text7"
                 android:text="Use the coupon code to claim the offer"
-                android:textColor="@color/clr_black"
+                android:textColor="@color/teacher_clr_grey_dark"
                 android:textStyle="normal"
+                android:fontFamily="@font/montserratmedium"
                 android:textSize="11sp"
                 android:layout_marginStart="5dp"/>
 
@@ -238,31 +246,69 @@
                 android:layout_gravity="bottom" />
 
 
-            <TextView
-                android:id="@+id/btn_activate_coupon4"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Coupons sent to your Whatsapp"
-                android:textColor="@color/teacher_clr_grey_dark"
-                android:textAllCaps="true"
-                android:textStyle="normal"
-                android:textSize="8sp"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="bottom" />
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:gravity="center"
+                >
 
-            <TextView
-                android:id="@+id/btn_activate_coupon3"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/verified_icon"
+                    android:src="@drawable/verified"
+                    />
+
+
+                <TextView
+                    android:id="@+id/btn_activate_coupon4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Coupons sent to your Whatsapp"
+                    android:textColor="@color/teacher_clr_grey_dark"
+                    android:textAllCaps="true"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserratmedium"
+                    android:textStyle="normal"
+                    android:textSize="10sp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Coupons saved in my Pauket"
-                android:textColor="@color/teacher_clr_grey_dark"
-                android:textAllCaps="true"
-                android:textStyle="normal"
-                android:textSize="8sp"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="13dp"
-                android:layout_gravity="bottom" />
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/verified_icon1"
+                    android:src="@drawable/verified"
+                    />
+
+                <TextView
+                    android:id="@+id/btn_activate_coupon3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Coupons saved in my Pauket"
+                    android:textColor="@color/teacher_clr_grey_dark"
+                    android:textAllCaps="true"
+                    android:layout_marginStart="5dp"
+                    android:textStyle="normal"
+                    android:fontFamily="@font/montserratmedium"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/linear_layout6"
@@ -286,6 +332,7 @@
                         android:textStyle="normal"
                         android:textSize="15sp"
                         android:layout_weight="1"
+                        android:fontFamily="@font/montserratmedium"
                         android:layout_marginStart="10dp"/>
 
                     <ImageView
@@ -308,6 +355,8 @@
                     android:padding="10dp"
                     android:layout_marginEnd="40dp"
                     android:visibility="gone"
+                    android:fontFamily="@font/montserratmedium"
+
                     android:textColor="@color/grey"/>
             </LinearLayout>
             <View
@@ -341,6 +390,7 @@
                         android:textColor="@color/clr_black"
                         android:textStyle="normal"
                         android:textSize="15sp"
+                        android:fontFamily="@font/montserratmedium"
                         android:layout_weight="1"
                         android:layout_marginStart="10dp"/>
 
@@ -364,6 +414,8 @@
                     android:padding="10dp"
                     android:layout_marginEnd="40dp"
                     android:visibility="gone"
+                    android:fontFamily="@font/montserratmedium"
+
                     android:textColor="@color/grey"/>
             </LinearLayout>
 
@@ -396,6 +448,7 @@
                         android:textColor="@color/clr_black"
                         android:textStyle="normal"
                         android:textSize="15sp"
+                        android:fontFamily="@font/montserratmedium"
                         android:layout_weight="1"
                         android:layout_marginStart="10dp"/>
 

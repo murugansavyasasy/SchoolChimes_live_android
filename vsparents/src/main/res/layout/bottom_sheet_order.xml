@@ -19,12 +19,18 @@
             android:scaleType="fitStart"
             android:src="@drawable/coupon_banner"/>
 
+        <!-- Lottie Animation -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_animation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_rawRes="@raw/animation"
+            app:lottie_autoPlay="false"
+            android:layout_gravity="center"
+            app:lottie_loop="false"/>
+
     </LinearLayout>
 
-
-
     <include layout="@layout/bottomsheet_ordercoupon"/>
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
