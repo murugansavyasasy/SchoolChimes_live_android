@@ -62,6 +62,7 @@ public class ParentSlotBookingAdapter extends RecyclerView.Adapter<ParentSlotBoo
         SlotDetailAdapter adapter = new SlotDetailAdapter(context, groupedSlot.getSlots(), allSlotDetails);
         adapter.setOnSlotSelectedListener(() -> {
             if (holder.gridViewSlots != null) {
+                onChildItemClickListener.onChildItemClick("isClick");
                 holder.gridViewSlots.post(() -> notifyDataSetChanged());
             }
         });

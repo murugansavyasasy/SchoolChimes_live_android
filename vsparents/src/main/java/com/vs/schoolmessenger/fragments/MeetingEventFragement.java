@@ -422,7 +422,13 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
 
     @Override
     public void onChildItemClick(String clickedDate) {
-        parentSlotBookingAdapter.notifyDataSetChanged();
+        if (Util_Common.isSelectedSlotIds.size() > 0) {
+            BtnSlotBook.setEnabled(true);
+            BtnSlotBook.setBackgroundResource(R.drawable.bg_button_book_slots);
+        } else {
+            BtnSlotBook.setEnabled(false);
+            BtnSlotBook.setBackgroundResource(R.drawable.bg_gray_button);
+        }
     }
 
     @Override
