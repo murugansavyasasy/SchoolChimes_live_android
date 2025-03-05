@@ -210,7 +210,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                 isDownload = true;
                 Log.d("isVideoDownloadId", isVideoDownloadId);
                 String authToken = TeacherUtil_SharedPreference.getVideotoken(VimeoVideoPlayerActivity.this);
-                VimeoHelper.getVimeoDownloadUrl(isVideoDownloadId,authToken, VimeoVideoPlayerActivity.this);
+                VimeoHelper.getVimeoDownloadUrl(isVideoDownloadId, authToken, VimeoVideoPlayerActivity.this);
 
             }
         });
@@ -244,7 +244,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
     public void onDownloadUrlRetrieved(String quality, String downloadUrl) {
         if (isDownload) {
             isDownload = false;
-            if (!isVideoDownloaded(isVideoTitle)) {
+            if (!isVideoDownloaded(isVideoTitle + ".mp4")) {
                 downloadVideo(VimeoVideoPlayerActivity.this, downloadUrl);
             } else {
                 ((Activity) VimeoVideoPlayerActivity.this).runOnUiThread(new Runnable() {
