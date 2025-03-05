@@ -7,8 +7,8 @@ ss.com.bannerslider.test.Bannerslider-jetified-customview-poolingcontainer-1.0.0
 ss.com.bannerslider.test.Bannerslider-jetified-startup-runtime-1.1.1-6 C:\Users\USER\.gradle\caches\8.14-milestone-2\transforms\9d70e0f7cf76bdf3aa0922ee826a5aa3\transformed\jetified-startup-runtime-1.1.1\res
 ss.com.bannerslider.test.Bannerslider-core-1.13.0-7 C:\Users\USER\.gradle\caches\8.14-milestone-2\transforms\f2d750dd092486d5b96988fa8535381b\transformed\core-1.13.0\res
 ss.com.bannerslider.test.Bannerslider-recyclerview-1.4.0-8 C:\Users\USER\.gradle\caches\8.14-milestone-2\transforms\f81e57f35858df79f905ea19322bf436\transformed\recyclerview-1.4.0\res
-ss.com.bannerslider.test.Bannerslider-androidTest-9 E:\SchoolChimes_live_android\Bannerslider\build\generated\res\resValues\androidTest\debug
-ss.com.bannerslider.test.Bannerslider-mergeDebugAndroidTestResources-10 E:\SchoolChimes_live_android\Bannerslider\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
-ss.com.bannerslider.test.Bannerslider-mergeDebugAndroidTestResources-11 E:\SchoolChimes_live_android\Bannerslider\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
-ss.com.bannerslider.test.Bannerslider-debugAndroidTest-12 E:\SchoolChimes_live_android\Bannerslider\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
-ss.com.bannerslider.test.Bannerslider-debug-13 E:\SchoolChimes_live_android\Bannerslider\build\intermediates\packaged_res\debug\packageDebugResources
+ss.com.bannerslider.test.Bannerslider-androidTest-9 D:\Development\SchoolChimes_live_android\Bannerslider\build\generated\res\resValues\androidTest\debug
+ss.com.bannerslider.test.Bannerslider-mergeDebugAndroidTestResources-10 D:\Development\SchoolChimes_live_android\Bannerslider\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+ss.com.bannerslider.test.Bannerslider-mergeDebugAndroidTestResources-11 D:\Development\SchoolChimes_live_android\Bannerslider\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+ss.com.bannerslider.test.Bannerslider-debugAndroidTest-12 D:\Development\SchoolChimes_live_android\Bannerslider\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
+ss.com.bannerslider.test.Bannerslider-debug-13 D:\Development\SchoolChimes_live_android\Bannerslider\build\intermediates\packaged_res\debug\packageDebugResources

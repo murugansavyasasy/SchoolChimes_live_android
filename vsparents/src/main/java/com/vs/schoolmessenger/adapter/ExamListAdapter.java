@@ -32,11 +32,11 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-public class ExamListAdapter extends
-        RecyclerView.Adapter<ExamListAdapter.MyViewHolder> {
+
+public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.MyViewHolder> {
     private List<ExamList> lib_list;
     Context context;
-    String child_id,schoolid;
+    String child_id, schoolid;
 
     public void clearAllData() {
         int size = this.lib_list.size();
@@ -51,7 +51,7 @@ public class ExamListAdapter extends
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView Exam_Name;
         public RelativeLayout rytExams;
-        Button btnMarks,btnProgress;
+        Button btnMarks, btnProgress;
 
         public MyViewHolder(View view) {
             super(view);
@@ -62,20 +62,20 @@ public class ExamListAdapter extends
 
         }
     }
+
     public ExamListAdapter(List<ExamList> lib_list, Context context) {
         this.lib_list = lib_list;
         this.context = context;
     }
+
     @Override
-    public ExamListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int
-            viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.exams, parent, false);
+    public ExamListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.exams, parent, false);
         return new ExamListAdapter.MyViewHolder(itemView);
     }
+
     @Override
-    public void onBindViewHolder(final ExamListAdapter.MyViewHolder holder, final int
-            position) {
+    public void onBindViewHolder(final ExamListAdapter.MyViewHolder holder, final int position) {
         final ExamList exam = lib_list.get(position);
         child_id = Util_SharedPreference.getChildIdFromSP(context);
         schoolid = Util_SharedPreference.getSchoolIdFromSP(context);
@@ -90,12 +90,13 @@ public class ExamListAdapter extends
         holder.btnMarks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(context, ViewExamMarks.class);
-                i.putExtra("examid",exam.getId());
+                Intent i = new Intent(context, ViewExamMarks.class);
+                i.putExtra("examid", exam.getId());
                 context.startActivity(i);
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return lib_list.size();
@@ -105,33 +106,31 @@ public class ExamListAdapter extends
         lib_list = temp;
         notifyDataSetChanged();
     }
+
     private void progressApi(ExamList exam) {
 
-            String baseURL = TeacherUtil_SharedPreference.getBaseUrl(context);
-            TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(context);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-        TeacherMessengerApiInterface apiService =
-                TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("SchoolID",schoolid );
+        jsonObject.addProperty("SchoolID", schoolid);
         jsonObject.addProperty("ChildID", child_id);
-        jsonObject.addProperty("ExamID",exam.getId());
+        jsonObject.addProperty("ExamID", exam.getId());
 
         Log.d("jsonObject", jsonObject.toString());
         Call<JsonObject> call = apiService.GetProgressCardLink(jsonObject);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject>
-                    response) {
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
                 try {
-                    if (mProgressDialog.isShowing())
-                        mProgressDialog.dismiss();
+                    if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
                     Log.d("login:code-res", response.code() + " - " + response.toString());
                     if (response.code() == 200 || response.code() == 201) {
                         Log.d("Response", response.body().toString());
@@ -141,12 +140,12 @@ public class ExamListAdapter extends
                             String message = jsonObject.getString("Message");
                             if (status.equals("1")) {
                                 String progresslink = jsonObject.getString("Data");
-                                if(!progresslink.equals("")){
+                                if (!progresslink.equals("")) {
 
                                     Intent receipt = new Intent(context, PdfWebView.class);
-                                    receipt.putExtra("URL",progresslink);
-                                    receipt.putExtra("tittle","Report Card");
-                                    receipt.putExtra("ID",exam.getId());
+                                    receipt.putExtra("URL", progresslink);
+                                    receipt.putExtra("tittle", "Report Card");
+                                    receipt.putExtra("ID", exam.getId());
                                     context.startActivity(receipt);
 
 //                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
@@ -154,11 +153,9 @@ public class ExamListAdapter extends
 //                                    context.startActivity(browserIntent);
 
 
-                                }
-                                else{
+                                } else {
                                     showAlertfinish(message);
                                 }
-
                             } else {
                                 showAlertfinish(message);
                             }
@@ -166,24 +163,24 @@ public class ExamListAdapter extends
                             Log.e("TextMsg:Exception", e.getMessage());
                         }
                     } else {
-                        Toast.makeText(context, "Server Response Failed",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Server Response Failed", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.e("Response Exception", e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
-                if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+                if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
                 Toast.makeText(context, "Server Connection Failed",
 
                         Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     private void showAlertfinish(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("Alert");

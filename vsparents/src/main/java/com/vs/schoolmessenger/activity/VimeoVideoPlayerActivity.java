@@ -210,7 +210,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                 isDownload = true;
                 Log.d("isVideoDownloadId", isVideoDownloadId);
                 String authToken = TeacherUtil_SharedPreference.getVideotoken(VimeoVideoPlayerActivity.this);
-                VimeoHelper.getVimeoDownloadUrl(isVideoDownloadId,authToken, VimeoVideoPlayerActivity.this);
+                VimeoHelper.getVimeoDownloadUrl(isVideoDownloadId, authToken, VimeoVideoPlayerActivity.this);
 
             }
         });
@@ -244,7 +244,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
     public void onDownloadUrlRetrieved(String quality, String downloadUrl) {
         if (isDownload) {
             isDownload = false;
-            if (!isVideoDownloaded(isVideoTitle)) {
+            if (!isVideoDownloaded(isVideoTitle + ".mp4")) {
                 downloadVideo(VimeoVideoPlayerActivity.this, downloadUrl);
             } else {
                 ((Activity) VimeoVideoPlayerActivity.this).runOnUiThread(new Runnable() {
@@ -305,9 +305,11 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
             directory.mkdirs();
         }
 
+        String videoFileName = isVideoTitle + ".mp4";
+
         Uri uri = Uri.parse(downloadUrl);
         DownloadManager.Request request = new DownloadManager.Request(uri);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, VIDEO_FOLDER + "/" + isVideoTitle);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, VIDEO_FOLDER + "/" + videoFileName);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -316,6 +318,7 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
             progressLoading = 49;
             progressText.setText(progressLoading + "%");
             progressBar.setProgress(progressLoading);
+
             // Handler to periodically check download progress
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
@@ -328,13 +331,12 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                     if (cursor != null && cursor.moveToFirst()) {
                         @SuppressLint("Range") int bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
                         @SuppressLint("Range") int totalBytes = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+
                         progressLoading = 61;
                         progressText.setText(progressLoading + "%");
                         progressBar.setProgress(progressLoading);
+
                         if (totalBytes > 0) {
-//                            int progress = (int) ((bytesDownloaded * 100L) / totalBytes);
-//                            progressBar.setProgress(progress);
-//                            progressText.setText(progress + "%");
                             progressLoading = 91;
                             progressText.setText(progressLoading + "%");
                             progressBar.setProgress(progressLoading);
@@ -348,9 +350,9 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                                 progressLoading = 100;
                                 progressText.setText(progressLoading + "%");
                                 progressBar.setProgress(progressLoading);
-                                showAlert((Activity) context, getResources().getString(R.string.Downloaded_successfully), R.string.File_stored + VIDEO_FOLDER + "/" + isVideoTitle);
+                                showAlert((Activity) context, context.getString(R.string.Downloaded_successfully), context.getString(R.string.File_stored) + VIDEO_FOLDER + "/" + videoFileName);
                             } else if (status == DownloadManager.STATUS_FAILED) {
-                                showAlert((Activity) context, getResources().getString(R.string.Download_failed), "");
+                                showAlert((Activity) context, context.getString(R.string.Download_failed), "");
                             }
                             return;
                         }

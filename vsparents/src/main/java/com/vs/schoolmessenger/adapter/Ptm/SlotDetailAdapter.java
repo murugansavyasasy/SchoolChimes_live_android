@@ -1,10 +1,13 @@
 package com.vs.schoolmessenger.adapter.Ptm;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,8 +36,8 @@ public class SlotDetailAdapter extends BaseAdapter {
         this.slotDetails = slotDetails;
         this.allSlotDetails = allSlotDetails;
         this.timeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-    }
 
+    }
 
     @Override
     public int getCount() {
@@ -62,13 +65,16 @@ public class SlotDetailAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
         SlotDetail slotDetail = slotDetails.get(position);
         holder.tvFromTime.setText(slotDetail.getFrom_time() + " - " + slotDetail.getTo_time());
         convertView.setEnabled(true);
         TextView isTiming = holder.tvFromTime;
         RelativeLayout isTimeCard = holder.crdTiming;
         isTimeCard.setAlpha(1f);
+
+        new Handler().postDelayed(() -> {
+            processSlotSelection(slotDetail, isTiming, isTimeCard);
+        }, 500);
 
         /** Is selected function */
 
@@ -125,41 +131,6 @@ public class SlotDetailAdapter extends BaseAdapter {
         }
 
 
-        /** If already booked slot disabled code */
-        if (slotDetail.getIsBooking() == 1) {
-            Util_Common.isBookedIds.add(slotDetail.getIsSpecificMeeting());
-        }
-        if (Util_Common.isDataLoadingOver) {
-            if (onSlotSelectedListener != null) {
-                Util_Common.isDataLoadingOver = false;
-                onSlotSelectedListener.onSlotSelected();
-            }
-        }
-
-        if (Util_Common.isBookedIds.size() > 0) {
-            for (int i = 0; i <= Util_Common.isBookedIds.size() - 1; i++) {
-                if (Util_Common.isBookedIds.get(i) == slotDetail.getIsSpecificMeeting()) {
-                    if (slotDetail.getIsBooking() != 1) {
-                        isTimeCard.setEnabled(false);
-                        isTimeCard.setAlpha(0.5f);
-                    } else {
-                        Util_Common.isSelectedTime.add(slotDetail.getFrom_time() + isEqual + slotDetail.getTo_time() + isEqual + slotDetail.getSlot_id() + isEqual + slotDetail.getIsBooking());
-                        Util_Common.isHeaderSlotsIds.add(slotDetail.getSlot_id() + isHyphen + slotDetail.getIsSpecificMeeting());
-                        isTimeCard.setBackgroundResource(R.drawable.bg_slots_selected);
-                        isTiming.setTextColor(context.getResources().getColor(R.color.clr_white));
-                        isTimeCard.setAlpha(1f);
-                        isTimeCard.setEnabled(false);
-                        try {
-                            isTimeOverLapping();
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            }
-        }
-
-
         /** Slot Clicking */
         isTimeCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,12 +154,44 @@ public class SlotDetailAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
+
                 if (onSlotSelectedListener != null) {
                     onSlotSelectedListener.onSlotSelected();
                 }
             }
         });
         return convertView;
+    }
+
+    private void processSlotSelection(SlotDetail slotDetail, TextView isTiming, RelativeLayout isTimeCard) {
+        if (slotDetail.getIsBooking() == 1) {
+            Util_Common.isBookedIds.add(slotDetail.getIsSpecificMeeting());
+        }
+        if (Util_Common.isDataLoadingOver) {
+            if (onSlotSelectedListener != null) {
+                Util_Common.isDataLoadingOver = false;
+                onSlotSelectedListener.onSlotSelected();
+            }
+        }
+
+        if (Util_Common.isBookedIds.contains(slotDetail.getIsSpecificMeeting())) {
+            if (slotDetail.getIsBooking() != 1) {
+                isTimeCard.setEnabled(false);
+                isTimeCard.setAlpha(0.5f);
+            } else {
+                Util_Common.isSelectedTime.add(slotDetail.getFrom_time() + isEqual + slotDetail.getTo_time() + isEqual + slotDetail.getSlot_id() + isEqual + slotDetail.getIsBooking());
+                Util_Common.isHeaderSlotsIds.add(slotDetail.getSlot_id() + isHyphen + slotDetail.getIsSpecificMeeting());
+                isTimeCard.setBackgroundResource(R.drawable.bg_slots_selected);
+                isTiming.setTextColor(context.getResources().getColor(R.color.clr_white));
+                isTimeCard.setAlpha(1f);
+                isTimeCard.setEnabled(false);
+                try {
+                    isTimeOverLapping();
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
 
@@ -223,11 +226,31 @@ public class SlotDetailAdapter extends BaseAdapter {
             if (isBooking != 1) {
                 Util_Common.isSelectedSlotIds.add(slotId);
             }
-            Date fromTimeDate = inputFormat.parse(fromTime);
-            Date toTimeDate = inputFormat.parse(toTime);
+            Date fromTimeDate = null;
+            try {
+                fromTimeDate = inputFormat.parse(fromTime);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            Date toTimeDate = null;
+            try {
+                toTimeDate = inputFormat.parse(toTime);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
             for (SlotDetail otherSlot : allSlotDetails) {
-                Date slotFrom = timeFormat.parse(otherSlot.getFrom_time());
-                Date slotTo = timeFormat.parse(otherSlot.getTo_time());
+                Date slotFrom = null;
+                try {
+                    slotFrom = timeFormat.parse(otherSlot.getFrom_time());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                Date slotTo = null;
+                try {
+                    slotTo = timeFormat.parse(otherSlot.getTo_time());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
 
                 if (timeRangesOverlap(fromTimeDate, toTimeDate, slotFrom, slotTo, slotId)) {
                     Util_Common.overlappingSlots.add(otherSlot.getSlot_id());
@@ -245,5 +268,3 @@ public class SlotDetailAdapter extends BaseAdapter {
         return start1.before(end2) && start2.before(end1);
     }
 }
-
-

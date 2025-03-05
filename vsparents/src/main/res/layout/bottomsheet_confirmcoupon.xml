@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_bg"
+    android:orientation="vertical"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative_layout"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/small_postercoupon"
+                app:shapeAppearanceOverlay="@style/ImageMediumRoundedCorners" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/offer_text1"
+                    android:text="TONI&amp;GUY"
+                    android:textColor="@color/clr_black"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_marginStart="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/desc_text"
+                    android:text="Saloon&amp;Spa"
+                    android:textColor="@color/clr_black"
+                    android:textStyle="normal"
+                    android:textSize="13sp"
+                    android:layout_marginStart="5dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="18dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/offer_text2"
+                android:text="GET 20% OFF THIS SUMMER"
+                android:textColor="@color/clr_black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/desc_text3"
+                android:text="Expires on 23rd December"
+                android:textColor="@color/clr_red"
+                android:textStyle="normal"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
+                android:layout_marginStart="5dp"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/linear_layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/remember_symbol"
+                android:text="Book Appointment"
+                android:textColor="@color/clr_black"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:layout_marginEnd="10dp"
+            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/remember_symbol1"
+                android:text="Select Date &amp; Time"
+                android:textColor="@color/grey"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginEnd="10dp"
+                />
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/date_coupon"
+                android:padding="8dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_date_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="dd/mm/yyyy             hh:mm AM"
+                    android:textColor="@color/clr_black"
+                    android:textStyle="normal"
+                    android:layout_marginStart="10dp"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_calendar"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/calender"
+                    android:layout_marginEnd="@dimen/_12dp"
+                    android:contentDescription="Calendar Icon" />
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/remember_symbol2"
+                android:text="Select Venue"
+                android:textColor="@color/grey"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:layout_marginTop="@dimen/_12dp"
+                android:layout_marginEnd="10dp"
+                />
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/date_coupon"
+                android:padding="8dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_dropdown"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Select venue"
+                    android:textColor="@color/clr_black"
+                    android:textStyle="normal"
+                    android:layout_marginStart="10dp"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_dropdown"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/ic_down_black"
+                    android:layout_marginEnd="@dimen/_12dp"
+                  />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_activate_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:textColor="@android:color/black"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:gravity="center"
+                android:background="@drawable/bg_background_coupon"
+                android:layout_marginBottom="13dp"
+              android:layout_marginTop="15dp"
+                android:layout_gravity="bottom"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/verified_icon"
+                    android:src="@drawable/verified"
+                    />
+
+
+                <TextView
+                    android:id="@+id/btn_activate_coupon4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Coupons sent to your Whatsapp"
+                    android:textColor="@color/teacher_clr_grey_dark"
+                    android:textAllCaps="true"
+                    android:layout_marginStart="5dp"
+                    android:textStyle="normal"
+                    android:textSize="8sp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/verified_icon1"
+                    android:src="@drawable/verified"
+                    />
+
+                <TextView
+                    android:id="@+id/btn_activate_coupon3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Coupons saved in my Pauket"
+                    android:textColor="@color/teacher_clr_grey_dark"
+                    android:textAllCaps="true"
+                    android:layout_marginStart="5dp"
+                    android:textStyle="normal"
+                    android:textSize="8sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linear_layou7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/remember1"
+                        android:text="Branches you can claim"
+                        android:textColor="@color/clr_black"
+                        android:textStyle="normal"
+                        android:textSize="15sp"
+                        android:layout_weight="1"
+                      />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/remember_symbol4"
+                        android:src="@drawable/ic_down_black"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="5dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/expandable_text2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Here are some important thakdjnkasjdn jkansjdknkjnadksad nkajndkjnkjasnkjasndkings to remember..."
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:padding="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:visibility="gone"
+                    android:textColor="@color/grey"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/grey"
+                />
+
+
+            <LinearLayout
+                android:id="@+id/linear_layout6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/remember"
+                        android:text="Things to remember"
+                        android:textColor="@color/clr_black"
+                        android:textStyle="normal"
+                        android:textSize="15sp"
+                        android:layout_weight="1"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/remember_symbol3"
+                        android:src="@drawable/ic_down_black"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="5dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/expandable_text1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Here are some important thakdjnkasjdn jkansjdknkjnadksad nkajndkjnkjasnkjasndkings to remember..."
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:padding="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:visibility="gone"
+                    android:textColor="@color/grey"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/grey"
+                />
+
+
+            <LinearLayout
+                android:id="@+id/linear_layout8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/remember4"
+                        android:text="Terms &amp; Conditions"
+                        android:textColor="@color/clr_black"
+                        android:textStyle="normal"
+                        android:textSize="15sp"
+                        android:layout_weight="1"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/remember_symbol5"
+                        android:src="@drawable/ic_down_black"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="5dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/expandable_text6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Here are some important thakdjnkasjdn jkansjdknkjnadksad nkajndkjnkjasnkjasndkings to remember..."
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:padding="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:visibility="gone"
+                    android:textColor="@color/grey"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/grey"
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
