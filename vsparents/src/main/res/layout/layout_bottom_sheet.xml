@@ -26,8 +26,8 @@
             android:id="@+id/header_textview"
             android:layout_marginStart="10dp"
             android:text="Saloon &amp; Spa"
-            android:textColor="@color/clr_black"
             android:textStyle="normal"
+            android:fontFamily="@font/montserratmedium"
             android:textSize="11sp"/>
 
         <LinearLayout
@@ -56,17 +56,18 @@
                     android:textColor="@color/clr_black"
                     android:textStyle="bold"
                     android:textSize="17sp"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserratmedium"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/offer_text1"
                     android:text="TONI&amp;GUY"
-                    android:textColor="@color/clr_black"
                     android:textStyle="normal"
                     android:textSize="13sp"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserratmedium"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -78,24 +79,38 @@
             android:orientation="horizontal"
             android:layout_marginStart="10dp"
             android:layout_marginTop="7dp">
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:id="@+id/location_image"
+                android:layout_gravity="center"
+                android:src="@drawable/locationimage"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/offer_text2"
                 android:text="10 locations"
-                android:textColor="@color/clr_black"
                 android:textStyle="normal"
                 android:textSize="13sp"
+                android:fontFamily="@font/montserratmedium"
                 android:layout_marginStart="5dp"/>
+
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:id="@+id/location_imag2"
+                android:layout_gravity="center"
+                android:layout_marginStart="9dp"
+                android:src="@drawable/clockloadericon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/offer_text4"
                 android:text="Valid till 01.01.2024"
-                android:textColor="@color/clr_black"
                 android:textStyle="normal"
                 android:textSize="13sp"
+                android:fontFamily="@font/montserratmedium"
                 android:layout_marginStart="5dp"/>
         </LinearLayout>
     </LinearLayout>
@@ -120,10 +135,12 @@
                 android:id="@+id/remember"
                 android:text="Things to remember"
                 android:textColor="@color/clr_black"
-                android:textStyle="normal"
                 android:textSize="15sp"
                 android:layout_weight="1"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp"
+                android:textStyle="normal"
+                android:fontFamily="@font/montserratmedium"/>
+
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -146,6 +163,8 @@
             android:padding="10dp"
             android:layout_marginEnd="40dp"
             android:visibility="gone"
+            android:fontFamily="@font/montserratmedium"
+
             android:textColor="@color/grey"/>
     </LinearLayout>
 
@@ -182,7 +201,8 @@
             android:textStyle="normal"
             android:textSize="15sp"
             android:layout_weight="1"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/montserratmedium"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -203,6 +223,7 @@
             android:textStyle="normal"
             android:padding="10dp"
             android:layout_marginEnd="40dp"
+            android:fontFamily="@font/montserratmedium"
             android:visibility="gone"
             android:textColor="@color/grey"/>
     </LinearLayout>

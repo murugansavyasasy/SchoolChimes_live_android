@@ -1,10 +1,13 @@
 package com.vs.schoolmessenger.CouponView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +19,15 @@ public class BottomSheetSuccessActivity extends AppCompatActivity {
 
     private BottomSheetBehavior<View> bottomSheetBehavior;
 
+    private Button btnactivatecoupon;
 
+    private TextView expandableText;
+    private ImageView rememberSymbol;
 
+    private TextView expandabletext1;
+    private ImageView remembersymbol1;
+    private boolean isExpanded = false;
+    private boolean isExpanded1 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +39,12 @@ public class BottomSheetSuccessActivity extends AppCompatActivity {
         );
         setContentView(R.layout.layout_bottomsheet_success);
         ImageView imageBanner = findViewById(R.id.image_banner);
-
+        expandableText = findViewById(R.id.expandable_text);
+        expandabletext1 = findViewById(R.id.expandable_text1);
+        rememberSymbol = findViewById(R.id.remember_symbol);
+        remembersymbol1 = findViewById(R.id.remember_symbol1);
         LinearLayout bottomSheet = findViewById(R.id.bottom_sheet);
+        btnactivatecoupon = findViewById(R.id.btn_activate_coupon);
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
@@ -63,6 +77,44 @@ public class BottomSheetSuccessActivity extends AppCompatActivity {
             }
         });
 
+
+        btnactivatecoupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(BottomSheetSuccessActivity.this,CouponMainClassActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        rememberSymbol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isExpanded) {
+                    expandableText.setVisibility(View.GONE);
+                    rememberSymbol.setImageResource(R.drawable.ic_down_black);
+                } else {
+                    expandableText.setVisibility(View.VISIBLE);
+                    rememberSymbol.setImageResource(R.drawable.ic_up_arrow);
+                }
+                isExpanded = !isExpanded;
+            }
+        });
+
+        remembersymbol1.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isExpanded1) {
+                    expandabletext1.setVisibility(View.GONE);
+                    remembersymbol1.setImageResource(R.drawable.ic_down_black);
+                } else {
+                    expandabletext1.setVisibility(View.VISIBLE);
+                    remembersymbol1.setImageResource(R.drawable.ic_up_arrow);
+                }
+                isExpanded1 = !isExpanded1;
+            }
+        }));
 
     }
 

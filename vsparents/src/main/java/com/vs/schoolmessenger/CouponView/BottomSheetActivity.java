@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.CouponView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -85,6 +86,9 @@ public class BottomSheetActivity extends AppCompatActivity {
         btnactivatecoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent = new Intent(BottomSheetActivity.this,BottomSheetOrderActivity.class);
+                startActivity(intent);
 
             }
         });
