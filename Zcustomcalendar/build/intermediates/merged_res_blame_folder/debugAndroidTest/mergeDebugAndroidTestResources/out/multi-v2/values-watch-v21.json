@@ -4,7 +4,7 @@
             "outputFile": "org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-mergeDebugAndroidTestResources-4:/values-watch-v21/values-watch-v21.xml",
             "map": [
                 {
-                    "source": "/Users/admin/.gradle/caches/8.14-milestone-2/transforms/180b7de068878e196af50f2e1af7ec8c/transformed/appcompat-1.0.0/res/values-watch-v21/values-watch-v21.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\8.14-milestone-2\\transforms\\180b7de068878e196af50f2e1af7ec8c\\transformed\\appcompat-1.0.0\\res\\values-watch-v21\\values-watch-v21.xml",
                     "from": {
                         "startLines": "2,6,10",
                         "startColumns": "4,4,4",

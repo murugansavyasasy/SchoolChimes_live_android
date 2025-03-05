@@ -1,4 +1,4 @@
-#Fri Feb 28 10:15:47 IST 2025
-base.0=/Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/build/intermediates/dex/debugAndroidTest/mergeDexDebugAndroidTest/classes.dex
+#Wed Mar 05 18:18:00 IST 2025
+base.0=D\:\\SchoolChimes_live_android\\Transcoder\\build\\intermediates\\dex\\debugAndroidTest\\mergeDexDebugAndroidTest\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

@@ -1,18 +1,18 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml:1:1-5:12
-INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml:1:1-5:12
+ADDED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:1:1-5:12
 	package
-		INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml
+		INJECTED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml:1:11-69
+		ADDED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:1:11-69
 application
-ADDED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml:3:5-20
+ADDED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml:3:5-20
 uses-sdk
-INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml
-INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml
+INJECTED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
+INJECTED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml
+		INJECTED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/admin/Desktop/VS ANDROID PROJECTS/SchoolChimes_129(7.6.22)/SchoolChimes_live_android/Transcoder/src/main/AndroidManifest.xml
+		INJECTED from D:\SchoolChimes_live_android\Transcoder\src\main\AndroidManifest.xml
