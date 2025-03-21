@@ -704,8 +704,17 @@ public class FeesTab extends AppCompatActivity implements View.OnClickListener {
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if (currentFragment instanceof FeeFragment) {
+            if (((FeeFragment) currentFragment).handleBackPressed()) {
+                return; // Fragment handled it
+            }
+        }
+        super.onBackPressed();
     }
 }
 

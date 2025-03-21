@@ -1,8 +1,0 @@
-org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-appcompat-1.0.0-0 C:\Users\Admin\.gradle\caches\8.14-milestone-2\transforms\180b7de068878e196af50f2e1af7ec8c\transformed\appcompat-1.0.0\res
-org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-coordinatorlayout-1.0.0-1 C:\Users\Admin\.gradle\caches\8.14-milestone-2\transforms\558eab80bd6ae1ffae2416d0a84f9613\transformed\coordinatorlayout-1.0.0\res
-org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-core-1.0.0-2 C:\Users\Admin\.gradle\caches\8.14-milestone-2\transforms\f99c71a92ade8e4408a54fa8cf3f8895\transformed\core-1.0.0\res
-org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-androidTest-3 D:\SchoolChimes_live_android\Zcustomcalendar\build\generated\res\resValues\androidTest\debug
-org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-mergeDebugAndroidTestResources-4 D:\SchoolChimes_live_android\Zcustomcalendar\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
-org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-mergeDebugAndroidTestResources-5 D:\SchoolChimes_live_android\Zcustomcalendar\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
-org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-debugAndroidTest-6 D:\SchoolChimes_live_android\Zcustomcalendar\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
-org.naishadhparmar.zcustomcalendar.test.Zcustomcalendar-debug-7 D:\SchoolChimes_live_android\Zcustomcalendar\build\intermediates\packaged_res\debug\packageDebugResources

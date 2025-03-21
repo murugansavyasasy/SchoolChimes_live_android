@@ -88,7 +88,6 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
     private GPSStatusReceiver gpsStatusReceiver;
     private PopupWindow locationHistoryPopup;
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         String savedLanguage = LocaleHelper.getLanguage(newBase);
@@ -306,7 +305,9 @@ public class AddLocationForAttendance extends AppCompatActivity implements GPSSt
 
                     int distanceCheck = Integer.parseInt(distance);
                     if (distanceCheck >= 10) {
-                        addConfirmationAlert();
+                        if (!String.valueOf(current_latitude).equals("") && !String.valueOf(current_longitude).equals("")) {
+                            addConfirmationAlert();
+                        }
                     } else {
                         Toast.makeText(AddLocationForAttendance.this, getResources().getString(R.string.Distance_should_be_minimum_Meters), Toast.LENGTH_SHORT).show();
                     }

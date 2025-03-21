@@ -147,7 +147,9 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements Vie
 
             @Override
             public void afterTextChanged(Editable editable) {
-                filterlist(editable.toString());
+                if (!editable.toString().isEmpty()) {
+                    filterlist(editable.toString());
+                }
             }
         });
 

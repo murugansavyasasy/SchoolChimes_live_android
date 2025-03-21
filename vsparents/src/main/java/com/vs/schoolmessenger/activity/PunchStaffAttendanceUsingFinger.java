@@ -110,6 +110,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
         super.attachBaseContext(wrappedContext);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -908,19 +909,20 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
         Log.d("locationsLists", String.valueOf(locationsList.size()));
         Boolean locationIsNearBy = false;
         for (int i = 0; i < locationsList.size(); i++) {
-            Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
-            Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
-            Log.d("staff_lat", String.valueOf(Double.parseDouble(locationsList.get(i).getLatitude())));
-            Log.d("staff_long", String.valueOf(Double.parseDouble(locationsList.get(i).getLongitude())));
+            if (!locationsList.get(i).getLatitude().equals("") && !locationsList.get(i).getLongitude().equals("")) {
+                Double staff_lat = Double.parseDouble(locationsList.get(i).getLatitude());
+                Double staff_long = Double.parseDouble(locationsList.get(i).getLongitude());
+                Log.d("staff_lat", String.valueOf(Double.parseDouble(locationsList.get(i).getLatitude())));
+                Log.d("staff_long", String.valueOf(Double.parseDouble(locationsList.get(i).getLongitude())));
+                int distance = Integer.parseInt(locationsList.get(i).getDistance());
+                Log.d("distance", String.valueOf(distance));
 
-            int distance = Integer.parseInt(locationsList.get(i).getDistance());
-            Log.d("distance", String.valueOf(distance));
-
-            float resultsof = LocationDistanceCalculator.calculateDistance(latitude, longitude, staff_lat, staff_long);
-            Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
-            if (resultsof <= (float) distance) {
-                locationIsNearBy = true;
-                break;
+                float resultsof = LocationDistanceCalculator.calculateDistance(latitude, longitude, staff_lat, staff_long);
+                Log.d("Distance in metres", "Distance between points: " + resultsof + " meters");
+                if (resultsof <= (float) distance) {
+                    locationIsNearBy = true;
+                    break;
+                }
             }
         }
         if (locationIsNearBy) {
