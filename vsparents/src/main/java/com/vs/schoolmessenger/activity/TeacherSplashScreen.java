@@ -428,6 +428,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 @Override
                 public void run() {
                     String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);
+                    Log.d("strBaseURL",strBaseURL);
                     if (!strBaseURL.equals("")) {
                         String forget = TeacherUtil_SharedPreference.getForgetPasswordOtp(TeacherSplashScreen.this);
                         if (forget.equals("1")) {
@@ -508,7 +509,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
-
             }
         });
     }
@@ -1067,7 +1067,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         checkFlexibleUpdate();
                     }
                 } else {
-                    TeacherUtil_SharedPreference.putAppTermsAndConditions(TeacherSplashScreen.this, "");
                     final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                     try {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
