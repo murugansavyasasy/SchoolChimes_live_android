@@ -509,6 +509,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
             public void onFailure(Call<JsonArray> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+
             }
         });
     }
