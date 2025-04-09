@@ -3,7 +3,10 @@ package com.vs.schoolmessenger.payment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -11,8 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.ConsoleMessage;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -39,8 +40,8 @@ public class FeeFragment extends Fragment {
     private FrameLayout webViewContainer;
 
     ProgressDialog progressBar;
-
-
+    private static final String TAG = "Main";
+    AlertDialog alertDialogView;
     public FeeFragment() {
         // Required empty constructor
     }
@@ -66,6 +67,7 @@ public class FeeFragment extends Fragment {
 
         progressBar = new ProgressDialog(requireActivity());
         progressBar.setMessage("Please wait...");
+        alertDialogView = new AlertDialog.Builder(getActivity()).create();
 
         web_view.loadUrl(PaymentUrl);
         return rootView;
@@ -131,15 +133,20 @@ public class FeeFragment extends Fragment {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 String url = request.getUrl().toString();
 
-                return false; // allow WebView to load the URL normally
+                final Uri uri = Uri.parse(url);
+                return handleUri(view, uri);
+
+//                return false; // allow WebView to load the URL normally
             }
 
             // For older devices (< API 21)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Log.d("WebView", "Navigating to: " + url);
-                view.loadUrl(url);
-                return true;
+                final Uri uri = Uri.parse(url);
+                return handleUri(view, uri);
+//                view.loadUrl(url);
+//                return true;
             }
 
             @Override
@@ -171,6 +178,38 @@ public class FeeFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private boolean handleUri(WebView view, final Uri url) {
+        Log.i(TAG, "Uri =" + url);
+        System.out.println("Uri =" + url);
+
+        final String scheme = url.getScheme();
+        System.out.println("scheme detected: " + scheme);
+        assert scheme != null;
+        if (scheme.matches("upi|tez|gpay|phonepe|paytmmp")) {
+            System.out.println("UPI Intent uri detected");
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);  // To show app chooser
+                intent.setData(url);
+                startActivity(intent);
+                return true;
+            } catch (Exception e) {
+                alertDialogView.setTitle("Error");
+                alertDialogView.setMessage("Check if you have UPI apps installed or not !");
+                alertDialogView.setButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+                alertDialogView.show();
+            }
+        } else {
+            Log.i(TAG, "Processing webview url click...");
+//            view.loadUrl(String.valueOf(url));
+            return false;
+        }
+        return false;
     }
 
     // Optional: Handle back press in Fragment

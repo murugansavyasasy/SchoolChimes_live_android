@@ -229,8 +229,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     private void checkImmediateUpdate() {
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                 startImmediateUpdateFlow(appUpdateInfo);
             } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                 startImmediateUpdateFlow(appUpdateInfo);
@@ -243,8 +242,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     private void checkFlexibleUpdate() {
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
                 startFlexibleUpdateFlow(appUpdateInfo);
             } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
                 popupSnackBarForCompleteUpdate();
@@ -313,67 +311,50 @@ public class TeacherSplashScreen extends AppCompatActivity {
     private void isContactPermissionGranted() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Dexter.withContext(this)
-                    .withPermissions(
-                            Manifest.permission.INTERNET,
-                            Manifest.permission.ACCESS_NETWORK_STATE,
-                            Manifest.permission.ACCESS_WIFI_STATE,
-                            Manifest.permission.POST_NOTIFICATIONS)
-                    .withListener(new MultiplePermissionsListener() {
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-                            // check if all permissions are granted
-                            if (report.areAllPermissionsGranted()) {
-                                checkNetworkAndLoginCredentials();
-                            } else {
-                                finish();
-                            }
-                        }
+            Dexter.withContext(this).withPermissions(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.POST_NOTIFICATIONS).withListener(new MultiplePermissionsListener() {
+                @Override
+                public void onPermissionsChecked(MultiplePermissionsReport report) {
+                    // check if all permissions are granted
+                    if (report.areAllPermissionsGranted()) {
+                        checkNetworkAndLoginCredentials();
+                    } else {
+                        finish();
+                    }
+                }
 
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                            token.continuePermissionRequest();
-                        }
-                    }).
-                    withErrorListener(new PermissionRequestErrorListener() {
-                        @Override
-                        public void onError(DexterError error) {
-                            Toast.makeText(getApplicationContext(), R.string.Error_occurred, Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .onSameThread()
-                    .check();
+                @Override
+                public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                    token.continuePermissionRequest();
+                }
+            }).withErrorListener(new PermissionRequestErrorListener() {
+                @Override
+                public void onError(DexterError error) {
+                    Toast.makeText(getApplicationContext(), R.string.Error_occurred, Toast.LENGTH_SHORT).show();
+                }
+            }).onSameThread().check();
 
         } else {
-            Dexter.withContext(this)
-                    .withPermissions(
-                            Manifest.permission.INTERNET,
-                            Manifest.permission.ACCESS_NETWORK_STATE,
-                            Manifest.permission.ACCESS_WIFI_STATE)
-                    .withListener(new MultiplePermissionsListener() {
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-                            // check if all permissions are granted
-                            if (report.areAllPermissionsGranted()) {
-                                checkNetworkAndLoginCredentials();
-                            } else {
-                                finish();
-                            }
-                        }
+            Dexter.withContext(this).withPermissions(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE).withListener(new MultiplePermissionsListener() {
+                @Override
+                public void onPermissionsChecked(MultiplePermissionsReport report) {
+                    // check if all permissions are granted
+                    if (report.areAllPermissionsGranted()) {
+                        checkNetworkAndLoginCredentials();
+                    } else {
+                        finish();
+                    }
+                }
 
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                            token.continuePermissionRequest();
-                        }
-                    }).
-                    withErrorListener(new PermissionRequestErrorListener() {
-                        @Override
-                        public void onError(DexterError error) {
-                            Toast.makeText(getApplicationContext(), R.string.Error_occurred, Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .onSameThread()
-                    .check();
+                @Override
+                public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                    token.continuePermissionRequest();
+                }
+            }).withErrorListener(new PermissionRequestErrorListener() {
+                @Override
+                public void onError(DexterError error) {
+                    Toast.makeText(getApplicationContext(), R.string.Error_occurred, Toast.LENGTH_SHORT).show();
+                }
+            }).onSameThread().check();
         }
     }
 
@@ -415,8 +396,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
 
     private boolean isNetworkConnected() {
-        ConnectivityManager connMgr = (ConnectivityManager) TeacherSplashScreen.this
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMgr = (ConnectivityManager) TeacherSplashScreen.this.getSystemService(Context.CONNECTIVITY_SERVICE);
         return connMgr.getActiveNetworkInfo() != null;
     }
 
@@ -428,7 +408,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 @Override
                 public void run() {
                     String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);
-                    Log.d("strBaseURL",strBaseURL);
+                    Log.d("strBaseURL", strBaseURL);
                     if (!strBaseURL.equals("")) {
                         String forget = TeacherUtil_SharedPreference.getForgetPasswordOtp(TeacherSplashScreen.this);
                         if (forget.equals("1")) {
@@ -612,8 +592,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
     }
 
     private void showAlert(String title, String msg) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                TeacherSplashScreen.this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(TeacherSplashScreen.this);
 
         alertDialog.setCancelable(false);
         alertDialog.setTitle(title);
@@ -709,8 +688,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                             for (int i = 0; i < js.length(); i++) {
                                 jsonObject = js.getJSONObject(i);
-                                countryList = new TeacherCountryList(jsonObject.getString("CountryID"), jsonObject.getString("CountryName")
-                                        , jsonObject.getString("MobileNumberLength"), jsonObject.getString("CountryCode"), jsonObject.getString("BaseUrl"), jsonObject.getString("mobile_no_hint"));
+                                countryList = new TeacherCountryList(jsonObject.getString("CountryID"), jsonObject.getString("CountryName"), jsonObject.getString("MobileNumberLength"), jsonObject.getString("CountryCode"), jsonObject.getString("BaseUrl"), jsonObject.getString("mobile_no_hint"));
 
                                 arrCountryList.add(countryList);
                                 countryNameList.add(countryList.getStrCountyName());
@@ -752,9 +730,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                 dialog.cancel();
                 int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                 TeacherCountryList item = arrCountryList.get(selectedPosition);
-                TeacherUtil_SharedPreference.putCountryInforToSP(TeacherSplashScreen.this, item.getStrCountyID(),
-                        item.getStrCountyName(), item.getStrCountyMobileLength(), item.getStrCountyCode(),
-                        item.getStrBaseURL(),item.getStrMobileHint());
+                TeacherUtil_SharedPreference.putCountryInforToSP(TeacherSplashScreen.this, item.getStrCountyID(), item.getStrCountyName(), item.getStrCountyMobileLength(), item.getStrCountyCode(), item.getStrBaseURL(), item.getStrMobileHint());
 
                 TeacherUtil_SharedPreference.putBaseURL(TeacherSplashScreen.this, item.getStrBaseURL());
                 CountrID = TeacherUtil_SharedPreference.getCountryID(TeacherSplashScreen.this);
@@ -976,8 +952,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         dialog.dismiss();
-                                        nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle,
-                                                VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
+                                        nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle, VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
                                     }
                                 });
 
@@ -985,8 +960,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                             }
                         } else {
-                            nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle,
-                                    VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
+                            nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle, VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
                         }
 
                     } else {
@@ -1140,8 +1114,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
         LoadingView.showProgress(TeacherSplashScreen.this);
 
 
-        String androidId = Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.d("ID_android", androidId);
 
         Log.d("Mobileno", strMobile + strPassword);
@@ -1203,11 +1176,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 for (int i = 0; i < jSONArray1.length(); i++) {
 
                                     JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
-                                            jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
-                                            , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true,
-                                            jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"), jsonObjectdetailsStaff.getInt("biometricEnable"),jsonObjectdetailsStaff.getBoolean("allowVideoDownload"));
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"), jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo"), jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"), jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"), jsonObjectdetailsStaff.getInt("biometricEnable"), jsonObjectdetailsStaff.getBoolean("allowVideoDownload"));
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetailsStaff.getString("SchoolName"));
@@ -1246,11 +1215,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 Log.d("json length", String.valueOf(jSONArray.length()));
                                 for (int i = 0; i < jSONArray.length(); i++) {
                                     jsonObject = jSONArray.getJSONObject(i);
-                                    childList = new Profiles(jsonObject.getString("ChildName"),
-                                            jsonObject.getString("ChildID"), jsonObject.getString("RollNumber")
-                                            , jsonObject.getString("StandardName"), jsonObject.getString("SectionName"), jsonObject.getString("SchoolID")
-                                            , jsonObject.getString("SchoolName"), jsonObject.getString("SchoolNameRegional"), jsonObject.getString("SchoolCity"), jsonObject.getString("SchoolLogoUrl"),
-                                            jsonObject.getString("isBooksEnabled"), jsonObject.getString("OnlineBooksLink"), jsonObject.getString("IsNotAllow"), jsonObject.getString("DisplayMessage"), jsonObject.getString("classId"), jsonObject.getString("sectionId"));
+                                    childList = new Profiles(jsonObject.getString("ChildName"), jsonObject.getString("ChildID"), jsonObject.getString("RollNumber"), jsonObject.getString("StandardName"), jsonObject.getString("SectionName"), jsonObject.getString("SchoolID"), jsonObject.getString("SchoolName"), jsonObject.getString("SchoolNameRegional"), jsonObject.getString("SchoolCity"), jsonObject.getString("SchoolLogoUrl"), jsonObject.getString("isBooksEnabled"), jsonObject.getString("OnlineBooksLink"), jsonObject.getString("IsNotAllow"), jsonObject.getString("DisplayMessage"), jsonObject.getString("classId"), jsonObject.getString("sectionId"));
                                     arrChildList.add(childList);
                                 }
 
@@ -1301,11 +1266,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 Log.d("json length", String.valueOf(jSONArray.length()));
                                 for (int i = 0; i < jSONArray.length(); i++) {
                                     jsonObject = jSONArray.getJSONObject(i);
-                                    childList = new Profiles(jsonObject.getString("ChildName"),
-                                            jsonObject.getString("ChildID"), jsonObject.getString("RollNumber")
-                                            , jsonObject.getString("StandardName"), jsonObject.getString("SectionName"), jsonObject.getString("SchoolID")
-                                            , jsonObject.getString("SchoolName"), jsonObject.getString("SchoolNameRegional"), jsonObject.getString("SchoolCity"), jsonObject.getString("SchoolLogoUrl"),
-                                            jsonObject.getString("isBooksEnabled"), jsonObject.getString("OnlineBooksLink"), jsonObject.getString("IsNotAllow"), jsonObject.getString("DisplayMessage"), jsonObject.getString("classId"), jsonObject.getString("sectionId"));
+                                    childList = new Profiles(jsonObject.getString("ChildName"), jsonObject.getString("ChildID"), jsonObject.getString("RollNumber"), jsonObject.getString("StandardName"), jsonObject.getString("SectionName"), jsonObject.getString("SchoolID"), jsonObject.getString("SchoolName"), jsonObject.getString("SchoolNameRegional"), jsonObject.getString("SchoolCity"), jsonObject.getString("SchoolLogoUrl"), jsonObject.getString("isBooksEnabled"), jsonObject.getString("OnlineBooksLink"), jsonObject.getString("IsNotAllow"), jsonObject.getString("DisplayMessage"), jsonObject.getString("classId"), jsonObject.getString("sectionId"));
                                     arrChildList.add(childList);
                                 }
 
@@ -1327,10 +1288,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 for (int i = 0; i < jSONArray.length(); i++) {
                                     JSONObject jsonObjectdetails = jSONArray.getJSONObject(i);
 
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetails.getString("SchoolName"), jsonObjectdetails.getString("SchoolNameRegional"), jsonObjectdetails.getString("SchoolID"),
-                                            jsonObjectdetails.getString("city"), jsonObjectdetails.getString("SchoolAddress"), jsonObjectdetails.getString("SchoolLogo")
-                                            , jsonObjectdetails.getString("StaffID"), jsonObjectdetails.getString("StaffName"), true, jsonObjectdetails.getString("isBooksEnabled"),
-                                            jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"), jsonObjectdetails.getInt("school_type"), jsonObjectdetails.getInt("biometricEnable"),jsonObjectdetails.getBoolean("allowVideoDownload"));
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetails.getString("SchoolName"), jsonObjectdetails.getString("SchoolNameRegional"), jsonObjectdetails.getString("SchoolID"), jsonObjectdetails.getString("city"), jsonObjectdetails.getString("SchoolAddress"), jsonObjectdetails.getString("SchoolLogo"), jsonObjectdetails.getString("StaffID"), jsonObjectdetails.getString("StaffName"), true, jsonObjectdetails.getString("isBooksEnabled"), jsonObjectdetails.getString("OnlineBooksLink"), jsonObjectdetails.getString("is_payment_pending"), jsonObjectdetails.getInt("school_type"), jsonObjectdetails.getInt("biometricEnable"), jsonObjectdetails.getBoolean("allowVideoDownload"));
                                     Log.d("value1", jsonObjectdetails.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     schoolNamelist.add(jsonObjectdetails.getString("SchoolName"));
@@ -1360,11 +1318,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {
                                     JSONObject jsonObjectdetailsgrouphead = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolNameRegional"), jsonObjectdetailsgrouphead.getString("SchoolID"),
-                                            jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
-                                            , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type"), jsonObjectdetailsgrouphead.getInt("biometricEnable"),jsonObjectdetailsgrouphead.getBoolean("allowVideoDownload")
-                                    );
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolNameRegional"), jsonObjectdetailsgrouphead.getString("SchoolID"), jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo"), jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"), jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type"), jsonObjectdetailsgrouphead.getInt("biometricEnable"), jsonObjectdetailsgrouphead.getBoolean("allowVideoDownload"));
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                 }
@@ -1383,21 +1337,13 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                                 for (int i = 0; i < jSONArray1.length(); i++) {
                                     JSONObject jsonObjectdetailsgrouphead = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolNameRegional"), jsonObjectdetailsgrouphead.getString("SchoolID"),
-                                            jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo")
-                                            , jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"),
-                                            jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type"), jsonObjectdetailsgrouphead.getInt("biometricEnable"),jsonObjectdetailsgrouphead.getBoolean("allowVideoDownload")
-                                    );
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsgrouphead.getString("SchoolName"), jsonObjectdetailsgrouphead.getString("SchoolNameRegional"), jsonObjectdetailsgrouphead.getString("SchoolID"), jsonObjectdetailsgrouphead.getString("city"), jsonObjectdetailsgrouphead.getString("SchoolAddress"), jsonObjectdetailsgrouphead.getString("SchoolLogo"), jsonObjectdetailsgrouphead.getString("StaffID"), jsonObjectdetailsgrouphead.getString("StaffName"), true, jsonObjectdetailsgrouphead.getString("isBooksEnabled"), jsonObjectdetailsgrouphead.getString("OnlineBooksLink"), jsonObjectdetailsgrouphead.getString("is_payment_pending"), jsonObjectdetailsgrouphead.getInt("school_type"), jsonObjectdetailsgrouphead.getInt("biometricEnable"), jsonObjectdetailsgrouphead.getBoolean("allowVideoDownload"));
                                     Log.d("value1", jsonObjectdetailsgrouphead.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                 }
 
                                 JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(0);
-                                schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
-                                        jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
-                                        , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                        jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"), jsonObjectdetailsStaff.getInt("biometricEnable"),jsonObjectdetailsStaff.getBoolean("allowVideoDownload")
-                                );
+                                schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"), jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo"), jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"), jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"), jsonObjectdetailsStaff.getInt("biometricEnable"), jsonObjectdetailsStaff.getBoolean("allowVideoDownload"));
                                 Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
 
                                 String logo = jsonObjectdetailsStaff.getString("SchoolLogo");
@@ -1437,11 +1383,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {
                                     JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
-                                            jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
-                                            , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"), jsonObjectdetailsStaff.getInt("biometricEnable"),jsonObjectdetailsStaff.getBoolean("allowVideoDownload")
-                                    );
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"), jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo"), jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"), jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"), jsonObjectdetailsStaff.getInt("biometricEnable"), jsonObjectdetailsStaff.getBoolean("allowVideoDownload"));
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
 
@@ -1471,11 +1413,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                 JSONArray jSONArray1 = jsonObject.getJSONArray("StaffDetails");
                                 for (int i = 0; i < jSONArray1.length(); i++) {
                                     JSONObject jsonObjectdetailsStaff = jSONArray1.getJSONObject(i);
-                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"),
-                                            jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo")
-                                            , jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"),
-                                            jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"), jsonObjectdetailsStaff.getInt("biometricEnable"),jsonObjectdetailsStaff.getBoolean("allowVideoDownload")
-                                    );
+                                    schoolmodel = new TeacherSchoolsModel(jsonObjectdetailsStaff.getString("SchoolName"), jsonObjectdetailsStaff.getString("SchoolNameRegional"), jsonObjectdetailsStaff.getString("SchoolID"), jsonObjectdetailsStaff.getString("city"), jsonObjectdetailsStaff.getString("SchoolAddress"), jsonObjectdetailsStaff.getString("SchoolLogo"), jsonObjectdetailsStaff.getString("StaffID"), jsonObjectdetailsStaff.getString("StaffName"), true, jsonObjectdetailsStaff.getString("isBooksEnabled"), jsonObjectdetailsStaff.getString("OnlineBooksLink"), jsonObjectdetailsStaff.getString("is_payment_pending"), jsonObjectdetailsStaff.getInt("school_type"), jsonObjectdetailsStaff.getInt("biometricEnable"), jsonObjectdetailsStaff.getBoolean("allowVideoDownload"));
                                     Log.d("value1", jsonObjectdetailsStaff.getString("SchoolName"));
                                     listschooldetails.add(schoolmodel);
                                     if (listschooldetails.size() == 1) {
@@ -1555,8 +1493,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
         strMobile = TeacherUtil_SharedPreference.getMobileNumberFromSP(TeacherSplashScreen.this);
         strPassword = TeacherUtil_SharedPreference.getPasswordFromSP(TeacherSplashScreen.this);
 
-        String androidId = Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         JsonObject json_object = TeacherUtil_JsonRequest.getJsonArray_ValidateUser(strMobile, androidId, strPassword);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         Call<JsonArray> call = apiService.ValidateUser(json_object);

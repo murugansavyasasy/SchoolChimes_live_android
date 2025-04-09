@@ -115,19 +115,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             if ("Enabled".equals(sound)) {
                 if ("message".equals(tone)) {
-                    CHANNEL_ID = "voicesnap_channel_01";
-                    channelName = "Voicesnap";
+                    CHANNEL_ID = "savyasasy_channel_01";
+                    channelName = "savyasasy";
                     notificationSound = messageVoice;
                 } else if ("emergency_voice".equals(tone)) {
-                    CHANNEL_ID = "voicesnap_channel_02";
-                    channelName = "vssnap";
+                    CHANNEL_ID = "savyasasy_channel_02";
+                    channelName = "ssssasy";
                     notificationSound = emergencyMessageVoice;
                 } else {
                     throw new IllegalArgumentException("Invalid tone provided");
                 }
             } else {
-                CHANNEL_ID = "voicesnap_channel_03";
-                channelName = "snapvoice";
+                CHANNEL_ID = "savyasasy_channel_03";
+                channelName = "savyasasyvoice";
                 notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             }
 
