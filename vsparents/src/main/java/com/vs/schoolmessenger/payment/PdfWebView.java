@@ -86,6 +86,7 @@ public class PdfWebView extends AppCompatActivity {
         PdfURL = getIntent().getExtras().getString("URL", "");
         Title = getIntent().getExtras().getString("tittle", "");
         Log.d("PDF_WEBVIEW_URL",PdfURL);
+
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.actBar_acTitle)).setText(Title);
@@ -144,15 +145,8 @@ public class PdfWebView extends AppCompatActivity {
             }
             File futureStudioIconFile = new File(dir, InvoiceID+"_FeeReceipt" +".pdf");//"Hai.mp3"
 
+            downLoadFeeReceipt(InvoiceID+"_FeeReceipt" + ".pdf", PDF_FEE_FOLDER, "isOpen");
 
-            if (futureStudioIconFile.exists())
-            {
-                pdfView.fromFile(new File(futureStudioIconFile.getPath()))
-                        .load();
-            }
-            else {
-                downLoadFeeReceipt(InvoiceID+"_FeeReceipt" + ".pdf", PDF_FEE_FOLDER, "isOpen");
-            }
 
         }
         else {
@@ -181,9 +175,11 @@ public class PdfWebView extends AppCompatActivity {
                     downLoadFeeReceipt(timeStamp+"_Circular" +".pdf",PDF_CIRCULAR_FOLDER,"");
                 }
                 else if(Title.equals("Fee Receipt")) {
+                    String InvoiceID = getIntent().getExtras().getString("ID", "");
+
                     long unixTime = System.currentTimeMillis() / 1000L;
                     String timeStamp = String.valueOf(unixTime);
-                    downLoadFeeReceipt(timeStamp+"_FeeReceipt" +".pdf",PDF_FEE_FOLDER,"");
+                    downLoadFeeReceipt(InvoiceID+"_FeeReceipt" +".pdf",PDF_FEE_FOLDER,"");
                 }
                 else {
                     long unixTime = System.currentTimeMillis() / 1000L;

@@ -73,7 +73,6 @@ public class InvoiceFragment extends Fragment {
         rytSearch.setVisibility(View.GONE);
         isNewVersion= TeacherUtil_SharedPreference.getNewVersion(getActivity());
 
-        getInvoiceDetails();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setHasFixedSize(true);
