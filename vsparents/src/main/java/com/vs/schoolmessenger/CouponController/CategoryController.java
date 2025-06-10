@@ -41,8 +41,8 @@ public class CategoryController {
     private CouponAPIServiceInterface dynamicApiService;
 
     String MOBILE_NUMBER;
-    private static final String PARTNER_NAME = "voicesnaps";
-    private static final String API_KEY = "b9634e2c3aa9b6fdc392527645c43871";
+    private static final String PARTNER_NAME = "savyasasy";
+    private static final String API_KEY = "33adab6a67a9eee6e72be49acfb6c100";
     private static final String USER_TYPE = "1";
 
 
