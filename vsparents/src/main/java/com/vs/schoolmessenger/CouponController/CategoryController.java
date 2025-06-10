@@ -137,7 +137,7 @@ public class CategoryController {
 
     public void fetchCouponSummary(final CouponSummaryCallback callback) {
         HashMap<String, String> requestBody = new HashMap<>();
-        requestBody.put("mobile_no", MOBILE_NUMBER);
+        requestBody.put("mobile_no","+91"+MOBILE_NUMBER);
 
         Call<CouponSummaryResponse> call = defaultApiService.getCoupons(
                 PARTNER_NAME,
