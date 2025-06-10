@@ -1,10 +1,12 @@
 package com.vs.schoolmessenger.CouponView.CouponDashboard;
 
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,30 +26,37 @@ import com.vs.schoolmessenger.CouponView.Adapter.CouponMenuAdapter;
 import com.vs.schoolmessenger.CouponView.Adapter.CouponSummaryAdapter;
 import com.vs.schoolmessenger.CouponView.MyCouponDetails.TicketCouponViewActivity;
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.activity.HomeActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CouponMainClassActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-
     private RecyclerView recyclerView1;
-
     private CouponSummaryAdapter adapter1;
     private ImageView btnHome;
+    private EditText editSearch;
     private ImageView btnTicket;
     private CouponMenuAdapter adapter;
     private CategoryController categoryController;
-
-    private RelativeLayout homeBackground ,ticketBackground;
-
+    private RelativeLayout homeBackground, ticketBackground;
     private RelativeLayout relative_layout;
-    private TextView totalcoins,usedcoins,availablecoins;
+    private TextView totalcoins, usedcoins, availablecoins;
+
+    private List<Summary> originalSummaryList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coupon_dashboard);
+        initializeViews();
+        setupRecyclerViews();
+        setupButtonListeners();
+        loadInitialData();
+        setupSearchFunctionality();
+    }
+
+    private void initializeViews() {
         recyclerView = findViewById(R.id.recyclerview1);
         recyclerView1 = findViewById(R.id.recyclerView);
         btnHome = findViewById(R.id.btnHome);
@@ -58,62 +67,17 @@ public class CouponMainClassActivity extends AppCompatActivity {
         homeBackground = findViewById(R.id.homeBackground);
         ticketBackground = findViewById(R.id.ticketBackground);
         relative_layout = findViewById(R.id.relative_layout);
+        editSearch = findViewById(R.id.editSearch);
+    }
+
+    private void setupRecyclerViews() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView1.setLayoutManager(new GridLayoutManager(this, 2));
+    }
+
+    private void setupButtonListeners() {
         int blueColor = ContextCompat.getColor(this, R.color.gnt_blue);
         int defaultColor = ContextCompat.getColor(this, R.color.gnt_gray);
-        Homeload();
-        categoryController = new CategoryController(this);
-
-
-        categoryController.fetchCoinDetails(new CategoryController.PointsCouponCallback() {
-            @Override
-            public void onSuccess(PointsData pointsData) {
-                if (pointsData != null) {
-                    totalcoins.setText("Earned: " + pointsData.getPointsEarned());
-                    usedcoins.setText("Spent: " + pointsData.getPointsSpent());
-                    availablecoins.setText("Remaining: " + pointsData.getPointsRemaining());
-                } else {
-                    Toast.makeText(CouponMainClassActivity.this, "No point data available", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-
-            @Override
-            public void onFailure(String errorMessage) {
-                Toast.makeText(CouponMainClassActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-        categoryController.fetchCategories(new CategoryController.CategoryCallback() {
-            @Override
-            public void onSuccess(List<Category> categories) {
-                adapter = new CouponMenuAdapter(CouponMainClassActivity.this, categories);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                Toast.makeText(CouponMainClassActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        categoryController.fetchCouponSummary(new CategoryController.CouponSummaryCallback() {
-            @Override
-            public void onSuccess(List<Summary> campaigns) {
-                adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
-                recyclerView1.setAdapter(adapter1);
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                Toast.makeText(CouponMainClassActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
 
         btnHome.setOnClickListener(view -> {
             homeBackground.setBackgroundResource(R.drawable.bg_selected);
@@ -134,15 +98,100 @@ public class CouponMainClassActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
-        relative_layout.setOnClickListener(view -> {
-            Intent intent = new Intent(CouponMainClassActivity.this, HomeActivity.class);
-            startActivity(intent);
+
+        relative_layout.setOnClickListener(view -> onBackPressed());
+    }
+
+    private void loadInitialData() {
+        Homeload();
+        categoryController = new CategoryController(this);
+
+        categoryController.fetchCoinDetails(new CategoryController.PointsCouponCallback() {
+            @Override
+            public void onSuccess(PointsData pointsData) {
+                if (pointsData != null) {
+                    totalcoins.setText("Earned: " + pointsData.getPointsEarned());
+                    usedcoins.setText("Spent: " + pointsData.getPointsSpent());
+                    availablecoins.setText("Remaining: " + pointsData.getPointsRemaining());
+                } else {
+                    Toast.makeText(CouponMainClassActivity.this, "No point data available", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(CouponMainClassActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        categoryController.fetchCategories(new CategoryController.CategoryCallback() {
+            @Override
+            public void onSuccess(List<Category> categories) {
+                adapter = new CouponMenuAdapter(CouponMainClassActivity.this, categories);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(CouponMainClassActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        categoryController.fetchCouponSummary(new CategoryController.CouponSummaryCallback() {
+            @Override
+            public void onSuccess(List<Summary> campaigns) {
+                originalSummaryList = new ArrayList<>(campaigns);
+                adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
+                recyclerView1.setAdapter(adapter1);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(CouponMainClassActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
-    private void  Homeload() {
+    private void setupSearchFunctionality() {
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void filter(String text) {
+        List<Summary> filteredList = new ArrayList<>();
+
+        if (text.isEmpty()) {
+            filteredList.addAll(originalSummaryList);
+        } else {
+            String searchText = text.toLowerCase().trim();
+            for (Summary item : originalSummaryList) {
+                if (item.getMerchantName().toLowerCase().contains(searchText)) {
+                    filteredList.add(item);
+                } else if (item.getCategoryName().toLowerCase().contains(searchText)) {
+                    filteredList.add(item);
+                }
+            }
+        }
+
+        if (adapter1 != null) {
+            adapter1.updateList(filteredList);
+        }
+    }
+
+    private void Homeload() {
         btnHome.setColorFilter(ContextCompat.getColor(this, R.color.gnt_blue), PorterDuff.Mode.SRC_IN);
         homeBackground.setBackgroundResource(R.drawable.bg_selected);
         ticketBackground.setBackgroundColor(Color.TRANSPARENT);
     }
 }
+

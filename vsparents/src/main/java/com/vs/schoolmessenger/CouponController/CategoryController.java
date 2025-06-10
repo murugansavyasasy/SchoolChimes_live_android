@@ -49,15 +49,14 @@ public class CategoryController {
         defaultApiService = CouponRetrofitNetworkCall.getClient().create(CouponAPIServiceInterface.class);
 
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(context);
-        dynamicApiService = CouponRetrofitNetworkCall.getClientWithBaseUrl(baseURL)
-                .create(CouponAPIServiceInterface.class);
+        dynamicApiService = CouponRetrofitNetworkCall.getClientWithBaseUrl(baseURL).create(CouponAPIServiceInterface.class);
     }
 
 
     public void fetchCoinDetails(final PointsCouponCallback callback) {
         Call<PointsResponse> call = dynamicApiService.getPointsCoupons(
                 USER_TYPE,
-                MOBILE_NUMBER,
+                "+91" + MOBILE_NUMBER,
                 new HashMap<>()
         );
         Log.d("CategoryController", "Request URL: " + call.request().url().toString());
@@ -131,7 +130,7 @@ public class CategoryController {
 
     public void fetchCouponSummary(final CouponSummaryCallback callback) {
         HashMap<String, String> requestBody = new HashMap<>();
-        requestBody.put("mobile_no", MOBILE_NUMBER);
+        requestBody.put("mobile_no", "+91" + MOBILE_NUMBER);
 
         Call<CouponSummaryResponse> call = defaultApiService.getCoupons(
                 PARTNER_NAME,
@@ -271,9 +270,9 @@ public class CategoryController {
 
     public void fetchTicketCouponSummary(String couponStatus, final TicketCouponSummaryCallback callback) {
         HashMap<String, String> requestBody = new HashMap<>();
-        requestBody.put("mobile_no", MOBILE_NUMBER);
+        requestBody.put("mobile_no", "91" + MOBILE_NUMBER);
         requestBody.put("coupon_status", couponStatus);
-
+        Log.d("requestBody", String.valueOf(requestBody));
         Call<TicketSummaryResponse> call = defaultApiService.getTicketCoupons(
                 PARTNER_NAME,
                 API_KEY,
@@ -283,11 +282,17 @@ public class CategoryController {
         call.enqueue(new Callback<TicketSummaryResponse>() {
             @Override
             public void onResponse(Call<TicketSummaryResponse> call, Response<TicketSummaryResponse> response) {
+                Log.d("TicketSummaryResponse", "Raw Response: " + new Gson().toJson(response.body()));
+
+
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().getData().getCoupon_list().getData());
+                    if (response.body().isStatus()) {
+                        callback.onSuccess(response.body().getData().getCoupon_list().getData());
+                    }
                 } else {
                     callback.onFailure("Failed to load data");
                 }
+
             }
 
             @Override

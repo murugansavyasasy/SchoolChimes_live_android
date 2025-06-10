@@ -1766,11 +1766,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         File file = new File(filepath);
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part bodyFile =
-                MultipartBody.Part.createFormData("voice", file.getName(), requestFile);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part bodyFile = MultipartBody.Part.createFormData("voice", file.getName(), requestFile);
 
         JsonObject jsonReqArray = constructJsonArraySpecificVoice();
         RequestBody requestBody =

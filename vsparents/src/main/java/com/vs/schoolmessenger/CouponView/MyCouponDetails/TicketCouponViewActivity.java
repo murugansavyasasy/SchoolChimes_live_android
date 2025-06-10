@@ -65,9 +65,7 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         selectTabAndFetch(alltext, "all");
 
         back.setOnClickListener(view -> {
-            Intent intent = new Intent(TicketCouponViewActivity.this, CouponMainClassActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            onBackPressed();
         });
 
         btnHome.setOnClickListener(view -> {

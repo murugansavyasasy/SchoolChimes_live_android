@@ -19,7 +19,9 @@ import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummary;
 import com.vs.schoolmessenger.CouponView.MycouponDashboard.MycouponViewActivity;
 import com.vs.schoolmessenger.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TicketCouponAdapter extends RecyclerView.Adapter<TicketCouponAdapter.ViewHolder> {
 
@@ -41,7 +43,7 @@ public class TicketCouponAdapter extends RecyclerView.Adapter<TicketCouponAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Hardcoded data – You can customize each item based on `position` if needed
         TicketSummary ticketSummary = ticketSummaryList.get(position);
-        holder.categoryName.setText(ticketSummary.getCategoryName());
+        holder.categoryName.setText(ticketSummary.getCategory_name());
         holder.discount.setText(ticketSummary.getOffer_to_show());
         holder.merchantName.setText("Expires in "+ticketSummary.getExpires_in()+ " days");
 
@@ -52,14 +54,17 @@ public class TicketCouponAdapter extends RecyclerView.Adapter<TicketCouponAdapte
 
         holder.cardview.setOnClickListener(view ->{
             Intent intent = new Intent(context, MycouponViewActivity.class);
+            List<TicketSummary.Location> locationList = ticketSummary.getLocation_list();
+
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("merchant_name", ticketSummary.getMerchantName());
+            intent.putExtra("merchant_name", ticketSummary.getMerchant_name());
             intent.putExtra("offer_to_show", ticketSummary.getOffer_to_show());
             intent.putExtra("how_to_use", ticketSummary.getHow_to_use());
             intent.putExtra("coupon_code", ticketSummary.getCoupon_code());
             intent.putExtra("cover_image", ticketSummary.getCover_image());
-
-
+            intent.putExtra("expiry_date", ticketSummary.getExpiry_date());
+            intent.putExtra("expiry_type", ticketSummary.getExpiry_type());
+            intent.putExtra("location_list", new ArrayList<>(locationList));
             context.startActivity(intent);
         });
 

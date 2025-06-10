@@ -1,6 +1,5 @@
 package com.vs.schoolmessenger.CouponView.Adapter;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +27,11 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
     public CouponSummaryAdapter(Context context, List<Summary> summaryList) {
         this.context = context;
         this.summaryList = summaryList;
+    }
+
+    public void updateList(List<Summary> newList) {
+        summaryList = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -82,4 +86,3 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
         }
     }
 }
-
