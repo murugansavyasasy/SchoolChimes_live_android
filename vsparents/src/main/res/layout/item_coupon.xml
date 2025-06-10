@@ -66,12 +66,12 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="5dp">
                 <ImageView
                     android:layout_width="13dp"
                     android:layout_height="13dp"
                     android:id="@+id/location_imag2"
-                    android:src="@drawable/loader"/>
+                    android:src="@drawable/clockloader"/>
                 <TextView
                     android:id="@+id/location_heade4"
                     android:layout_width="match_parent"
