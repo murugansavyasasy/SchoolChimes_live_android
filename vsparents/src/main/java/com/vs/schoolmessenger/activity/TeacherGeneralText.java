@@ -1214,31 +1214,36 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
     }
 
     public void enableSubmitIfReady() {
-
         boolean isReady = etMessage.getText().toString().length() > 0;
         boolean istitleReady = et_tittle.getText().toString().length() > 0;
-
+        Log.d("loginType", String.valueOf(loginType));
+        Log.d("isRequestCode", String.valueOf(iRequestCode));
         if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
 
             btnToSections.setEnabled((isReady) && (istitleReady));
             btnToStudents.setEnabled((isReady) && (istitleReady));
             btnStaffGroups.setEnabled((isReady) && (istitleReady));
             rlaTitle.setVisibility(View.GONE);
-        } else if (loginType.equals(LOGIN_TYPE_TEACHER) || (iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW) || iRequestCode == PRINCIPAL_TEXT_HW) {
+        } else if ((iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW) || iRequestCode == PRINCIPAL_TEXT_HW) {
             btnToSections.setEnabled(isReady);
             btnToStudents.setEnabled(isReady);
             btnStaffGroups.setEnabled(isReady);
             btnAttachments.setEnabled(isReady);
-
             btn_Select_receipients.setEnabled(isReady);
             btnSelectSchool.setEnabled(isReady);
             rlaTitle.setVisibility(View.VISIBLE);
+        } else if (iRequestCode == STAFF_TEXT || iRequestCode == PRINCIPAL_TEXT) {
+            btnToSections.setEnabled(isReady);
+            btnToStudents.setEnabled(isReady);
+            btnStaffGroups.setEnabled(isReady);
+            btnAttachments.setEnabled(isReady);
+            btn_Select_receipients.setEnabled(isReady);
+            btnSelectSchool.setEnabled(isReady);
+            rlaTitle.setVisibility(View.GONE);
         } else btnNext.setEnabled(isReady);
 
         btn_Select_receipients.setEnabled(isReady);
         btnSelectSchool.setEnabled(isReady);
-
-
     }
 
 
