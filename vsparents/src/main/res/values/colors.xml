@@ -12,6 +12,12 @@
     <color name="clr_chimes_blue">#392f87</color>
     <color name="clr_blue_light">#c9edff</color>
     <color name="clr_blue_light2">#dbf2fd</color>
+    <color name="light_yellow_color">#F0C743</color>
+    <color name="custom_grey_mild">#eedcdd</color>
+    <color name="grey_color">#EDECEC</color>
+    <color name="grey_1">#F2F2F2</color>
+    <color name="custom_pink2">#fff0f1</color>
+    <color name="custom_white">#fffcfc</color>
     <color name="clr_btn_login_50">#80019AE8</color>
     <color name="clr_grey_disable">#939393</color>
     <color name="clr_grey">#B9B9B9</color>

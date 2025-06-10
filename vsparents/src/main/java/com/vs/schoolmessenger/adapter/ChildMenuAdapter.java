@@ -35,6 +35,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.BuildConfig;
+import com.vs.schoolmessenger.CouponView.CouponDashboard.CouponMainClassActivity;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.ApplyLeave;
 import com.vs.schoolmessenger.activity.Attendance;
@@ -350,6 +351,14 @@ public class ChildMenuAdapter extends ArrayAdapter {
             setUnReadCount(unReadCount, lblUnreadCount);
         }
 
+        if (MenuName.contains("_90")) {
+            gifImage.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
+            imgMenu.setImageResource(R.drawable.ptm);
+            textView.setText(MenuName.substring(0, MenuName.length() - 3));
+            setUnReadCount(unReadCount, lblUnreadCount);
+        }
+
         return v;
     }
 
@@ -438,7 +447,11 @@ public class ChildMenuAdapter extends ArrayAdapter {
             goToNextScreen(MenuName);
         } else if (substring1.equals("_26")) {
             goToNextScreen(MenuName);
+        } else if (substring1.equals("_90")) {
+            goToNextScreen(MenuName);
         }
+
+
     }
 
 
@@ -835,6 +848,11 @@ public class ChildMenuAdapter extends ArrayAdapter {
         } else if (substring1.equals("_26")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, PTM.class);
+            context.startActivity(inNext);
+        }
+        else if (substring1.equals("_90")) {
+            Constants.Menu_ID = menuIDTwo;
+            Intent inNext = new Intent(context, CouponMainClassActivity.class);
             context.startActivity(inNext);
         }
     }

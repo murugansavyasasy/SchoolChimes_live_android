@@ -1,0 +1,311 @@
+package com.vs.schoolmessenger.CouponController;
+
+
+import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobileNumberFromSP;
+import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobileNumberFromSPContext;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.vs.schoolmessenger.CouponModel.CouponCoin.PointsData;
+import com.vs.schoolmessenger.CouponModel.CouponCoin.PointsResponse;
+import com.vs.schoolmessenger.CouponModel.CouponMenu.Category;
+import com.vs.schoolmessenger.CouponModel.CouponMenu.CouponMenuResponse;
+import com.vs.schoolmessenger.CouponModel.CouponSummary.CouponSummaryResponse;
+import com.vs.schoolmessenger.CouponModel.CouponSummary.Summary;
+import com.vs.schoolmessenger.CouponModel.LogactiveapiResponse.LogActiveApiResponse;
+import com.vs.schoolmessenger.CouponModel.TicketActivateCoupon.ActivateCouponResponse;
+import com.vs.schoolmessenger.CouponModel.TicketActivateCouponSummary.ActivateCouponSummary;
+import com.vs.schoolmessenger.CouponModel.TicketActivateCouponSummary.ActivateCouponSummaryResponse;
+import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummary;
+import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummaryResponse;
+import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
+import com.vs.schoolmessenger.activity.AttendanceSectionList;
+import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class CategoryController {
+    private Context context;
+    private CouponAPIServiceInterface defaultApiService;
+    private CouponAPIServiceInterface dynamicApiService;
+
+    String MOBILE_NUMBER;
+    private static final String PARTNER_NAME = "voicesnaps";
+    private static final String API_KEY = "b9634e2c3aa9b6fdc392527645c43871";
+    private static final String USER_TYPE = "1";
+
+
+    public CategoryController(Context context) {
+        this.context = context;
+
+        MOBILE_NUMBER = getMobileNumberFromSPContext(context);
+
+        Log.d("MOBILE_NUMBER",MOBILE_NUMBER);
+        defaultApiService = CouponRetrofitNetworkCall.getClient().create(CouponAPIServiceInterface.class);
+
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(context);
+        dynamicApiService = CouponRetrofitNetworkCall.getClientWithBaseUrl(baseURL)
+                .create(CouponAPIServiceInterface.class);
+    }
+
+
+    public void fetchCoinDetails(final PointsCouponCallback callback) {
+        Call<PointsResponse> call = dynamicApiService.getPointsCoupons(
+                USER_TYPE,
+                MOBILE_NUMBER,
+                new HashMap<>()
+        );
+        Log.d("CategoryController", "Request URL: " + call.request().url().toString());
+
+        call.enqueue(new Callback<PointsResponse>() {
+            @Override
+            public void onResponse(Call<PointsResponse> call, Response<PointsResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    PointsData pointsData = response.body().getData();
+                    Log.d("CategoryController", "Raw Response: " + new Gson().toJson(response.body()));
+
+                    if (pointsData != null) {
+                        Log.d("CategoryController", "Points Earned: " + pointsData.getPointsEarned());
+                        Log.d("CategoryController", "Points Spent: " + pointsData.getPointsSpent());
+                        Log.d("CategoryController", "Points Remaining: " + pointsData.getPointsRemaining());
+                        callback.onSuccess(pointsData);
+                    } else {
+                        Log.e("CategoryController", "PointsData is null");
+                        callback.onFailure("No points data found.");
+                    }
+                } else {
+                    Log.e("CategoryController", "API failed or body is null");
+                    callback.onFailure("Failed to fetch coin details.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PointsResponse> call, Throwable t) {
+                Log.e("CategoryController", "API Error: " + t.getMessage(), t);
+                callback.onFailure("Network Error");
+            }
+        });
+    }
+
+
+
+    public interface PointsCouponCallback {
+        void onSuccess(PointsData pointsData);
+        void onFailure(String errorMessage);
+    }
+
+
+    public void fetchCategories(final CategoryCallback callback) {
+        Call<CouponMenuResponse> call = defaultApiService.getCategories(
+                PARTNER_NAME,
+                API_KEY
+        );
+
+        call.enqueue(new Callback<CouponMenuResponse>() {
+            @Override
+            public void onResponse(Call<CouponMenuResponse> call, Response<CouponMenuResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getData().getCategories());
+                } else {
+                    callback.onFailure("Failed to load data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CouponMenuResponse> call, Throwable t) {
+                Log.e("API_ERROR", t.getMessage());
+                callback.onFailure("Network Error");
+            }
+        });
+    }
+
+    public interface CategoryCallback {
+        void onSuccess(List<Category> categories);
+        void onFailure(String errorMessage);
+    }
+
+    public void fetchCouponSummary(final CouponSummaryCallback callback) {
+        HashMap<String, String> requestBody = new HashMap<>();
+        requestBody.put("mobile_no", MOBILE_NUMBER);
+
+        Call<CouponSummaryResponse> call = defaultApiService.getCoupons(
+                PARTNER_NAME,
+                API_KEY,
+                requestBody
+        );
+
+        call.enqueue(new Callback<CouponSummaryResponse>() {
+            @Override
+            public void onResponse(Call<CouponSummaryResponse> call, Response<CouponSummaryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getData().getCampaigns().getData());
+                } else {
+                    callback.onFailure("Failed to load data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CouponSummaryResponse> call, Throwable t) {
+                Log.e("API_ERROR", t.getMessage());
+                callback.onFailure("Network Error");
+            }
+        });
+    }
+
+    public interface CouponSummaryCallback {
+        void onSuccess(List<Summary> campaigns);
+        void onFailure(String errorMessage);
+    }
+
+    public void fetchActivateCoupondata(String sourceLink, final ActivateCouponCallback callback) {
+        HashMap<String, String> requestBody = new HashMap<>();
+        requestBody.put("source_link", sourceLink);
+        requestBody.put("mobile_no", MOBILE_NUMBER);
+
+        Call<ActivateCouponSummaryResponse> call = defaultApiService.getActivateCouponsDetails(
+                PARTNER_NAME,
+                API_KEY,
+                requestBody
+        );
+
+        call.enqueue(new Callback<ActivateCouponSummaryResponse>() {
+            @Override
+            public void onResponse(Call<ActivateCouponSummaryResponse> call, Response<ActivateCouponSummaryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ActivateCouponSummary coupon = response.body().getData().getCampaign_details();
+                    if (coupon != null) {
+                        callback.onSuccess(Collections.singletonList(coupon));
+                    } else {
+                        callback.onFailure("No campaign data found");
+                    }
+                } else {
+                    callback.onFailure("Failed to load data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ActivateCouponSummaryResponse> call, Throwable t) {
+                Log.e("API_ERROR", t.getMessage());
+                callback.onFailure("Network Error");
+            }
+        });
+    }
+
+    public interface ActivateCouponCallback {
+        void onSuccess(List<ActivateCouponSummary> campaign_details);
+        void onFailure(String errorMessage);
+    }
+
+    public void activateCouponWithSource(String sourceLink, final CouponActivationCallback callback) {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("source_link", sourceLink);
+        body.put("mobile_no", MOBILE_NUMBER);
+
+        Call<ActivateCouponResponse> call = defaultApiService.getactivateCoupon(
+                PARTNER_NAME,
+                API_KEY,
+                body
+        );
+
+        call.enqueue(new Callback<ActivateCouponResponse>() {
+            @Override
+            public void onResponse(Call<ActivateCouponResponse> call, Response<ActivateCouponResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure("Activation failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ActivateCouponResponse> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    public interface CouponActivationCallback {
+        void onSuccess(ActivateCouponResponse response);
+        void onFailure(String errorMessage);
+    }
+
+    public void logCouponActivation(String sourceLink, final GenericCallback callback) {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("user_type", USER_TYPE);
+        body.put("coupon_id", sourceLink);
+        body.put("mobile_number", MOBILE_NUMBER);
+
+        Call<LogActiveApiResponse> call = defaultApiService.getlogactiveresponse(body);
+
+        call.enqueue(new Callback<LogActiveApiResponse>() {
+            @Override
+            public void onResponse(Call<LogActiveApiResponse> call, Response<LogActiveApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("CategoryController", "Log Response: " + new Gson().toJson(response.body()));
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure("Activation failed");
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<LogActiveApiResponse> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+
+    public interface GenericCallback {
+        void onSuccess(LogActiveApiResponse response);
+        void onFailure(String errorMessage);
+    }
+
+
+
+    public void fetchTicketCouponSummary(String couponStatus, final TicketCouponSummaryCallback callback) {
+        HashMap<String, String> requestBody = new HashMap<>();
+        requestBody.put("mobile_no", MOBILE_NUMBER);
+        requestBody.put("coupon_status", couponStatus);
+
+        Call<TicketSummaryResponse> call = defaultApiService.getTicketCoupons(
+                PARTNER_NAME,
+                API_KEY,
+                requestBody
+        );
+
+        call.enqueue(new Callback<TicketSummaryResponse>() {
+            @Override
+            public void onResponse(Call<TicketSummaryResponse> call, Response<TicketSummaryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getData().getCoupon_list().getData());
+                } else {
+                    callback.onFailure("Failed to load data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TicketSummaryResponse> call, Throwable t) {
+                Log.e("API_ERROR", t.getMessage());
+                callback.onFailure("Network Error");
+            }
+        });
+    }
+
+    public interface TicketCouponSummaryCallback {
+        void onSuccess(List<TicketSummary> coupon_list);
+        void onFailure(String errorMessage);
+    }
+}

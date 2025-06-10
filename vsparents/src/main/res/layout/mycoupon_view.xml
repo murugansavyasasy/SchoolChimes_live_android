@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_white"
+    android:fillViewport="true">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:layout_marginStart="5dp"
+
+            android:layout_marginTop="2dp"/>
+
+        <ImageView
+            android:id="@+id/outer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/substarct"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/back"
+            android:scaleType="fitXY"/>
+
+        <RelativeLayout
+            android:id="@+id/relative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/dizzeworldlogo"/>
+
+
+            <ImageView
+                android:id="@+id/vector"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/vectorimage"
+                android:layout_below="@id/logo"
+                android:layout_marginTop="60dp"/>
+        </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/relative">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/header"
+        android:text="McDonald's"
+        android:textSize="24sp"
+        android:fontFamily="@font/montserratmedium"
+        android:textStyle="normal"
+        />
+        <TextView
+            android:id="@+id/offer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="40% Off"
+            android:textSize="24sp"
+            android:fontFamily="@font/montserratmedium"
+            android:textStyle="normal"
+            />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Just show the Coupon Codeat the point of payment after you feast at Carl's Kitchen Store"
+            android:textSize="14sp"
+            android:fontFamily="@font/montserratmedium"
+            android:layout_marginTop="@dimen/_8dp"
+            android:textStyle="normal"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:gravity="center"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="70dp"
+            android:orientation="horizontal"
+            android:background="@drawable/dashed_border"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:id="@+id/couponCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="jhav-bvbu-vffno"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:fontFamily="@font/montserratmedium" />
+
+            <ImageView
+                android:id="@+id/copyIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/copy"
+                android:contentDescription="Copy"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/rounded_grey_background"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/outer"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appointment Booking Details"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:fontFamily="@font/montserratmedium"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Date, Time, Venue section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="3">
+
+            <!-- Date -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/montserratmedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15/04/2025"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <!-- Time -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/montserratmedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="09:10 AM"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <!-- Venue -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Venue"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:fontFamily="@font/montserratmedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="T.Nagar"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:layout_below="@+id/linearlayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Carl's Kitchen"
+                android:textColor="@color/clr_black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Valid Until 01/05/2025"
+                android:textColor="@color/clr_black"
+                android:textSize="16sp"
+                android:textStyle="normal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Marina Mall"
+                android:textColor="@color/clr_black"
+                android:textSize="16sp"
+                android:textStyle="normal"/>
+
+
+        </LinearLayout>
+
+</RelativeLayout>
+</ScrollView>

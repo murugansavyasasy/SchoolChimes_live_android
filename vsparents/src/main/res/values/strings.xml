@@ -90,7 +90,7 @@
     <string name="teacher_app_name">Savyasasy Schools</string>
     <string name="teacher_app_sub_title"></string>
     <string name="teacher_school_msg"></string>
-    <string name="teacher_app_version_id">112</string>
+    <string name="teacher_app_version_id">113</string>
     <string name="teacher_app_version_name">3.4</string>
     <string name="teacher_app_id">3</string>
     <string name="teacher_app_version_code">21</string>
@@ -1028,5 +1028,6 @@
     <string name="Submission_on">Submission on</string>
     <string name="Invalid_Time">Invalid Time</string>
     <string name="Please_select_time_between">Please select a time between 04:00 and 22:00.</string>
+    <string name="activate_coupon">ACTIVATE COUPON</string>
 
 </resources>

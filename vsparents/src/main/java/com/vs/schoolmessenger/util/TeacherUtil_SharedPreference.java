@@ -1359,6 +1359,11 @@ public class TeacherUtil_SharedPreference {
         return mobileNumber;
     }
 
+    public static String getMobileNumberFromSPContext(Context activity) {
+        String mobileNumber = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(SH_STAFF_MOBILE, "");
+        return mobileNumber;
+    }
+
     public static String getPasswordFromSP(Activity activity) {
         String password = activity.getSharedPreferences(spName, MODE_PRIVATE).getString(SH_STAFF_PASSWORD, "");
         return password;
