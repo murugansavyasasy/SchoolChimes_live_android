@@ -1029,5 +1029,6 @@
     <string name="Invalid_Time">Invalid Time</string>
     <string name="Please_select_time_between">Please select a time between 04:00 and 22:00.</string>
     <string name="activate_coupon">ACTIVATE COUPON</string>
+    <string name="send_to_staff">SEND TO STAFF</string>
 
 </resources>

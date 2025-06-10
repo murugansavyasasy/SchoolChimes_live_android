@@ -1,11 +1,9 @@
 package com.vs.schoolmessenger.CouponController;
 
 
-import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobileNumberFromSP;
 import static com.vs.schoolmessenger.util.TeacherUtil_SharedPreference.getMobileNumberFromSPContext;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -21,12 +19,8 @@ import com.vs.schoolmessenger.CouponModel.TicketActivateCouponSummary.ActivateCo
 import com.vs.schoolmessenger.CouponModel.TicketActivateCouponSummary.ActivateCouponSummaryResponse;
 import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummary;
 import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummaryResponse;
-import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
-import com.vs.schoolmessenger.activity.AttendanceSectionList;
-import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -41,8 +35,8 @@ public class CategoryController {
     private CouponAPIServiceInterface dynamicApiService;
 
     String MOBILE_NUMBER;
-    private static final String PARTNER_NAME = "voicesnaps";
-    private static final String API_KEY = "b9634e2c3aa9b6fdc392527645c43871";
+    private static final String PARTNER_NAME = "savyasasy";
+    private static final String API_KEY = "33adab6a67a9eee6e72be49acfb6c100";
     private static final String USER_TYPE = "1";
 
 

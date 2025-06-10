@@ -38,7 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SendToTextSpecificSection extends AppCompatActivity implements View.OnClickListener {
-    Button SendToEntireSchool, SendToStansGroups, SendToSpecificSection;
+    Button SendToEntireSchool, SendToStansGroups, SendToSpecificSection, SendToStaff;
     String SchoolID, StaffID, filepath, duration, tittle, strmessage, strdate, strtime, strfilepathimage;
     int iRequestCode;
     ArrayList<TeacherClassGroupModel> listClasses, listGroups;
@@ -63,7 +63,9 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
         SendToStansGroups = (Button) findViewById(R.id.SendToStansGroups);
         SendToStansGroups.setOnClickListener(this);
         SendToSpecificSection = (Button) findViewById(R.id.SendToSpecificSection);
+        SendToStaff = findViewById(R.id.SendToStaff);
         SendToSpecificSection.setOnClickListener(this);
+        SendToStaff.setOnClickListener(this);
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(SendToTextSpecificSection.this);
         if (countryID.equals("11")) {
@@ -132,7 +134,9 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
                 intoSec.putExtra("TO", "SEC");
                 startActivity(intoSec);
                 break;
+
         }
+
     }
 
     private void showAlert() {
