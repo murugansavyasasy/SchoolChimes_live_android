@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CouponRetrofitNetworkCall {
 
-    private static final String BASE_URL = "https://stage-api.pauket.com/api/partner/";
+    private static final String BASE_URL = "https://api.pauket.com/api/partner/";
     private static Retrofit defaultRetrofit = null;
 
     public static Retrofit getClient() {
