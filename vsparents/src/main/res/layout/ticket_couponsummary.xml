@@ -1,0 +1,79 @@
+
+
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+          >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/subtractimage"
+                app:shapeAppearanceOverlay="@style/RoundedSquare" />
+
+            <ImageView
+                android:id="@+id/center_image"
+                android:layout_width="80dp"
+                android:layout_height="56dp"
+                android:src="@drawable/dizzeworldlogo"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/categoryname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MGM Dizzee World"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:fontFamily="@font/montserratmedium"
+            android:paddingTop="4dp"
+            android:layout_marginStart="10dp" />
+
+        <TextView
+            android:id="@+id/discount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="20% Off"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/clr_black"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserratmedium" />
+
+        <TextView
+            android:id="@+id/merchantname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Expires in 5 Days"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:textColor="@color/clr_grey_dark"
+            android:fontFamily="@font/montserratmedium"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

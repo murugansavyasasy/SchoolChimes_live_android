@@ -70,12 +70,11 @@ public class TodaySlotsData {
     }
 
 
-    public void setSlotTo(String slotFrom) {
-        this.slotFrom = slotFrom;
+    public void setSlotTo(String slotTo) {
+        this.slotTo = slotTo;
     }
 
-    public String getSlotTo() {
-        return slotFrom;
+    public String getSlotTo() {        return slotTo;
     }
 
 

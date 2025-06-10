@@ -1,0 +1,93 @@
+package com.vs.schoolmessenger.CouponView.Adapter;
+
+
+import android.content.Context;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummary;
+import com.vs.schoolmessenger.CouponView.MycouponDashboard.MycouponViewActivity;
+import com.vs.schoolmessenger.R;
+
+import java.util.List;
+
+public class TicketCouponAdapter extends RecyclerView.Adapter<TicketCouponAdapter.ViewHolder> {
+
+    private final Context context;
+    private List<TicketSummary> ticketSummaryList;
+    public TicketCouponAdapter(Context context,List<TicketSummary> ticketSummaryList) {
+        this.context = context;
+        this.ticketSummaryList = ticketSummaryList;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.ticket_couponsummary, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // Hardcoded data – You can customize each item based on `position` if needed
+        TicketSummary ticketSummary = ticketSummaryList.get(position);
+        holder.categoryName.setText(ticketSummary.getCategoryName());
+        holder.discount.setText(ticketSummary.getOffer_to_show());
+        holder.merchantName.setText("Expires in "+ticketSummary.getExpires_in()+ " days");
+
+
+        Glide.with(context)
+                .load(ticketSummary.getCover_image())
+                .into(holder.centerImage);
+
+        holder.cardview.setOnClickListener(view ->{
+            Intent intent = new Intent(context, MycouponViewActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("merchant_name", ticketSummary.getMerchantName());
+            intent.putExtra("offer_to_show", ticketSummary.getOffer_to_show());
+            intent.putExtra("how_to_use", ticketSummary.getHow_to_use());
+            intent.putExtra("coupon_code", ticketSummary.getCoupon_code());
+            intent.putExtra("cover_image", ticketSummary.getCover_image());
+
+
+            context.startActivity(intent);
+        });
+
+
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return ticketSummaryList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        ShapeableImageView thumbnail;
+        ImageView centerImage;
+        TextView categoryName, discount, merchantName;
+        CardView cardview;
+
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            thumbnail = itemView.findViewById(R.id.thumbnail);
+            centerImage = itemView.findViewById(R.id.center_image);
+            categoryName = itemView.findViewById(R.id.categoryname);
+            discount = itemView.findViewById(R.id.discount);
+            merchantName = itemView.findViewById(R.id.merchantname);
+            cardview =itemView.findViewById(R.id.card_view);
+        }
+    }
+}

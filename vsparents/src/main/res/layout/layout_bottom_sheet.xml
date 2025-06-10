@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_bg"
+    android:orientation="vertical"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative_layout"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_bg"
+        android:padding="15dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/header_textview"
+            android:layout_marginStart="10dp"
+            android:text="Saloon &amp; Spa"
+            android:textStyle="normal"
+            android:fontFamily="@font/montserratmedium"
+            android:textSize="11sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/small_postercoupon"
+                app:shapeAppearanceOverlay="@style/ImageMediumRoundedCorners" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/offer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserratmedium"
+                    android:text="Rs.300 Off"
+                    android:textColor="@color/clr_black"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/offer_text1"
+                    android:text="TONI&amp;GUY"
+                    android:textStyle="normal"
+                    android:textSize="13sp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserratmedium"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp">
+
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:id="@+id/location_imag2"
+                android:layout_gravity="center"
+                android:layout_marginStart="9dp"
+                android:src="@drawable/clockloadericon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/offer_text4"
+                android:text="Valid till 01.01.2024"
+                android:textStyle="normal"
+                android:textSize="13sp"
+                android:fontFamily="@font/montserratmedium"
+                android:layout_marginStart="5dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linear_layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/remember"
+                android:text="How to Use"
+                android:textColor="@color/clr_black"
+                android:textSize="15sp"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:textStyle="normal"
+                android:fontFamily="@font/montserratmedium"/>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/remember_symbol"
+                android:src="@drawable/ic_down_black"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="5dp"/>
+
+        </LinearLayout>
+
+        <!-- Hidden TextView to be expanded -->
+        <TextView
+            android:id="@+id/expandable_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Here are some important thakdjnkasjdn jkansjdknkjnadksad nkajndkjnkjasnkjasndkings to remember..."
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:padding="10dp"
+            android:layout_marginEnd="40dp"
+            android:visibility="gone"
+            android:fontFamily="@font/montserratmedium"
+
+            android:textColor="@color/grey"/>
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/grey"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/linear_layout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/remember1"
+            android:text="Terms &amp; Conditions"
+            android:textColor="@color/clr_black"
+            android:textStyle="normal"
+            android:textSize="15sp"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/montserratmedium"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/remember_symbol1"
+            android:src="@drawable/ic_down_black"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"/>
+        </LinearLayout>
+
+        <!-- Hidden TextView to be expanded -->
+        <TextView
+            android:id="@+id/expandable_text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Here are some important thakdjnkasjdn jkansjdknkjnadksad nkajndkjnkjasnkjasndkings to remember..."
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:padding="10dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/montserratmedium"
+            android:visibility="gone"
+            android:textColor="@color/grey"/>
+    </LinearLayout>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/grey"
+        />
+
+
+
+</LinearLayout>

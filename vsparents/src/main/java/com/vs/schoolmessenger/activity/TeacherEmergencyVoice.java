@@ -1577,7 +1577,8 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
         intoStu.putExtra("DURATION", String.valueOf(iMediaDuration));
         intoStu.putExtra("FILEPATH", futureStudioIconFile.getPath());
         intoStu.putExtra("TITTLE", strtittle1);
-        intoStu.putExtra("SCHOOL_ID", "");
+        intoStu.putExtra("SCHOOL_ID", schoolId);
+        intoStu.putExtra("STAFF_ID", staffId);
         intoStu.putExtra("TO", "STU");
         startActivityForResult(intoStu, iRequestCode);
     }

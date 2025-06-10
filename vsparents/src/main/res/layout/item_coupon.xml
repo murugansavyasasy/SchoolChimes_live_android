@@ -4,24 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp">
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="4dp">
-            <ImageView
-                android:id="@+id/thumbnail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY" />
-        </androidx.cardview.widget.CardView>
-
+            android:layout_height="wrap_content"
+            app:shapeAppearanceOverlay="@style/RoundedSquare"
+            android:padding="5dp">
+        </com.google.android.material.imageview.ShapeableImageView>
         <TextView
             android:id="@+id/categoryname"
             android:layout_width="match_parent"
@@ -29,11 +23,11 @@
             android:text="Title"
             android:textStyle="normal"
             android:textSize="12sp"
+            android:fontFamily="@font/montserratmedium"
             android:paddingTop="4dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginStart="10dp" />
         <TextView
-            android:id="@+id/campaignname"
+            android:id="@+id/discount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Title"
@@ -41,7 +35,8 @@
             android:textSize="18sp"
             android:textColor="@color/clr_black"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/montserratmedium"/>
         <TextView
             android:id="@+id/merchantname"
             android:layout_width="match_parent"
@@ -49,7 +44,45 @@
             android:text="Title"
             android:textStyle="normal"
             android:textSize="16sp"
-            android:textColor="@color/clr_black"
+            android:textColor="@color/clr_grey_dark"
+            android:fontFamily="@font/montserratmedium"
             android:layout_marginStart="10dp" />
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:id="@+id/linearLayout0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp">
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:id="@+id/location_imag2"
+                    android:src="@drawable/loader"/>
+                <TextView
+                    android:id="@+id/location_heade4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="5 days"
+                    android:textStyle="normal"
+                    android:layout_marginStart="3dp"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/montserratmedium"
+                    android:textColor="@color/bpDarker_red" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
