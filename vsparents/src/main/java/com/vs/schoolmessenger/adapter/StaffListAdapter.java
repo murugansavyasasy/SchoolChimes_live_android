@@ -2,7 +2,6 @@ package com.vs.schoolmessenger.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +10,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.interfaces.StaffListListener;
 import com.vs.schoolmessenger.model.StaffList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyViewHolder> {
@@ -120,5 +122,16 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
     public int getItemCount() {
         return lib_list.size();
     }
+
+    public List<StaffList> getSelectedStaff() {
+        List<StaffList> selectedList = new ArrayList<>();
+        for (StaffList staff : lib_list) {
+            if (staff.getSelecteStatus()) {
+                selectedList.add(staff);
+            }
+        }
+        return selectedList;
+    }
+
 }
 

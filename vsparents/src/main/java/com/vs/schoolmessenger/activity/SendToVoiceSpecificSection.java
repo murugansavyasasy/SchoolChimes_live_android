@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.activity;
 
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VIDEOS;
+import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_VOICE;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.listschooldetails;
 
 import android.app.AlertDialog;
@@ -49,7 +50,7 @@ import retrofit2.Response;
 public class SendToVoiceSpecificSection extends AppCompatActivity implements View.OnClickListener {
 
 
-    Button SendToEntireSchool, SendToStansGroups, SendToSpecificSection;
+    Button SendToEntireSchool, SendToStansGroups, SendToSpecificSection, SendToStaff;
     String SchoolID, StaffID, filepath, duration, tittle, strmessage, strdate, strtime, strfilepathimage;
     int iRequestCode = 0;
     ArrayList<TeacherClassGroupModel> listClasses, listGroups;
@@ -87,6 +88,10 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
         SendToStansGroups.setOnClickListener(this);
         SendToSpecificSection = (Button) findViewById(R.id.SendToSpecificSection);
         SendToSpecificSection.setOnClickListener(this);
+
+        SendToStaff = findViewById(R.id.SendToStaff);
+        SendToStaff.setOnClickListener(this);
+
 
         String countryID = TeacherUtil_SharedPreference.getCountryID(SendToVoiceSpecificSection.this);
         if (countryID.equals("11")) {
@@ -131,7 +136,13 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
         if (strPDFFilepath.equals("")) {
             slectedImagePath = (ArrayList<String>) getIntent().getSerializableExtra("PATH_LIST");
         }
+        String Role = TeacherUtil_SharedPreference.getRole(SendToVoiceSpecificSection.this);
 
+        if (Role.equals("p2") && iRequestCode == PRINCIPAL_VOICE) {
+            SendToStaff.setVisibility(View.VISIBLE);
+        } else {
+            SendToStaff.setVisibility(View.GONE);
+        }
     }
 
     public void onClick(View v) {
@@ -195,6 +206,18 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                     startActivity(intoSec);
 
                 }
+                break;
+
+            case R.id.SendToStaff:
+                Intent isSendStaff = new Intent(SendToVoiceSpecificSection.this, SendToStaff.class);
+                isSendStaff.putExtra("REQUEST_CODE", iRequestCode);
+                isSendStaff.putExtra("FILEPATH", filepath);
+                isSendStaff.putExtra("SCHOOL_ID", SchoolID);
+                isSendStaff.putExtra("STAFF_ID", StaffID);
+                isSendStaff.putExtra("DURATION", duration);
+                isSendStaff.putExtra("TITTLE", tittle);
+                isSendStaff.putExtra("MESSAGE", strmessage);
+                startActivity(isSendStaff);
                 break;
         }
     }

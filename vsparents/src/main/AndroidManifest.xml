@@ -55,6 +55,14 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
+            android:name=".activity.SendToStaff"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Teacher_AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
             android:name=".activity.AddLocationForAttendance"
             android:exported="false"
             android:launchMode="singleTop"

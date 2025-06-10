@@ -195,8 +195,6 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
             school_list_recyle.setAdapter(mAdapter);
             school_list_recyle.getRecycledViewPool().setMaxRecycledViews(0, 80);
         }
-
-
     }
 
     private void SendToGroupHeadVoiceHistory() {

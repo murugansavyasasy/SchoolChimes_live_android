@@ -2,13 +2,13 @@ package com.vs.schoolmessenger.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.StaffListCalls;
@@ -77,7 +77,6 @@ public class SchoolsListAdapter extends RecyclerView.Adapter<SchoolsListAdapter.
                 Intent stafflist = new Intent(context, StaffListCalls.class);
                 stafflist.putExtra("schools", school);
                 context.startActivity(stafflist);
-
             }
         });
     }

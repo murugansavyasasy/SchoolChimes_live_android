@@ -85,10 +85,7 @@ public class NewPopUpActivity extends AppCompatActivity {
                 Intent splashscreen = new Intent(NewPopUpActivity.this, TeacherSplashScreen.class);
                 startActivity(splashscreen);
                 finish();
-
                 mp.stop();
-
-
             }
         });
 

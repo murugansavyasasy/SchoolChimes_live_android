@@ -177,6 +177,12 @@ public interface TeacherMessengerApiInterface {
     @POST("SendVoiceToGroupsAndStandards")
     Call<JsonArray> SendVoiceToGroupsAndStandards(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
+
+    @Multipart
+    @POST("send-voice-to-staff")
+    Call<JsonArray> SendVoiceToStaff(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
+
+
     @Multipart
     @POST("ScheduleVoiceToGroupsAndStandards")
     Call<JsonArray> ScheduleToGroupsAndStandards(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
