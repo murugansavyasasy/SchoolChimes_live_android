@@ -112,7 +112,7 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
         btnCalls.setEnabled(false);
 
         i_sections_count = 0;
-        mAdapter = new StaffListAdapter(StaffListCalls.this, new StaffListListener() {
+        mAdapter = new StaffListAdapter(false,StaffListCalls.this, new StaffListListener() {
             @Override
             public void student_addClass(StaffList subjects) {
                 if ((subjects != null) && (!SelectedSubjects.contains(subjects))) {

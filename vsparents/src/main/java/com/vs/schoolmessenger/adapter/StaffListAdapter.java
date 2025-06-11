@@ -24,6 +24,8 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
 
     private List<StaffList> lib_list;
     Context context;
+
+    Boolean isVoiceSending;
     private StaffListListener onCheckStudentListener;
 
     public void clearAllData() {
@@ -58,9 +60,10 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
         }
     }
 
-    public StaffListAdapter(Context context,StaffListListener onCheckListener,List<StaffList> lib_list) {
+    public StaffListAdapter(Boolean isVoiceSend, Context context, StaffListListener onCheckListener, List<StaffList> lib_list) {
         this.lib_list = lib_list;
         this.context = context;
+        this.isVoiceSending = isVoiceSend;
         this.onCheckStudentListener = onCheckListener;
     }
 
@@ -79,8 +82,10 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
         final StaffList staffs = lib_list.get(position);
 
         holder.lblStaffName.setText(staffs.getStaffName());
-        if (staffs.getStaffType().equals("Authorized Caller")) {
+        if (staffs.getStaffType().equals("Authorized Caller") && !isVoiceSending) {
             holder.lblAuthorizedCaller.setVisibility(View.VISIBLE);
+        } else {
+            holder.lblAuthorizedCaller.setVisibility(View.GONE);
         }
 
         holder.check_staff.setOnCheckedChangeListener(null);

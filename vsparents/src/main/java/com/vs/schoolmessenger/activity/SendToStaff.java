@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.StaffList;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,6 +69,7 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
     RecyclerView staff_list_recycle;
     Button btnCalls;
     ImageView imgSearch;
+    String voicetype = "";
     int i_sections_count;
     CheckBox select_All;
     EditText Searchable;
@@ -75,6 +78,7 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
     ArrayList<StaffList> SelectedSubjects = new ArrayList<StaffList>();
     private int i_students_count;
     String SchoolID, StaffID, strtittle, strmessage, Description, duration, filepath;
+    LinearLayout rytAuthorized;
 
 
     @SuppressLint("ResourceAsColor")
@@ -93,6 +97,7 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
 
         btnCalls = (Button) findViewById(R.id.btnCalls);
         rytNoRecords = (RelativeLayout) findViewById(R.id.rytNoRecords);
+        rytAuthorized = (LinearLayout) findViewById(R.id.rytAuthorized);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.teacher_actionbar_home);
@@ -106,6 +111,7 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
             }
         });
 
+        voicetype = getIntent().getExtras().getString("VOICE", "");
         SchoolID = getIntent().getExtras().getString("SCHOOL_ID", "");
         StaffID = getIntent().getExtras().getString("STAFF_ID", "");
         strtittle = getIntent().getExtras().getString("TITTLE", "");
@@ -113,12 +119,12 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
         Description = getIntent().getExtras().getString("TITTLE", "");
         duration = getIntent().getExtras().getString("DURATION", "");
         filepath = getIntent().getExtras().getString("FILEPATH", "");
-
+        rytAuthorized.setVisibility(View.GONE);
         getStaffList();
         btnCalls.setEnabled(false);
 
         i_sections_count = 0;
-        mAdapter = new StaffListAdapter(SendToStaff.this, new StaffListListener() {
+        mAdapter = new StaffListAdapter(true, SendToStaff.this, new StaffListListener() {
             @Override
             public void student_addClass(StaffList subjects) {
                 if ((subjects != null) && (!SelectedSubjects.contains(subjects))) {
@@ -269,11 +275,11 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
 
 
         Call<JsonArray> call;
-//        if (Util_Common.isScheduleCall) {
-//            call = apiService.ScheduleToGroupsAndStandards(requestBody, bodyFile);
-//        } else {
+        if (Util_Common.isScheduleCall) {
+            call = apiService.SendVoiceToStaffSchedule(requestBody, bodyFile);
+        } else {
         call = apiService.SendVoiceToStaff(requestBody, bodyFile);
-//        }
+        }
 
         call.enqueue(new Callback<JsonArray>() {
             @Override
@@ -305,6 +311,79 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                             showToast(getResources().getString(R.string.no_records));
                         }
 
+                    } catch (Exception e) {
+                        showToast(getResources().getString(R.string.check_internet));
+                        Log.d("Ex", e.toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+                showToast(getResources().getString(R.string.check_internet));
+                showToast(t.toString());
+            }
+        });
+    }
+
+    private void sendVoiceFromVoiceHistory() {
+        String baseURL = TeacherUtil_SharedPreference.getBaseUrl(SendToStaff.this);
+        TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
+
+        TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
+
+        File file = new File(filepath);
+
+        JsonObject jsonReqArray = jsonArrayFromVoiceHistory();
+
+
+        final ProgressDialog mProgressDialog = new ProgressDialog(SendToStaff.this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(getResources().getString(R.string.Loading));
+        mProgressDialog.setCancelable(false);
+
+        if (!this.isFinishing())
+            mProgressDialog.show();
+
+
+        Call<JsonArray> call;
+        if (Util_Common.isScheduleCall) {
+            call = apiService.ScheduleVoiceAsStaffTofromVoiceHistory(jsonReqArray);
+        } else {
+            call = apiService.SendVoiceAsStaffTofromVoiceHistory(jsonReqArray);
+        }
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call,
+                                   Response<JsonArray> response) {
+
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+
+                Log.d("Upload-Code:Response", response.code() + "-" + response);
+                if (response.code() == 200 || response.code() == 201) {
+                    Log.d("Upload:Body", response.body().toString());
+
+                    try {
+                        JSONArray js = new JSONArray(response.body().toString());
+                        if (js.length() > 0) {
+                            JSONObject jsonObject = js.getJSONObject(0);
+                            String strStatus = jsonObject.getString("Status");
+                            String strMsg = jsonObject.getString("Message");
+
+
+                            if ((strStatus).equalsIgnoreCase("1")) {
+                                showAlert(strMsg, strStatus);
+
+                            } else {
+                                showAlert(strMsg, strStatus);
+                            }
+                        } else {
+                            showToast(getResources().getString(R.string.no_records));
+                        }
+
 
                     } catch (Exception e) {
                         showToast(getResources().getString(R.string.check_internet));
@@ -323,6 +402,46 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
         });
     }
 
+    private JsonObject jsonArrayFromVoiceHistory() {
+        JsonObject jsonObjectSchoolstdgrp = new JsonObject();
+        try {
+
+            jsonObjectSchoolstdgrp.addProperty("SchoolID", SchoolID);
+            jsonObjectSchoolstdgrp.addProperty("StaffID", StaffID);
+            jsonObjectSchoolstdgrp.addProperty("Description", Description);
+            jsonObjectSchoolstdgrp.addProperty("Duration", duration);
+            jsonObjectSchoolstdgrp.addProperty("filepath", filepath);
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
+            List<StaffList> selectedStaff = mAdapter.getSelectedStaff();
+            JsonArray jsonArrayschoolstd = new JsonArray();
+            for (StaffList staff : selectedStaff) {
+                Log.d("SelectedStaffID", staff.getStaffId());
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("ID", staff.getStaffId());
+                jsonArrayschoolstd.add(jsonObject);
+            }
+            jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
+            Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
+
+        } catch (Exception e) {
+            Log.d("ASDF", e.toString());
+        }
+
+        return jsonObjectSchoolstdgrp;
+    }
+
+
     private void showAlert(String strMsg, String status) {
 //        lnrProgress.setVisibility(View.GONE);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SendToStaff.this);
@@ -335,7 +454,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
             public void onClick(DialogInterface dialog, int which) {
 
                 if (status.equals("1")) {
-
                     dialog.cancel();
                     Intent homescreen = new Intent(SendToStaff.this, Teacher_AA_Test.class);
                     homescreen.putExtra("Homescreen", "1");
@@ -343,7 +461,13 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                     startActivity(homescreen);
                     finish();
                 } else {
-                    sendVoiceToStaff();
+
+                    if (voicetype.equals("VoiceHistory")) {
+                        sendVoiceFromVoiceHistory();
+                    } else {
+                        sendVoiceToStaff();
+                    }
+
                     dialog.cancel();
                 }
 
@@ -478,11 +602,22 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
             JsonArray jsonArrayschoolstd = new JsonArray();
             List<StaffList> selectedStaff = mAdapter.getSelectedStaff();
             for (StaffList staff : selectedStaff) {
-                Log.d("SelectedStaffID", staff.getStaffId());
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("ID", staff.getStaffId());
                 jsonArrayschoolstd.add(jsonObject);
             }
+
+            if (Util_Common.isScheduleCall) {
+                JsonArray isSelectedArray = new JsonArray();
+                for (int i = 0; i < Util_Common.isSelectedDate.size(); i++) {
+                    String isSelected = (Util_Common.isSelectedDate.get(i));
+                    isSelectedArray.add(isSelected);
+                }
+                jsonObjectSchoolstdgrp.add("Dates", isSelectedArray);
+                jsonObjectSchoolstdgrp.addProperty("StartTime", Util_Common.isStartTime);
+                jsonObjectSchoolstdgrp.addProperty("EndTime", Util_Common.isEndTime);
+            }
+
             jsonObjectSchoolstdgrp.add("IDS", jsonArrayschoolstd);
             Log.d("Final_Array", jsonObjectSchoolstdgrp.toString());
 

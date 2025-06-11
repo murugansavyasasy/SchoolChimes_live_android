@@ -182,6 +182,10 @@ public interface TeacherMessengerApiInterface {
     @POST("send-voice-to-staff")
     Call<JsonArray> SendVoiceToStaff(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
 
+    @Multipart
+    @POST("schedule-voice-to-staff")
+    Call<JsonArray> SendVoiceToStaffSchedule(@Part("Info") RequestBody requestBody, @Part MultipartBody.Part file);
+
 
     @Multipart
     @POST("ScheduleVoiceToGroupsAndStandards")
@@ -603,8 +607,14 @@ public interface TeacherMessengerApiInterface {
     @POST("SendVoiceAsStaffToEntireSectionfromVoiceHistory")
     Call<JsonArray> SendVoiceAsStaffToEntireSectionfromVoiceHistory(@Body JsonObject jsonObject);
 
+    @POST("send-voice-to-staff-from-voice-history")
+    Call<JsonArray> SendVoiceAsStaffTofromVoiceHistory(@Body JsonObject jsonObject);
+
     @POST("ScheduleVoiceAsStaffToEntireSectionfromVoiceHistory")
     Call<JsonArray> ScheduleVoiceAsStaffToEntireSectionfromVoiceHistory(@Body JsonObject jsonObject);
+
+    @POST("schedule-voice-to-staff-from-voice-history")
+    Call<JsonArray> ScheduleVoiceAsStaffTofromVoiceHistory(@Body JsonObject jsonObject);
 
     @POST("SendVoicetoSpecificStudentsfromVoiceHistory")
     Call<JsonArray> SendVoicetoSpecificStudentsfromVoiceHistory(@Body JsonObject jsonObject);
