@@ -78,10 +78,10 @@
         style="@style/Teacher_btn_login"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:visibility="gone"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:text="@string/send_to_staff"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:textSize="16sp" />
 
 </LinearLayout>

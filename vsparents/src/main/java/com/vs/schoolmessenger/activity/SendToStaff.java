@@ -303,7 +303,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
 
-
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -624,7 +623,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }
-
         return jsonObjectSchoolstdgrp;
     }
 }
