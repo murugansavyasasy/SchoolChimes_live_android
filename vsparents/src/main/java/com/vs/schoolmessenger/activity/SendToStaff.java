@@ -204,7 +204,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 for (int i = 0; i < staff_list.size(); i++) {
                     staff_list.get(i).setSelecteStatus(isChecked);
-
                     btnCalls.setEnabled(true);
                 }
                 mAdapter.notifyDataSetChanged();
@@ -217,12 +216,14 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                     btnCalls.setEnabled(false);
                     Log.d("CHECK-i_students_count", "False - " + i_students_count);
                 }
-
             }
         });
+
         btnCalls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                constructJsonArraySentToStaff();
+//                jsonArrayFromVoiceHistory();
                 showAlert("Are you want to send?", "");
             }
         });
@@ -372,18 +373,14 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
 
-
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
-
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
                         } else {
                             showToast(getResources().getString(R.string.no_records));
                         }
-
-
                     } catch (Exception e) {
                         showToast(getResources().getString(R.string.check_internet));
                         Log.d("Ex", e.toString());
@@ -436,7 +433,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
         } catch (Exception e) {
             Log.d("ASDF", e.toString());
         }
-
         return jsonObjectSchoolstdgrp;
     }
 
@@ -460,7 +456,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                     startActivity(homescreen);
                     finish();
                 } else {
-
                     if (voicetype.equals("VoiceHistory")) {
                         sendVoiceFromVoiceHistory();
                     } else {
@@ -469,8 +464,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
 
                     dialog.cancel();
                 }
-
-
             }
         });
 
@@ -545,7 +538,8 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                                     String staff_type = jsonObject.getString("StaffType");
                                     String staff_mobile = jsonObject.getString("StaffMobile");
                                     String designation = jsonObject.getString("Designation");
-                                    data = new StaffList(staffId, staff_name, staff_type, staff_mobile, designation, false);
+                                    String isStaffRole = jsonObject.getString("MemberRole");
+                                    data = new StaffList(staffId, staff_name, staff_type, staff_mobile, designation, false, isStaffRole);
                                     staff_list.add(data);
                                 }
                             }

@@ -1,56 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/clr_white"
-        android:padding="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/lblStaffName"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:textStyle="normal"
-            android:textColor="@color/clr_black"
-            android:layout_centerVertical="true"
-            android:text="mbncxmvnc"/>
+            android:background="@color/clr_white"
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/lblAuthorizedCaller"
-            android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/lblStaffName"
-            android:layout_marginLeft="2dp"
-            android:text="*"
-            android:textSize="20dp"
-            android:visibility="gone"
-            android:textColor="@color/teacher_colorPrimary"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/lblStaffName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_toStartOf="@+id/check_staff"
+                android:text=""
+                android:textColor="@color/clr_black"
+                android:textStyle="normal" />
 
-        <CheckBox
-            android:id="@+id/check_staff"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/lblStaffRole"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblStaffName"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_toStartOf="@+id/check_staff"
+                android:text=""
+                android:textColor="@color/gnt_gray"
+                android:textSize="13sp"
+                android:textStyle="normal" />
 
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/clr_grey_light">
+            <TextView
+                android:id="@+id/lblStaffDesignation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblStaffRole"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_toStartOf="@+id/check_staff"
+                android:text=""
+                android:textColor="@color/gnt_gray"
+                android:textSize="13sp"
+                android:textStyle="normal" />
 
-    </View>
-</LinearLayout>
 
+            <TextView
+                android:id="@+id/lblAuthorizedCaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/lblStaffName"
+                android:text="*"
+                android:textColor="@color/teacher_colorPrimary"
+                android:textSize="20dp"
+                android:visibility="gone" />
 
+            <CheckBox
+                android:id="@+id/check_staff"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="20dp"
+                android:scaleX="1.3"
+                android:scaleY="1.3" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/clr_grey_light">
+
+        </View>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

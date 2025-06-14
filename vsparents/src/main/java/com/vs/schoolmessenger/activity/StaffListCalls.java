@@ -405,7 +405,8 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
                                     String staff_type = jsonObject.getString("StaffType");
                                     String staff_mobile = jsonObject.getString("StaffMobile");
                                     String designation = jsonObject.getString("Designation");
-                                    data = new StaffList(staffId, staff_name, staff_type, staff_mobile, designation, false);
+                                    String isStaffRole = jsonObject.getString("StaffRole");
+                                    data = new StaffList(staffId, staff_name, staff_type, staff_mobile, designation, false, isStaffRole);
                                     staff_list.add(data);
                                 }
                             }

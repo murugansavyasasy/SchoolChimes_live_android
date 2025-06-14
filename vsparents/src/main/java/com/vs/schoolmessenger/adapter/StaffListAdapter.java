@@ -47,13 +47,15 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView lblStaffName, lblAuthorizedCaller;
+        public TextView lblStaffName, lblAuthorizedCaller, lblStaffRole, lblStaffDesignation;
         public CheckBox check_staff;
 
         public MyViewHolder(View view) {
             super(view);
 
             lblStaffName = (TextView) view.findViewById(R.id.lblStaffName);
+            lblStaffRole = (TextView) view.findViewById(R.id.lblStaffRole);
+            lblStaffDesignation = (TextView) view.findViewById(R.id.lblStaffDesignation);
             lblAuthorizedCaller = (TextView) view.findViewById(R.id.lblAuthorizedCaller);
             check_staff = (CheckBox) view.findViewById(R.id.check_staff);
 
@@ -82,6 +84,8 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
         final StaffList staffs = lib_list.get(position);
 
         holder.lblStaffName.setText(staffs.getStaffName());
+        holder.lblStaffRole.setText(staffs.getStaffRole());
+        holder.lblStaffDesignation.setText(staffs.getDesignation());
         if (staffs.getStaffType().equals("Authorized Caller") && !isVoiceSending) {
             holder.lblAuthorizedCaller.setVisibility(View.VISIBLE);
         } else {
@@ -137,6 +141,5 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
         }
         return selectedList;
     }
-
 }
 

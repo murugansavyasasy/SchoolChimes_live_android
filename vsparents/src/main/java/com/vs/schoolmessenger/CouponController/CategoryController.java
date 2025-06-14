@@ -56,7 +56,7 @@ public class CategoryController {
     public void fetchCoinDetails(final PointsCouponCallback callback) {
         Call<PointsResponse> call = dynamicApiService.getPointsCoupons(
                 USER_TYPE,
-                "+91" + MOBILE_NUMBER,
+                "91" + MOBILE_NUMBER,
                 new HashMap<>()
         );
         Log.d("CategoryController", "Request URL: " + call.request().url().toString());
@@ -130,7 +130,7 @@ public class CategoryController {
 
     public void fetchCouponSummary(final CouponSummaryCallback callback) {
         HashMap<String, String> requestBody = new HashMap<>();
-        requestBody.put("mobile_no", "+91" + MOBILE_NUMBER);
+        requestBody.put("mobile_no", "91" + MOBILE_NUMBER);
 
         Call<CouponSummaryResponse> call = defaultApiService.getCoupons(
                 PARTNER_NAME,
