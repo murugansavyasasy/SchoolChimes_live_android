@@ -363,11 +363,11 @@ public class ChildMenuAdapter extends ArrayAdapter {
     }
 
     private void setUnReadCount(String unReadCount, TextView lblUnreadCount) {
-        if (!unReadCount.equals("0")) {
-            lblUnreadCount.setVisibility(View.VISIBLE);
-        } else {
-            lblUnreadCount.setVisibility(View.INVISIBLE);
-        }
+//        if (!unReadCount.equals("0")) {
+//            lblUnreadCount.setVisibility(View.VISIBLE);
+//        } else {
+//            lblUnreadCount.setVisibility(View.INVISIBLE);
+//        }
     }
 
     private void menuOnClick(String MenuName) {
