@@ -426,7 +426,6 @@ public class ChildMenuAdapter extends ArrayAdapter {
 
         } else if (substring1.equals("_16")) {
             goToNextScreen(MenuName);
-
         } else if (substring1.equals("_17")) {
         } else if (substring1.equals("_18")) {
             isCameraPermissions(MenuName);
@@ -434,7 +433,6 @@ public class ChildMenuAdapter extends ArrayAdapter {
             isPermissionGranded(MenuName);
         } else if (substring1.equals("_20")) {
             goToNextScreen(MenuName);
-
         } else if (substring1.equals("_21")) {
             isPermissionGranded(MenuName);
         } else if (substring1.equals("_22")) {
