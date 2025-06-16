@@ -133,7 +133,6 @@ public class ChildrenScreen extends AppCompatActivity implements View.OnClickLis
         rytHelp.setOnClickListener(this);
         rytLanguage.setOnClickListener(this);
         rytPassword.setOnClickListener(this);
-
         aHome_llSchoollayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

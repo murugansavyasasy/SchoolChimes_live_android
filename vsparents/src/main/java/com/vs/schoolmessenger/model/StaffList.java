@@ -1,16 +1,17 @@
 package com.vs.schoolmessenger.model;
 
 public class StaffList {
-    private String StaffId, StaffName, StaffType,StaffMobile,Designation;
+    private String StaffId, StaffName, StaffType, StaffMobile, Designation, MemberRole;
     private  boolean selecteStatus;
 
-    public StaffList(String staffId, String staffName, String staffType,String staffMobile,String designation,boolean selecteStatus) {
+    public StaffList(String staffId, String staffName, String staffType, String staffMobile, String designation, boolean selecteStatus, String isStaffRole) {
         this.StaffId = staffId;
         this.StaffName = staffName;
         this.StaffType = staffType;
         this.StaffMobile = staffMobile;
         this.Designation = designation;
         this.selecteStatus = selecteStatus;
+        this.MemberRole = isStaffRole;
     }
 
     public StaffList() {}
@@ -29,6 +30,15 @@ public class StaffList {
 
     public void setStaffName(String name) {
         this.StaffName = name;
+    }
+
+
+    public String getStaffRole() {
+        return MemberRole;
+    }
+
+    public void setStaffRole(String staffRole) {
+        this.MemberRole = staffRole;
     }
 
     public String getStaffType() {

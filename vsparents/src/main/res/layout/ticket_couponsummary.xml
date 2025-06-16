@@ -41,6 +41,7 @@
                     android:src="@drawable/dizzeworldlogo" />
 
                 <TextView
+                    android:id="@+id/couponstatus"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_gravity="center"

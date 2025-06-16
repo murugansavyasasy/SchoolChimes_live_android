@@ -73,6 +73,8 @@
         android:layout_marginEnd="10dp"
         android:clipToPadding="false"
         android:scrollIndicators="none"
+        android:layout_above="@+id/bottomlnrtab"
+        android:layout_marginBottom="5dp"
         android:scrollbars="vertical"
         android:layout_marginTop="5dp"/>
 

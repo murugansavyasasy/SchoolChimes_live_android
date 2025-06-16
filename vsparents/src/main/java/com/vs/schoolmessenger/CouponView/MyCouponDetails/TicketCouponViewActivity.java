@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,11 +18,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vs.schoolmessenger.CouponController.CategoryController;
+import com.vs.schoolmessenger.CouponModel.CouponSummary.Summary;
 import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummary;
 import com.vs.schoolmessenger.CouponView.Adapter.TicketCouponAdapter;
 import com.vs.schoolmessenger.CouponView.CouponDashboard.CouponMainClassActivity;
 import com.vs.schoolmessenger.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TicketCouponViewActivity extends AppCompatActivity {
@@ -33,6 +38,11 @@ public class TicketCouponViewActivity extends AppCompatActivity {
     private TextView alltext, activetext, expiredtext, redeemedtext;
     private int blueColor;
     private int defaultColor;
+    private EditText editSearch;
+
+
+    private List<TicketSummary> originalSummaryViewList = new ArrayList<>();
+
 
     private ImageView back;
 
@@ -40,6 +50,7 @@ public class TicketCouponViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ticket_coupon);
+
 
 
         btnHome = findViewById(R.id.btnHome);
@@ -51,6 +62,7 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         activetext = findViewById(R.id.activetext);
         expiredtext = findViewById(R.id.expiredtext);
         redeemedtext = findViewById(R.id.redeemedtext);
+        editSearch = findViewById(R.id.editSearch);
 
         blueColor = ContextCompat.getColor(this, R.color.gnt_blue);
         defaultColor = ContextCompat.getColor(this, R.color.gnt_gray);
@@ -60,8 +72,9 @@ public class TicketCouponViewActivity extends AppCompatActivity {
 
         categoryController = new CategoryController(this);
 
-
+        setupSearchFunctionality();
         HomeLoad();
+
         selectTabAndFetch(alltext, "all");
 
         back.setOnClickListener(view -> {
@@ -100,6 +113,43 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         homeBackground.setBackgroundColor(Color.TRANSPARENT);
     }
 
+    private void setupSearchFunctionality() {
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void filter(String text) {
+        List<TicketSummary> filteredList = new ArrayList<>();
+
+        if (text.isEmpty()) {
+            filteredList.addAll(originalSummaryViewList);
+        } else {
+            String searchText = text.toLowerCase().trim();
+            for (TicketSummary item : originalSummaryViewList) {
+                if (item.getMerchant_name().toLowerCase().contains(searchText)) {
+                    filteredList.add(item);
+                } else if (item.getCampaign_name().toLowerCase().contains(searchText)) {
+                    filteredList.add(item);
+                }
+            }
+        }
+
+        if (adapter != null) {
+            adapter.updateList(filteredList);
+        }
+    }
+
+
     private void selectTabAndFetch(TextView selectedTab, String couponStatus) {
 
         alltext.setBackgroundColor(Color.TRANSPARENT);
@@ -114,6 +164,8 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         categoryController.fetchTicketCouponSummary(couponStatus, new CategoryController.TicketCouponSummaryCallback() {
             @Override
             public void onSuccess(List<TicketSummary> coupon_list) {
+                originalSummaryViewList.clear();
+                originalSummaryViewList.addAll(coupon_list);
                 adapter = new TicketCouponAdapter(TicketCouponViewActivity.this, coupon_list);
                 recyclerView.setAdapter(adapter);
             }
@@ -123,6 +175,7 @@ public class TicketCouponViewActivity extends AppCompatActivity {
                 Toast.makeText(TicketCouponViewActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
 }

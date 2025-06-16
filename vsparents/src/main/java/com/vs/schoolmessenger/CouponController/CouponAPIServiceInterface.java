@@ -11,11 +11,13 @@ import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummaryRespo
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface CouponAPIServiceInterface {
@@ -54,9 +56,8 @@ public interface CouponAPIServiceInterface {
 
     @GET("get-Points")
     Call<PointsResponse> getPointsCoupons(
-            @Header("user_type") String user_type,
-            @Header("mobile_number") String mobile_number,
-            @QueryMap Map<String, String> params
+            @Query("user_type") int user_type,
+            @Query("mobile_number") String mobile_number
     );
 
 
@@ -64,6 +65,15 @@ public interface CouponAPIServiceInterface {
     @POST("spent-points")
     Call<LogActiveApiResponse> getlogactiveresponse(
             @FieldMap Map<String, String> params
+    );
+
+
+
+    @POST("get_campaigns")
+    Call<CouponSummaryResponse> getCategoryCoupons(
+            @Header("Partner-Name") String parentName,
+            @Header("api-key") String apiKey,
+            @Body Map<String, String> body
     );
 
 }

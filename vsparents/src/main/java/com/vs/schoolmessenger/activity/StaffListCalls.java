@@ -112,7 +112,7 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
         btnCalls.setEnabled(false);
 
         i_sections_count = 0;
-        mAdapter = new StaffListAdapter(StaffListCalls.this, new StaffListListener() {
+        mAdapter = new StaffListAdapter(false,StaffListCalls.this, new StaffListListener() {
             @Override
             public void student_addClass(StaffList subjects) {
                 if ((subjects != null) && (!SelectedSubjects.contains(subjects))) {
@@ -405,7 +405,8 @@ public class StaffListCalls extends AppCompatActivity implements StaffListListen
                                     String staff_type = jsonObject.getString("StaffType");
                                     String staff_mobile = jsonObject.getString("StaffMobile");
                                     String designation = jsonObject.getString("Designation");
-                                    data = new StaffList(staffId, staff_name, staff_type, staff_mobile, designation, false);
+                                    String isStaffRole = jsonObject.getString("StaffRole");
+                                    data = new StaffList(staffId, staff_name, staff_type, staff_mobile, designation, false, isStaffRole);
                                     staff_list.add(data);
                                 }
                             }

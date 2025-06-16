@@ -37,7 +37,7 @@ public class CategoryController {
     String MOBILE_NUMBER;
     private static final String PARTNER_NAME = "savyasasy";
     private static final String API_KEY = "33adab6a67a9eee6e72be49acfb6c100";
-    private static final String USER_TYPE = "1";
+    private static final int USER_TYPE = 1;
 
 
     public CategoryController(Context context) {
@@ -56,8 +56,7 @@ public class CategoryController {
     public void fetchCoinDetails(final PointsCouponCallback callback) {
         Call<PointsResponse> call = dynamicApiService.getPointsCoupons(
                 USER_TYPE,
-                "+91" + MOBILE_NUMBER,
-                new HashMap<>()
+                 MOBILE_NUMBER
         );
         Log.d("CategoryController", "Request URL: " + call.request().url().toString());
 
@@ -130,7 +129,7 @@ public class CategoryController {
 
     public void fetchCouponSummary(final CouponSummaryCallback callback) {
         HashMap<String, String> requestBody = new HashMap<>();
-        requestBody.put("mobile_no", "+91" + MOBILE_NUMBER);
+        requestBody.put("mobile_no", "91" + MOBILE_NUMBER);
 
         Call<CouponSummaryResponse> call = defaultApiService.getCoupons(
                 PARTNER_NAME,
@@ -160,6 +159,45 @@ public class CategoryController {
         void onSuccess(List<Summary> campaigns);
         void onFailure(String errorMessage);
     }
+
+
+
+    public void fetchCategoryCouponSummary(String categoryId, final CategoryCouponSummaryCallback callback) {
+        HashMap<String, String> requestBody = new HashMap<>();
+        requestBody.put("mobile_no", "91" + MOBILE_NUMBER);
+        requestBody.put("category_id", categoryId);
+
+        Call<CouponSummaryResponse> call = defaultApiService.getCategoryCoupons(
+                PARTNER_NAME,
+                API_KEY,
+                requestBody
+        );
+
+        call.enqueue(new Callback<CouponSummaryResponse>() {
+            @Override
+            public void onResponse(Call<CouponSummaryResponse> call, Response<CouponSummaryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getData().getCampaigns().getData());
+                } else {
+                    callback.onFailure("Failed to load data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CouponSummaryResponse> call, Throwable t) {
+                Log.e("API_ERROR", t.getMessage());
+                callback.onFailure("Network Error");
+            }
+        });
+    }
+
+    public interface CategoryCouponSummaryCallback {
+        void onSuccess(List<Summary> campaigns);
+        void onFailure(String errorMessage);
+    }
+
+
+
 
     public void fetchActivateCoupondata(String sourceLink, final ActivateCouponCallback callback) {
         HashMap<String, String> requestBody = new HashMap<>();
@@ -235,7 +273,7 @@ public class CategoryController {
 
     public void logCouponActivation(String sourceLink, final GenericCallback callback) {
         HashMap<String, String> body = new HashMap<>();
-        body.put("user_type", USER_TYPE);
+        body.put("user_type", String.valueOf(USER_TYPE));
         body.put("coupon_id", sourceLink);
         body.put("mobile_number", MOBILE_NUMBER);
 

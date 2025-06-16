@@ -127,7 +127,6 @@ public class BottomSheetActivity extends AppCompatActivity {
                     howToUseText = activatecouponlist.getHow_to_use();
                     termsAndConditions = activatecouponlist.getTerms_and_conditions();
 
-
                 } else {
                     Toast.makeText(BottomSheetActivity.this, "No coupons available", Toast.LENGTH_SHORT).show();
                 }
@@ -149,7 +148,6 @@ public class BottomSheetActivity extends AppCompatActivity {
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
         });
-
 
         btnactivatecoupon.setOnClickListener(new View.OnClickListener() {
             @Override

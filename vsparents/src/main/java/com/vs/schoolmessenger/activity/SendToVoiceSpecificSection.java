@@ -89,7 +89,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
         SendToSpecificSection = (Button) findViewById(R.id.SendToSpecificSection);
         SendToSpecificSection.setOnClickListener(this);
 
-        SendToStaff = findViewById(R.id.SendToStaff);
+        SendToStaff = (Button) findViewById(R.id.SendToStaff);
         SendToStaff.setOnClickListener(this);
 
 
@@ -217,6 +217,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                 isSendStaff.putExtra("DURATION", duration);
                 isSendStaff.putExtra("TITTLE", tittle);
                 isSendStaff.putExtra("MESSAGE", strmessage);
+                isSendStaff.putExtra("VOICE", voicetype);
                 startActivity(isSendStaff);
                 break;
         }
