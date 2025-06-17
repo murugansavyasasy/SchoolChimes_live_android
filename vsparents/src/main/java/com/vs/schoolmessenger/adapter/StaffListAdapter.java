@@ -23,6 +23,7 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
 
 
     private List<StaffList> lib_list;
+
     Context context;
 
     Boolean isVoiceSending;
@@ -104,7 +105,6 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
 
                 } else {
                     onCheckStudentListener.student_removeClass(staffs);
-
                 }
 
             }

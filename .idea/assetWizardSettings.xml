@@ -307,8 +307,13 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
+<<<<<<< HEAD
                             <entry key="outputName" value="customsubtract" />
                             <entry key="sourceFile" value="E:\Subtract (1).svg" />
+=======
+                            <entry key="outputName" value="group_user" />
+                            <entry key="sourceFile" value="S:\2-User.svg" />
+>>>>>>> 3ace2dd91c940d0904e0660af76236e3df50ba80
                           </map>
                         </option>
                       </PersistentState>

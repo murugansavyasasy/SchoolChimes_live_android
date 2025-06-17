@@ -57,7 +57,7 @@ public class CategoryController {
     public void fetchCoinDetails(final PointsCouponCallback callback) {
         Call<PointsResponse> call = dynamicApiService.getPointsCoupons(
                 USER_TYPE,
-                 MOBILE_NUMBER
+                MOBILE_NUMBER
         );
         Log.d("CategoryController", "Request URL: " + call.request().url().toString());
 
@@ -162,7 +162,6 @@ public class CategoryController {
     }
 
 
-
     public void fetchCategoryCouponSummary(String categoryId, final CategoryCouponSummaryCallback callback) {
         HashMap<String, String> requestBody = new HashMap<>();
         requestBody.put("mobile_no", "91" + MOBILE_NUMBER);
@@ -194,6 +193,7 @@ public class CategoryController {
 
     public interface CategoryCouponSummaryCallback {
         void onSuccess(List<Summary> campaigns);
+
         void onFailure(String errorMessage);
     }
 

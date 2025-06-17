@@ -1,33 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bottom_sheet_bg"
-    android:orientation="vertical"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/dotindicator"
-        android:id="@+id/dotindicator"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/relative_layout"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
-        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dotindicator"
+            android:id="@+id/dotindicator"
+            android:layout_gravity="center"
+            />
 
 
         <LinearLayout
@@ -43,98 +39,92 @@
                 android:layout_height="30dp"
                 android:src="@drawable/small_postercoupon"
                 app:shapeAppearanceOverlay="@style/ImageMediumRoundedCorners" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/offer_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/offer_text1"
                     android:text="TONI&amp;GUY"
                     android:textColor="@color/clr_black"
                     android:textStyle="bold"
                     android:textSize="15sp"
                     android:fontFamily="@font/montserratmedium"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp" />
 
                 <TextView
+                    android:id="@+id/desc_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/desc_text"
                     android:text="Saloon&amp;Spa"
                     android:textStyle="normal"
                     android:textSize="13sp"
                     android:fontFamily="@font/montserratmedium"
-                    android:layout_marginStart="5dp"/>
-
+                    android:layout_marginStart="5dp" />
             </LinearLayout>
         </LinearLayout>
 
-
+        <!-- Offer title and expiry -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginStart="5dp"
             android:layout_marginTop="18dp">
+
             <TextView
+                android:id="@+id/offer_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/offer_text2"
                 android:text="GET 20% OFF THIS SUMMER"
                 android:textColor="@color/clr_black"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:layout_marginStart="5dp"/>
+                android:layout_marginStart="5dp" />
 
             <TextView
+                android:id="@+id/expiry_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/expiry_text"
                 android:text="Expires on 23rd December"
                 android:textColor="@color/clr_red"
                 android:textStyle="normal"
                 android:layout_marginTop="5dp"
                 android:textSize="13sp"
                 android:fontFamily="@font/montserratmedium"
-                android:layout_marginStart="5dp"/>
-
-
+                android:layout_marginStart="5dp" />
         </LinearLayout>
-    </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/grey"
-        />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="25dp"
+            android:background="@color/grey" />
 
-
-    <LinearLayout
-        android:id="@+id/linear_layout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginTop="10dp">
-
-
-
-
-
+        <!-- Code and info -->
         <LinearLayout
+            android:id="@+id/linear_layout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/copylinearlayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -161,54 +151,42 @@
                     android:src="@drawable/copyimage" />
             </LinearLayout>
 
-
+                <TextView
+                    android:id="@+id/desc_text6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="12dp"
+                    android:fontFamily="@font/montserratmedium"
+                    android:gravity="center"
+                    android:text="Let the staff scan the QR Code or use the coupon code to claim the offer"
+                    android:textColor="@color/teacher_clr_grey_dark"
+                    android:textSize="13sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/expandable_text3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/desc_text6"
-                android:text="Let the staff can scan the QR Code or Use the coupon code to claim the offer"
-                android:textColor="@color/teacher_clr_grey_dark"
+                android:layout_marginEnd="40dp"
+                android:padding="10dp"
+                android:text="Here are some important details to remember..."
+                android:textColor="@color/grey"
+                android:textSize="14sp"
                 android:textStyle="normal"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/montserratmedium"
-                android:textSize="13sp"
-                android:layout_marginStart="@dimen/_12dp"
-                android:layout_marginEnd="@dimen/_12dp"
-                android:gravity="center"/>
+                android:visibility="gone" />
         </LinearLayout>
 
-        <!-- Hidden TextView to be expanded -->
-        <TextView
-            android:id="@+id/expandable_text3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Here are some important thakdjnkasjdn jkansjdknkjnadksad nkajndkjnkjasnkjasndkings to remember..."
-            android:textSize="14sp"
-            android:textStyle="normal"
-            android:padding="10dp"
-            android:layout_marginEnd="40dp"
-            android:visibility="gone"
-            android:textColor="@color/grey"/>
-    </LinearLayout>
-
-
-
-
-
-    <LinearLayout
-        android:id="@+id/linear_layout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginTop="10dp">
-
-
+        <!-- Buttons -->
         <LinearLayout
+            android:id="@+id/linear_layout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <Button
                 android:id="@+id/btn_activate_coupon"
@@ -218,16 +196,14 @@
                 android:textColor="@android:color/black"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:textSize="17sp"
                 android:visibility="gone"
+                android:textSize="17sp"
                 android:gravity="center"
                 android:background="@drawable/bg_background_coupon"
                 android:layout_marginBottom="13dp"
-                android:layout_marginStart="@dimen/_12dp"
-                android:layout_marginEnd="@dimen/_12dp"
                 android:layout_gravity="bottom"
-              />
-
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp" />
 
             <Button
                 android:id="@+id/btn_activate_coupon2"
@@ -241,17 +217,17 @@
                 android:gravity="center"
                 android:background="@drawable/bg_background_white_coupon"
                 android:layout_marginBottom="13dp"
-                android:layout_marginStart="@dimen/_12dp"
-                android:layout_marginEnd="@dimen/_12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:layout_gravity="bottom" />
 
+            <!-- Expandables -->
             <LinearLayout
                 android:id="@+id/linear_layout7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp"
-                >
+                android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -259,9 +235,9 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/remember1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/remember1"
                         android:text="How to use"
                         android:textColor="@color/clr_black"
                         android:textStyle="normal"
@@ -270,27 +246,25 @@
                         android:layout_weight="1" />
 
                     <ImageView
+                        android:id="@+id/remember_symbol4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/remember_symbol4"
                         android:src="@drawable/ic_down_black"
                         android:layout_marginEnd="10dp"
-                        android:layout_marginStart="5dp"/>
-
+                        android:layout_marginStart="5dp" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/expandable_text2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Here are some important thakdjnkasjdn jkansjdknkjnadksad nkajndkjnkjasnkjasndkings to remember..."
+                    android:text="How to use content..."
                     android:textSize="14sp"
-                    android:textStyle="normal"
                     android:padding="10dp"
                     android:layout_marginEnd="40dp"
                     android:visibility="gone"
                     android:fontFamily="@font/montserratmedium"
-                    android:textColor="@color/grey"/>
+                    android:textColor="@color/grey" />
             </LinearLayout>
 
             <View
@@ -298,16 +272,14 @@
                 android:layout_height="1dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:background="@color/grey"
-                />
+                android:background="@color/grey" />
 
             <LinearLayout
                 android:id="@+id/linear_layout8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp"
-                >
+                android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -315,9 +287,9 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/remember2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/remember2"
                         android:text="Terms &amp; Conditions"
                         android:textColor="@color/clr_black"
                         android:textStyle="normal"
@@ -326,47 +298,25 @@
                         android:layout_weight="1" />
 
                     <ImageView
+                        android:id="@+id/remember_symbol5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/remember_symbol5"
                         android:src="@drawable/ic_down_black"
                         android:layout_marginEnd="10dp"
-                        android:layout_marginStart="5dp"/>
-
+                        android:layout_marginStart="5dp" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/expandable_text5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Here are some important thakdjnkasjdn jkansjdknkjnadksad nkajndkjnkjasnkjasndkings to remember..."
+                    android:text="Terms and conditions content..."
                     android:textSize="14sp"
-                    android:textStyle="normal"
                     android:padding="10dp"
                     android:layout_marginEnd="40dp"
                     android:visibility="gone"
-                    android:textColor="@color/grey"/>
+                    android:textColor="@color/grey" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="@color/grey"
-                />
-
-
         </LinearLayout>
-
-
     </LinearLayout>
-
-
-
-
-
-
-
-
-</LinearLayout>
+</FrameLayout>

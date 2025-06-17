@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@android:color/white">
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/image_banner"
@@ -22,32 +25,37 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitStart"
-             />
-
+                android:src="@drawable/coupon_banner" />
             <ImageView
                 android:id="@+id/image_top_left"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="12dp"
                 android:src="@drawable/back"
-            android:scaleType="centerInside"
-            android:background="@drawable/rounded_bg"
-            android:padding="8dp"
-            android:layout_gravity="top|start" />
-        </FrameLayout>
+                android:scaleType="centerInside"
+                android:background="@drawable/rounded_bg"
+                android:padding="8dp"
+                android:layout_gravity="top|start" />
+            </FrameLayout>
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animationView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:lottie_rawRes="@raw/graduationparty"
-            app:lottie_autoPlay="false"
-            android:layout_gravity="center"
-            app:lottie_loop="false"
-            app:lottie_speed="1.0" />
 
-    </LinearLayout>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/graduationparty"
+                app:lottie_speed="1.0" />
+        </LinearLayout>
 
-    <include layout="@layout/bottomsheet_ordercoupon"/>
+        <include layout="@layout/bottomsheet_ordercoupon"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <FrameLayout
+        android:id="@+id/particle_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false" />
+</FrameLayout>

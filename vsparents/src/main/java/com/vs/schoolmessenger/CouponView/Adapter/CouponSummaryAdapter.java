@@ -9,10 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.vs.schoolmessenger.CouponModel.CouponSummary.Summary;
 import com.vs.schoolmessenger.CouponView.AcivateCoupon.BottomSheetActivity;
@@ -51,9 +50,9 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Summary summary = summaryList.get(position);
 
-        holder.categoryname.setText(summary.getCategoryName());
-        holder.discount.setText(summary.getDiscount() + "% Off");
-        holder.merchantname.setText(summary.getMerchantName());
+        holder.lblProductName.setText(summary.getCategoryName());
+        holder.lblProductOffer.setText(summary.getDiscount() + "% Off");
+        holder.lblCompanyName.setText(summary.getMerchantName());
 
         String expiryDateStr = summary.getExpiry_date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -66,21 +65,25 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
             long daysLeft = TimeUnit.MILLISECONDS.toDays(diffInMillies);
 
             if (daysLeft >= 0) {
-                holder.location_heade4.setText(daysLeft + " days");
+                holder.lblDays.setText(daysLeft + " days");
             } else {
-                holder.location_heade4.setText("Expired");
+                holder.lblDays.setText("Expired");
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            holder.location_heade4.setText("Invalid date");
+            holder.lblDays.setText("Invalid date");
         }
 
 
         Glide.with(context)
                 .load(summary.getThumbnail())
-                .into(holder.thumbnail);
+                .into(holder.imgProduct);
 
-        holder.linearLayout.setOnClickListener(view -> {
+        Glide.with(context)
+                .load(summary.getMerchantLogo())
+                .into(holder.imgOverlay);
+
+        holder.header.setOnClickListener(view -> {
             Intent intent = new Intent(context, BottomSheetActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("category_name", summary.getCategoryName());
@@ -100,19 +103,22 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView thumbnail;
-        TextView categoryname, discount, merchantname, location_heade4;
-        LinearLayout linearLayout;
+
+        ImageView imgProduct,imgUser,imgOverlay;
+        TextView lblProductName,lblProductOffer,lblCompanyName,lblDays;
+        ConstraintLayout header;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            thumbnail = itemView.findViewById(R.id.thumbnail);
-            categoryname = itemView.findViewById(R.id.categoryname);
-            discount = itemView.findViewById(R.id.discount);
-            merchantname = itemView.findViewById(R.id.merchantname);
-            linearLayout = itemView.findViewById(R.id.linearLayout);
-            location_heade4 = itemView.findViewById(R.id.location_heade4);
+            imgUser = itemView.findViewById(R.id.imgUser);
+            imgProduct = itemView.findViewById(R.id.imgProduct);
+            imgOverlay = itemView.findViewById(R.id.imgOverlay);
+            lblProductName = itemView.findViewById(R.id.lblProductName);
+            lblCompanyName = itemView.findViewById(R.id.lblCompanyName);
+            lblProductOffer = itemView.findViewById(R.id.lblProductOffer);
+            lblDays = itemView.findViewById(R.id.lblDays);
+            header = itemView.findViewById(R.id.header);
         }
     }
 }

@@ -45,6 +45,7 @@ public class BottomSheetActivity extends AppCompatActivity {
     private String thumbnail;
     private String merchantlogo;
 
+    TextView offer_text;
     private  String merchant_name;
     private CategoryController categoryController;
     Handler handler = new Handler();
@@ -107,7 +108,6 @@ public class BottomSheetActivity extends AppCompatActivity {
         }
 
 
-
         categoryController = new CategoryController(this);
         categoryController.fetchActivateCoupondata(source_link, new CategoryController.ActivateCouponCallback() {
             @Override
@@ -116,7 +116,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                     ActivateCouponSummary activatecouponlist = activatelist.get(0);
 
                     TextView headertext = findViewById(R.id.header_textview);
-                    TextView offer_text = findViewById(R.id.offer_text);
+                     offer_text = findViewById(R.id.offer_text);
                     TextView offer_text1 = findViewById(R.id.offer_text1);
                     TextView offer_text4 = findViewById(R.id.offer_text4);
                     TextView expandable_text = findViewById(R.id.expandable_text);
@@ -164,6 +164,7 @@ public class BottomSheetActivity extends AppCompatActivity {
         btnactivatecoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 categoryController.activateCouponWithSource(source_link, new CategoryController.CouponActivationCallback() {
                     @Override
                     public void onSuccess(ActivateCouponResponse response) {
@@ -202,8 +203,9 @@ public class BottomSheetActivity extends AppCompatActivity {
                                 intent.putExtra("Terms and Conditions", termsAndConditions);
                                 intent.putExtra("thumbnail", thumbnail);
                                 intent.putExtra("merchant_name", merchant_name);
-
                                 intent.putExtra("coupon_list", (Serializable) coupons);
+                                intent.putExtra("offer_show", offer_text.getText().toString());
+
 
                                 startActivity(intent);
 
@@ -224,6 +226,7 @@ public class BottomSheetActivity extends AppCompatActivity {
         });
 
         imagetopleft.setOnClickListener(view -> onBackPressed());
+
 
 
 

@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -75,6 +74,7 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
     EditText Searchable;
     RelativeLayout rytNoRecords;
     ArrayList<StaffList> staff_list = new ArrayList<StaffList>();
+
     ArrayList<StaffList> SelectedSubjects = new ArrayList<StaffList>();
     private int i_students_count;
     String SchoolID, StaffID, strtittle, strmessage, Description, duration, filepath;
@@ -132,6 +132,12 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                     i_sections_count++;
                     enableDisableNext();
                 }
+                if (staff_list.size() == mAdapter.getSelectedStaff().size()) {
+                    select_All.setChecked(true);
+                } else {
+                    select_All.setChecked(false);
+                }
+
             }
 
             @Override
@@ -141,7 +147,15 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                     i_sections_count--;
                     enableDisableNext();
                 }
+
+                if (staff_list.size() == mAdapter.getSelectedStaff().size()) {
+                    select_All.setChecked(true);
+                } else {
+                    select_All.setChecked(false);
+                }
             }
+
+
         }, staff_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(SendToStaff.this);
         staff_list_recycle.setLayoutManager(mLayoutManager);
@@ -198,23 +212,24 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
 
         }
 
-
-        select_All.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        select_All.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
+                CheckBox checkBox = (CheckBox) v;
+                boolean isChecked = checkBox.isChecked();
+
                 for (int i = 0; i < staff_list.size(); i++) {
                     staff_list.get(i).setSelecteStatus(isChecked);
-                    btnCalls.setEnabled(true);
                 }
+
                 mAdapter.notifyDataSetChanged();
+
                 if (isChecked) {
                     btnCalls.setEnabled(true);
                     i_students_count = staff_list.size();
-                    Log.d("CHECK-i_students_count", "True - " + i_students_count);
                 } else {
-                    i_students_count = 0;
                     btnCalls.setEnabled(false);
-                    Log.d("CHECK-i_students_count", "False - " + i_students_count);
+                    i_students_count = 0;
                 }
             }
         });
@@ -227,7 +242,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                 showAlert("Are you want to send?", "");
             }
         });
-
     }
 
     @SuppressLint("ResourceAsColor")
@@ -274,7 +288,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
         if (!this.isFinishing())
             mProgressDialog.show();
 
-
         Call<JsonArray> call;
         if (Util_Common.isScheduleCall) {
             call = apiService.SendVoiceToStaffSchedule(requestBody, bodyFile);
@@ -303,7 +316,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
-
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -356,8 +368,7 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
         }
         call.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<JsonArray> call,
-                                   Response<JsonArray> response) {
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
 
                 if (mProgressDialog.isShowing())
                     mProgressDialog.dismiss();
@@ -461,7 +472,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                     } else {
                         sendVoiceToStaff();
                     }
-
                     dialog.cancel();
                 }
             }
@@ -575,6 +585,7 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
     public void student_addClass(StaffList student) {
         if (student != null) {
             i_students_count++;
+
         }
     }
 
