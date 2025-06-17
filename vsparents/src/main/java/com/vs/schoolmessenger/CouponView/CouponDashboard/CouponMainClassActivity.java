@@ -110,9 +110,9 @@ public class CouponMainClassActivity extends AppCompatActivity {
             @Override
             public void onSuccess(PointsData pointsData) {
                 if (pointsData != null) {
-                    totalcoins.setText("Earned: " + pointsData.getPointsEarned());
-                    usedcoins.setText("Spent: " + pointsData.getPointsSpent());
-                    availablecoins.setText("Remaining: " + pointsData.getPointsRemaining());
+                    totalcoins.setText("" + pointsData.getPointsEarned());
+                    usedcoins.setText("Used: " + pointsData.getPointsSpent());
+                    availablecoins.setText("Available: " + pointsData.getPointsRemaining());
                 } else {
                     Toast.makeText(CouponMainClassActivity.this, "No point data available", Toast.LENGTH_SHORT).show();
                 }

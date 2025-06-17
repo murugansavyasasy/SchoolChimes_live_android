@@ -51,13 +51,13 @@ public class TicketCouponAdapter extends RecyclerView.Adapter<TicketCouponAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Hardcoded data – You can customize each item based on `position` if needed
         TicketSummary ticketSummary = ticketSummaryList.get(position);
-        holder.categoryName.setText(ticketSummary.getCategory_name());
+        holder.categoryName.setText(ticketSummary.getMerchant_name());
         holder.discount.setText(ticketSummary.getOffer_to_show());
         holder.merchantName.setText("Expires in "+ticketSummary.getExpires_in()+ " days");
 
 
         Glide.with(context)
-                .load(ticketSummary.getCover_image())
+                .load(ticketSummary.getMerchant_logo())
                 .into(holder.centerImage);
 
 
@@ -73,15 +73,13 @@ public class TicketCouponAdapter extends RecyclerView.Adapter<TicketCouponAdapte
             intent.putExtra("cover_image", ticketSummary.getCover_image());
             intent.putExtra("expiry_date", ticketSummary.getExpiry_date());
             intent.putExtra("expiry_type", ticketSummary.getExpiry_type());
+            intent.putExtra("merchant_logo", ticketSummary.getMerchant_logo());
             intent.putExtra("location_list", new ArrayList<>(locationList));
             context.startActivity(intent);
         });
 
         if (Objects.equals(ticketSummary.getCoupon_status(), "activated")) {
-            holder.couponstatus.setVisibility(View.VISIBLE);
-            holder.couponstatus.setBackground(context.getDrawable(R.drawable.redeemed_backgroundblue));
-            holder.couponstatus.setText("Shared");
-
+            holder.couponstatus.setVisibility(View.GONE);
         } else if (Objects.equals(ticketSummary.getCoupon_status(), "claimed")) {
             holder.couponstatus.setVisibility(View.VISIBLE);
             holder.couponstatus.setBackground(context.getDrawable(R.drawable.redeemed_backgroundgreen));
@@ -92,7 +90,6 @@ public class TicketCouponAdapter extends RecyclerView.Adapter<TicketCouponAdapte
             holder.couponstatus.setText("Expired");
         } else {
             holder.couponstatus.setVisibility(View.GONE);
-
         }
 
 

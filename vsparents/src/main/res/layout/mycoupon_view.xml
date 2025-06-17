@@ -105,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="70dp"
-                    android:background="@drawable/dashed_border"
+                    android:background="@drawable/dashed_bordercouponview"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="12dp">
@@ -129,13 +129,7 @@
                         android:src="@drawable/copy" />
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:src="@drawable/share_icon"></ImageView>
+
             </RelativeLayout>
 
 
@@ -261,6 +255,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
             android:orientation="vertical"
+            android:layout_alignStart="@+id/linearlayout"
             android:layout_below="@+id/linearlayout">
 
             <TextView

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -61,11 +62,12 @@ public interface CouponAPIServiceInterface {
     );
 
 
-    @FormUrlEncoded
     @POST("spent-points")
     Call<LogActiveApiResponse> getlogactiveresponse(
-            @FieldMap Map<String, String> params
+            @Body Map<String, Object> body
     );
+
+
 
 
 

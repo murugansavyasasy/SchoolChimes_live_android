@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class MycouponViewActivity extends AppCompatActivity {
     TextView offer, description, couponCode;
     ImageView logo;
     String cover_image;
+    String merchant_logo;
     ArrayList<String> isLocationDetails;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,22 +66,23 @@ public class MycouponViewActivity extends AppCompatActivity {
         how_to_use = getIntent().getStringExtra("how_to_use");
         coupon_code = getIntent().getStringExtra("coupon_code");
         cover_image = getIntent().getStringExtra("cover_image");
+        merchant_logo = getIntent().getStringExtra("merchant_logo");
 
         List<TicketSummary.Location> receivedLocations = (List<TicketSummary.Location>) getIntent().getSerializableExtra("location_list");
         if (receivedLocations != null) {
             for (TicketSummary.Location location : receivedLocations) {
-                lblLocationName.setText(location.getLocation_name());
+                lblAddress.setText(location.getLocation_name());
                 lblValidUnit.setText(expiry_type + " : " + expiry_date);
-                lblAddress.setText(getAddressFromLatLng(Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude())));
             }
         }
         header.setText(merchant_name);
         offer.setText(offer_to_show);
-        description.setText(how_to_use);
+        description.setText(convertHtmlToBullets(how_to_use));
         couponCode.setText(coupon_code);
+        lblLocationName.setText(merchant_name);
 
         Glide.with(MycouponViewActivity.this)
-                .load(cover_image)
+                .load(merchant_logo)
                 .into(logo);
 
         back.setOnClickListener(view -> {
@@ -127,4 +130,18 @@ public class MycouponViewActivity extends AppCompatActivity {
         return getResources().getString(R.string.Address_not_found);
     }
 
+    private String convertHtmlToBullets(String htmlContent) {
+        String cleaned = Html.fromHtml(htmlContent, Html.FROM_HTML_MODE_COMPACT).toString();
+
+        String[] lines = cleaned.split("\\n|(?<=\\.)\\s*");
+
+        StringBuilder builder = new StringBuilder();
+        for (String line : lines) {
+            line = line.trim();
+            if (!line.isEmpty()) {
+                builder.append("• ").append(line).append("\n");
+            }
+        }
+        return builder.toString().trim();
+    }
 }

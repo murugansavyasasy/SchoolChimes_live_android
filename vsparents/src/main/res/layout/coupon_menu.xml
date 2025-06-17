@@ -21,11 +21,13 @@
         android:layout_height="wrap_content"
         android:text="All"
         android:textSize="12sp"
-        android:maxLines="1"
         android:gravity="center"
         android:textColor="@color/clr_black"
         android:layout_below="@id/imageView1"
         android:layout_centerHorizontal="true"
         android:textStyle="normal"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:maxLines="5"
+        android:ellipsize="end" />
+
 </RelativeLayout>

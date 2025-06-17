@@ -4,11 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@android:color/white">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/image_banner"
@@ -16,9 +14,19 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitStart"
-            android:src="@drawable/coupon_banner" />
+             />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/image_top_left"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="12dp"
+            android:src="@drawable/back"
+            android:scaleType="centerInside"
+            android:background="@drawable/rounded_bg"
+            android:padding="8dp"
+            android:layout_gravity="top|start" />
+    </FrameLayout>
 
     <include layout="@layout/layout_bottom_sheet"/>
 
@@ -37,6 +45,6 @@
         android:layout_marginStart="@dimen/_12dp"
         android:layout_marginEnd="@dimen/_12dp"
         android:layout_gravity="bottom"
-        android:layout_marginTop="130dp"/>
+        android:layout_marginTop="130dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

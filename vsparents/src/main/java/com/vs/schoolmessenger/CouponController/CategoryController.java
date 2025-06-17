@@ -24,6 +24,7 @@ import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -238,10 +239,15 @@ public class CategoryController {
         void onFailure(String errorMessage);
     }
 
+
     public void activateCouponWithSource(String sourceLink, final CouponActivationCallback callback) {
+        Log.d("CouponActivation", "Activating coupon with source link: " + sourceLink);
+
         HashMap<String, String> body = new HashMap<>();
         body.put("source_link", sourceLink);
-        body.put("mobile_no", MOBILE_NUMBER);
+        body.put("mobile_no","91" + MOBILE_NUMBER);
+
+        Log.d("CouponActivation", "Request body: " + body.toString());
 
         Call<ActivateCouponResponse> call = defaultApiService.getactivateCoupon(
                 PARTNER_NAME,
@@ -252,19 +258,26 @@ public class CategoryController {
         call.enqueue(new Callback<ActivateCouponResponse>() {
             @Override
             public void onResponse(Call<ActivateCouponResponse> call, Response<ActivateCouponResponse> response) {
+                Log.d("CouponActivation", "onResponse called");
+                Log.d("CouponActivation", "Response code: " + response.code());
+
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d("CouponActivation", "Activation successful: " + response.body().toString());
                     callback.onSuccess(response.body());
                 } else {
+                    Log.e("CouponActivation", "Activation failed: Response not successful or body is null");
                     callback.onFailure("Activation failed");
                 }
             }
 
             @Override
             public void onFailure(Call<ActivateCouponResponse> call, Throwable t) {
+                Log.e("CouponActivation", "Network error: " + t.getMessage(), t);
                 callback.onFailure("Network error: " + t.getMessage());
             }
         });
     }
+
 
     public interface CouponActivationCallback {
         void onSuccess(ActivateCouponResponse response);
@@ -272,31 +285,48 @@ public class CategoryController {
     }
 
     public void logCouponActivation(String sourceLink, final GenericCallback callback) {
-        HashMap<String, String> body = new HashMap<>();
-        body.put("user_type", String.valueOf(USER_TYPE));
-        body.put("coupon_id", sourceLink);
-        body.put("mobile_number", MOBILE_NUMBER);
+        Log.d("CouponActivation", "Starting coupon activation process...");
+        Log.d("CouponActivation", "Source Link: " + sourceLink);
+
+        int user_type = USER_TYPE;
+        String mobile_number = MOBILE_NUMBER;
+        int coupon_id = 0;
+
+        Log.d("CouponActivation", "User Type: " + user_type);
+        Log.d("CouponActivation", "Mobile Number: " + mobile_number);
+        Log.d("CouponActivation", "Coupon ID: " + coupon_id);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("user_type", user_type);
+        body.put("mobile_number", mobile_number);
+        body.put("coupon_id", coupon_id);
+        body.put("coupon_link", sourceLink);
 
         Call<LogActiveApiResponse> call = defaultApiService.getlogactiveresponse(body);
+
+        Log.d("CouponActivation", "Retrofit call created. Executing...");
 
         call.enqueue(new Callback<LogActiveApiResponse>() {
             @Override
             public void onResponse(Call<LogActiveApiResponse> call, Response<LogActiveApiResponse> response) {
+                Log.d("CouponActivation", "Received response from API");
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d("CategoryController", "Log Response: " + new Gson().toJson(response.body()));
+                    Log.d("CouponActivation", "Activation successful. Response: " + new Gson().toJson(response.body()));
                     callback.onSuccess(response.body());
                 } else {
+                    Log.w("CouponActivation", "Activation failed. Response code: " + response.code());
                     callback.onFailure("Activation failed");
                 }
             }
 
-
             @Override
             public void onFailure(Call<LogActiveApiResponse> call, Throwable t) {
+                Log.e("CouponActivation", "Network error during activation: " + t.getMessage(), t);
                 callback.onFailure("Network error: " + t.getMessage());
             }
         });
     }
+
 
 
     public interface GenericCallback {

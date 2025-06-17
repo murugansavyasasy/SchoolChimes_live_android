@@ -26,6 +26,7 @@ import com.vs.schoolmessenger.CouponModel.TicketActivateCouponSummary.ActivateCo
 import com.vs.schoolmessenger.CouponView.BottomSheetOrderActivity;
 import com.vs.schoolmessenger.R;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -42,6 +43,9 @@ public class BottomSheetActivity extends AppCompatActivity {
     private String category_name;
     private String couponStatus;
     private String thumbnail;
+    private String merchantlogo;
+
+    private  String merchant_name;
     private CategoryController categoryController;
     Handler handler = new Handler();
     Runnable konfettiRunnable;
@@ -68,6 +72,8 @@ public class BottomSheetActivity extends AppCompatActivity {
         remembersymbol1 = findViewById(R.id.remember_symbol1);
         LinearLayout bottomSheet = findViewById(R.id.bottom_sheet);
         btnactivatecoupon = findViewById(R.id.btn_activate_coupon);
+        ImageView thumbnailimage = findViewById(R.id.thumbnail);
+        ImageView imagetopleft = findViewById(R.id.image_top_left);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         int screenHeight = getResources().getDisplayMetrics().heightPixels;
@@ -88,7 +94,9 @@ public class BottomSheetActivity extends AppCompatActivity {
         bottomSheetBehavior.setPeekHeight((int) (screenHeight * 0.6));
         source_link = getIntent().getStringExtra("source_link");
         category_name = getIntent().getStringExtra("category_name");
+        merchant_name = getIntent().getStringExtra("merchant_name");
         thumbnail = getIntent().getStringExtra("thumbnail");
+        merchantlogo = getIntent().getStringExtra("merchant_logo");
         couponStatus = getIntent().getStringExtra("coupon_status");
         couponStatus = couponStatus != null ? couponStatus : "";
 
@@ -124,6 +132,10 @@ public class BottomSheetActivity extends AppCompatActivity {
                             .load(thumbnail)
                             .into(imageBanner);
 
+                    Glide.with(BottomSheetActivity.this)
+                            .load(merchantlogo)
+                            .into(thumbnailimage);
+
                     howToUseText = activatecouponlist.getHow_to_use();
                     termsAndConditions = activatecouponlist.getTerms_and_conditions();
 
@@ -158,15 +170,12 @@ public class BottomSheetActivity extends AppCompatActivity {
                         if (response != null && response.getData() != null) {
                             List<ActivateCoupon> coupons = response.getData().getCoupons();
                             if (coupons != null && !coupons.isEmpty()) {
-                                ActivateCoupon data = coupons.get(0);
                                 String merchantLogo = response.getData().getMerchant_logo();
                                 String offer = response.getData().getOffer();
                                 String couponCode = response.getData().getCoupon_code();
                                 String CTAname = response.getData().getCTAname();
                                 String CTAredirect = response.getData().getCTAredirect();
                                 String redirectUrl = response.getData().getRedirect_url();
-
-
                                 categoryController.logCouponActivation(source_link, new CategoryController.GenericCallback() {
                                     @Override
                                     public void onSuccess(LogActiveApiResponse response) {
@@ -179,18 +188,22 @@ public class BottomSheetActivity extends AppCompatActivity {
                                     }
                                 });
 
-
+                                // Start intent with extras
                                 Intent intent = new Intent(BottomSheetActivity.this, BottomSheetOrderActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("merchant_logo", merchantLogo);
                                 intent.putExtra("offer", offer);
                                 intent.putExtra("coupon_code", couponCode);
                                 intent.putExtra("CTAname", CTAname);
                                 intent.putExtra("CTAredirect", CTAredirect);
                                 intent.putExtra("redirect_url", redirectUrl);
                                 intent.putExtra("merchant_logo", merchantLogo);
+                                intent.putExtra("category_name",category_name);
                                 intent.putExtra("how_to_use", howToUseText);
                                 intent.putExtra("Terms and Conditions", termsAndConditions);
+                                intent.putExtra("thumbnail", thumbnail);
+                                intent.putExtra("merchant_name", merchant_name);
+
+                                intent.putExtra("coupon_list", (Serializable) coupons);
 
                                 startActivity(intent);
 
@@ -202,16 +215,15 @@ public class BottomSheetActivity extends AppCompatActivity {
                         }
                     }
 
-
                     @Override
                     public void onFailure(String errorMessage) {
-                        // Handle failure case
                         Toast.makeText(BottomSheetActivity.this, "Activation Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
 
+        imagetopleft.setOnClickListener(view -> onBackPressed());
 
 
 
@@ -244,6 +256,8 @@ public class BottomSheetActivity extends AppCompatActivity {
             }
         }));
     }
+
+
 
     private String convertHtmlToBullets(String htmlContent) {
         String cleaned = Html.fromHtml(htmlContent, Html.FROM_HTML_MODE_COMPACT).toString();

@@ -4,6 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class Summary {
 
+
+    public String getExpiry_date() {
+        return expiry_date;
+    }
+
+    public void setExpiry_date(String expiry_date) {
+        this.expiry_date = expiry_date;
+    }
+
+    @SerializedName("expiry_date")
+    private String expiry_date;
+
     @SerializedName("source_link")
     private String source_link;
 

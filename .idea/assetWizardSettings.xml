@@ -307,8 +307,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="allimage" />
-                            <entry key="sourceFile" value="D:\allimage.svg" />
+                            <entry key="outputName" value="customsubtract" />
+                            <entry key="sourceFile" value="E:\Subtract (1).svg" />
                           </map>
                         </option>
                       </PersistentState>

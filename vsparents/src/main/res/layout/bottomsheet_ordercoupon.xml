@@ -10,6 +10,15 @@
     android:orientation="vertical"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dotindicator"
+        android:id="@+id/dotindicator"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,7 +93,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/desc_text3"
+                android:id="@+id/expiry_text"
                 android:text="Expires on 23rd December"
                 android:textColor="@color/clr_red"
                 android:textStyle="normal"
@@ -113,7 +122,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
 
 
@@ -123,17 +132,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="@dimen/_12dp"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/frame_text"
-                android:text="PXCNSMAKSASK"
-                android:textStyle="normal"
-                android:textColor="@color/clr_green"
-                android:layout_gravity="center"/>
+                android:orientation="horizontal"
+                android:padding="6dp"
+                android:background="@drawable/dashed_border"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:layout_margin="8dp">
+
+                <TextView
+                    android:id="@+id/frame_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PICKPAUK123"
+                    android:textStyle="bold"
+                    android:textColor="@color/clr_green"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/copy_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/copyimage" />
+            </LinearLayout>
 
 
 
@@ -193,6 +219,7 @@
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:textSize="17sp"
+                android:visibility="gone"
                 android:gravity="center"
                 android:background="@drawable/bg_background_coupon"
                 android:layout_marginBottom="13dp"
