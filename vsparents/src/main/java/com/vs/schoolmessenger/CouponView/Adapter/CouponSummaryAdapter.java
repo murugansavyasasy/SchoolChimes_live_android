@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -107,7 +108,7 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
 
         ImageView imgProduct,imgUser,imgOverlay;
         TextView lblProductName,lblProductOffer,lblCompanyName,lblDays;
-        ConstraintLayout header;
+        LinearLayout header;
         ProgressBar isProgressBarImage;
 
 

@@ -46,7 +46,7 @@ public class CategoryController {
 
         MOBILE_NUMBER = getMobileNumberFromSPContext(context);
 
-        Log.d("MOBILE_NUMBER",MOBILE_NUMBER);
+        Log.d("MOBILE_NUMBER", MOBILE_NUMBER);
         defaultApiService = CouponRetrofitNetworkCall.getClient().create(CouponAPIServiceInterface.class);
 
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(context);
@@ -92,9 +92,9 @@ public class CategoryController {
     }
 
 
-
     public interface PointsCouponCallback {
         void onSuccess(PointsData pointsData);
+
         void onFailure(String errorMessage);
     }
 
@@ -125,6 +125,7 @@ public class CategoryController {
 
     public interface CategoryCallback {
         void onSuccess(List<Category> categories);
+
         void onFailure(String errorMessage);
     }
 
@@ -158,6 +159,7 @@ public class CategoryController {
 
     public interface CouponSummaryCallback {
         void onSuccess(List<Summary> campaigns);
+
         void onFailure(String errorMessage);
     }
 
@@ -198,8 +200,6 @@ public class CategoryController {
     }
 
 
-
-
     public void fetchActivateCoupondata(String sourceLink, final ActivateCouponCallback callback) {
         HashMap<String, String> requestBody = new HashMap<>();
         requestBody.put("source_link", sourceLink);
@@ -236,6 +236,7 @@ public class CategoryController {
 
     public interface ActivateCouponCallback {
         void onSuccess(List<ActivateCouponSummary> campaign_details);
+
         void onFailure(String errorMessage);
     }
 
@@ -245,7 +246,7 @@ public class CategoryController {
 
         HashMap<String, String> body = new HashMap<>();
         body.put("source_link", sourceLink);
-        body.put("mobile_no","91" + MOBILE_NUMBER);
+        body.put("mobile_no", "91" + MOBILE_NUMBER);
 
         Log.d("CouponActivation", "Request body: " + body.toString());
 
@@ -281,6 +282,7 @@ public class CategoryController {
 
     public interface CouponActivationCallback {
         void onSuccess(ActivateCouponResponse response);
+
         void onFailure(String errorMessage);
     }
 
@@ -302,7 +304,12 @@ public class CategoryController {
         body.put("coupon_id", coupon_id);
         body.put("coupon_link", sourceLink);
 
-        Call<LogActiveApiResponse> call = defaultApiService.getlogactiveresponse(body);
+        String jsonBody = new Gson().toJson(body);
+
+        Log.d("CouponActivationBodyResponse", "Request Body: " + jsonBody);
+
+
+        Call<LogActiveApiResponse> call = dynamicApiService.getlogactiveresponse(body);
 
         Log.d("CouponActivation", "Retrofit call created. Executing...");
 
@@ -328,12 +335,11 @@ public class CategoryController {
     }
 
 
-
     public interface GenericCallback {
         void onSuccess(LogActiveApiResponse response);
+
         void onFailure(String errorMessage);
     }
-
 
 
     public void fetchTicketCouponSummary(String couponStatus, final TicketCouponSummaryCallback callback) {
@@ -373,6 +379,7 @@ public class CategoryController {
 
     public interface TicketCouponSummaryCallback {
         void onSuccess(List<TicketSummary> coupon_list);
+
         void onFailure(String errorMessage);
     }
 }

@@ -17,10 +17,10 @@
 
 
     <RelativeLayout
+        android:id="@+id/relative_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:id="@+id/relative_layout">
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/back"
@@ -29,17 +29,18 @@
             android:layout_marginStart="@dimen/_8dp"
             android:layout_marginTop="20dp"
             android:src="@drawable/back" />
+
         <TextView
             android:id="@+id/backtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pauckt"
-            android:gravity="center"
-            android:textColor="@color/clr_black"
-            android:textStyle="bold"
-            android:layout_toEndOf="@id/back"
+            android:layout_alignTop="@id/back"
             android:layout_marginStart="8dp"
-            android:layout_alignTop="@id/back"/>
+            android:layout_toEndOf="@id/back"
+            android:gravity="center"
+            android:text="Pauckt"
+            android:textColor="@color/clr_black"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 
@@ -47,83 +48,90 @@
         android:id="@+id/totalcoinscardview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="11dp"
-        app:cardElevation="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
+        android:layout_below="@+id/relative_layout"
         android:layout_alignStart="@+id/recyclerView"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
         app:cardBackgroundColor="@android:color/white"
-        android:layout_below="@+id/relative_layout">
+        app:cardCornerRadius="11dp"
+        app:cardElevation="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="13dp"
-            android:gravity="center_vertical">
+            android:padding="13dp">
 
             <FrameLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="12dp"
                 android:gravity="center">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:src="@drawable/dollarsymbol" />
             </FrameLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/totalcoins"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/usedcoins"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="#9E9E9E"
-                        android:textStyle="normal"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+
                     <TextView
                         android:id="@+id/availablecoins"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:layout_marginStart="5dp"
+                        android:text=""
                         android:textColor="#9E9E9E"
-                        android:textStyle="normal"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
                 </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
     <LinearLayout
         android:id="@+id/linearlayout"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:orientation="horizontal"
-        android:paddingHorizontal="12dp"
+        android:layout_below="@+id/totalcoinscardview"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/bg_search"
         android:gravity="center_vertical"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_below="@+id/totalcoinscardview">
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp">
 
         <ImageView
             android:id="@+id/imgSearch"
@@ -137,13 +145,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:hint="Search"
             android:background="@null"
+            android:hint="Search"
+            android:inputType="text"
             android:textColor="#000000"
             android:textColorHint="#847c81"
-            android:visibility="visible"
-            android:inputType="text"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:visibility="visible" />
     </LinearLayout>
 
 
@@ -151,45 +159,48 @@
         android:id="@+id/linear_layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_below="@+id/linearlayout"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/linearlayout">
+        android:orientation="horizontal">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:fadeScrollbars="false"
-            android:scrollbars="none"
-            android:paddingHorizontal="10dp" />
+            android:paddingHorizontal="10dp"
+            android:scrollbars="none" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="All Coupons"
-        android:textSize="18sp"
         android:layout_below="@id/linear_layout1"
         android:layout_alignStart="@+id/recyclerView"
         android:layout_marginStart="13dp"
         android:layout_marginTop="20dp"
+        android:text="All Coupons"
         android:textColor="@color/clr_black"
-        android:textStyle="bold"/>
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/bottomlnrtab"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/text_view"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:clipToPadding="false"
-        android:layout_above="@+id/bottomlnrtab"
         android:layout_marginBottom="5dp"
+        android:clipToPadding="false"
         android:scrollIndicators="none"
         android:scrollbars="vertical" />
 
+    <include layout="@layout/bottom_coupon" />
 
     <TextView
         android:id="@+id/lblNoRecord"

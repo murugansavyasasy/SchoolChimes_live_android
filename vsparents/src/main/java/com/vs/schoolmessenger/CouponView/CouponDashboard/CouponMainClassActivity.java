@@ -59,6 +59,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
         setupButtonListeners();
         loadInitialData();
         setupSearchFunctionality();
+
     }
 
     private void initializeViews() {
@@ -166,6 +167,14 @@ public class CouponMainClassActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(List<Summary> campaigns) {
                         originalSummaryList = new ArrayList<>(campaigns);
+                        isProgressBar.setVisibility(View.GONE);
+                        if (campaigns.isEmpty()) {
+                            lblNoRecord.setVisibility(View.VISIBLE);
+                            recyclerView1.setVisibility(View.GONE);
+                        } else {
+                            lblNoRecord.setVisibility(View.GONE);
+                            recyclerView1.setVisibility(View.VISIBLE);
+                        }
                         adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
                         recyclerView1.setAdapter(adapter1);
                     }
@@ -185,18 +194,24 @@ public class CouponMainClassActivity extends AppCompatActivity {
                 hardcodedCategory.setId(-1);
                 hardcodedCategory.setCategoryName("All");
                 text_view.setText("All Coupons");
+                isProgressBar.setVisibility(View.GONE);
                 hardcodedCategory.setDrawableResId(R.drawable.allimage);
                 categories.add(0, hardcodedCategory);
 
                 adapter = new CouponMenuAdapter(CouponMainClassActivity.this, categories, 0, category -> {
                     if (category.getId() == -1) {
                         text_view.setText("All Coupons");
-                        isProgressBar.setVisibility(View.VISIBLE);
                         categoryController.fetchCouponSummary(new CategoryController.CouponSummaryCallback() {
                             @Override
                             public void onSuccess(List<Summary> campaigns) {
                                 originalSummaryList = new ArrayList<>(campaigns);
-                                isProgressBar.setVisibility(View.GONE);
+                                if (campaigns.isEmpty()) {
+                                    lblNoRecord.setVisibility(View.VISIBLE);
+                                    recyclerView1.setVisibility(View.GONE);
+                                } else {
+                                    lblNoRecord.setVisibility(View.GONE);
+                                    recyclerView1.setVisibility(View.VISIBLE);
+                                }
                                 adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
                                 recyclerView1.setAdapter(adapter1);
                             }
@@ -222,7 +237,6 @@ public class CouponMainClassActivity extends AppCompatActivity {
                                     recyclerView1.setVisibility(View.VISIBLE);
                                 }
                                 originalSummaryList = new ArrayList<>(campaigns);
-
                                 adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
                                 recyclerView1.setAdapter(adapter1);
                             }
@@ -274,8 +288,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
         } else {
             String searchText = text.toLowerCase().trim();
             for (Summary item : originalSummaryList) {
-                if (item.getMerchantName().toLowerCase().contains(searchText) ||
-                        item.getCategoryName().toLowerCase().contains(searchText)) {
+                if (item.getMerchantName().toLowerCase().contains(searchText) || item.getCategoryName().toLowerCase().contains(searchText)) {
                     filteredList.add(item);
                 }
             }
@@ -291,6 +304,13 @@ public class CouponMainClassActivity extends AppCompatActivity {
         homeBackground.setBackgroundResource(R.drawable.bg_selected);
         ticketBackground.setBackgroundColor(Color.TRANSPARENT);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Homeload();
+    }
+
 }
 
 
