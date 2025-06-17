@@ -1,6 +1,7 @@
 package com.vs.schoolmessenger.CouponView.AcivateCoupon;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -9,14 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.vs.schoolmessenger.CouponController.CategoryController;
 import com.vs.schoolmessenger.CouponModel.LogactiveapiResponse.LogActiveApiResponse;
@@ -55,6 +60,8 @@ public class BottomSheetActivity extends AppCompatActivity {
     private String howToUseText = "";
 
     private String termsAndConditions = "";
+    ProgressBar isProgressBar;
+    ProgressBar isProgressBarImage;
 
 
     @Override
@@ -71,8 +78,10 @@ public class BottomSheetActivity extends AppCompatActivity {
         expandabletext1 = findViewById(R.id.expandable_text1);
         rememberSymbol = findViewById(R.id.remember_symbol);
         remembersymbol1 = findViewById(R.id.remember_symbol1);
-        LinearLayout bottomSheet = findViewById(R.id.bottom_sheet);
+        RelativeLayout bottomSheet = findViewById(R.id.bottom_sheet);
         btnactivatecoupon = findViewById(R.id.btn_activate_coupon);
+        isProgressBar = findViewById(R.id.isProgressBar);
+        isProgressBarImage = findViewById(R.id.isProgressBarImage);
         ImageView thumbnailimage = findViewById(R.id.thumbnail);
         ImageView imagetopleft = findViewById(R.id.image_top_left);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -128,8 +137,24 @@ public class BottomSheetActivity extends AppCompatActivity {
                     offer_text4.setText("Valid Until: " + activatecouponlist.getExpiry_date());
                     expandable_text.setText(convertHtmlToBullets(activatecouponlist.getHow_to_use()));
                     expandable_text1.setText(convertHtmlToBullets(activatecouponlist.getTerms_and_conditions()));
+
+
                     Glide.with(BottomSheetActivity.this)
                             .load(thumbnail)
+                            .listener(new RequestListener<Drawable>() {
+
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
+                                    isProgressBarImage.setVisibility(View.GONE);
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(@NonNull Drawable resource, @NonNull Object model, com.bumptech.glide.request.target.Target<Drawable> target, @NonNull com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
+                                    isProgressBarImage.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            })
                             .into(imageBanner);
 
                     Glide.with(BottomSheetActivity.this)
@@ -164,7 +189,7 @@ public class BottomSheetActivity extends AppCompatActivity {
         btnactivatecoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                isProgressBar.setVisibility(View.VISIBLE);
                 categoryController.activateCouponWithSource(source_link, new CategoryController.CouponActivationCallback() {
                     @Override
                     public void onSuccess(ActivateCouponResponse response) {
@@ -181,6 +206,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(LogActiveApiResponse response) {
                                         Log.d("BottomSheetActivity", "Second API (logCouponActivation) successful: " + response.getMessage());
+                                        isProgressBar.setVisibility(View.GONE);
                                     }
 
                                     @Override
@@ -188,8 +214,6 @@ public class BottomSheetActivity extends AppCompatActivity {
                                         Log.e("BottomSheetActivity", "Second API failed: " + errorMessage);
                                     }
                                 });
-
-                                // Start intent with extras
                                 Intent intent = new Intent(BottomSheetActivity.this, BottomSheetOrderActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("offer", offer);
@@ -205,10 +229,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                                 intent.putExtra("merchant_name", merchant_name);
                                 intent.putExtra("coupon_list", (Serializable) coupons);
                                 intent.putExtra("offer_show", offer_text.getText().toString());
-
-
                                 startActivity(intent);
-
                             } else {
                                 Toast.makeText(BottomSheetActivity.this, "No coupon found", Toast.LENGTH_SHORT).show();
                             }
@@ -277,5 +298,10 @@ public class BottomSheetActivity extends AppCompatActivity {
         return builder.toString().trim();
     }
 
+    @Override
+    protected void onResume() {
+        isProgressBar.setVisibility(View.GONE);
+        super.onResume();
+    }
 }
 

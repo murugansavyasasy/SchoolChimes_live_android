@@ -9,9 +9,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
-import android.util.Log;
 import android.os.Looper;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,8 +28,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.vs.schoolmessenger.CouponModel.TicketActivateCoupon.ActivateCoupon;
 import com.vs.schoolmessenger.R;
 
-
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,16 +36,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+
 public class BottomSheetOrderActivity extends AppCompatActivity {
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private Button btnactivatecoupon, btn_activate_coupon2;
-
     private TextView expandableText, expandabletext5;
-    private ImageView remembersymbol1, rememberSymbol2,imageBanner;
+    private ImageView remembersymbol1, rememberSymbol2, imageBanner;
     private boolean isExpanded1 = false, isExpanded2 = false;
-
-   private ImageView rememberSymbol,thumbnailimage;
-    private TextView expandabletext1,offer_text1,offer_text2,expiry_text,desc_text,frame_text;
+    private ImageView rememberSymbol, thumbnailimage;
+    private TextView expandabletext1, offer_text1, offer_text2, expiry_text, desc_text, frame_text;
 
     private String merchant_logo;
     private String offer;
@@ -74,8 +70,8 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
                         View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
         setContentView(R.layout.bottom_sheet_order);
-         imageBanner = findViewById(R.id.image_banner);
-         offer_text1 = findViewById(R.id.offer_text1);
+        imageBanner = findViewById(R.id.image_banner);
+        offer_text1 = findViewById(R.id.offer_text1);
         expandableText = findViewById(R.id.expandable_text2);
         thumbnailimage = findViewById(R.id.thumbnail);
 
@@ -162,9 +158,6 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
         desc_text.setText(category_name);
 
 
-
-
-
         Glide.with(BottomSheetOrderActivity.this)
                 .load(thumbnail)
                 .into(imageBanner);
@@ -174,7 +167,6 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(merchant_logo)
                 .into(thumbnailimage);
-
 
 
         btnactivatecoupon.setOnClickListener(v -> {
@@ -223,7 +215,6 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
         imagetopleft.setOnClickListener(view -> onBackPressed());
 
 
-
         rememberSymbol2.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,7 +228,6 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
                 isExpanded2 = !isExpanded2;
             }
         }));
-
 
 
     }
@@ -319,10 +309,14 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
             return "th";
         }
         switch (day % 10) {
-            case 1:  return "st";
-            case 2:  return "nd";
-            case 3:  return "rd";
-            default: return "th";
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
         }
     }
 
@@ -340,9 +334,6 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
         }
         return builder.toString().trim();
     }
-
-
-
 
 
     private int getRandom(int min, int max) {

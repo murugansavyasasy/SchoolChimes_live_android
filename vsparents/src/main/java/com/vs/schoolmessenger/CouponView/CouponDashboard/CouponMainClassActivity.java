@@ -6,8 +6,10 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +45,9 @@ public class CouponMainClassActivity extends AppCompatActivity {
     private RelativeLayout relative_layout;
     private TextView totalcoins, usedcoins, availablecoins;
 
+    ProgressBar isProgressBar;
+    TextView lblNoRecord, text_view;
+
     private List<Summary> originalSummaryList = new ArrayList<>();
 
     @Override
@@ -68,6 +73,11 @@ public class CouponMainClassActivity extends AppCompatActivity {
         ticketBackground = findViewById(R.id.ticketBackground);
         relative_layout = findViewById(R.id.relative_layout);
         editSearch = findViewById(R.id.editSearch);
+        isProgressBar = findViewById(R.id.isProgressBar);
+        lblNoRecord = findViewById(R.id.lblNoRecord);
+        text_view = findViewById(R.id.text_view);
+//        isProgressBar.setVisibility(View.VISIBLE);
+
     }
 
     private void setupRecyclerViews() {
@@ -126,10 +136,21 @@ public class CouponMainClassActivity extends AppCompatActivity {
 
         CouponMenuAdapter.OnCategoryClickListener categoryClickListener = category -> {
             if (category.getId() == -1) {
+                text_view.setText("All Coupons");
+                isProgressBar.setVisibility(View.VISIBLE);
                 categoryController.fetchCouponSummary(new CategoryController.CouponSummaryCallback() {
                     @Override
                     public void onSuccess(List<Summary> campaigns) {
                         originalSummaryList = new ArrayList<>(campaigns);
+                        isProgressBar.setVisibility(View.GONE);
+                        if (campaigns.isEmpty()) {
+                            lblNoRecord.setVisibility(View.VISIBLE);
+                            recyclerView1.setVisibility(View.GONE);
+                        } else {
+                            lblNoRecord.setVisibility(View.GONE);
+                            recyclerView1.setVisibility(View.VISIBLE);
+                        }
+
                         adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
                         recyclerView1.setAdapter(adapter1);
                     }
@@ -140,6 +161,8 @@ public class CouponMainClassActivity extends AppCompatActivity {
                     }
                 });
             } else {
+                isProgressBar.setVisibility(View.VISIBLE);
+                text_view.setText(category.getCategoryName() + " " + "Coupons");
                 String categoryId = String.valueOf(category.getId());
                 categoryController.fetchCategoryCouponSummary(categoryId, new CategoryController.CategoryCouponSummaryCallback() {
                     @Override
@@ -156,22 +179,26 @@ public class CouponMainClassActivity extends AppCompatActivity {
                 });
             }
         };
-
+        isProgressBar.setVisibility(View.VISIBLE);
         categoryController.fetchCategories(new CategoryController.CategoryCallback() {
             @Override
             public void onSuccess(List<Category> categories) {
                 Category hardcodedCategory = new Category();
                 hardcodedCategory.setId(-1);
                 hardcodedCategory.setCategoryName("All");
+                text_view.setText("All Coupons");
                 hardcodedCategory.setDrawableResId(R.drawable.allimage);
                 categories.add(0, hardcodedCategory);
 
                 adapter = new CouponMenuAdapter(CouponMainClassActivity.this, categories, 0, category -> {
                     if (category.getId() == -1) {
+                        text_view.setText("All Coupons");
+                        isProgressBar.setVisibility(View.VISIBLE);
                         categoryController.fetchCouponSummary(new CategoryController.CouponSummaryCallback() {
                             @Override
                             public void onSuccess(List<Summary> campaigns) {
                                 originalSummaryList = new ArrayList<>(campaigns);
+                                isProgressBar.setVisibility(View.GONE);
                                 adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
                                 recyclerView1.setAdapter(adapter1);
                             }
@@ -182,11 +209,22 @@ public class CouponMainClassActivity extends AppCompatActivity {
                             }
                         });
                     } else {
+                        text_view.setText(category.getCategoryName() + " " + "Coupons");
+                        isProgressBar.setVisibility(View.VISIBLE);
                         String categoryId = String.valueOf(category.getId());
                         categoryController.fetchCategoryCouponSummary(categoryId, new CategoryController.CategoryCouponSummaryCallback() {
                             @Override
                             public void onSuccess(List<Summary> campaigns) {
+                                isProgressBar.setVisibility(View.GONE);
+                                if (campaigns.isEmpty()) {
+                                    lblNoRecord.setVisibility(View.VISIBLE);
+                                    recyclerView1.setVisibility(View.GONE);
+                                } else {
+                                    lblNoRecord.setVisibility(View.GONE);
+                                    recyclerView1.setVisibility(View.VISIBLE);
+                                }
                                 originalSummaryList = new ArrayList<>(campaigns);
+
                                 adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
                                 recyclerView1.setAdapter(adapter1);
                             }
@@ -216,6 +254,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
@@ -225,13 +264,13 @@ public class CouponMainClassActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         });
     }
 
     private void filter(String text) {
         List<Summary> filteredList = new ArrayList<>();
-
         if (text.isEmpty()) {
             filteredList.addAll(originalSummaryList);
         } else {

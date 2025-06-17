@@ -11,13 +11,24 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ProgressBar
+            android:id="@+id/isProgressBarImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ProgressBar>
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgProduct"
             android:layout_width="match_parent"
             app:shapeAppearanceOverlay="@style/RoundedSquare"
-            android:layout_height="170dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/imagebanner"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +53,6 @@
             android:background="@drawable/bg_rect_white"
             android:elevation="6dp"
             android:padding="5dp"
-            android:src="@drawable/school_chimes"
             app:layout_constraintBottom_toBottomOf="@id/imgProduct"
             app:layout_constraintEnd_toEndOf="parent"
             app:shapeAppearanceOverlay="@style/RoundedSquare" />

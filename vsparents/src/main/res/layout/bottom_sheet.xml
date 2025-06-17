@@ -4,18 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/isProgressBarImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="150dp"
+            android:visibility="visible">
+
+        </ProgressBar>
 
         <ImageView
             android:id="@+id/image_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="fitStart"
-            android:src="@drawable/coupon_banner"
-
+            android:scaleType="centerCrop"
              />
 
         <ImageView
@@ -28,7 +37,7 @@
             android:background="@drawable/rounded_bg"
             android:padding="8dp"
             android:layout_gravity="top|start" />
-    </FrameLayout>
+    </RelativeLayout>
 
     <include layout="@layout/layout_bottom_sheet"/>
 

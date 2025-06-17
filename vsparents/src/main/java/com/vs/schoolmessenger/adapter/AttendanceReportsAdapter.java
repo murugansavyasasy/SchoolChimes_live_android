@@ -12,10 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vs.schoolmessenger.R;
-import com.vs.schoolmessenger.interfaces.LocationClick;
 import com.vs.schoolmessenger.interfaces.ViewPunchHistoryListener;
-import com.vs.schoolmessenger.model.DatesModel;
-import com.vs.schoolmessenger.model.Image;
 import com.vs.schoolmessenger.model.StaffAttendanceBiometricReportRes;
 
 import java.text.ParseException;
