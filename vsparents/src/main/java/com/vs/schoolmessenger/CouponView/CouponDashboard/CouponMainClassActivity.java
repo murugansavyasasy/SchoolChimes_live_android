@@ -76,8 +76,6 @@ public class CouponMainClassActivity extends AppCompatActivity {
         isProgressBar = findViewById(R.id.isProgressBar);
         lblNoRecord = findViewById(R.id.lblNoRecord);
         text_view = findViewById(R.id.text_view);
-//        isProgressBar.setVisibility(View.VISIBLE);
-
     }
 
     private void setupRecyclerViews() {
