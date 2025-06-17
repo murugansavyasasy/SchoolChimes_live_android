@@ -95,6 +95,7 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
 
         holder.check_staff.setOnCheckedChangeListener(null);
         holder.check_staff.setChecked(staffs.getSelecteStatus());
+
         holder.check_staff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -102,7 +103,6 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
                 staffs.setSelecteStatus(isChecked);
                 if (isChecked) {
                     onCheckStudentListener.student_addClass(staffs);
-
                 } else {
                     onCheckStudentListener.student_removeClass(staffs);
                 }

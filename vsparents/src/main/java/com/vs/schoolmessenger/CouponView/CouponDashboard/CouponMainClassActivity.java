@@ -237,6 +237,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
                                     recyclerView1.setVisibility(View.VISIBLE);
                                 }
                                 originalSummaryList = new ArrayList<>(campaigns);
+
                                 adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
                                 recyclerView1.setAdapter(adapter1);
                             }

@@ -130,14 +130,15 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                 if ((subjects != null) && (!SelectedSubjects.contains(subjects))) {
                     SelectedSubjects.add(subjects);
                     i_sections_count++;
-                    enableDisableNext();
+//                    enableDisableNext();
                 }
                 if (staff_list.size() == mAdapter.getSelectedStaff().size()) {
                     select_All.setChecked(true);
                 } else {
                     select_All.setChecked(false);
                 }
-
+                enableDisableNext();
+                Log.d("mAdapter.getSelectedStaff().size()", String.valueOf(mAdapter.getSelectedStaff().size()));
             }
 
             @Override
@@ -145,7 +146,7 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                 if ((subjects != null) && (SelectedSubjects.contains(subjects))) {
                     SelectedSubjects.remove(subjects);
                     i_sections_count--;
-                    enableDisableNext();
+//                    enableDisableNext();
                 }
 
                 if (staff_list.size() == mAdapter.getSelectedStaff().size()) {
@@ -153,6 +154,9 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                 } else {
                     select_All.setChecked(false);
                 }
+                enableDisableNext();
+                Log.d("mAdapter.getSelectedStaff().size()+++++++++", String.valueOf(mAdapter.getSelectedStaff().size()));
+
             }
 
 
@@ -237,8 +241,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
         btnCalls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                constructJsonArraySentToStaff();
-//                jsonArrayFromVoiceHistory();
                 showAlert("Are you want to send?", "");
             }
         });
@@ -246,7 +248,12 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
 
     @SuppressLint("ResourceAsColor")
     private void enableDisableNext() {
-        btnCalls.setEnabled(i_sections_count > 0);
+        if (mAdapter.getSelectedStaff().size() > 0) {
+            btnCalls.setEnabled(true);
+        } else {
+            btnCalls.setEnabled(false);
+        }
+//        btnCalls.setEnabled(i_sections_count > 0);
     }
 
     private void filter(String s) {
@@ -509,8 +516,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
-
-
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("DialerId", StaffID);
         jsonObject.addProperty("SchoolId", SchoolID);
