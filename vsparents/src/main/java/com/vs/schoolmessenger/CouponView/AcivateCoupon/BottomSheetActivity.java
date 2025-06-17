@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,9 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.vs.schoolmessenger.CouponController.CategoryController;
-import com.vs.schoolmessenger.CouponModel.LogactiveapiResponse.LogActiveApiResponse;
-import com.vs.schoolmessenger.CouponModel.TicketActivateCoupon.ActivateCoupon;
-import com.vs.schoolmessenger.CouponModel.TicketActivateCoupon.ActivateCouponResponse;
 import com.vs.schoolmessenger.CouponModel.TicketActivateCouponSummary.ActivateCouponSummary;
 import com.vs.schoolmessenger.CouponView.BottomSheetOrderActivity;
 import com.vs.schoolmessenger.R;
@@ -99,7 +95,6 @@ public class BottomSheetActivity extends AppCompatActivity {
         }
 
 
-
         categoryController = new CategoryController(this);
         categoryController.fetchActivateCoupondata(source_link, new CategoryController.ActivateCouponCallback() {
             @Override
@@ -152,69 +147,65 @@ public class BottomSheetActivity extends AppCompatActivity {
         btnactivatecoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                categoryController.activateCouponWithSource(source_link, new CategoryController.CouponActivationCallback() {
-                    @Override
-                    public void onSuccess(ActivateCouponResponse response) {
-                        if (response != null && response.getData() != null) {
-                            List<ActivateCoupon> coupons = response.getData().getCoupons();
-                            if (coupons != null && !coupons.isEmpty()) {
-                                ActivateCoupon data = coupons.get(0);
-                                String merchantLogo = response.getData().getMerchant_logo();
-                                String offer = response.getData().getOffer();
-                                String couponCode = response.getData().getCoupon_code();
-                                String CTAname = response.getData().getCTAname();
-                                String CTAredirect = response.getData().getCTAredirect();
-                                String redirectUrl = response.getData().getRedirect_url();
+
+//                categoryController.activateCouponWithSource(source_link, new CategoryController.CouponActivationCallback() {
+//                    @Override
+//                    public void onSuccess(ActivateCouponResponse response) {
+//                        if (response != null && response.getData() != null) {
+//                            List<ActivateCoupon> coupons = response.getData().getCoupons();
+//                            if (coupons != null && !coupons.isEmpty()) {
+//                                ActivateCoupon data = coupons.get(0);
+//                                String merchantLogo = response.getData().getMerchant_logo();
+//                                String offer = response.getData().getOffer();
+//                                String couponCode = response.getData().getCoupon_code();
+//                                String CTAname = response.getData().getCTAname();
+//                                String CTAredirect = response.getData().getCTAredirect();
+//                                String redirectUrl = response.getData().getRedirect_url();
+//
+//
+//                                categoryController.logCouponActivation(source_link, new CategoryController.GenericCallback() {
+//                                    @Override
+//                                    public void onSuccess(LogActiveApiResponse response) {
+//                                        Log.d("BottomSheetActivity", "Second API (logCouponActivation) successful: " + response.getMessage());
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailure(String errorMessage) {
+//                                        Log.e("BottomSheetActivity", "Second API failed: " + errorMessage);
+//                                    }
+//                                });
 
 
-                                categoryController.logCouponActivation(source_link, new CategoryController.GenericCallback() {
-                                    @Override
-                                    public void onSuccess(LogActiveApiResponse response) {
-                                        Log.d("BottomSheetActivity", "Second API (logCouponActivation) successful: " + response.getMessage());
-                                    }
+                Intent intent = new Intent(BottomSheetActivity.this, BottomSheetOrderActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("merchant_logo", "merchantLogo");
+                intent.putExtra("offer", "offer");
+                intent.putExtra("coupon_code", "couponCode");
+                intent.putExtra("CTAname", "CTAname");
+                intent.putExtra("CTAredirect", "CTAredirect");
+                intent.putExtra("redirect_url", "redirectUrl");
+                intent.putExtra("merchant_logo", "merchantLogo");
+                intent.putExtra("how_to_use", howToUseText);
+                intent.putExtra("Terms and Conditions", termsAndConditions);
+                startActivity(intent);
 
-                                    @Override
-                                    public void onFailure(String errorMessage) {
-                                        Log.e("BottomSheetActivity", "Second API failed: " + errorMessage);
-                                    }
-                                });
-
-
-                                Intent intent = new Intent(BottomSheetActivity.this, BottomSheetOrderActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("merchant_logo", merchantLogo);
-                                intent.putExtra("offer", offer);
-                                intent.putExtra("coupon_code", couponCode);
-                                intent.putExtra("CTAname", CTAname);
-                                intent.putExtra("CTAredirect", CTAredirect);
-                                intent.putExtra("redirect_url", redirectUrl);
-                                intent.putExtra("merchant_logo", merchantLogo);
-                                intent.putExtra("how_to_use", howToUseText);
-                                intent.putExtra("Terms and Conditions", termsAndConditions);
-
-                                startActivity(intent);
-
-                            } else {
-                                Toast.makeText(BottomSheetActivity.this, "No coupon found", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(BottomSheetActivity.this, "Coupon already activated", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-
-                    @Override
-                    public void onFailure(String errorMessage) {
-                        // Handle failure case
-                        Toast.makeText(BottomSheetActivity.this, "Activation Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                            } else {
+//                                Toast.makeText(BottomSheetActivity.this, "No coupon found", Toast.LENGTH_SHORT).show();
+//                            }
+//                        } else {
+//                            Toast.makeText(BottomSheetActivity.this, "Coupon already activated", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//
+//                    @Override
+//                    public void onFailure(String errorMessage) {
+//                        // Handle failure case
+//                        Toast.makeText(BottomSheetActivity.this, "Activation Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         });
-
-
-
-
 
         rememberSymbol.setOnClickListener(new View.OnClickListener() {
             @Override
