@@ -54,6 +54,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
         setupButtonListeners();
         loadInitialData();
         setupSearchFunctionality();
+
     }
 
     private void initializeViews() {
@@ -237,8 +238,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
         } else {
             String searchText = text.toLowerCase().trim();
             for (Summary item : originalSummaryList) {
-                if (item.getMerchantName().toLowerCase().contains(searchText) ||
-                        item.getCategoryName().toLowerCase().contains(searchText)) {
+                if (item.getMerchantName().toLowerCase().contains(searchText) || item.getCategoryName().toLowerCase().contains(searchText)) {
                     filteredList.add(item);
                 }
             }
@@ -254,6 +254,13 @@ public class CouponMainClassActivity extends AppCompatActivity {
         homeBackground.setBackgroundResource(R.drawable.bg_selected);
         ticketBackground.setBackgroundColor(Color.TRANSPARENT);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Homeload();
+    }
+
 }
 
 

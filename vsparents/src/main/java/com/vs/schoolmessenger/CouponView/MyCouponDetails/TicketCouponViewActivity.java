@@ -35,7 +35,7 @@ public class TicketCouponViewActivity extends AppCompatActivity {
     private ImageView btnHome;
     private ImageView btnTicket;
     private RelativeLayout homeBackground, ticketBackground;
-    private TextView alltext, activetext, expiredtext, redeemedtext;
+    private TextView alltext, activetext, expiredtext, redeemedtext,backtext;
     private int blueColor;
     private int defaultColor;
     private EditText editSearch;
@@ -55,6 +55,7 @@ public class TicketCouponViewActivity extends AppCompatActivity {
 
         btnHome = findViewById(R.id.btnHome);
         back = findViewById(R.id.back);
+        backtext = findViewById(R.id.backtext);
         btnTicket = findViewById(R.id.btnTicket);
         homeBackground = findViewById(R.id.homeBackground);
         ticketBackground = findViewById(R.id.ticketBackground);
@@ -81,6 +82,9 @@ public class TicketCouponViewActivity extends AppCompatActivity {
             onBackPressed();
         });
 
+        backtext.setOnClickListener(view -> {
+            onBackPressed();
+        });
         btnHome.setOnClickListener(view -> {
             homeBackground.setBackgroundResource(R.drawable.bg_selected);
             ticketBackground.setBackgroundColor(Color.TRANSPARENT);

@@ -106,7 +106,7 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
 
         ImageView imgProduct,imgUser,imgOverlay;
         TextView lblProductName,lblProductOffer,lblCompanyName,lblDays;
-        ConstraintLayout header;
+        LinearLayout header;
 
 
         public ViewHolder(@NonNull View itemView) {

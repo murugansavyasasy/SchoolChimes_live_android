@@ -23,10 +23,11 @@ import retrofit2.http.QueryMap;
 
 public interface CouponAPIServiceInterface {
     @GET("get_category_list")
-        Call<CouponMenuResponse> getCategories(
-                @Header("Partner-Name") String parentName,
-                @Header("api-key") String apiKey
-        );
+    Call<CouponMenuResponse> getCategories(
+            @Header("Partner-Name") String parentName,
+            @Header("api-key") String apiKey
+    );
+
     @POST("get_campaigns")
     Call<CouponSummaryResponse> getCoupons(
             @Header("Partner-Name") String parentName,
@@ -66,9 +67,6 @@ public interface CouponAPIServiceInterface {
     Call<LogActiveApiResponse> getlogactiveresponse(
             @Body Map<String, Object> body
     );
-
-
-
 
 
     @POST("get_campaigns")

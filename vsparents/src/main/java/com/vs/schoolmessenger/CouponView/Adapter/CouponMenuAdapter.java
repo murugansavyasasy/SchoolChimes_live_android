@@ -75,7 +75,6 @@ public class CouponMenuAdapter extends RecyclerView.Adapter<CouponMenuAdapter.Vi
             selectedPosition = holder.getAdapterPosition();
             notifyItemChanged(previousSelected);
             notifyItemChanged(selectedPosition);
-
             if (listener != null) {
                 listener.onCategoryClick(category);
             }

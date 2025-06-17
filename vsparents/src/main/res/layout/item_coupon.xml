@@ -1,115 +1,141 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/header"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:orientation="vertical"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgProduct"
-            android:layout_width="match_parent"
-            app:shapeAppearanceOverlay="@style/RoundedSquare"
-            android:layout_height="170dp"
+            android:layout_width="0dp"
+            android:layout_height="175dp"
+            android:padding="5dp"
             android:scaleType="centerCrop"
             android:src="@drawable/imagebanner"
+            app:shapeAppearanceOverlay="@style/RoundedSquare"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgOverlay"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="-20dp"
+            android:background="@drawable/bg_rect_white"
+            android:elevation="6dp"
+            android:padding="5dp"
+            android:src="@drawable/school_chimes"
+            app:shapeAppearanceOverlay="@style/RoundedSquare"
+            app:layout_constraintBottom_toBottomOf="@id/imgProduct"
+            app:layout_constraintEnd_toEndOf="parent" />
+
 
         <ImageView
             android:id="@+id/imgUser"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/rounded_bg"
             android:padding="5dp"
             android:src="@drawable/group_user"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imgOverlay"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="-20dp"
-            android:background="@drawable/bg_rect_white"
-            android:elevation="6dp"
-            android:padding="5dp"
-            android:src="@drawable/school_chimes"
-            app:layout_constraintBottom_toBottomOf="@id/imgProduct"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:shapeAppearanceOverlay="@style/RoundedSquare" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
         <TextView
             android:id="@+id/lblProductName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/montserratmedium"
-            android:layout_marginEnd="8dp"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="3"
-            android:text="lvbeavrbapiljhbwshvbwhsvbpsifvbpwihvbshfvboushvshbvsjdhvlhsbvljsbdhvshdbvlHsbdvljvhs js hvjlV hwjhvjshdvjhwshsdbvjshfvjhsdvhsjhvjhbsvjhsvjhsvjhsjvhsvhsjhdv"
-            android:textColor="@color/clr_black"
-            app:layout_constraintEnd_toStartOf="@+id/imgOverlay"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgProduct" />
-
-        <TextView
-            android:id="@+id/lblProductOffer"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/montserratmedium"
-            android:textStyle="bold"
-            android:text="20% Off"
-            android:textColor="@color/clr_black"
-            android:textSize="18dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblProductName" />
-
-
-        <TextView
-            android:id="@+id/lblCompanyName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Savyasasy"
-            android:textColor="@color/clr_black"
-            android:textSize="18dp"
+            android:text="The Amazon Product"
             android:textStyle="normal"
+            android:textSize="12sp"
+            android:paddingTop="4dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/imgProduct"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblProductOffer" />
-
-        <ImageView
-            android:id="@+id/lblTiming"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:padding="3dp"
-            android:src="@drawable/clockloader"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblCompanyName" />
-
-        <TextView
-            android:id="@+id/lblDays"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:fontFamily="@font/montserratmedium"
-            android:text="5 days"
-            android:textColor="@color/bpDarker_red"
-            android:textSize="11sp"
-            android:textStyle="normal"
-            app:layout_constraintStart_toEndOf="@+id/lblTiming"
-            app:layout_constraintTop_toBottomOf="@+id/lblCompanyName" />
+            app:layout_constraintEnd_toStartOf="@id/imgOverlay" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/lblProductOffer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="20% Off"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/clr_black"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/montserratmedium" />
+
+
+    <TextView
+        android:id="@+id/lblCompanyName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MGM Dizzee World"
+        android:textStyle="normal"
+        android:textSize="16sp"
+        android:textColor="@color/clr_grey_dark"
+
+        android:layout_marginStart="10dp" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:id="@+id/linearLayout0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginStart="5dp">
+
+            <ImageView
+                android:id="@+id/location_imag2"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@drawable/clockloader" />
+
+            <TextView
+                android:id="@+id/lblDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5 days"
+                android:textStyle="normal"
+                android:layout_marginStart="3dp"
+                android:textSize="11sp"
+                android:textColor="@color/bpDarker_red" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

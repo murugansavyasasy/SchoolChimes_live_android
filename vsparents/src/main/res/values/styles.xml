@@ -670,9 +670,10 @@
 
     <!--    </style>-->
 
-    <style name="RoundedSquare" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
+    <style name="RoundedSquare" parent="">
         <item name="cornerSize">18dp</item>
+        <item name="cardCornerRadius">18dp</item>
+
     </style>
 
 
