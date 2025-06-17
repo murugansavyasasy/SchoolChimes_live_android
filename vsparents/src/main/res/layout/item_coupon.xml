@@ -18,6 +18,18 @@
         android:clipToPadding="false">
 
 
+        <ProgressBar
+            android:id="@+id/isProgressBarImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ProgressBar>
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgProduct"
             android:layout_width="0dp"
@@ -57,6 +69,8 @@
             android:src="@drawable/group_user"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+
 
 
         <TextView

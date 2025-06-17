@@ -59,6 +59,7 @@ public class StaffWiseAttendanceReports extends AppCompatActivity implements Vie
     public PunchHistoryAdapter punchHistoryAdapter;
     public List<StaffAttendanceBiometricReportRes.BiometriStaffReportData> attendanceReportsList = new ArrayList<StaffAttendanceBiometricReportRes.BiometriStaffReportData>();
     public List<StaffListRes.StaffListData> StaffList = new ArrayList<StaffListRes.StaffListData>();
+
     public AttendanceReportsAdapter mAdapter;
     String SchoolID = "", StaffID = "";
     TextView btnTodaysReport, btnMonthWiseReports, lblNoRecords;

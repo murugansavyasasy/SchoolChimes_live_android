@@ -6,8 +6,10 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +20,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vs.schoolmessenger.CouponController.CategoryController;
-import com.vs.schoolmessenger.CouponModel.CouponSummary.Summary;
 import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummary;
 import com.vs.schoolmessenger.CouponView.Adapter.TicketCouponAdapter;
 import com.vs.schoolmessenger.CouponView.CouponDashboard.CouponMainClassActivity;
@@ -39,12 +40,10 @@ public class TicketCouponViewActivity extends AppCompatActivity {
     private int blueColor;
     private int defaultColor;
     private EditText editSearch;
-
-
     private List<TicketSummary> originalSummaryViewList = new ArrayList<>();
-
-
     private ImageView back;
+    ProgressBar isProgressBar;
+    TextView lblNoRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +63,8 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         expiredtext = findViewById(R.id.expiredtext);
         redeemedtext = findViewById(R.id.redeemedtext);
         editSearch = findViewById(R.id.editSearch);
+        isProgressBar = findViewById(R.id.isProgressBar);
+        lblNoRecord = findViewById(R.id.lblNoRecord);
 
         blueColor = ContextCompat.getColor(this, R.color.gnt_blue);
         defaultColor = ContextCompat.getColor(this, R.color.gnt_gray);
@@ -155,7 +156,8 @@ public class TicketCouponViewActivity extends AppCompatActivity {
 
 
     private void selectTabAndFetch(TextView selectedTab, String couponStatus) {
-
+        isProgressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         alltext.setBackgroundColor(Color.TRANSPARENT);
         activetext.setBackgroundColor(Color.TRANSPARENT);
         expiredtext.setBackgroundColor(Color.TRANSPARENT);
@@ -163,13 +165,21 @@ public class TicketCouponViewActivity extends AppCompatActivity {
 
 
         selectedTab.setBackgroundResource(R.drawable.white_radious);
-
-
         categoryController.fetchTicketCouponSummary(couponStatus, new CategoryController.TicketCouponSummaryCallback() {
             @Override
             public void onSuccess(List<TicketSummary> coupon_list) {
+
+                if (coupon_list.isEmpty()) {
+                    lblNoRecord.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+
+                } else {
+                    lblNoRecord.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
                 originalSummaryViewList.clear();
                 originalSummaryViewList.addAll(coupon_list);
+                isProgressBar.setVisibility(View.GONE);
                 adapter = new TicketCouponAdapter(TicketCouponViewActivity.this, coupon_list);
                 recyclerView.setAdapter(adapter);
             }
@@ -179,7 +189,5 @@ public class TicketCouponViewActivity extends AppCompatActivity {
                 Toast.makeText(TicketCouponViewActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
 }

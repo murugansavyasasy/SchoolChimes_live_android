@@ -4,6 +4,34 @@
     android:layout_height="match_parent"
     android:background="@drawable/dual_color_background">
 
+
+
+    <TextView
+        android:id="@+id/lblNoRecord"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:textColor="@color/clr_black"
+        android:visibility="gone"
+        android:layout_below="@+id/isProgressBar"
+        android:textSize="15dp"
+        android:layout_centerInParent="true"
+        android:text="No records found."
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+
+    <ProgressBar
+        android:id="@+id/isProgressBar"
+        android:layout_width="50dp"
+        android:visibility="visible"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/text_view"
+        android:layout_height="50dp">
+
+    </ProgressBar>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

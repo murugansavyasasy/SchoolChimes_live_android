@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.vs.schoolmessenger.CouponModel.CouponSummary.Summary;
 import com.vs.schoolmessenger.CouponView.AcivateCoupon.BottomSheetActivity;
@@ -74,7 +77,6 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
             holder.lblDays.setText("Invalid date");
         }
 
-
         Glide.with(context)
                 .load(summary.getThumbnail())
                 .into(holder.imgProduct);
@@ -107,6 +109,7 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
         ImageView imgProduct,imgUser,imgOverlay;
         TextView lblProductName,lblProductOffer,lblCompanyName,lblDays;
         LinearLayout header;
+        ProgressBar isProgressBarImage;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -119,6 +122,7 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
             lblProductOffer = itemView.findViewById(R.id.lblProductOffer);
             lblDays = itemView.findViewById(R.id.lblDays);
             header = itemView.findViewById(R.id.header);
+            isProgressBarImage = itemView.findViewById(R.id.isProgressBarImage);
         }
     }
 }
