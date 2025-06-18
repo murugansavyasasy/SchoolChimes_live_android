@@ -138,7 +138,6 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                     select_All.setChecked(false);
                 }
                 enableDisableNext();
-                Log.d("mAdapter.getSelectedStaff().size()", String.valueOf(mAdapter.getSelectedStaff().size()));
             }
 
             @Override
@@ -155,11 +154,7 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                     select_All.setChecked(false);
                 }
                 enableDisableNext();
-                Log.d("mAdapter.getSelectedStaff().size()+++++++++", String.valueOf(mAdapter.getSelectedStaff().size()));
-
             }
-
-
         }, staff_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(SendToStaff.this);
         staff_list_recycle.setLayoutManager(mLayoutManager);
@@ -192,13 +187,10 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                         rytNoRecords.setVisibility(View.GONE);
                         staff_list_recycle.setVisibility(View.VISIBLE);
                     }
-
-
                 }
 
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                     // TODO Auto-generated method stub
                 }
 
@@ -209,11 +201,9 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
                     } else {
                         imgSearch.setVisibility(View.VISIBLE);
                     }
-
                     filter(s.toString());
                 }
             });
-
         }
 
         select_All.setOnClickListener(new View.OnClickListener() {
