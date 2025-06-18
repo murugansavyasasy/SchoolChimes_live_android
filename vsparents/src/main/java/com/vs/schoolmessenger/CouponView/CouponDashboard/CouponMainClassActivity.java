@@ -47,22 +47,14 @@ public class CouponMainClassActivity extends AppCompatActivity {
 
     ProgressBar isProgressBar;
     TextView lblNoRecord, text_view;
-
+    int blueColor;
+    int defaultColor;
     private List<Summary> originalSummaryList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coupon_dashboard);
-        initializeViews();
-        setupRecyclerViews();
-        setupButtonListeners();
-        loadInitialData();
-        setupSearchFunctionality();
-
-    }
-
-    private void initializeViews() {
         recyclerView = findViewById(R.id.recyclerview1);
         recyclerView1 = findViewById(R.id.recyclerView);
         btnHome = findViewById(R.id.btnHome);
@@ -77,22 +69,22 @@ public class CouponMainClassActivity extends AppCompatActivity {
         isProgressBar = findViewById(R.id.isProgressBar);
         lblNoRecord = findViewById(R.id.lblNoRecord);
         text_view = findViewById(R.id.text_view);
-    }
 
-    private void setupRecyclerViews() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView1.setLayoutManager(new GridLayoutManager(this, 2));
-    }
+        blueColor = ContextCompat.getColor(this, R.color.gnt_blue);
+        defaultColor = ContextCompat.getColor(this, R.color.gnt_gray);
 
-    private void setupButtonListeners() {
-        int blueColor = ContextCompat.getColor(this, R.color.gnt_blue);
-        int defaultColor = ContextCompat.getColor(this, R.color.gnt_gray);
+        btnHome.setImageDrawable(getDrawable(R.drawable.homeimage));
+        btnTicket.setImageDrawable(getDrawable(R.drawable.ticketimage));
+
+        homeBackground.setBackgroundResource(R.drawable.bg_selected);
+        ticketBackground.setBackgroundColor(Color.TRANSPARENT);
 
         btnHome.setOnClickListener(view -> {
             homeBackground.setBackgroundResource(R.drawable.bg_selected);
             ticketBackground.setBackgroundColor(Color.TRANSPARENT);
-            btnHome.setColorFilter(blueColor, PorterDuff.Mode.SRC_IN);
-            btnTicket.setColorFilter(defaultColor, PorterDuff.Mode.SRC_IN);
+
+            btnHome.setImageDrawable(getDrawable(R.drawable.homeimage));
+            btnTicket.setImageDrawable(getDrawable(R.drawable.ticketimage));
             Intent intent = new Intent(CouponMainClassActivity.this, CouponMainClassActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -101,18 +93,37 @@ public class CouponMainClassActivity extends AppCompatActivity {
         btnTicket.setOnClickListener(view -> {
             ticketBackground.setBackgroundResource(R.drawable.bg_selected);
             homeBackground.setBackgroundColor(Color.TRANSPARENT);
-            btnTicket.setColorFilter(blueColor, PorterDuff.Mode.SRC_IN);
-            btnHome.setColorFilter(defaultColor, PorterDuff.Mode.SRC_IN);
+
+            btnHome.setImageDrawable(getDrawable(R.drawable.home_gray));
+            btnTicket.setImageDrawable(getDrawable(R.drawable.ticket_blue));
             Intent intent = new Intent(CouponMainClassActivity.this, TicketCouponViewActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
 
-        relative_layout.setOnClickListener(view -> onBackPressed());
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView1.setLayoutManager(new GridLayoutManager(this, 2));
+
+
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void loadInitialData() {
-        Homeload();
         categoryController = new CategoryController(this);
 
         categoryController.fetchCoinDetails(new CategoryController.PointsCouponCallback() {
@@ -263,25 +274,6 @@ public class CouponMainClassActivity extends AppCompatActivity {
         });
     }
 
-    private void setupSearchFunctionality() {
-        editSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filter(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-    }
-
     private void filter(String text) {
         List<Summary> filteredList = new ArrayList<>();
         if (text.isEmpty()) {
@@ -300,16 +292,10 @@ public class CouponMainClassActivity extends AppCompatActivity {
         }
     }
 
-    private void Homeload() {
-        btnHome.setColorFilter(ContextCompat.getColor(this, R.color.gnt_blue), PorterDuff.Mode.SRC_IN);
-        homeBackground.setBackgroundResource(R.drawable.bg_selected);
-        ticketBackground.setBackgroundColor(Color.TRANSPARENT);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        Homeload();
+        loadInitialData();
     }
 
 }

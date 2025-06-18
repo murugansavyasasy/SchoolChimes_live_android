@@ -2,7 +2,6 @@ package com.vs.schoolmessenger.CouponView.MyCouponDetails;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,8 +36,8 @@ public class TicketCouponViewActivity extends AppCompatActivity {
     private ImageView btnTicket;
     private RelativeLayout homeBackground, ticketBackground;
     private TextView alltext, activetext, expiredtext, redeemedtext,backtext;
-    private int blueColor;
-    private int defaultColor;
+    int blueColor;
+    int defaultColor;
     private EditText editSearch;
     private List<TicketSummary> originalSummaryViewList = new ArrayList<>();
     private ImageView back;
@@ -75,8 +74,6 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         categoryController = new CategoryController(this);
 
         setupSearchFunctionality();
-        HomeLoad();
-
         selectTabAndFetch(alltext, "all");
 
         back.setOnClickListener(view -> {
@@ -86,11 +83,20 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         backtext.setOnClickListener(view -> {
             onBackPressed();
         });
+
+        btnHome.setImageDrawable(getDrawable(R.drawable.home_gray));
+        btnTicket.setImageDrawable(getDrawable(R.drawable.ticket_blue));
+        ticketBackground.setBackgroundResource(R.drawable.bg_selected);
+        homeBackground.setBackgroundColor(Color.TRANSPARENT);
+
         btnHome.setOnClickListener(view -> {
             homeBackground.setBackgroundResource(R.drawable.bg_selected);
+
             ticketBackground.setBackgroundColor(Color.TRANSPARENT);
-            btnHome.setColorFilter(blueColor, PorterDuff.Mode.SRC_IN);
-            btnTicket.setColorFilter(defaultColor, PorterDuff.Mode.SRC_IN);
+
+            btnHome.setImageDrawable(getDrawable(R.drawable.homeimage));
+            btnTicket.setImageDrawable(getDrawable(R.drawable.ticketimage));
+
             Intent intent = new Intent(TicketCouponViewActivity.this, CouponMainClassActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -99,8 +105,9 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         btnTicket.setOnClickListener(view -> {
             ticketBackground.setBackgroundResource(R.drawable.bg_selected);
             homeBackground.setBackgroundColor(Color.TRANSPARENT);
-            btnTicket.setColorFilter(blueColor, PorterDuff.Mode.SRC_IN);
-            btnHome.setColorFilter(defaultColor, PorterDuff.Mode.SRC_IN);
+            btnHome.setImageDrawable(getDrawable(R.drawable.home_gray));
+            btnTicket.setImageDrawable(getDrawable(R.drawable.ticket_blue));
+
             Intent intent = new Intent(TicketCouponViewActivity.this, TicketCouponViewActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -110,12 +117,6 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         activetext.setOnClickListener(view -> selectTabAndFetch(activetext, "activated"));
         expiredtext.setOnClickListener(view -> selectTabAndFetch(expiredtext, "expired"));
         redeemedtext.setOnClickListener(view -> selectTabAndFetch(redeemedtext, "claimed"));
-    }
-
-    private void HomeLoad() {
-        btnTicket.setColorFilter(ContextCompat.getColor(this, R.color.gnt_blue), PorterDuff.Mode.SRC_IN);
-        ticketBackground.setBackgroundResource(R.drawable.bg_selected);
-        homeBackground.setBackgroundColor(Color.TRANSPARENT);
     }
 
     private void setupSearchFunctionality() {

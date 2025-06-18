@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.vs.schoolmessenger.CouponModel.TicketActivateCoupon.ActivateCoupon;
+import com.vs.schoolmessenger.CouponView.CouponDashboard.CouponMainClassActivity;
 import com.vs.schoolmessenger.R;
 
 import java.text.ParseException;
@@ -94,7 +95,7 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
         copylinearlayout = findViewById(R.id.copylinearlayout);
 
         btnactivatecoupon = findViewById(R.id.btn_activate_coupon);
-        btn_activate_coupon2 = findViewById(R.id.btn_activate_coupon2);
+
         showFullScreenConfetti();
 
         int screenHeight = getResources().getDisplayMetrics().heightPixels;
@@ -179,7 +180,7 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
         });
 
         btn_activate_coupon2.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BottomSheetOrderConfirmActivity.class);
+            Intent intent = new Intent(this, CouponMainClassActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });

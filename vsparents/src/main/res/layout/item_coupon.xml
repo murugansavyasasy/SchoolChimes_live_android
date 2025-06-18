@@ -33,7 +33,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgProduct"
             android:layout_width="0dp"
-            android:layout_height="175dp"
+            android:layout_height="150dp"
             android:padding="5dp"
             android:scaleType="centerCrop"
             android:src="@drawable/imagebanner"

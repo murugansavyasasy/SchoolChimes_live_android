@@ -38,7 +38,7 @@
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@id/back"
             android:gravity="center"
-            android:text="Pauckt"
+            android:text="Pauket"
             android:textColor="@color/clr_black"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -51,7 +51,7 @@
         android:layout_below="@+id/relative_layout"
         android:layout_alignStart="@+id/recyclerView"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="11dp"
         app:cardElevation="8dp">
@@ -161,6 +161,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearlayout"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -180,7 +181,7 @@
         android:layout_below="@id/linear_layout1"
         android:layout_alignStart="@+id/recyclerView"
         android:layout_marginStart="13dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:text="All Coupons"
         android:textColor="@color/clr_black"
         android:textSize="18sp"
