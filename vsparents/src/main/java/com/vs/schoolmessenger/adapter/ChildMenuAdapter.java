@@ -351,10 +351,10 @@ public class ChildMenuAdapter extends ArrayAdapter {
             setUnReadCount(unReadCount, lblUnreadCount);
         }
 
-        if (MenuName.contains("_90")) {
+        if (MenuName.contains("_27")) {
             gifImage.setVisibility(View.GONE);
             imgMenu.setVisibility(View.VISIBLE);
-            imgMenu.setImageResource(R.drawable.ptm);
+            imgMenu.setImageResource(R.drawable.gift_voucher);
             textView.setText(MenuName.substring(0, MenuName.length() - 3));
             setUnReadCount(unReadCount, lblUnreadCount);
         }
@@ -445,7 +445,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
             goToNextScreen(MenuName);
         } else if (substring1.equals("_26")) {
             goToNextScreen(MenuName);
-        } else if (substring1.equals("_90")) {
+        } else if (substring1.equals("_27")) {
             goToNextScreen(MenuName);
         }
 
@@ -847,8 +847,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, PTM.class);
             context.startActivity(inNext);
-        }
-        else if (substring1.equals("_90")) {
+        } else if (substring1.equals("_27")) {
             Constants.Menu_ID = menuIDTwo;
             Intent inNext = new Intent(context, CouponMainClassActivity.class);
             context.startActivity(inNext);

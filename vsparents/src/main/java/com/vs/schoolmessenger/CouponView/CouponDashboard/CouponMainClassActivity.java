@@ -2,7 +2,6 @@ package com.vs.schoolmessenger.CouponView.CouponDashboard;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -99,6 +98,13 @@ public class CouponMainClassActivity extends AppCompatActivity {
             Intent intent = new Intent(CouponMainClassActivity.this, TicketCouponViewActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+        });
+
+        relative_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));

@@ -1343,8 +1343,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }
 
-                        //Hardcoded the menu for coupon
-                        isParentMenuNames.add(isParentMenuNames.size()-1,"Coupon_90");
+                        // Hardcoded the menu for coupon
+                        isParentMenuNames.add(isParentMenuNames.size() - 1, "Coupon_27");
 
                         for (int i = 0; i < isParentMenuNames.size(); i++) {
                             String name = isParentMenuNames.get(i);
