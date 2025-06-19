@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,7 +24,9 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.ExamList;
 import com.vs.schoolmessenger.payment.PdfWebView;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONObject;
@@ -148,6 +151,8 @@ public class ExamListAdapter extends
                                     receipt.putExtra("tittle","Report Card");
                                     receipt.putExtra("ID",exam.getId());
                                     context.startActivity(receipt);
+
+                                    AddCouponPoints.addPoints((Activity) context, Util_Common.VIEW_PROGRESS_CARD_POINTS);
 
 //                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
 //                                            Uri.parse(progresslink));

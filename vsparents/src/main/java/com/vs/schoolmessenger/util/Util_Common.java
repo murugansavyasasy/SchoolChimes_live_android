@@ -89,6 +89,25 @@ public class Util_Common {
 
 
 
+    public static String VIEW_PROGRESS_CARD_POINTS  = "VIEW_PROGRESS_CARD";
+    public static String VIEW_EXAM_SCHUDLE_POINTS = "VIEW_EXAM_SCHUDLE";
+    public static String  VIEW_EXAM_MARK_POINTS = "VIEW_EXAM_MARK";
+    public static String   VIEW_EVENTS_POINTS = "VIEW_EVENTS";
+    public static String SUBMIT_ASSIGNMENT_POINTS = "SUBMIT_ASSIGNMENT";
+    public static String  APPLY_LEAVE_POINTS = "APPLY_LEAVE";
+    public static String READ_MESSAGE_POINTS = "READ_MESSAGE";
+    public static String HOMEWORK_POINTS = "HOMEWORK";
+    public static String LISTEN_VOICE_POINTS = "LISTEN_VOICE";
+    public static String VIEW_ASSIGNMENT_POINTS = "VIEW_ASSIGNMENT";
+    public static String VIEW_IMAGE_PDF_POINTS = "VIEW_IMAGE_PDF";
+    public static String EXAMMARKS_POINTS = "EXAMMARKS";
+    public static String VIEW_VIDEO_POINTS = "VIEW_VIDEO";
+    public static String LOGIN_POINTS = "LOGIN";
+    public static String TEXT_POINTS = "TEXT";
+    public static String  VOICE_POINTS = "VOICE";
+
+
+
     public static boolean isNetworkAvailable(Activity activity) {
         ConnectivityManager connectivity = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 

@@ -43,6 +43,7 @@ import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -348,7 +349,12 @@ public class ExamCircularActivity extends AppCompatActivity implements View.OnCl
                                 listDataChild.put(listDataHeader.get(i), subject_details);
                                 mAdapter.notifyDataSetChanged();
 
+                                AddCouponPoints.addPoints(ExamCircularActivity.this, Util_Common.VIEW_EXAM_SCHUDLE_POINTS);
+
+
                             }
+
+
 
 
                         }

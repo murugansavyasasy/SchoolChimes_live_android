@@ -30,12 +30,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.vs.schoolmessenger.OTP.AutoReadOTPCallNumberScreen;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -276,6 +278,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
                         TeacherSchoolsModel schoolmodel = null;
                         listschooldetails = new ArrayList<>();
                         if (Status.equals("1")) {
+                            AddCouponPoints.addPoints(ChangePasswordScreen.this, Util_Common.LOGIN_POINTS);
 
                             String role = jsonObject.getString("staff_role");
                             String display_role = jsonObject.getString("staff_display_role");
@@ -648,6 +651,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
                         TeacherSchoolsModel schoolmodel = null;
                         listschooldetails = new ArrayList<>();
                         if (Status.equals("1")) {
+                            AddCouponPoints.addPoints(ChangePasswordScreen.this, Util_Common.LOGIN_POINTS);
 
 
                             String Grouphead = jsonObject.getString("idGroupHead");

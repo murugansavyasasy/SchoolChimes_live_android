@@ -25,7 +25,9 @@ import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.ExamList;
 import com.vs.schoolmessenger.model.SubjectAndMarkList;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -175,6 +177,8 @@ public class StudentMarksDetails extends AppCompatActivity {
 
 
                         }
+                        AddCouponPoints.addPoints(StudentMarksDetails.this, Util_Common.VIEW_EXAM_MARK_POINTS);
+
                     } else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
                     }

@@ -1,5 +1,11 @@
 package com.vs.schoolmessenger.util;
 
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_ASSIGNMENT;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_IMAGE;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_PDF;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VIDEO;
+import static com.vs.schoolmessenger.util.Util_UrlMethods.MSG_TYPE_VOICE;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.util.Log;
@@ -70,6 +76,25 @@ public class ChangeMsgReadStatus {
 
                         if ((strStatus.toLowerCase()).equals("1")) {
                             onRefreshListener.onRefreshItem();
+
+                            String activity_name = Util_Common.READ_MESSAGE_POINTS;
+                            if(msgType.equals(MSG_TYPE_IMAGE)){
+                                activity_name = Util_Common.READ_MESSAGE_POINTS;
+                            }
+                            else if(msgType.equals(MSG_TYPE_VOICE)){
+                                activity_name = Util_Common.LISTEN_VOICE_POINTS;
+                            }
+                            else if(msgType.equals(MSG_TYPE_ASSIGNMENT)){
+                                activity_name = Util_Common.VIEW_ASSIGNMENT_POINTS;
+                            }
+                            else if(msgType.equals(MSG_TYPE_VIDEO)){
+                                activity_name = Util_Common.VIEW_VIDEO_POINTS;
+                            }
+                            else if(msgType.equals(MSG_TYPE_PDF)){
+                                activity_name = Util_Common.VIEW_IMAGE_PDF_POINTS;
+                            }
+
+                            AddCouponPoints.addPoints(activity, activity_name);
                         }
                     } else {
                     }
