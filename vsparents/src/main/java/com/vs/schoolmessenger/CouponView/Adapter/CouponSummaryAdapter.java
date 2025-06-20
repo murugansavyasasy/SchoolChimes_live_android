@@ -3,6 +3,7 @@ package com.vs.schoolmessenger.CouponView.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,17 @@ import java.util.concurrent.TimeUnit;
 public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdapter.ViewHolder> {
     private Context context;
     private List<Summary> summaryList;
+    private int pointsRemaining;
+    private int pointPerCoupon;
 
-    public CouponSummaryAdapter(Context context, List<Summary> summaryList) {
+
+    public CouponSummaryAdapter(Context context, List<Summary> summaryList, int pointsRemaining, int pointPerCoupon) {
         this.context = context;
         this.summaryList = summaryList;
+        this.pointsRemaining = pointsRemaining;
+        this.pointPerCoupon= pointPerCoupon;
+
+
     }
 
     public void updateList(List<Summary> newList) {
@@ -94,7 +102,11 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
             intent.putExtra("thumbnail", summary.getThumbnail());
             intent.putExtra("source_link", summary.getSource_link());
             intent.putExtra("coupon_status", summary.getCoupon_status());
-            intent.putExtra("merchant_logo", summary.getMerchantLogo()); 
+            intent.putExtra("merchant_logo", summary.getMerchantLogo());
+            intent.putExtra("points_percoupon",pointPerCoupon);
+            Log.d("points_percoupon", String.valueOf(pointPerCoupon));
+            intent.putExtra("points_remaining", pointsRemaining);
+            Log.d("points_remaining", String.valueOf(pointsRemaining));
             context.startActivity(intent);
         });
     }

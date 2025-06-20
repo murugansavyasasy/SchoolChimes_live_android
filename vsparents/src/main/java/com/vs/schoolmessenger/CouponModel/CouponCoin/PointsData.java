@@ -5,6 +5,16 @@ public class PointsData {
     private int pointsSpent;
     private int pointsRemaining;
 
+    public int getPointsPerCoupon() {
+        return pointsPerCoupon;
+    }
+
+    public void setPointsPerCoupon(int pointsPerCoupon) {
+        this.pointsPerCoupon = pointsPerCoupon;
+    }
+
+    private int pointsPerCoupon;
+
     // Getters and Setters
     public int getPointsEarned() {
         return pointsEarned;

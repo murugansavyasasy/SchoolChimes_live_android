@@ -49,6 +49,8 @@ public class BottomSheetActivity extends AppCompatActivity {
     private String couponStatus;
     private String thumbnail;
     private String merchantlogo;
+    private int pointsRemaining;
+    private int pointPerCoupon;
 
     TextView offer_text;
     private  String merchant_name;
@@ -108,6 +110,9 @@ public class BottomSheetActivity extends AppCompatActivity {
         thumbnail = getIntent().getStringExtra("thumbnail");
         merchantlogo = getIntent().getStringExtra("merchant_logo");
         couponStatus = getIntent().getStringExtra("coupon_status");
+        pointsRemaining = getIntent().getIntExtra("points_remaining", 0);
+        pointPerCoupon = getIntent().getIntExtra("points_percoupon", 0);
+
         couponStatus = couponStatus != null ? couponStatus : "";
 
         if ("Activated".equalsIgnoreCase(couponStatus)) {
@@ -189,6 +194,11 @@ public class BottomSheetActivity extends AppCompatActivity {
         btnactivatecoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (pointsRemaining < pointPerCoupon) {
+                    Toast.makeText(BottomSheetActivity.this, "You don’t have enough points to activate the coupon. Please explore our app to earn more points.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 isProgressBar.setVisibility(View.VISIBLE);
                 categoryController.activateCouponWithSource(source_link, new CategoryController.CouponActivationCallback() {
                     @Override
@@ -202,6 +212,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                                 String CTAname = response.getData().getCTAname();
                                 String CTAredirect = response.getData().getCTAredirect();
                                 String redirectUrl = response.getData().getRedirect_url();
+
                                 categoryController.logCouponActivation(source_link, new CategoryController.GenericCallback() {
                                     @Override
                                     public void onSuccess(LogActiveApiResponse response) {
@@ -214,6 +225,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                                         Log.e("BottomSheetActivity", "Second API failed: " + errorMessage);
                                     }
                                 });
+
                                 Intent intent = new Intent(BottomSheetActivity.this, BottomSheetOrderActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("offer", offer);
@@ -222,7 +234,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                                 intent.putExtra("CTAredirect", CTAredirect);
                                 intent.putExtra("redirect_url", redirectUrl);
                                 intent.putExtra("merchant_logo", merchantLogo);
-                                intent.putExtra("category_name",category_name);
+                                intent.putExtra("category_name", category_name);
                                 intent.putExtra("how_to_use", howToUseText);
                                 intent.putExtra("Terms and Conditions", termsAndConditions);
                                 intent.putExtra("thumbnail", thumbnail);

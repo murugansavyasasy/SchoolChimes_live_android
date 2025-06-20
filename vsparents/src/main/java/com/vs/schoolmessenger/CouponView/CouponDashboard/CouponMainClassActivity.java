@@ -43,6 +43,8 @@ public class CouponMainClassActivity extends AppCompatActivity {
     private RelativeLayout homeBackground, ticketBackground;
     private RelativeLayout relative_layout;
     private TextView totalcoins, usedcoins, availablecoins;
+    private int pointsRemaining = 0;
+    private int pointPerCoupon = 0;
 
     ProgressBar isProgressBar;
     TextView lblNoRecord, text_view;
@@ -139,10 +141,14 @@ public class CouponMainClassActivity extends AppCompatActivity {
                     totalcoins.setText("" + pointsData.getPointsEarned());
                     usedcoins.setText("Used: " + pointsData.getPointsSpent());
                     availablecoins.setText("Available: " + pointsData.getPointsRemaining());
+
+                    pointsRemaining = pointsData.getPointsRemaining();
+                    pointPerCoupon = pointsData.getPointsPerCoupon();
                 } else {
                     Toast.makeText(CouponMainClassActivity.this, "No point data available", Toast.LENGTH_SHORT).show();
                 }
             }
+
 
             @Override
             public void onFailure(String errorMessage) {
@@ -167,7 +173,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
                             recyclerView1.setVisibility(View.VISIBLE);
                         }
 
-                        adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
+                        adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns,pointsRemaining,pointPerCoupon);
                         recyclerView1.setAdapter(adapter1);
                     }
 
@@ -192,7 +198,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
                             lblNoRecord.setVisibility(View.GONE);
                             recyclerView1.setVisibility(View.VISIBLE);
                         }
-                        adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
+                        adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns,pointsRemaining,pointPerCoupon);
                         recyclerView1.setAdapter(adapter1);
                     }
 
@@ -229,7 +235,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
                                     lblNoRecord.setVisibility(View.GONE);
                                     recyclerView1.setVisibility(View.VISIBLE);
                                 }
-                                adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
+                                adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns,pointsRemaining,pointPerCoupon);
                                 recyclerView1.setAdapter(adapter1);
                             }
 
@@ -255,7 +261,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
                                 }
                                 originalSummaryList = new ArrayList<>(campaigns);
 
-                                adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns);
+                                adapter1 = new CouponSummaryAdapter(CouponMainClassActivity.this, campaigns,pointsRemaining,pointPerCoupon);
                                 recyclerView1.setAdapter(adapter1);
                             }
 
