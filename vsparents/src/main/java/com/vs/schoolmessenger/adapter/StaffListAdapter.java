@@ -87,6 +87,20 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.MyVi
         holder.lblStaffName.setText(staffs.getStaffName());
         holder.lblStaffRole.setText(staffs.getStaffRole());
         holder.lblStaffDesignation.setText(staffs.getDesignation());
+
+        if (staffs.getStaffRole().isEmpty() || staffs.getStaffRole().equals("")) {
+            holder.lblStaffRole.setVisibility(View.GONE);
+        } else {
+            holder.lblStaffRole.setVisibility(View.VISIBLE);
+        }
+
+        if (staffs.getDesignation().isEmpty() || staffs.getDesignation().equals("")) {
+            holder.lblStaffDesignation.setVisibility(View.GONE);
+        } else {
+            holder.lblStaffDesignation.setVisibility(View.VISIBLE);
+        }
+
+
         if (staffs.getStaffType().equals("Authorized Caller") && !isVoiceSending) {
             holder.lblAuthorizedCaller.setVisibility(View.VISIBLE);
         } else {

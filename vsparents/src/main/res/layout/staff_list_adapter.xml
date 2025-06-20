@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblStaffName"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_toStartOf="@+id/check_staff"
                 android:text=""
@@ -46,6 +47,7 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_toStartOf="@+id/check_staff"
                 android:text=""
+                android:visibility="gone"
                 android:textColor="@color/gnt_gray"
                 android:textSize="13sp"
                 android:textStyle="normal" />
