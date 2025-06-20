@@ -33,8 +33,10 @@ import com.vs.schoolmessenger.SliderAdsImage.ShowAds;
 import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.TemplateView;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -276,6 +278,7 @@ public class ApplyLeave extends AppCompatActivity implements CalendarDatePickerD
 
                         if (strStatus.equals("1")) {
                             showRecords(strMessage);
+                            AddCouponPoints.addPoints(ApplyLeave.this, Util_Common.APPLY_LEAVE_POINTS);
                         } else {
                             showRecords(strMessage);
                         }

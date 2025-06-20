@@ -45,8 +45,10 @@ import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.TemplateView;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -628,6 +630,9 @@ public class VoiceCircular extends AppCompatActivity {
                             arrayList.addAll(msgModelList);
                             voiceAdapter.notifyDataSetChanged();
 
+                            AddCouponPoints.addPoints(VoiceCircular.this, Util_Common.VOICE_POINTS);
+
+
                         } else {
                             showAlertRecords(strMessage);
                         }
@@ -722,6 +727,7 @@ public class VoiceCircular extends AppCompatActivity {
                         arrayList.addAll(msgModelList);
 
                         voiceAdapter.notifyDataSetChanged();
+                        AddCouponPoints.addPoints(VoiceCircular.this, Util_Common.HOMEWORK_POINTS);
 
 
                     } else {

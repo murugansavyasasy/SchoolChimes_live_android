@@ -22,11 +22,14 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.activity.TextCircular;
 import com.vs.schoolmessenger.adapter.TextCircularListAdapternew;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -267,6 +270,9 @@ public class EventsFragment extends Fragment {
                                     arrayList = new ArrayList<>();
                                     arrayList.addAll(msgModelList);
                                     mAdapter.notifyDataSetChanged();
+
+                                    AddCouponPoints.addPoints(getActivity(), Util_Common.VIEW_EVENTS_POINTS);
+
 
                                 } else {
 

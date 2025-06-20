@@ -49,8 +49,10 @@ import com.vs.schoolmessenger.model.ExamDateListClass;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.model.TeacherMessageModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.TemplateView;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_JsonRequest;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
@@ -562,6 +564,8 @@ public class TextCircular extends AppCompatActivity {
 
                             textAdapter.notifyDataSetChanged();
 
+                            AddCouponPoints.addPoints(TextCircular.this, Util_Common.TEXT_POINTS);
+
                         } else {
                             showAlertRecords(strMessage);
                         }
@@ -661,8 +665,12 @@ public class TextCircular extends AppCompatActivity {
                                 subjects = new ArrayList<>();
                                 subjects.addAll(exams);
                                 mAdapter.notifyDataSetChanged();
+                                AddCouponPoints.addPoints(TextCircular.this, Util_Common.VIEW_EXAM_SCHUDLE_POINTS);
+
 
                             }
+
+
                         }
                     } else {
                         showAlertRecords(getResources().getString(R.string.no_records));
@@ -867,6 +875,8 @@ public class TextCircular extends AppCompatActivity {
 
                             tvadapter.notifyDataSetChanged();
 
+                            AddCouponPoints.addPoints(TextCircular.this, Util_Common.VIEW_EVENTS_POINTS);
+
                         } else {
                             showAlertRecords(strMessage);
                         }
@@ -987,6 +997,8 @@ public class TextCircular extends AppCompatActivity {
                         arrayList = new ArrayList<>();
                         arrayList.addAll(msgModelList);
                         textAdapter.notifyDataSetChanged();
+
+                        AddCouponPoints.addPoints(TextCircular.this, Util_Common.HOMEWORK_POINTS);
 
 
                     } else {

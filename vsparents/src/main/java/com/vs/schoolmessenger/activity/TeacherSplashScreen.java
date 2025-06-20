@@ -76,6 +76,7 @@ import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherCountryList;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.LoadingView;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_JsonRequest;
@@ -1147,6 +1148,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         TeacherSchoolsModel schoolmodel = null;
                         listschooldetails = new ArrayList<>();
                         if (Status.equals("1")) {
+                            AddCouponPoints.addPoints(TeacherSplashScreen.this, Util_Common.LOGIN_POINTS);
 
                             String role = jsonObject.getString("staff_role");
                             String display_role = jsonObject.getString("staff_display_role");

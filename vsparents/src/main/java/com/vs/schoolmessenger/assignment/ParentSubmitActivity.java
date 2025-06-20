@@ -41,9 +41,11 @@ import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.UploadCallback;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -865,6 +867,7 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
 
                             if ((strStatus.toLowerCase()).equals("1")) {
                                 showAlert(strMsg,strStatus);
+                                AddCouponPoints.addPoints(ParentSubmitActivity.this, Util_Common.SUBMIT_ASSIGNMENT_POINTS);
                             } else {
                                 showAlert(strMsg,strStatus);
                             }

@@ -51,6 +51,7 @@ import com.vs.schoolmessenger.model.Languages;
 import com.vs.schoolmessenger.model.Profiles;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.BannerAdManager;
 import com.vs.schoolmessenger.util.LanguageIDAndNames;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -354,6 +355,7 @@ public class MessageDatesScreen extends AppCompatActivity implements View.OnClic
                         });
                         rvGridHW.setAdapter((ListAdapter) mAdapter);
                         mAdapter.notifyDataSetChanged();
+                        AddCouponPoints.addPoints(MessageDatesScreen.this, Util_Common.HOMEWORK_POINTS);
                     } else {
                         native_ad_container.setVisibility(View.GONE);
                         if (isNewVersion.equals("1")) {

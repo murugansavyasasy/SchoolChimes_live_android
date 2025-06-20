@@ -1000,5 +1000,8 @@ public interface TeacherMessengerApiInterface {
                                        @Query("bucketPath") String bucketPath,
                                        @Query("fileType") String fileType);
 
+    @POST("credit-points-to-student")
+    Call<JsonObject> addPoints(@Body JsonObject jsonObject);
+
 }
 

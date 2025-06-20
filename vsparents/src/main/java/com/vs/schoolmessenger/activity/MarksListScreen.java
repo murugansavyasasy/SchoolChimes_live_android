@@ -24,7 +24,9 @@ import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.SubjectAndMarkList;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import org.json.JSONArray;
@@ -152,6 +154,7 @@ public class MarksListScreen extends AppCompatActivity {
 
                                     Log.d("size1234", String.valueOf(mark_list_item.size()));
                                     mAdapter.notifyDataSetChanged();
+                                    AddCouponPoints.addPoints(MarksListScreen.this, Util_Common.VIEW_EXAM_MARK_POINTS);
                                 }
                             }
 

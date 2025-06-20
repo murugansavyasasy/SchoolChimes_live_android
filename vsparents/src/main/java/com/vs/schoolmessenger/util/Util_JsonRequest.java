@@ -168,11 +168,18 @@ public class Util_JsonRequest {
 
     public static JsonObject getJsonArray_ReadStatusUpdate(String id, String childID, String schoolID, String type, String date) {
         JsonObject jsonObject = new JsonObject();
-
         jsonObject.addProperty("ID", id);
         jsonObject.addProperty("Type", type);
 
         Log.d("JsonReq:RdStatusUpdate", jsonObject.toString());
+        return jsonObject;
+    }
+
+    public static JsonObject getJsonArray_addPoints(String mobile_number, String activity_name) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("mobile_number", mobile_number);
+        jsonObject.addProperty("activity", activity_name);
+        Log.d("JsonReq:addPoints", jsonObject.toString());
         return jsonObject;
     }
 
