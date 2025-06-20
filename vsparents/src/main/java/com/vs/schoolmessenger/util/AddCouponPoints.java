@@ -29,33 +29,31 @@ public class AddCouponPoints {
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
         JsonObject jsonReqArray = Util_JsonRequest.getJsonArray_addPoints(MOBILE_NUMBER, activity_name);
 
-        Call<JsonArray> call;
+        Call<JsonObject> call;
         call = apiService.addPoints(jsonReqArray);
 
-        call.enqueue(new Callback<JsonArray>() {
+        call.enqueue(new Callback<JsonObject>() {
 
             @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d("Msg:Code", response.code() + " - " + response.toString());
                 if (response.code() == 200 || response.code() == 201)
                     Log.d("Msg:Res", response.body().toString());
 
                 try {
-                    JSONArray js = new JSONArray(response.body().toString());
-                    if (js.length() > 0) {
-                        JSONObject jsonObject = js.getJSONObject(0);
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
                         String strStatus = jsonObject.getString("status");
                         String strMsg = jsonObject.getString("message");
                         Toast.makeText(activity, strMsg, Toast.LENGTH_SHORT).show();
 
-                    }
+
                 } catch (Exception e) {
                     Log.d("Ex", e.toString());
                 }
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("Msg:Failure", t.toString());
             }
         });

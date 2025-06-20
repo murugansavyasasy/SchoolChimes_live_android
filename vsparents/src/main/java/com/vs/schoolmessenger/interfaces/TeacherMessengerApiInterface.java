@@ -1001,7 +1001,7 @@ public interface TeacherMessengerApiInterface {
                                        @Query("fileType") String fileType);
 
     @POST("credit-points-to-student")
-    Call<JsonArray> addPoints(@Body JsonObject jsonObject);
+    Call<JsonObject> addPoints(@Body JsonObject jsonObject);
 
 }
 
