@@ -130,7 +130,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                     ActivateCouponSummary activatecouponlist = activatelist.get(0);
 
                     TextView headertext = findViewById(R.id.header_textview);
-                     offer_text = findViewById(R.id.offer_text);
+                    offer_text = findViewById(R.id.offer_text);
                     TextView offer_text1 = findViewById(R.id.offer_text1);
                     TextView offer_text4 = findViewById(R.id.offer_text4);
                     TextView expandable_text = findViewById(R.id.expandable_text);
@@ -261,41 +261,46 @@ public class BottomSheetActivity extends AppCompatActivity {
         imagetopleft.setOnClickListener(view -> onBackPressed());
 
 
-
-
-
         rememberSymbol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isExpanded) {
-                    expandableText.setVisibility(View.GONE);
-                    rememberSymbol.setImageResource(R.drawable.ic_down_black);
-                } else {
+                if (!isExpanded) {
                     expandableText.setVisibility(View.VISIBLE);
                     rememberSymbol.setImageResource(R.drawable.ic_up_arrow);
+
+                    expandabletext1.setVisibility(View.GONE);
+                    remembersymbol1.setImageResource(R.drawable.ic_down_black);
+                    isExpanded1 = false;
+                } else {
+                    expandableText.setVisibility(View.GONE);
+                    rememberSymbol.setImageResource(R.drawable.ic_down_black);
                 }
                 isExpanded = !isExpanded;
             }
         });
 
-        remembersymbol1.setOnClickListener((new View.OnClickListener() {
+        remembersymbol1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isExpanded1) {
-                    expandabletext1.setVisibility(View.GONE);
-                    remembersymbol1.setImageResource(R.drawable.ic_down_black);
-                } else {
+                if (!isExpanded1) {
                     expandabletext1.setVisibility(View.VISIBLE);
                     remembersymbol1.setImageResource(R.drawable.ic_up_arrow);
+
+                    expandableText.setVisibility(View.GONE);
+                    rememberSymbol.setImageResource(R.drawable.ic_down_black);
+                    isExpanded = false;
+                } else {
+                    expandabletext1.setVisibility(View.GONE);
+                    remembersymbol1.setImageResource(R.drawable.ic_down_black);
                 }
                 isExpanded1 = !isExpanded1;
             }
-        }));
+        });
     }
 
 
 
-    private String convertHtmlToBullets(String htmlContent) {
+        private String convertHtmlToBullets(String htmlContent) {
         String cleaned = Html.fromHtml(htmlContent, Html.FROM_HTML_MODE_COMPACT).toString();
 
         String[] lines = cleaned.split("\\n|(?<=\\.)\\s*");

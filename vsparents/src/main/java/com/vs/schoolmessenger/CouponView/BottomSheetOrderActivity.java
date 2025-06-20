@@ -185,16 +185,47 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+
+
         remembersymbol1.setOnClickListener(v -> {
-            if (isExpanded1) {
-                expandableText.setVisibility(View.GONE);
-                remembersymbol1.setImageResource(R.drawable.ic_down_black);
-            } else {
+            if (!isExpanded1) {
+                // Expand first, collapse second
                 expandableText.setVisibility(View.VISIBLE);
                 remembersymbol1.setImageResource(R.drawable.ic_up_arrow);
+
+                expandabletext5.setVisibility(View.GONE);
+                rememberSymbol2.setImageResource(R.drawable.ic_down_black);
+                isExpanded2 = false;
+            } else {
+                expandableText.setVisibility(View.GONE);
+                remembersymbol1.setImageResource(R.drawable.ic_down_black);
             }
             isExpanded1 = !isExpanded1;
         });
+
+        rememberSymbol2.setOnClickListener(v -> {
+            if (!isExpanded2) {
+                // Expand second, collapse first
+                expandabletext5.setVisibility(View.VISIBLE);
+                rememberSymbol2.setImageResource(R.drawable.ic_up_arrow);
+
+                expandableText.setVisibility(View.GONE);
+                remembersymbol1.setImageResource(R.drawable.ic_down_black);
+                isExpanded1 = false;
+            } else {
+                expandabletext5.setVisibility(View.GONE);
+                rememberSymbol2.setImageResource(R.drawable.ic_down_black);
+            }
+            isExpanded2 = !isExpanded2;
+        });
+
+
+
+
+        imagetopleft.setOnClickListener(view -> onBackPressed());
+
+
+
 
         copylinearlayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,35 +233,6 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
                 copyTextToClipboard();
             }
         });
-
-        rememberSymbol2.setOnClickListener(v -> {
-            if (isExpanded2) {
-                expandabletext5.setVisibility(View.GONE);
-                rememberSymbol2.setImageResource(R.drawable.ic_down_black);
-            } else {
-                expandabletext5.setVisibility(View.VISIBLE);
-                rememberSymbol2.setImageResource(R.drawable.ic_up_arrow);
-            }
-        });
-
-        imagetopleft.setOnClickListener(view -> onBackPressed());
-
-
-        rememberSymbol2.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isExpanded2) {
-                    expandabletext5.setVisibility(View.GONE);
-                    rememberSymbol2.setImageResource(R.drawable.ic_down_black);
-                } else {
-                    expandabletext5.setVisibility(View.VISIBLE);
-                    rememberSymbol2.setImageResource(R.drawable.ic_up_arrow);
-                }
-                isExpanded2 = !isExpanded2;
-            }
-        }));
-
-
     }
 
     private void copyTextToClipboard() {
