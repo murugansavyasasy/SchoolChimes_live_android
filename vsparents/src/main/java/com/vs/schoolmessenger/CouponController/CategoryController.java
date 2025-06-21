@@ -34,6 +34,7 @@ public class CategoryController {
     private Context context;
     private CouponAPIServiceInterface defaultApiService;
     private CouponAPIServiceInterface dynamicApiService;
+    private CouponAPIServiceInterface reportingURLService;
 
     String MOBILE_NUMBER;
     private static final String PARTNER_NAME = "savyasasy";
@@ -50,12 +51,14 @@ public class CategoryController {
         defaultApiService = CouponRetrofitNetworkCall.getClient().create(CouponAPIServiceInterface.class);
 
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(context);
+        String reportURL = TeacherUtil_SharedPreference.getReportURL(context);
         dynamicApiService = CouponRetrofitNetworkCall.getClientWithBaseUrl(baseURL).create(CouponAPIServiceInterface.class);
+        reportingURLService = CouponRetrofitNetworkCall.getClientWithBaseUrl(reportURL).create(CouponAPIServiceInterface.class);
     }
 
 
     public void fetchCoinDetails(final PointsCouponCallback callback) {
-        Call<PointsResponse> call = dynamicApiService.getPointsCoupons(
+        Call<PointsResponse> call = reportingURLService.getPointsCoupons(
                 USER_TYPE,
                 MOBILE_NUMBER
         );
@@ -68,13 +71,19 @@ public class CategoryController {
                     PointsData pointsData = response.body().getData();
                     Log.d("CategoryController", "Raw Response: " + new Gson().toJson(response.body()));
 
-                    if (pointsData != null) {
-                        Log.d("CategoryController", "Points Earned: " + pointsData.getPointsEarned());
-                        Log.d("CategoryController", "Points Spent: " + pointsData.getPointsSpent());
-                        Log.d("CategoryController", "Points Remaining: " + pointsData.getPointsRemaining());
-                        callback.onSuccess(pointsData);
-                    } else {
-                        Log.e("CategoryController", "PointsData is null");
+                    if(response.body().getStatus() == 1) {
+                        if (pointsData != null) {
+                            Log.d("CategoryController", "Points Earned: " + pointsData.getPointsEarned());
+                            Log.d("CategoryController", "Points Spent: " + pointsData.getPointsSpent());
+                            Log.d("CategoryController", "Points Remaining: " + pointsData.getPointsRemaining());
+                            callback.onSuccess(pointsData);
+
+                        } else {
+                            Log.e("CategoryController", "PointsData is null");
+                            callback.onFailure("No points data found.");
+                        }
+                    }
+                    else {
                         callback.onFailure("No points data found.");
                     }
                 } else {

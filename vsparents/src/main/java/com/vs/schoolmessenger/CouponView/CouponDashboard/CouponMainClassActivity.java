@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
 
     ProgressBar isProgressBar;
     TextView lblNoRecord, text_view;
+    LinearLayout lnrPoints;
     int blueColor;
     int defaultColor;
     private List<Summary> originalSummaryList = new ArrayList<>();
@@ -70,6 +72,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
         isProgressBar = findViewById(R.id.isProgressBar);
         lblNoRecord = findViewById(R.id.lblNoRecord);
         text_view = findViewById(R.id.text_view);
+        lnrPoints = findViewById(R.id.lnrPoints);
 
         blueColor = ContextCompat.getColor(this, R.color.gnt_blue);
         defaultColor = ContextCompat.getColor(this, R.color.gnt_gray);
@@ -138,6 +141,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
             @Override
             public void onSuccess(PointsData pointsData) {
                 if (pointsData != null) {
+                    lnrPoints.setVisibility(View.VISIBLE);
                     totalcoins.setText("" + pointsData.getPointsEarned());
                     usedcoins.setText("Used: " + pointsData.getPointsSpent());
                     availablecoins.setText("Available: " + pointsData.getPointsRemaining());
@@ -145,6 +149,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
                     pointsRemaining = pointsData.getPointsRemaining();
                     pointPerCoupon = pointsData.getPointsPerCoupon();
                 } else {
+                    lnrPoints.setVisibility(View.GONE);
                     Toast.makeText(CouponMainClassActivity.this, "No point data available", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -152,6 +157,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String errorMessage) {
+                lnrPoints.setVisibility(View.GONE);
                 Toast.makeText(CouponMainClassActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
