@@ -195,7 +195,7 @@ public class BottomSheetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (pointsRemaining < pointPerCoupon) {
-                    Toast.makeText(BottomSheetActivity.this, "You don’t have enough points to activate the coupon. Please explore our app to earn more points.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BottomSheetActivity.this, "You need more points!.Use the app to keep earning points", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
