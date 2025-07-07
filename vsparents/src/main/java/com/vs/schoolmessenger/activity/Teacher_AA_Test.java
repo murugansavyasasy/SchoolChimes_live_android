@@ -932,7 +932,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
                             Collections.addAll(isPrincipalMenuNames, name);
 
-                            isPrincipalMenuNames.add("Rewards_36");
+//                            isPrincipalMenuNames.add("Rewards_36");
 
 
                             getNewUpdates(false);
