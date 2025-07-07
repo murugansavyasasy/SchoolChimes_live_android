@@ -103,31 +103,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btn_activate_coupon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Redeem Now"
-                    android:textColor="@android:color/black"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:visibility="visible"
-                    android:textSize="17sp"
-                    android:layout_alignStart="@+id/linearlayout"
-                    android:layout_alignEnd="@+id/linearlayout"
-                    android:gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_background_coupon"
-                    android:layout_marginBottom="13dp"
-                    android:layout_gravity="bottom"
-                    />
+
 
 
                 <LinearLayout
-                    android:id="@+id/linearlayout"
+                    android:id="@+id/linearlayout2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="70dp"
+                    android:layout_margin="30dp"
                     android:background="@drawable/dashed_bordercouponview"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -153,6 +136,23 @@
                         android:src="@drawable/copy" />
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/btn_activate_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Redeem Now"
+                    android:textColor="@android:color/black"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    android:textSize="17sp"
+                    android:layout_below="@+id/linearlayout2"
+                    android:layout_alignStart="@+id/linearlayout2"
+                    android:layout_alignEnd="@+id/linearlayout2"
+                    android:gravity="center"
+                    android:background="@drawable/bg_background_coupon"
+                    android:layout_gravity="bottom"
+                    />
 
             </RelativeLayout>
 
