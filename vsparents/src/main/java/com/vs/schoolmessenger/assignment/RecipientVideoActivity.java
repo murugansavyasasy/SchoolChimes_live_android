@@ -34,6 +34,7 @@ import com.vs.schoolmessenger.model.TeacherSectionsListNEW;
 import com.vs.schoolmessenger.model.TeacherStandardSectionsListModel;
 import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -798,6 +799,8 @@ public class RecipientVideoActivity extends AppCompatActivity implements VimeoUp
 
                             if ((strStatus.toLowerCase()).equals("1")) {
                                 showAlertfinal(strMsg, strStatus);
+                                AddCouponPoints.addPoints(RecipientVideoActivity.this, Util_Common.SEND_VIDEO_POINTS);
+
 
                             } else {
                                 showAlertfinal(strMsg, strStatus);

@@ -34,8 +34,10 @@ import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherSectionsListNEW;
 import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -250,6 +252,8 @@ public class SubjectListScreen extends AppCompatActivity implements SubjecstList
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(SubjectListScreen.this, Util_Common.SEND_EXAM_POINTS);
+
 
                             } else {
                                 showAlert(strMsg);

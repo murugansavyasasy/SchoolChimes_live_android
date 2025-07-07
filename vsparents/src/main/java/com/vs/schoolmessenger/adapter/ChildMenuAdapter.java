@@ -68,6 +68,7 @@ import com.vs.schoolmessenger.payment.FeesTab;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.Util_SharedPreference;
 
 import java.util.ArrayList;
@@ -363,11 +364,11 @@ public class ChildMenuAdapter extends ArrayAdapter {
     }
 
     private void setUnReadCount(String unReadCount, TextView lblUnreadCount) {
-//        if (!unReadCount.equals("0")) {
-//            lblUnreadCount.setVisibility(View.VISIBLE);
-//        } else {
-//            lblUnreadCount.setVisibility(View.INVISIBLE);
-//        }
+        if (!unReadCount.equals("0")) {
+            lblUnreadCount.setVisibility(View.VISIBLE);
+        } else {
+            lblUnreadCount.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void menuOnClick(String MenuName) {
@@ -849,6 +850,7 @@ public class ChildMenuAdapter extends ArrayAdapter {
             context.startActivity(inNext);
         } else if (substring1.equals("_27")) {
             Constants.Menu_ID = menuIDTwo;
+            Util_Common.USER_TYPE = 1;
             Intent inNext = new Intent(context, CouponMainClassActivity.class);
             context.startActivity(inNext);
         }

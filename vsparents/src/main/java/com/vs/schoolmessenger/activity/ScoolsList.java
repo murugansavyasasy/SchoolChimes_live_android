@@ -28,6 +28,7 @@ import com.vs.schoolmessenger.interfaces.SchoolsListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 
@@ -243,6 +244,8 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(ScoolsList.this, Util_Common.SEND_VOICE_POINTS);
+
 
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -361,6 +364,8 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(ScoolsList.this, Util_Common.SEND_VOICE_POINTS);
+
 
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -480,6 +485,8 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(ScoolsList.this, Util_Common.SEND_VOICE_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -611,6 +618,7 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(ScoolsList.this, Util_Common.SEND_VOICE_POINTS);
 
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -735,6 +743,8 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(ScoolsList.this, Util_Common.SEND_VOICE_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -859,6 +869,8 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(ScoolsList.this, Util_Common.SEND_VOICE_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -962,9 +974,9 @@ public class ScoolsList extends AppCompatActivity implements SchoolsListener {
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
                             if ((strStatus).equalsIgnoreCase("1")) {
-
-
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(ScoolsList.this, Util_Common.SEND_TEXT_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }

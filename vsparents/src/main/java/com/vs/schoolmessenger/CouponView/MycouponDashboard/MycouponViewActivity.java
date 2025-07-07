@@ -4,15 +4,28 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,15 +46,19 @@ public class MycouponViewActivity extends AppCompatActivity {
     private String expiry_date, expiry_type;
     private String offer_to_show;
     private String how_to_use;
+    private String CTAredirect;
 
     ImageView copyIcon;
     private String coupon_code;
+    private String coupon_status;
+    private Button btn_activate_coupon;
     TextView header, lblAddress, lblLocationName, lblValidUnit;
     TextView offer, description, couponCode;
     ImageView logo;
     String cover_image;
     String merchant_logo;
     ArrayList<String> isLocationDetails;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +69,13 @@ public class MycouponViewActivity extends AppCompatActivity {
         header = findViewById(R.id.header);
         offer = findViewById(R.id.offer);
         description = findViewById(R.id.description);
-        couponCode =findViewById(R.id.couponCode);
+        couponCode = findViewById(R.id.couponCode);
         lblAddress = findViewById(R.id.lblAddress);
         lblLocationName = findViewById(R.id.lblLocationName);
         lblValidUnit = findViewById(R.id.lblValidUnit);
         logo = findViewById(R.id.logo);
         copyIcon = findViewById(R.id.copyIcon);
+        btn_activate_coupon = findViewById(R.id.btn_activate_coupon);
 
         merchant_name = getIntent().getStringExtra("merchant_name");
         expiry_date = getIntent().getStringExtra("expiry_date");
@@ -67,6 +85,18 @@ public class MycouponViewActivity extends AppCompatActivity {
         coupon_code = getIntent().getStringExtra("coupon_code");
         cover_image = getIntent().getStringExtra("cover_image");
         merchant_logo = getIntent().getStringExtra("merchant_logo");
+        coupon_status = getIntent().getStringExtra("coupon_status");
+        CTAredirect = getIntent().getStringExtra("CTAredirect");
+        Log.d("coupon_status",coupon_status);
+
+        if ("activated".equals(coupon_status)) {
+            btn_activate_coupon.setVisibility(View.VISIBLE);
+        } else if ("expired".equals(coupon_status)) {
+            btn_activate_coupon.setVisibility(View.GONE);
+        } else {
+            btn_activate_coupon.setVisibility(View.GONE);
+        }
+
 
         List<TicketSummary.Location> receivedLocations = (List<TicketSummary.Location>) getIntent().getSerializableExtra("location_list");
         if (receivedLocations != null) {
@@ -95,6 +125,18 @@ public class MycouponViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 copyTextToClipboard();
+            }
+        });
+
+        btn_activate_coupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CTAredirect != null && !CTAredirect.isEmpty()) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(CTAredirect));
+                    startActivity(browserIntent);
+                } else {
+                    Log.d("Redirect Url",CTAredirect.toString());
+                }
             }
         });
     }
@@ -144,4 +186,7 @@ public class MycouponViewActivity extends AppCompatActivity {
         }
         return builder.toString().trim();
     }
+
+
+
 }

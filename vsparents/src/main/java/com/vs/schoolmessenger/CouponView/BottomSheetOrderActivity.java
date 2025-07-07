@@ -171,8 +171,8 @@ public class BottomSheetOrderActivity extends AppCompatActivity {
 
 
         btnactivatecoupon.setOnClickListener(v -> {
-            if (redirect_url != null && !redirect_url.isEmpty()) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(redirect_url));
+            if (CTAredirect != null && !CTAredirect.isEmpty()) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(CTAredirect));
                 startActivity(browserIntent);
             } else {
                 Toast.makeText(this, "No URL to redirect", Toast.LENGTH_SHORT).show();

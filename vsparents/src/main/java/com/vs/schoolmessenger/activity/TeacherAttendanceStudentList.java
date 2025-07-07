@@ -50,6 +50,7 @@ import com.vs.schoolmessenger.model.SubjectDetails;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherStudentsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -540,8 +541,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                                 String strMsg = jsonObject.getString("Message");
 
                                 if ((strStatus).equalsIgnoreCase("1")) {
-
                                     showAlert(strMsg);
+                                    AddCouponPoints.addPoints(TeacherAttendanceStudentList.this, Util_Common.SEND_ATTACHMENT_POINTS);
+
                                 } else {
                                     showAlert(strMsg);
                                 }
@@ -683,6 +685,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             String strMsg = jsonObject.getString("Message");
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherAttendanceStudentList.this, Util_Common.SEND_VOICE_POINTS);
                             } else {
                                 showAlert(strMsg);
                             }
@@ -810,9 +813,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             String strStatus = jsonObject.getString("Status");
                             String strMsg = jsonObject.getString("Message");
                             if ((strStatus).equalsIgnoreCase("1")) {
-
-
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherAttendanceStudentList.this, Util_Common.SEND_VOICE_POINTS);
                             } else {
                                 showAlert(strMsg);
                             }
@@ -954,8 +956,8 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus).equalsIgnoreCase("1")) {
-
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherAttendanceStudentList.this, Util_Common.SEND_TEXT_POINTS);
                             } else {
                                 showAlert(strMsg);
                             }
@@ -1101,8 +1103,9 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
 
                         if ((strStatus).equalsIgnoreCase("1")) {
-
                             showAlert(strMsg);
+                            AddCouponPoints.addPoints(TeacherAttendanceStudentList.this, Util_Common.SEND_ATTENDANCE_POINTS);
+
                         } else {
                             showAlert(strMsg);
                         }
@@ -1192,6 +1195,7 @@ public class TeacherAttendanceStudentList extends AppCompatActivity implements T
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherAttendanceStudentList.this, Util_Common.SEND_EXAM_POINTS);
                             } else {
                                 showAlert(strMsg);
                             }

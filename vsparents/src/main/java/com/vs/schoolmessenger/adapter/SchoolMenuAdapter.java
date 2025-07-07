@@ -68,6 +68,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.vs.schoolmessenger.BuildConfig;
+import com.vs.schoolmessenger.CouponView.CouponDashboard.CouponMainClassActivity;
 import com.vs.schoolmessenger.LessonPlan.Activity.LessonPlanActivity;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.DailyCollectionFee;
@@ -442,6 +443,14 @@ public class SchoolMenuAdapter extends ArrayAdapter {
             imgMenu.setVisibility(View.VISIBLE);
         }
 
+        if (isPrincipalMenuNames.get(position).contains("_36")) {
+            imgMenu.setImageResource(R.drawable.gift_voucher);
+            textView.setText(MenuName.substring(0, MenuName.length() - 3));
+            gifImage.setVisibility(View.GONE);
+            lblUnreadCount.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
+        }
+
         return v;
 
     }
@@ -558,6 +567,10 @@ public class SchoolMenuAdapter extends ArrayAdapter {
             goToNextScreen(MenuName);
 
         } else if (substring1.equals("_35")) {
+            goToNextScreen(MenuName);
+        }
+
+        else if (substring1.equals("_36")) {
             goToNextScreen(MenuName);
 
         }
@@ -1271,6 +1284,12 @@ public class SchoolMenuAdapter extends ArrayAdapter {
                 inVoice.putExtra("REQUEST_CODE", PRINCIPAL_NOTICEBOARD);
                 context.startActivity(inVoice);
             }
+        }
+
+        else if (substring1.equals("_36")) {
+            Util_Common.USER_TYPE = 2;
+            Intent inNext = new Intent(context, CouponMainClassActivity.class);
+            context.startActivity(inNext);
         }
     }
 }

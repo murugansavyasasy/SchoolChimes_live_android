@@ -67,6 +67,7 @@ import com.vs.schoolmessenger.model.TimeSlot;
 import com.vs.schoolmessenger.model.slotsTime;
 import com.vs.schoolmessenger.model.std_sec_details;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.TimeSlotGenerator;
@@ -1013,6 +1014,7 @@ public class NewSlotCreating extends AppCompatActivity implements OnSelectDateLi
                         if (status == 1) {
                             mProgressDialog.dismiss();
                             isSuccessPopup(message);
+                            AddCouponPoints.addPoints(NewSlotCreating.this, Util_Common.SEND_PTM_POINTS);
                         }
                     }
                 } catch (Exception e) {

@@ -74,6 +74,8 @@ public class TicketCouponAdapter extends RecyclerView.Adapter<TicketCouponAdapte
             intent.putExtra("expiry_date", ticketSummary.getExpiry_date());
             intent.putExtra("expiry_type", ticketSummary.getExpiry_type());
             intent.putExtra("merchant_logo", ticketSummary.getMerchant_logo());
+            intent.putExtra("CTAredirect", ticketSummary.getCTAredirect());
+            intent.putExtra("coupon_status", ticketSummary.getCoupon_status());
             intent.putExtra("location_list", new ArrayList<>(locationList));
             context.startActivity(intent);
         });

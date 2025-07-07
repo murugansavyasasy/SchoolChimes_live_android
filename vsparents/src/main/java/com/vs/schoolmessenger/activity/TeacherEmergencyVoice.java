@@ -94,6 +94,7 @@ import com.vs.schoolmessenger.interfaces.VoiceHistoryListener;
 import com.vs.schoolmessenger.model.MessageModel;
 import com.vs.schoolmessenger.model.TeacherSchoolsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -2044,6 +2045,8 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherEmergencyVoice.this, Util_Common.SEND_VOICE_POINTS);
+
 
                             } else {
                                 showAlert(strMsg);
@@ -2189,6 +2192,8 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherEmergencyVoice.this, Util_Common.SEND_VOICE_POINTS);
+
                             } else {
                                 showAlert(strMsg);
                             }
@@ -2306,6 +2311,8 @@ public class TeacherEmergencyVoice extends AppCompatActivity implements OnSelect
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherEmergencyVoice.this, Util_Common.SEND_VOICE_POINTS);
+
                             } else {
                                 showAlert(strMsg);
                             }

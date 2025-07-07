@@ -55,6 +55,7 @@ import com.vs.schoolmessenger.model.TeacherSectionsListNEW;
 import com.vs.schoolmessenger.model.TeacherStandardSectionsListModel;
 import com.vs.schoolmessenger.model.TeacherSubjectModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -680,6 +681,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             if ((strStatus).equalsIgnoreCase("1")) {
 
                                 showAlertForOnline(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_MEETING_POINTS);
                             } else {
                                 showAlertForOnline(strMsg, strStatus);
 
@@ -800,8 +802,9 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                                 String strStatus = jsonObject.getString("Status");
                                 String strMsg = jsonObject.getString("Message");
                                 if ((strStatus).equalsIgnoreCase("1")) {
-
                                     showAlert(strMsg, strStatus);
+                                    AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_ATTACHMENT_POINTS);
+
                                 } else {
                                     showAlert(strMsg, strStatus);
                                 }
@@ -1157,6 +1160,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_VOICE_POINTS);
+
 
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -1270,6 +1275,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_VOICE_POINTS);
+
 
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -1497,6 +1504,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_TEXT_POINTS);
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -1584,8 +1592,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus).equalsIgnoreCase("1")) {
-
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_TEXT_POINTS);
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -1694,6 +1702,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_VOICE_POINTS);
 
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -1811,6 +1820,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_VOICE_POINTS);
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -2106,6 +2116,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_EXAM_POINTS);
+
 
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -2236,6 +2248,8 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_EXAM_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -2389,6 +2403,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_HOMEWORK_POINTS);
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -2470,6 +2485,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                                 String strMsg = jsonObject.getString("Message");
                                 if ((strStatus).equalsIgnoreCase("1")) {
                                     showAlert(strMsg, strStatus);
+                                    AddCouponPoints.addPoints(TeacherStaffStandardSection.this, Util_Common.SEND_HOMEWORK_POINTS);
                                 } else {
                                     showAlert(strMsg, strStatus);
                                 }

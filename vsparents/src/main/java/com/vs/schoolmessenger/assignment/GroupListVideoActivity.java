@@ -34,6 +34,7 @@ import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.VimeoUploader;
@@ -643,6 +644,7 @@ public class GroupListVideoActivity extends AppCompatActivity implements VimeoUp
 
                             if ((strStatus.toLowerCase()).equals("1")) {
                                 showAlertfinal(strMsg, strStatus);
+                                AddCouponPoints.addPoints(GroupListVideoActivity.this, Util_Common.SEND_VIDEO_POINTS);
 
                             } else {
                                 showAlertfinal(strMsg, strStatus);

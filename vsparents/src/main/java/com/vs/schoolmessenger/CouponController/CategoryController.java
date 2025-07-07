@@ -20,6 +20,7 @@ import com.vs.schoolmessenger.CouponModel.TicketActivateCouponSummary.ActivateCo
 import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummary;
 import com.vs.schoolmessenger.CouponModel.TicketCouponSummary.TicketSummaryResponse;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class CategoryController {
 
     public void fetchCoinDetails(final PointsCouponCallback callback) {
         Call<PointsResponse> call = reportingURLService.getPointsCoupons(
-                USER_TYPE,
+                Util_Common.USER_TYPE,
                 MOBILE_NUMBER
         );
         Log.d("CategoryController", "Request URL: " + call.request().url().toString());
@@ -300,7 +301,7 @@ public class CategoryController {
         Log.d("CouponActivation", "Starting coupon activation process...");
         Log.d("CouponActivation", "Source Link: " + sourceLink);
 
-        int user_type = USER_TYPE;
+        int user_type = Util_Common.USER_TYPE;
         String mobile_number = MOBILE_NUMBER;
         int coupon_id = 0;
 

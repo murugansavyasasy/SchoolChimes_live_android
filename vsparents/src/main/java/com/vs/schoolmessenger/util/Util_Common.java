@@ -87,6 +87,7 @@ public class Util_Common {
     public static int isStaffMsgFromManagementCount = 0;
     public static MediaPlayer mediaPlayer = new MediaPlayer();
 
+    public static int USER_TYPE = 1;
 
 
     public static String VIEW_PROGRESS_CARD_POINTS  = "VIEW_PROGRESS_CARD";
@@ -105,6 +106,20 @@ public class Util_Common {
     public static String LOGIN_POINTS = "LOGIN";
     public static String TEXT_POINTS = "TEXT";
     public static String  VOICE_POINTS = "VOICE";
+
+
+    public static String  SEND_VOICE_POINTS = "SEND_VOICE";
+    public static String  SEND_TEXT_POINTS = "SEND_TEXT";
+    public static String  SEND_ATTACHMENT_POINTS = "SEND_ATTACHMENT";
+    public static String  SEND_HOMEWORK_POINTS = "SEND_HOMEWORK";
+    public static String  SEND_ASSIGNMENT_POINTS = "SEND_ASSIGNMENT";
+    public static String  SEND_VIDEO_POINTS = "SEND_VIDEO";
+    public static String  SEND_ATTENDANCE_POINTS = "SEND_ATTENDANCE";
+    public static String  SEND_MEETING_POINTS = "SEND_MEETING";
+    public static String  EDIT_LESSONPLAN_POINTS = "EDIT_LESSONPLAN";
+    public static String  SEND_EXAM_POINTS = "SEND_EXAM";
+    public static String  MARK_ATTENDANCE_POINTS = "MARK_ATTENDANCE";
+    public static String  SEND_PTM_POINTS = "SEND_PTM";
 
 
 

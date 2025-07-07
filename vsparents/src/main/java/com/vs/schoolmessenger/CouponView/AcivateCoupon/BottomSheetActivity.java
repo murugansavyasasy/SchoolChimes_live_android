@@ -170,7 +170,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                     termsAndConditions = activatecouponlist.getTerms_and_conditions();
 
                 } else {
-                    Toast.makeText(BottomSheetActivity.this, "No coupons available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BottomSheetActivity.this, "No rewards available", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -194,8 +194,8 @@ public class BottomSheetActivity extends AppCompatActivity {
         btnactivatecoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pointsRemaining < pointPerCoupon) {
-                    Toast.makeText(BottomSheetActivity.this, "You don’t have enough points to activate the coupon. Please explore our app to earn more points.", Toast.LENGTH_SHORT).show();
+                if (pointsRemaining < pointPerCoupon || pointsRemaining == 0) {
+                    Toast.makeText(BottomSheetActivity.this, "You need more points!.Use the app to keep earning points", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -242,7 +242,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                                 intent.putExtra("offer_show", offer_text.getText().toString());
                                 startActivity(intent);
                             } else {
-                                Toast.makeText(BottomSheetActivity.this, "No coupon found", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BottomSheetActivity.this, "No rewards found", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(BottomSheetActivity.this, "Coupon already activated", Toast.LENGTH_SHORT).show();
