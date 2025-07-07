@@ -36,6 +36,7 @@ import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -735,6 +736,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strStatus, strMsg);
+                                AddCouponPoints.addPoints(ToStaffGroupList.this, Util_Common.SEND_VOICE_POINTS);
                             } else {
                                 showAlert(strStatus, strMsg);
                             }
@@ -988,6 +990,8 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strStatus, strMsg);
+                                AddCouponPoints.addPoints(ToStaffGroupList.this, Util_Common.SEND_ATTACHMENT_POINTS);
+
                             } else {
                                 showAlert(strStatus, strMsg);
                             }
@@ -1096,6 +1100,7 @@ public class ToStaffGroupList extends AppCompatActivity implements VimeoUploader
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlertfinal(strMsg, strStatus);
+                                AddCouponPoints.addPoints(ToStaffGroupList.this, Util_Common.SEND_VIDEO_POINTS);
 
                             } else {
                                 showAlertfinal(strMsg, strStatus);

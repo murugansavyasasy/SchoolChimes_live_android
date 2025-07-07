@@ -24,8 +24,10 @@ import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -200,6 +202,8 @@ public class SendToTextSpecificSection extends AppCompatActivity implements View
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert1(strMsg, strStatus);
+                                AddCouponPoints.addPoints(SendToTextSpecificSection.this, Util_Common.SEND_TEXT_POINTS);
+
                             } else {
                                 showAlert1(strMsg, strStatus);
                             }

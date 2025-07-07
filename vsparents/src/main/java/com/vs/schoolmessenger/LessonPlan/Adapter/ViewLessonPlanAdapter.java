@@ -3,6 +3,7 @@ package com.vs.schoolmessenger.LessonPlan.Adapter;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.EditDataList;
 import static com.vs.schoolmessenger.util.TeacherUtil_Common.PRINCIPAL_LESSON_PLAN;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -38,8 +39,10 @@ import com.vs.schoolmessenger.interfaces.DatesListListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.DatesModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
+import com.vs.schoolmessenger.util.Util_Common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -439,6 +442,7 @@ public class ViewLessonPlanAdapter extends RecyclerView.Adapter<ViewLessonPlanAd
                                 lblCompleted.setTextColor(context.getResources().getColor(R.color.clr_green));
 
                             }
+
 
                         } else {
                             showAlertfinish(message);

@@ -179,6 +179,7 @@ public class Util_JsonRequest {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("mobile_number", mobile_number);
         jsonObject.addProperty("activity", activity_name);
+        jsonObject.addProperty("user_type", Util_Common.USER_TYPE);
         Log.d("JsonReq:addPoints", jsonObject.toString());
         return jsonObject;
     }

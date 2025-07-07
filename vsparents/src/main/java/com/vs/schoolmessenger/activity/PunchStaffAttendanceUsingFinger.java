@@ -54,6 +54,7 @@ import com.vs.schoolmessenger.model.StaffAttendanceBiometricReportRes;
 import com.vs.schoolmessenger.model.StaffBiometricLocationRes;
 import com.vs.schoolmessenger.model.monthsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.GPSStatusReceiver;
 import com.vs.schoolmessenger.util.LocationDistanceCalculator;
 import com.vs.schoolmessenger.util.LocationHelper;
@@ -703,6 +704,7 @@ public class PunchStaffAttendanceUsingFinger extends AppCompatActivity implement
                         String message = jsonObject.getString("message");
                         if (status == 1) {
                             showAlertMessage(message);
+                            AddCouponPoints.addPoints(PunchStaffAttendanceUsingFinger.this, Util_Common.MARK_ATTENDANCE_POINTS);
                         } else {
                             showAlertMessage(message);
                         }

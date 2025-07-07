@@ -36,6 +36,7 @@ import com.vs.schoolmessenger.interfaces.StaffListListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.StaffList;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 
@@ -313,6 +314,8 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(SendToStaff.this, Util_Common.SEND_VOICE_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -383,6 +386,8 @@ public class SendToStaff extends AppCompatActivity implements StaffListListener 
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(SendToStaff.this, Util_Common.SEND_VOICE_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }

@@ -37,6 +37,7 @@ import com.vs.schoolmessenger.app.LocaleHelper;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.Constants;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -450,6 +451,8 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlertForOnline(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TextStandardAndGroupList.this, Util_Common.SEND_MEETING_POINTS);
+
                             } else {
                                 showAlertForOnline(strMsg, strStatus);
                             }
@@ -631,8 +634,9 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus).equalsIgnoreCase("1")) {
-
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TextStandardAndGroupList.this, Util_Common.SEND_VOICE_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -773,6 +777,8 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TextStandardAndGroupList.this, Util_Common.SEND_VOICE_POINTS);
+
 
                             } else {
                                 showAlert(strMsg, strStatus);
@@ -928,6 +934,8 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TextStandardAndGroupList.this, Util_Common.SEND_TEXT_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -1036,6 +1044,8 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TextStandardAndGroupList.this, Util_Common.SEND_TEXT_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -1380,6 +1390,8 @@ public class TextStandardAndGroupList extends AppCompatActivity {
                             if ((strStatus).equalsIgnoreCase("1")) {
 
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TextStandardAndGroupList.this, Util_Common.SEND_ATTACHMENT_POINTS);
+
                             } else {
                                 showAlert(strMsg, strStatus);
                             }
@@ -1504,6 +1516,8 @@ public class TextStandardAndGroupList extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg, strStatus);
+                                AddCouponPoints.addPoints(TextStandardAndGroupList.this, Util_Common.SEND_ATTACHMENT_POINTS);
+
 
                             } else {
                                 showAlert(strMsg, strStatus);

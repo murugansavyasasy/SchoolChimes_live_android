@@ -266,8 +266,8 @@ public class ParentSubmitActivity extends AppCompatActivity implements CalendarD
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus.toLowerCase()).equals("1")) {
-
                                 showAlert(strMsg,strStatus);
+                                AddCouponPoints.addPoints(ParentSubmitActivity.this, Util_Common.SEND_ASSIGNMENT_POINTS);
                             } else {
                                 showAlert(strMsg,strStatus);
                             }

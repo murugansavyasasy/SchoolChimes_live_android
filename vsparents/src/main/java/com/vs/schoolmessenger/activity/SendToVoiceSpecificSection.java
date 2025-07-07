@@ -27,6 +27,7 @@ import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
@@ -341,8 +342,8 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
                                 String strMsg = jsonObject.getString("Message");
 
                                 if ((strStatus).equalsIgnoreCase("1")) {
-
                                     showAlert1(strMsg, strStatus);
+                                    AddCouponPoints.addPoints(SendToVoiceSpecificSection.this, Util_Common.SEND_ATTACHMENT_POINTS);
                                 } else {
                                     showAlert1(strMsg, strStatus);
                                 }
@@ -592,6 +593,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert1(strMsg, strStatus);
+                                AddCouponPoints.addPoints(SendToVoiceSpecificSection.this, Util_Common.SEND_VOICE_POINTS);
                             } else {
                                 showAlert1(strMsg, strStatus);
                             }
@@ -727,7 +729,7 @@ public class SendToVoiceSpecificSection extends AppCompatActivity implements Vie
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert1(strMsg, strStatus);
-
+                                AddCouponPoints.addPoints(SendToVoiceSpecificSection.this, Util_Common.SEND_VOICE_POINTS);
 
                             } else {
                                 showAlert1(strMsg, strStatus);

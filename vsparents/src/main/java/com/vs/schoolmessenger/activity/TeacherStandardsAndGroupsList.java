@@ -38,6 +38,7 @@ import com.vs.schoolmessenger.aws.AwsUploadingPreSigned;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.TeacherClassGroupModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.CurrentDatePicking;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.UploadCallback;
@@ -513,8 +514,8 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                                 String strMsg = jsonObject.getString("Message");
 
                                 if ((strStatus).equalsIgnoreCase("1")) {
-
                                     showAlert(strMsg);
+                                    AddCouponPoints.addPoints(TeacherStandardsAndGroupsList.this, Util_Common.SEND_ATTACHMENT_POINTS);
                                 } else {
                                     showAlert(strMsg);
                                 }
@@ -697,6 +698,8 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherStandardsAndGroupsList.this, Util_Common.SEND_VOICE_POINTS);
+
                             } else {
                                 showAlert(strMsg);
                             }
@@ -830,6 +833,8 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherStandardsAndGroupsList.this, Util_Common.SEND_VOICE_POINTS);
+
 
                             } else {
                                 showAlert(strMsg);
@@ -996,8 +1001,9 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
                             String strMsg = jsonObject.getString("Message");
 
                             if ((strStatus).equalsIgnoreCase("1")) {
-
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherStandardsAndGroupsList.this, Util_Common.SEND_TEXT_POINTS);
+
                             } else {
                                 showAlert(strMsg);
                             }
@@ -1098,6 +1104,8 @@ public class TeacherStandardsAndGroupsList extends AppCompatActivity {
 
                             if ((strStatus).equalsIgnoreCase("1")) {
                                 showAlert(strMsg);
+                                AddCouponPoints.addPoints(TeacherStandardsAndGroupsList.this, Util_Common.SEND_TEXT_POINTS);
+
                             } else {
                                 showAlert(strMsg);
                             }

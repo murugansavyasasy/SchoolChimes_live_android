@@ -164,7 +164,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
 
         CouponMenuAdapter.OnCategoryClickListener categoryClickListener = category -> {
             if (category.getId() == -1) {
-                text_view.setText("All Coupons");
+                text_view.setText("All Rewards");
                 isProgressBar.setVisibility(View.VISIBLE);
                 categoryController.fetchCouponSummary(new CategoryController.CouponSummaryCallback() {
                     @Override
@@ -190,7 +190,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
                 });
             } else {
                 isProgressBar.setVisibility(View.VISIBLE);
-                text_view.setText(category.getCategoryName() + " " + "Coupons");
+                text_view.setText(category.getCategoryName() + " " + "Rewards");
                 String categoryId = String.valueOf(category.getId());
                 categoryController.fetchCategoryCouponSummary(categoryId, new CategoryController.CategoryCouponSummaryCallback() {
                     @Override
@@ -222,14 +222,14 @@ public class CouponMainClassActivity extends AppCompatActivity {
                 Category hardcodedCategory = new Category();
                 hardcodedCategory.setId(-1);
                 hardcodedCategory.setCategoryName("All");
-                text_view.setText("All Coupons");
+                text_view.setText("All Rewards");
                 isProgressBar.setVisibility(View.GONE);
                 hardcodedCategory.setDrawableResId(R.drawable.allimage);
                 categories.add(0, hardcodedCategory);
 
                 adapter = new CouponMenuAdapter(CouponMainClassActivity.this, categories, 0, category -> {
                     if (category.getId() == -1) {
-                        text_view.setText("All Coupons");
+                        text_view.setText("All Rewards");
                         categoryController.fetchCouponSummary(new CategoryController.CouponSummaryCallback() {
                             @Override
                             public void onSuccess(List<Summary> campaigns) {
@@ -251,7 +251,7 @@ public class CouponMainClassActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        text_view.setText(category.getCategoryName() + " " + "Coupons");
+                        text_view.setText(category.getCategoryName() + " " + "Rewards");
                         isProgressBar.setVisibility(View.VISIBLE);
                         String categoryId = String.valueOf(category.getId());
                         categoryController.fetchCategoryCouponSummary(categoryId, new CategoryController.CategoryCouponSummaryCallback() {

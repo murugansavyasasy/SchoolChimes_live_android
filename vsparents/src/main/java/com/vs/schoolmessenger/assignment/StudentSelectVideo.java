@@ -36,6 +36,7 @@ import com.vs.schoolmessenger.interfaces.TeacherOnCheckStudentListener;
 import com.vs.schoolmessenger.model.TeacherSectionModel;
 import com.vs.schoolmessenger.model.TeacherStudentsModel;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
+import com.vs.schoolmessenger.util.AddCouponPoints;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 import com.vs.schoolmessenger.util.Util_Common;
 import com.vs.schoolmessenger.util.VimeoUploader;
@@ -613,6 +614,7 @@ public class StudentSelectVideo extends AppCompatActivity implements TeacherOnCh
 
                             if ((strStatus.toLowerCase()).equals("1")) {
                                 showAlertfinal(strMsg, strStatus);
+                                AddCouponPoints.addPoints(StudentSelectVideo.this, Util_Common.SEND_VIDEO_POINTS);
 
                             } else {
                                 showAlertfinal(strMsg, strStatus);

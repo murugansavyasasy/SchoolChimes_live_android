@@ -169,6 +169,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             TeacherUtil_SharedPreference.putChildItems(HomeActivity.this, childItem, "childItem");
         }
 
+        Util_Common.USER_TYPE = 1;
+
         childItem = TeacherUtil_SharedPreference.getChildItems(HomeActivity.this, "childItem");
         Util_SharedPreference.putSelecedChildInfoToSP(HomeActivity.this, childItem.getChildID(), childItem.getChildName(), childItem.getSchoolID(),
                 childItem.getSchoolName(), childItem.getSchoolNameRegional(), childItem.getSchoolAddress(), childItem.getSchoolThumbnailImgUrl(), childItem.getStandard(), childItem.getSection());

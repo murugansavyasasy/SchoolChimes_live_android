@@ -174,6 +174,8 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
 
         isProgressBar = (ProgressBar) findViewById(R.id.isProgressBar);
         isProgressBar.setVisibility(View.VISIBLE);
+        Util_Common.USER_TYPE = 2;
+
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -929,6 +931,9 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
                             isPrincipalMenuNames.clear();
 
                             Collections.addAll(isPrincipalMenuNames, name);
+
+                            isPrincipalMenuNames.add("Rewards_36");
+
 
                             getNewUpdates(false);
 
