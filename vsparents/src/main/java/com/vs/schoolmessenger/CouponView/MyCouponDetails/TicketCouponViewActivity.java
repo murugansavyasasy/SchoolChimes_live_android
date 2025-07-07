@@ -49,8 +49,6 @@ public class TicketCouponViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ticket_coupon);
 
-
-
         btnHome = findViewById(R.id.btnHome);
         back = findViewById(R.id.back);
         backtext = findViewById(R.id.backtext);

@@ -225,7 +225,6 @@ public class BottomSheetActivity extends AppCompatActivity {
                                         Log.e("BottomSheetActivity", "Second API failed: " + errorMessage);
                                     }
                                 });
-
                                 Intent intent = new Intent(BottomSheetActivity.this, BottomSheetOrderActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("offer", offer);

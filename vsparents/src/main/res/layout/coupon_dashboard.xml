@@ -101,7 +101,7 @@
                         android:id="@+id/usedcoins"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="Used: 17000"
                         android:textColor="#9E9E9E"
                         android:textSize="14sp"
                         android:textStyle="normal" />
@@ -111,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:text=""
+                        android:text="Available: 37800"
                         android:textColor="#9E9E9E"
                         android:textSize="14sp"
                         android:textStyle="normal" />
