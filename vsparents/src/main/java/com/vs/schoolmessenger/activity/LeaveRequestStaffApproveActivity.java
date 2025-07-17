@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,12 @@ import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
 
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
@@ -45,45 +52,52 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.enter, R.anim.exit);
-        setContentView(R.layout.popup_leave_history);
+//        setContentView(R.layout.popup_leave_history);
+        setContentView(R.layout.levae_approval_item);
 
         history = (LeaveRequestDetails) getIntent().getSerializableExtra("history");
 
 
-        TextView lblPopupName = (TextView) findViewById(R.id.lblPopupName);
-        TextView lblPopupStandard = (TextView) findViewById(R.id.lblPopupStandard);
-        TextView lblPopupSection = (TextView) findViewById(R.id.lblPopupSection);
-        TextView lblPopupAppliedOn = (TextView) findViewById(R.id.lblPopupAppliedOn);
-        TextView lblPopupFromDate = (TextView) findViewById(R.id.lblPopupFromDate);
-        TextView lblPopupToDate = (TextView) findViewById(R.id.lblPopupToDate);
-        TextView lblPopupReason = (TextView) findViewById(R.id.lblPopupReason);
-        ImageView btn_ok = (ImageView) findViewById(R.id.btn_ok);
+        TextView tvName = (TextView) findViewById(R.id.tvName);
+        TextView tvStandard = (TextView) findViewById(R.id.tvStandard);
+        TextView isLeaveApplyOn = (TextView) findViewById(R.id.isLeaveApplyOn);
+        TextView lblFromDate = (TextView) findViewById(R.id.lblFromDate);
+        TextView lblToDate = (TextView) findViewById(R.id.lblToDate);
+        TextView lblReason = (TextView) findViewById(R.id.lblReason);
         TextView btnPopupApprove = (Button) findViewById(R.id.btnPopupApprove);
         TextView btnPopupDecline = (Button) findViewById(R.id.btnPopupDecline);
-        final EditText Reason = (EditText) findViewById(R.id.txtReason);
+        TextView lblDays = (TextView) findViewById(R.id.lblDays);
+        TextView lblApprovalBy = (TextView) findViewById(R.id.lblApprovalBy);
+        LinearLayout lytApprovalBy = (LinearLayout) findViewById(R.id.lytApprovalBy);
+        ImageView btn_ok = (ImageView) findViewById(R.id.btn_ok);
+        EditText Reason = (EditText) findViewById(R.id.txtReason);
 
         if (history.getLoginType()) {
             if (history.getApproved().equals("0")) {
                 btnPopupApprove.setVisibility(View.VISIBLE);
                 btnPopupDecline.setVisibility(View.VISIBLE);
+                lytApprovalBy.setVisibility(View.GONE);
                 Reason.setVisibility(View.GONE);
+            }else {
+                lytApprovalBy.setVisibility(View.GONE);
             }
         } else {
             btnPopupApprove.setVisibility(View.GONE);
             btnPopupDecline.setVisibility(View.GONE);
             Reason.setVisibility(View.GONE);
+            lytApprovalBy.setVisibility(View.VISIBLE);
+            lblApprovalBy.setText("Sathish");
         }
 
+        tvName.setText(history.getName());
+        tvStandard.setText(history.getSection() + " - " + history.getCLS());
+        isLeaveApplyOn.setText(history.getLeaveAppliedOn());
+        lblFromDate.setText(convertDateFormat(history.getLeaveFromDate()));
+        lblToDate.setText(convertDateFormat(history.getLeaveToDate()));
+        lblReason.setText(history.getReason());
 
-        lblPopupName.setText(history.getName());
-        lblPopupStandard.setText(" " + history.getCLS());
-        lblPopupSection.setText(history.getSection());
-        lblPopupAppliedOn.setText(" : " + history.getLeaveAppliedOn());
-        lblPopupFromDate.setText(" : " + history.getLeaveFromDate());
-        lblPopupToDate.setText(" : " + history.getLeaveToDate());
-
-        lblPopupReason.setText(history.getReason());
-
+        long totalDays = calculateDays(history.getLeaveFromDate(), history.getLeaveToDate());
+        lblDays.setText(String.valueOf(totalDays));
 
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,12 +120,47 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String reason = Reason.getText().toString();
                 leaveApproveDeclineApi("2", history.getId(), history.getUpdatedOn(), reason);
-
             }
         });
 
     }
 
+    public String convertDateFormat(String inputDate) {
+        SimpleDateFormat fromFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        SimpleDateFormat toFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+
+        try {
+            Date date = fromFormat.parse(inputDate);
+            if (date != null) {
+                return toFormat.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return ""; // fallback if parsing fails
+    }
+
+
+    public long calculateDays(String fromDate, String toDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+
+        try {
+            Date start = sdf.parse(fromDate);
+            Date end = sdf.parse(toDate);
+
+            if (start != null && end != null) {
+                long diffInMillis = end.getTime() - start.getTime();
+                long days = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS) + 1;
+                return days;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
     private void leaveApproveDeclineApi(String approve, String id, String updatedOn, String reason) {
 
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(LeaveRequestStaffApproveActivity.this);
@@ -173,7 +222,6 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("Response Failure", t.getMessage());
                 Toast.makeText(LeaveRequestStaffApproveActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
-
             }
         });
     }

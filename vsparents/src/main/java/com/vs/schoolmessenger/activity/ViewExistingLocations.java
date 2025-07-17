@@ -328,6 +328,7 @@ public class ViewExistingLocations extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("isLocationDeleteException",String.valueOf(t));
                 if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
             }
         });

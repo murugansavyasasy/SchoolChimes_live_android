@@ -98,6 +98,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
     String SchoolID, loginType, StaffID, strtittle, strmessage, Description, duration, filepath;
     //
     RecyclerView rvSectionList;
+
     List<String> listSubjectName;
     List<String> listSubjectCode;
     List<TeacherSubjectModel> arrSubjectCollections;
@@ -237,7 +238,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
                 btnSend.setVisibility(View.GONE);
                 btnSelectSubjects.setVisibility(View.VISIBLE);
-
             }
         }
 
@@ -274,9 +274,7 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                 inStud.putExtra("duration", duration);
                 inStud.putExtra("Description", Description);
                 inStud.putExtra("Message", strmessage);
-
                 startActivity(i);
-
             }
         });
 
@@ -342,7 +340,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                                 showLoading();
                                 isUploadAWS("audio", ".mp3", "");
                             } else {
-
                                 HOMEWORK_TYPE = "IMAGE";
                                 contentType = "image/png";
                                 UploadedS3URlList.clear();
@@ -423,11 +420,9 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                         }
                     }
                     if (iRequestCode == PRINCIPAL_EXAM_TEST || iRequestCode == STAFF_TEXT_EXAM) {
-
                         SendExamhomeworkSpecificsection();
                     }
                 }
-
             }
         });
 
@@ -516,7 +511,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                     adaSection = new ArrayAdapter<>(TeacherStaffStandardSection.this, R.layout.teacher_spin_title, listSection);
                     adaSection.setDropDownViewResource(R.layout.teacher_spin_dropdown);
                     spinSection.setAdapter(adaSection);
-
                 }
 
                 if (iRequestCode == PRINCIPAL_MEETING_URL || iRequestCode == STAFF_MEETING_URL || iRequestCode == PRINCIPAL_VOICE_HW || iRequestCode == PRINCIPAL_TEXT_HW || iRequestCode == STAFF_TEXT_HW || iRequestCode == STAFF_VOICE_HW || iRequestCode == STAFF_TEXT_EXAM || iRequestCode == PRINCIPAL_EXAM_TEST) {
@@ -587,8 +581,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
 //        progressBar.setProgress(0);
 //        progressText.setText("0/" + totalFiles);
 
-        Log.d("selectedImagePath", String.valueOf(slectedImagePath.size()));
-
         if (slectedImagePath.size() > 0) {
             for (int i = 0; i < slectedImagePath.size(); i++) {
                 AwsUploadingFile(String.valueOf(slectedImagePath.get(i)), SchoolID, contentType, isType, value);
@@ -597,7 +589,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
             SendTextToEntireSectionHW();
         }
     }
-
 
     private void AwsUploadingFile(String isFilePath, String bucketPath, String isFileExtension, String filetype, String type) {
         String countryID = TeacherUtil_SharedPreference.getCountryID(TeacherStaffStandardSection.this);
@@ -947,7 +938,6 @@ public class TeacherStaffStandardSection extends AppCompatActivity {
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
                     Log.d("login:code-res", response.code() + " - " + response);
-
 
                     SubjectsList.clear();
                     listSubjectName.clear();

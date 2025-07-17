@@ -4,9 +4,6 @@ import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +17,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.LeaveRequestStaffApproveActivity;
-import com.vs.schoolmessenger.assignment.StudentSelectAssignment;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
 import com.vs.schoolmessenger.model.LeaveRequestDetails;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.TeacherUtil_Common;
 import com.vs.schoolmessenger.util.TeacherUtil_SharedPreference;
-
 
 import org.json.JSONObject;
 
@@ -60,10 +57,11 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
                 cardProfile_tv2,
                 cardProfile_tv3,
                 cardProfile_tv4,
-                cardProfile_tv5;
+                cardProfile_tv5, lblGenerateOutpass;
         public Button btnApprove, btnDecline;
         public RelativeLayout rytLayout;
         public LinearLayout lnrParent,lnrImages;
+        ImageView imageView6;
         public ImageView imgAprovalStatus;
         public MyViewHolder(View view) {
             super(view);
@@ -80,12 +78,14 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
             lnrParent = (LinearLayout) view.findViewById(R.id.lnrParent);
             lnrImages = (LinearLayout) view.findViewById(R.id.lnrImages);
             imgAprovalStatus = (ImageView) view.findViewById(R.id.imgAprovalStatus);
+            imageView6 = (ImageView) view.findViewById(R.id.imageView6);
 
             cardProfile_tv2 = (TextView) view.findViewById(R.id.cardProfile_tv2);
             cardProfile_tv1 = (TextView) view.findViewById(R.id.cardProfile_tv1);
             cardProfile_tv3 = (TextView) view.findViewById(R.id.cardProfile_tv3);
             cardProfile_tv4 = (TextView) view.findViewById(R.id.cardProfile_tv4);
             cardProfile_tv5 = (TextView) view.findViewById(R.id.cardProfile_tv5);
+            lblGenerateOutpass = (TextView) view.findViewById(R.id.lblGenerateOutpass);
         }
     }
 
@@ -111,6 +111,18 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
         holder.lblFromDate.setText(" : " + history.getLeaveFromDate());
         holder.lblToDate.setText(" : " + history.getLeaveToDate());
         holder.lblReason.setText(history.getReason());
+        if (history.getLoginType()) {
+            holder.imageView6.setVisibility(View.VISIBLE);
+            holder.lblGenerateOutpass.setVisibility(View.GONE);
+        } else {
+            if (history.getApproved().equals("1")) {
+                holder.imageView6.setVisibility(View.GONE);
+                holder.lblGenerateOutpass.setVisibility(View.VISIBLE);
+            } else {
+                holder.imageView6.setVisibility(View.GONE);
+                holder.lblGenerateOutpass.setVisibility(View.GONE);
+            }
+        }
 
         if (history.getApproved().equals("0")) {
             holder.imgAprovalStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.waiting_tick));
@@ -123,10 +135,17 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
         holder.rytLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent requests=new Intent(context,LeaveRequestStaffApproveActivity.class);
-                requests.putExtra("history", (Serializable) history);
-                context.startActivity(requests);
+                if (history.getLoginType()) {
+                    Intent requests = new Intent(context, LeaveRequestStaffApproveActivity.class);
+                    requests.putExtra("history", (Serializable) history);
+                    context.startActivity(requests);
+                } else {
+                    if (history.getApproved().equals("1")) {
+                        Intent requests = new Intent(context, LeaveRequestStaffApproveActivity.class);
+                        requests.putExtra("history", (Serializable) history);
+                        context.startActivity(requests);
+                    }
+                }
             }
         });
     }
@@ -164,7 +183,6 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
             btnPopupDecline.setVisibility(View.GONE);
             Reason.setVisibility(View.GONE);
         }
-
 
         lblPopupName.setText("" + history.getName());
         lblPopupStandard.setText(" " + history.getCLS());

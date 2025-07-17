@@ -7,6 +7,7 @@
     android:padding="5dp"
     tools:context=".activity.TeacherGeneralText">
 
+
     <LinearLayout
         android:id="@+id/rlaTitle"
         android:layout_width="match_parent"
@@ -48,22 +49,21 @@
     </LinearLayout>
 
 
-
     <TextView
         android:id="@+id/lblDatePicking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/rlaTitle"
         android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/bg_outline_black"
         android:drawableRight="@drawable/teacher_arrow_down"
         android:gravity="center"
         android:padding="7dp"
         android:text=""
-        android:visibility="gone"
-        android:layout_below="@+id/rlaTitle"
         android:textColor="@color/clr_black"
         android:textSize="15dp"
-        android:textStyle="bold"></TextView>
+        android:textStyle="bold"
+        android:visibility="gone"></TextView>
 
 
     <RelativeLayout
@@ -292,7 +292,6 @@
                 android:padding="10dp"
                 android:textSize="14dp"
                 android:textStyle="bold" />
-
 
 
             <RelativeLayout
@@ -542,7 +541,6 @@
 
             </LinearLayout>
 
-
             <Button
                 android:id="@+id/btnAttachments"
                 style="@style/Teacher_btn_login"
@@ -571,6 +569,16 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:text="@string/teacher_staff_to_students" />
+
+            <Button
+                android:id="@+id/btnUpdateHomeWork"
+                style="@style/Teacher_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Update Homework"
+                android:visibility="gone" />
 
 
             <LinearLayout
@@ -724,8 +732,7 @@
             android:text="@string/teacher_school_msg"
             android:textColor="@color/teacher_clr_grey"
             android:textSize="20sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -740,6 +747,35 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lytProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:background="@drawable/bg_gray_button"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+        <TextView
+            android:id="@+id/tvLoadingMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Updating..."
+            android:textSize="16sp" />
+    </LinearLayout>
+
 </RelativeLayout>
 
 

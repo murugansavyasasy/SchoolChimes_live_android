@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -32,8 +33,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.vs.schoolmessenger.R;
+import com.vs.schoolmessenger.interfaces.HomeworkEditClickListener;
 import com.vs.schoolmessenger.interfaces.TeacherMessengerApiInterface;
-import com.vs.schoolmessenger.model.HomeWorkDateWise;
 import com.vs.schoolmessenger.model.StaffNoticeBoard;
 import com.vs.schoolmessenger.rest.TeacherSchoolsApiClient;
 import com.vs.schoolmessenger.util.Util_Common;
@@ -48,6 +49,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -63,8 +65,12 @@ public class StaffHomeWorkReport extends RecyclerView.Adapter<StaffHomeWorkRepor
     public static MediaPlayer mediaPlayer;
     int mediaFileLengthInMilliseconds = 0;
     Handler handler = new Handler();
+    String isStaffId = "";
     private final String VOICE_FOLDER = "//SchoolChimesVoice";
     private static final String IMAGE_FOLDER = "//SchoolChimesHomeWorks";
+
+    HomeworkEditClickListener isListener;
+
     String fileName = "";
     int pos = -1;
 
@@ -86,6 +92,7 @@ public class StaffHomeWorkReport extends RecyclerView.Adapter<StaffHomeWorkRepor
         public ImageButton imgBtnPlayPause;
         public SeekBar seekBar;
         TextView tvDuarion, tvTotDuration;
+        LinearLayout rytEdit;
 
         public MyViewHolder(View view) {
             super(view);
@@ -108,13 +115,16 @@ public class StaffHomeWorkReport extends RecyclerView.Adapter<StaffHomeWorkRepor
             img2 = (ImageView) view.findViewById(R.id.img2);
             img3 = (ImageView) view.findViewById(R.id.img3);
             img4 = (ImageView) view.findViewById(R.id.img4);
+            rytEdit = (LinearLayout) view.findViewById(R.id.rytEdit);
         }
     }
 
-    public StaffHomeWorkReport(List<StaffNoticeBoard.StaffNoticeBoardData> isStaffNoticeBoardData, Context context, RelativeLayout parent) {
+    public StaffHomeWorkReport(List<StaffNoticeBoard.StaffNoticeBoardData> isStaffNoticeBoardData, Context context, RelativeLayout parent, HomeworkEditClickListener listener, String isStaffId) {
         this.isStaffNoticeBoardData = isStaffNoticeBoardData;
         this.context = context;
         this.rytParent = parent;
+        this.isListener = listener;
+        this.isStaffId = isStaffId;
     }
 
     @Override
@@ -135,9 +145,24 @@ public class StaffHomeWorkReport extends RecyclerView.Adapter<StaffHomeWorkRepor
         holder.lblSubject.setTypeface(roboto_bold);
         holder.lblContent.setTypeface(roboto_regular);
 
+        Log.d("isCreatedId",data.getCreatedbyid());
+        Log.d("isStaffId",isStaffId);
+        if (Objects.equals(data.getCreatedbyid(), isStaffId)) {
+            holder.rytEdit.setVisibility(View.VISIBLE);
+        } else {
+            holder.rytEdit.setVisibility(View.GONE);
+        }
+
         if (position == 0) {
             setupAudioPlayer(holder);
         }
+
+        holder.rytEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isListener.onItemClick(data);
+            }
+        });
 
         holder.rytPDF.setOnClickListener(new View.OnClickListener() {
             @Override

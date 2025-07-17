@@ -48,6 +48,33 @@ public class StaffNoticeBoard {
 
         private String subjectname;
         private String createdby;
+        private String subjectstaffname;
+        private String createdbyid;
+        private String homeworksubjectid;
+
+        public String getSubjectstaffname() {
+            return subjectstaffname;
+        }
+
+        public void setSubjectstaffname(String subjectstaffname) {
+            this.subjectstaffname = subjectstaffname;
+        }
+
+        public String getCreatedbyid() {
+            return createdbyid;
+        }
+
+        public void setCreatedbyid(String createdbyid) {
+            this.createdbyid = createdbyid;
+        }
+
+        public String getHomeworksubjectid() {
+            return homeworksubjectid;
+        }
+
+        public void setHomeworksubjectid(String homeworksubjectid) {
+            this.homeworksubjectid = homeworksubjectid;
+        }
 
         private List<StaffNoticeBoard.StaffNoticeBoardData.StaffNoticeBoardFilePath> file_path;
 

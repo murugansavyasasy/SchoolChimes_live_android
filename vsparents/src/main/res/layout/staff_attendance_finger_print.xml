@@ -206,7 +206,6 @@
                 android:layout_marginTop="10dp"
                 android:visibility="gone">
 
-
                 <Switch
                     android:id="@+id/enableSwitch"
                     android:layout_width="wrap_content"

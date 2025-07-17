@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lnrParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -232,7 +231,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/lnrImages"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_toStartOf="@+id/lblGenerateOutpass"
+                android:layout_toEndOf="@+id/lnrImages"
                 android:orientation="vertical"
                 android:layout_height="wrap_content">
 
@@ -245,10 +246,25 @@
                 <TextView
                     android:id="@+id/lblReason"
                     android:layout_width="wrap_content"
-                    android:text="jhcjcxjjhvjgvgjjh"
+                    android:text=""
                     android:maxLines="1"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/lblGenerateOutpass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="Generate OutPass"
+                android:textColor="@color/clr_chimes_red"
+                android:textSize="15dp"
+                android:textStyle="bold">
+
+            </TextView>
 
         </RelativeLayout>
     </RelativeLayout>

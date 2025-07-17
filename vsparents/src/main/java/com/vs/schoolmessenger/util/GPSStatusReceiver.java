@@ -18,11 +18,11 @@ public class GPSStatusReceiver extends BroadcastReceiver {
             LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             boolean isGPSenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-            if (isGPSenabled) {
+//            if (isGPSenabled) {
+//                listener.onGPSStatusChanged(isGPSenabled);
+//            } else {
                 listener.onGPSStatusChanged(isGPSenabled);
-            } else {
-                listener.onGPSStatusChanged(isGPSenabled);
-            }
+//            }
         }
     }
 }
