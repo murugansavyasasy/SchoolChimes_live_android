@@ -137,8 +137,9 @@ public class StaffHomeWorkReport extends RecyclerView.Adapter<StaffHomeWorkRepor
     @Override
     public void onBindViewHolder(final StaffHomeWorkReport.MyViewHolder holder, final int position) {
         final StaffNoticeBoard.StaffNoticeBoardData data = isStaffNoticeBoardData.get(position);
-        holder.lblTitle.setText(data.getSubjectname());
+        holder.lblTitle.setText(data.getHomeworktopic());
         holder.lblContent.setText(data.getHomeworkcontent());
+        holder.lblSubject.setText(data.getSubjectname());
         Typeface roboto_bold = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_bold.ttf");
         Typeface roboto_regular = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_regular.ttf");
         holder.lblTitle.setTypeface(roboto_bold);

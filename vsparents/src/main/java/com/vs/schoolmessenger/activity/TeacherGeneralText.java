@@ -630,11 +630,9 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
                     schoolslist.putExtra("schools", "text");
                     schoolslist.putExtra("Description", HistoryDescription);
                     startActivity(schoolslist);
-
                 } else {
                     showAlertMessage(getResources().getString(R.string.select_atleast_one_school));
                 }
-
             }
         });
 
@@ -1843,11 +1841,13 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         imgClose2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imagePathList.remove(1);
+                if (imagePathList.size() == 1) {
+                    imagePathList.remove(0);
+                } else {
+                    imagePathList.remove(1);
+                }
                 lnrView2.setVisibility(View.GONE);
-
                 visibleAttachments(bottomSheetDialog);
-
                 if (imagePathList.size() == 0) {
                     bottomSheetDialog.dismiss();
                 }
@@ -1857,7 +1857,11 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         imgClose3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imagePathList.remove(2);
+                if (imagePathList.size() == 1) {
+                    imagePathList.remove(0);
+                } else {
+                    imagePathList.remove(2);
+                }
                 lnrView3.setVisibility(View.GONE);
                 visibleAttachments(bottomSheetDialog);
                 if (imagePathList.size() == 0) {
@@ -1869,7 +1873,11 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         imgClose4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imagePathList.remove(3);
+                if (imagePathList.size() == 1) {
+                    imagePathList.remove(0);
+                } else {
+                    imagePathList.remove(3);
+                }
                 lnrView4.setVisibility(View.GONE);
                 visibleAttachments(bottomSheetDialog);
                 if (imagePathList.size() == 0) {
@@ -2339,7 +2347,7 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
         }
         imagepathList = imagePathList.size();
         if (!imagePathList.isEmpty()) {
-            if (imagePathList.get(0).contains(".mp3")) {
+            if (imagePathList.get(0).contains(".mp3") || imagePathList.get(0).contains(".mp4") || imagePathList.get(0).contains(".wav")) {
                 lnrAttachments.setVisibility(View.GONE);
             } else {
                 lnrAttachments.setVisibility(View.VISIBLE);
@@ -2472,60 +2480,55 @@ public class TeacherGeneralText extends AppCompatActivity implements View.OnClic
 
 
     private void isHomeWorkSendReport() {
-
         String baseURL = TeacherUtil_SharedPreference.getBaseUrl(TeacherGeneralText.this);
         TeacherSchoolsApiClient.changeApiBaseUrl(baseURL);
         TeacherMessengerApiInterface apiService = TeacherSchoolsApiClient.getClient().create(TeacherMessengerApiInterface.class);
 
         runOnUiThread(() -> {
-            JsonObject jsonReqArray = constructJsonArraySMSHWReport();
-            Call<JsonArray> call = apiService.InsertHomeWorkReport(jsonReqArray);
-            call.enqueue(new Callback<JsonArray>() {
+            JsonObject requestJson = constructJsonArraySMSHWReport();
+            Call<JsonObject> call = apiService.InsertHomeWorkReport(requestJson);
+
+            call.enqueue(new Callback<JsonObject>() {
                 @Override
-                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                    //  hideLoading();
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    lytProgressBar.setVisibility(View.GONE);
+                    Log.d("Upload-Code:Response", response.code() + " - " + response);
 
-                    Log.d("Upload-Code:Response", response.code() + "-" + response);
-                    if (response.code() == 200 || response.code() == 201) {
-                        Log.d("Upload:Body", response.body().toString());
-
+                    if (response.isSuccessful() && response.body() != null) {
                         try {
-                            JSONArray js = new JSONArray(response.body().toString());
-                            if (js.length() > 0) {
-                                JSONObject jsonObject = js.getJSONObject(0);
-                                String strStatus = jsonObject.getString("Status");
-                                String strMsg = jsonObject.getString("Message");
-                                if ((strStatus).equalsIgnoreCase("1")) {
-                                    lytProgressBar.setVisibility(View.GONE);
-                                    showAlert(strMsg, strStatus);
+                            JsonObject jsonArray = response.body();
+                            if (!jsonArray.isEmpty()) {
+                                String status = jsonArray.get("Status").getAsString();
+                                String message = jsonArray.get("Message").getAsString();
+
+                                showAlert(message, status);
+
+                                if (status.equalsIgnoreCase("1")) {
                                     AddCouponPoints.addPoints(TeacherGeneralText.this, Util_Common.SEND_HOMEWORK_POINTS);
-                                } else {
-                                    lytProgressBar.setVisibility(View.GONE);
-                                    showAlert(strMsg, strStatus);
                                 }
+
                             } else {
-                                lytProgressBar.setVisibility(View.GONE);
                                 showToast(getResources().getString(R.string.no_records));
                             }
-
-
                         } catch (Exception e) {
+                            Log.e("ResponseParseError", e.toString());
                             showToast(getResources().getString(R.string.check_internet));
-                            Log.d("Ex", e.toString());
                         }
+
+                    } else {
+                        showToast(getResources().getString(R.string.check_internet));
                     }
                 }
 
                 @Override
-                public void onFailure(Call<JsonArray> call, Throwable t) {
-                    //   hideLoading();
-                    showToast(getResources().getString(R.string.check_internet));
+                public void onFailure(Call<JsonObject> call, Throwable t) {
                     lytProgressBar.setVisibility(View.GONE);
-                    Log.d("Upload error:", t.getMessage() + "\n" + t);
-                    showToast(t.toString());
+                    Log.e("Upload error", t.getMessage(), t);
+                    showToast(getResources().getString(R.string.check_internet));
                 }
             });
         });
+
     }
 
     private void showAlert(String strMsg, final String status) {

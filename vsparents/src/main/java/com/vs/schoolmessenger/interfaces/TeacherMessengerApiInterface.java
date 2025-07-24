@@ -318,7 +318,7 @@ public interface TeacherMessengerApiInterface {
     Call<JsonArray> InsertHomeWork(@Body JsonObject jsonObject);
 
     @POST("update-homework")
-    Call<JsonArray> InsertHomeWorkReport(@Body JsonObject jsonObject);
+    Call<JsonObject> InsertHomeWorkReport(@Body JsonObject jsonObject);
 
     //    @POST("SendAbsenteesSMS")
     @POST("SendAbsenteesSMSWithSessionType")

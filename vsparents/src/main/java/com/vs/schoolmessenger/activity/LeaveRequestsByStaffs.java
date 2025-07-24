@@ -225,9 +225,10 @@ public class LeaveRequestsByStaffs extends AppCompatActivity {
                                     String reason = jsonObject.getString("Reason");
                                     String approved = jsonObject.getString("Status");
                                     String updatedOn = jsonObject.getString("UpdatedOn");
+                                    String ApprovedBy = jsonObject.getString("ApprovedBy");
 
                                     login = loginType.equals("staff");
-                                    LeaveRequestDetails data = new LeaveRequestDetails(ID, name, cls, section, appliedOn, fromDate, ToDate, reason, approved, login, updatedOn);
+                                    LeaveRequestDetails data = new LeaveRequestDetails(ID, name, cls, section, appliedOn, fromDate, ToDate, reason, approved, login, updatedOn,ApprovedBy);
                                     leaveHistoryList.add(data);
                                 } else {
                                     showRecordsFound(getResources().getString(R.string.no_records));

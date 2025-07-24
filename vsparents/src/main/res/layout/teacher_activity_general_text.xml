@@ -339,11 +339,9 @@
                 android:gravity="top"
                 android:hint="@string/teacher_txt_typemsg"
                 android:inputType="textMultiLine"
-
                 android:maxLines="15"
                 android:minLines="7"
                 android:overScrollMode="always"
-
                 android:padding="7dp"
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"

@@ -115,7 +115,7 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
             holder.imageView6.setVisibility(View.VISIBLE);
             holder.lblGenerateOutpass.setVisibility(View.GONE);
         } else {
-            if (history.getApproved().equals("1")) {
+            if (history.getStatus().equals("1")) {
                 holder.imageView6.setVisibility(View.GONE);
                 holder.lblGenerateOutpass.setVisibility(View.VISIBLE);
             } else {
@@ -124,11 +124,11 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
             }
         }
 
-        if (history.getApproved().equals("0")) {
+        if (history.getStatus().equals("0")) {
             holder.imgAprovalStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.waiting_tick));
-        } else if (history.getApproved().equals("1")) {
+        } else if (history.getStatus().equals("1")) {
             holder.imgAprovalStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.green_tick));
-        } else if (history.getApproved().equals("2")) {
+        } else if (history.getStatus().equals("2")) {
             holder.imgAprovalStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.wrong_tick));
         }
 
@@ -140,7 +140,7 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
                     requests.putExtra("history", (Serializable) history);
                     context.startActivity(requests);
                 } else {
-                    if (history.getApproved().equals("1")) {
+                    if (history.getStatus().equals("1")) {
                         Intent requests = new Intent(context, LeaveRequestStaffApproveActivity.class);
                         requests.putExtra("history", (Serializable) history);
                         context.startActivity(requests);
@@ -173,7 +173,7 @@ public class LeaveRequestAdapter extends RecyclerView.Adapter<LeaveRequestAdapte
         final EditText Reason = (EditText) layout.findViewById(R.id.txtReason);
 
         if (history.getLoginType()) {
-            if(history.getApproved().equals("0")) {
+            if(history.getStatus().equals("0")) {
                 btnPopupApprove.setVisibility(View.VISIBLE);
                 btnPopupDecline.setVisibility(View.VISIBLE);
                 Reason.setVisibility(View.GONE);

@@ -3,10 +3,10 @@ package com.vs.schoolmessenger.model;
 import java.io.Serializable;
 
 public class LeaveRequestDetails implements Serializable {
-    private String Id, Name, CLS,Section,LeaveAppliedOn,LeaveFromDate,LeaveToDate,Reason, Approved,UpdatedOn;
+    private String Id, Name, CLS,Section,LeaveAppliedOn,LeaveFromDate,LeaveToDate,Reason, Status,UpdatedOn,ApprovedBy;
     private  boolean loginType;
     public LeaveRequestDetails(String Id, String Name, String cls,String section,String leaveappliedOn,
-                               String leaveFromdate,String leaveTodate,String reason,String approved,boolean type,String updated) {
+                               String leaveFromdate,String leaveTodate,String reason,String Status,boolean type,String updated,String ApprovedBy) {
         this.Id = Id;
         this.Name = Name;
         this.CLS = cls;
@@ -15,9 +15,22 @@ public class LeaveRequestDetails implements Serializable {
         this.LeaveFromDate = leaveFromdate;
         this.LeaveToDate = leaveTodate;
         this.Reason = reason;
-        this.Approved = approved;
+        this.Status = Status;
         this.loginType = type;
         this.UpdatedOn = updated;
+        this.ApprovedBy = ApprovedBy;
+    }
+
+    public boolean isLoginType() {
+        return loginType;
+    }
+
+    public String getApprovedBy() {
+        return ApprovedBy;
+    }
+
+    public void setApprovedBy(String approvedBy) {
+        ApprovedBy = approvedBy;
     }
 
     public LeaveRequestDetails() {}
@@ -86,12 +99,12 @@ public class LeaveRequestDetails implements Serializable {
         this.Reason = reason;
     }
 
-    public String getApproved() {
-        return Approved;
+    public String getStatus() {
+        return Status;
     }
 
-    public void setApproved(String aprove) {
-        this.Approved = aprove;
+    public void setStatus(String aprove) {
+        this.Status = aprove;
     }
 
     public boolean getLoginType() {

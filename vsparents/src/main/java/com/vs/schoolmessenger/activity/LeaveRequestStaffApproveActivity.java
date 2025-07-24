@@ -73,7 +73,7 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
         EditText Reason = (EditText) findViewById(R.id.txtReason);
 
         if (history.getLoginType()) {
-            if (history.getApproved().equals("0")) {
+            if (history.getStatus().equals("0")) {
                 btnPopupApprove.setVisibility(View.VISIBLE);
                 btnPopupDecline.setVisibility(View.VISIBLE);
                 lytApprovalBy.setVisibility(View.GONE);
@@ -86,7 +86,7 @@ public class LeaveRequestStaffApproveActivity extends AppCompatActivity {
             btnPopupDecline.setVisibility(View.GONE);
             Reason.setVisibility(View.GONE);
             lytApprovalBy.setVisibility(View.VISIBLE);
-            lblApprovalBy.setText("Sathish");
+            lblApprovalBy.setText(history.getApprovedBy());
         }
 
         tvName.setText(history.getName());
