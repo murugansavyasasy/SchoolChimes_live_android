@@ -49,6 +49,16 @@ public class Summary {
     @SerializedName("coupon_status")
     private String coupon_status;
 
+    @SerializedName("offer_to_show")
+    private String offer_to_show;
+
+
+
+
+    public String getOffer_to_show() {
+        return offer_to_show;
+    }
+
     public String getCoupon_status() {
         return coupon_status;
     }

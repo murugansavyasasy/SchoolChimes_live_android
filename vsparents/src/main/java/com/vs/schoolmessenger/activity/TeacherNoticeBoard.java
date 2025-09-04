@@ -118,6 +118,11 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
     };
     private int iRequestCode;
 
+    private static final SimpleDateFormat DISPLAY_FORMAT =
+            new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
+    private static final SimpleDateFormat SERVER_FORMAT =
+            new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+
     @Override
     protected void attachBaseContext(Context newBase) {
         String savedLanguage = LocaleHelper.getLanguage(newBase);
@@ -262,12 +267,12 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
         selMonth = cal.get(Calendar.MONTH);// - 1;
         selYear = cal.get(Calendar.YEAR);
 
+        Date today = Calendar.getInstance().getTime();
+        String formattedDate = DISPLAY_FORMAT.format(today);
 
-        Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("MMMM dd , yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
         lblFromDate.setText(formattedDate);
         lblToDate.setText(formattedDate);
+
 
         lblFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -345,8 +350,6 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
             rvSchoolsList.setVisibility(View.VISIBLE);
             listSchoolsAPI();
         }
-
-
     }
 
     public void isSchoolList() {
@@ -373,69 +376,99 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
 
     private void openDatePicker() {
         Calendar today = Calendar.getInstance();
+
+        // Set min date as today
         MonthAdapter.CalendarDay minDate = new MonthAdapter.CalendarDay(today);
+
         CalendarDatePickerDialogFragment cdp = new CalendarDatePickerDialogFragment()
                 .setThemeCustom(R.style.MyBetterPickersRadialTimePickerDialog)
-                .setOnDateSetListener((CalendarDatePickerDialogFragment.OnDateSetListener) TeacherNoticeBoard.this)
+                .setOnDateSetListener(TeacherNoticeBoard.this)
                 .setFirstDayOfWeek(Calendar.SUNDAY)
-                .setPreselectedDate(selYear, selMonth, selDay)
+                .setPreselectedDate(selYear, selMonth, selDay) // preselect previously chosen date or today
                 .setDateRange(minDate, null)
                 .setDoneText(getResources().getString(R.string.teacher_btn_ok))
                 .setCancelText(getResources().getString(R.string.teacher_cancel));
+
         cdp.show(getSupportFragmentManager(), FRAG_TAG_DATE_PICKER);
     }
 
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
+        // Update selected date
         selDay = dayOfMonth;
-        selMonth = monthOfYear;
+        selMonth = monthOfYear; // 0-based (Jan = 0)
         selYear = year;
 
+        // Debug logs (now showing selected date, not old one)
+        Log.d("DatePicker", "Day: " + selDay);
+        Log.d("DatePicker", "Month: " + (selMonth + 1));
+        Log.d("DatePicker", "Year: " + selYear);
+
+        // Build date string
         String isPickingDate = selDay + "-" + (selMonth + 1) + "-" + selYear;
+
         SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMMM dd , yyyy", Locale.US);
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
 
         try {
             Date date = inputDateFormat.parse(isPickingDate);
             String outputDateStr = outputDateFormat.format(date);
+
             if (isDateType == 1) {
-                if (lblToDate.getText().toString().equals("")) {
+                // FROM DATE
+                if (lblToDate.getText().toString().isEmpty()) {
                     lblFromDate.setText(outputDateStr);
                 } else {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d , yyyy", Locale.US);
-                    try {
-                        Date date1 = dateFormat.parse(lblToDate.getText().toString());
-                        Date date2 = dateFormat.parse(outputDateStr);
-
-                        if (date1.compareTo(date2) < 0) {
-                            lblFromDate.setText(outputDateStr);
-                            Toast.makeText(getApplicationContext(), R.string.Please_select_toDate_after_fromDate, Toast.LENGTH_SHORT).show();
-                            lblToDate.setText("");
-                        } else {
-                            lblFromDate.setText(outputDateStr);
-                        }
-                        enableSubmitIfReady();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    validateFromDate(outputDateStr);
                 }
             } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d , yyyy", Locale.US);
-                try {
-                    Date date1 = dateFormat.parse(lblFromDate.getText().toString());
-                    Date date2 = dateFormat.parse(outputDateStr);
-
-                    if (date1.compareTo(date2) > 0) {
-                        Toast.makeText(getApplicationContext(), R.string.Please_select_toDate_after_fromDate, Toast.LENGTH_SHORT).show();
-                        lblToDate.setText("");
-                    } else {
-                        lblToDate.setText(outputDateStr);
-                    }
-                    enableSubmitIfReady();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                // TO DATE
+                validateToDate(outputDateStr);
             }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Validate From Date against To Date
+     */
+    private void validateFromDate(String fromDateStr) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
+            Date toDate = dateFormat.parse(lblToDate.getText().toString());
+            Date fromDate = dateFormat.parse(fromDateStr);
+
+            if (toDate != null && fromDate != null && toDate.compareTo(fromDate) < 0) {
+                lblFromDate.setText(fromDateStr);
+                Toast.makeText(getApplicationContext(), R.string.Please_select_toDate_after_fromDate, Toast.LENGTH_SHORT).show();
+                lblToDate.setText("");
+            } else {
+                lblFromDate.setText(fromDateStr);
+            }
+            enableSubmitIfReady();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Validate To Date against From Date
+     */
+    private void validateToDate(String toDateStr) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
+            Date fromDate = dateFormat.parse(lblFromDate.getText().toString());
+            Date toDate = dateFormat.parse(toDateStr);
+
+            if (fromDate != null && toDate != null && fromDate.compareTo(toDate) > 0) {
+                Toast.makeText(getApplicationContext(), R.string.Please_select_toDate_after_fromDate, Toast.LENGTH_SHORT).show();
+                lblToDate.setText("");
+            } else {
+                lblToDate.setText(toDateStr);
+            }
+            enableSubmitIfReady();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -645,13 +678,10 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
             jsonObjectSchool.addProperty("TopicHeading", strdescription);
             jsonObjectSchool.addProperty("TopicBody", strmessage);
 
-            SimpleDateFormat inputDateFormat = new SimpleDateFormat("MMMM dd , yyyy", Locale.US);
-            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-
             // isFromDate
             try {
-                Date date = inputDateFormat.parse(lblFromDate.getText().toString());
-                String outputDateStr = outputDateFormat.format(date);
+                Date date = DISPLAY_FORMAT.parse(lblFromDate.getText().toString().trim());
+                String outputDateStr = SERVER_FORMAT.format(date);
                 jsonObjectSchool.addProperty("FromDate", outputDateStr);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -659,15 +689,14 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
 
             // isToDate
             try {
-                Date date = inputDateFormat.parse(lblToDate.getText().toString());
-                String outputDateStr = outputDateFormat.format(date);
+                Date date = DISPLAY_FORMAT.parse(lblToDate.getText().toString().trim());
+                String outputDateStr = SERVER_FORMAT.format(date);
                 jsonObjectSchool.addProperty("ToDate", outputDateStr);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             JsonArray jsonArrayschool = new JsonArray();
-
             for (int i = 0; i < seletedschoollist.size(); i++) {
                 JsonObject jsonObjectschoolId = new JsonObject();
                 jsonObjectschoolId.addProperty("SchoolId", seletedschoollist.get(i).getStrSchoolID());
@@ -684,7 +713,6 @@ public class TeacherNoticeBoard extends AppCompatActivity implements CalendarDat
 
         return jsonObjectSchool;
     }
-
 
     private void filterlist(String s) {
         ArrayList<MessageModel> temp = new ArrayList();

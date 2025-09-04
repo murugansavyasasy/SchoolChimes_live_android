@@ -62,7 +62,7 @@ public class CouponSummaryAdapter extends RecyclerView.Adapter<CouponSummaryAdap
         Summary summary = summaryList.get(position);
 
         holder.lblProductName.setText(summary.getCategoryName());
-        holder.lblProductOffer.setText(summary.getDiscount() + "% Off");
+        holder.lblProductOffer.setText(summary.getOffer_to_show());
         holder.lblCompanyName.setText(summary.getMerchantName());
 
         String expiryDateStr = summary.getExpiry_date();

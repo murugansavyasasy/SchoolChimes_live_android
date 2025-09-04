@@ -8,13 +8,13 @@ android {
             keyPassword 'android123'
         }
     }
-    compileSdk 35
+    compileSdk 36
     namespace 'com.vs.schoolmessenger'
     defaultConfig {
         applicationId "com.vs.schoolmessenger"
         minSdk 24
-        targetSdk 34
-        versionCode 144
+        targetSdk 35
+        versionCode 147
         versionName "7.6.22"
 //        ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
