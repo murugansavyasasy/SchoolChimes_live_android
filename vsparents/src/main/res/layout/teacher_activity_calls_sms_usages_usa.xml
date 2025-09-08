@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
+    android:fitsSystemWindows="true"
     android:background="@drawable/teacher_img_app_bg"
     tools:context=".activity_USA.TeacherCallsSmsUsages_USA">
 

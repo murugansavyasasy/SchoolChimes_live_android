@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:background="@drawable/img_app_bg"
     tools:context=".activity_USA.ExamCircularActivity_USA">
 

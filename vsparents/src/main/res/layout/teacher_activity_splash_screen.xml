@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="fill_parent"
     android:id="@+id/rytParent"
     android:background="@drawable/img_app_bg"

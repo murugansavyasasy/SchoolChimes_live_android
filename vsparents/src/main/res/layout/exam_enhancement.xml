@@ -3,6 +3,7 @@
 <RelativeLayout
     android:orientation="vertical"
     android:background="@drawable/bg_rect_white"
+    android:fitsSystemWindows="true"
     android:layout_margin="10dp"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"

@@ -3,6 +3,7 @@
 	android:id="@+id/layout_album_select"
 	android:layout_width="match_parent"
 	android:layout_margin="5dp"
+	android:fitsSystemWindows="true"
 	android:layout_height="match_parent">
 
 

@@ -4,6 +4,7 @@
     android:layout_below="@+id/linearlayout"
     android:layout_marginTop="5dp"
     android:background="@drawable/rect_btn_grey"
+    android:fitsSystemWindows="true"
     android:orientation="horizontal"
     android:padding="1dp"
     android:layout_alignStart="@+id/linearlayout"

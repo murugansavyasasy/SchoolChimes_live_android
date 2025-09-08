@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/img_app_bg"
     android:orientation="vertical"
-
+    android:fitsSystemWindows="true"
     tools:context="com.vs.schoolmessenger.activity_USA.ChildrenScreen_USA">
 
     <LinearLayout

@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:id="@+id/ParentMeeting"
     android:background="@color/clr_white"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
 
     <RelativeLayout

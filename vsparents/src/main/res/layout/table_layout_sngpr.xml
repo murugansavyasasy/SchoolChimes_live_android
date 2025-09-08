@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:shrinkColumns="*"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:stretchColumns="*">
     <!-- Row 1 with single column -->

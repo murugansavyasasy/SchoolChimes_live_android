@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginVertical="55dp"
+    android:fitsSystemWindows="true"
     android:layout_marginHorizontal="15dp"
     android:background="@color/bpTransparent_black"
     android:orientation="vertical">

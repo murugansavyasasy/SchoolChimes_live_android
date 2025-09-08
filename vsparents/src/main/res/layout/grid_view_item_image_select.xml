@@ -4,6 +4,7 @@
 	android:foregroundGravity="center"
 	android:paddingTop="1dp"
 	android:paddingRight="1dp"
+	android:fitsSystemWindows="true"
 	android:paddingBottom="1dp"
 	android:paddingLeft="1dp">
 

@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <TextView
         android:id="@+id/actBar_acTitle"
@@ -17,11 +19,42 @@
         style="@style/actionbar_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_alignBaseline="@+id/actBar_acTitle"
         android:layout_alignBottom="@+id/actBar_acTitle"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/actBar_acTitle"
-        android:layout_toRightOf="@+id/actBar_acTitle"
         android:text="" />
 
-</RelativeLayout>
+</LinearLayout>
+
+
+
+
+
+<!--    <?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+
+<!--    android:layout_height="match_parent">-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/actBar_acTitle"-->
+<!--        style="@style/actionbar_title"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:text="" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/actBar_acSubTitle"-->
+<!--        style="@style/actionbar_subtitle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignBaseline="@+id/actBar_acTitle"-->
+<!--        android:layout_alignBottom="@+id/actBar_acTitle"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_toEndOf="@+id/actBar_acTitle"-->
+<!--        android:layout_toRightOf="@+id/actBar_acTitle"-->
+<!--        android:text="" />-->
+
+<!--</RelativeLayout>-->

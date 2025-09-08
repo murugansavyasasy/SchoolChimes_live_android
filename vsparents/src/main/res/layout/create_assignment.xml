@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:background="@color/clr_black"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
 
     <TextView
