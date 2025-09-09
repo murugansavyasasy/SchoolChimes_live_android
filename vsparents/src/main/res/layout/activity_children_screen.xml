@@ -285,5 +285,4 @@
         app:itemTextColor="@drawable/nav_item_color_state"
         app:menu="@menu/bottom_navigation_main" />
 
-
 </RelativeLayout>
