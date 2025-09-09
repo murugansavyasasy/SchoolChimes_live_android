@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/clr_black"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:padding="5dp">
 

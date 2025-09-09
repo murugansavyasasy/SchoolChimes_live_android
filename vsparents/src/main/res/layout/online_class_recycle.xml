@@ -5,6 +5,7 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@drawable/img_app_bg"
     tools:context=".activity.OnlineClassParentScreen">
 
