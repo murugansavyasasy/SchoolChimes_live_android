@@ -806,12 +806,65 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    private void checkAndShowContactSavePopup() {
+        // List of contacts to check
+        List<HomeActivity.Pair<String, String>> fcontacts = new ArrayList<>();
+        for (int i = 0; i < contacts.length; i++) {
+            fcontacts.add(new HomeActivity.Pair<>(contact_display_name, contacts[i]));
+
+        }
+
+        // Find missing contacts
+        List<HomeActivity.Pair<String, String>> missingContacts = new ArrayList<>();
+        for (HomeActivity.Pair<String, String> contact : fcontacts) {
+            if (!contactExists(contact.second)) {
+                missingContacts.add(contact);
+            }
+        }
+
+        if (!missingContacts.isEmpty()) {
+            contactSaveContent(missingContacts);
+        }
+
+    }
+
+
+    private boolean contactExists(String phoneNumber) {
+        Uri uri = Uri.withAppendedPath(
+                ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+                Uri.encode(phoneNumber)
+        );
+
+        String[] projection = {ContactsContract.PhoneLookup._ID};
+        boolean exists = false;
+
+        ContentResolver resolver = this.getContentResolver();
+        try (android.database.Cursor cursor = resolver.query(uri, projection, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                exists = true;
+            }
+        }
+        return exists;
+    }
+
+    public static class Pair<F, S> {
+        public final F first;
+        public final S second;
+
+        public Pair(F first, S second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
 
     private void getContactPermission() {
         // Check the SDK version and whether the permission is already granted or not.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
         } else {
-            checkIfContactsExist();
+//            checkIfContactsExist();
+            checkAndShowContactSavePopup();
+
             Log.d("Granted", "Granted");
         }
     }
@@ -1104,12 +1157,12 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         // Check and save contact if necessary.
         if (contacts.length != Contact_Count) {
             if (exist_Count == 0 || exist_Count < contacts.length) {
-                contactSaveContent();
+              //  contactSaveContent();
             }
         }
     }
 
-    private void contactSaveContent() {
+    private void contactSaveContent(List<HomeActivity.Pair<String, String>> missingContacts) {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.save_contact_alert, null);
@@ -1134,7 +1187,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 try {
                     ContactpopupWindow.dismiss();
-                    saveContacts();
+                    saveContacts(missingContacts);
                 } catch (Exception e) {
                     Log.d("failure_popup_error", e.toString());
                 }
@@ -1149,7 +1202,18 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    private void saveContacts() {
+
+    private void saveContacts(List<HomeActivity.Pair<String, String>> missingContacts) {
+
+        String[] new_contacts = new String[missingContacts.size()];
+        for (int i = 0; i < missingContacts.size(); i++) {
+            HomeActivity.Pair<String, String> contact = missingContacts.get(i);
+            if (!contactExists(contact.second)) {
+                // i is your index
+                Log.d("Index", "Current index = " + i);
+                new_contacts[i] = ""; // example usage
+            }
+        }
 
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.conatct_school);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -1162,7 +1226,7 @@ public class Teacher_AA_Test extends AppCompatActivity implements View.OnClickLi
         row.put(ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
         row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
         data.add(row);
-        for (int i = 0; i < contacts.length; i++) {
+        for (int i = 0; i < new_contacts.length; i++) {
             ContentValues row_Number = new ContentValues();
             row_Number.put(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
             row_Number.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);

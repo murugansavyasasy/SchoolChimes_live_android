@@ -16,7 +16,7 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/roboto_bold"
         android:padding="@dimen/_10sdp"
-        android:text="12 : 30AM TO 01 : 45PM"
+        android:text=""
         android:textColor="@color/clr_black"
         android:textSize="10dp"
         android:textStyle="bold">

@@ -96,7 +96,6 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
         BtnSlotBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (Util_Common.isSelectedSlotIds.size() > 0) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
@@ -314,6 +313,7 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
                 isSpecificMeeting = 1;
                 Util_Common.overlappingSlots.clear();
                 Util_Common.isSelectedSlotIds.clear();
+                Util_Common.hasMyBooking = false;
                 Util_Common.isHeaderSlotsIds.clear();
                 Util_Common.isSelectedTime.clear();
                 getSlotData();
@@ -369,7 +369,7 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
                                         isSpecificMeeting++;
                                     }
                                     GroupedSlot groupedSlot = groupedSlotsMap.get(key);
-                                    groupedSlot.addSlotDetail(new SlotDetail(slot.is_booked, slot.from_time, slot.to_time, slot.slot_id, slot.staff_id, isSpecificMeeting));
+                                    groupedSlot.addSlotDetail(new SlotDetail(slot.is_booked, slot.from_time, slot.to_time, slot.slot_id, slot.staff_id, isSpecificMeeting, slot.my_booking));
                                     List<GroupedSlot> groupedSlots = new ArrayList<>(groupedSlotsMap.values());
                                     loadAdapter(groupedSlots);
                                 }
@@ -421,8 +421,8 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
     }
 
     @Override
-    public void onChildItemClick(String clickedDate) {
-        if (Util_Common.isSelectedSlotIds.size() > 0) {
+    public void onChildItemClick(boolean isAnySlotSelected) {
+        if (isAnySlotSelected) {
             BtnSlotBook.setEnabled(true);
             BtnSlotBook.setBackgroundResource(R.drawable.bg_button_book_slots);
         } else {
@@ -433,10 +433,13 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
 
     @Override
     public void onItemClick(DateEventModel dateEvent) {
+        BtnSlotBook.setEnabled(false);
+        BtnSlotBook.setBackgroundResource(R.drawable.bg_gray_button);
         isEventDate = dateEvent.getEventDate();
         Util_Common.isDataLoadingOver = true;
         Util_Common.overlappingSlots.clear();
         Util_Common.isSelectedSlotIds.clear();
+        Util_Common.hasMyBooking = false;
         Util_Common.isHeaderSlotsIds.clear();
         Util_Common.isSelectedTime.clear();
         Util_Common.isBookedIds.clear();
@@ -526,6 +529,7 @@ public class MeetingEventFragement extends Fragment implements CalendarAdapter.O
 
         Util_Common.overlappingSlots.clear();
         Util_Common.isSelectedSlotIds.clear();
+        Util_Common.hasMyBooking = false;
         Util_Common.isHeaderSlotsIds.clear();
         Util_Common.isSelectedTime.clear();
         Util_Common.isBookedIds.clear();

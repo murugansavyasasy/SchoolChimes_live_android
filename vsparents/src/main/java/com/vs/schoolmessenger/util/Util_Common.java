@@ -88,6 +88,8 @@ public class Util_Common {
     public static MediaPlayer mediaPlayer = new MediaPlayer();
 
     public static int USER_TYPE = 1;
+    public static boolean hasMyBooking = false;
+
 
 
     public static String VIEW_PROGRESS_CARD_POINTS  = "VIEW_PROGRESS_CARD";
