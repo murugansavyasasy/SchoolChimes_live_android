@@ -68,10 +68,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.d(TAG, "Notification Message type: " + remoteMessage.getData().get("type"));
                 boolean isCallScreen = ScreenState.getInstance().isIncomingCallScreen();
                 Log.d("isDashboardOpen", String.valueOf(isCallScreen));
+
                 if (!isCallScreen) {
                     showNotificationCall(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("url"), remoteMessage.getData().get("receiver_id"),
                             remoteMessage.getData().get("retrycount"), remoteMessage.getData().get("circular_id"), remoteMessage.getData().get("ei1"), remoteMessage.getData().get("ei2"), remoteMessage.getData().get("ei3"), remoteMessage.getData().get("ei4")
-                            , remoteMessage.getData().get("ei5"), remoteMessage.getData().get("role"), remoteMessage.getData().get("menu_id"));
+                            , remoteMessage.getData().get("ei5"), remoteMessage.getData().get("role"), remoteMessage.getData().get("menu_id"),remoteMessage.getData().get("welcome"),remoteMessage.getData().get("school_name"),remoteMessage.getData().get("member_name"),remoteMessage.getData().get("call_title"));
                 } else {
                     Log.d("PLEASE_WAIT", "Already playing the voice call right now so please wait.");
                 }
@@ -174,7 +175,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    private void showNotificationCall(String title, String body, String url, String receiverId, String retrycount, String circularId, String ei1, String ei2, String ei3, String ei4, String ei5, String role, String menuId) {
+    private void showNotificationCall(String title, String body, String url, String receiverId, String retrycount, String circularId, String ei1, String ei2, String ei3, String ei4, String ei5, String role, String menuId,String welcome,String school_name,String member_name,String call_title) {
+
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = "notification_channel";
 
@@ -224,6 +227,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra("ei5", ei5);
         intent.putExtra("role", role);
         intent.putExtra("menuId", menuId);
+        intent.putExtra("welcome", welcome);
+        intent.putExtra("school_name", school_name);
+        intent.putExtra("member_name", member_name);
+        intent.putExtra("call_title", call_title);
 
         // Create a unique PendingIntent for each notification
         PendingIntent resultIntent;
@@ -246,6 +253,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setOngoing(false)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setCategory(NotificationCompat.CATEGORY_CALL)
+//                .setFullScreenIntent(resultIntent, true)
+
+
                 .setColor(ContextCompat.getColor(this, R.color.clr_white))
                 .setDeleteIntent(createDeleteIntent()) // Add delete intent for dismissal
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
