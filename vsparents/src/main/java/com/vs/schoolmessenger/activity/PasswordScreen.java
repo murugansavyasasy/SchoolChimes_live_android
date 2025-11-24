@@ -263,6 +263,8 @@ public class PasswordScreen extends AppCompatActivity {
                         String redirectToSignScreenMessage = jsonObject.getString("ForgetOTPMesage");
 
                         TeacherUtil_SharedPreference.putDialNumbers(PasswordScreen.this, numbers);
+                        TeacherUtil_SharedPreference.putOTPNote(PasswordScreen.this, strMessage);
+
 
                         hideKeyBoard();
 

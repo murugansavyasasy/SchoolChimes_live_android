@@ -364,6 +364,8 @@ public class TeacherSignInScreen extends AppCompatActivity implements View.OnCli
                         String redirectToSignScreenMessage = jsonObject.getString("ForgetOTPMesage");
 
                         TeacherUtil_SharedPreference.putDialNumbers(TeacherSignInScreen.this, numbers);
+                        TeacherUtil_SharedPreference.putOTPNote(TeacherSignInScreen.this, strMessage);
+
 
                         hideKeyBoard();
 
