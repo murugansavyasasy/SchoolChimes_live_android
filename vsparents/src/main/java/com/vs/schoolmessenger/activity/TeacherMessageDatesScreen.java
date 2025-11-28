@@ -197,6 +197,7 @@ public class TeacherMessageDatesScreen extends AppCompatActivity {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("MemberId", staff_id);
         jsonObject.addProperty("SchoolId", school_id);
+        Log.d("Req",jsonObject.toString());
 
 
         Call<JsonArray> call = apiService.GetMessageCount_Archive(jsonObject);

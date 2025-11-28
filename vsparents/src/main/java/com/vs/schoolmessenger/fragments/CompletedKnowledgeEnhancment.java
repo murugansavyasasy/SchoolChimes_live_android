@@ -17,6 +17,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonObject;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.adapter.KnowledgeEnhancementAdapter;
@@ -31,23 +38,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CompletedKnowledgeEnhancment  extends Fragment  {
+public class CompletedKnowledgeEnhancment extends Fragment {
     RecyclerView recyclerView;
     ImageView imgBack;
     KnowledgeEnhancementAdapter knowledgeadapter;
     private ArrayList<KnowledgeEnhancementModel> msgModelList = new ArrayList<>();
     String isNewVersion;
-    Boolean show=false;
+    Boolean show = false;
     ImageView imgSearch;
     TextView Searchable;
 
@@ -55,6 +56,7 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,8 +69,8 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.recycleview);
-        isNewVersion=TeacherUtil_SharedPreference.getNewVersion(getActivity());
-        Searchable =view.findViewById(R.id.Searchable);
+        isNewVersion = TeacherUtil_SharedPreference.getNewVersion(getActivity());
+        Searchable = view.findViewById(R.id.Searchable);
         imgSearch = view.findViewById(R.id.imgSearch);
 
         Searchable.addTextChangedListener(new TextWatcher() {
@@ -107,13 +109,13 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
         });
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(mLayoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 80);
-            knowledgeadapter = new KnowledgeEnhancementAdapter(getContext(), msgModelList,"2");
-            recyclerView.setAdapter(knowledgeadapter);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 80);
+        knowledgeadapter = new KnowledgeEnhancementAdapter(getContext(), msgModelList, "2");
+        recyclerView.setAdapter(knowledgeadapter);
 
     }
 
@@ -121,7 +123,7 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
         ArrayList<KnowledgeEnhancementModel> temp = new ArrayList();
         for (KnowledgeEnhancementModel d : msgModelList) {
 
-            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getSubject().toLowerCase().contains(s.toLowerCase()) ) {
+            if (d.getTitle().toLowerCase().contains(s.toLowerCase()) || d.getSubject().toLowerCase().contains(s.toLowerCase())) {
                 temp.add(d);
             }
 
@@ -179,9 +181,9 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
                     int status = jsonObject.getInt("Status");
                     String message = jsonObject.getString("Message");
 
-                    if (status==1) {
+                    if (status == 1) {
                         JSONArray data = jsonObject.getJSONArray("data");
-                        if(data.length()!=0) {
+                        if (data.length() != 0) {
 
 
                             KnowledgeEnhancementModel msgModel;
@@ -208,18 +210,17 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
                             }
                             knowledgeadapter.notifyDataSetChanged();
 
-                        }
-                        else{
+                        } else {
                             recyclerView.setAdapter(knowledgeadapter);
                             knowledgeadapter.notifyDataSetChanged();
-                            if(show==false) {
+                            if (show == false) {
                                 showAlertRecords(getResources().getString(R.string.no_records));
                             }
                         }
                     } else {
                         recyclerView.setAdapter(knowledgeadapter);
                         knowledgeadapter.notifyDataSetChanged();
-                        if(show==false) {
+                        if (show == false) {
                             showAlertRecords(message);
                         }
 
@@ -241,7 +242,7 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
     }
 
     private void showAlertRecords(String msg) {
-        show=true;
+        show = true;
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
         alertDialog.setTitle(R.string.alert);
@@ -251,7 +252,7 @@ public class CompletedKnowledgeEnhancment  extends Fragment  {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                show=false;
+                show = false;
 
             }
         });

@@ -88,6 +88,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     RecyclerView rcyquestions;
     FrameLayout videoview;
     ConstraintLayout constraint;
+    LinearLayout containerOptions;
     LinearLayout lnrPDFtext;
     ImageView imgview, imgVideo, imgplay, imgShadow, imgprev, imgnext;
     Button btnnext, btnprevious, btnsubmit;
@@ -105,6 +106,8 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
     RadioButton radioButton;
     String currenttime24, pdfuri, videourl, imageurl, quetime;
     PopupWindow popupWindow, popupimage, popuppdfWindow;
+    ImageView imgQuestion;
+    WebView webview;
     private final ArrayList<QuestionForQuiz> msgModelList = new ArrayList<>();
 
     @Override
@@ -133,7 +136,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                 lblduration.setVisibility(View.VISIBLE);
             }
         }
-
     };
     private final Runnable runson = new Runnable() {
         @Override
@@ -155,7 +157,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
                             submitquiz();
                         }
                     }
-
                 } else {
                     showAlertfinish(getResources().getString(R.string.Can_able_submit));
                 }
@@ -300,7 +301,8 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         imgplay = findViewById(R.id.imgplay);
         videoview = findViewById(R.id.videoview);
         rcyquestions = findViewById(R.id.rcyquestions);
-        rgoptions = findViewById(R.id.rgoptions);
+        containerOptions = findViewById(R.id.containerOptions);
+//        rgoptions = findViewById(R.id.rgoptions);
         lblque = findViewById(R.id.lblque);
         lblqueno = findViewById(R.id.lblqueno);
         lblmin = findViewById(R.id.lblmin);
@@ -320,6 +322,9 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         constraint.setVisibility(View.GONE);
         ryttime.setVisibility(View.VISIBLE);
         lblmin.setVisibility(View.VISIBLE);
+
+        webview = findViewById(R.id.webview);
+        imgQuestion = findViewById(R.id.imgQuestion);
 
 
         child_id = Util_SharedPreference.getChildIdFromSP(this);
@@ -416,7 +421,6 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         }
 
         long curdifference = curEnd.getTime() - curStart.getTime();
-
 
         //End Time
 
@@ -596,15 +600,33 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
 
                                 for (int i = 0; i < data.length(); i++) {
                                     jsonObject = data.getJSONObject(i);
-                                    msgModel = new QuestionForQuiz(jsonObject.getInt("QestionId"),
+
+                                    QuestionForQuiz msgModel = new QuestionForQuiz(
+                                            jsonObject.getInt("QestionId"),
                                             jsonObject.getString("Question"),
                                             jsonObject.getString("VideoUrl"),
                                             jsonObject.getString("FileType"),
                                             jsonObject.getString("FileUrl"),
                                             jsonObject.getInt("mark"),
                                             String.valueOf(i + 1),
-                                            jsonObject.getJSONArray("Answer")
+                                            jsonObject.getJSONArray("Answer"),
+                                            jsonObject.optString("qImage", ""),
+                                            jsonObject.optString("aImage", ""),
+                                            jsonObject.optString("bImage", ""),
+                                            jsonObject.optString("cImage", ""),
+                                            jsonObject.optString("dImage", "")
                                     );
+
+
+//                                    msgModel = new QuestionForQuiz(jsonObject.getInt("QestionId"),
+//                                            jsonObject.getString("Question"),
+//                                            jsonObject.getString("VideoUrl"),
+//                                            jsonObject.getString("FileType"),
+//                                            jsonObject.getString("FileUrl"),
+//                                            jsonObject.getInt("mark"),
+//                                            String.valueOf(i + 1),
+//                                            jsonObject.getJSONArray("Answer")
+//                                    );
 
                                     msgModelList.add(msgModel);
 
@@ -786,150 +808,189 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
+    private void openPreview(String fileUrl) {
+        if (fileUrl == null || fileUrl.isEmpty()) return;
+
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra("fileUrl", fileUrl);
+        startActivity(intent);
+    }
+
     @Override
-    public void addclass(final QuestionForQuiz menu, final int position) {
+    public void addclass(final QuestionForQuiz menu, int position) {
         adapterpos = position;
-        rgoptions.removeAllViews();
-        rgoptions.clearCheck();
+
+        containerOptions.removeAllViews();
         videoview.setVisibility(View.GONE);
         imgview.setVisibility(View.GONE);
         lnrPDFtext.setVisibility(View.GONE);
+
+        if (menu.getqImage().isEmpty()) {
+            imgQuestion.setVisibility(View.GONE);
+            webview.setVisibility(View.GONE);
+        } else {
+            String imageUrl = menu.getqImage() != null ? menu.getqImage().toLowerCase() : "";
+
+            if (imageUrl.endsWith(".jpg") ||
+                    imageUrl.endsWith(".jpeg") ||
+                    imageUrl.endsWith(".png") ||
+                    imageUrl.endsWith(".gif") ||
+                    imageUrl.endsWith(".bmp") ||
+                    imageUrl.endsWith(".webp") ||
+                    imageUrl.endsWith(".tiff")) {
+                imgQuestion.setVisibility(View.VISIBLE);
+                webview.setVisibility(View.GONE);
+                Glide.with(this)
+                        .load(menu.getqImage())
+                        .into(imgQuestion);
+            } else {
+                webview.setVisibility(View.VISIBLE);
+                imgQuestion.setVisibility(View.GONE);
+                WebSettings webSettings = webview.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setDomStorageEnabled(true);
+                webSettings.setLoadWithOverviewMode(true);
+                webSettings.setUseWideViewPort(true);
+                webSettings.setBuiltInZoomControls(true);
+                webSettings.setDisplayZoomControls(false);
+                webview.loadUrl(menu.getqImage());
+            }
+        }
+
+        imgQuestion.setOnClickListener(v -> openPreview(menu.getqImage()));
+        webview.setOnTouchListener((v, event) -> {
+            if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                openPreview(menu.getqImage());
+            }
+            return false;
+        });
+
+
+
         for (int i = 0; i < menu.getAnswer().length(); i++) {
-            String[] id = new String[0];
+            String ansid = "";
+            String answer = "";
+
             try {
-                id = menu.getAnswer().get(i).toString().split("~");
+                String[] id = menu.getAnswer().get(i).toString().split("~");
                 ansid = id[0];
-                Log.d("ansid", ansid);
-                answer = id[1];
-                Log.d("answer", answer);
+                if (id.length > 1) {
+                    answer = id[1];
+                } else {
+                    answer = ""; // or some default value
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            radioButton = new RadioButton(getApplicationContext());
+            View optionView = LayoutInflater.from(this).inflate(R.layout.item_quiz_option, containerOptions, false);
 
-            radioButton.setText(answer);
-            radioButton.setId(Integer.parseInt(ansid));
-            radioButton.setTextSize(16);
-            radioButton.setTextColor(Color.BLACK);
-            radioButton.setPadding(1, 10, 1, 1);
+            LinearLayout itemContainer = optionView.findViewById(R.id.itemContainer);
+            TextView txtOption = optionView.findViewById(R.id.txtOption);
+            TextView txtContent = optionView.findViewById(R.id.txtContent);
+            ImageView imgCheck = optionView.findViewById(R.id.imgCheck);
+            ImageView imgAttachment = optionView.findViewById(R.id.imgAttachment);
+            TextView txtAttachmentName = optionView.findViewById(R.id.txtAttachmentName);
+            ConstraintLayout rlyCard = optionView.findViewById(R.id.rlyCard);
+            LinearLayout lnrAttachment = optionView.findViewById(R.id.lnrAttachment);
 
+            char optionChar = (char) ('A' + i);
+            txtOption.setText(String.valueOf(optionChar));
+            txtContent.setText(answer);
 
-            Date currentTime = Calendar.getInstance().getTime();
-            Log.d("currenttime", currentTime.toString());
-            String date = currentTime.toString();
-            String[] parts = date.split(" ");
-
-            System.out.println("Time: " + parts[3]);
-            String currenttime24add = parts[3];
-
-
-            String _24HourTime11 = info.getTimeForQuestionReading() + ":00";
-            Log.d("starttime", _24HourTime11);
-            Date curStart = null;
-            Date curEnd = null;
-            SimpleDateFormat cursimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-            try {
-                curStart = cursimpleDateFormat.parse(_24HourTime11);
-                curEnd = cursimpleDateFormat.parse(currenttime24add);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            String imageUrl = "";
+            String caption = "";
+            switch (i) {
+                case 0:
+                    imageUrl = menu.getaImage();
+                    caption = "Graph 1 (A)";
+                    break;
+                case 1:
+                    imageUrl = menu.getbImage();
+                    caption = "Graph 2 (B)";
+                    break;
+                case 2:
+                    imageUrl = menu.getcImage();
+                    caption = "Graph 3 (C)";
+                    break;
+                case 3:
+                    imageUrl = menu.getdImage();
+                    caption = "Graph 4 (D)";
+                    break;
             }
-            curdifferenceque = curEnd.getTime() - curStart.getTime();
-            Log.d("curdiffhandler", String.valueOf(curdifferenceque));
-            if (curdifferenceque <= 0) {
-                lblqueduration.setVisibility(View.VISIBLE);
-                lblduration.setVisibility(View.GONE);
-                rgoptions.setEnabled(false);
-                radioButton.setEnabled(false);
-                btnsubmit.setEnabled(false);
+
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                lnrAttachment.setVisibility(View.VISIBLE);
+                Glide.with(this)
+                        .load(imageUrl)
+                        .into(imgAttachment);
+                txtAttachmentName.setText(caption);
+                String finalImageUrl = imageUrl;
+                imgAttachment.setOnClickListener(v -> openPreview(finalImageUrl));
+
             } else {
-                lblmin.setText("Students are now allowed to answer");
-                lblmin.setTextColor(getResources().getColor(R.color.clr_green));
-                lblduration.setVisibility(View.VISIBLE);
-                lblqueduration.setVisibility(View.GONE);
-                rgoptions.setEnabled(true);
-                radioButton.setEnabled(true);
+                lnrAttachment.setVisibility(View.GONE);
             }
-            rgoptions.addView(radioButton);
-            rgoptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    final int selectedPosition = rgoptions.getCheckedRadioButtonId();
-                    if (selectedPosition != -1) {
-                        String idcom = menu.getQestionId() + "~" + selectedPosition;
-                        String ansidref, answerref;
-                        if (questionlist.size() == 0) {
-                            questionlist.add(String.valueOf(menu.getQestionId()));
-                            if (answerlist.size() == 0) {
-                                answerlist.add(idcom);
-                                Log.d("answerlist", answerlist.get(0));
-                            }
-                        } else if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
-                            int replacequepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
-                            Log.d("replacepos", String.valueOf(replacequepos));
-                            questionlist.set(replacequepos, String.valueOf(menu.getQestionId()));
-                            for (int i = 0; i < menu.getAnswer().length(); i++) {
-                                String[] idref = new String[0];
-                                try {
-                                    idref = menu.getAnswer().get(i).toString().split("~");
-                                    ansidref = idref[0];
-                                    Log.d("ansid", ansid);
-                                    answerref = idref[1];
-                                    Log.d("answer", answer);
 
-
-                                    if (answerlist.contains(menu.getQestionId() + "~" + ansidref)) {
-                                        Log.d("changeexist", "changeexist");
-                                        int replacepos = answerlist.indexOf(menu.getQestionId() + "~" + ansidref);
-                                        Log.d("replacepos", String.valueOf(replacepos));
-                                        answerlist.set(replacepos, idcom);
-                                    }
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        } else {
-                            questionlist.add(String.valueOf(menu.getQestionId()));
-                            answerlist.add(idcom);
-                        }
-                        btnsubmit.setEnabled(answerlist.size() != 0);
-                        JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty("QuizId", info.getQuizId());
-                        jsonObject.addProperty("StudentID", child_id);
-                        jsonObject.addProperty("Answer", String.valueOf(answerlist));
-
-                        Log.d("jsonObject", jsonObject.toString());
-                        Log.d("answersize", String.valueOf(answerlist.size()));
-                    }
-                }
-            });
-
+            boolean isSelected = false;
             if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
-                int replacequepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
-                if (questionlist.get(replacequepos).equals(String.valueOf(menu.getQestionId()))) {
-                    String answersetupl = answerlist.get(replacequepos);
-
-                    String[] idsetup = new String[0];
-                    idsetup = answersetupl.split("~");
-                    int ansidsetup = Integer.parseInt(idsetup[0]);
-                    Log.d("ansidsetup", String.valueOf(ansidsetup));
-                    int answersetup = Integer.parseInt(idsetup[1]);
-                    Log.d("answersetup", String.valueOf(answersetup));
-                    if (radioButton.getId() == answersetup) {
-                        radioButton.setChecked(true);
-                    }
-
+                int index = questionlist.indexOf(String.valueOf(menu.getQestionId()));
+                String saved = answerlist.get(index);
+                String[] split = saved.split("~");
+                if (split.length > 1 && split[1].equals(ansid)) {
+                    isSelected = true;
                 }
-
-
             }
 
+            if (isSelected) {
+                rlyCard.setBackgroundResource(R.drawable.bg_shadow_violet_card);
+                imgCheck.setVisibility(View.VISIBLE);
+            } else {
+                rlyCard.setBackgroundResource(R.drawable.bg_shadow_white_card);
+                imgCheck.setVisibility(View.GONE);
+            }
+
+            final String finalAnsid = ansid;
+            itemContainer.setOnClickListener(v -> {
+
+                for (int j = 0; j < containerOptions.getChildCount(); j++) {
+                    View child = containerOptions.getChildAt(j);
+
+                    ConstraintLayout optionLayout = child.findViewById(R.id.rlyCard);
+                    ImageView optionCheck = child.findViewById(R.id.imgCheck);
+
+                    if (optionLayout != null) {
+                        optionLayout.setBackgroundResource(R.drawable.bg_shadow_white_card);
+                    }
+                    if (optionCheck != null) {
+                        optionCheck.setVisibility(View.GONE);
+                    }
+                }
+                View clickedView = v;
+
+                ConstraintLayout selectedLayout = clickedView.findViewById(R.id.rlyCard);
+                ImageView selectedCheck = clickedView.findViewById(R.id.imgCheck);
+
+                if (selectedLayout != null) {
+                    selectedLayout.setBackgroundResource(R.drawable.bg_shadow_violet_card);
+                }
+                if (selectedCheck != null) {
+                    selectedCheck.setVisibility(View.VISIBLE);
+                }
+
+                String idcom = menu.getQestionId() + "~" + finalAnsid;
+                if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
+                    int replacepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
+                    answerlist.set(replacepos, idcom);
+                } else {
+                    questionlist.add(String.valueOf(menu.getQestionId()));
+                    answerlist.add(idcom);
+                }
+
+                btnsubmit.setEnabled(!answerlist.isEmpty());
+            });
+            containerOptions.addView(optionView);
         }
-
-
         btnsubmit.setEnabled(answerlist.size() != 0);
         if (adapterpos == msgModelList.size() - 1 && msgModelList.size() != 0) {
             imgnext.setImageResource(R.drawable.bg_next_disable);
@@ -938,6 +999,7 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             imgnext.setImageResource(R.drawable.bg_next_enable);
             lblnext.setTextColor(getResources().getColor(R.color.clr_black));
         }
+
         if (adapterpos == 0) {
             imgprev.setImageResource(R.drawable.bg_prev_disable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
@@ -945,43 +1007,244 @@ public class ExamEnhancementQuestions extends AppCompatActivity implements Quest
             imgprev.setImageResource(R.drawable.bg_prev_enable);
             lblprev.setTextColor(getResources().getColor(R.color.clr_black));
         }
-
-
         int pos = position + 1;
         String queno = "Q ." + pos;
         lblqueno.setText(queno);
         lblque.setText(menu.getQuestion());
-        videoview.setVisibility(View.GONE);
-        imgview.setVisibility(View.GONE);
-        lnrPDFtext.setVisibility(View.GONE);
         if (!menu.getVideoUrl().equals("")) {
             videoview.setVisibility(View.VISIBLE);
             videourl = menu.getVideoUrl();
         } else {
             videoview.setVisibility(View.GONE);
         }
-        if (menu.getFileType().equals("IMAGE") && !menu.getFileUrl().equals("")) {
 
+        if (menu.getFileType().equals("IMAGE") && !menu.getFileUrl().equals("")) {
             imgview.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(menu.getFileUrl())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imgview);
             imageurl = menu.getFileUrl();
-
-
         } else {
             imgview.setVisibility(View.GONE);
         }
+
         if (menu.getFileType().equals("PDF") && !menu.getFileUrl().equals("")) {
             lnrPDFtext.setVisibility(View.VISIBLE);
             lblPDF.setText(menu.getFileUrl());
             pdfuri = menu.getFileUrl();
         } else {
-
             lnrPDFtext.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        // Go back inside webview history if possible
+        if (webview.canGoBack()) {
+            webview.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+//    @Override
+//    public void addclass(final QuestionForQuiz menu, final int position) {
+//        adapterpos = position;
+//        rgoptions.removeAllViews();
+//        rgoptions.clearCheck();
+//        videoview.setVisibility(View.GONE);
+//        imgview.setVisibility(View.GONE);
+//        lnrPDFtext.setVisibility(View.GONE);
+//        for (int i = 0; i < menu.getAnswer().length(); i++) {
+//            String[] id = new String[0];
+//            try {
+//                id = menu.getAnswer().get(i).toString().split("~");
+//                ansid = id[0];
+//                Log.d("ansid", ansid);
+//                answer = id[1];
+//                Log.d("answer", answer);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            radioButton = new RadioButton(getApplicationContext());
+//
+//            radioButton.setText(answer);
+//            radioButton.setId(Integer.parseInt(ansid));
+//            radioButton.setTextSize(16);
+//            radioButton.setTextColor(Color.BLACK);
+//            radioButton.setPadding(1, 10, 1, 1);
+//
+//
+//            Date currentTime = Calendar.getInstance().getTime();
+//            Log.d("currenttime", currentTime.toString());
+//            String date = currentTime.toString();
+//            String[] parts = date.split(" ");
+//
+//            System.out.println("Time: " + parts[3]);
+//            String currenttime24add = parts[3];
+//
+//
+//            String _24HourTime11 = info.getTimeForQuestionReading() + ":00";
+//            Log.d("starttime", _24HourTime11);
+//            Date curStart = null;
+//            Date curEnd = null;
+//            SimpleDateFormat cursimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+//            try {
+//                curStart = cursimpleDateFormat.parse(_24HourTime11);
+//                curEnd = cursimpleDateFormat.parse(currenttime24add);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            curdifferenceque = curEnd.getTime() - curStart.getTime();
+//            Log.d("curdiffhandler", String.valueOf(curdifferenceque));
+//            if (curdifferenceque <= 0) {
+//                lblqueduration.setVisibility(View.VISIBLE);
+//                lblduration.setVisibility(View.GONE);
+//                rgoptions.setEnabled(false);
+//                radioButton.setEnabled(false);
+//                btnsubmit.setEnabled(false);
+//            } else {
+//                lblmin.setText("Students are now allowed to answer");
+//                lblmin.setTextColor(getResources().getColor(R.color.clr_green));
+//                lblduration.setVisibility(View.VISIBLE);
+//                lblqueduration.setVisibility(View.GONE);
+//                rgoptions.setEnabled(true);
+//                radioButton.setEnabled(true);
+//            }
+//            rgoptions.addView(radioButton);
+//            rgoptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                    final int selectedPosition = rgoptions.getCheckedRadioButtonId();
+//                    if (selectedPosition != -1) {
+//                        String idcom = menu.getQestionId() + "~" + selectedPosition;
+//                        String ansidref, answerref;
+//                        if (questionlist.size() == 0) {
+//                            questionlist.add(String.valueOf(menu.getQestionId()));
+//                            if (answerlist.size() == 0) {
+//                                answerlist.add(idcom);
+//                                Log.d("answerlist", answerlist.get(0));
+//                            }
+//                        } else if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
+//                            int replacequepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
+//                            Log.d("replacepos", String.valueOf(replacequepos));
+//                            questionlist.set(replacequepos, String.valueOf(menu.getQestionId()));
+//                            for (int i = 0; i < menu.getAnswer().length(); i++) {
+//                                String[] idref = new String[0];
+//                                try {
+//                                    idref = menu.getAnswer().get(i).toString().split("~");
+//                                    ansidref = idref[0];
+//                                    Log.d("ansid", ansid);
+//                                    answerref = idref[1];
+//                                    Log.d("answer", answer);
+//
+//
+//                                    if (answerlist.contains(menu.getQestionId() + "~" + ansidref)) {
+//                                        Log.d("changeexist", "changeexist");
+//                                        int replacepos = answerlist.indexOf(menu.getQestionId() + "~" + ansidref);
+//                                        Log.d("replacepos", String.valueOf(replacepos));
+//                                        answerlist.set(replacepos, idcom);
+//                                    }
+//
+//
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        } else {
+//                            questionlist.add(String.valueOf(menu.getQestionId()));
+//                            answerlist.add(idcom);
+//                        }
+//                        btnsubmit.setEnabled(answerlist.size() != 0);
+//                        JsonObject jsonObject = new JsonObject();
+//                        jsonObject.addProperty("QuizId", info.getQuizId());
+//                        jsonObject.addProperty("StudentID", child_id);
+//                        jsonObject.addProperty("Answer", String.valueOf(answerlist));
+//
+//                        Log.d("jsonObject", jsonObject.toString());
+//                        Log.d("answersize", String.valueOf(answerlist.size()));
+//                    }
+//                }
+//            });
+//
+//            if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
+//                int replacequepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
+//                if (questionlist.get(replacequepos).equals(String.valueOf(menu.getQestionId()))) {
+//                    String answersetupl = answerlist.get(replacequepos);
+//
+//                    String[] idsetup = new String[0];
+//                    idsetup = answersetupl.split("~");
+//                    int ansidsetup = Integer.parseInt(idsetup[0]);
+//                    Log.d("ansidsetup", String.valueOf(ansidsetup));
+//                    int answersetup = Integer.parseInt(idsetup[1]);
+//                    Log.d("answersetup", String.valueOf(answersetup));
+//                    if (radioButton.getId() == answersetup) {
+//                        radioButton.setChecked(true);
+//                    }
+//
+//                }
+//
+//
+//            }
+//
+//        }
+//
+//
+//        btnsubmit.setEnabled(answerlist.size() != 0);
+//        if (adapterpos == msgModelList.size() - 1 && msgModelList.size() != 0) {
+//            imgnext.setImageResource(R.drawable.bg_next_disable);
+//            lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
+//        } else {
+//            imgnext.setImageResource(R.drawable.bg_next_enable);
+//            lblnext.setTextColor(getResources().getColor(R.color.clr_black));
+//        }
+//        if (adapterpos == 0) {
+//            imgprev.setImageResource(R.drawable.bg_prev_disable);
+//            lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
+//        } else {
+//            imgprev.setImageResource(R.drawable.bg_prev_enable);
+//            lblprev.setTextColor(getResources().getColor(R.color.clr_black));
+//        }
+//
+//
+//        int pos = position + 1;
+//        String queno = "Q ." + pos;
+//        lblqueno.setText(queno);
+//        lblque.setText(menu.getQuestion());
+//        videoview.setVisibility(View.GONE);
+//        imgview.setVisibility(View.GONE);
+//        lnrPDFtext.setVisibility(View.GONE);
+//        if (!menu.getVideoUrl().equals("")) {
+//            videoview.setVisibility(View.VISIBLE);
+//            videourl = menu.getVideoUrl();
+//        } else {
+//            videoview.setVisibility(View.GONE);
+//        }
+//        if (menu.getFileType().equals("IMAGE") && !menu.getFileUrl().equals("")) {
+//
+//            imgview.setVisibility(View.VISIBLE);
+//            Glide.with(this)
+//                    .load(menu.getFileUrl())
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .into(imgview);
+//            imageurl = menu.getFileUrl();
+//
+//
+//        } else {
+//            imgview.setVisibility(View.GONE);
+//        }
+//        if (menu.getFileType().equals("PDF") && !menu.getFileUrl().equals("")) {
+//            lnrPDFtext.setVisibility(View.VISIBLE);
+//            lblPDF.setText(menu.getFileUrl());
+//            pdfuri = menu.getFileUrl();
+//        } else {
+//
+//            lnrPDFtext.setVisibility(View.GONE);
+//        }
+//    }
 
     @Override
     public void removeclass(QuestionForQuiz menu) {

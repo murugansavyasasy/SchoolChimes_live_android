@@ -126,7 +126,6 @@ public class SchoolMenuAdapter extends ArrayAdapter {
     private PopupWindow SettingsStorageCamerapopupWindow;
     private final UpdatesListener listener;
 
-
     public SchoolMenuAdapter(Context context, int textViewResourceId, ArrayList objects, String BookLink, RelativeLayout rytParent, UpdatesListener listener) {
         super(context, textViewResourceId, objects);
         isPrincipalMenuNames = objects;

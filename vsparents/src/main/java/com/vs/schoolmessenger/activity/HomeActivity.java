@@ -683,11 +683,63 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void checkAndShowContactSavePopup() {
+        // List of contacts to check
+        List<Pair<String, String>> fcontacts = new ArrayList<>();
+        for (int i = 0; i < contacts.length; i++) {
+            fcontacts.add(new Pair<>(contact_display_name, contacts[i]));
+
+        }
+
+        // Find missing contacts
+        List<Pair<String, String>> missingContacts = new ArrayList<>();
+        for (Pair<String, String> contact : fcontacts) {
+            if (!contactExists(contact.second)) {
+                missingContacts.add(contact);
+            }
+        }
+
+        if (!missingContacts.isEmpty()) {
+            contactSaveContent(missingContacts);
+        }
+
+    }
+
+
+    private boolean contactExists(String phoneNumber) {
+        Uri uri = Uri.withAppendedPath(
+                ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+                Uri.encode(phoneNumber)
+        );
+
+        String[] projection = {ContactsContract.PhoneLookup._ID};
+        boolean exists = false;
+
+        ContentResolver resolver = this.getContentResolver();
+        try (android.database.Cursor cursor = resolver.query(uri, projection, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                exists = true;
+            }
+        }
+        return exists;
+    }
+
+    public static class Pair<F, S> {
+        public final F first;
+        public final S second;
+
+        public Pair(F first, S second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
     private void getContactPermission() {
         // Check the SDK version and whether the permission is already granted or not.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
         } else {
-            checkIfContactsExist();
+//            checkIfContactsExist();
+            checkAndShowContactSavePopup();
             Log.d("Granted", "Granted");
         }
     }
@@ -895,71 +947,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         // Check and save contact if necessary.
         if (contacts.length != Contact_Count) {
             if (exist_Count == 0 || exist_Count < contacts.length) {
-                contactSaveContent();
+                //contactSaveContent();
             }
         }
     }
 
-//    private void checkIfContactsExist() {
-//        exist_Count = 0;
-//        ContentResolver contentResolver = HomeActivity.this.getContentResolver();
-//        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-//        String[] projection = new String[]{ContactsContract.PhoneLookup._ID};
-//        String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?";
-//        String[] selectionArguments = {contact_display_name};
-//
-//
-//        Cursor cursor = contentResolver.query(uri, projection, selection, selectionArguments, null);
-//        exist_Count = cursor.getCount();
-//        Log.d("exist_Count", String.valueOf(exist_Count));
-//
-//        if (cursor != null) {
-//            while (cursor.moveToNext()) {
-//
-//            }
-//        }
-//
-//        Contact_Count = 0;
-//        for (int i = 0; i < contacts.length; i++) {
-//            String number = contacts[i];
-//            if (number != null) {
-//                Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-//                String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME};
-//                Cursor cur = HomeActivity.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
-//                try {
-//                    if (cur.getCount() > 0) {
-//                        if (cur.moveToFirst()) {
-//                            Contact_Count = Contact_Count + 1;
-//                            int indexName = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-//                            Display_Name = cur.getString(indexName);
-//                            Log.d("Display_Name", Display_Name);
-//                            if (!Display_Name.equals(contact_display_name)) {
-//                                Contact_Count = Contact_Count - 1;
-//                            }
-//                        }else {
-//                            Log.d("isComing","moveToFirst");
-//                        }
-//                    } else {
-//                        Log.d("isComing","isComing");
-//                        exist_Count = 0;
-//                        Contact_Count = Contact_Count - 1;
-//                    }
-//                } finally {
-//                    if (cur != null)
-//                        cur.close();
-//                }
-//            }
-//        }
-//        Log.d("exist_Count1", String.valueOf(exist_Count));
-//
-//        if (contacts.length != Contact_Count) {
-//            if (exist_Count == 0 || exist_Count < contacts.length) {
-//                contactSaveContent();
-//            }
-//        }
-//    }
-
-    private void contactSaveContent() {
+    private void contactSaveContent(List<Pair<String, String>> missingContacts) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.save_contact_alert, null);
         popupWindow = new PopupWindow(layout, android.app.ActionBar.LayoutParams.MATCH_PARENT, android.app.ActionBar.LayoutParams.MATCH_PARENT, true);
@@ -982,8 +975,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                saveContacts();
+                saveContacts(missingContacts);
             }
+
         });
 
         imgClose.setOnClickListener(new View.OnClickListener() {
@@ -994,7 +988,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void saveContacts() {
+    private void saveContacts(List<Pair<String, String>> missingContacts) {
+
+        String[] new_contacts = new String[missingContacts.size()];
+        for (int i = 0; i < missingContacts.size(); i++) {
+            Pair<String, String> contact = missingContacts.get(i);
+            if (!contactExists(contact.second)) {
+                // i is your index
+                Log.d("Index", "Current index = " + i);
+                new_contacts[i] = ""; // example usage
+            }
+        }
 
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.conatct_school);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -1007,7 +1011,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         row.put(ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
         row.put(ContactsContract.CommonDataKinds.Photo.PHOTO, byteArray);
         data.add(row);
-        for (int i = 0; i < contacts.length; i++) {
+        for (int i = 0; i < new_contacts.length; i++) {
             ContentValues row_Number = new ContentValues();
             row_Number.put(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
             row_Number.put(ContactsContract.CommonDataKinds.Phone.NUMBER, contacts[i]);

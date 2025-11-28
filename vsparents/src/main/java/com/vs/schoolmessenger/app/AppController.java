@@ -9,6 +9,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.FirebaseApp;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.util.BannerAdManager;
 import com.vs.schoolmessenger.util.LruBitmapCache;
@@ -36,6 +37,7 @@ public class AppController extends Application
         MobileAds.initialize(this, initializationStatus -> {
             // 🔥 AdMob Initialized
         });
+        FirebaseApp.initializeApp(this);
 
 
         ViewPump.init(ViewPump.builder()

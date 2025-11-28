@@ -108,7 +108,7 @@ public class QuestionForQuizAdapter extends RecyclerView.Adapter<QuestionForQuiz
     public void onBindViewHolder(final QuestionForQuizAdapter.MyViewHolder holder, final int position) {
 
         final QuestionForQuiz msgModel = textDataList.get(position);
-        holder.lblno.setText(msgModel.Questionnum);
+        holder.lblno.setText(msgModel.getQuestionnum());
         holder.bind(msgModel,menuClickListener);
         holder.changeToSelect(selectedPos == position ? R.drawable.bg_que_dark : R.drawable.bg_que_light);
         holder.changeToSelectText(selectedPos == position ? Color.parseColor("#ffffff"): Color.parseColor("#000000"));

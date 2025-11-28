@@ -51,6 +51,7 @@ public class PTM extends AppCompatActivity implements View.OnClickListener {
                 Util_Common.isSelectedSlotIds.clear();
                 Util_Common.isHeaderSlotsIds.clear();
                 Util_Common.isSelectedTime.clear();
+                Util_Common.hasMyBooking = false;
                 finish();
             }
         });
@@ -70,6 +71,7 @@ public class PTM extends AppCompatActivity implements View.OnClickListener {
             public void onClick(View view) {
                 Util_Common.overlappingSlots.clear();
                 Util_Common.isSelectedSlotIds.clear();
+                Util_Common.hasMyBooking = false;
                 Util_Common.isHeaderSlotsIds.clear();
                 Util_Common.isSelectedTime.clear();
 
@@ -84,6 +86,7 @@ public class PTM extends AppCompatActivity implements View.OnClickListener {
             public void onClick(View view) {
                 Util_Common.overlappingSlots.clear();
                 Util_Common.isSelectedSlotIds.clear();
+                Util_Common.hasMyBooking = false;
                 Util_Common.isHeaderSlotsIds.clear();
                 Util_Common.isSelectedTime.clear();
 
@@ -106,6 +109,7 @@ public class PTM extends AppCompatActivity implements View.OnClickListener {
         Util_Common.isSelectedTime.clear();
         Util_Common.overlappingSlots.clear();
         Util_Common.isSelectedSlotIds.clear();
+        Util_Common.hasMyBooking = false;
         finish();
     }
 

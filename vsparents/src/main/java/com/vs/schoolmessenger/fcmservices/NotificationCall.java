@@ -5,14 +5,21 @@ import static com.vs.schoolmessenger.util.TimeConverter.convertToSeconds;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -33,8 +41,11 @@ import com.vs.schoolmessenger.util.Util_Common;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,9 +54,7 @@ import retrofit2.Callback;
 public class NotificationCall extends AppCompatActivity {
 
     private TextView lblVoiceDuration, lblTotalDuration;
-    MediaPlayer mediaPlayer = new MediaPlayer();
     private Handler durationUpdateHandler;
-    //    String voiceUrl = "http://vs5.voicesnapforschools.com/nodejs/voice/VS_1718181818812.wav";
     RelativeLayout lneButtonHeight;
     ImageView imgDeclineNotificationCall;
     private AlertDialog exitDialog;
@@ -59,6 +68,34 @@ public class NotificationCall extends AppCompatActivity {
     String isStartTime, isEndTime;
     String isListeningDuration = "00:00";
 
+    private MediaPlayer mediaPlayer;
+    private int currentTrack = 0;
+    private int preparedCount = 0;
+    private long totalDurationMs = 0;
+    private final List<Integer> trackDurations = new ArrayList<>();
+
+    // 🔊 Your audio URLs
+    private String[] audioUrls;
+    List<String> audioList;
+    String welcome_file = "";
+    String school_name = "";
+    String member_name = "";
+    String call_title = "";
+
+    Boolean isActivityClosing = false;
+    Boolean isCallConnected = false;
+
+    private Handler handler = new Handler();
+    private Runnable updateRunnable;
+    private int totalElapsed = 0;
+
+    ImageButton acceptButton, declineButton, messageButton;
+    View ring1, ring2, ring3;
+    RelativeLayout actionContainer;
+    FrameLayout ringContainer;
+    TextView slideText, lblSchoolName, lblMemberName, lblVoiceTitle;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +108,82 @@ public class NotificationCall extends AppCompatActivity {
 
         lblVoiceDuration = findViewById(R.id.lblVoiceDuration);
         lblTotalDuration = findViewById(R.id.lblTotalDuration);
-        imgDeclineCall = findViewById(R.id.imgDeclineCall);
-        imgAcceptCall = findViewById(R.id.imgAcceptCall);
-        lneButtonHeight = findViewById(R.id.lneButtonHeight);
+
+        acceptButton = findViewById(R.id.acceptButton);
+        declineButton = findViewById(R.id.declineButton);
+        messageButton = findViewById(R.id.messageButton);
+        ring1 = findViewById(R.id.ring1);
+        ring2 = findViewById(R.id.ring2);
+        ring3 = findViewById(R.id.ring3);
+        actionContainer = findViewById(R.id.actionContainer);
+        ringContainer = findViewById(R.id.ringContainer);
+        slideText = findViewById(R.id.slideText);
+        lblSchoolName = findViewById(R.id.lblSchoolName);
+        lblMemberName = findViewById(R.id.lblMemberName);
+        lblVoiceTitle = findViewById(R.id.lblVoiceTitle);
+
+        startCallAnimation();
+
+
         imgDeclineNotificationCall = findViewById(R.id.imgDeclineNotificationCall);
         lblCutCall = findViewById(R.id.lblCutCall);
 
         handleIntent(getIntent());
+
+        acceptButton.setOnTouchListener(new View.OnTouchListener() {
+            float dX = 0f;
+            float originalX = 0f;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (isActivityClosing)
+                    return false;
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        dX = view.getX() - event.getRawX();
+                        originalX = view.getX();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        float newX = event.getRawX() + dX;
+                        if (newX >= declineButton.getX() && newX <= messageButton.getX()) {
+                            view.setX(newX);
+                        }
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        float movedDistance = view.getX() - originalX;
+                        if (movedDistance > 150) {
+                            showConnectedState();
+                        } else if (movedDistance < -150) {
+                            //end call
+                            isUserResponse = "NO";
+                            if (Util_Common.mediaPlayer.isPlaying()) {
+                                Util_Common.mediaPlayer.stop();
+                            }
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                            isEndTime = sdf.format(new Date());
+                            isStartTime = isEndTime;
+                            updateNotificationCallLog(isStartTime, isEndTime);
+
+                        } else {
+                            view.animate().x(originalX).setDuration(200).start();
+                        }
+                        break;
+                }
+
+                return true;
+            }
+        });
+
+        // Step 1: Calculate total duration before playing
+        calculateTotalDuration(() -> {
+            String formatted = formatDuration(totalDurationMs);
+            Log.d("Total_Duration:", formatted);
+            lblTotalDuration.setText(formatted);
+            // Step 2: Start playback after calculating total
+        });
 
         imgDeclineNotificationCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +196,10 @@ public class NotificationCall extends AppCompatActivity {
             }
         });
 
-        imgDeclineCall.setOnClickListener(new View.OnClickListener() {
+        declineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isUserResponse = "NO";
-
                 if (Util_Common.mediaPlayer.isPlaying()) {
                     Util_Common.mediaPlayer.stop();
                 }
@@ -104,45 +209,207 @@ public class NotificationCall extends AppCompatActivity {
                 updateNotificationCallLog(isStartTime, isEndTime);
             }
         });
+    }
 
-        imgAcceptCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                isUserResponse = "OC";
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                isStartTime = sdf.format(new Date());
-                isEndTime = "00:00";
-                isVoicePlaying();
-            }
-        });
+    private void startCallAnimation() {
+        Animation wave1 = AnimationUtils.loadAnimation(this, R.anim.call_wave1);
+        Animation wave2 = AnimationUtils.loadAnimation(this, R.anim.call_wave2);
+        Animation wave3 = AnimationUtils.loadAnimation(this, R.anim.call_wave3);
 
-        // Using Java
-        new Thread(() -> {
-            try {
-                long durationMillis;
-                try {
-                    durationMillis = AudioUtils.getWavFileDurationFromUrl(voiceUrl);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                String isTotalDuration = AudioUtils.formatDuration(durationMillis);
-                Log.d("isTotalDuration", (isTotalDuration));
-                if (!isTotalDuration.equals("-1")) {
-                    lblTotalDuration.setText(" / " + isTotalDuration);
-                } else {
-                    System.out.println("Error getting duration");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+        ring1.startAnimation(wave1);
+        ring2.startAnimation(wave2);
+        ring3.startAnimation(wave3);
+    }
+
+    private void stopCallAnimation() {
+        ring1.clearAnimation();
+        ring2.clearAnimation();
+        ring3.clearAnimation();
+
+        ring1.setVisibility(View.GONE);
+        ring2.setVisibility(View.GONE);
+        ring3.setVisibility(View.GONE);
+    }
+
+    private void showConnectedState() {
+        if (isCallConnected || isActivityClosing)
+            return;
+
+        isCallConnected = true;
+
+        stopCallAnimation();
+
+        slideText.setVisibility(View.GONE);
+        declineButton.setVisibility(View.GONE);
+        messageButton.setVisibility(View.GONE);
+
+
+        acceptButton.animate()
+                .x(actionContainer.getWidth() / 2f - acceptButton.getWidth() / 2f)
+                .setDuration(300)
+                .withEndAction(() -> {
+                    ringContainer.setVisibility(View.GONE);
+                    acceptButton.setVisibility(View.GONE);
+
+                    imgDeclineNotificationCall.setVisibility(View.VISIBLE);
+
+                    if (Util_Common.mediaPlayer.isPlaying()) {
+                        Util_Common.mediaPlayer.stop();
+                    }
+                    isUserResponse = "OC";
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    isStartTime = sdf.format(new Date());
+                    isEndTime = "00:00";
+                    playAudio(currentTrack);
+
+                })
+                .start();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleIntent(intent);
+    }
+
+    // 🔹 Calculate total duration of all files
+    private void calculateTotalDuration(Runnable onComplete) {
+        for (String url : audioUrls) {
+            MediaPlayer tempPlayer = new MediaPlayer();
+            try {
+                tempPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build());
+                tempPlayer.setDataSource(url);
+
+                tempPlayer.setOnPreparedListener(mp -> {
+                    int duration = mp.getDuration();
+                    totalDurationMs += duration;
+                    trackDurations.add(duration);
+                    preparedCount++;
+                    mp.release();
+
+                    if (preparedCount == audioUrls.length) {
+                        onComplete.run();
+                    }
+                });
+
+                tempPlayer.setOnErrorListener((mp, what, extra) -> {
+                    preparedCount++;
+                    mp.release();
+                    if (preparedCount == audioUrls.length) {
+                        onComplete.run();
+                    }
+                    return true;
+                });
+
+                tempPlayer.prepareAsync();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    // 🔹 Play each track one by one
+    private void playAudio(int index) {
+        imgDeclineNotificationCall.setVisibility(View.VISIBLE);
+        lblCutCall.setVisibility(View.VISIBLE);
+        if (index >= audioUrls.length) {
+            Log.d("AUDIO_PLAYER", "All tracks completed");
+            stopUpdatingProgress();
+
+            return;
+        }
+
+        releasePlayer();
+        mediaPlayer = new MediaPlayer();
+
+        try {
+            mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build());
+            mediaPlayer.setDataSource(audioUrls[index]);
+            mediaPlayer.prepareAsync();
+
+            mediaPlayer.setOnPreparedListener(mp -> {
+                Log.d("AUDIO_PLAYER", "Playing: " + (index + 1) +
+                        " | Duration: " + formatDuration(mp.getDuration()));
+
+                mp.start();
+                startUpdatingProgress(); // 🕒 start updating duration
+
+            });
+
+            mediaPlayer.setOnCompletionListener(mp -> {
+                totalElapsed += mp.getDuration();
+
+                currentTrack++;
+                if (currentTrack < audioUrls.length) {
+                    playAudio(currentTrack);
+                } else {
+                    stopUpdatingProgress();
+                    Log.d("AUDIO_PLAYER", "Playback finished");
+                    releasePlayer();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    String currentTime = sdf.format(new Date());
+                    isEndTime = currentTime;
+                    isListeningDuration = lblVoiceDuration.getText().toString();
+                    updateNotificationCallLog(isStartTime, isEndTime);
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startUpdatingProgress() {
+        stopUpdatingProgress(); // avoid duplicates
+
+        updateRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    int currentPosition = mediaPlayer.getCurrentPosition();
+                    int totalDuration = mediaPlayer.getDuration();
+
+                    int totalProgress = totalElapsed + currentPosition; // ✅ accumulated time
+
+                    Log.d("AUDIO_PROGRESS", "Current: " + formatDuration(totalProgress)
+                            + " / Total: " + formatDuration(totalProgress));
+
+                    lblVoiceDuration.setText(formatDuration(totalProgress));
+
+                }
+                handler.postDelayed(this, 1000); // update every second
+            }
+        };
+        handler.postDelayed(updateRunnable, 1000);
+    }
+
+    private void stopUpdatingProgress() {
+        if (updateRunnable != null) {
+            handler.removeCallbacks(updateRunnable);
+        }
+    }
+
+
+    private String formatDuration(long durationMs) {
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(durationMs);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(durationMs) % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    private void releasePlayer() {
+        stopUpdatingProgress();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     private void handleIntent(Intent intent) {
@@ -160,20 +427,32 @@ public class NotificationCall extends AppCompatActivity {
             ei5 = intent.getStringExtra("ei5");
             role = intent.getStringExtra("role");
             menuId = intent.getStringExtra("menuId");
+
+            welcome_file = intent.getStringExtra("welcome");
+            school_name = intent.getStringExtra("school_name");
+            member_name = intent.getStringExtra("member_name");
+            call_title = intent.getStringExtra("call_title");
+
+            lblSchoolName.setText(school_name);
+            lblMemberName.setText("Calling - " + member_name + " from");
+            lblVoiceTitle.setText(call_title);
+
+
+            audioList = new ArrayList<>();
+            if (!welcome_file.equals("")) {
+                audioList.add(welcome_file);
+            }
+            audioList.add(voiceUrl);
+            audioUrls = audioList.toArray(new String[0]);
+
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        releasePlayer();
         ScreenState.getInstance().setIncomingCallScreen(false);
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-        }
-        if (durationUpdateHandler != null) {
-            durationUpdateHandler.removeCallbacksAndMessages(null);
-        }
-
         if (exitDialog != null && exitDialog.isShowing()) {
             exitDialog.dismiss(); // Avoid window leak
         }
@@ -187,6 +466,7 @@ public class NotificationCall extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 
     private void isExit() {
 

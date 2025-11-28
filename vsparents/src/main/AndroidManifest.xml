@@ -47,6 +47,15 @@
 
 
         <activity
+            android:name=".activity.PreviewActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.Login"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+
+        <activity
             android:name=".activity.PunchStaffAttendanceUsingFinger"
             android:exported="false"
             android:launchMode="singleTop"

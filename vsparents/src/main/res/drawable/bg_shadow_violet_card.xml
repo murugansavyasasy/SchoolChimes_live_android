@@ -1,0 +1,58 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Drop Shadow Stack (Violet tones) -->
+    <item>
+        <shape>
+            <padding android:top="0.5dp" android:right="0.5dp" android:bottom="1dp" android:left="0.5dp" />
+            <solid android:color="#10A37CFF" /> <!-- very light violet shadow -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:top="0.5dp" android:right="0dp" android:bottom="1dp" android:left="0.5dp" />
+            <solid android:color="#20A37CFF" /> <!-- light violet -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#30A37CFF" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" />
+            <solid android:color="#40A37CFF" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#50A37CFF" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#60A37CFF" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#70A37CFF" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- Background -->
+    <item>
+        <shape>
+            <solid android:color="#F3E5F5" /> <!-- light violet interior -->
+            <corners android:radius="8dp" />
+            <stroke android:width="1dp" android:color="#A37CFF" /> <!-- violet border -->
+        </shape>
+    </item>
+</layer-list>

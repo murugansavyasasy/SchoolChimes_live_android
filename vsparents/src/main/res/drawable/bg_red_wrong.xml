@@ -1,0 +1,66 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Red Shadow Layers -->
+    <item>
+        <shape>
+            <padding android:top="0.5dp" android:right="0.5dp" android:bottom="1dp" android:left="0.5dp" />
+            <solid android:color="#10FF3B30" /> <!-- very light red -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <padding android:top="0.5dp" android:right="0dp" android:bottom="1dp" android:left="0.5dp" />
+            <solid android:color="#20FF3B30" /> <!-- light red -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#30FF3B30" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" />
+            <solid android:color="#40FF3B30" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <solid android:color="#50FF3B30" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <solid android:color="#60FF3B30" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <solid android:color="#70FF3B30" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- Final Background -->
+    <item>
+        <shape>
+            <solid android:color="#FFCDD2" /> <!-- soft pink/red interior -->
+            <corners android:radius="8dp" />
+            <stroke android:width="1dp" android:color="#FF3B30" /> <!-- red border -->
+        </shape>
+    </item>
+
+</layer-list>

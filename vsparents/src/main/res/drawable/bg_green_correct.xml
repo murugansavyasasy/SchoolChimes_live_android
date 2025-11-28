@@ -1,0 +1,66 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Green Shadow Layers -->
+    <item>
+        <shape>
+            <padding android:top="0.5dp" android:right="0.5dp" android:bottom="1dp" android:left="0.5dp" />
+            <solid android:color="#1000C853" /> <!-- very light green -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <padding android:top="0.5dp" android:right="0dp" android:bottom="1dp" android:left="0.5dp" />
+            <solid android:color="#2000C853" /> <!-- light green -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#3000C853" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" />
+            <solid android:color="#4000C853" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <solid android:color="#5000C853" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <solid android:color="#6000C853" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <solid android:color="#7000C853" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- Final Background -->
+    <item>
+        <shape>
+            <solid android:color="#C8E6C9" /> <!-- soft green interior -->
+            <corners android:radius="8dp" />
+            <stroke android:width="1dp" android:color="#00C853" /> <!-- green border -->
+        </shape>
+    </item>
+
+</layer-list>

@@ -2,7 +2,6 @@ package com.vs.schoolmessenger.adapter.Ptm;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,21 +19,18 @@ import com.vs.schoolmessenger.model.SlotDetail;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ParentSlotBookingAdapter extends RecyclerView.Adapter<ParentSlotBookingAdapter.MyViewHolder> {
 
     private final Context context;
     private final List<GroupedSlot> dateList;
     private final List<SlotDetail> allSlotDetails;
-    private OnChildItemClickListener onChildItemClickListener;
-
+    private final OnChildItemClickListener onChildItemClickListener;
 
     public ParentSlotBookingAdapter(Context context, List<GroupedSlot> dateList, OnChildItemClickListener listener) {
         this.context = context;
         this.dateList = dateList;
         this.onChildItemClickListener = listener;
         this.allSlotDetails = new ArrayList<>();
-
         for (GroupedSlot group : dateList) {
             allSlotDetails.addAll(group.getSlots());
         }
@@ -43,7 +39,8 @@ public class ParentSlotBookingAdapter extends RecyclerView.Adapter<ParentSlotBoo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.available_meeing_parentside, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.available_meeing_parentside, parent, false);
         return new MyViewHolder(itemView);
     }
 
@@ -51,7 +48,6 @@ public class ParentSlotBookingAdapter extends RecyclerView.Adapter<ParentSlotBoo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         GroupedSlot groupedSlot = dateList.get(position);
 
-        Log.d("isSpecificItem", String.valueOf(groupedSlot.getIsSpecificMeeting()));
         holder.lblEventName.setText(groupedSlot.getEvent_name());
         holder.txtStaffSubjectName.setText(groupedSlot.getSubject_name() + " - " + groupedSlot.getStaff_name());
         holder.lblModeName.setText(groupedSlot.getEvent_mode());
@@ -60,16 +56,15 @@ public class ParentSlotBookingAdapter extends RecyclerView.Adapter<ParentSlotBoo
         holder.txtStaffSubjectName.setTypeface(null, Typeface.BOLD);
 
         SlotDetailAdapter adapter = new SlotDetailAdapter(context, groupedSlot.getSlots(), allSlotDetails);
-        adapter.setOnSlotSelectedListener(() -> {
+        adapter.setOnSlotSelectedListener(isAnySlotSelected -> {
             if (holder.gridViewSlots != null) {
-                onChildItemClickListener.onChildItemClick("isClick");
+                onChildItemClickListener.onChildItemClick(isAnySlotSelected);
                 holder.gridViewSlots.post(() -> notifyDataSetChanged());
             }
         });
 
         holder.gridViewSlots.setAdapter(adapter);
         adjustGridViewHeight(holder.gridViewSlots, adapter.getCount());
-
     }
 
     @Override
@@ -77,7 +72,7 @@ public class ParentSlotBookingAdapter extends RecyclerView.Adapter<ParentSlotBoo
         return dateList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView lblEventName, txtStaffSubjectName, lblModeName, lblLink, lblLinkName;
         GridView gridViewSlots;
 
@@ -92,13 +87,12 @@ public class ParentSlotBookingAdapter extends RecyclerView.Adapter<ParentSlotBoo
         }
     }
 
-    // Adjust GridView height based on the number of items
     private void adjustGridViewHeight(GridView gridView, int itemCount) {
         ListAdapter gridAdapter = gridView.getAdapter();
         if (gridAdapter == null) return;
 
         int totalHeight = 0;
-        int itemsPerRow = 2;  // Number of items per row in the GridView (adjust as needed)
+        int itemsPerRow = 2;
         int numRows = (int) Math.ceil((double) itemCount / itemsPerRow);
 
         for (int i = 0; i < numRows; i++) {
@@ -112,8 +106,7 @@ public class ParentSlotBookingAdapter extends RecyclerView.Adapter<ParentSlotBoo
         gridView.setLayoutParams(params);
     }
 
-    // Interface to handle child item clicks
     public interface OnChildItemClickListener {
-        void onChildItemClick(String date);
+        void onChildItemClick(boolean isAnySlotSelected);
     }
 }

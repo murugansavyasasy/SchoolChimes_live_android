@@ -405,8 +405,6 @@ public class ParentSubmitLSRW extends AppCompatActivity implements View.OnClickL
                     lblAddAttachment.setVisibility(View.GONE);
                 }
                 break;
-
-
         }
     }
 

@@ -1,167 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_margin="@dimen/_10sdp"
     android:background="@drawable/bg_rect_white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
+
     <RelativeLayout
+        android:id="@+id/rytque"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rytque"
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rcyquestions">
+        app:layout_constraintTop_toBottomOf="@id/rcyquestions"
+        tools:ignore="WebViewLayout">
+
         <TextView
+            android:id="@+id/lblqueno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text=""
             android:textColor="@color/bpblack"
             android:textSize="@dimen/_16sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/lblqueno"
-            android:layout_margin="5dp"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/lblque"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/webview"
+            android:layout_toEndOf="@+id/lblqueno"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:gravity="start"
             android:layout_marginBottom="2dp"
-            android:layout_toRightOf="@id/lblqueno"
             android:text=""
             android:textColor="@color/bpblack"
             android:textSize="@dimen/_16sdp" />
+        
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="100dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_height="100dp">
+        </WebView>
     </RelativeLayout>
 
 
-        <RelativeLayout
+    <RelativeLayout
+        android:id="@+id/rytQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/containerOptions"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rytQuestion">
+            android:layout_marginTop="5dp" />
 
-
-            <RadioGroup
-                android:id="@+id/rgoptions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginLeft="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:inputType="text"
-                android:padding="10dp" />
-             <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:id="@+id/lblcorrectans"
-                 android:textStyle="bold"
-                 android:layout_below="@id/rgoptions"
-                 android:textSize="@dimen/_16sdp"
-                 android:layout_marginLeft="@dimen/_20sdp"
-                 android:layout_marginBottom="@dimen/_10sdp"
-                 android:textColor="@color/colorPrimary"/>
-
-            <FrameLayout
-                android:id="@+id/videoview"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_20sdp"
-                android:layout_marginRight="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_below="@id/rgoptions"
-                android:background="@drawable/bg_rect_white">
-
-
-                <ImageView
-                    android:id="@+id/imgVideo"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/video_parent_img"
-                    android:layout_height="200dp" />
-                <ImageView
-                    android:id="@+id/imgShadow"
-                    android:layout_width="match_parent"
-                    android:visibility="visible"
-                    android:layout_margin="5dp"
-                    android:clickable="false"
-                    android:background="@color/clr_white_fifty"
-                    android:layout_height="200dp" />
-                <ImageView
-                    android:id="@+id/imgplay"
-                    android:layout_width="40dp"
-                    android:visibility="visible"
-                    android:layout_height="40dp"
-                    android:src="@drawable/play_button"
-                    android:layout_gravity="center"/>
-
-
-            </FrameLayout>
-            <ImageView
-                android:id="@+id/imgview"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:visibility="gone"
-                android:background="@drawable/bg_rect_white"
-                android:layout_below="@id/videoview"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/_20sdp"
-                android:layout_marginRight="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"/>
-            <LinearLayout
-                android:id="@+id/lnrPDFtext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_below="@+id/imgview"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/_20sdp"
-                android:layout_marginRight="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/bg_rect_white"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:id="@+id/rytTextMessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <ImageView
-                        android:id="@+id/imgPDF"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginBottom="6dp"
-                        android:padding="5dp"
-                        android:src="@drawable/pdf_image" />
-
-                    <TextView
-                        android:id="@+id/lblPDF"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/imgPDF"
-                        android:padding="2dp"
-                        android:text=""
-                        android:textColor="@color/clr_black"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-
-
-        </RelativeLayout>
-
+        <TextView
+            android:id="@+id/lblcorrectans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/containerOptions"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text=""
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 </LinearLayout>

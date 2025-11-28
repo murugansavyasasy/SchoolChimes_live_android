@@ -52,6 +52,7 @@ public class ViewQuizResult extends AppCompatActivity {
         Context wrappedContext = ViewPumpContextWrapper.wrap(localeUpdatedContext);
         super.attachBaseContext(wrappedContext);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +75,8 @@ public class ViewQuizResult extends AppCompatActivity {
         lblnotanswer = findViewById(R.id.lblnotanswer);
         rcyquestions = findViewById(R.id.rcyquestions);
 
-        mAdapter = new QuizSubmissionResultAdapter(msgModelList, this, "1");
+//        mAdapter = new QuizSubmissionResultAdapter(msgModelList, this, "1");
+        mAdapter = new QuizSubmissionResultAdapter(msgModelList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rcyquestions.setLayoutManager(mLayoutManager);
         rcyquestions.setItemAnimator(new DefaultItemAnimator());
@@ -131,41 +133,48 @@ public class ViewQuizResult extends AppCompatActivity {
 
                             if (status == 1) {
 
-                                JSONObject data = new JSONObject(jsonObject.getString("data"));
-
-                                QuizSubmissions msgModel;
+                                JSONObject data = jsonObject.getJSONObject("data");
 
                                 lblrightanswer.setText(data.getString("rightAnswer"));
                                 lblwronganswer.setText(data.getString("wrongAnswer"));
                                 lblnotanswer.setText(data.getString("unAnswer"));
 
-
                                 JSONArray quiz = data.getJSONArray("quizArray");
+
                                 for (int i = 0; i < quiz.length(); i++) {
-                                    jsonObject = quiz.getJSONObject(i);
-                                    msgModel = new QuizSubmissions(jsonObject.getInt("id"),
-                                            jsonObject.getInt("quizId"),
-                                            jsonObject.getString("question"),
-                                            jsonObject.getString("aOption"),
-                                            jsonObject.getString("bOption"),
-                                            jsonObject.getString("cOption"),
-                                            jsonObject.getString("dOption"),
-                                            jsonObject.getString("mark"),
-                                            jsonObject.getString("answer"),
-                                            jsonObject.getString("studentAnswer"),
-                                            jsonObject.getString("correctAnswer")
+
+                                    JSONObject obj = quiz.getJSONObject(i);
+
+                                    QuizSubmissions model = new QuizSubmissions(
+                                            obj.getInt("id"),
+                                            obj.getInt("quizId"),
+                                            obj.getString("question"),
+
+                                            obj.getString("aOption"),
+                                            obj.getString("bOption"),
+                                            obj.getString("cOption"),
+                                            obj.getString("dOption"),
+
+                                            obj.getString("qImage"),
+                                            obj.getString("aImage"),
+                                            obj.getString("bImage"),
+                                            obj.getString("cImage"),
+                                            obj.getString("dImage"),
+
+                                            obj.getInt("mark"),
+                                            obj.getString("answer"),
+                                            obj.getString("studentAnswer"),
+                                            obj.getString("correctAnswer")
                                     );
-                                    msgModelList.add(msgModel);
+
+                                    msgModelList.add(model);
                                 }
 
                                 mAdapter.notifyDataSetChanged();
 
-
                             } else {
                                 showAlert(message);
-
                             }
-
                         } catch (Exception e) {
                             Log.e("TextMsg:Exception", e.getMessage());
                         }
@@ -197,9 +206,7 @@ public class ViewQuizResult extends AppCompatActivity {
         alertDialog.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.cancel();
-
             }
         });
 
@@ -212,6 +219,4 @@ public class ViewQuizResult extends AppCompatActivity {
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
-
-
 }

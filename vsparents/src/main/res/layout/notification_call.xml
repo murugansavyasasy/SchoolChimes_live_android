@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
@@ -8,39 +8,58 @@
     android:background="@drawable/bg_call_playing">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/imgSchoolLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:padding="20dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/school_chimes"
-        app:layout_constraintBottom_toTopOf="@+id/lblName"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"></ImageView>
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/school_chimes_trans_splash"
+></ImageView>
+
 
     <TextView
-        android:id="@+id/lblName"
+        android:layout_below="@+id/imgSchoolLogo"
+        android:id="@+id/lblMemberName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="@string/school_chimes"
+        android:text="Calling - xxxxx from"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:textColor="@color/bpWhite"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/lblTiming"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        android:textSize="13sp"
+        android:textStyle="bold">
 
     </TextView>
 
-    <RelativeLayout
-        android:id="@+id/lblTiming"
+    <TextView
+        android:id="@+id/lblSchoolName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="15dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:fontFamily="@font/poppins_bold"
+        android:text="SSS School "
+        android:textColor="@color/bpWhite"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/lblMemberName"
+        android:textStyle="bold">
+
+    </TextView>
+
+
+
+    <RelativeLayout
+        android:layout_below="@+id/lblSchoolName"
+        android:id="@+id/rytTiming"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/lblVoiceDuration"
@@ -52,10 +71,20 @@
             android:textStyle="bold" />
 
         <TextView
+            android:layout_toEndOf="@+id/lblVoiceDuration"
+            android:id="@+id/lblSlash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" / "
+            android:textColor="@color/bpWhite"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/lblTotalDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/lblVoiceDuration"
+            android:layout_toRightOf="@+id/lblSlash"
             android:text="00:00"
             android:textColor="@color/bpWhite"
             android:textSize="15dp"
@@ -64,95 +93,38 @@
     </RelativeLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/lneButtonHeight"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:orientation="vertical"
+        android:layout_above="@+id/actionContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/lblVoiceTitle"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="50dp"
-            android:layout_marginBottom="100dp"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imgDeclineCall"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/decline_notification_call">
-
-            </ImageView>
-
-
-            <TextView
-                android:id="@+id/lblCallEnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imgAcceptCall"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/end_call"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:textColor="@color/clr_white">
-
-
-            </TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="100dp"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imgAcceptCall"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/call_accept">
-
-            </ImageView>
-
-
-            <TextView
-                android:id="@+id/lblCallStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/accept"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:textColor="@color/clr_white">
-
-            </TextView>
-        </LinearLayout>
-    </RelativeLayout>
-
+        android:text=""
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"
+        android:textColor="@color/bpWhite"
+        android:textSize="15dp"
+        android:textStyle="bold" />
 
 
     <ImageView
+        android:layout_below="@+id/lblVoiceTitle"
         android:id="@+id/imgDeclineNotificationCall"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="100dp"
+        android:layout_gravity="center"
         android:src="@drawable/decline_notification_call"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        android:layout_centerHorizontal="true">
 
     </ImageView>
 
@@ -162,14 +134,108 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
         android:text="End Call"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/imgDeclineNotificationCall"
+        android:layout_gravity="center"
+        android:layout_below="@+id/imgDeclineNotificationCall"
         android:textSize="15dp"
         android:textColor="@color/clr_white">
 
     </TextView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/actionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true">
+
+        <ImageButton
+            android:layout_alignParentStart="true"
+            android:id="@+id/declineButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="Decline call"
+            android:src="@drawable/ic_end_answer" />
+
+        <TextView
+            android:id="@+id/slideText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+
+        <FrameLayout
+            android:id="@+id/ringContainer"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@drawable/caller_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/ring1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.4"
+                android:background="@drawable/glow_circle" />
+
+            <View
+                android:id="@+id/ring2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:background="@drawable/glow_circle" />
+
+            <View
+                android:id="@+id/ring3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.2"
+                android:background="@drawable/glow_circle" />
+
+            <ImageButton
+                android:id="@+id/acceptButton"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_call_answers"
+                android:background="@drawable/circle_button_white"
+              />
+        </FrameLayout>
+
+        <ImageButton
+            android:layout_alignParentEnd="true"
+            android:id="@+id/messageButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_call_answers"
+       />
+
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

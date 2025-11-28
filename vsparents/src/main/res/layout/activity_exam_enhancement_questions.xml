@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_app_bg"
+    android:fitsSystemWindows="true"
     android:visibility="visible">
 
     <RelativeLayout
@@ -162,7 +162,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
@@ -173,7 +172,9 @@
         android:id="@+id/rytque"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rcyquestions">
 
@@ -198,12 +199,42 @@
             android:text=""
             android:textColor="@color/bpblack"
             android:textSize="@dimen/_16sdp" />
+
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_below="@+id/lblque"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/bg_shadow_violet_card"
+            android:visibility="gone"
+            tools:ignore="WebViewLayout">
+
+        </WebView>
+
+        <ImageView
+            android:id="@+id/imgQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_below="@+id/lblque"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/bg_shadow_violet_card"
+            android:scaleType="fitXY"
+            android:visibility="gone">
+
+        </ImageView>
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@id/imgprev"
@@ -215,29 +246,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/lblSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Select the correct option:"
+                android:textColor="@color/clr_black"
+                android:textSize="15sp"
+                android:textStyle="bold">
 
-            <RadioGroup
-                android:id="@+id/rgoptions"
+            </TextView>
+
+            <LinearLayout
+                android:id="@+id/containerOptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_20sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:inputType="text"
-                android:padding="10dp" />
+                android:layout_below="@+id/lblSelect"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical" />
 
-            <!--        <WebView-->
-            <!--            android:id="@+id/videoview"-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="250dp"-->
-            <!--            android:visibility="gone"-->
-            <!--            android:background="@color/clr_black"-->
-            <!--            tools:ignore="WebViewLayout" />-->
+
+            <!--            <RadioGroup-->
+            <!--                android:id="@+id/rgoptions"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginLeft="@dimen/_20sdp"-->
+            <!--                android:layout_marginRight="@dimen/_10sdp"-->
+            <!--                android:layout_marginBottom="@dimen/_10sdp"-->
+            <!--                android:inputType="text"-->
+            <!--                android:padding="10dp" />-->
+
+            <!--                    <WebView-->
+            <!--                        android:id="@+id/videoview"-->
+            <!--                        android:layout_width="match_parent"-->
+            <!--                        android:layout_height="250dp"-->
+            <!--                        android:visibility="gone"-->
+            <!--                        android:background="@color/clr_black"-->
+            <!--                        tools:ignore="WebViewLayout" />-->
             <FrameLayout
                 android:id="@+id/videoview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rgoptions"
+                android:layout_below="@id/containerOptions"
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"

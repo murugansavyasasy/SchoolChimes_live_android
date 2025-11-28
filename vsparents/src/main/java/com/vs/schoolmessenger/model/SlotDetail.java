@@ -1,12 +1,7 @@
 package com.vs.schoolmessenger.model;
 
-import android.os.Build;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Objects;
 
 public class SlotDetail {
     int isBooking;
@@ -15,14 +10,16 @@ public class SlotDetail {
     int slot_id;
     int isStaffId;
     int isSpecificMeeting;
+    int isMyBooking;
 
-    public SlotDetail(int isBooking,String from_time, String to_time, int slot_id,int isStaffId,int isSpecificMeeting) {
-      this.isBooking=isBooking;
+    public SlotDetail(int isBooking, String from_time, String to_time, int slot_id, int isStaffId, int isSpecificMeeting, int my_booking) {
+        this.isBooking=isBooking;
         this.from_time = from_time;
         this.to_time = to_time;
         this.slot_id = slot_id;
         this.isStaffId=isStaffId;
         this.isSpecificMeeting=isSpecificMeeting;
+        this.isMyBooking=my_booking;
     }
 
 
@@ -74,6 +71,14 @@ public class SlotDetail {
         this.slot_id = slot_id;
     }
 
+    public int getIsMyBooking() {
+        return isMyBooking;
+    }
+
+    public void setIsMyBooking(int isMyBooking) {
+        this.isMyBooking = isMyBooking;
+    }
+
     public Date getFromDate(SimpleDateFormat sdf) throws Exception {
         return sdf.parse(from_time);
     }
@@ -86,6 +91,7 @@ public class SlotDetail {
     public String toString() {
         return "SlotDetail{" +
                 "isBooking=" + isBooking +
+                "isMyBooking=" + isMyBooking +
                 ", from_time='" + from_time + '\'' +
                 ", to_time='" + to_time + '\'' +
                 ", slot_id=" + slot_id +
