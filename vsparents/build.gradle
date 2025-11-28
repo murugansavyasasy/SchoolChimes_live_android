@@ -8,6 +8,8 @@ android {
             keyPassword 'android123'
         }
     }
+    ndkVersion "28.0.12433566"
+
     compileSdk 36
     namespace 'com.vs.schoolmessenger'
     defaultConfig {
@@ -47,6 +49,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
+    }
+    packagingOptions {
+        jniLibs.useLegacyPackaging = false
     }
 //    kotlinOptions {
 //        jvmTarget = '11'
