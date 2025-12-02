@@ -19,22 +19,30 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -43,6 +51,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -315,7 +325,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
             Dexter.withContext(this).withPermissions(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.POST_NOTIFICATIONS).withListener(new MultiplePermissionsListener() {
                 @Override
                 public void onPermissionsChecked(MultiplePermissionsReport report) {
-                    // check if all permissions are granted
                     if (report.areAllPermissionsGranted()) {
                         checkNetworkAndLoginCredentials();
                     } else {
@@ -395,38 +404,126 @@ public class TeacherSplashScreen extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 
-
     private boolean isNetworkConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) TeacherSplashScreen.this.getSystemService(Context.CONNECTIVITY_SERVICE);
         return connMgr.getActiveNetworkInfo() != null;
     }
 
-
     private void checkNetworkAndLoginCredentials() {
         if (TeacherUtil_Common.isNetworkAvailable(TeacherSplashScreen.this)) {
-            int SPLASH_TIME_OUT = 2000;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);
-                    Log.d("strBaseURL", strBaseURL);
-                    if (!strBaseURL.equals("")) {
-                        String forget = TeacherUtil_SharedPreference.getForgetPasswordOtp(TeacherSplashScreen.this);
-                        if (forget.equals("1")) {
-                            TeacherUtil_SharedPreference.putForgetPasswordOTP(TeacherSplashScreen.this, "0");
-                            otpCallApi();
-                        } else {
-                            checkAppUpdateAPI();
-                        }
-                    } else {
-                        appTermsAndConditions("1");
-                    }
-                }
-            }, SPLASH_TIME_OUT);
+            isGoToNext();
         } else {
             showAlert(getResources().getString(R.string.alert), getResources().getString(R.string.check_internet));
         }
     }
+
+    private void showComingSoonPopup(String isNewApp,String isPlayStoreLink,String isPlaystoreMarketId) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.popup_coming_soon);
+
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.dimAmount = 0.6f;
+            lp.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            window.setAttributes(lp);
+            window.setGravity(Gravity.CENTER);
+        }
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+
+        View btnGetNewApp = dialog.findViewById(R.id.btnGetNewApp);
+        View btnLater = dialog.findViewById(R.id.btnLater);
+        TextView lblExciting = dialog.findViewById(R.id.lblExciting);
+        TextView lblYear = dialog.findViewById(R.id.lblYear);
+        TextView lblNewExperience = dialog.findViewById(R.id.lblNewExperience);
+        TextView lblNewApp = dialog.findViewById(R.id.lblNewApp);
+        ImageView imgClose = dialog.findViewById(R.id.imgClose);
+        TextView lblNewVersion = dialog.findViewById(R.id.lblNewVersion);
+
+        Typeface poppinsBold = ResourcesCompat.getFont(this, R.font.roboto_bold);
+
+        lblNewExperience.setTypeface(poppinsBold);
+        lblYear.setTypeface(poppinsBold);
+        lblExciting.setTypeface(poppinsBold);
+        lblNewVersion.setTypeface(poppinsBold);
+
+        if (isNewApp.equals("1")){
+            btnGetNewApp.setVisibility(View.VISIBLE);
+            btnLater.setVisibility(View.GONE);
+            imgClose.setVisibility(View.GONE);
+        }else {
+            btnGetNewApp.setVisibility(View.GONE);
+            btnLater.setVisibility(View.VISIBLE);
+            imgClose.setVisibility(View.VISIBLE);
+        }
+
+
+        btnGetNewApp.setOnClickListener(v -> {
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setPackage("com.android.vending"); // Force open in Play Store
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(isPlaystoreMarketId + appPackageName));
+                startActivity(intent);
+
+            } catch (android.content.ActivityNotFoundException anfe) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setPackage("com.android.vending"); // Force open in Play Store
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(isPlaystoreMarketId + appPackageName));
+                startActivity(intent);
+            }
+            dialog.dismiss();
+        });
+
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TeacherUtil_SharedPreference.saveTimeNow(TeacherSplashScreen.this);
+                isGoToNext();
+                dialog.dismiss();
+            }
+        });
+
+        btnLater.setOnClickListener(v -> {
+            TeacherUtil_SharedPreference.saveTimeNow(TeacherSplashScreen.this);
+            isGoToNext();
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void isGoToNext() {
+        int SPLASH_TIME_OUT = 1000;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String strBaseURL = TeacherUtil_SharedPreference.getBaseUrlFromSP(TeacherSplashScreen.this);
+                Log.d("strBaseURL", strBaseURL);
+                if (!strBaseURL.equals("")) {
+                    String forget = TeacherUtil_SharedPreference.getForgetPasswordOtp(TeacherSplashScreen.this);
+                    if (forget.equals("1")) {
+                        TeacherUtil_SharedPreference.putForgetPasswordOTP(TeacherSplashScreen.this, "0");
+                        otpCallApi();
+                    } else {
+                        checkAppUpdateAPI();
+                    }
+                } else {
+                    appTermsAndConditions("1");
+                }
+            }
+        }, SPLASH_TIME_OUT);
+    }
+
+
 
     private void otpCallApi() {
 
@@ -899,6 +996,8 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         String NewVersion = jsonObject.getString("NewVersion");
                         String NewUpdates = jsonObject.getString("NewUpdates");
 
+                       // String isNewApp = jsonObject.getString("isNewApp");
+                        String isNewApp="0";
                         TeacherUtil_SharedPreference.putHelpLineUrl(TeacherSplashScreen.this, helplineURL);
 
                         TeacherUtil_SharedPreference.putReportURL(TeacherSplashScreen.this, ReportNewLink);
@@ -961,7 +1060,22 @@ public class TeacherSplashScreen extends AppCompatActivity {
 
                             }
                         } else {
-                            nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle, VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
+                            if(strUpdateAvailable.equals("0")){
+                                boolean isComplete24Hours = TeacherUtil_SharedPreference.is24HoursCompleted(TeacherSplashScreen.this);
+                                if (isComplete24Hours) {
+                                    showComingSoonPopup(isNewApp,PlayStoreLink,PlaystoreMarketId);
+                                } else {
+                                    checkAutoLoginAndSDcardPermission();
+                                }
+                            }
+                            else {
+                                if(isNewApp.equals("1")){
+                                    showComingSoonPopup(isNewApp,PlayStoreLink,PlaystoreMarketId);
+                                }
+                                else {
+                                nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle, VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
+                                }
+                            }
                         }
 
                     } else {

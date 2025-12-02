@@ -158,6 +158,24 @@ public class TeacherUtil_SharedPreference {
     public static final String Current_Date_voive = "currentDate_voice";
     public static final String isSortSelected = "StudentNameAZ";
 
+    public static  void saveTimeNow(Activity activity) {
+        SharedPreferences prefs = activity.getSharedPreferences("PopupTimePref", MODE_PRIVATE);
+        prefs.edit().putLong("lastTime", System.currentTimeMillis()).apply();
+    }
+
+    public static boolean is24HoursCompleted(Activity activity) {
+        SharedPreferences prefs = activity.getSharedPreferences("PopupTimePref", MODE_PRIVATE);
+        long lastTime = prefs.getLong("lastTime", 0);
+        long now = System.currentTimeMillis();
+
+        long diff = now - lastTime;
+        long hours24 = 24 * 60 * 60 * 1000L;
+
+        return diff >= hours24;
+    }
+
+
+
     public static void putPrincipalIDs(ArrayList<Integer> array, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(MENU_IDS, 0);
         SharedPreferences.Editor editor = prefs.edit();

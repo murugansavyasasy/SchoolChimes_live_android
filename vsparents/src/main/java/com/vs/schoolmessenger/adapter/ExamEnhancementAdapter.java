@@ -98,8 +98,6 @@ public class ExamEnhancementAdapter extends RecyclerView.Adapter<ExamEnhancement
             lnrBtn = (LinearLayout) view.findViewById(R.id.lnrBtn);
 
         }
-
-
     }
     @Override
     public void onBindViewHolder(final ExamEnhancementAdapter.MyViewHolder holder, final int position) {

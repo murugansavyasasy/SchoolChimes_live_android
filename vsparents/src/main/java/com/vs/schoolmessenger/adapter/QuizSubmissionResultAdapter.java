@@ -1,5 +1,6 @@
 package com.vs.schoolmessenger.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.GestureDetector;
@@ -18,6 +19,13 @@ import com.bumptech.glide.Glide;
 import com.vs.schoolmessenger.R;
 import com.vs.schoolmessenger.activity.PreviewActivity;
 import com.vs.schoolmessenger.model.QuizSubmissions;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmissionResultAdapter.MyViewHolder> {
@@ -170,7 +178,6 @@ public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmis
 
     private void openPreviewImage(String fileUrl) {
         if (fileUrl == null || fileUrl.isEmpty()) return;
-
         Intent intent = new Intent(context, PreviewActivity.class);
         intent.putExtra("fileUrl", fileUrl);
         context.startActivity(intent);
@@ -203,7 +210,37 @@ public class QuizSubmissionResultAdapter extends RecyclerView.Adapter<QuizSubmis
             String viewerUrl = "https://docs.google.com/gview?embedded=true&url=" + url;
             webView.loadUrl(viewerUrl);
         } else {
-            webView.loadUrl(url);
+            isGetThumnile(url,webView);
         }
     }
+    private void isGetThumnile(String vimeoUrl, WebView webView) {
+
+        String apiUrl = "https://vimeo.com/api/oembed.json?url=" + vimeoUrl;
+
+        new Thread(() -> {
+            try {
+                URL url = new URL(apiUrl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+
+                JSONObject json = new JSONObject(result.toString());
+                String thumbnail = json.getString("thumbnail_url");
+                ((Activity) webView.getContext()).runOnUiThread(() -> {
+                    webView.loadUrl(thumbnail);
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
 }

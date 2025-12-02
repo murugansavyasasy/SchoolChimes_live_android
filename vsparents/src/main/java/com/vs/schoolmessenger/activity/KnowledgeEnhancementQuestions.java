@@ -65,6 +65,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -140,7 +144,6 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         rcyquestions = findViewById(R.id.rcyquestions);
         containerOptions = findViewById(R.id.containerOptions);
         webview = findViewById(R.id.webview);
-        imgQuestion = findViewById(R.id.imgQuestion);
 //        rgoptions = findViewById(R.id.rgoptions);
         lblque = findViewById(R.id.lblque);
         lblqueno = findViewById(R.id.lblqueno);
@@ -485,37 +488,52 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
         intent.putExtra("fileUrl", fileUrl);
         startActivity(intent);
     }
-
     @Override
     public void addclass(final QuestionForQuiz menu, int position) {
         adapterpos = position;
-
         containerOptions.removeAllViews();
         videoview.setVisibility(View.GONE);
         imgview.setVisibility(View.GONE);
         lnrPDFtext.setVisibility(View.GONE);
 
-        if (menu.getqImage().isEmpty()) {
+        int pos = position + 1;
+        String queno = "Q ." + pos;
+        lblqueno.setText(queno);
+        lblque.setText(menu.getQuestion() != null ? menu.getQuestion() : "");
+
+        if (menu.getqImage() == null || menu.getqImage().trim().isEmpty()) {
             imgQuestion.setVisibility(View.GONE);
             webview.setVisibility(View.GONE);
         } else {
-            String imageUrl = menu.getqImage() != null ? menu.getqImage().toLowerCase() : "";
+            String qImgRaw = menu.getqImage().trim();
+            String qImgLower = qImgRaw.toLowerCase();
 
-            if (imageUrl.endsWith(".jpg") ||
-                    imageUrl.endsWith(".jpeg") ||
-                    imageUrl.endsWith(".png") ||
-                    imageUrl.endsWith(".gif") ||
-                    imageUrl.endsWith(".bmp") ||
-                    imageUrl.endsWith(".webp") ||
-                    imageUrl.endsWith(".tiff")) {
+            if (qImgLower.contains("vimeo.com")) {
+                imgQuestion.setVisibility(View.VISIBLE);
+                webview.setVisibility(View.GONE);
+                getVimeoThumbnail(qImgRaw, imgQuestion);
+                imgQuestion.setOnClickListener(v -> openPreview(qImgRaw));
+            }
+            else if (qImgLower.endsWith(".jpg") ||
+                    qImgLower.endsWith(".jpeg") ||
+                    qImgLower.endsWith(".png") ||
+                    qImgLower.endsWith(".gif") ||
+                    qImgLower.endsWith(".bmp") ||
+                    qImgLower.endsWith(".webp") ||
+                    qImgLower.endsWith(".tiff")) {
+
                 imgQuestion.setVisibility(View.VISIBLE);
                 webview.setVisibility(View.GONE);
                 Glide.with(this)
-                        .load(menu.getqImage())
+                        .load(qImgRaw)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(imgQuestion);
-            } else {
-                webview.setVisibility(View.VISIBLE);
+                imgQuestion.setOnClickListener(v -> openPreview(qImgRaw));
+            }
+            else {
                 imgQuestion.setVisibility(View.GONE);
+                webview.setVisibility(View.VISIBLE);
+
                 WebSettings webSettings = webview.getSettings();
                 webSettings.setJavaScriptEnabled(true);
                 webSettings.setDomStorageEnabled(true);
@@ -523,32 +541,41 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                 webSettings.setUseWideViewPort(true);
                 webSettings.setBuiltInZoomControls(true);
                 webSettings.setDisplayZoomControls(false);
-                webview.loadUrl(menu.getqImage());
+
+                try {
+                    webview.loadUrl(qImgRaw);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    webview.setVisibility(View.GONE);
+                }
+
+                webview.setOnTouchListener((v, event) -> {
+                    if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                        openPreview(qImgRaw);
+                    }
+                    return false;
+                });
             }
         }
 
-        imgQuestion.setOnClickListener(v -> openPreview(menu.getqImage()));
         webview.setOnTouchListener((v, event) -> {
-            if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-                openPreview(menu.getqImage());
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                openPreviewImage(menu.getqImage());   // FIX ✔
             }
             return false;
         });
 
 
-
-        for (int i = 0; i < menu.getAnswer().length(); i++) {
+        int answersCount = menu.getAnswer() != null ? menu.getAnswer().length() : 0;
+        for (int i = 0; i < answersCount; i++) {
             String ansid = "";
             String answer = "";
 
             try {
-                String[] id = menu.getAnswer().get(i).toString().split("~");
+                String raw = menu.getAnswer().get(i).toString();
+                String[] id = raw.split("~");
                 ansid = id[0];
-                if (id.length > 1) {
-                    answer = id[1];
-                } else {
-                    answer = ""; // or some default value
-                }
+                answer = (id.length > 1) ? id[1] : "";
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -567,7 +594,6 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             char optionChar = (char) ('A' + i);
             txtOption.setText(String.valueOf(optionChar));
             txtContent.setText(answer);
-
             String imageUrl = "";
             String caption = "";
             switch (i) {
@@ -589,26 +615,29 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
                     break;
             }
 
-            if (imageUrl != null && !imageUrl.isEmpty()) {
+            if (imageUrl != null && !imageUrl.trim().isEmpty()) {
                 lnrAttachment.setVisibility(View.VISIBLE);
                 Glide.with(this)
                         .load(imageUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(imgAttachment);
                 txtAttachmentName.setText(caption);
                 String finalImageUrl = imageUrl;
                 imgAttachment.setOnClickListener(v -> openPreview(finalImageUrl));
-
             } else {
                 lnrAttachment.setVisibility(View.GONE);
             }
 
             boolean isSelected = false;
-            if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
-                int index = questionlist.indexOf(String.valueOf(menu.getQestionId()));
-                String saved = answerlist.get(index);
-                String[] split = saved.split("~");
-                if (split.length > 1 && split[1].equals(ansid)) {
-                    isSelected = true;
+            String qIdStr = String.valueOf(menu.getQestionId());
+            if (questionlist.contains(qIdStr)) {
+                int index = questionlist.indexOf(qIdStr);
+                if (index >= 0 && index < answerlist.size()) {
+                    String saved = answerlist.get(index);
+                    String[] split = saved.split("~");
+                    if (split.length > 1 && split[1].equals(ansid)) {
+                        isSelected = true;
+                    }
                 }
             }
 
@@ -622,73 +651,43 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
 
             final String finalAnsid = ansid;
             itemContainer.setOnClickListener(v -> {
-
                 for (int j = 0; j < containerOptions.getChildCount(); j++) {
                     View child = containerOptions.getChildAt(j);
-
                     ConstraintLayout optionLayout = child.findViewById(R.id.rlyCard);
                     ImageView optionCheck = child.findViewById(R.id.imgCheck);
-
-                    if (optionLayout != null) {
-                        optionLayout.setBackgroundResource(R.drawable.bg_shadow_white_card);
-                    }
-                    if (optionCheck != null) {
-                        optionCheck.setVisibility(View.GONE);
-                    }
+                    if (optionLayout != null) optionLayout.setBackgroundResource(R.drawable.bg_shadow_white_card);
+                    if (optionCheck != null) optionCheck.setVisibility(View.GONE);
                 }
-                View clickedView = v;
 
-                ConstraintLayout selectedLayout = clickedView.findViewById(R.id.rlyCard);
-                ImageView selectedCheck = clickedView.findViewById(R.id.imgCheck);
-
-                if (selectedLayout != null) {
-                    selectedLayout.setBackgroundResource(R.drawable.bg_shadow_violet_card);
-                }
-                if (selectedCheck != null) {
-                    selectedCheck.setVisibility(View.VISIBLE);
-                }
+                ConstraintLayout selectedLayout = v.findViewById(R.id.rlyCard);
+                ImageView selectedCheck = v.findViewById(R.id.imgCheck);
+                if (selectedLayout != null) selectedLayout.setBackgroundResource(R.drawable.bg_shadow_violet_card);
+                if (selectedCheck != null) selectedCheck.setVisibility(View.VISIBLE);
 
                 String idcom = menu.getQestionId() + "~" + finalAnsid;
-                if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
-                    int replacepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
+                if (questionlist.contains(qIdStr)) {
+                    int replacepos = questionlist.indexOf(qIdStr);
                     answerlist.set(replacepos, idcom);
                 } else {
-                    questionlist.add(String.valueOf(menu.getQestionId()));
+                    questionlist.add(qIdStr);
                     answerlist.add(idcom);
                 }
 
                 btnsubmit.setEnabled(!answerlist.isEmpty());
             });
+
             containerOptions.addView(optionView);
         }
-        btnsubmit.setEnabled(answerlist.size() != 0);
-        if (adapterpos == msgModelList.size() - 1 && msgModelList.size() != 0) {
-            imgnext.setImageResource(R.drawable.bg_next_disable);
-            lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
-        } else {
-            imgnext.setImageResource(R.drawable.bg_next_enable);
-            lblnext.setTextColor(getResources().getColor(R.color.clr_black));
-        }
-
-        if (adapterpos == 0) {
-            imgprev.setImageResource(R.drawable.bg_prev_disable);
-            lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
-        } else {
-            imgprev.setImageResource(R.drawable.bg_prev_enable);
-            lblprev.setTextColor(getResources().getColor(R.color.clr_black));
-        }
-        int pos = position + 1;
-        String queno = "Q ." + pos;
-        lblqueno.setText(queno);
-        lblque.setText(menu.getQuestion());
-        if (!menu.getVideoUrl().equals("")) {
+        btnsubmit.setEnabled(!answerlist.isEmpty());
+        if (menu.getVideoUrl() != null && !menu.getVideoUrl().trim().isEmpty()) {
             videoview.setVisibility(View.VISIBLE);
             videourl = menu.getVideoUrl();
         } else {
             videoview.setVisibility(View.GONE);
+            videourl = "";
         }
 
-        if (menu.getFileType().equals("IMAGE") && !menu.getFileUrl().equals("")) {
+        if ("IMAGE".equalsIgnoreCase(menu.getFileType()) && menu.getFileUrl() != null && !menu.getFileUrl().isEmpty()) {
             imgview.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(menu.getFileUrl())
@@ -697,16 +696,83 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             imageurl = menu.getFileUrl();
         } else {
             imgview.setVisibility(View.GONE);
+            imageurl = "";
         }
 
-        if (menu.getFileType().equals("PDF") && !menu.getFileUrl().equals("")) {
+        if ("PDF".equalsIgnoreCase(menu.getFileType()) && menu.getFileUrl() != null && !menu.getFileUrl().isEmpty()) {
             lnrPDFtext.setVisibility(View.VISIBLE);
             lblPDF.setText(menu.getFileUrl());
             pdfuri = menu.getFileUrl();
         } else {
             lnrPDFtext.setVisibility(View.GONE);
+            pdfuri = "";
+        }
+
+        int total = msgModelList != null ? msgModelList.size() : 0;
+        if (adapterpos <= 0) {
+            imgprev.setImageResource(R.drawable.bg_prev_disable);
+            lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
+            imgprev.setEnabled(false);
+            lblprev.setEnabled(false);
+        } else {
+            imgprev.setImageResource(R.drawable.bg_prev_enable);
+            lblprev.setTextColor(getResources().getColor(R.color.clr_black));
+            imgprev.setEnabled(true);
+            lblprev.setEnabled(true);
+        }
+        if (adapterpos >= total - 1) {
+            imgnext.setImageResource(R.drawable.bg_next_disable);
+            lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
+            imgnext.setEnabled(false);
+            lblnext.setEnabled(false);
+        } else {
+            imgnext.setImageResource(R.drawable.bg_next_enable);
+            lblnext.setTextColor(getResources().getColor(R.color.clr_black));
+            imgnext.setEnabled(true);
+            lblnext.setEnabled(true);
         }
     }
+
+    private void openPreviewImage(String fileUrl) {
+        if (fileUrl == null || fileUrl.isEmpty()) return;
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra("fileUrl", fileUrl);
+        startActivity(intent);
+    }
+
+    private void getVimeoThumbnail(String vimeoUrl, ImageView imageView) {
+
+        String apiUrl = "https://vimeo.com/api/oembed.json?url=" + vimeoUrl;
+
+        new Thread(() -> {
+            try {
+                URL url = new URL(apiUrl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+
+                JSONObject json = new JSONObject(result.toString());
+                String thumbnail = json.getString("thumbnail_url");
+
+                runOnUiThread(() ->
+                        Glide.with(this)
+                                .load(thumbnail)
+                                .into(imageView)
+                );
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -717,155 +783,6 @@ public class KnowledgeEnhancementQuestions extends AppCompatActivity implements 
             super.onBackPressed();
         }
     }
-
-
-//    @Override
-//    public void addclass(final QuestionForQuiz menu, int position) {
-//        adapterpos = position;
-//        rgoptions.removeAllViews();
-//        rgoptions.clearCheck();
-//        videoview.setVisibility(View.GONE);
-//        imgview.setVisibility(View.GONE);
-//        lnrPDFtext.setVisibility(View.GONE);
-//        for (int i = 0; i < menu.getAnswer().length(); i++) {
-//            String[] id = new String[0];
-//            try {
-//                id = menu.getAnswer().get(i).toString().split("~");
-//                ansid = id[0];
-//                answer = id[1];
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            RadioButton radioButton = new RadioButton(getApplicationContext());
-//            radioButton.setText(answer);
-//            radioButton.setId(Integer.parseInt(ansid));
-//            radioButton.setTextSize(16);
-//            radioButton.setTextColor(Color.BLACK);
-//            radioButton.setPadding(1, 10, 1, 1);
-//
-//            rgoptions.addView(radioButton);
-//            rgoptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                    final int selectedPosition = rgoptions.getCheckedRadioButtonId();
-//                    if (selectedPosition != -1) {
-//                        String idcom = menu.getQestionId() + "~" + selectedPosition;
-//                        String ansidref, answerref;
-//                        if (questionlist.size() == 0) {
-//                            questionlist.add(String.valueOf(menu.getQestionId()));
-//                            if (answerlist.size() == 0) {
-//                                answerlist.add(idcom);
-//                                Log.d("answerlist", answerlist.get(0));
-//                            }
-//                        } else if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
-//                            int replacequepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
-//                            Log.d("replacepos", String.valueOf(replacequepos));
-//                            questionlist.set(replacequepos, String.valueOf(menu.getQestionId()));
-//                            for (int i = 0; i < menu.getAnswer().length(); i++) {
-//                                String[] idref = new String[0];
-//                                try {
-//                                    idref = menu.getAnswer().get(i).toString().split("~");
-//                                    ansidref = idref[0];
-//                                    answerref = idref[1];
-//
-//
-//                                    if (answerlist.contains(menu.getQestionId() + "~" + ansidref)) {
-//                                        Log.d("changeexist", "changeexist");
-//                                        int replacepos = answerlist.indexOf(menu.getQestionId() + "~" + ansidref);
-//                                        Log.d("replacepos", String.valueOf(replacepos));
-//                                        answerlist.set(replacepos, idcom);
-//                                    }
-//
-//
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        } else {
-//                            questionlist.add(String.valueOf(menu.getQestionId()));
-//                            answerlist.add(idcom);
-//                        }
-//                        btnsubmit.setEnabled(answerlist.size() != 0);
-//
-//                    }
-//                }
-//            });
-//
-//            if (questionlist.contains(String.valueOf(menu.getQestionId()))) {
-//                int replacequepos = questionlist.indexOf(String.valueOf(menu.getQestionId()));
-//                if (questionlist.get(replacequepos).equals(String.valueOf(menu.getQestionId()))) {
-//                    String answersetupl = answerlist.get(replacequepos);
-//
-//                    String[] idsetup = new String[0];
-//                    idsetup = answersetupl.split("~");
-//                    int ansidsetup = Integer.parseInt(idsetup[0]);
-//                    Log.d("ansidsetup", String.valueOf(ansidsetup));
-//                    int answersetup = Integer.parseInt(idsetup[1]);
-//                    Log.d("answersetup", String.valueOf(answersetup));
-//                    if (radioButton.getId() == answersetup) {
-//                        radioButton.setChecked(true);
-//                    }
-//
-//                }
-//
-//
-//            }
-//
-//        }
-//
-//        btnsubmit.setEnabled(answerlist.size() != 0);
-//        if (adapterpos == msgModelList.size() - 1 && msgModelList.size() != 0) {
-//            imgnext.setImageResource(R.drawable.bg_next_disable);
-//            lblnext.setTextColor(getResources().getColor(R.color.clr_grey_school));
-//        } else {
-//            imgnext.setImageResource(R.drawable.bg_next_enable);
-//            lblnext.setTextColor(getResources().getColor(R.color.clr_black));
-//        }
-//        if (adapterpos == 0) {
-//            imgprev.setImageResource(R.drawable.bg_prev_disable);
-//            lblprev.setTextColor(getResources().getColor(R.color.clr_grey_school));
-//        } else {
-//            imgprev.setImageResource(R.drawable.bg_prev_enable);
-//            lblprev.setTextColor(getResources().getColor(R.color.clr_black));
-//        }
-//
-//
-//        int pos = position + 1;
-//        String queno = "Q ." + pos;
-//        lblqueno.setText(queno);
-//        lblque.setText(menu.getQuestion());
-//        videoview.setVisibility(View.GONE);
-//        imgview.setVisibility(View.GONE);
-//        lnrPDFtext.setVisibility(View.GONE);
-//        if (!menu.getVideoUrl().equals("")) {
-//            videoview.setVisibility(View.VISIBLE);
-//            videourl = menu.getVideoUrl();
-//        } else {
-//            videoview.setVisibility(View.GONE);
-//        }
-//        if (menu.getFileType().equals("IMAGE") && !menu.getFileUrl().equals("")) {
-//
-//            imgview.setVisibility(View.VISIBLE);
-//            Glide.with(this)
-//                    .load(menu.getFileUrl())
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .into(imgview);
-//            imageurl = menu.getFileUrl();
-//
-//
-//        } else {
-//            imgview.setVisibility(View.GONE);
-//        }
-//        if (menu.getFileType().equals("PDF") && !menu.getFileUrl().equals("")) {
-//            lnrPDFtext.setVisibility(View.VISIBLE);
-//            lblPDF.setText(menu.getFileUrl());
-//            pdfuri = menu.getFileUrl();
-//        } else {
-//
-//            lnrPDFtext.setVisibility(View.GONE);
-//        }
-//    }
 
     @Override
     public void removeclass(QuestionForQuiz menu) {

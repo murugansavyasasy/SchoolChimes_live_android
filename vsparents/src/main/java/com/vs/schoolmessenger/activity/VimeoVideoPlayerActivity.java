@@ -211,7 +211,6 @@ public class VimeoVideoPlayerActivity extends AppCompatActivity implements Vimeo
                 Log.d("isVideoDownloadId", isVideoDownloadId);
                 String authToken = TeacherUtil_SharedPreference.getVideotoken(VimeoVideoPlayerActivity.this);
                 VimeoHelper.getVimeoDownloadUrl(isVideoDownloadId, authToken, VimeoVideoPlayerActivity.this);
-
             }
         });
     }
