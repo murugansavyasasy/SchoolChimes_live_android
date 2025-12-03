@@ -417,7 +417,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
         }
     }
 
-    private void showComingSoonPopup(String isNewApp,String isPlayStoreLink,String isPlaystoreMarketId) {
+    private void showComingSoonPopup(Boolean isNewApp, String isPlayStoreLink, String isPlaystoreMarketId) {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.popup_coming_soon);
@@ -453,11 +453,11 @@ public class TeacherSplashScreen extends AppCompatActivity {
         lblExciting.setTypeface(poppinsBold);
         lblNewVersion.setTypeface(poppinsBold);
 
-        if (isNewApp.equals("1")){
+        if (isNewApp) {
             btnGetNewApp.setVisibility(View.VISIBLE);
             btnLater.setVisibility(View.GONE);
             imgClose.setVisibility(View.GONE);
-        }else {
+        } else {
             btnGetNewApp.setVisibility(View.GONE);
             btnLater.setVisibility(View.VISIBLE);
             imgClose.setVisibility(View.VISIBLE);
@@ -522,7 +522,6 @@ public class TeacherSplashScreen extends AppCompatActivity {
             }
         }, SPLASH_TIME_OUT);
     }
-
 
 
     private void otpCallApi() {
@@ -996,8 +995,7 @@ public class TeacherSplashScreen extends AppCompatActivity {
                         String NewVersion = jsonObject.getString("NewVersion");
                         String NewUpdates = jsonObject.getString("NewUpdates");
 
-                       // String isNewApp = jsonObject.getString("isNewApp");
-                        String isNewApp="0";
+                         Boolean isNewApp = jsonObject.getBoolean("isNewApp");
                         TeacherUtil_SharedPreference.putHelpLineUrl(TeacherSplashScreen.this, helplineURL);
 
                         TeacherUtil_SharedPreference.putReportURL(TeacherSplashScreen.this, ReportNewLink);
@@ -1055,25 +1053,21 @@ public class TeacherSplashScreen extends AppCompatActivity {
                                         nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle, VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
                                     }
                                 });
-
                                 dialog.show();
-
                             }
                         } else {
-                            if(strUpdateAvailable.equals("0")){
+                            if (strUpdateAvailable.equals("0")) {
                                 boolean isComplete24Hours = TeacherUtil_SharedPreference.is24HoursCompleted(TeacherSplashScreen.this);
                                 if (isComplete24Hours) {
-                                    showComingSoonPopup(isNewApp,PlayStoreLink,PlaystoreMarketId);
+                                    showComingSoonPopup(isNewApp, PlayStoreLink, PlaystoreMarketId);
                                 } else {
                                     checkAutoLoginAndSDcardPermission();
                                 }
-                            }
-                            else {
-                                if(isNewApp.equals("1")){
-                                    showComingSoonPopup(isNewApp,PlayStoreLink,PlaystoreMarketId);
-                                }
-                                else {
-                                nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle, VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
+                            } else {
+                                if (isNewApp) {
+                                    showComingSoonPopup(isNewApp, PlayStoreLink, PlaystoreMarketId);
+                                } else {
+                                    nextStep(strUpdateAvailable, strForceUpdate, VersionAlertTitle, VersionAlertContent, PlaystoreMarketId, PlayStoreLink, InAppUpdate, NewVersion, NewUpdates);
                                 }
                             }
                         }

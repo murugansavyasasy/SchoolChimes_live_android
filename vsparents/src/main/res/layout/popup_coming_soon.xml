@@ -85,7 +85,7 @@
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:text="2026"
                         android:textColor="@color/clr_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                 </LinearLayout>
 
@@ -102,17 +102,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="5dp"
                     android:text="A brand-new version of our app is on the way—and we can’t wait to share it with you!"
                     android:textColor="@color/clr_black"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="5dp"
                     android:text="We’ve been working behind the scenes to bring you a faster, cleaner, and more intuitive experience that makes everything easier."
                     android:textColor="@color/clr_black"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/lblNewVersion"
@@ -182,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:gravity="center"
-                    android:text="OK"
+                    android:text="Let's go."
                     android:textColor="#888"
                     android:textSize="14sp" />
             </LinearLayout>
