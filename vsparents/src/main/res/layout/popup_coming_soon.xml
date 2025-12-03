@@ -23,7 +23,6 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
                 android:padding="5dp"
                 android:src="@drawable/ic_close" />
@@ -34,13 +33,12 @@
                 android:layout_height="100dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/school_chimes" />
-
         </RelativeLayout>
-
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:fillViewport="true">
 
             <LinearLayout
@@ -49,7 +47,9 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+
                 <LinearLayout
+                    android:id="@+id/lnrNewApp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -89,6 +89,7 @@
 
                 </LinearLayout>
 
+
                 <TextView
                     android:id="@+id/lblExciting"
                     android:layout_width="wrap_content"
@@ -97,6 +98,7 @@
                     android:text="🚀 Something Exciting Is Coming!"
                     android:textColor="@color/clr_black"
                     android:textSize="18dp" />
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -165,29 +167,36 @@
                     android:textColor="@color/clr_black"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/btnGetNewApp"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/bg_button_gradient"
-                    android:gravity="center"
-                    android:text="Get New App"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/btnLater"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:gravity="center"
-                    android:text="Let's go."
-                    android:textColor="#888"
-                    android:textSize="14sp" />
             </LinearLayout>
         </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/btnGetNewApp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_button_gradient"
+                android:gravity="center"
+                android:text="Get New App"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnLater"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Let's go."
+                android:textColor="#888"
+                android:textSize="14sp" />
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

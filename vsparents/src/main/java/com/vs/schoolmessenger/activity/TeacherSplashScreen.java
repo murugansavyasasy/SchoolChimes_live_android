@@ -22,6 +22,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -447,6 +448,13 @@ public class TeacherSplashScreen extends AppCompatActivity {
         TextView lblNewVersion = dialog.findViewById(R.id.lblNewVersion);
 
         Typeface poppinsBold = ResourcesCompat.getFont(this, R.font.roboto_bold);
+
+        LinearLayout lnrNewApp = dialog.findViewById(R.id.lnrNewApp);
+        Drawable background = lnrNewApp.getBackground();
+        if (background != null) {
+            background.setAlpha(10);
+        }
+
 
         lblNewExperience.setTypeface(poppinsBold);
         lblYear.setTypeface(poppinsBold);
