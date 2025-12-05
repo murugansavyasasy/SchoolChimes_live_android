@@ -16,7 +16,7 @@ android {
         applicationId "com.vs.schoolmessenger"
         minSdk 24
         targetSdk 35
-        versionCode 151
+        versionCode 158
         versionName "7.6.22"
 //        ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
