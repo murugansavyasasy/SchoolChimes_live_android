@@ -85,7 +85,7 @@
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:text="2026"
                         android:textColor="@color/clr_black"
-                        android:textSize="20dp" />
+                        android:textSize="25dp" />
 
                 </LinearLayout>
 
@@ -182,7 +182,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/bg_button_gradient"
                 android:gravity="center"
-                android:text="Get New App"
+                android:text="Update New App"
                 android:textColor="#fff"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:text="Let's go."
+                android:text="Close"
                 android:textColor="#888"
                 android:textSize="14sp" />
 
